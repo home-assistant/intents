@@ -1,0 +1,52 @@
+language: "en"
+intents:
+  HassTurnOn:
+    category: "action"
+    data:
+      # lights in an area
+      - sentences:
+          - "turn on [the] light in <area>"
+          - "turn [the] light in <area> on"
+          - "turn on [all] [the] lights in <area>"
+          - "turn all [the] lights in <area> on"
+          - "switch on [the] light in <area>"
+        slots:
+          domain: "light"
+          name: "all"
+        response: "I turned on the lights in {{ area.name }}"
+      # To work with satellite devices that are bound to an area
+      - sentences:
+          - "turn on the light[s]"
+          - "switch on the light[s]"
+        slots:
+          domain: "light"
+          name: "all"
+        requires_context:
+          - "area"
+
+  HassLightSet:
+    category: "action"
+    data:
+      # brightness
+      - sentences:
+          - "set <name> brightness to <brightness>"
+          - "set [the] brightness of <name> to <brightness>"
+      # color
+      - sentences:
+          - "set <name> [color] to {color_rgb}"
+          - "set [[the] color of] <name> to {color_rgb}"
+expansion_rules:
+  brightness: "{brightness_pct} [percent]"
+lists:
+  brightness_pct:
+    type: percentage
+    range:
+      from: 0
+      to: 100
+  color_rgb:
+    - in: "red"
+      out: "255,0,0"
+    - in: "green"
+      out: "0,255,0"
+    - in: "blue"
+      out: "0,0,255"
