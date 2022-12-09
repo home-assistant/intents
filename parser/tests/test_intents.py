@@ -7,6 +7,7 @@ def test_no_match():
     assert not is_match("turn off the lights", sentence)
     assert not is_match("don't turn on the lights", sentence)
 
+
 def test_punctuation():
     sentence = parse_sentence("turn on the lights")
     assert is_match("turn on the lights.", sentence)
@@ -51,7 +52,6 @@ def test_number():
 
 
 def test_number_range():
-    sentence = parse_sentence("set brightness to {brightness_pct}")
-    slot_lists = {"brightness_pct": [parse_sentence("1..100 [percent]")]}
-    assert is_match("set brightness to 50%", sentence, slot_lists=slot_lists)
-    assert is_match("set brightness to 50 percent", sentence, slot_lists=slot_lists)
+    sentence = parse_sentence("set brightness to 1..100 [percent]")
+    assert is_match("set brightness to 50%", sentence)
+    assert is_match("set brightness to 50 percent", sentence)

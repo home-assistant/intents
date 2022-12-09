@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import IO, Any, Dict, List, Optional, Union
+from typing import IO, Any, Dict, List, Optional, Union, Set
 
 from dataclasses_json import DataClassJsonMixin, config, dataclass_json
 from yaml import safe_load
@@ -82,6 +82,7 @@ class Intents:
     intents: Dict[str, Intent]
     slot_lists: Dict[str, SlotList] = field(default_factory=dict)
     expansion_rules: Dict[str, Sentence] = field(default_factory=dict)
+    skip_words: Set[str] = field(default_factory=set)
     # responses: Dict[ResponseType, Union[str, List[str]]] = field(default_factory=dict)
 
     @staticmethod
@@ -112,4 +113,5 @@ class Intents:
                     "expansion_rules", {}
                 ).items()
             },
+            skip_words=set(input_dict.get("skip_words", [])),
         )
