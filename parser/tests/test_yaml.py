@@ -13,6 +13,7 @@ intents:
     data:
       - sentences:
         - "turn on [the] TV in <area>"
+        - "turn on <area> TV"
         slots:
           domain: "media_player"
           name: "roku"
@@ -54,9 +55,7 @@ def slot_lists():
 
 
 def test_turn_on(intents, slot_lists):
-    result = recognize(
-        "turn on the tv in the kitchen, please", intents, slot_lists=slot_lists
-    )
+    result = recognize("turn on kitchen TV, please", intents, slot_lists=slot_lists)
     assert result is not None
     assert result.intent.name == "TurnOnTV"
 
@@ -64,9 +63,9 @@ def test_turn_on(intents, slot_lists):
     assert area.name == "area"
     assert area.value == "area.kitchen"
     assert area.words == ["kitchen"]
-    assert area.words_raw == ["kitchen,"]
-    assert area.word_start_index == 6
-    assert area.word_stop_index == 7
+    assert area.words_raw == ["kitchen"]
+    assert area.word_start_index == 2
+    assert area.word_stop_index == 3
 
     # From YAML
     assert result.entities["domain"].value == "media_player"

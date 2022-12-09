@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import IO, Any, Dict, Iterable, List, Optional, Set, Tuple, Union
 
-from dataclasses_json import DataClassJsonMixin, config, dataclass_json
+from dataclasses_json import config, dataclass_json
 from yaml import safe_load
 
 from .expression import Sentence

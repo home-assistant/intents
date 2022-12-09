@@ -45,6 +45,23 @@ def test_optional():
     ]
 
 
+def test_optional_nested():
+    assert parse_sentences(["this [is [a]] test"]) == [
+        s(
+            [
+                w("this"),
+                alt(
+                    [
+                        grp([w("is"), alt([w("a"), Word.empty()])]),
+                        Word.empty(),
+                    ]
+                ),
+                w("test"),
+            ]
+        )
+    ]
+
+
 def test_alternative():
     assert parse_sentences(["this is (a | the) test"]) == [
         s(

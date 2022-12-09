@@ -9,6 +9,14 @@ else:
 # This class defines a complete listener for a parse tree produced by HassILGrammarParser.
 class HassILGrammarListener(ParseTreeListener):
 
+    # Enter a parse tree produced by HassILGrammarParser#document.
+    def enterDocument(self, ctx: HassILGrammarParser.DocumentContext):
+        pass
+
+    # Exit a parse tree produced by HassILGrammarParser#document.
+    def exitDocument(self, ctx: HassILGrammarParser.DocumentContext):
+        pass
+
     # Enter a parse tree produced by HassILGrammarParser#sentence.
     def enterSentence(self, ctx: HassILGrammarParser.SentenceContext):
         pass

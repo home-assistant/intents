@@ -11,6 +11,10 @@ else:
 
 class HassILGrammarVisitor(ParseTreeVisitor):
 
+    # Visit a parse tree produced by HassILGrammarParser#document.
+    def visitDocument(self, ctx: HassILGrammarParser.DocumentContext):
+        return self.visitChildren(ctx)
+
     # Visit a parse tree produced by HassILGrammarParser#sentence.
     def visitSentence(self, ctx: HassILGrammarParser.SentenceContext):
         return self.visitChildren(ctx)

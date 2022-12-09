@@ -50,10 +50,22 @@ class HassILExpressionListener(HassILGrammarListener):
 
     def enterOptional(self, ctx):
         self._sequences.append(GROUP_MARKER)
-        self._sequences.append(Sequence(type=SequenceType.ALTERNATIVE))
+
+        # Start as a group, will convert to alternative at exit
+        self._sequences.append(Sequence(type=SequenceType.GROUP))
 
     def exitOptional(self, ctx):
         optional = self._pop_group()
+
+        if optional.type != SequenceType.ALTERNATIVE:
+            if len(optional.items) > 1:
+                # Wrap in group
+                optional.items = [
+                    Sequence(type=SequenceType.GROUP, items=optional.items)
+                ]
+
+            optional.type = SequenceType.ALTERNATIVE
+
         optional.items.append(Word.empty())
         self.last_sequence.items.append(optional)
 
@@ -104,12 +116,12 @@ class HassILExpressionListener(HassILGrammarListener):
         self.last_sequence.items.append(item)
 
     def parse_sentences(self, sentences: Iterable[str]):
-        text = "\n".join(sentences)
+        text = "\n".join(sentences) + "\n"
         parser = HassILGrammarParser(
             CommonTokenStream(HassILGrammarLexer(InputStream(text)))
         )
         walker = ParseTreeWalker()
-        walker.walk(self, parser.sentence())
+        walker.walk(self, parser.document())
 
     @property
     def last_sequence(self) -> Sequence:

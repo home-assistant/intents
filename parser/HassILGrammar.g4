@@ -1,7 +1,11 @@
 grammar HassILGrammar;
 
+document
+   : (sentence)+
+   ;
+
 sentence
-   : expression EOL?
+   : expression EOL
    ;
 
 expression

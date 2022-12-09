@@ -19,7 +19,7 @@ from .intents import Intent, Intents, RangeSlotList, SlotList, TextSlotList
 
 NUMBER_START = re.compile("^(-?[0-9]+).*$")
 
-# TODO: Make this configuration
+# TODO: Make this configurable
 PUNCTUATION_END = re.compile("[.,;!?]$")
 
 
