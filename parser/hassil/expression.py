@@ -92,9 +92,21 @@ class Number(Expression):
 class NumberRange(Expression):
     """Number range of the form N..M where N<M."""
 
-    lower_bound: Optional[int] = None
-    upper_bound: Optional[int] = None
+    lower_bound: int
+    upper_bound: int
     step: int = 1
+
+    def __post_init__(self):
+        assert (
+            self.lower_bound < self.upper_bound
+        ), "lower bound must be lower than upper bound"
+        assert self.step > 0, "step must be positive"
+
+    def __contains__(self, item):
+        if self.step == 1:
+            return self.lower_bound <= item <= self.upper_bound
+
+        return item in range(self.lower_bound, self.upper_bound + 1, self.step)
 
 
 @dataclass
