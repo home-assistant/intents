@@ -41,18 +41,8 @@ class Intent:
     data: List[IntentData] = field(default_factory=list)
 
 
-class SlotListType(str, Enum):
-    TEXT = "text"
-    NUMBER = "number"
-    PERCENTAGE = "percentage"
-    TEMPERATURE = "temperature"
-
-
-@dataclass_json
-@dataclass
-class TextSlotValue:
-    text_in: Sentence
-    value_out: Any
+class SlotList(ABC):
+    pass
 
 
 class RangeType(str, Enum):
@@ -62,16 +52,22 @@ class RangeType(str, Enum):
 
 
 @dataclass
-class RangeSlotValues:
-    range_from: int = field(metadata=config(field_name="from"))
-    range_to: int = field(metadata=config(field_name="to"))
-    range_step: int = field(default=1, metadata=config(field_name="step"))
+class RangeSlotList(SlotList):
+    start: int
+    stop: int
+    step: int = 1
     type: RangeType = RangeType.NUMBER
 
+    def __post_init__(self):
+        assert self.start < self.stop, "start must be less than stop"
+        assert self.step > 0, "step must be positive"
 
+
+@dataclass_json
 @dataclass
-class SlotList(ABC):
-    type: SlotListType
+class TextSlotValue:
+    text_in: Sentence
+    value_out: Any
 
 
 @dataclass
@@ -81,7 +77,6 @@ class TextSlotList(SlotList):
     @staticmethod
     def from_strings(strings: Iterable[str]) -> "TextSlotList":
         return TextSlotList(
-            type=SlotListType.TEXT,
             values=[
                 TextSlotValue(text_in=parse_sentence(text), value_out=text)
                 for text in strings
@@ -91,7 +86,6 @@ class TextSlotList(SlotList):
     @staticmethod
     def from_tuples(tuples: Iterable[Tuple[str, Any]]) -> "TextSlotList":
         return TextSlotList(
-            type=SlotListType.TEXT,
             values=[
                 TextSlotValue(text_in=parse_sentence(text), value_out=value)
                 for text, value in tuples
@@ -130,6 +124,10 @@ class Intents:
                 )
                 for intent_name, intent_dict in input_dict["intents"].items()
             },
+            slot_lists={
+                list_name: _parse_list(list_dict)
+                for list_name, list_dict in input_dict.get("lists", {}).items()
+            },
             expansion_rules={
                 rule_name: parse_sentences([rule_body])[0]
                 for rule_name, rule_body in input_dict.get(
@@ -138,3 +136,36 @@ class Intents:
             },
             skip_words=set(input_dict.get("skip_words", [])),
         )
+
+
+def _parse_list(list_dict: Dict[str, Any]) -> SlotList:
+    if "values" in list_dict:
+        # Text
+        text_values: List[TextSlotValue] = []
+        for value in list_dict["values"]:
+            if isinstance(value, str):
+                # String value
+                text_values.append(
+                    TextSlotValue(text_in=parse_sentence(value), value_out=value)
+                )
+            else:
+                # Object with "in" and "out"
+                text_values.append(
+                    TextSlotValue(
+                        text_in=parse_sentence(value["in"]), value_out=value["out"]
+                    )
+                )
+
+        return TextSlotList(text_values)
+
+    if "range" in list_dict:
+        # Range
+        range_dict = list_dict["range"]
+        return RangeSlotList(
+            type=RangeType(range_dict.get("type", "number")),
+            start=int(range_dict["from"]),
+            stop=int(range_dict["to"]),
+            step=int(range_dict.get("step", 1)),
+        )
+
+    raise ValueError(f"Unknown slot list type: {list_dict}")

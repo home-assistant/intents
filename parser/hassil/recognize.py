@@ -15,7 +15,7 @@ from .expression import (
     SequenceType,
     Word,
 )
-from .intents import Intent, Intents, SlotList, TextSlotList
+from .intents import Intent, Intents, RangeSlotList, SlotList, TextSlotList
 
 NUMBER_START = re.compile("^(-?[0-9]+).*$")
 
@@ -259,27 +259,69 @@ def match_expression(context: MatchContext, expression: Expression) -> MatchCont
         if isinstance(slot_list, TextSlotList):
             text_list: TextSlotList = slot_list
 
-            # Any value may match
-            for slot_value in text_list.values:
-                value_context = match_expression(
-                    dataclasses.replace(context), slot_value.text_in
-                )
-
-                if value_context.state == MatchState.SUCCESS:
-                    entity_words = context.words[
-                        : value_context.word_index - context.word_index
-                    ]
-                    value_context.entities.append(
-                        MatchEntity(
-                            name=list_ref.list_name,
-                            value=slot_value.value_out,
-                            words=[_preprocess_word(word) for word in entity_words],
-                            words_raw=entity_words,
-                            word_start_index=context.word_index,
-                            word_stop_index=value_context.word_index,
-                        )
+            if context.words:
+                # Any value may match
+                for slot_value in text_list.values:
+                    value_context = match_expression(
+                        dataclasses.replace(context), slot_value.text_in
                     )
-                    return value_context
+
+                    if value_context.state == MatchState.SUCCESS:
+                        entity_words = context.words[
+                            : value_context.word_index - context.word_index
+                        ]
+                        value_context.entities.append(
+                            MatchEntity(
+                                name=list_ref.list_name,
+                                value=slot_value.value_out,
+                                words=[_preprocess_word(word) for word in entity_words],
+                                words_raw=entity_words,
+                                word_start_index=context.word_index,
+                                word_stop_index=value_context.word_index,
+                            )
+                        )
+                        return value_context
+
+            # No values matched
+            context.state = MatchState.FAIL
+            return context
+
+        if isinstance(slot_list, RangeSlotList):
+            range_list: RangeSlotList = slot_list
+            if context.words:
+                number_match = False
+                word_number = _extract_number(context.words[0])
+                if word_number is not None:
+                    if range_list.step == 1:
+                        # Unit step
+                        number_match = (
+                            range_list.start <= word_number <= range_list.stop
+                        )
+                    else:
+                        # Non-unit step
+                        number_match = word_number in range(
+                            range_list.start, range_list.stop + 1, range_list.step
+                        )
+
+                    if number_match:
+                        entity_words = [context.words[0]]
+                        context.entities.append(
+                            MatchEntity(
+                                name=list_ref.list_name,
+                                value=word_number,
+                                words=[_preprocess_word(word) for word in entity_words],
+                                words_raw=entity_words,
+                                word_start_index=context.word_index,
+                                word_stop_index=context.word_index + 1,
+                            )
+                        )
+
+                        # Skip over number
+                        context.words = context.words[1:]
+                        context.word_index += 1
+
+                        context.state = MatchState.SUCCESS
+                        return context
 
             # No values matched
             context.state = MatchState.FAIL
