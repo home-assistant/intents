@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import IO, Any, Dict, List, Optional, Union
@@ -36,8 +36,18 @@ class IntentData:
 @dataclass_json
 @dataclass
 class Intent:
+    name: str
     category: IntentCategory = IntentCategory.ACTION
     data: List[IntentData] = field(default_factory=list)
+
+
+class SlotListType(str, Enum):
+    TEXT = "text"
+    RANGE = "range"
+
+
+class SlotList(ABC):
+    type: SlotListType
 
 
 class SlotValue(ABC):
@@ -70,7 +80,7 @@ class RangeSlotValue(SlotValue):
 class Intents:
     language: str
     intents: Dict[str, Intent]
-    # slot_lists: Dict[str, List[SlotValue]] = field(default_factory=dict)
+    slot_lists: Dict[str, SlotList] = field(default_factory=dict)
     expansion_rules: Dict[str, Sentence] = field(default_factory=dict)
     # responses: Dict[ResponseType, Union[str, List[str]]] = field(default_factory=dict)
 
@@ -84,6 +94,7 @@ class Intents:
             language=input_dict["language"],
             intents={
                 intent_name: Intent(
+                    name=intent_name,
                     category=IntentCategory(intent_dict["category"]),
                     data=[
                         IntentData(

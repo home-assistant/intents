@@ -1,10 +1,11 @@
-import io
+from hassil import parse_sentence, is_match
 
-import pytest
 
-from hassil.parse import parse_sentence
-from hassil.recognize import is_match
-
+def test_no_match():
+    sentence = parse_sentence("turn on the lights")
+    assert is_match("turn on the lights", sentence)
+    assert not is_match("turn off the lights", sentence)
+    assert not is_match("don't turn on the lights", sentence)
 
 def test_punctuation():
     sentence = parse_sentence("turn on the lights")
@@ -54,32 +55,3 @@ def test_number_range():
     slot_lists = {"brightness_pct": [parse_sentence("1..100 [percent]")]}
     assert is_match("set brightness to 50%", sentence, slot_lists=slot_lists)
     assert is_match("set brightness to 50 percent", sentence, slot_lists=slot_lists)
-
-
-# from hassil import Intents
-
-# TEST_YAML = """
-# language: "en"
-# intents:
-#   TurnOn:
-#     category: "action"
-#     data:
-#       - sentences:
-#         - "turn on lights in <area>"
-#         - "turn <area> lights on"
-#         slots:
-#           domain: "light"
-#           name: "all"
-# expansion_rules:
-#   area: "[the] {area}"
-# """
-
-
-# @pytest.fixture
-# def intents():
-#     with io.StringIO(TEST_YAML) as test_file:
-#         return Intents.from_yaml(test_file)
-
-
-# def test_1(intents):
-#     assert False, intents

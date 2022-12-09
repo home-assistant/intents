@@ -14,6 +14,7 @@ from .expression import (
     Word,
 )
 from .parse import parse_sentence
+from .intents import Intents, Intent, SlotValue
 
 NUMBER_START = re.compile("^(-?[0-9]+).*$")
 
@@ -35,18 +36,44 @@ class MatchState(Enum):
     SKIP = auto()
 
 
-# def recognize(
-#     text: str,
-#     intents: Intents,
-#     extra_lists: Optional[Dict[str, List[str]]] = None,
-# ):
-#     # TODO: tokenize for language
-#     words = text.strip().split()
-#     if extra_lists is None:
-#         extra_lists = {}
+def recognize(
+    text_or_words: Union[str, List[str]],
+    intents: Intents,
+    slot_lists: Optional[Dict[str, List[Sentence]]] = None,
+    expansion_rules: Optional[Dict[str, Sentence]] = None,
+    skip_words: Optional[Set[str]] = None,
+) -> Optional[Intent]:
+    if isinstance(text_or_words, str):
+        # TODO: tokenize for language
+        words = _tokenize_sentence(_preprocess_sentence(text_or_words))
+    else:
+        words = text_or_words
 
-#     for intent_name, intent in intents.intents.items():
-#         pass
+    # if slot_lists is None:
+    #     slot_lists = intents.slot_lists
+    # else:
+    #     # Combine with intents
+    #     slot_lists = {**intents.slot_lists, **slot_lists}
+
+    if slot_lists is None:
+        slot_lists = {}
+
+    if expansion_rules is None:
+        expansion_rules = {}
+
+    if skip_words is None:
+        skip_words = set()
+
+    for intent in intents.intents.values():
+        for intent_data in intent.data:
+            for intent_sentence in intent_data.sentences:
+                state, _words_left = _is_match(
+                    words, intent_sentence, slot_lists, expansion_rules, skip_words
+                )
+                if state == MatchState.SUCCESS:
+                    return intent
+
+    return None
 
 
 def is_match(
@@ -62,9 +89,6 @@ def is_match(
     else:
         words = text_or_words
 
-    if isinstance(sentence, str):
-        sentence = parse_sentence(sentence)
-
     if slot_lists is None:
         slot_lists = {}
 
@@ -74,8 +98,28 @@ def is_match(
     if skip_words is None:
         skip_words = set()
 
-    state, _words = _is_match(words, sentence, slot_lists, expansion_rules, skip_words)
-    return state == MatchState.SUCCESS
+    state = MatchState.SKIP
+    words_left: Optional[List[str]] = words
+
+    while state == MatchState.SKIP:
+        assert words_left is not None
+        state, words_left = _is_match(
+            words_left, sentence, slot_lists, expansion_rules, skip_words
+        )
+
+    assert state in {MatchState.SUCCESS, MatchState.FAIL}
+    if state == MatchState.FAIL:
+        return False
+
+    # Allow skippable words at the end
+    while words_left:
+        if _preprocess_word(words_left[0]) not in skip_words:
+            # Non-skippable word at end
+            return False
+
+        words_left = words_left[1:]
+
+    return not words_left
 
 
 def _is_match(
@@ -103,7 +147,6 @@ def _is_match(
         return MatchState.FAIL, None
 
     if isinstance(expression, Sequence):
-        state = MatchState.SKIP
         words_left: Optional[List[str]] = None
 
         seq: Sequence = expression
@@ -113,6 +156,7 @@ def _is_match(
                 words_left = words
 
                 # Handle input word skips
+                state = MatchState.SKIP
                 while state == MatchState.SKIP:
                     assert words_left is not None
                     state, words_left = _is_match(
@@ -129,8 +173,8 @@ def _is_match(
             # NOTE: [optional] = (optional | )
             words_left = words
             for item in seq.items:
-
                 # Handle input word skips
+                state = MatchState.SKIP
                 while state == MatchState.SKIP:
                     assert words_left is not None
                     state, words_left = _is_match(
