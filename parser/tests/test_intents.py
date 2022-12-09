@@ -1,4 +1,5 @@
-from hassil import parse_sentence, is_match
+from hassil import is_match, parse_sentence
+from hassil.intents import TextSlotList
 
 
 def test_no_match():
@@ -31,7 +32,7 @@ def test_optional():
 
 def test_list():
     sentence = parse_sentence("turn off {area}")
-    areas = [parse_sentence(area_name) for area_name in ["kitchen", "living room"]]
+    areas = TextSlotList.from_strings(["kitchen", "living room"])
     assert is_match("turn off kitchen", sentence, slot_lists={"area": areas})
     assert is_match("turn off living room", sentence, slot_lists={"area": areas})
 
@@ -41,8 +42,7 @@ def test_rule():
     assert is_match(
         "turn off kitchen",
         sentence,
-        slot_lists={"area": [parse_sentence("kitchen")]},
-        expansion_rules={"area": parse_sentence("[the] {area}")},
+        expansion_rules={"area": parse_sentence("[the] kitchen")},
     )
 
 

@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import IO, Any, Dict, List, Optional, Union, Set
+from typing import IO, Any, Dict, Iterable, List, Optional, Set, Tuple, Union
 
 from dataclasses_json import DataClassJsonMixin, config, dataclass_json
 from yaml import safe_load
 
 from .expression import Sentence
-from .parse import parse_sentences
+from .parse import parse_sentence, parse_sentences
 
 
 class IntentCategory(str, Enum):
@@ -43,22 +43,16 @@ class Intent:
 
 class SlotListType(str, Enum):
     TEXT = "text"
-    RANGE = "range"
-
-
-class SlotList(ABC):
-    type: SlotListType
-
-
-class SlotValue(ABC):
-    pass
+    NUMBER = "number"
+    PERCENTAGE = "percentage"
+    TEMPERATURE = "temperature"
 
 
 @dataclass_json
 @dataclass
-class TextSlotValue(SlotValue):
-    text_in: str = field(metadata=config(field_name="in"))
-    text_out: str = field(metadata=config(field_name="out"))
+class TextSlotValue:
+    text_in: Sentence
+    value_out: Any
 
 
 class RangeType(str, Enum):
@@ -67,13 +61,42 @@ class RangeType(str, Enum):
     TEMPERATURE = "temperature"
 
 
-@dataclass_json
 @dataclass
-class RangeSlotValue(SlotValue):
+class RangeSlotValues:
     range_from: int = field(metadata=config(field_name="from"))
     range_to: int = field(metadata=config(field_name="to"))
     range_step: int = field(default=1, metadata=config(field_name="step"))
     type: RangeType = RangeType.NUMBER
+
+
+@dataclass
+class SlotList(ABC):
+    type: SlotListType
+
+
+@dataclass
+class TextSlotList(SlotList):
+    values: List[TextSlotValue]
+
+    @staticmethod
+    def from_strings(strings: Iterable[str]) -> "TextSlotList":
+        return TextSlotList(
+            type=SlotListType.TEXT,
+            values=[
+                TextSlotValue(text_in=parse_sentence(text), value_out=text)
+                for text in strings
+            ],
+        )
+
+    @staticmethod
+    def from_tuples(tuples: Iterable[Tuple[str, Any]]) -> "TextSlotList":
+        return TextSlotList(
+            type=SlotListType.TEXT,
+            values=[
+                TextSlotValue(text_in=parse_sentence(text), value_out=value)
+                for text, value in tuples
+            ],
+        )
 
 
 @dataclass
