@@ -1,9 +1,9 @@
 from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, IO, Optional, Union
+from typing import IO, Any, Dict, List, Optional, Union
 
-from dataclasses_json import config, dataclass_json, DataClassJsonMixin
+from dataclasses_json import DataClassJsonMixin, config, dataclass_json
 from yaml import safe_load
 
 from .expression import Sentence
@@ -54,7 +54,7 @@ class TextSlotValue(SlotValue):
 class RangeType(str, Enum):
     NUMBER = "number"
     PERCENTAGE = "percentage"
-    DEGREES = "degrees"
+    TEMPERATURE = "temperature"
 
 
 @dataclass_json

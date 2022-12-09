@@ -1,4 +1,4 @@
-from typing import List, Iterable
+from typing import Iterable, List
 
 from .expression import Sentence
 from .expression_listener import HassILExpressionListener

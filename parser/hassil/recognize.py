@@ -1,13 +1,13 @@
-from typing import List, Optional, Dict, Union, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 
 from .expression import (
-    Sequence,
-    Sentence,
-    SequenceType,
-    Word,
+    Expression,
     ListReference,
     RuleReference,
-    Expression,
+    Sentence,
+    Sequence,
+    SequenceType,
+    Word,
 )
 from .intents import Intents
 from .parse import parse_sentence

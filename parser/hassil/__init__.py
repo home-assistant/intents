@@ -1,10 +1,12 @@
 from .expression import (
+    ListReference,
+    Number,
+    NumberRange,
+    RuleReference,
     Sentence,
-    Word,
     Sequence,
     SequenceType,
-    ListReference,
-    RuleReference,
+    Word,
 )
-from .parse import parse_sentences, parse_sentence
 from .intents import Intents
+from .parse import parse_sentence, parse_sentences

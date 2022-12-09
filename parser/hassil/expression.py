@@ -2,12 +2,11 @@ import re
 from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Optional, Iterable
-
+from typing import Iterable, List, Optional
 
 # 0..100, -100..100
 NUMBER_RANGE_PATTERN = re.compile(r"^(-?[0-9]+)\.\.(-?[0-9]+),?(?P<step>[0-9]+)?$")
-NUMBER_PATTERN = re.compile(r"^(-?[0-9]+)(?P<sub>:.+)?$")
+NUMBER_PATTERN = re.compile(r"^(-?[0-9]+)$")
 
 
 def remove_escapes(text: str) -> str:

@@ -1,12 +1,14 @@
 """Tests for HassILExpressionListener"""
 from hassil import (
-    parse_sentences,
+    ListReference,
+    Number,
+    NumberRange,
+    RuleReference,
     Sentence,
-    Word,
     Sequence,
     SequenceType,
-    ListReference,
-    RuleReference,
+    Word,
+    parse_sentences,
 )
 
 
@@ -108,6 +110,18 @@ def test_escape_in_quotes():
     """Test escaped double quotes inside double quotes"""
     assert parse_sentences(['this is a "\\"test\\""']) == [
         s([w("this"), w("is"), w("a"), w('"test"')])
+    ]
+
+
+def test_number():
+    assert parse_sentences(["this is 1 test"]) == [
+        s([w("this"), w("is"), Number(1), w("test")])
+    ]
+
+
+def test_number_range():
+    assert parse_sentences(["these are 1..100 tests"]) == [
+        s([w("these"), w("are"), NumberRange(1, 100), w("tests")])
     ]
 
 
