@@ -41,10 +41,10 @@ class MatchState(Enum):
 class MatchEntity:
     name: str
     value: Any
-    words: List[str]
-    words_raw: List[str]
-    word_start_index: int
-    word_stop_index: int
+    words: Optional[List[str]] = None
+    words_raw: Optional[List[str]] = None
+    word_start_index: Optional[int] = None
+    word_stop_index: Optional[int] = None
 
 
 @dataclass
@@ -120,6 +120,12 @@ def recognize(
                 context = _match_and_skip(context, intent_sentence)
 
                 if context.is_match:
+                    # Add fixed entities
+                    for slot_name, slot_value in intent_data.slots.items():
+                        context.entities.append(
+                            MatchEntity(name=slot_name, value=slot_value)
+                        )
+
                     return RecognizeResult(
                         intent,
                         {entity.name: entity for entity in context.entities},

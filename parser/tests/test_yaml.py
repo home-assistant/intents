@@ -8,14 +8,14 @@ from hassil.intents import TextSlotList
 TEST_YAML = """
 language: "en"
 intents:
-  TurnOn:
+  TurnOnTV:
     category: "action"
     data:
       - sentences:
-        - "turn on [all] [the] lights in <area>"
+        - "turn on [the] TV in <area>"
         slots:
-          domain: "light"
-          name: "all"
+          domain: "media_player"
+          name: "roku"
   SetBrightness:
     category: "action"
     data:
@@ -55,10 +55,10 @@ def slot_lists():
 
 def test_turn_on(intents, slot_lists):
     result = recognize(
-        "turn on the lights in the kitchen, please", intents, slot_lists=slot_lists
+        "turn on the tv in the kitchen, please", intents, slot_lists=slot_lists
     )
     assert result is not None
-    assert result.intent.name == "TurnOn"
+    assert result.intent.name == "TurnOnTV"
 
     area = result.entities["area"]
     assert area.name == "area"
@@ -67,6 +67,10 @@ def test_turn_on(intents, slot_lists):
     assert area.words_raw == ["kitchen,"]
     assert area.word_start_index == 6
     assert area.word_stop_index == 7
+
+    # From YAML
+    assert result.entities["domain"].value == "media_player"
+    assert result.entities["name"].value == "roku"
 
 
 def test_brightness(intents, slot_lists):
@@ -78,3 +82,7 @@ def test_brightness(intents, slot_lists):
 
     assert result.entities["area"].value == "area.living_room"
     assert result.entities["brightness_pct"].value == 75
+
+    # From YAML
+    assert result.entities["domain"].value == "light"
+    assert result.entities["name"].value == "all"
