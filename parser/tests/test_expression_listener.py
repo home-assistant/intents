@@ -125,6 +125,12 @@ def test_number_range():
     ]
 
 
+def test_number_range_step():
+    assert parse_sentences(["these are 1..100,2 odd tests"]) == [
+        s([w("these"), w("are"), NumberRange(1, 100, 2), w("odd"), w("tests")])
+    ]
+
+
 # -----------------------------------------------------------------------------
 
 
