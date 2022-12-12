@@ -3,26 +3,26 @@ intents:
   HassTurnOn:
     category: "action"
     data:
-      # lights in an area
       - sentences:
-          - "turn on [the] light in <area>"
-          - "turn [the] light in <area> on"
-          - "turn on [all] [the] lights in <area>"
-          - "turn all [the] lights in <area> on"
-          - "switch on [the] light in <area>"
+          - "(turn | switch) on [the] (light | lights) in <area>"
+          - "(turn | switch) [the] (light | lights) in <area> on"
+          - "(turn | switch) on all [the] lights in <area>"
+          - "(turn | switch) all [the] lights in <area> on"
+        slots:
+          domain: "light"
+          name: "all"
+  HassTurnOff:
+    category: "action"
+    data:
+      - sentences:
+          - "(turn | switch) off [the] (light | lights) in <area>"
+          - "(turn | switch) [the] (light | lights) in <area> off"
+          - "(turn | switch) off all [the] lights in <area>"
+          - "(turn | switch) all [the] lights in <area> off"
         slots:
           domain: "light"
           name: "all"
         response: "I turned on the lights in {{ area.name }}"
-      # To work with satellite devices that are bound to an area
-      # - sentences:
-      #     - "turn on the light[s]"
-      #     - "switch on the light[s]"
-      #   slots:
-      #     domain: "light"
-      #     name: "all"
-      #   requires_context:
-      #     - "area"
 
   HassLightSet:
     category: "action"
@@ -31,10 +31,18 @@ intents:
       - sentences:
           - "set <name> brightness to <brightness>"
           - "set [the] brightness of <name> to <brightness>"
+      - sentences:
+          - "set [the] brightness in <area> to <brightness>"
+          - "set <area> brightness to <brightness>"
+        slots:
+          domain: "light"
+          name: "all"
       # color
       - sentences:
           - "set <name> [color] to {color_rgb}"
           - "set [[the] color of] <name> to {color_rgb}"
+        slots:
+          domain: "light"
 expansion_rules:
   brightness: "{brightness_pct} [percent]"
 lists:

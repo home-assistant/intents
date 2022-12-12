@@ -255,11 +255,15 @@ def match_expression(context: MatchContext, expression: Expression) -> MatchCont
             group_context.state = MatchState.SUCCESS
             return group_context
 
+        # Failed to match sequence
+        context.state = MatchState.FAIL
+        return context
+
     if isinstance(expression, ListReference):
         # {list}
         list_ref: ListReference = expression
         if (not context.slot_lists) or (list_ref.list_name not in context.slot_lists):
-            raise MissingListError(f"Missing slot list {list_ref.list_name}")
+            raise MissingListError(f"Missing slot list {{{list_ref.list_name}}}")
 
         slot_list = context.slot_lists[list_ref.list_name]
         if isinstance(slot_list, TextSlotList):
@@ -341,7 +345,7 @@ def match_expression(context: MatchContext, expression: Expression) -> MatchCont
         if (not context.expansion_rules) or (
             rule_ref.rule_name not in context.expansion_rules
         ):
-            raise MissingRuleError(f"Missing expansion rule {rule_ref.rule_name}")
+            raise MissingRuleError(f"Missing expansion rule <{rule_ref.rule_name}>")
 
         return match_expression(context, context.expansion_rules[rule_ref.rule_name])
 

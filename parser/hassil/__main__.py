@@ -5,8 +5,9 @@ import sys
 
 import yaml
 
-from hassil import Intents, recognize
-from hassil.intents import TextSlotList
+from . import Intents, recognize
+from .intents import TextSlotList
+from .util import merge_dict
 
 _LOGGER = logging.getLogger("hassil")
 
@@ -29,7 +30,7 @@ def main():
     input_dict = {}
     for yaml_path in args.yaml_file:
         with open(yaml_path, "r", encoding="utf-8") as yaml_file:
-            _merge_dict(input_dict, yaml.safe_load(yaml_file))
+            merge_dict(input_dict, yaml.safe_load(yaml_file))
 
     intents = Intents.from_dict(input_dict)
 
@@ -54,21 +55,6 @@ def main():
                 print("<no match>")
         except Exception:
             _LOGGER.exception(line)
-
-
-def _merge_dict(base_dict, new_dict):
-    for key, value in new_dict.items():
-        if key in base_dict:
-            old_value = base_dict[key]
-            if isinstance(old_value, dict):
-                _merge_dict(old_value, value)
-            elif isinstance(old_value, list):
-                old_value.append(value)
-            else:
-                # Overwrite
-                base_dict[key] = value
-        else:
-            base_dict[key] = value
 
 
 if __name__ == "__main__":
