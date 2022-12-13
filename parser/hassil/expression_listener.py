@@ -70,7 +70,7 @@ class HassILExpressionListener(HassILGrammarListener):
         self.last_sequence.items.append(optional)
 
     def enterAlt(self, ctx):
-        sequence = self.last_sequence
+        sequence = self.last_parent_sequence
         if sequence.type != SequenceType.ALTERNATIVE:
             # Convert to alternative
             if sequence.items:
@@ -129,6 +129,19 @@ class HassILExpressionListener(HassILGrammarListener):
         last_sequence = self._sequences[-1]
         assert last_sequence, "Invalid target sequence"
         return last_sequence
+
+    @property
+    def last_parent_sequence(self) -> Sequence:
+        assert self._sequences, "No target sequence"
+        parent_sequence: Optional[Sequence] = None
+        for sequence in reversed(self._sequences):
+            if sequence is GROUP_MARKER:
+                break
+
+            parent_sequence = sequence
+
+        assert parent_sequence, "No parent sequence"
+        return parent_sequence
 
     def _pop_group(self) -> Sequence:
         assert len(self._sequences) > 1, "Bad sequence stack"

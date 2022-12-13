@@ -1,0 +1,36 @@
+language: "en"
+intents:
+  HassClimateSetTemperature:
+    category: "action"
+    data:
+      - sentences:
+          - "set [the] <temp> to <temperature>"
+          - "set [the] <temp> in <area> to <temperature>"
+          - "set <area> <temp> to <temperature>"
+        slots:
+          domain: "climate"
+  HassClimateGetTemperature:
+    category: "query"
+    data:
+      - sentences:
+          - "<what_is> [the] <temp>"
+          - "<what_is> [the] <temp> in <area>"
+        slots:
+          domain: "climate"
+expansion_rules:
+  temp: "(temp | temperature)"
+  temperature: "{temperature} [degrees] [{temperature_unit}]"
+lists:
+  temperature:
+    type: "temperature"
+    range:
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"

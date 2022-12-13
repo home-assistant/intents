@@ -99,6 +99,31 @@ def test_alternative_multiple_words():
     ]
 
 
+def test_alternative_what():
+    assert parse_sentences(["(what | what's | whats | what is)"]) == [
+        s(
+            [
+                alt(
+                    [
+                        grp(
+                            [w("what")],
+                        ),
+                        grp(
+                            [w("what's")],
+                        ),
+                        grp(
+                            [w("whats")],
+                        ),
+                        grp(
+                            [w("what"), w("is")],
+                        ),
+                    ],
+                ),
+            ]
+        )
+    ]
+
+
 def test_list_reference():
     assert parse_sentences(["this is a {test}"]) == [
         s([w("this"), w("is"), w("a"), ListReference("test")])

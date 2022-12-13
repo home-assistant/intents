@@ -22,8 +22,8 @@ intents:
         slots:
           domain: "light"
           name: "all"
-        response: "I turned on the lights in {{ area.name }}"
 
+  # Brightness/color
   HassLightSet:
     category: "action"
     data:
@@ -39,23 +39,15 @@ intents:
           name: "all"
       # color
       - sentences:
-          - "set <name> [color] to {color_rgb}"
-          - "set [[the] color of] <name> to {color_rgb}"
+          - "set <name> [color] to {color}"
+          - "set [[the] color of] <name> to {color}"
         slots:
           domain: "light"
 expansion_rules:
-  brightness: "{brightness_pct} [percent]"
+  brightness: "{brightness:brightness_pct} [percent]"
 lists:
-  brightness_pct:
+  brightness:
     type: "percentage"
     range:
       from: 0
       to: 100
-  color_rgb:
-    values:
-      - in: "red"
-        out: "255,0,0"
-      - in: "green"
-        out: "0,255,0"
-      - in: "blue"
-        out: "0,0,255"

@@ -79,6 +79,20 @@ class ListReference(Expression):
     """Reference to a list by {name}."""
 
     list_name: str = ""
+    _slot_name: Optional[str] = None
+
+    def __post_init__(self):
+        if ":" in self.list_name:
+            # list_name:slot_name
+            self.list_name, self._slot_name = self.list_name.split(":", maxsplit=1)
+        else:
+            self._slot_name = self.list_name
+
+    @property
+    def slot_name(self) -> str:
+        """Name of slot to put list value into"""
+        assert self._slot_name is not None
+        return self._slot_name
 
 
 @dataclass

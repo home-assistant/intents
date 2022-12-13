@@ -282,7 +282,7 @@ def match_expression(context: MatchContext, expression: Expression) -> MatchCont
                         ]
                         value_context.entities.append(
                             MatchEntity(
-                                name=list_ref.list_name,
+                                name=list_ref.slot_name,
                                 value=slot_value.value_out,
                                 words=[_preprocess_word(word) for word in entity_words],
                                 words_raw=entity_words,
@@ -317,7 +317,7 @@ def match_expression(context: MatchContext, expression: Expression) -> MatchCont
                         entity_words = [context.words[0]]
                         context.entities.append(
                             MatchEntity(
-                                name=list_ref.list_name,
+                                name=list_ref.slot_name,
                                 value=word_number,
                                 words=[_preprocess_word(word) for word in entity_words],
                                 words_raw=entity_words,

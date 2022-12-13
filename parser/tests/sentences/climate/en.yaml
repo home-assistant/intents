@@ -1,0 +1,54 @@
+language: "en"
+tests:
+  - sentences:
+      - "set temperature to 30°"
+    intent:
+      name: "HassClimateSetTemperature"
+      slots:
+        domain:
+          value: "climate"
+        temperature:
+          value: 30
+  - sentences:
+      - "set temperature to 30° C"
+    intent:
+      name: "HassClimateSetTemperature"
+      slots:
+        domain:
+          value: "climate"
+        temperature:
+          value: 30
+        temperature_unit:
+          value: "celsius"
+  - sentences:
+      - "set bedroom temp to 50 degrees Fahrenheit"
+    intent:
+      name: "HassClimateSetTemperature"
+      slots:
+        area:
+          value: "bedroom"
+        domain:
+          value: "climate"
+        temperature:
+          value: 50
+        temperature_unit:
+          value: "fahrenheit"
+
+  # Query
+  - sentences:
+      - "what's the temperature?"
+      - "what's the temp?"
+    intent:
+      name: "HassClimateGetTemperature"
+      slots:
+        domain:
+          value: "climate"
+  - sentences:
+      - "what is the temperature in the living room?"
+    intent:
+      name: "HassClimateGetTemperature"
+      slots:
+        area:
+          value: "living_room"
+        domain:
+          value: "climate"
