@@ -18,10 +18,12 @@ from .expression import (
 )
 from .intents import Intent, Intents, RangeSlotList, SlotList, TextSlotList
 
-NUMBER_START = re.compile("^(-?[0-9]+).*$")
+NUMBER_START = re.compile(r"^(-?[0-9]+).*$")
 
 # TODO: Make this configurable
-PUNCTUATION_END = re.compile("[.,;!?]$")
+PUNCTUATION_END = re.compile(r"[.,;!?]$")
+
+NON_WORD = re.compile(r"^\W+$")
 
 
 class MissingListError(Exception):
@@ -179,14 +181,15 @@ def is_match(
 def _match_and_skip(context: MatchContext, *args, **kwargs) -> Iterable[MatchContext]:
     """Match a sentence, then skip any skippable words at the end of input"""
     for match_context in match_expression(context, *args, *kwargs):
-        is_match = True
+        has_words_left = False
         for word in match_context.words:
-            if _preprocess_word(word) not in context.skip_words:
+            word_text = _preprocess_word(word)
+            if (word_text not in context.skip_words) and _is_word(word_text):
                 # Can't skip a word
-                is_match = False
+                has_words_left = True
                 break
 
-        if is_match:
+        if not has_words_left:
             yield dataclasses.replace(match_context, words=[])
 
 
@@ -204,10 +207,11 @@ def match_expression(
             if _is_word_match(context.words[0], word.text):
                 # Word match
                 yield context.next_word()
-
-            if context.words[0] in context.skip_words:
-                # Skip input word
-                yield from match_expression(context.next_word(), expression)
+            else:
+                word_text = _preprocess_word(context.words[0])
+                if (word_text in context.skip_words) or not _is_word(word_text):
+                    # Skip input word
+                    yield from match_expression(context.next_word(), expression)
 
     elif isinstance(expression, Sequence):
         seq: Sequence = expression
@@ -368,3 +372,7 @@ def _extract_number(text: str) -> Optional[int]:
         return int(match[1])
 
     return None
+
+
+def _is_word(text: str) -> bool:
+    return bool(text) and (not NON_WORD.match(text))

@@ -15,6 +15,16 @@ def test_punctuation():
     assert is_match("turn on the lights!", sentence)
 
 
+def test_whitespace():
+    sentence = parse_sentence("turn on the lights")
+    assert is_match("  turn      on the     lights", sentence)
+
+
+def test_skip_nonword():
+    sentence = parse_sentence("turn on the lights")
+    assert is_match("turn ! on @ the # lights $", sentence)
+
+
 def test_skip_words():
     sentence = parse_sentence("turn on [the] lights")
     skip_words = {"please", "could", "you", "my"}
