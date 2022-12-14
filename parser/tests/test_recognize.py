@@ -9,7 +9,6 @@ TEST_YAML = """
 language: "en"
 intents:
   TurnOnTV:
-    category: "action"
     data:
       - sentences:
         - "turn on [the] TV in <area>"
@@ -18,16 +17,22 @@ intents:
           domain: "media_player"
           name: "roku"
   SetBrightness:
-    category: "action"
     data:
       - sentences:
         - "set [the] brightness in <area> to <brightness>"
         slots:
           domain: "light"
           name: "all"
+  GetTemperature:
+    data:
+      - sentences:
+        - "<what_is> [the] temperature in <area>"
+        slots:
+          domain: "climate"
 expansion_rules:
   area: "[the] {area}"
   brightness: "{brightness_pct} [percent]"
+  what_is: "(what's | whats | what is)"
 lists:
   brightness_pct:
     range:
@@ -85,3 +90,16 @@ def test_brightness(intents, slot_lists):
     # From YAML
     assert result.entities["domain"].value == "light"
     assert result.entities["name"].value == "all"
+
+
+def test_temperature(intents, slot_lists):
+    result = recognize(
+        "what is the temperature in the living room?", intents, slot_lists=slot_lists
+    )
+    assert result is not None
+    assert result.intent.name == "GetTemperature"
+
+    assert result.entities["area"].value == "area.living_room"
+
+    # From YAML
+    assert result.entities["domain"].value == "climate"

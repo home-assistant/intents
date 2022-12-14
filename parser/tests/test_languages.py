@@ -57,7 +57,7 @@ def load_intents(language: str):
 
 
 def load_tests(language: str):
-    """Load test sentences from tests/sentences for a language"""
+    """Load test sentences from tests/ for a language"""
     lang_dir = _TEST_SENTENCES_DIR / language
     tests_dict: Dict[str, Any] = {}
     for yaml_path in lang_dir.rglob("*.yaml"):

@@ -1,8 +1,9 @@
 import dataclasses
+import itertools
 import re
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union
 
 from .expression import (
     Expression,
@@ -31,12 +32,6 @@ class MissingRuleError(Exception):
     pass
 
 
-class MatchState(Enum):
-    SUCCESS = auto()
-    FAIL = auto()
-    SKIP = auto()
-
-
 @dataclass
 class MatchEntity:
     name: str
@@ -49,7 +44,6 @@ class MatchEntity:
 
 @dataclass
 class MatchContext:
-    state: Optional[MatchState] = None
     words: List[str] = field(default_factory=list)
     word_index: int = 0
     slot_lists: Dict[str, SlotList] = field(default_factory=dict)
@@ -59,8 +53,16 @@ class MatchContext:
 
     @property
     def is_match(self) -> bool:
-        """True if last match was a success and no words are left"""
-        return (self.state == MatchState.SUCCESS) and (not self.words)
+        """True no words are left"""
+        return not self.words
+
+    def next_word(self, **kwargs) -> "MatchContext":
+        return dataclasses.replace(
+            self,
+            words=self.words[1:],
+            word_index=self.word_index + 1,
+            **kwargs,
+        )
 
 
 @dataclass
@@ -111,26 +113,28 @@ def recognize(
         for intent_data in intent.data:
             for intent_sentence in intent_data.sentences:
                 context = MatchContext(
-                    state=MatchState.SKIP,
                     words=words,
                     slot_lists=slot_lists,
                     expansion_rules=expansion_rules,
                     skip_words=skip_words,
                 )
-                context = _match_and_skip(context, intent_sentence)
+                sentence_contexts = _match_and_skip(context, intent_sentence)
+                for sentence_context in sentence_contexts:
+                    if sentence_context.is_match:
+                        # Add fixed entities
+                        for slot_name, slot_value in intent_data.slots.items():
+                            sentence_context.entities.append(
+                                MatchEntity(name=slot_name, value=slot_value)
+                            )
 
-                if context.is_match:
-                    # Add fixed entities
-                    for slot_name, slot_value in intent_data.slots.items():
-                        context.entities.append(
-                            MatchEntity(name=slot_name, value=slot_value)
+                        return RecognizeResult(
+                            intent,
+                            {
+                                entity.name: entity
+                                for entity in sentence_context.entities
+                            },
+                            sentence_context.entities,
                         )
-
-                    return RecognizeResult(
-                        intent,
-                        {entity.name: entity for entity in context.entities},
-                        context.entities,
-                    )
 
     return None
 
@@ -165,101 +169,74 @@ def is_match(
         skip_words=skip_words,
     )
 
-    context = _match_and_skip(context, sentence)
+    for match_context in _match_and_skip(context, sentence):
+        if match_context.is_match:
+            return match_context
 
-    return context if context.state == MatchState.SUCCESS else None
+    return None
 
 
-def _match_and_skip(context: MatchContext, *args, **kwargs) -> MatchContext:
+def _match_and_skip(context: MatchContext, *args, **kwargs) -> Iterable[MatchContext]:
     """Match a sentence, then skip any skippable words at the end of input"""
-    context.state = MatchState.SKIP
+    for match_context in match_expression(context, *args, *kwargs):
+        is_match = True
+        for word in match_context.words:
+            if _preprocess_word(word) not in context.skip_words:
+                # Can't skip a word
+                is_match = False
+                break
 
-    while context.state == MatchState.SKIP:
-        context = match_expression(context, *args, **kwargs)
-
-    assert context.state in {MatchState.SUCCESS, MatchState.FAIL}
-    if context.state == MatchState.SUCCESS:
-        # Allow skippable words at the end
-        while context.words:
-            if _preprocess_word(context.words[0]) not in context.skip_words:
-                # Non-skippable word at end
-                context.state = MatchState.FAIL
-                return context
-
-            context.words = context.words[1:]
-            context.word_index += 1
-
-    context.state = MatchState.FAIL if context.words else MatchState.SUCCESS
-    return context
+        if is_match:
+            yield dataclasses.replace(match_context, words=[])
 
 
-def match_expression(context: MatchContext, expression: Expression) -> MatchContext:
+def match_expression(
+    context: MatchContext, expression: Expression
+) -> Iterable[MatchContext]:
+    """Yield matching contexts for an expresion"""
     if isinstance(expression, Word):
         word: Word = expression
         if word.is_empty:
             # Skip template word
-            context.state = MatchState.SUCCESS
-            return context
+            yield context
 
         if context.words:
             if _is_word_match(context.words[0], word.text):
                 # Word match
-                context.state = MatchState.SUCCESS
-                context.words = context.words[1:]
-                context.word_index += 1
-                return context
+                yield context.next_word()
 
             if context.words[0] in context.skip_words:
                 # Skip input word
-                context.state = MatchState.SKIP
-                context.words = context.words[1:]
-                context.word_index += 1
-                return context
+                yield from match_expression(context.next_word(), expression)
 
-        # Failed to match word
-        context.state = MatchState.FAIL
-        return context
-
-    if isinstance(expression, Sequence):
+    elif isinstance(expression, Sequence):
         seq: Sequence = expression
         if seq.type == SequenceType.ALTERNATIVE:
             # Any may match (words | in | alternative)
-            context.state = MatchState.FAIL
             for item in seq.items:
-                # Handle input word skips
-                item_context = dataclasses.replace(context, state=MatchState.SKIP)
-                while item_context.state == MatchState.SKIP:
-                    item_context = match_expression(item_context, item)
+                yield from match_expression(context, item)
 
-                if item_context.state == MatchState.SUCCESS:
-                    # Any may match
-                    return item_context
-
-        if seq.type == SequenceType.GROUP:
+        elif seq.type == SequenceType.GROUP:
             # All must match (words in group)
             # NOTE: [optional] = (optional | )
-            group_context = dataclasses.replace(context)
+            if seq.items:
+                group_contexts = [context]
+                for item in seq.items:
+                    # Next step
+                    group_contexts = [
+                        item_context
+                        for group_context in group_contexts
+                        for item_context in match_expression(group_context, item)
+                    ]
+                    if not group_contexts:
+                        break
 
-            for item in seq.items:
-                # Handle input word skips
-                group_context.state = MatchState.SKIP
-                while group_context.state == MatchState.SKIP:
-                    group_context = match_expression(group_context, item)
+                for group_context in group_contexts:
+                    yield group_context
+        else:
+            raise ValueError(f"Unexpected sequence type: {seq}")
 
-                if group_context.state != MatchState.SUCCESS:
-                    # All must match
-                    context.state = MatchState.FAIL
-                    return context
-
-            # All matched
-            group_context.state = MatchState.SUCCESS
-            return group_context
-
-        # Failed to match sequence
-        context.state = MatchState.FAIL
-        return context
-
-    if isinstance(expression, ListReference):
+    elif isinstance(expression, ListReference):
         # {list}
         list_ref: ListReference = expression
         if (not context.slot_lists) or (list_ref.list_name not in context.slot_lists):
@@ -272,11 +249,12 @@ def match_expression(context: MatchContext, expression: Expression) -> MatchCont
             if context.words:
                 # Any value may match
                 for slot_value in text_list.values:
-                    value_context = match_expression(
+                    value_contexts = match_expression(
                         dataclasses.replace(context), slot_value.text_in
                     )
 
-                    if value_context.state == MatchState.SUCCESS:
+                    for value_context in value_contexts:
+                        # Capture words for entity
                         entity_words = context.words[
                             : value_context.word_index - context.word_index
                         ]
@@ -290,13 +268,9 @@ def match_expression(context: MatchContext, expression: Expression) -> MatchCont
                                 word_stop_index=value_context.word_index,
                             )
                         )
-                        return value_context
+                        yield value_context
 
-            # No values matched
-            context.state = MatchState.FAIL
-            return context
-
-        if isinstance(slot_list, RangeSlotList):
+        elif isinstance(slot_list, RangeSlotList):
             range_list: RangeSlotList = slot_list
             if context.words:
                 number_match = False
@@ -327,19 +301,12 @@ def match_expression(context: MatchContext, expression: Expression) -> MatchCont
                         )
 
                         # Skip over number
-                        context.words = context.words[1:]
-                        context.word_index += 1
+                        yield context.next_word()
 
-                        context.state = MatchState.SUCCESS
-                        return context
+        else:
+            raise ValueError(f"Unexpected slot list type: {slot_list}")
 
-            # No values matched
-            context.state = MatchState.FAIL
-            return context
-
-        raise ValueError(f"Unexpected slot list type: {slot_list}")
-
-    if isinstance(expression, RuleReference):
+    elif isinstance(expression, RuleReference):
         # <rule>
         rule_ref: RuleReference = expression
         if (not context.expansion_rules) or (
@@ -347,37 +314,28 @@ def match_expression(context: MatchContext, expression: Expression) -> MatchCont
         ):
             raise MissingRuleError(f"Missing expansion rule <{rule_ref.rule_name}>")
 
-        return match_expression(context, context.expansion_rules[rule_ref.rule_name])
+        yield from match_expression(
+            context, context.expansion_rules[rule_ref.rule_name]
+        )
 
-    if isinstance(expression, Number):
+    elif isinstance(expression, Number):
         # N
         number: Number = expression
         if context.words:
             word_number = _extract_number(context.words[0])
             if (word_number is not None) and (word_number == number.number):
-                context.state = MatchState.SUCCESS
-                context.words = context.words[1:]
-                context.word_index += 1
-                return context
+                yield context.next_word()
 
-        context.state = MatchState.FAIL
-        return context
-
-    if isinstance(expression, NumberRange):
+    elif isinstance(expression, NumberRange):
         # N..M
         number_range: NumberRange = expression
         if context.words:
             word_number = _extract_number(context.words[0])
             if (word_number is not None) and (word_number in number_range):
-                context.state = MatchState.SUCCESS
-                context.words = context.words[1:]
-                context.word_index += 1
-                return context
+                yield context.next_word()
 
-        context.state = MatchState.FAIL
-        return context
-
-    raise ValueError(f"Unexpected expression: {expression}")
+    else:
+        raise ValueError(f"Unexpected expression: {expression}")
 
 
 def _tokenize_sentence(text: str) -> List[str]:
