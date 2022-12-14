@@ -5,13 +5,7 @@ import pytest
 import yaml
 
 from hassil import Intents, recognize
-from hassil.expression import (
-    Expression,
-    ListReference,
-    RuleReference,
-    Sentence,
-    Sequence,
-)
+from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import SlotList, TextSlotList
 from hassil.util import merge_dict
 
@@ -68,43 +62,73 @@ def test_language_intents(language: str):
 
     # Lint sentences
     for intent_name, intent in intents.intents.items():
-        intent_schema = intent_schemas[intent_name]["slots"]
+        intent_schema = intent_schemas[intent_name]
+        slot_schema = intent_schema["slots"]
+        slot_combinations = intent_schema.get("slot_combinations")
 
         for data in intent.data:
             for sentence in data.sentences:
+                found_slots: Set[str] = set()
                 for expression in _flatten(sentence):
                     _verify(
                         expression,
                         intents,
                         intent_name,
-                        intent_schema,
+                        slot_schema,
                         visited_rules=set(),
+                        found_slots=found_slots,
                     )
+
+                # Check required slots
+                for slot_name, slot_info in slot_schema.items():
+                    if slot_info.get("required", False):
+                        assert (
+                            slot_name in found_slots
+                        ), f"Missing required slot: '{slot_name}', intent='{intent_name}', sentence='{sentence.text}'"
+
+                if slot_combinations:
+                    # Verify one of the combinations is matched
+                    combo_matched = False
+                    for combo_slots in slot_combinations.values():
+                        if set(combo_slots) == found_slots:
+                            combo_matched = True
+                            break
+
+                    assert (
+                        combo_matched
+                    ), f"Slot combination not matched: intent='{intent_name}', slots={found_slots}, sentence='{sentence.text}'"
 
 
 def _verify(
     expression: Expression,
     intents: Intents,
     intent_name: str,
-    intent_schema: Dict[str, Any],
+    slot_schema: Dict[str, Any],
     visited_rules: Set[str],
+    found_slots: Set[str],
 ):
     if isinstance(expression, ListReference):
         list_ref: ListReference = expression
+
+        # Ensure list exists
         assert (
             list_ref.list_name in intents.slot_lists
         ), f"Missing slot list: {{{list_ref.list_name}}}"
 
+        # Ensure slot is part of intent
         assert (
-            list_ref.slot_name in intent_schema
+            list_ref.slot_name in slot_schema
         ), f"Unexpected slot '{list_ref.slot_name}' in intent '{intent_name}"
+
+        # Track slots for combination check
+        found_slots.add(list_ref.slot_name)
     elif isinstance(expression, RuleReference):
         rule_ref: RuleReference = expression
         assert (
             rule_ref.rule_name in intents.expansion_rules
         ), f"Missing expansion rule: <{rule_ref.rule_name}>"
 
-        # Check for recursive rules
+        # Check for recursive rules (not supported)
         assert (
             rule_ref.rule_name not in visited_rules
         ), f"Recursive rule detected: <{rule_ref.rule_name}>"
@@ -113,7 +137,14 @@ def _verify(
 
         # Verify rule body
         for body_expression in _flatten(intents.expansion_rules[rule_ref.rule_name]):
-            _verify(body_expression, intents, intent_name, intent_schema, visited_rules)
+            _verify(
+                body_expression,
+                intents,
+                intent_name,
+                slot_schema,
+                visited_rules,
+                found_slots,
+            )
 
 
 def _flatten(expression: Expression) -> Iterable[Expression]:

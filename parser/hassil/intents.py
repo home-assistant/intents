@@ -1,9 +1,9 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import IO, Any, Dict, Iterable, List, Optional, Set, Tuple, Union
+from typing import IO, Any, Dict, Iterable, List, Set, Tuple
 
-from dataclasses_json import config, dataclass_json
+from dataclasses_json import dataclass_json
 from yaml import safe_load
 
 from .expression import Sentence
@@ -70,7 +70,9 @@ class TextSlotList(SlotList):
     def from_strings(strings: Iterable[str]) -> "TextSlotList":
         return TextSlotList(
             values=[
-                TextSlotValue(text_in=parse_sentence(text), value_out=text)
+                TextSlotValue(
+                    text_in=parse_sentence(text, keep_text=True), value_out=text
+                )
                 for text in strings
             ],
         )
@@ -79,7 +81,9 @@ class TextSlotList(SlotList):
     def from_tuples(tuples: Iterable[Tuple[str, Any]]) -> "TextSlotList":
         return TextSlotList(
             values=[
-                TextSlotValue(text_in=parse_sentence(text), value_out=value)
+                TextSlotValue(
+                    text_in=parse_sentence(text, keep_text=True), value_out=value
+                )
                 for text, value in tuples
             ],
         )
@@ -106,7 +110,9 @@ class Intents:
                     name=intent_name,
                     data=[
                         IntentData(
-                            sentences=parse_sentences(data_dict["sentences"]),
+                            sentences=parse_sentences(
+                                data_dict["sentences"], keep_text=True
+                            ),
                             slots=data_dict.get("slots", {}),
                         )
                         for data_dict in intent_dict["data"]
@@ -119,7 +125,7 @@ class Intents:
                 for list_name, list_dict in input_dict.get("lists", {}).items()
             },
             expansion_rules={
-                rule_name: parse_sentences([rule_body])[0]
+                rule_name: parse_sentences([rule_body], keep_text=True)[0]
                 for rule_name, rule_body in input_dict.get(
                     "expansion_rules", {}
                 ).items()
@@ -136,13 +142,16 @@ def _parse_list(list_dict: Dict[str, Any]) -> SlotList:
             if isinstance(value, str):
                 # String value
                 text_values.append(
-                    TextSlotValue(text_in=parse_sentence(value), value_out=value)
+                    TextSlotValue(
+                        text_in=parse_sentence(value, keep_text=True), value_out=value
+                    )
                 )
             else:
                 # Object with "in" and "out"
                 text_values.append(
                     TextSlotValue(
-                        text_in=parse_sentence(value["in"]), value_out=value["out"]
+                        text_in=parse_sentence(value["in"], keep_text=True),
+                        value_out=value["out"],
                     )
                 )
 

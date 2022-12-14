@@ -1,9 +1,7 @@
 import dataclasses
-import itertools
 import re
 from dataclasses import dataclass, field
-from enum import Enum, auto
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, Iterable, List, Optional, Set, Union
 
 from .expression import (
     Expression,

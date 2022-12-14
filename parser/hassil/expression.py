@@ -2,7 +2,7 @@ import re
 from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Iterable, List, Optional
+from typing import List, Optional
 
 # 0..100, -100..100
 NUMBER_RANGE_PATTERN = re.compile(r"^(-?[0-9]+)\.\.(-?[0-9]+),?(?P<step>[0-9]+)?$")
@@ -126,3 +126,5 @@ class NumberRange(Expression):
 @dataclass
 class Sentence(Sequence):
     """Sequence representing a complete sentence template."""
+
+    text: Optional[str] = None
