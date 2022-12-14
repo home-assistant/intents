@@ -51,7 +51,7 @@ skip_words:
   * `[the]`
   * `[this | that]`
 * Slot Lists
-  * `{list_name}`
+  * `{list_name:slot_name}`
   * In YAML, `list_name` should be under `lists`
 * Expansion Rules
   * `<rule_name>`

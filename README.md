@@ -11,12 +11,17 @@ Repository layout:
     * [File format](sentences/README.md#file-format)
 * `tests/<language>`
     * YAML files for `<language>` with test sentences and corresponding intents
-    * [File format](sentences/README.md#file-format)
+    * [File format](tests/README.md#file-format)
+    
+
+## Supported Languages
+
+* `en` - English
 
 
 ## Intents
 
-See [intents.yaml](intents.yaml)
+See [intents.yaml](intents.yaml) for available intent schemas.
 
 
 ## Lists
