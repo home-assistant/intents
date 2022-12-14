@@ -10,11 +10,6 @@ from .expression import Sentence
 from .parse import parse_sentence, parse_sentences
 
 
-class IntentCategory(str, Enum):
-    ACTION = "action"
-    QUERY = "query"
-
-
 class ResponseType(str, Enum):
     SUCCESS = "success"
     NO_INTENT = "no_intent"
@@ -29,15 +24,12 @@ class ResponseType(str, Enum):
 class IntentData:
     sentences: List[Sentence]
     slots: Dict[str, Any] = field(default_factory=dict)
-    # requires_context: List[str] = field(default_factory=list)
-    # response: Optional[str] = None
 
 
 @dataclass_json
 @dataclass
 class Intent:
     name: str
-    category: IntentCategory = IntentCategory.ACTION
     data: List[IntentData] = field(default_factory=list)
 
 
@@ -100,7 +92,6 @@ class Intents:
     slot_lists: Dict[str, SlotList] = field(default_factory=dict)
     expansion_rules: Dict[str, Sentence] = field(default_factory=dict)
     skip_words: Set[str] = field(default_factory=set)
-    # responses: Dict[ResponseType, Union[str, List[str]]] = field(default_factory=dict)
 
     @staticmethod
     def from_yaml(yaml_file: IO[str]) -> "Intents":
@@ -113,7 +104,6 @@ class Intents:
             intents={
                 intent_name: Intent(
                     name=intent_name,
-                    category=IntentCategory(intent_dict["category"]),
                     data=[
                         IntentData(
                             sentences=parse_sentences(data_dict["sentences"]),

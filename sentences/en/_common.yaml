@@ -18,9 +18,31 @@ lists:
       - "blue"
       - "purple"
       - "brown"
+  brightness:
+    type: "percentage"
+    range:
+      from: 0
+      to: 100
+  temperature:
+    type: "temperature"
+    range:
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
 expansion_rules:
-  name: "[the] {name}" # Device or entity, HA will figure it out
+  name: "[the] {name}"
   area: "[the] {area}"
   what_is: "(what | what's | whats | what is)"
+  brightness: "{brightness:brightness_pct} [percent]"
+  turn: "(turn | switch)"
+  temp: "(temp | temperature)"
+  temperature: "{temperature} [degrees] [{temperature_unit}]"
 skip_words:
   - "please"

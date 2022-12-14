@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 import sys
+from pathlib import Path
 
 import yaml
 
@@ -10,28 +11,36 @@ from .intents import TextSlotList
 from .util import merge_dict
 
 _LOGGER = logging.getLogger("hassil")
+_DIR = Path(__file__).parent
+_SENTENCES_DIR = _DIR.parent.parent / "sentences"
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("yaml_file", nargs="+")
-    parser.add_argument("--areas", nargs="+", help="Area names")
-    parser.add_argument("--names", nargs="+", help="Device/entity names")
+    parser.add_argument("-l", "--language", default="en")
+    parser.add_argument(
+        "--areas",
+        nargs="+",
+        help="Area names",
+        default=["kitchen", "bedroom", "living room"],
+    )
+    parser.add_argument("--names", nargs="+", default=[], help="Device/entity names")
     args = parser.parse_args()
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
 
-    slot_lists = {}
-    if args.areas:
-        slot_lists["area"] = TextSlotList.from_strings(args.areas)
+    slot_lists = {
+        "area": TextSlotList.from_strings(args.areas),
+        "name": TextSlotList.from_strings(args.names),
+    }
 
-    if args.names:
-        slot_lists["name"] = TextSlotList.from_strings(args.names)
-
+    lang_dir = _SENTENCES_DIR / args.language
     input_dict = {}
-    for yaml_path in args.yaml_file:
+    for yaml_path in lang_dir.glob("*.yaml"):
+        _LOGGER.debug("Loading file: %s", yaml_path)
         with open(yaml_path, "r", encoding="utf-8") as yaml_file:
             merge_dict(input_dict, yaml.safe_load(yaml_file))
 
+    assert input_dict, "No intent YAML files loaded"
     intents = Intents.from_dict(input_dict)
 
     if os.isatty(sys.stdout.fileno()):
