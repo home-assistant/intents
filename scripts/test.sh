@@ -8,7 +8,7 @@ this_dir="$( cd "$( dirname "$0" )" && pwd )"
 base_dir="$(realpath "${this_dir}/..")"
 
 # Path to virtual environment
-: "${venv:=${base_dir}/.venv}"
+: "${venv:=${base_dir}/venv}"
 
 if [ -d "${venv}" ]; then
     # Activate virtual environment if available
