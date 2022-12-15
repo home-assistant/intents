@@ -9,7 +9,6 @@ from hassil.intents import SlotList, TextSlotList
 from . import LANGUAGES
 
 
-@pytest.mark.parametrize("language", LANGUAGES, scope="session")
 def test_language_sentences(language_intents, language_tests):
     """Tests recognition all of the test sentences for a language"""
     slot_lists: Dict[str, SlotList] = {
