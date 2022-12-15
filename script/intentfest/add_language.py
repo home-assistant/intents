@@ -1,20 +1,21 @@
 """Script to add a new language."""
-
 import argparse
-from pathlib import Path
 
 import yaml
 
-ROOT = Path(__file__).parent.parent
-SENTENCE_DIR = ROOT / "sentences"
-TESTS_DIR = ROOT / "tests"
-INTENTS_FILE = ROOT / "intents.yaml"
+from . import SENTENCE_DIR, TESTS_DIR
+from .util import get_base_arg_parser
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("language", help="The language to add")
-    args = parser.parse_args()
+def get_arguments() -> argparse.Namespace:
+    """Get parsed passed in arguments."""
+    parser = get_base_arg_parser()
+    parser.add_argument("language", type=str, help="The language to add.")
+    return parser.parse_args()
+
+
+def run():
+    args = get_arguments()
 
     language = args.language
 
