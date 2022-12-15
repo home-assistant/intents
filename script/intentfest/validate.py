@@ -57,17 +57,26 @@ def validate_language(intent_schemas, language, errors):
         language_files.add(language_file.name)
 
         if language_file.name == "_common.yaml":
+            info = yaml.safe_load(language_file.read_text())
+            if info["language"] != language:
+                errors[language].append(
+                    f"File {language_file.name} references incorrect language {info['language']}"
+                )
             continue
 
         domain, intent = language_file.stem.split("_")
 
         if intent not in intent_schemas:
             errors[language].append(
-                f"File {language_file.name} references unknown intent {intent}.yaml"
+                f"Filename {language_file.name} references unknown intent {intent}.yaml"
             )
             continue
 
         sentences = yaml.safe_load(language_file.read_text())
+        if sentences["language"] != language:
+            errors[language].append(
+                f"File {language_file.name} references incorrect language {sentences['language']}"
+            )
 
         for intent_name, intent_info in sentences["intents"].items():
             if intent != intent_name:
@@ -95,6 +104,12 @@ def validate_language(intent_schemas, language, errors):
             continue
 
         language_files.discard(test_file.name)
+
+        info = yaml.safe_load(test_file.read_text())
+        if info["language"] != language:
+            errors[language].append(
+                f"Test {test_file.name} references incorrect language {info['language']}"
+            )
 
     if language_files:
         for language_file in language_files:
