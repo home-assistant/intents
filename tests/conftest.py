@@ -2,11 +2,7 @@
 import pytest
 import yaml
 
-from . import (
-    INTENTS_FILE,
-    load_intents,
-    load_tests,
-)
+from . import INTENTS_FILE, load_intents, load_tests
 
 
 @pytest.fixture(scope="session")
