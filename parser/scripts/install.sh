@@ -26,12 +26,7 @@ echo 'Installing Python dependencies'
 pip3 install --upgrade pip
 pip3 install --upgrade wheel setuptools
 
-# Install HassIL parser
-pushd "${base_dir}/parser" 2>/dev/null
-pip3 install -e '.'
-popd 2>/dev/null
-
-pip3 install -r "${base_dir}/requirements.txt"
+pip3 install -r "${base_dir}/requirements.txt" -r "${base_dir}/requirements_dev.txt"
 
 # -----------------------------------------------------------------------------
 
