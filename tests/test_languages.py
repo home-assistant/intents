@@ -16,6 +16,13 @@ _TEST_SENTENCES_DIR = _BASE_DIR / "tests"
 _LANGUAGES = ["en"]
 
 
+@pytest.fixture(scope="session")
+def intent_schemas():
+    """Loads the base intents file"""
+    with open(_BASE_DIR / "intents.yaml", "r", encoding="utf-8") as schema_file:
+        return yaml.safe_load(schema_file)
+
+
 @pytest.mark.parametrize("language", _LANGUAGES)
 def test_language_sentences(language: str):
     """Tests recognition all of the test sentences for a language"""
@@ -45,11 +52,8 @@ def test_language_sentences(language: str):
 
 
 @pytest.mark.parametrize("language", _LANGUAGES)
-def test_language_intents(language: str):
+def test_language_intents(language: str, intent_schemas):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
-    with open(_BASE_DIR / "intents.yaml", "r", encoding="utf-8") as schema_file:
-        intent_schemas = yaml.safe_load(schema_file)
-
     intents = load_intents(language)
 
     # Ensure all intents names are present
