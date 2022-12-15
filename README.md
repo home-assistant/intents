@@ -17,29 +17,8 @@ Repository layout:
 ## Supported Languages
 
 * `en` - English
+* `nl` - Dutch
 
-
-## Testing
-
-Run `script/test` to run tests for all languages.
-
-Tests for individual languages can be run with: 
-
-``` sh
-pytest tests --language en
-```
-
-You can try parsing sentences for a specific language with:
-
-``` sh
-python3 -m script.intentfest --language en --sentence 'turn on the lights in the kitchen'
-```
-
-This will print a line of JSON for each `--sentence`:
-
-```
-{"text": "turn on the lights in the kitchen", "match": true, "intent": "HassTurnOn", "slots": {"area": "kitchen", "domain": "light", "name": "all"}}
-```
 
 ## Intents
 
