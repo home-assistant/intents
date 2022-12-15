@@ -2,11 +2,8 @@
 
 from typing import Dict
 
-import pytest
 from hassil import recognize
 from hassil.intents import SlotList, TextSlotList
-
-from . import LANGUAGES
 
 
 def test_language_sentences(language_intents, language_tests):
