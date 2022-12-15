@@ -1,3 +1,5 @@
+"""Classes/methods for loading YAML intent files."""
+
 from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
@@ -194,12 +196,6 @@ def _parse_list(list_dict: Dict[str, Any]) -> SlotList:
     """Parses a slot list from a dict."""
     if "values" in list_dict:
         # Text values
-        #
-        # values:
-        #   - "<text>"
-        #   - in: "<input text>"
-        #     out: <output_value>
-        #
         text_values: List[TextSlotValue] = []
         for value in list_dict["values"]:
             if isinstance(value, str):
@@ -222,13 +218,6 @@ def _parse_list(list_dict: Dict[str, Any]) -> SlotList:
 
     if "range" in list_dict:
         # Number range
-        #
-        # range:
-        #   type: number
-        #   from: 0
-        #   to : 100
-        #   step: 1
-        #
         range_dict = list_dict["range"]
         return RangeSlotList(
             type=RangeType(range_dict.get("type", "number")),

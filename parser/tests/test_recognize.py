@@ -59,6 +59,7 @@ def slot_lists():
     }
 
 
+# pylint: disable=redefined-outer-name
 def test_turn_on(intents, slot_lists):
     result = recognize("turn on kitchen TV, please", intents, slot_lists=slot_lists)
     assert result is not None
@@ -77,6 +78,7 @@ def test_turn_on(intents, slot_lists):
     assert result.entities["name"].value == "roku"
 
 
+# pylint: disable=redefined-outer-name
 def test_brightness(intents, slot_lists):
     result = recognize(
         "set the brightness in the living room to 75%", intents, slot_lists=slot_lists
@@ -92,6 +94,7 @@ def test_brightness(intents, slot_lists):
     assert result.entities["name"].value == "all"
 
 
+# pylint: disable=redefined-outer-name
 def test_temperature(intents, slot_lists):
     result = recognize(
         "what is the temperature in the living room?", intents, slot_lists=slot_lists

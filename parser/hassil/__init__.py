@@ -1,3 +1,5 @@
+"""Home Assistant Intent Language parser"""
+
 from .expression import (
     ListReference,
     Number,
