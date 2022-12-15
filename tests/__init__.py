@@ -12,7 +12,7 @@ INTENTS_FILE = _BASE_DIR / "intents.yaml"
 USER_SENTENCES_DIR = _BASE_DIR / "sentences"
 TEST_SENTENCES_DIR = _BASE_DIR / "tests"
 
-LANGUAGES = ["en"]
+LANGUAGES = [p.name for p in USER_SENTENCES_DIR.iterdir() if p.is_dir()]
 
 
 def load_intents(language: str):
