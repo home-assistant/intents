@@ -18,6 +18,29 @@ Repository layout:
 
 * `en` - English
 
+
+## Testing
+
+Run `script/test` to run tests for all languages.
+
+Tests for individual languages can be run with: 
+
+``` sh
+pytest tests --language en
+```
+
+You can try parsing sentences for a specific language with:
+
+``` sh
+python3 -m script.intentfest --language en --sentence 'turn on the lights in the kitchen'
+```
+
+This will print a line of JSON for each `--sentence`:
+
+```
+{"text": "turn on the lights in the kitchen", "match": true, "intent": "HassTurnOn", "slots": {"area": "kitchen", "domain": "light", "name": "all"}}
+```
+
 ## Intents
 
 See [intents.yaml](intents.yaml) for available intent schemas.
@@ -47,6 +70,20 @@ pytest tests --language nl
 
 Leave `--language` off to run all tests.
 
+## Testing sentences
+
+You can try parsing sentences for a specific language with:
+
+``` sh
+python3 -m script.intentfest --language en --sentence 'turn on the lights in the kitchen'
+```
+
+This will print a line of JSON for each `--sentence`:
+
+```
+{"text": "turn on the lights in the kitchen", "match": true, "intent": "HassTurnOn", "slots": {"area": "kitchen", "domain": "light", "name": "all"}}
+```
+
 ## Add new language
 
 ```
@@ -54,4 +91,3 @@ python3 -m script.lintfest add_language <language>
 ```
 
 Before you start on a new language, confirm that no one else is already working on one.
-
