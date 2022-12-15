@@ -29,6 +29,6 @@ See [intents.yaml](intents.yaml) for available intent schemas.
 Home Assistant will automatically generate the following lists during recognition:
 
 * `{name}`
-    * List of entity friendly names
+    * List of device or entity names
 * `{area}`
     * List of area names

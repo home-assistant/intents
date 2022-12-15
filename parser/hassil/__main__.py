@@ -11,13 +11,12 @@ from .intents import TextSlotList
 from .util import merge_dict
 
 _LOGGER = logging.getLogger("hassil")
-_DIR = Path(__file__).parent
-_SENTENCES_DIR = _DIR.parent.parent / "sentences"
 
 
 def main():
+    """Main entry point"""
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", "--language", default="en")
+    parser.add_argument("yaml", nargs="+", help="YAML files or directories")
     parser.add_argument(
         "--areas",
         nargs="+",
@@ -25,23 +24,38 @@ def main():
         default=["kitchen", "bedroom", "living room"],
     )
     parser.add_argument("--names", nargs="+", default=[], help="Device/entity names")
+    parser.add_argument(
+        "--debug", action="store_true", help="Print DEBUG messages to the console"
+    )
     args = parser.parse_args()
-    logging.basicConfig(level=logging.DEBUG)
+
+    level = logging.DEBUG if args.debug else logging.INFO
+    logging.basicConfig(level=level)
+    _LOGGER.debug(args)
 
     slot_lists = {
         "area": TextSlotList.from_strings(args.areas),
         "name": TextSlotList.from_strings(args.names),
     }
 
-    lang_dir = _SENTENCES_DIR / args.language
     input_dict = {}
-    for yaml_path in lang_dir.glob("*.yaml"):
-        _LOGGER.debug("Loading file: %s", yaml_path)
-        with open(yaml_path, "r", encoding="utf-8") as yaml_file:
-            merge_dict(input_dict, yaml.safe_load(yaml_file))
+    for yaml_path_str in args.yaml:
+        yaml_path = Path(yaml_path_str)
+        if yaml_path.is_dir():
+            yaml_file_paths = yaml_path.glob("*.yaml")
+        else:
+            yaml_file_paths = [yaml_path]
+
+        for yaml_file_path in yaml_file_paths:
+            _LOGGER.debug("Loading file: %s", yaml_file_path)
+            with open(yaml_file_path, "r", encoding="utf-8") as yaml_file:
+                merge_dict(input_dict, yaml.safe_load(yaml_file))
 
     assert input_dict, "No intent YAML files loaded"
     intents = Intents.from_dict(input_dict)
+
+    _LOGGER.info("Area names: %s", args.areas)
+    _LOGGER.info("Device/Entity names: %s", args.names)
 
     if os.isatty(sys.stdout.fileno()):
         print("Reading sentences from stdin...", file=sys.stderr)

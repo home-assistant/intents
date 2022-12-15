@@ -30,7 +30,7 @@ Install dependencies:
 # Running
 
 ``` sh
-python3 -m hassil --language en
+python3 -m hassil <yaml_file_or_directory> [<yaml_file_or_directory> ...]
 ```
 
 Once loaded, you may type in a sentence and see what intent it matches.
@@ -44,7 +44,7 @@ what is the temperature in the living room
 By default, the areas "kitchen", "bedroom", and "living room" are available. You can override this with `--areas`. Device or entity names can be provided with `--names`.
 
 ``` sh
-python3 -m hassil --language en --areas office --names trapdoor
+python3 -m hassil sentences/en --areas office --names trapdoor
 open the trapdoor in the office
 {'intent': 'HassOpenCover', 'name': 'trapdoor', 'area': 'office'}
 ```
