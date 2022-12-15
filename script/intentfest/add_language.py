@@ -14,7 +14,7 @@ def get_arguments() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def run():
+def run() -> int:
     args = get_arguments()
 
     language = args.language
@@ -146,3 +146,5 @@ def run():
             sort_keys=False,
         )
     )
+
+    return 0

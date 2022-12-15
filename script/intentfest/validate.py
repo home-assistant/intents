@@ -17,7 +17,7 @@ def get_arguments() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def run():
+def run() -> int:
     args = get_arguments()
 
     if args.language is None:
@@ -42,9 +42,10 @@ def run():
             print(f"Language: {language}")
             for error in language_errors:
                 print(f" - {error}")
-        exit(1)
+        return 1
 
     print("All good!")
+    return 0
 
 
 def validate_language(intent_schemas, language, errors):
