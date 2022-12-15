@@ -16,4 +16,8 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
 
 def require_sentence_domain_slot(intent, domain):
     """Return if sentence definition requires a domain slot for intent."""
-    return domain != "hass" and intent in ("HassTurnOn", "HassTurnOff", "HassToggle")
+    return domain != "homeassistant" and intent in (
+        "HassTurnOn",
+        "HassTurnOff",
+        "HassToggle",
+    )
