@@ -22,6 +22,8 @@ class ResponseType(str, Enum):
 
 @dataclass
 class IntentData:
+    """Block of sentences and known slots for an intent."""
+
     sentences: List[Sentence]
     slots: Dict[str, Any] = field(default_factory=dict)
 
@@ -29,15 +31,19 @@ class IntentData:
 @dataclass_json
 @dataclass
 class Intent:
+    """A named intent with sentences + slots."""
+
     name: str
     data: List[IntentData] = field(default_factory=list)
 
 
 class SlotList(ABC):
-    pass
+    """Base class for slot lists."""
 
 
 class RangeType(str, Enum):
+    """Number range type."""
+
     NUMBER = "number"
     PERCENTAGE = "percentage"
     TEMPERATURE = "temperature"
@@ -45,12 +51,15 @@ class RangeType(str, Enum):
 
 @dataclass
 class RangeSlotList(SlotList):
+    """Slot list for a range of numbers."""
+
     start: int
     stop: int
     step: int = 1
     type: RangeType = RangeType.NUMBER
 
     def __post_init__(self):
+        """Validate number range"""
         assert self.start < self.stop, "start must be less than stop"
         assert self.step > 0, "step must be positive"
 
@@ -58,16 +67,28 @@ class RangeSlotList(SlotList):
 @dataclass_json
 @dataclass
 class TextSlotValue:
+    """Single value in a text slot list."""
+
     text_in: Sentence
+    """Input text for this value"""
+
     value_out: Any
+    """Output value put into slot"""
 
 
 @dataclass
 class TextSlotList(SlotList):
+    """Slot list with pre-defined text values."""
+
     values: List[TextSlotValue]
 
     @staticmethod
     def from_strings(strings: Iterable[str]) -> "TextSlotList":
+        """
+        Construct a text slot list from strings.
+
+        Input and output values are the same text.
+        """
         return TextSlotList(
             values=[
                 TextSlotValue(
@@ -79,6 +100,11 @@ class TextSlotList(SlotList):
 
     @staticmethod
     def from_tuples(tuples: Iterable[Tuple[str, Any]]) -> "TextSlotList":
+        """
+        Construct a text slot list from text/value pairs.
+
+        Input values are the left (text), output values are the right (any).
+        """
         return TextSlotList(
             values=[
                 TextSlotValue(
@@ -91,18 +117,48 @@ class TextSlotList(SlotList):
 
 @dataclass
 class Intents:
+    """Collection of intents, rules, and lists for a language."""
+
     language: str
+    """Language code (e.g., en)."""
+
     intents: Dict[str, Intent]
+    """Intents mapped by name."""
+
     slot_lists: Dict[str, SlotList] = field(default_factory=dict)
+    """Slot lists mapped by name."""
+
     expansion_rules: Dict[str, Sentence] = field(default_factory=dict)
+    """Expansion rules mapped by name."""
+
     skip_words: Set[str] = field(default_factory=set)
+    """Words that can be skipped during recognition."""
 
     @staticmethod
     def from_yaml(yaml_file: IO[str]) -> "Intents":
+        """Load intents from a YAML file."""
         return Intents.from_dict(safe_load(yaml_file))
 
     @staticmethod
     def from_dict(input_dict: Dict[str, Any]) -> "Intents":
+        """Parse intents from a dict."""
+        # language: "<code>"
+        # intents:
+        #   IntentName:
+        #     data:
+        #       - sentences:
+        #           - "<sentence>"
+        #         slots:
+        #           <slot_name>: <slot value>
+        #           <slot_name>:
+        #             - <slot value>
+        # expansion_rules:
+        #   <rule_name>: "<rule body>"
+        # lists:
+        #   <list_name>:
+        #     values:
+        #       - "<value>"
+        #
         return Intents(
             language=input_dict["language"],
             intents={
@@ -135,8 +191,15 @@ class Intents:
 
 
 def _parse_list(list_dict: Dict[str, Any]) -> SlotList:
+    """Parses a slot list from a dict."""
     if "values" in list_dict:
-        # Text
+        # Text values
+        #
+        # values:
+        #   - "<text>"
+        #   - in: "<input text>"
+        #     out: <output_value>
+        #
         text_values: List[TextSlotValue] = []
         for value in list_dict["values"]:
             if isinstance(value, str):
@@ -158,7 +221,14 @@ def _parse_list(list_dict: Dict[str, Any]) -> SlotList:
         return TextSlotList(text_values)
 
     if "range" in list_dict:
-        # Range
+        # Number range
+        #
+        # range:
+        #   type: number
+        #   from: 0
+        #   to : 100
+        #   step: 1
+        #
         range_dict = list_dict["range"]
         return RangeSlotList(
             type=RangeType(range_dict.get("type", "number")),

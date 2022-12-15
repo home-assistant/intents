@@ -10,12 +10,12 @@ NUMBER_PATTERN = re.compile(r"^(-?[0-9]+)$")
 
 
 def remove_escapes(text: str) -> str:
-    """Remove backslash escape sequences"""
+    """Remove backslash escape sequences."""
     return re.sub(r"\\(.)", r"\1", text)
 
 
 def remove_quotes(text: str) -> str:
-    """Remove double quotes"""
+    """Remove double quotes."""
     if (len(text) > 1) and (text[0] == '"') and (text[-1] == '"'):
         text = text[1:-1]
 
@@ -90,7 +90,7 @@ class ListReference(Expression):
 
     @property
     def slot_name(self) -> str:
-        """Name of slot to put list value into"""
+        """Name of slot to put list value into."""
         assert self._slot_name is not None
         return self._slot_name
 
