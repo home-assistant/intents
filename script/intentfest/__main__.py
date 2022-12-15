@@ -1,8 +1,8 @@
 """Validate manifests."""
 import argparse
 import importlib
-from pathlib import Path
 import sys
+from pathlib import Path
 
 from . import error, util
 
