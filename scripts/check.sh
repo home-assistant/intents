@@ -18,8 +18,8 @@ python_files=()
 python_files+=("${base_dir}/tests"/*.py)
 
 # Format code
-black "${python_files[@]}"
-isort "${python_files[@]}"
+black "${python_files[@]}" --check
+isort "${python_files[@]}" --check
 
 # Check
 flake8 "${python_files[@]}"
