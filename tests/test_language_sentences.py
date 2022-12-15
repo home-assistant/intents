@@ -26,5 +26,7 @@ def test_language_sentences(language_intents, language_tests):
                 result.intent.name == intent["name"]
             ), f"Expected intent {intent['name']}, got {result.intent.name}"
             for slot_name, slot_dict in intent.get("slots", {}).items():
-                assert slot_name in result.entities
+                assert (
+                    slot_name in result.entities
+                ), f"Did not receive slot '{slot_name}'"
                 assert result.entities[slot_name].value == slot_dict["value"]
