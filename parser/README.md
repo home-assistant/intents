@@ -52,6 +52,8 @@ open the trapdoor in the office
 
 ## Sentence Templates
 
+Parsed using a custom [ANTLR](https://www.antlr.org) grammar (see [`HassILGrammar.g4`](HassILGrammar.g4)).
+
 * Alternative words or phrases
   * `(red | green | blue)`
 * Optional words or phrases

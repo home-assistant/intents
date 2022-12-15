@@ -1,5 +1,4 @@
 """Classes for representing sentence templates."""
-
 import re
 from abc import ABC
 from dataclasses import dataclass, field

@@ -1,3 +1,5 @@
+"""Methods for recognizing intents from text."""
+
 import dataclasses
 import re
 from dataclasses import dataclass, field
@@ -25,38 +27,65 @@ NON_WORD = re.compile(r"^\W+$")
 
 
 class MissingListError(Exception):
-    pass
+    """Error when a {slot_list} is missing."""
 
 
 class MissingRuleError(Exception):
-    pass
+    """Error when an <expansion_rule> is missing."""
 
 
 @dataclass
 class MatchEntity:
+    """Named entity that has been matched from a {slot_list}"""
+
     name: str
+    """Name of the entity."""
+
     value: Any
+    """Value of the entity."""
+
     words: Optional[List[str]] = None
+    """Processed words that make up the entity from input text."""
+
     words_raw: Optional[List[str]] = None
+    """Original words that make up the entity from input text."""
+
     word_start_index: Optional[int] = None
+    """Starting index of the entity in input text."""
+
     word_stop_index: Optional[int] = None
+    """Ending index (inclusive) of the entity in input text."""
 
 
 @dataclass
 class MatchContext:
+    """Context passed to match_expression."""
+
     words: List[str] = field(default_factory=list)
+    """Input words remaining to be processed."""
+
     word_index: int = 0
+    """Index of word currently being processed."""
+
     slot_lists: Dict[str, SlotList] = field(default_factory=dict)
+    """Available slot lists mapped by name."""
+
     expansion_rules: Dict[str, Sentence] = field(default_factory=dict)
+    """Available expansion rules mapped by name."""
+
     skip_words: Set[str] = field(default_factory=set)
+    """Words that can be skipped during recognition."""
+
     entities: List[MatchEntity] = field(default_factory=list)
+    """Entities that have been found in input text."""
 
     @property
     def is_match(self) -> bool:
-        """True no words are left"""
+        """True if no words are left"""
         return not self.words
 
     def next_word(self, **kwargs) -> "MatchContext":
+        """Return copy of context with one less input word."""
         return dataclasses.replace(
             self,
             words=self.words[1:],
@@ -67,9 +96,16 @@ class MatchContext:
 
 @dataclass
 class RecognizeResult:
+    """Result of recognition."""
+
     intent: Intent
+    """Matched intent"""
+
     entities: Dict[str, MatchEntity] = field(default_factory=dict)
+    """Matched entities mapped by name."""
+
     entities_list: List[MatchEntity] = field(default_factory=list)
+    """Matched entities as a list (duplicates allowed)."""
 
 
 def recognize(
@@ -79,6 +115,7 @@ def recognize(
     expansion_rules: Optional[Dict[str, Sentence]] = None,
     skip_words: Optional[Set[str]] = None,
 ) -> Optional[RecognizeResult]:
+    """Return the first match of input text/words against a collection of intents."""
     if isinstance(text_or_words, str):
         # TODO: tokenize for language
         words = _tokenize_sentence(_preprocess_sentence(text_or_words))
@@ -109,9 +146,12 @@ def recognize(
     # Preprocess skip words
     skip_words = {_preprocess_word(word) for word in skip_words}
 
+    # Check sentence against each intent.
+    # This should eventually be done in parallel.
     for intent in intents.intents.values():
         for intent_data in intent.data:
             for intent_sentence in intent_data.sentences:
+                # Create initial context
                 context = MatchContext(
                     words=words,
                     slot_lists=slot_lists,
@@ -127,6 +167,7 @@ def recognize(
                                 MatchEntity(name=slot_name, value=slot_value)
                             )
 
+                        # Return the first match
                         return RecognizeResult(
                             intent,
                             {
@@ -147,6 +188,7 @@ def is_match(
     skip_words: Optional[Set[str]] = None,
     entities: Optional[Dict[str, Any]] = None,
 ) -> Optional[MatchContext]:
+    """Return the first match of input text/words against a sentence expression."""
     if isinstance(text_or_words, str):
         # TODO: tokenize for language
         words = _tokenize_sentence(_preprocess_sentence(text_or_words))
@@ -273,6 +315,8 @@ def match_expression(
                         yield value_context
 
         elif isinstance(slot_list, RangeSlotList):
+            # List that represents a number range.
+            # Numbers must currently be digits ("1" not "one").
             range_list: RangeSlotList = slot_list
             if context.words:
                 number_match = False
@@ -346,10 +390,12 @@ def _tokenize_sentence(text: str) -> List[str]:
 
 
 def _preprocess_sentence(text: str) -> str:
+    """Pre-process an entire sentence."""
     return text.strip()
 
 
 def _preprocess_word(text: str) -> str:
+    """Pre-process a single word."""
     text = text.strip().casefold()
     text = PUNCTUATION_END.sub("", text)
     return text
@@ -373,4 +419,5 @@ def _extract_number(text: str) -> Optional[int]:
 
 
 def _is_word(text: str) -> bool:
+    """True if text is considered a word."""
     return bool(text) and (not NON_WORD.match(text))
