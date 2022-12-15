@@ -27,7 +27,7 @@ def run() -> int:
         tests_dir.mkdir()
     except FileExistsError:
         print(f"Language '{language}' already exists")
-        return
+        return 1
 
     # Create sentence files based off English
     english_sentences = SENTENCE_DIR / "en"
@@ -38,7 +38,7 @@ def run() -> int:
 
         domain, intent = english_filename.stem.split("_")
 
-        sentence_info = {
+        sentence_info: dict = {
             "sentences": [],
         }
         if require_sentence_domain_slot(intent, domain):

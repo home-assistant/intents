@@ -1,4 +1,5 @@
 """Validate all intent files."""
+from __future__ import annotations
 
 import argparse
 
@@ -27,7 +28,7 @@ def run() -> int:
 
     intent_schemas = yaml.safe_load(INTENTS_FILE.read_text())
 
-    errors = {}
+    errors: dict[str, list[str]] = {}
 
     for language in languages:
         errors[language] = []
