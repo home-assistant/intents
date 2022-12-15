@@ -3,14 +3,13 @@ from typing import Any, Dict, Iterable, Set
 
 import pytest
 import yaml
-
 from hassil import Intents, recognize
 from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import SlotList, TextSlotList
 from hassil.util import merge_dict
 
 _DIR = Path(__file__).parent
-_BASE_DIR = _DIR.parent.parent
+_BASE_DIR = _DIR.parent
 _USER_SENTENCES_DIR = _BASE_DIR / "sentences"
 _TEST_SENTENCES_DIR = _BASE_DIR / "tests"
 

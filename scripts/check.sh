@@ -15,7 +15,6 @@ if [ -d "${venv}" ]; then
 fi
 
 python_files=()
-python_files+=("${base_dir}/hassil")
 python_files+=("${base_dir}/tests"/*.py)
 
 # Format code
