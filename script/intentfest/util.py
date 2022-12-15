@@ -8,7 +8,12 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "action",
         type=str,
-        choices=["add_language"],
+        choices=["add_language", "validate"],
     )
     parser.add_argument("--debug", action="store_true", help="Enable log output")
     return parser
+
+
+def require_sentence_domain_slot(intent, domain):
+    """Return if sentence definition requires a domain slot for intent."""
+    return domain != "hass" and intent in ("HassTurnOn", "HassTurnOff", "HassToggle")

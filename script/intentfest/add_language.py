@@ -3,8 +3,8 @@ import argparse
 
 import yaml
 
-from . import SENTENCE_DIR, TESTS_DIR
-from .util import get_base_arg_parser
+from .const import SENTENCE_DIR, TESTS_DIR
+from .util import get_base_arg_parser, require_sentence_domain_slot
 
 
 def get_arguments() -> argparse.Namespace:
@@ -36,7 +36,16 @@ def run():
         if english_filename.name == "_common.yaml":
             continue
 
-        _domain, intent = english_filename.stem.split("_")
+        domain, intent = english_filename.stem.split("_")
+
+        sentence_info = {
+            "sentences": [],
+        }
+        if require_sentence_domain_slot(intent, domain):
+            sentence_info["slots"] = {
+                "domain": domain,
+                "name": "all",
+            }
 
         (language_dir / english_filename.name).write_text(
             yaml.dump(
@@ -45,9 +54,7 @@ def run():
                     "intents": {
                         intent: {
                             "data": [
-                                {
-                                    "sentences": [],
-                                },
+                                sentence_info,
                             ],
                         },
                     },
