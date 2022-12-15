@@ -2,7 +2,23 @@
 import pytest
 import yaml
 
-from . import INTENTS_FILE, load_intents, load_tests
+from . import INTENTS_FILE, LANGUAGES, load_intents, load_tests
+
+
+def pytest_addoption(parser):
+    parser.addoption("--language", action="store", default=None)
+
+
+def pytest_generate_tests(metafunc):
+    # This is called for every test. Only get/set command line arguments
+    # if the argument is specified in the list of test "fixturenames".
+    option_value = metafunc.config.option.language
+    if option_value is None:
+        option_value = LANGUAGES
+    else:
+        option_value = option_value.split(",")
+    if "language" in metafunc.fixturenames:
+        metafunc.parametrize("language", option_value, scope="session")
 
 
 @pytest.fixture(scope="session")

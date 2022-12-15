@@ -28,7 +28,7 @@ def load_intents(language: str):
             ), f"Expected language '{language}', got '{yaml_dict['language']}'"
             merge_dict(input_dict, yaml_dict)
 
-    assert input_dict, "No intent YAML files laoded"
+    assert input_dict, f"No intent YAML files loaded for {language}"
     return Intents.from_dict(input_dict)
 
 

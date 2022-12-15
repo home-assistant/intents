@@ -1,15 +1,11 @@
 """Test language intents."""
 from typing import Any, Dict, Iterable, Set
 
-import pytest
 from hassil import Intents
 from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import TextSlotList
 
-from . import LANGUAGES
 
-
-@pytest.mark.parametrize("language", LANGUAGES, scope="session")
 def test_language_intents(language_intents, intent_schemas):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
     # Ensure all intents names are present
