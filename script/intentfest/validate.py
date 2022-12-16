@@ -2,16 +2,15 @@
 from __future__ import annotations
 
 import argparse
-from typing import Any
 import re
+from typing import Any
 
 import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
-from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR, TESTS_DIR, ROOT
+from .const import INTENTS_FILE, LANGUAGES, ROOT, SENTENCE_DIR, TESTS_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
-
 
 # Slots can be {name} or {name:new_name}
 PATTERN_SLOTS = re.compile(r"\{(?P<name>[a-z_]+)(?:|:\w+)\}")
