@@ -69,7 +69,7 @@ SENTENCE_SCHEMA = vol.Schema(
         vol.Required("language"): str,
         vol.Optional("intents"): {
             str: {
-                "data": [
+                vol.Required("data"): [
                     {
                         vol.Required("sentences"): [str],
                         vol.Optional("slots"): {str: match_anything},
@@ -98,7 +98,7 @@ SENTENCE_SCHEMA = vol.Schema(
         vol.Optional("expansion_rules"): {str: str},
         vol.Optional("skip_words"): [str],
         vol.Optional("responses"): {
-            "errors": {
+            vol.Optional("errors"): {
                 vol.In(INTENT_ERRORS): str,
             }
         },
@@ -125,13 +125,13 @@ TESTS_SCHEMA = vol.Schema(
 TESTS_COMMON = vol.Schema(
     {
         vol.Required("language"): str,
-        "areas": [
+        vol.Optional("areas"): [
             {
                 vol.Required("name"): str,
                 vol.Required("id"): str,
             }
         ],
-        "entities": [
+        vol.Optional("entities"): [
             {
                 vol.Required("name"): str,
                 vol.Required("id"): str,
