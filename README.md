@@ -19,8 +19,9 @@ Repository layout:
 
 ## Supported Languages
 
-* `en` - English
 * `nl` - Dutch
+* `en` - English
+* `fr` - French
 
 
 ## Intents
