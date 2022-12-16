@@ -54,7 +54,7 @@ Leave `--language` off to run all tests.
 You can try parsing sentences for a specific language with:
 
 ``` sh
-python3 -m script.intentfest --language en --sentence 'turn on the lights in the kitchen'
+python3 -m script.intentfest parse --language en --sentence 'turn on the lights in the kitchen'
 ```
 
 This will print a line of JSON for each `--sentence`:
