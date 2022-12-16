@@ -42,8 +42,7 @@ def run() -> int:
     tests_dir = TESTS_DIR / args.language
 
     # Load test areas and entities for language
-    with open(tests_dir / "_common.yaml", "r", encoding="utf-8") as common_file:
-        test_names = yaml.safe_load(common_file)
+    test_names = yaml.safe_load((tests_dir / "_common.yaml").read_text())
 
     slot_lists: Dict[str, SlotList] = {
         "area": TextSlotList.from_tuples(

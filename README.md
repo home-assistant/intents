@@ -60,7 +60,15 @@ python3 -m script.intentfest parse --language en --sentence 'turn on the lights 
 This will print a line of JSON for each `--sentence`:
 
 ```
-{"text": "turn on the lights in the kitchen", "match": true, "intent": "HassTurnOn", "slots": {"area": "kitchen", "domain": "light", "name": "all"}}
+{
+  "text": "turn on the lights in the kitchen",
+  "match": true,
+  "intent": "HassTurnOn",
+  "slots": {
+    "area": "kitchen",
+    "domain": "light"
+  }
+}
 ```
 
 ## Add new language
