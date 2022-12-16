@@ -4,9 +4,86 @@ from __future__ import annotations
 import argparse
 
 import yaml
+import voluptuous as vol
+from voluptuous.humanize import validate_with_humanized_errors
 
 from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR, TESTS_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
+
+INTENTS_SCHEMA = vol.Schema(
+    {
+        str: {
+            vol.Required("description"): str,
+            vol.Optional("slots"): {
+                str: {
+                    vol.Required("description"): str,
+                    vol.Optional("required"): bool,
+                }
+            },
+            vol.Optional("slot_combinations"): {str: [str]},
+        }
+    }
+)
+
+SENTENCE_SCHEMA = vol.Schema(
+    {
+        vol.Required("language"): str,
+        vol.Required("intents"): vol.Schema(
+            {
+                str: vol.Schema(
+                    {
+                        "data": [
+                            vol.Schema(
+                                {
+                                    vol.Required("sentences"): [str],
+                                    vol.Optional("slots"): vol.Schema(
+                                        {str: (lambda val: val)}
+                                    ),
+                                }
+                            )
+                        ]
+                    }
+                )
+            }
+        ),
+        vol.Optional("lists"): vol.Schema(
+            {
+                str: vol.Any(
+                    vol.Schema({"values": [str]}),
+                    vol.Schema(
+                        {
+                            "range": vol.Schema(
+                                {
+                                    vol.Required("from"): int,
+                                    vol.Required("to"): int,
+                                }
+                            )
+                        }
+                    ),
+                )
+            }
+        ),
+        vol.Optional("expansion_rules"): vol.Schema({str: str}),
+        vol.Optional("skip_words"): [str],
+    }
+)
+
+TESTS_SCHEMA = vol.Schema(
+    {
+        vol.Required("language"): str,
+        vol.Required("tests"): [
+            {
+                vol.Required("sentences"): [str],
+                vol.Required("intent"): {
+                    vol.Required("name"): str,
+                    vol.Optional("slots"): {
+                        str: {vol.Required("value"): (lambda val: val)}
+                    },
+                },
+            }
+        ],
+    }
+)
 
 
 def get_arguments() -> argparse.Namespace:
@@ -28,6 +105,12 @@ def run() -> int:
 
     intent_schemas = yaml.safe_load(INTENTS_FILE.read_text())
 
+    try:
+        validate_with_humanized_errors(intent_schemas, INTENTS_SCHEMA)
+    except vol.Error as err:
+        print(f"File intents.yaml has invalid format: {err}")
+        return 1
+
     errors: dict[str, list[str]] = {}
 
     for language in languages:
@@ -38,11 +121,14 @@ def run() -> int:
             errors.pop(language)
 
     if errors:
-        print("Validation failed:")
+        print("Validation failed")
+        print()
+
         for language, language_errors in errors.items():
             print(f"Language: {language}")
             for error in language_errors:
                 print(f" - {error}")
+            print()
         return 1
 
     print("All good!")
@@ -75,6 +161,15 @@ def validate_language(intent_schemas, language, errors):
             continue
 
         sentences = yaml.safe_load(language_file.read_text())
+
+        try:
+            validate_with_humanized_errors(sentences, SENTENCE_SCHEMA)
+        except vol.Error as err:
+            errors[language].append(
+                f"File {language_file.name} has invalid format: {err}"
+            )
+            continue
+
         if sentences["language"] != language:
             errors[language].append(
                 f"File {language_file.name} references incorrect language {sentences['language']}"
@@ -107,19 +202,25 @@ def validate_language(intent_schemas, language, errors):
 
         language_files.discard(test_file.name)
 
-        info = yaml.safe_load(test_file.read_text())
+        tests = yaml.safe_load(test_file.read_text())
 
-        if info["language"] != language:
+        if tests["language"] != language:
             errors[language].append(
-                f"Test {test_file.name} references incorrect language {info['language']}"
+                f"Test {test_file.name} references incorrect language {tests['language']}"
             )
 
         if test_file.name == "_common.yaml":
             continue
 
+        try:
+            validate_with_humanized_errors(tests, TESTS_SCHEMA)
+        except vol.Error as err:
+            errors[language].append(f"File {test_file.name} has invalid format: {err}")
+            continue
+
         domain, intent = test_file.stem.split("_")
 
-        tested_intents = set(i["intent"]["name"] for i in info["tests"])
+        tested_intents = set(i["intent"]["name"] for i in tests["tests"])
 
         if intent not in tested_intents:
             errors[language].append(
