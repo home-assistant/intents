@@ -235,7 +235,7 @@ def validate_language(intent_schemas, language, errors):
     expansion_rules = {}
 
     for sentence_file in sentence_dir.iterdir():
-        path = str(sentence_dir / sentence_file)[len(str(ROOT)) + 1 :]
+        path = str(sentence_dir / sentence_file.name)
         content = yaml.safe_load(sentence_file.read_text())
         sentence_files[sentence_file.name] = content
 
@@ -319,7 +319,7 @@ def validate_language(intent_schemas, language, errors):
                     )
 
     for test_file in test_dir.iterdir():
-        path = str(test_dir.relative_to(ROOT) / test_file)[len(str(ROOT)) + 1 :]
+        path = str(test_dir.relative_to(ROOT) / test_file.name)
 
         if test_file.name not in sentence_files:
             errors[language].append(f"{path}: has no matching sentence file")
@@ -367,7 +367,7 @@ def validate_language(intent_schemas, language, errors):
             errors[language].append(f"{sentence_file} has no tests")
 
     for response_file in response_dir.iterdir():
-        path = str(response_dir / response_file)[len(str(ROOT)) + 1 :]
+        path = str(response_dir / response_file.name)
         content = yaml.safe_load(response_file.read_text())
 
         try:
