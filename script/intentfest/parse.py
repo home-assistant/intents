@@ -73,7 +73,7 @@ def run() -> int:
                 entity.name: entity.value for entity in result.entities_list
             }
 
-        json.dump(output_dict, sys.stdout, ensure_ascii=False)
+        json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)
         print("")
 
     return 0
