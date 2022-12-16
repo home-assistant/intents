@@ -8,12 +8,6 @@ from hassil.intents import TextSlotList
 
 def test_language_intents(language_intents, intent_schemas):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
-    # Ensure all intents names are present
-    from pprint import pprint
-
-    pprint(language_intents)
-    assert sorted(language_intents.intents) == sorted(intent_schemas)
-
     # Add placeholder slots that HA will generate
     language_intents.slot_lists["area"] = TextSlotList(values=[])
     language_intents.slot_lists["name"] = TextSlotList(values=[])
