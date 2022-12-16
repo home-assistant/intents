@@ -368,6 +368,14 @@ def validate_language(intent_schemas, language, errors):
 
     for response_file in response_dir.iterdir():
         path = str(response_dir / response_file.name)
+        intent = response_file.stem
+
+        if intent not in intent_schemas:
+            errors[language].append(
+                f"{path}: Filename references unknown intent {response_file.stem}"
+            )
+            continue
+
         content = yaml.safe_load(response_file.read_text())
 
         try:
@@ -380,8 +388,6 @@ def validate_language(intent_schemas, language, errors):
             errors[language].append(
                 f"{path}: references incorrect language {content['language']}"
             )
-
-        domain, intent = response_file.stem.split("_")
 
         for intent_name, intent_info in content["responses"]["intents"].items():
             if intent != intent_name:
