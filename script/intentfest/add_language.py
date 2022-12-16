@@ -172,21 +172,28 @@ def run() -> int:
         )
 
     rel_sentence_dir = sentence_dir.relative_to(ROOT)
+    rel_test_dir = tests_dir.relative_to(ROOT)
 
+    print()
     print(f"Language '{language}' added!")
     print()
     print("See the README.md files in the sentences, responses and tests dir ")
     print("for the formats. Use the English files as examples.")
     print()
+    print()
     print("New folders added:")
+    print()
     print(f"{rel_sentence_dir} - Sentences")
     print(f"{response_dir.relative_to(ROOT)} - Responses")
-    print(f"{tests_dir.relative_to(ROOT)} - Tests")
+    print(f"{rel_test_dir} - Tests")
+    print()
     print()
     print("Limit your first contribution to:")
+    print()
     print(
         f"{rel_sentence_dir / '_common.yaml'} - Update error strings and add skip words"
     )
+    print()
     print(
         f"{rel_sentence_dir / 'homeassistant_HassTurnOn.yaml'} - Add some basic sentences"
     )
@@ -196,5 +203,9 @@ def run() -> int:
     print(
         f"{rel_sentence_dir / 'homeassistant_HassToggle.yaml'} - Add some basic sentences"
     )
+    print()
+    print(f"{rel_test_dir / 'homeassistant_HassTurnOn.yaml'} - Add test sentences")
+    print(f"{rel_test_dir / 'homeassistant_HassTurnOff.yaml'} - Add test sentences")
+    print(f"{rel_test_dir / 'homeassistant_HassToggle.yaml'} - Add test sentences")
 
     return 0
