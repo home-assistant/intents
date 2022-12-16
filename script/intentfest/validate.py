@@ -3,13 +3,17 @@ from __future__ import annotations
 
 import argparse
 from typing import Any
+import re
 
 import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
-from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR, TESTS_DIR
+from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR, TESTS_DIR, ROOT
 from .util import get_base_arg_parser, require_sentence_domain_slot
+
+
+PATTERN_SLOTS = re.compile(r"\{(?P<name>[a-z_]+)\}")
 
 
 def match_anything(value):
@@ -200,48 +204,55 @@ def validate_language(intent_schemas, language, errors):
 
     for language_file in language_dir.iterdir():
         language_files.add(language_file.name)
+        path = str(language_dir / language_file)[len(str(ROOT)) + 1 :]
 
         content = yaml.safe_load(language_file.read_text())
 
         try:
             validate_with_humanized_errors(content, SENTENCE_SCHEMA)
         except vol.Error as err:
-            errors[language].append(
-                f"File {language_file.name} has invalid format: {err}"
-            )
+            errors[language].append(f"{path}: invalid format: {err}")
             continue
 
         if content["language"] != language:
             errors[language].append(
-                f"File {language_file.name} references incorrect language {content['language']}"
+                f"{path}: references incorrect language {content['language']}"
             )
 
         if language_file.name.startswith("_"):
+            if "intents" in content:
+                errors[language].append(
+                    f"{path}: is a common file and should not contain intents"
+                )
             continue
 
         domain, intent = language_file.stem.split("_")
 
         if intent not in intent_schemas:
             errors[language].append(
-                f"Filename {language_file.name} references unknown intent {intent}.yaml"
+                f"{path}: Filename references unknown intent {intent}.yaml"
             )
             continue
-
-        if content["language"] != language:
-            errors[language].append(
-                f"File {language_file.name} references incorrect language {content['language']}"
-            )
 
         for intent_name, intent_info in content["intents"].items():
             if intent != intent_name:
                 errors[language].append(
-                    f"File {language_file.name} references incorrect intent {intent_name}. Only {intent} allowed"
+                    f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"
                 )
                 continue
 
+            intent_slots = intent_schemas[intent].get("slots", {})
+
             for idx, sentence_info in enumerate(intent_info["data"]):
-                prefix = f"{language_file.name} sentence block {idx + 1}"
+                prefix = f"{path} sentence block {idx + 1}:"
                 slots = sentence_info.get("slots", {})
+
+                for slot in slots:
+                    if slot not in intent_slots:
+                        errors[language].append(
+                            f"{prefix} references unknown slot {slot}"
+                        )
+
                 if require_sentence_domain_slot(intent, domain) and domain != slots.get(
                     "domain"
                 ):
@@ -251,10 +262,10 @@ def validate_language(intent_schemas, language, errors):
                     )
 
     for test_file in test_dir.iterdir():
+        path = str(test_dir.relative_to(ROOT) / test_file)[len(str(ROOT)) + 1 :]
+
         if test_file.name not in language_files:
-            errors[language].append(
-                f"Test file {test_file.name} references unknown sentence file"
-            )
+            errors[language].append(f"{path}: has no matching sentence file")
             continue
 
         language_files.discard(test_file.name)
@@ -269,12 +280,12 @@ def validate_language(intent_schemas, language, errors):
         try:
             validate_with_humanized_errors(content, schema)
         except vol.Error as err:
-            errors[language].append(f"File {test_file.name} has invalid format: {err}")
+            errors[language].append(f"{path}: invalid format: {err}")
             continue
 
         if content["language"] != language:
             errors[language].append(
-                f"Test {test_file.name} references incorrect language {content['language']}"
+                f"{path}: references incorrect language {content['language']}"
             )
 
         if test_file.name == "_common.yaml":
@@ -286,12 +297,12 @@ def validate_language(intent_schemas, language, errors):
 
         if intent not in tested_intents:
             errors[language].append(
-                f"Test {test_file.name} should have tests for {intent}"
+                f"{path}: does not contain test for intent {intent}"
             )
 
         if extra_intents := tested_intents - {intent}:
             errors[language].append(
-                f"Test {test_file.name} references incorrect intents {', '.join(sorted(extra_intents))}. Only {intent} allowed"
+                f"{path}: tests extra intents {', '.join(sorted(extra_intents))}. Only {intent} allowed"
             )
 
     if language_files:
