@@ -39,6 +39,14 @@ class HassILGrammarVisitor(ParseTreeVisitor):
     def visitWord(self, ctx: HassILGrammarParser.WordContext):
         return self.visitChildren(ctx)
 
+    # Visit a parse tree produced by HassILGrammarParser#prefix.
+    def visitPrefix(self, ctx: HassILGrammarParser.PrefixContext):
+        return self.visitChildren(ctx)
+
+    # Visit a parse tree produced by HassILGrammarParser#suffix.
+    def visitSuffix(self, ctx: HassILGrammarParser.SuffixContext):
+        return self.visitChildren(ctx)
+
     # Visit a parse tree produced by HassILGrammarParser#list.
     def visitList(self, ctx: HassILGrammarParser.ListContext):
         return self.visitChildren(ctx)

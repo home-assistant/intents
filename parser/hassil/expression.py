@@ -80,6 +80,8 @@ class ListReference(Expression):
     """Reference to a list by {name}."""
 
     list_name: str = ""
+    prefix: Optional[str] = None
+    suffix: Optional[str] = None
     _slot_name: Optional[str] = None
 
     def __post_init__(self):

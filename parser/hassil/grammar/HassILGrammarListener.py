@@ -65,6 +65,22 @@ class HassILGrammarListener(ParseTreeListener):
     def exitWord(self, ctx: HassILGrammarParser.WordContext):
         pass
 
+    # Enter a parse tree produced by HassILGrammarParser#prefix.
+    def enterPrefix(self, ctx: HassILGrammarParser.PrefixContext):
+        pass
+
+    # Exit a parse tree produced by HassILGrammarParser#prefix.
+    def exitPrefix(self, ctx: HassILGrammarParser.PrefixContext):
+        pass
+
+    # Enter a parse tree produced by HassILGrammarParser#suffix.
+    def enterSuffix(self, ctx: HassILGrammarParser.SuffixContext):
+        pass
+
+    # Exit a parse tree produced by HassILGrammarParser#suffix.
+    def exitSuffix(self, ctx: HassILGrammarParser.SuffixContext):
+        pass
+
     # Enter a parse tree produced by HassILGrammarParser#list.
     def enterList(self, ctx: HassILGrammarParser.ListContext):
         pass

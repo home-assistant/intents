@@ -109,10 +109,16 @@ class HassILExpressionListener(HassILGrammarListener):
         rule_name = ctx.rule_name().STRING().getText()
         self.last_sequence.items.append(RuleReference(rule_name))
 
-    def enterList(self, ctx):
+    def enterList(self, ctx: HassILGrammarParser.ListContext):
         # {slot_list}
         list_name = ctx.list_name().STRING().getText()
-        self.last_sequence.items.append(ListReference(list_name))
+        self.last_sequence.items.append(
+            ListReference(
+                list_name,
+                prefix=None if ctx.prefix() is None else ctx.prefix().getText(),
+                suffix=None if ctx.suffix() is None else ctx.suffix().getText(),
+            )
+        )
 
     def enterWord(self, ctx: HassILGrammarParser.WordContext):
         # Single word

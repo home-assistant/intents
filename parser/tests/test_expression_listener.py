@@ -130,6 +130,19 @@ def test_list_reference():
     ]
 
 
+def test_list_reference_prefix_suffix():
+    assert parse_sentences(["this is a pre'{test}-post"]) == [
+        s(
+            [
+                w("this"),
+                w("is"),
+                w("a"),
+                ListReference("test", prefix="pre'", suffix="-post"),
+            ]
+        )
+    ]
+
+
 def test_rule_reference():
     assert parse_sentences(["this is a <test>"]) == [
         s([w("this"), w("is"), w("a"), RuleReference("test")])

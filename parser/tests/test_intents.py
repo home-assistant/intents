@@ -47,6 +47,15 @@ def test_list():
     assert is_match("turn off living room", sentence, slot_lists={"area": areas})
 
 
+def test_list_prefix_suffix():
+    sentence = parse_sentence("turn off abc-{area}-123")
+    areas = TextSlotList.from_strings(["kitchen", "living room"])
+    assert is_match("turn off abc-kitchen-123", sentence, slot_lists={"area": areas})
+    assert is_match(
+        "turn off abc-living room-123", sentence, slot_lists={"area": areas}
+    )
+
+
 def test_rule():
     sentence = parse_sentence("turn off <area>")
     assert is_match(

@@ -302,6 +302,7 @@ def match_expression(
                         entity_words = context.words[
                             : value_context.word_index - context.word_index
                         ]
+
                         value_context.entities.append(
                             MatchEntity(
                                 name=list_ref.slot_name,

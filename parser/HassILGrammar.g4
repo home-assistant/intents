@@ -29,8 +29,16 @@ word
    : STRING
    ;
 
+prefix
+   : STRING
+   ;
+
+suffix
+   : STRING
+   ;
+
 list
-   : '{' list_name '}'
+   : (prefix)? '{' list_name '}' (suffix)?
    ;
 
 list_name
