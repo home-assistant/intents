@@ -55,7 +55,14 @@ INTENTS_SCHEMA = vol.Schema(
                     vol.Optional("required"): bool,
                 }
             },
-            vol.Optional("slot_combinations"): {str: [str]},
+            vol.Optional("slot_combinations"): {
+                str: [str],
+            },
+            vol.Optional("response_variables"): {
+                str: {
+                    vol.Required("description"): str,
+                }
+            },
         }
     }
 )
@@ -77,7 +84,9 @@ SENTENCE_SCHEMA = vol.Schema(
                 vol.Required("data"): [
                     {
                         vol.Required("sentences"): [str],
-                        vol.Optional("slots"): {str: match_anything},
+                        vol.Optional("slots"): {
+                            str: match_anything,
+                        },
                     }
                 ]
             }
@@ -88,7 +97,10 @@ SENTENCE_SCHEMA = vol.Schema(
                     "values": [
                         vol.Any(
                             str,
-                            {"in": str, "out": match_anything},
+                            {
+                                "in": str,
+                                "out": match_anything,
+                            },
                         )
                     ],
                     "range": {
