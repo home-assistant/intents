@@ -9,7 +9,7 @@ import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
-from .const import INTENTS_FILE, LANGUAGES, ROOT, SENTENCE_DIR, TESTS_DIR, RESPONSE_DIR
+from .const import INTENTS_FILE, LANGUAGES, RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
 
 # Slots can be {name} or {name:new_name}
