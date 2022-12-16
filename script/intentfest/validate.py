@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import argparse
 
-import yaml
 import voluptuous as vol
+import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
 from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR, TESTS_DIR
