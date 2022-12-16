@@ -9,7 +9,6 @@ YAML files for each domain and language with sentences and the intents that they
 language: "<language code>"
 intents:
   <intent name>:
-    category: "action" # or "query"
     data:
       # List of sentences/slots
       - sentences:
@@ -18,7 +17,7 @@ intents:
         slots:
           # Fixed slots for the recognized intent
           <name>: <value>
-          
+
 # Optional lists of items that become alternatives in sentence templates
 lists:
   # Referenced as {list_name}
@@ -31,7 +30,7 @@ lists:
     range:
       from: 0
       to: 100
-      
+
 # Optional rules that are expanded in sentence templates
 expansion_rules:
   # Referenced as <rule_name>
