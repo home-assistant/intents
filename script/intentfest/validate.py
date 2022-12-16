@@ -122,26 +122,24 @@ TESTS_SCHEMA = vol.Schema(
     }
 )
 
-TESTS_COMMON = vol.All(
-    vol.Schema(
-        {
-            vol.Required("language"): str,
-            "areas": [
-                {
-                    vol.Required("name"): str,
-                    vol.Required("id"): str,
-                }
-            ],
-            "entities": [
-                {
-                    vol.Required("name"): str,
-                    vol.Required("id"): str,
-                    vol.Required("area"): str,
-                    vol.Required("domain"): str,
-                }
-            ],
-        }
-    )
+TESTS_COMMON = vol.Schema(
+    {
+        vol.Required("language"): str,
+        "areas": [
+            {
+                vol.Required("name"): str,
+                vol.Required("id"): str,
+            }
+        ],
+        "entities": [
+            {
+                vol.Required("name"): str,
+                vol.Required("id"): str,
+                vol.Required("area"): str,
+                vol.Required("domain"): str,
+            }
+        ],
+    }
 )
 
 
