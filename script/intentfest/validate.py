@@ -119,7 +119,12 @@ TESTS_SCHEMA = vol.Schema(
                 vol.Required("intent"): {
                     vol.Required("name"): str,
                     vol.Optional("slots"): {
-                        str: {vol.Required("value"): match_anything}
+                        str: vol.Any(
+                            {vol.Required("value"): match_anything},
+                            int,
+                            float,
+                            str,
+                        ),
                     },
                 },
             }
@@ -269,9 +274,6 @@ def validate_language(intent_schemas, language, errors):
                         for slot in PATTERN_SLOTS.findall(
                             expansion_rules[expansion_rule]
                         ):
-                            print(
-                                f"{sentence}, {expansion_rules[expansion_rule]}, {slot}"
-                            )
                             if slot not in intent_slots_plus_lists:
                                 errors[language].append(
                                     f"{prefix} sentence '{sentence}' references expansion rule '{expansion_rule}' which references unknown slot '{slot}'"
