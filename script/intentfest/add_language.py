@@ -3,7 +3,7 @@ import argparse
 
 import yaml
 
-from .const import SENTENCE_DIR, TESTS_DIR
+from .const import SENTENCE_DIR, TESTS_DIR, RESPONSE_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
 
 
@@ -20,10 +20,13 @@ def run() -> int:
     language = args.language
 
     # Create language directory
-    language_dir = SENTENCE_DIR / language
+    sentence_dir = SENTENCE_DIR / language
     tests_dir = TESTS_DIR / language
+    response_dir = RESPONSE_DIR / language
+
     try:
-        language_dir.mkdir()
+        sentence_dir.mkdir()
+        response_dir.mkdir()
         tests_dir.mkdir()
     except FileExistsError:
         print(f"Language '{language}' already exists")
@@ -47,7 +50,7 @@ def run() -> int:
                 "name": "all",
             }
 
-        (language_dir / english_filename.name).write_text(
+        (sentence_dir / english_filename.name).write_text(
             yaml.dump(
                 {
                     "language": language,
@@ -63,7 +66,7 @@ def run() -> int:
             )
         )
 
-    (language_dir / "_common.yaml").write_text(
+    (sentence_dir / "_common.yaml").write_text(
         yaml.dump(
             {
                 "language": language,
@@ -146,5 +149,26 @@ def run() -> int:
             sort_keys=False,
         )
     )
+
+    english_responses = RESPONSE_DIR / "en"
+
+    for english_filename in english_responses.iterdir():
+        _domain, intent = english_filename.stem.split("_")
+
+        (response_dir / english_filename.name).write_text(
+            yaml.dump(
+                {
+                    "language": language,
+                    "responses": {
+                        "intents": {
+                            intent: {
+                                "success": [],
+                            },
+                        },
+                    },
+                },
+                sort_keys=False,
+            )
+        )
 
     return 0
