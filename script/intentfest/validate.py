@@ -215,8 +215,6 @@ def run() -> int:
 
 def validate_language(intent_schemas, language, errors):
     sentence_dir = SENTENCE_DIR / language
-    response_dir = RESPONSE_DIR / language
-    test_dir = TESTS_DIR / language
 
     sentence_files = {}
     lists = {}
@@ -306,6 +304,8 @@ def validate_language(intent_schemas, language, errors):
                         f"got {slots.get('domain')}"
                     )
 
+    test_dir = TESTS_DIR / language
+
     for test_file in test_dir.iterdir():
         path = str(test_dir.relative_to(ROOT) / test_file)[len(str(ROOT)) + 1 :]
 
@@ -353,6 +353,8 @@ def validate_language(intent_schemas, language, errors):
     if sentence_files:
         for sentence_file in sentence_files:
             errors[language].append(f"{sentence_file} has no tests")
+
+    response_dir = RESPONSE_DIR / language
 
     for response_file in response_dir.iterdir():
         path = str(response_dir / response_file)[len(str(ROOT)) + 1 :]
