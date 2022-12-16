@@ -25,46 +25,56 @@ INTENTS_SCHEMA = vol.Schema(
     }
 )
 
+INTENT_ERRORS = {
+    "no_intent",
+    "no_area",
+    "no_domain",
+    "no_device_class",
+    "no_entity",
+    "handle_error",
+}
+
 SENTENCE_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
-        vol.Required("intents"): vol.Schema(
-            {
-                str: vol.Schema(
+        vol.Optional("intents"): {
+            str: {
+                "data": [
                     {
-                        "data": [
-                            vol.Schema(
-                                {
-                                    vol.Required("sentences"): [str],
-                                    vol.Optional("slots"): vol.Schema(
-                                        {str: (lambda val: val)}
-                                    ),
-                                }
-                            )
-                        ]
+                        vol.Required("sentences"): [str],
+                        vol.Optional("slots"): {str: (lambda val: val)},
                     }
-                )
+                ]
             }
-        ),
-        vol.Optional("lists"): vol.Schema(
-            {
-                str: vol.Any(
-                    vol.Schema({"values": [str]}),
-                    vol.Schema(
-                        {
-                            "range": vol.Schema(
-                                {
-                                    vol.Required("from"): int,
-                                    vol.Required("to"): int,
-                                }
-                            )
-                        }
-                    ),
-                )
-            }
-        ),
-        vol.Optional("expansion_rules"): vol.Schema({str: str}),
+        },
+        vol.Optional("lists"): {
+            str: vol.Any(
+                # List of values
+                {
+                    vol.Required("values"): [
+                        vol.Any(
+                            str,
+                            {"in": str, "out": str},
+                        )
+                    ]
+                },
+                # Range of values
+                {
+                    vol.Required("range"): {
+                        vol.Required("type"): str,
+                        vol.Required("from"): int,
+                        vol.Required("to"): int,
+                    },
+                },
+            )
+        },
+        vol.Optional("expansion_rules"): {str: str},
         vol.Optional("skip_words"): [str],
+        vol.Optional("responses"): {
+            "errors": {
+                vol.In(INTENT_ERRORS): str,
+            }
+        },
     }
 )
 
@@ -144,12 +154,22 @@ def validate_language(intent_schemas, language, errors):
     for language_file in language_dir.iterdir():
         language_files.add(language_file.name)
 
-        if language_file.name == "_common.yaml":
-            info = yaml.safe_load(language_file.read_text())
-            if info["language"] != language:
-                errors[language].append(
-                    f"File {language_file.name} references incorrect language {info['language']}"
-                )
+        content = yaml.safe_load(language_file.read_text())
+
+        try:
+            validate_with_humanized_errors(content, SENTENCE_SCHEMA)
+        except vol.Error as err:
+            errors[language].append(
+                f"File {language_file.name} has invalid format: {err}"
+            )
+            continue
+
+        if content["language"] != language:
+            errors[language].append(
+                f"File {language_file.name} references incorrect language {content['language']}"
+            )
+
+        if language_file.name.startswith("_"):
             continue
 
         domain, intent = language_file.stem.split("_")
@@ -160,22 +180,12 @@ def validate_language(intent_schemas, language, errors):
             )
             continue
 
-        sentences = yaml.safe_load(language_file.read_text())
-
-        try:
-            validate_with_humanized_errors(sentences, SENTENCE_SCHEMA)
-        except vol.Error as err:
+        if content["language"] != language:
             errors[language].append(
-                f"File {language_file.name} has invalid format: {err}"
-            )
-            continue
-
-        if sentences["language"] != language:
-            errors[language].append(
-                f"File {language_file.name} references incorrect language {sentences['language']}"
+                f"File {language_file.name} references incorrect language {content['language']}"
             )
 
-        for intent_name, intent_info in sentences["intents"].items():
+        for intent_name, intent_info in content["intents"].items():
             if intent != intent_name:
                 errors[language].append(
                     f"File {language_file.name} references incorrect intent {intent_name}. Only {intent} allowed"
@@ -202,25 +212,25 @@ def validate_language(intent_schemas, language, errors):
 
         language_files.discard(test_file.name)
 
-        tests = yaml.safe_load(test_file.read_text())
+        content = yaml.safe_load(test_file.read_text())
 
-        if tests["language"] != language:
+        if content["language"] != language:
             errors[language].append(
-                f"Test {test_file.name} references incorrect language {tests['language']}"
+                f"Test {test_file.name} references incorrect language {content['language']}"
             )
 
         if test_file.name == "_common.yaml":
             continue
 
         try:
-            validate_with_humanized_errors(tests, TESTS_SCHEMA)
+            validate_with_humanized_errors(content, TESTS_SCHEMA)
         except vol.Error as err:
             errors[language].append(f"File {test_file.name} has invalid format: {err}")
             continue
 
         domain, intent = test_file.stem.split("_")
 
-        tested_intents = set(i["intent"]["name"] for i in tests["tests"])
+        tested_intents = set(i["intent"]["name"] for i in content["tests"])
 
         if intent not in tested_intents:
             errors[language].append(
