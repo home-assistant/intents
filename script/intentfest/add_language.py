@@ -3,7 +3,7 @@ import argparse
 
 import yaml
 
-from .const import RESPONSE_DIR, SENTENCE_DIR, TESTS_DIR
+from .const import RESPONSE_DIR, SENTENCE_DIR, TESTS_DIR, ROOT
 from .util import get_base_arg_parser, require_sentence_domain_slot
 
 
@@ -170,5 +170,31 @@ def run() -> int:
                 sort_keys=False,
             )
         )
+
+    rel_sentence_dir = sentence_dir.relative_to(ROOT)
+
+    print(f"Language '{language}' added!")
+    print()
+    print("See the README.md files in the sentences, responses and tests dir ")
+    print("for the formats. Use the English files as examples.")
+    print()
+    print("New folders added:")
+    print(f"{rel_sentence_dir} - Sentences")
+    print(f"{response_dir.relative_to(ROOT)} - Responses")
+    print(f"{tests_dir.relative_to(ROOT)} - Tests")
+    print()
+    print("Limit your first contribution to:")
+    print(
+        f"{rel_sentence_dir / '_common.yaml'} - Update error strings and add skip words"
+    )
+    print(
+        f"{rel_sentence_dir / 'homeassistant_HassTurnOn.yaml'} - Add some basic sentences"
+    )
+    print(
+        f"{rel_sentence_dir / 'homeassistant_HassTurnOff.yaml'} - Add some basic sentences"
+    )
+    print(
+        f"{rel_sentence_dir / 'homeassistant_HassToggle.yaml'} - Add some basic sentences"
+    )
 
     return 0
