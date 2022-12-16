@@ -28,6 +28,7 @@ lists:
       - "the list"
   <range_name>
     range:
+      type: "number"
       from: 0
       to: 100
 
