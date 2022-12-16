@@ -108,9 +108,27 @@ def validate_language(intent_schemas, language, errors):
         language_files.discard(test_file.name)
 
         info = yaml.safe_load(test_file.read_text())
+
         if info["language"] != language:
             errors[language].append(
                 f"Test {test_file.name} references incorrect language {info['language']}"
+            )
+
+        if test_file.name == "_common.yaml":
+            continue
+
+        domain, intent = test_file.stem.split("_")
+
+        tested_intents = set(i["intent"]["name"] for i in info["tests"])
+
+        if intent not in tested_intents:
+            errors[language].append(
+                f"Test {test_file.name} should have tests for {intent}"
+            )
+
+        if extra_intents := tested_intents - {intent}:
+            errors[language].append(
+                f"Test {test_file.name} references incorrect intents {', '.join(sorted(extra_intents))}. Only {intent} allowed"
             )
 
     if language_files:
