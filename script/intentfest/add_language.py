@@ -3,7 +3,7 @@ import argparse
 
 import yaml
 
-from .const import RESPONSE_DIR, SENTENCE_DIR, TESTS_DIR, ROOT
+from .const import RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
 
 
