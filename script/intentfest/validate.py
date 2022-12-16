@@ -2,18 +2,19 @@
 from __future__ import annotations
 
 import argparse
-from typing import Any
 import re
+from typing import Any
 
 import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
-from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR, TESTS_DIR, ROOT
+from .const import INTENTS_FILE, LANGUAGES, ROOT, SENTENCE_DIR, TESTS_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
 
-
-PATTERN_SLOTS = re.compile(r"\{(?P<name>[a-z_]+)\}")
+# Slots can be {name} or {name:new_name}
+PATTERN_SLOTS = re.compile(r"\{(?P<name>[a-z_]+)(?:|:\w+)\}")
+PATTERN_EXPANSION_RULES = re.compile(r"\<(?P<name>[a-z_]+)\>")
 
 
 def match_anything(value):
@@ -200,13 +201,14 @@ def validate_language(intent_schemas, language, errors):
     language_dir = SENTENCE_DIR / language
     test_dir = TESTS_DIR / language
 
-    language_files = set()
+    language_files = {}
+    lists = {}
+    expansion_rules = {}
 
     for language_file in language_dir.iterdir():
-        language_files.add(language_file.name)
         path = str(language_dir / language_file)[len(str(ROOT)) + 1 :]
-
         content = yaml.safe_load(language_file.read_text())
+        language_files[language_file.name] = content
 
         try:
             validate_with_humanized_errors(content, SENTENCE_SCHEMA)
@@ -219,14 +221,21 @@ def validate_language(intent_schemas, language, errors):
                 f"{path}: references incorrect language {content['language']}"
             )
 
-        if language_file.name.startswith("_"):
+        if "lists" in content:
+            lists.update(content["lists"])
+
+        if "expansion_rules" in content:
+            expansion_rules.update(content["expansion_rules"])
+
+    for language_file, content in language_files.items():
+        if language_file.startswith("_"):
             if "intents" in content:
                 errors[language].append(
                     f"{path}: is a common file and should not contain intents"
                 )
             continue
 
-        domain, intent = language_file.stem.split("_")
+        domain, intent = language_file.split(".")[0].split("_")
 
         if intent not in intent_schemas:
             errors[language].append(
@@ -242,10 +251,32 @@ def validate_language(intent_schemas, language, errors):
                 continue
 
             intent_slots = intent_schemas[intent].get("slots", {})
+            intent_slots_plus_lists = {*intent_slots, *lists}
 
             for idx, sentence_info in enumerate(intent_info["data"]):
                 prefix = f"{path} sentence block {idx + 1}:"
                 slots = sentence_info.get("slots", {})
+
+                for sentence in sentence_info["sentences"]:
+                    for slot in PATTERN_SLOTS.findall(sentence):
+                        if slot not in intent_slots_plus_lists:
+                            errors[language].append(
+                                f"{prefix} sentence '{sentence}' references unknown slot '{slot}'"
+                            )
+                        continue
+
+                    for expansion_rule in PATTERN_EXPANSION_RULES.findall(sentence):
+                        for slot in PATTERN_SLOTS.findall(
+                            expansion_rules[expansion_rule]
+                        ):
+                            print(
+                                f"{sentence}, {expansion_rules[expansion_rule]}, {slot}"
+                            )
+                            if slot not in intent_slots_plus_lists:
+                                errors[language].append(
+                                    f"{prefix} sentence '{sentence}' references expansion rule '{expansion_rule}' which references unknown slot '{slot}'"
+                                )
+                            continue
 
                 for slot in slots:
                     if slot not in intent_slots:
@@ -268,7 +299,7 @@ def validate_language(intent_schemas, language, errors):
             errors[language].append(f"{path}: has no matching sentence file")
             continue
 
-        language_files.discard(test_file.name)
+        language_files.pop(test_file.name)
 
         content = yaml.safe_load(test_file.read_text())
 
