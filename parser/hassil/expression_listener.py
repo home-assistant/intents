@@ -143,11 +143,12 @@ class HassILExpressionListener(HassILGrammarListener):
     def parse_sentences(self, sentences: Iterable[str]):
         """Parse multiple sentences separated by newlines."""
         text = "\n".join(sentences) + "\n"
-        parser = HassILGrammarParser(
-            CommonTokenStream(HassILGrammarLexer(InputStream(text)))
-        )
-        walker = ParseTreeWalker()
-        walker.walk(self, parser.document())
+        if text.strip():
+            parser = HassILGrammarParser(
+                CommonTokenStream(HassILGrammarLexer(InputStream(text)))
+            )
+            walker = ParseTreeWalker()
+            walker.walk(self, parser.document())
 
     @property
     def last_sequence(self) -> Sequence:
