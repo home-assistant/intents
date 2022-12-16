@@ -74,7 +74,7 @@ This will print a line of JSON for each `--sentence`:
 ## Add new language
 
 ```
-python3 -m script.lintfest add_language <language>
+python3 -m script.intentfest add_language <language>
 ```
 
 Before you start on a new language, confirm that no one else is already working on one.
