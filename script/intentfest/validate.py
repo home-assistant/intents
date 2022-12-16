@@ -122,6 +122,28 @@ TESTS_SCHEMA = vol.Schema(
     }
 )
 
+TESTS_COMMON = vol.All(
+    vol.Schema(
+        {
+            vol.Required("language"): str,
+            "areas": [
+                {
+                    vol.Required("name"): str,
+                    vol.Required("id"): str,
+                }
+            ],
+            "entities": [
+                {
+                    vol.Required("name"): str,
+                    vol.Required("id"): str,
+                    vol.Required("area"): str,
+                    vol.Required("domain"): str,
+                }
+            ],
+        }
+    )
+)
+
 
 def get_arguments() -> argparse.Namespace:
     """Get parsed passed in arguments."""
@@ -241,18 +263,23 @@ def validate_language(intent_schemas, language, errors):
 
         content = yaml.safe_load(test_file.read_text())
 
+        if test_file.name == "_common.yaml":
+            schema = TESTS_COMMON
+        else:
+            schema = TESTS_SCHEMA
+
+        try:
+            validate_with_humanized_errors(content, schema)
+        except vol.Error as err:
+            errors[language].append(f"File {test_file.name} has invalid format: {err}")
+            continue
+
         if content["language"] != language:
             errors[language].append(
                 f"Test {test_file.name} references incorrect language {content['language']}"
             )
 
         if test_file.name == "_common.yaml":
-            continue
-
-        try:
-            validate_with_humanized_errors(content, TESTS_SCHEMA)
-        except vol.Error as err:
-            errors[language].append(f"File {test_file.name} has invalid format: {err}")
             continue
 
         domain, intent = test_file.stem.split("_")
