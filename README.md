@@ -9,6 +9,9 @@ Repository layout:
 * `sentences/<language>`
     * YAML files for `<language>` with the name `<domain>_<intent>.yaml`
     * [File format](sentences/README.md#file-format)
+* `responses/<language>`
+    * YAML files for `<language>` with responses for intents
+    * [File format](responses/README.md#file-format)
 * `tests/<language>`
     * YAML files for `<language>` with test sentences and corresponding intents
     * [File format](tests/README.md#file-format)
