@@ -9,7 +9,7 @@ import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
-from .const import INTENTS_FILE, LANGUAGES, ROOT, SENTENCE_DIR, TESTS_DIR
+from .const import INTENTS_FILE, LANGUAGES, ROOT, SENTENCE_DIR, TESTS_DIR, RESPONSE_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
 
 # Slots can be {name} or {name:new_name}
@@ -152,6 +152,17 @@ TESTS_COMMON = vol.Schema(
     }
 )
 
+RESPONSE_SCHEMA = vol.Schema(
+    {
+        vol.Required("language"): str,
+        vol.Optional("responses"): {
+            vol.Optional("intents"): {
+                str: {vol.Required("success"): [str]},
+            }
+        },
+    }
+)
+
 
 def get_arguments() -> argparse.Namespace:
     """Get parsed passed in arguments."""
@@ -203,17 +214,18 @@ def run() -> int:
 
 
 def validate_language(intent_schemas, language, errors):
-    language_dir = SENTENCE_DIR / language
+    sentence_dir = SENTENCE_DIR / language
+    response_dir = RESPONSE_DIR / language
     test_dir = TESTS_DIR / language
 
-    language_files = {}
+    sentence_files = {}
     lists = {}
     expansion_rules = {}
 
-    for language_file in language_dir.iterdir():
-        path = str(language_dir / language_file)[len(str(ROOT)) + 1 :]
-        content = yaml.safe_load(language_file.read_text())
-        language_files[language_file.name] = content
+    for sentence_file in sentence_dir.iterdir():
+        path = str(sentence_dir / sentence_file)[len(str(ROOT)) + 1 :]
+        content = yaml.safe_load(sentence_file.read_text())
+        sentence_files[sentence_file.name] = content
 
         try:
             validate_with_humanized_errors(content, SENTENCE_SCHEMA)
@@ -232,15 +244,15 @@ def validate_language(intent_schemas, language, errors):
         if "expansion_rules" in content:
             expansion_rules.update(content["expansion_rules"])
 
-    for language_file, content in language_files.items():
-        if language_file.startswith("_"):
+    for sentence_file, content in sentence_files.items():
+        if sentence_file.startswith("_"):
             if "intents" in content:
                 errors[language].append(
                     f"{path}: is a common file and should not contain intents"
                 )
             continue
 
-        domain, intent = language_file.split(".")[0].split("_")
+        domain, intent = sentence_file.split(".")[0].split("_")
 
         if intent not in intent_schemas:
             errors[language].append(
@@ -297,11 +309,11 @@ def validate_language(intent_schemas, language, errors):
     for test_file in test_dir.iterdir():
         path = str(test_dir.relative_to(ROOT) / test_file)[len(str(ROOT)) + 1 :]
 
-        if test_file.name not in language_files:
+        if test_file.name not in sentence_files:
             errors[language].append(f"{path}: has no matching sentence file")
             continue
 
-        language_files.pop(test_file.name)
+        sentence_files.pop(test_file.name)
 
         content = yaml.safe_load(test_file.read_text())
 
@@ -338,6 +350,30 @@ def validate_language(intent_schemas, language, errors):
                 f"{path}: tests extra intents {', '.join(sorted(extra_intents))}. Only {intent} allowed"
             )
 
-    if language_files:
-        for language_file in language_files:
-            errors[language].append(f"{language_file} has no tests")
+    if sentence_files:
+        for sentence_file in sentence_files:
+            errors[language].append(f"{sentence_file} has no tests")
+
+    for response_file in response_dir.iterdir():
+        path = str(response_dir / response_file)[len(str(ROOT)) + 1 :]
+        content = yaml.safe_load(response_file.read_text())
+
+        try:
+            validate_with_humanized_errors(content, RESPONSE_SCHEMA)
+        except vol.Error as err:
+            errors[language].append(f"{path}: invalid format: {err}")
+            continue
+
+        if content["language"] != language:
+            errors[language].append(
+                f"{path}: references incorrect language {content['language']}"
+            )
+
+        domain, intent = response_file.stem.split("_")
+
+        for intent_name, intent_info in content["responses"]["intents"].items():
+            if intent != intent_name:
+                errors[language].append(
+                    f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"
+                )
+                continue
