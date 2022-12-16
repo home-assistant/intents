@@ -12,6 +12,11 @@ from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR, TESTS_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
 
 
+def match_anything(value):
+    """Validator that matches everything"""
+    return value
+
+
 def single_key_dict_validator(schemas: dict[str, Any]) -> vol.Schema:
     """Create a validator for a single key dict."""
 
@@ -67,7 +72,7 @@ SENTENCE_SCHEMA = vol.Schema(
                 "data": [
                     {
                         vol.Required("sentences"): [str],
-                        vol.Optional("slots"): {str: (lambda val: val)},
+                        vol.Optional("slots"): {str: match_anything},
                     }
                 ]
             }
@@ -78,13 +83,14 @@ SENTENCE_SCHEMA = vol.Schema(
                     "values": [
                         vol.Any(
                             str,
-                            {"in": str, "out": str},
+                            {"in": str, "out": match_anything},
                         )
                     ],
                     "range": {
-                        vol.Required("type"): str,
+                        vol.Required("type", default="number"): str,
                         vol.Required("from"): int,
                         vol.Required("to"): int,
+                        vol.Optional("step", default=1): int,
                     },
                 }
             )
@@ -108,7 +114,7 @@ TESTS_SCHEMA = vol.Schema(
                 vol.Required("intent"): {
                     vol.Required("name"): str,
                     vol.Optional("slots"): {
-                        str: {vol.Required("value"): (lambda val: val)}
+                        str: {vol.Required("value"): match_anything}
                     },
                 },
             }
