@@ -235,7 +235,7 @@ def validate_language(intent_schemas, language, errors):
     expansion_rules = {}
 
     for sentence_file in sentence_dir.iterdir():
-        path = str(sentence_dir / sentence_file.name)
+        path = str(sentence_dir.relative_to(ROOT) / sentence_file.name)
         content = yaml.safe_load(sentence_file.read_text())
         sentence_files[sentence_file.name] = content
 
@@ -295,6 +295,12 @@ def validate_language(intent_schemas, language, errors):
                         continue
 
                     for expansion_rule in PATTERN_EXPANSION_RULES.findall(sentence):
+                        if expansion_rule not in expansion_rules:
+                            errors[language].append(
+                                f"{prefix} sentence '{sentence}' references unknown expansion rule '{expansion_rule}'"
+                            )
+                            continue
+
                         for slot in PATTERN_SLOTS.findall(
                             expansion_rules[expansion_rule]
                         ):
@@ -367,7 +373,7 @@ def validate_language(intent_schemas, language, errors):
             errors[language].append(f"{sentence_file} has no tests")
 
     for response_file in response_dir.iterdir():
-        path = str(response_dir / response_file.name)
+        path = str(response_dir.relative_to(ROOT) / response_file.name)
         intent = response_file.stem
 
         if intent not in intent_schemas:
