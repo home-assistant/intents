@@ -46,11 +46,17 @@ Before developing, always activate your virtual environment with `source venv/bi
 
 ## Run tests
 
+Validate the data is correctly formatted.
+
+```
+python3 -m script.intentfest validate
+```
+
+Run the tests. Leave `--language` off to run all tests.
+
 ```
 pytest tests --language nl
 ```
-
-Leave `--language` off to run all tests.
 
 ## Testing sentences
 
