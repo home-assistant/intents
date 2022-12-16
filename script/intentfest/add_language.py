@@ -153,7 +153,7 @@ def run() -> int:
     english_responses = RESPONSE_DIR / "en"
 
     for english_filename in english_responses.iterdir():
-        _domain, intent = english_filename.stem.split("_")
+        intent = english_filename.stem
 
         (response_dir / english_filename.name).write_text(
             yaml.dump(
