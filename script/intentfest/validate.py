@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from typing import Any
 
 import voluptuous as vol
 import yaml
@@ -9,6 +10,30 @@ from voluptuous.humanize import validate_with_humanized_errors
 
 from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR, TESTS_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
+
+
+def single_key_dict_validator(schemas: dict[str, Any]) -> vol.Schema:
+    """Create a validator for a single key dict."""
+
+    def validate(value):
+        if not isinstance(value, dict):
+            raise vol.Invalid("Expected a dict")
+
+        if len(value) != 1:
+            raise vol.Invalid("Expected a single key dict")
+
+        key = next(iter(value))
+
+        if key not in schemas:
+            raise vol.Invalid(f"Expected a key in {', '.join(schemas)}")
+
+        if not isinstance(schemas[key], vol.Schema):
+            schemas[key] = vol.Schema(schemas[key])
+
+        return schemas[key](value[key])
+
+    return validate
+
 
 INTENTS_SCHEMA = vol.Schema(
     {
@@ -48,24 +73,20 @@ SENTENCE_SCHEMA = vol.Schema(
             }
         },
         vol.Optional("lists"): {
-            str: vol.Any(
-                # List of values
+            str: single_key_dict_validator(
                 {
-                    vol.Required("values"): [
+                    "values": [
                         vol.Any(
                             str,
                             {"in": str, "out": str},
                         )
-                    ]
-                },
-                # Range of values
-                {
-                    vol.Required("range"): {
+                    ],
+                    "range": {
                         vol.Required("type"): str,
                         vol.Required("from"): int,
                         vol.Required("to"): int,
                     },
-                },
+                }
             )
         },
         vol.Optional("expansion_rules"): {str: str},
