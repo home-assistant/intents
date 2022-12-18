@@ -21,9 +21,6 @@ from .util import normalize_text
 
 NUMBER_START = re.compile(r"^(\s*-?[0-9]+)")
 
-# TODO: Make this configurable
-# PUNCTUATION_END = re.compile(r"[.,;!?]$")
-
 NON_WORD = re.compile(r"^(\W+\s*)")
 
 
@@ -62,7 +59,7 @@ class MatchContext:
     expansion_rules: Dict[str, Sentence] = field(default_factory=dict)
     """Available expansion rules mapped by name."""
 
-    skip_words: List[str] = field(default_factory=list)
+    skip_words: List[re.Pattern] = field(default_factory=list)
     """Words that can be skipped during recognition."""
 
     entities: List[MatchEntity] = field(default_factory=list)
@@ -72,15 +69,6 @@ class MatchContext:
     def is_match(self) -> bool:
         """True if no words are left"""
         return not self.text
-
-    # def next_word(self, **kwargs) -> "MatchContext":
-    #     """Return copy of context with one less input word."""
-    #     return dataclasses.replace(
-    #         self,
-    #         words=self.words[1:],
-    #         word_index=self.word_index + 1,
-    #         **kwargs,
-    #     )
 
 
 @dataclass
@@ -128,8 +116,6 @@ def recognize(
         # Combine skip words
         skip_words = itertools.chain(skip_words, intents.skip_words)
 
-    skip_words = sorted(skip_words, key=len, reverse=True)
-
     # Check sentence against each intent.
     # This should eventually be done in parallel.
     for intent in intents.intents.values():
@@ -140,7 +126,7 @@ def recognize(
                     text=text,
                     slot_lists=slot_lists,
                     expansion_rules=expansion_rules,
-                    skip_words=skip_words,
+                    skip_words=_prepare_skip_words(skip_words),
                 )
                 sentence_contexts = _match_and_skip(context, intent_sentence)
                 for sentence_context in sentence_contexts:
@@ -190,7 +176,7 @@ def is_match(
         text=text,
         slot_lists=slot_lists,
         expansion_rules=expansion_rules,
-        skip_words=skip_words,
+        skip_words=_prepare_skip_words(skip_words),
     )
 
     for match_context in _match_and_skip(context, sentence):
@@ -198,6 +184,16 @@ def is_match(
             return match_context
 
     return None
+
+
+def _prepare_skip_words(skip_words: Iterable[str]) -> List[re.Pattern]:
+    """Convert skip word strings to regex patterns."""
+    patterns: List[re.Pattern] = []
+    for skip_word in skip_words:
+        skip_word = normalize_text(skip_word)
+        patterns.append(re.compile(rf"^{re.escape(skip_word)}\b"))
+
+    return patterns
 
 
 def _match_and_skip(context: MatchContext, *args, **kwargs) -> Iterable[MatchContext]:
@@ -339,12 +335,13 @@ def match_expression(
         raise ValueError(f"Unexpected expression: {expression}")
 
 
-def _skip(text: str, skip_words: Iterable[str]) -> Tuple[bool, str]:
+def _skip(text: str, skip_words: Iterable[re.Pattern]) -> Tuple[bool, str]:
     """Skip over skip/non-words."""
     # Skip words
     for skip_word in skip_words:
-        if re.match(rf"^{re.escape(skip_word)}\b", text):
-            text = text[len(skip_word) :].lstrip()
+        skip_word_match = skip_word.match(text)
+        if skip_word_match is not None:
+            text = text[len(skip_word_match[0]) :].lstrip()
             return True, text
 
     # Non-words
