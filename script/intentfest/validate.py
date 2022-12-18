@@ -22,6 +22,13 @@ def match_anything(value):
     return value
 
 
+def match_anything_but_dict(value):
+    """Validator that matches everything but a dict"""
+    if isinstance(value, dict):
+        raise vol.Invalid("Expected anythung but a dictionary")
+    return value
+
+
 def single_key_dict_validator(schemas: dict[str, Any]) -> vol.Schema:
     """Create a validator for a single key dict."""
 
@@ -133,9 +140,7 @@ TESTS_SCHEMA = vol.Schema(
                     vol.Optional("slots"): {
                         str: vol.Any(
                             {vol.Required("value"): match_anything},
-                            int,
-                            float,
-                            str,
+                            match_anything_but_dict,
                         ),
                     },
                 },
