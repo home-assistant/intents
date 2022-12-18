@@ -1,14 +1,15 @@
 """Test language sentences."""
 
-from typing import Dict
+import pytest
 
 from hassil import recognize
-from hassil.intents import SlotList, TextSlotList
+from hassil.intents import TextSlotList
 
 
-def test_language_sentences(language_intents, language_tests):
-    """Tests recognition all of the test sentences for a language"""
-    slot_lists: Dict[str, SlotList] = {
+@pytest.fixture(name="slot_lists", scope="session")
+def slot_lists_fixture(language_tests):
+    """Loads the slot lists for the language."""
+    return {
         "area": TextSlotList.from_tuples(
             (area["name"], area["id"]) for area in language_tests["areas"]
         ),
@@ -17,6 +18,9 @@ def test_language_sentences(language_intents, language_tests):
         ),
     }
 
+
+def test_language_sentences(slot_lists, language_intents, language_tests):
+    """Tests recognition all of the test sentences for a language"""
     for test in language_tests["tests"]:
         intent = test["intent"]
         for sentence in test["sentences"]:
