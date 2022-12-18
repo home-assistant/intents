@@ -40,6 +40,18 @@ def test_optional():
     assert is_match("turn on lights in kitchen", sentence)
 
 
+def test_optional_plural():
+    sentence = parse_sentence("turn on the light[s]")
+    assert is_match("turn on the light", sentence)
+    assert is_match("turn on the lights", sentence)
+
+
+def test_group_plural():
+    sentence = parse_sentence("give me the penn(y | ies)")
+    assert is_match("give me the penny", sentence)
+    assert is_match("give me the pennies", sentence)
+
+
 def test_list():
     sentence = parse_sentence("turn off {area}")
     areas = TextSlotList.from_strings(["kitchen", "living room"])
