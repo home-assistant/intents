@@ -35,8 +35,8 @@ class HassILGrammarVisitor(ParseTreeVisitor):
     def visitAlt(self, ctx: HassILGrammarParser.AltContext):
         return self.visitChildren(ctx)
 
-    # Visit a parse tree produced by HassILGrammarParser#word.
-    def visitWord(self, ctx: HassILGrammarParser.WordContext):
+    # Visit a parse tree produced by HassILGrammarParser#text_chunk.
+    def visitText_chunk(self, ctx: HassILGrammarParser.Text_chunkContext):
         return self.visitChildren(ctx)
 
     # Visit a parse tree produced by HassILGrammarParser#list.

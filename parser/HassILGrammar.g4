@@ -9,10 +9,10 @@ sentence
    ;
 
 expression
-   : (group | optional | word | list | rule) ((WS | alt) expression)*
+   : (group | optional | text_chunk | list | rule) (alt? expression)*
    ;
 
-// One or more words in a sequence
+// One or more text chunks in a sequence
 group
    : '(' expression ')'
    ;
@@ -22,10 +22,10 @@ optional
    ;
 
 alt
-   : WS? '|' WS?
+   : '|'
    ;
 
-word
+text_chunk
    : STRING
    ;
 
@@ -46,33 +46,17 @@ rule_name
    ;
 
 STRING
-   : UNQUOTED_STRING | QUOTED_STRING
+   : (ESC | CHARACTER)+
    ;
 
-QUOTED_STRING
-   : '"' (QUOTED_ESC | ~["])* '"'
-   ;
-
-QUOTED_ESC
-   : '\\' ["]
-   ;
-
-UNQUOTED_STRING
-   : (UNQUOTED_ESC | CHARACTER)+
-   ;
-
-UNQUOTED_ESC
-   : '\\' ["<>()[\]{}]
+ESC
+   : '\\' [<>()[\]{}|]
    ;
 
 CHARACTER
-   : ~ ["<>()[\]{} \t\n\r]
+   : ~ [<>()[\]{}\n\r|]
    ;
 
 EOL
    : [\n\r] +
-   ;
-
-WS
-   : [ \t] +
    ;

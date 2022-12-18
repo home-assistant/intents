@@ -3,7 +3,7 @@
 from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import IO, Any, Dict, Iterable, List, Set, Tuple
+from typing import IO, Any, Dict, Iterable, List, Tuple
 
 from dataclasses_json import dataclass_json
 from yaml import safe_load
@@ -133,7 +133,7 @@ class Intents:
     expansion_rules: Dict[str, Sentence] = field(default_factory=dict)
     """Expansion rules mapped by name."""
 
-    skip_words: Set[str] = field(default_factory=set)
+    skip_words: List[str] = field(default_factory=list)
     """Words that can be skipped during recognition."""
 
     @staticmethod
@@ -188,7 +188,7 @@ class Intents:
                     "expansion_rules", {}
                 ).items()
             },
-            skip_words=set(input_dict.get("skip_words", [])),
+            skip_words=input_dict.get("skip_words", []),
         )
 
 

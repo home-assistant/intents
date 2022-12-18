@@ -57,12 +57,12 @@ class HassILGrammarListener(ParseTreeListener):
     def exitAlt(self, ctx: HassILGrammarParser.AltContext):
         pass
 
-    # Enter a parse tree produced by HassILGrammarParser#word.
-    def enterWord(self, ctx: HassILGrammarParser.WordContext):
+    # Enter a parse tree produced by HassILGrammarParser#text_chunk.
+    def enterText_chunk(self, ctx: HassILGrammarParser.Text_chunkContext):
         pass
 
-    # Exit a parse tree produced by HassILGrammarParser#word.
-    def exitWord(self, ctx: HassILGrammarParser.WordContext):
+    # Exit a parse tree produced by HassILGrammarParser#text_chunk.
+    def exitText_chunk(self, ctx: HassILGrammarParser.Text_chunkContext):
         pass
 
     # Enter a parse tree produced by HassILGrammarParser#list.

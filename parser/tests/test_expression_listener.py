@@ -1,21 +1,17 @@
 """Tests for HassILExpressionListener"""
 from hassil import (
     ListReference,
-    Number,
-    NumberRange,
     RuleReference,
     Sentence,
     Sequence,
     SequenceType,
-    Word,
+    TextChunk,
     parse_sentences,
 )
 
 
 def test_just_words():
-    assert parse_sentences(["this is a test"]) == [
-        s([w("this"), w("is"), w("a"), w("test")])
-    ]
+    assert parse_sentences(["this is a test"]) == [s([tc("this is a test")])]
 
 
 def test_group():
@@ -23,7 +19,7 @@ def test_group():
         s(
             [
                 grp(
-                    [w("this"), w("is"), w("a"), w("test")],
+                    [tc("this is a test")],
                 )
             ]
         )
@@ -34,12 +30,11 @@ def test_optional():
     assert parse_sentences(["this is [a] test"]) == [
         s(
             [
-                w("this"),
-                w("is"),
+                tc("this is"),
                 alt(
-                    [w("a"), Word.empty()],
+                    [tc("a"), TextChunk.empty()],
                 ),
-                w("test"),
+                tc("test"),
             ]
         )
     ]
@@ -49,14 +44,14 @@ def test_optional_nested():
     assert parse_sentences(["this [is [a]] test"]) == [
         s(
             [
-                w("this"),
+                tc("this"),
                 alt(
                     [
-                        grp([w("is"), alt([w("a"), Word.empty()])]),
-                        Word.empty(),
+                        grp([tc("is"), alt([tc("a"), TextChunk.empty()])]),
+                        TextChunk.empty(),
                     ]
                 ),
-                w("test"),
+                tc("test"),
             ]
         )
     ]
@@ -66,12 +61,11 @@ def test_alternative():
     assert parse_sentences(["this is (a | the) test"]) == [
         s(
             [
-                w("this"),
-                w("is"),
+                tc("this is"),
                 alt(
-                    [grp([w("a")]), grp([w("the")])],
+                    [grp([tc("a")]), grp([tc("the")])],
                 ),
-                w("test"),
+                tc("test"),
             ]
         )
     ]
@@ -81,19 +75,18 @@ def test_alternative_multiple_words():
     assert parse_sentences(["this is (a bigger | the biggest) test"]) == [
         s(
             [
-                w("this"),
-                w("is"),
+                tc("this is"),
                 alt(
                     [
                         grp(
-                            [w("a"), w("bigger")],
+                            [tc("a bigger")],
                         ),
                         grp(
-                            [w("the"), w("biggest")],
+                            [tc("the biggest")],
                         ),
                     ],
                 ),
-                w("test"),
+                tc("test"),
             ]
         )
     ]
@@ -106,16 +99,16 @@ def test_alternative_what():
                 alt(
                     [
                         grp(
-                            [w("what")],
+                            [tc("what")],
                         ),
                         grp(
-                            [w("what's")],
+                            [tc("what's")],
                         ),
                         grp(
-                            [w("whats")],
+                            [tc("whats")],
                         ),
                         grp(
-                            [w("what"), w("is")],
+                            [tc("what is")],
                         ),
                     ],
                 ),
@@ -126,50 +119,25 @@ def test_alternative_what():
 
 def test_list_reference():
     assert parse_sentences(["this is a {test}"]) == [
-        s([w("this"), w("is"), w("a"), ListReference("test")])
+        s([tc("this is a"), ListReference("test")])
+    ]
+
+
+def test_list_reference_prefix_suffix():
+    assert parse_sentences(["this is a pre'{test}-post"]) == [
+        s([tc("this is a pre'"), ListReference("test"), tc("-post")])
     ]
 
 
 def test_rule_reference():
     assert parse_sentences(["this is a <test>"]) == [
-        s([w("this"), w("is"), w("a"), RuleReference("test")])
+        s([tc("this is a"), RuleReference("test")])
     ]
 
 
 def test_escape():
     assert parse_sentences(["this \\[is\\] a \\{test\\}"]) == [
-        s([w("this"), w("[is]"), w("a"), w("{test}")])
-    ]
-
-
-def test_quotes():
-    assert parse_sentences(['this "[is]" a "{test}"']) == [
-        s([w("this"), w("[is]"), w("a"), w("{test}")])
-    ]
-
-
-def test_escape_in_quotes():
-    """Test escaped double quotes inside double quotes"""
-    assert parse_sentences(['this is a "\\"test\\""']) == [
-        s([w("this"), w("is"), w("a"), w('"test"')])
-    ]
-
-
-def test_number():
-    assert parse_sentences(["this is 1 test"]) == [
-        s([w("this"), w("is"), Number(1), w("test")])
-    ]
-
-
-def test_number_range():
-    assert parse_sentences(["these are 1..100 tests"]) == [
-        s([w("these"), w("are"), NumberRange(1, 100), w("tests")])
-    ]
-
-
-def test_number_range_step():
-    assert parse_sentences(["these are 1..100,2 odd tests"]) == [
-        s([w("these"), w("are"), NumberRange(1, 100, 2), w("odd"), w("tests")])
+        s([tc("this [is] a {test}")])
     ]
 
 
@@ -180,8 +148,8 @@ def s(items):
     return Sentence(items=items)
 
 
-def w(text):
-    return Word(text)
+def tc(text):
+    return TextChunk(text)
 
 
 def grp(items):

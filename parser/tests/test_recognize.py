@@ -68,10 +68,6 @@ def test_turn_on(intents, slot_lists):
     area = result.entities["area"]
     assert area.name == "area"
     assert area.value == "area.kitchen"
-    assert area.words == ["kitchen"]
-    assert area.words_raw == ["kitchen"]
-    assert area.word_start_index == 2
-    assert area.word_stop_index == 3
 
     # From YAML
     assert result.entities["domain"].value == "media_player"

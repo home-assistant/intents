@@ -40,11 +40,32 @@ def test_optional():
     assert is_match("turn on lights in kitchen", sentence)
 
 
+def test_optional_plural():
+    sentence = parse_sentence("turn on the light[s]")
+    assert is_match("turn on the light", sentence)
+    assert is_match("turn on the lights", sentence)
+
+
+def test_group_plural():
+    sentence = parse_sentence("give me the penn(y | ies)")
+    assert is_match("give me the penny", sentence)
+    assert is_match("give me the pennies", sentence)
+
+
 def test_list():
     sentence = parse_sentence("turn off {area}")
     areas = TextSlotList.from_strings(["kitchen", "living room"])
     assert is_match("turn off kitchen", sentence, slot_lists={"area": areas})
     assert is_match("turn off living room", sentence, slot_lists={"area": areas})
+
+
+def test_list_prefix_suffix():
+    sentence = parse_sentence("turn off abc-{area}-123")
+    areas = TextSlotList.from_strings(["kitchen", "living room"])
+    assert is_match("turn off abc-kitchen-123", sentence, slot_lists={"area": areas})
+    assert is_match(
+        "turn off abc-living room-123", sentence, slot_lists={"area": areas}
+    )
 
 
 def test_rule():
@@ -56,12 +77,10 @@ def test_rule():
     )
 
 
-def test_number():
-    sentence = parse_sentence("execute order 66")
-    assert is_match("execute order 66.", sentence)
-
-
-def test_number_range():
-    sentence = parse_sentence("set brightness to 1..100 [percent]")
-    assert is_match("set brightness to 50%", sentence)
-    assert is_match("set brightness to 50 percent", sentence)
+def test_rule_prefix_suffix():
+    sentence = parse_sentence("turn off abc-<area>-123")
+    assert is_match(
+        "turn off abc-kitchen-123",
+        sentence,
+        expansion_rules={"area": parse_sentence("[the] kitchen")},
+    )

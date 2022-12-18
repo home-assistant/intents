@@ -1,29 +1,27 @@
 """Methods for recognizing intents from text."""
 
 import dataclasses
+import itertools
 import re
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, List, Optional, Set, Union
+from os.path import commonprefix
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 from .expression import (
     Expression,
     ListReference,
-    Number,
-    NumberRange,
     RuleReference,
     Sentence,
     Sequence,
     SequenceType,
-    Word,
+    TextChunk,
 )
 from .intents import Intent, Intents, RangeSlotList, SlotList, TextSlotList
+from .util import normalize_text
 
-NUMBER_START = re.compile(r"^(-?[0-9]+).*$")
+NUMBER_START = re.compile(r"^(\s*-?[0-9]+)")
 
-# TODO: Make this configurable
-PUNCTUATION_END = re.compile(r"[.,;!?]$")
-
-NON_WORD = re.compile(r"^\W+$")
+NON_WORD = re.compile(r"^(\W+\s*)")
 
 
 class MissingListError(Exception):
@@ -44,28 +42,16 @@ class MatchEntity:
     value: Any
     """Value of the entity."""
 
-    words: Optional[List[str]] = None
-    """Processed words that make up the entity from input text."""
-
-    words_raw: Optional[List[str]] = None
-    """Original words that make up the entity from input text."""
-
-    word_start_index: Optional[int] = None
-    """Starting index of the entity in input text."""
-
-    word_stop_index: Optional[int] = None
-    """Ending index (inclusive) of the entity in input text."""
-
 
 @dataclass
 class MatchContext:
     """Context passed to match_expression."""
 
-    words: List[str] = field(default_factory=list)
-    """Input words remaining to be processed."""
+    text: str
+    """Input text remaining to be processed."""
 
-    word_index: int = 0
-    """Index of word currently being processed."""
+    text_index: int = 0
+    """Index of text currently being processed."""
 
     slot_lists: Dict[str, SlotList] = field(default_factory=dict)
     """Available slot lists mapped by name."""
@@ -73,7 +59,7 @@ class MatchContext:
     expansion_rules: Dict[str, Sentence] = field(default_factory=dict)
     """Available expansion rules mapped by name."""
 
-    skip_words: Set[str] = field(default_factory=set)
+    skip_words: List[re.Pattern] = field(default_factory=list)
     """Words that can be skipped during recognition."""
 
     entities: List[MatchEntity] = field(default_factory=list)
@@ -82,16 +68,7 @@ class MatchContext:
     @property
     def is_match(self) -> bool:
         """True if no words are left"""
-        return not self.words
-
-    def next_word(self, **kwargs) -> "MatchContext":
-        """Return copy of context with one less input word."""
-        return dataclasses.replace(
-            self,
-            words=self.words[1:],
-            word_index=self.word_index + 1,
-            **kwargs,
-        )
+        return not self.text
 
 
 @dataclass
@@ -109,18 +86,14 @@ class RecognizeResult:
 
 
 def recognize(
-    text_or_words: Union[str, List[str]],
+    text: str,
     intents: Intents,
     slot_lists: Optional[Dict[str, SlotList]] = None,
     expansion_rules: Optional[Dict[str, Sentence]] = None,
-    skip_words: Optional[Set[str]] = None,
+    skip_words: Optional[Iterable[str]] = None,
 ) -> Optional[RecognizeResult]:
     """Return the first match of input text/words against a collection of intents."""
-    if isinstance(text_or_words, str):
-        # TODO: tokenize for language
-        words = _tokenize_sentence(_preprocess_sentence(text_or_words))
-    else:
-        words = text_or_words
+    text = normalize_text(text)
 
     if slot_lists is None:
         slot_lists = intents.slot_lists
@@ -141,10 +114,7 @@ def recognize(
         skip_words = intents.skip_words
     else:
         # Combine skip words
-        skip_words = set.union(skip_words, intents.skip_words)
-
-    # Preprocess skip words
-    skip_words = {_preprocess_word(word) for word in skip_words}
+        skip_words = itertools.chain(skip_words, intents.skip_words)
 
     # Check sentence against each intent.
     # This should eventually be done in parallel.
@@ -153,10 +123,10 @@ def recognize(
             for intent_sentence in intent_data.sentences:
                 # Create initial context
                 context = MatchContext(
-                    words=words,
+                    text=text,
                     slot_lists=slot_lists,
                     expansion_rules=expansion_rules,
-                    skip_words=skip_words,
+                    skip_words=_prepare_skip_words(skip_words),
                 )
                 sentence_contexts = _match_and_skip(context, intent_sentence)
                 for sentence_context in sentence_contexts:
@@ -181,19 +151,15 @@ def recognize(
 
 
 def is_match(
-    text_or_words: Union[str, List[str]],
+    text: str,
     sentence: Sentence,
     slot_lists: Optional[Dict[str, SlotList]] = None,
     expansion_rules: Optional[Dict[str, Sentence]] = None,
-    skip_words: Optional[Set[str]] = None,
+    skip_words: Optional[Iterable[str]] = None,
     entities: Optional[Dict[str, Any]] = None,
 ) -> Optional[MatchContext]:
     """Return the first match of input text/words against a sentence expression."""
-    if isinstance(text_or_words, str):
-        # TODO: tokenize for language
-        words = _tokenize_sentence(_preprocess_sentence(text_or_words))
-    else:
-        words = text_or_words
+    text = normalize_text(text)
 
     if slot_lists is None:
         slot_lists = {}
@@ -202,13 +168,15 @@ def is_match(
         expansion_rules = {}
 
     if skip_words is None:
-        skip_words = set()
+        skip_words = []
+    else:
+        skip_words = sorted(skip_words, key=len, reverse=True)
 
     context = MatchContext(
-        words=words,
+        text=text,
         slot_lists=slot_lists,
         expansion_rules=expansion_rules,
-        skip_words=skip_words,
+        skip_words=_prepare_skip_words(skip_words),
     )
 
     for match_context in _match_and_skip(context, sentence):
@@ -218,40 +186,57 @@ def is_match(
     return None
 
 
+def _prepare_skip_words(skip_words: Iterable[str]) -> List[re.Pattern]:
+    """Convert skip word strings to regex patterns."""
+    patterns: List[re.Pattern] = []
+    for skip_word in skip_words:
+        skip_word = normalize_text(skip_word)
+        patterns.append(re.compile(rf"^{re.escape(skip_word)}\b"))
+
+    return patterns
+
+
 def _match_and_skip(context: MatchContext, *args, **kwargs) -> Iterable[MatchContext]:
     """Match a sentence, then skip any skippable words at the end of input"""
     for match_context in match_expression(context, *args, *kwargs):
-        has_words_left = False
-        for word in match_context.words:
-            word_text = _preprocess_word(word)
-            if (word_text not in context.skip_words) and _is_word(word_text):
-                # Can't skip a word
-                has_words_left = True
+        while match_context.text:
+            can_skip, match_context.text = _skip(match_context.text, context.skip_words)
+            if not can_skip:
                 break
 
-        if not has_words_left:
-            yield dataclasses.replace(match_context, words=[])
+        yield match_context
 
 
 def match_expression(
     context: MatchContext, expression: Expression
 ) -> Iterable[MatchContext]:
     """Yield matching contexts for an expresion"""
-    if isinstance(expression, Word):
-        word: Word = expression
-        if word.is_empty:
-            # Skip template word
+    if isinstance(expression, TextChunk):
+        chunk: TextChunk = expression
+        if chunk.is_empty:
+            # Skip template chunk
             yield context
 
-        if context.words:
-            if _is_word_match(context.words[0], word.text):
-                # Word match
-                yield context.next_word()
+        context_text_left = context.text
+        chunk_text_left = chunk.text
+
+        while chunk_text_left:
+            prefix = commonprefix((context_text_left, chunk_text_left))
+
+            if prefix:
+                # Common prefix
+                context_text_left = context_text_left[len(prefix) :]
+                chunk_text_left = chunk_text_left[len(prefix) :]
             else:
-                word_text = _preprocess_word(context.words[0])
-                if (word_text in context.skip_words) or not _is_word(word_text):
-                    # Skip input word
-                    yield from match_expression(context.next_word(), expression)
+                can_skip, context_text_left = _skip(
+                    context_text_left, context.skip_words
+                )
+
+                if not can_skip:
+                    break
+
+        if not chunk_text_left:
+            yield dataclasses.replace(context, text=context_text_left)
 
     elif isinstance(expression, Sequence):
         seq: Sequence = expression
@@ -290,7 +275,7 @@ def match_expression(
         if isinstance(slot_list, TextSlotList):
             text_list: TextSlotList = slot_list
 
-            if context.words:
+            if context.text:
                 # Any value may match
                 for slot_value in text_list.values:
                     value_contexts = match_expression(
@@ -298,18 +283,9 @@ def match_expression(
                     )
 
                     for value_context in value_contexts:
-                        # Capture words for entity
-                        entity_words = context.words[
-                            : value_context.word_index - context.word_index
-                        ]
                         value_context.entities.append(
                             MatchEntity(
-                                name=list_ref.slot_name,
-                                value=slot_value.value_out,
-                                words=[_preprocess_word(word) for word in entity_words],
-                                words_raw=entity_words,
-                                word_start_index=context.word_index,
-                                word_stop_index=value_context.word_index,
+                                name=list_ref.slot_name, value=slot_value.value_out
                             )
                         )
                         yield value_context
@@ -318,36 +294,28 @@ def match_expression(
             # List that represents a number range.
             # Numbers must currently be digits ("1" not "one").
             range_list: RangeSlotList = slot_list
-            if context.words:
-                number_match = False
-                word_number = _extract_number(context.words[0])
-                if word_number is not None:
+            if context.text:
+                number_match = NUMBER_START.match(context.text)
+                if number_match is not None:
+                    number_text = number_match[1]
+                    word_number = int(number_text)
                     if range_list.step == 1:
                         # Unit step
-                        number_match = (
-                            range_list.start <= word_number <= range_list.stop
-                        )
+                        in_range = range_list.start <= word_number <= range_list.stop
                     else:
                         # Non-unit step
-                        number_match = word_number in range(
+                        in_range = word_number in range(
                             range_list.start, range_list.stop + 1, range_list.step
                         )
 
-                    if number_match:
-                        entity_words = [context.words[0]]
+                    if in_range:
                         context.entities.append(
-                            MatchEntity(
-                                name=list_ref.slot_name,
-                                value=word_number,
-                                words=[_preprocess_word(word) for word in entity_words],
-                                words_raw=entity_words,
-                                word_start_index=context.word_index,
-                                word_stop_index=context.word_index + 1,
-                            )
+                            MatchEntity(name=list_ref.slot_name, value=word_number)
                         )
 
-                        # Skip over number
-                        yield context.next_word()
+                        yield dataclasses.replace(
+                            context, text=context.text[len(number_text) :].lstrip()
+                        )
 
         else:
             raise ValueError(f"Unexpected slot list type: {slot_list}")
@@ -363,61 +331,25 @@ def match_expression(
         yield from match_expression(
             context, context.expansion_rules[rule_ref.rule_name]
         )
-
-    elif isinstance(expression, Number):
-        # N
-        number: Number = expression
-        if context.words:
-            word_number = _extract_number(context.words[0])
-            if (word_number is not None) and (word_number == number.number):
-                yield context.next_word()
-
-    elif isinstance(expression, NumberRange):
-        # N..M
-        number_range: NumberRange = expression
-        if context.words:
-            word_number = _extract_number(context.words[0])
-            if (word_number is not None) and (word_number in number_range):
-                yield context.next_word()
-
     else:
         raise ValueError(f"Unexpected expression: {expression}")
 
 
-def _tokenize_sentence(text: str) -> List[str]:
-    """Split sentence into tokens (words)"""
-    return text.split()
+def _skip(text: str, skip_words: Iterable[re.Pattern]) -> Tuple[bool, str]:
+    """Skip over skip/non-words."""
+    # Skip words
+    for skip_word in skip_words:
+        skip_word_match = skip_word.match(text)
+        if skip_word_match is not None:
+            text = text[len(skip_word_match[0]) :].lstrip()
+            return True, text
 
+    # Non-words
+    nonword_match = NON_WORD.match(text)
+    if nonword_match is not None:
+        # Skip nonword parts
+        nonword_text = nonword_match[1]
+        text = text[len(nonword_text) :]
+        return True, text
 
-def _preprocess_sentence(text: str) -> str:
-    """Pre-process an entire sentence."""
-    return text.strip()
-
-
-def _preprocess_word(text: str) -> str:
-    """Pre-process a single word."""
-    text = text.strip().casefold()
-    text = PUNCTUATION_END.sub("", text)
-    return text
-
-
-def _is_word_match(text1: str, text2: str) -> bool:
-    """True if words are considered the same"""
-    text1 = _preprocess_word(text1)
-    text2 = _preprocess_word(text2)
-
-    return text1 == text2
-
-
-def _extract_number(text: str) -> Optional[int]:
-    """Extracts an integer from any string that starts with at least one digit"""
-    match = NUMBER_START.match(text)
-    if match is not None:
-        return int(match[1])
-
-    return None
-
-
-def _is_word(text: str) -> bool:
-    """True if text is considered a word."""
-    return bool(text) and (not NON_WORD.match(text))
+    return False, text
