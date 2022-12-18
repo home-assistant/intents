@@ -1,26 +1,8 @@
 """Classes for representing sentence templates."""
-import re
 from abc import ABC
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
-
-# 0..100, -100..100
-NUMBER_RANGE_PATTERN = re.compile(r"^(-?[0-9]+)\.\.(-?[0-9]+),?(?P<step>[0-9]+)?$")
-NUMBER_PATTERN = re.compile(r"^(-?[0-9]+)$")
-
-
-def remove_escapes(text: str) -> str:
-    """Remove backslash escape sequences."""
-    return re.sub(r"\\(.)", r"\1", text)
-
-
-def remove_quotes(text: str) -> str:
-    """Remove double quotes."""
-    if (len(text) > 1) and (text[0] == '"') and (text[-1] == '"'):
-        text = text[1:-1]
-
-    return text
 
 
 @dataclass
@@ -29,21 +11,21 @@ class Expression(ABC):
 
 
 @dataclass
-class Word(Expression):
-    """Single word/token."""
+class TextChunk(Expression):
+    """Contiguous chunk of text (with whitespace)."""
 
     # Text representation expression
     text: str = ""
 
     @property
     def is_empty(self) -> bool:
-        """True if the word is empty"""
+        """True if the chunk is empty"""
         return self.text == ""
 
     @staticmethod
-    def empty() -> "Word":
-        """Returns an empty word"""
-        return Word()
+    def empty() -> "TextChunk":
+        """Returns an empty text chunk"""
+        return TextChunk()
 
 
 class SequenceType(str, Enum):
@@ -96,34 +78,6 @@ class ListReference(Expression):
         """Name of slot to put list value into."""
         assert self._slot_name is not None
         return self._slot_name
-
-
-@dataclass
-class Number(Expression):
-    """Single number."""
-
-    number: Optional[int] = None
-
-
-@dataclass
-class NumberRange(Expression):
-    """Number range of the form N..M where N<M."""
-
-    lower_bound: int
-    upper_bound: int
-    step: int = 1
-
-    def __post_init__(self):
-        assert (
-            self.lower_bound < self.upper_bound
-        ), "lower bound must be lower than upper bound"
-        assert self.step > 0, "step must be positive"
-
-    def __contains__(self, item):
-        if self.step == 1:
-            return self.lower_bound <= item <= self.upper_bound
-
-        return item in range(self.lower_bound, self.upper_bound + 1, self.step)
 
 
 @dataclass

@@ -4,23 +4,17 @@ from typing import Iterable, List, Optional
 from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
 
 from .expression import (
-    NUMBER_PATTERN,
-    NUMBER_RANGE_PATTERN,
-    Expression,
     ListReference,
-    Number,
-    NumberRange,
     RuleReference,
     Sentence,
     Sequence,
     SequenceType,
-    Word,
-    remove_escapes,
-    remove_quotes,
+    TextChunk,
 )
 from .grammar.HassILGrammarLexer import HassILGrammarLexer
 from .grammar.HassILGrammarListener import HassILGrammarListener
 from .grammar.HassILGrammarParser import HassILGrammarParser
+from .util import normalize_text, remove_escapes
 
 GROUP_MARKER = None
 
@@ -82,8 +76,8 @@ class HassILExpressionListener(HassILGrammarListener):
 
             optional.type = SequenceType.ALTERNATIVE
 
-        # Optionals are just alternatives with an empty word ("") as an option.
-        optional.items.append(Word.empty())
+        # Optionals are just alternatives with an empty text chunk ("") as an option.
+        optional.items.append(TextChunk.empty())
         self.last_sequence.items.append(optional)
 
     def enterAlt(self, ctx):
@@ -112,39 +106,15 @@ class HassILExpressionListener(HassILGrammarListener):
     def enterList(self, ctx: HassILGrammarParser.ListContext):
         # {slot_list}
         list_name = ctx.list_name().STRING().getText()
-        self.last_sequence.items.append(
-            ListReference(
-                list_name,
-                prefix=None if ctx.prefix() is None else ctx.prefix().getText(),
-                suffix=None if ctx.suffix() is None else ctx.suffix().getText(),
-            )
-        )
+        self.last_sequence.items.append(ListReference(list_name))
 
-    def enterWord(self, ctx: HassILGrammarParser.WordContext):
-        # Single word
-        word_text = ctx.STRING().getText().strip()
-        word_text = remove_escapes(word_text)
-        word_text = remove_quotes(word_text)
-
-        # Check if word is a number
-        match = NUMBER_PATTERN.match(word_text)
-        if match is not None:
-            item: Expression = Number(int(match[1]))
-        else:
-            # Check if word is a number range (N..M)
-            match = NUMBER_RANGE_PATTERN.match(word_text)
-            if match is not None:
-                step_str = match.groupdict().get("step") or "1"
-                item = NumberRange(
-                    lower_bound=int(match[1]),
-                    upper_bound=int(match[2]),
-                    step=int(step_str),
-                )
-            else:
-                item = Word(word_text)
+    def enterText_chunk(self, ctx: HassILGrammarParser.Text_chunkContext):
+        # Includes whitespace
+        chunk_text = normalize_text(ctx.STRING().getText())
+        chunk_text = remove_escapes(chunk_text)
 
         # Add to last sub-sequence
-        self.last_sequence.items.append(item)
+        self.last_sequence.items.append(TextChunk(chunk_text))
 
     def parse_sentences(self, sentences: Iterable[str]):
         """Parse multiple sentences separated by newlines."""

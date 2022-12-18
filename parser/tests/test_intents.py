@@ -65,12 +65,10 @@ def test_rule():
     )
 
 
-def test_number():
-    sentence = parse_sentence("execute order 66")
-    assert is_match("execute order 66.", sentence)
-
-
-def test_number_range():
-    sentence = parse_sentence("set brightness to 1..100 [percent]")
-    assert is_match("set brightness to 50%", sentence)
-    assert is_match("set brightness to 50 percent", sentence)
+def test_rule_prefix_suffix():
+    sentence = parse_sentence("turn off abc-<area>-123")
+    assert is_match(
+        "turn off abc-kitchen-123",
+        sentence,
+        expansion_rules={"area": parse_sentence("[the] kitchen")},
+    )

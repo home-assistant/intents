@@ -57,28 +57,12 @@ class HassILGrammarListener(ParseTreeListener):
     def exitAlt(self, ctx: HassILGrammarParser.AltContext):
         pass
 
-    # Enter a parse tree produced by HassILGrammarParser#word.
-    def enterWord(self, ctx: HassILGrammarParser.WordContext):
+    # Enter a parse tree produced by HassILGrammarParser#text_chunk.
+    def enterText_chunk(self, ctx: HassILGrammarParser.Text_chunkContext):
         pass
 
-    # Exit a parse tree produced by HassILGrammarParser#word.
-    def exitWord(self, ctx: HassILGrammarParser.WordContext):
-        pass
-
-    # Enter a parse tree produced by HassILGrammarParser#prefix.
-    def enterPrefix(self, ctx: HassILGrammarParser.PrefixContext):
-        pass
-
-    # Exit a parse tree produced by HassILGrammarParser#prefix.
-    def exitPrefix(self, ctx: HassILGrammarParser.PrefixContext):
-        pass
-
-    # Enter a parse tree produced by HassILGrammarParser#suffix.
-    def enterSuffix(self, ctx: HassILGrammarParser.SuffixContext):
-        pass
-
-    # Exit a parse tree produced by HassILGrammarParser#suffix.
-    def exitSuffix(self, ctx: HassILGrammarParser.SuffixContext):
+    # Exit a parse tree produced by HassILGrammarParser#text_chunk.
+    def exitText_chunk(self, ctx: HassILGrammarParser.Text_chunkContext):
         pass
 
     # Enter a parse tree produced by HassILGrammarParser#list.
