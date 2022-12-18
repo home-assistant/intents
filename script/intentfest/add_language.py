@@ -200,12 +200,8 @@ def run() -> int:
     print(
         f"{rel_sentence_dir / 'homeassistant_HassTurnOff.yaml'} - Add some basic sentences"
     )
-    print(
-        f"{rel_sentence_dir / 'homeassistant_HassToggle.yaml'} - Add some basic sentences"
-    )
     print()
     print(f"{rel_test_dir / 'homeassistant_HassTurnOn.yaml'} - Add test sentences")
     print(f"{rel_test_dir / 'homeassistant_HassTurnOff.yaml'} - Add test sentences")
-    print(f"{rel_test_dir / 'homeassistant_HassToggle.yaml'} - Add test sentences")
 
     return 0
