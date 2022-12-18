@@ -1,7 +1,6 @@
 """Test language sentences."""
 
 import pytest
-
 from hassil import recognize
 from hassil.intents import TextSlotList
 
