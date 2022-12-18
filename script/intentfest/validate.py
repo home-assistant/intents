@@ -336,7 +336,7 @@ def validate_language(intent_schemas, language, errors):
             errors[language].append(f"{path}: has no matching sentence file")
             continue
 
-        sentence_files.pop(test_file.name)
+        sentence_file = sentence_files.pop(test_file.name)
 
         content = yaml.safe_load(test_file.read_text())
 
@@ -372,6 +372,17 @@ def validate_language(intent_schemas, language, errors):
             errors[language].append(
                 f"{path}: tests extra intents {', '.join(sorted(extra_intents))}. Only {intent} allowed"
             )
+
+        if tested_intents != {intent}:
+            return
+
+        test_count = sum(len(test["sentences"]) for test in content["tests"])
+        sentence_count = sum(
+            len(data["sentences"]) for data in sentence_file["intents"][intent]["data"]
+        )
+
+        if sentence_count > test_count:
+            errors[language].append(f"{path}: not all sentences have tests")
 
     if sentence_files:
         for sentence_file in sentence_files:
