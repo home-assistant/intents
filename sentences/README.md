@@ -55,4 +55,4 @@ skip_words:
   * In YAML, `list_name` should be under `lists`
 * Expansion Rules
   * `<rule_name>`
-  * In YAML, `rule_name` should be under `expansion_rules`, and should be in the native language
+  * In YAML, `rule_name` should be under `expansion_rules`. If the `rule_name` wraps a slot name, it should match the slot name. Otherwise it should be in the native language.
