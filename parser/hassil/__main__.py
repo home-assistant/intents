@@ -7,8 +7,8 @@ from pathlib import Path
 
 import yaml
 
-from . import Intents, recognize
-from .intents import TextSlotList
+from .intents import Intents, TextSlotList
+from .recognize import recognize
 from .util import merge_dict
 
 _LOGGER = logging.getLogger("hassil")

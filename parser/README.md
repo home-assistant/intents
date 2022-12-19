@@ -50,6 +50,27 @@ open the trapdoor in the office
 ```
 
 
+### Generating Sentences
+
+Sentences for each intent can be generated from the YAML files:
+
+``` sh
+python3 -m hassil.generate sentences/en -n 1
+{"intent": "HassTurnOff", "text": "turn off all the fan in the area"}
+{"intent": "HassToggle", "text": "toggle the entity"}
+{"intent": "HassTurnOn", "text": "turn on the light in the area"}
+{"intent": "HassCloseCover", "text": "close the entity"}
+{"intent": "HassClimateSetTemperature", "text": "set the temp to 0 degrees celsius"}
+{"intent": "HassLightSet", "text": "set the entity brightness to 0 percent"}
+{"intent": "HassOpenCover", "text": "open the entity"}
+{"intent": "HassClimateGetTemperature", "text": "what's the temp"}
+```
+
+The `--areas` and `--names` arguments are the same from `python3 -m hassil`, but default to generic "area" and "entity" terms.
+
+Exclude the `-n` argument to generate all possible sentences.
+
+
 ## Sentence Templates
 
 Parsed using a custom [ANTLR](https://www.antlr.org) grammar (see [`HassILGrammar.g4`](HassILGrammar.g4)).
