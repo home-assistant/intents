@@ -57,7 +57,6 @@ Sentences for each intent can be generated from the YAML files:
 ``` sh
 python3 -m hassil.generate sentences/en -n 1
 {"intent": "HassTurnOff", "text": "turn off all the fan in the area"}
-{"intent": "HassToggle", "text": "toggle the entity"}
 {"intent": "HassTurnOn", "text": "turn on the light in the area"}
 {"intent": "HassCloseCover", "text": "close the entity"}
 {"intent": "HassClimateSetTemperature", "text": "set the temp to 0 degrees celsius"}
