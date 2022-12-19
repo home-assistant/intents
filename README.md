@@ -23,6 +23,7 @@ Repository layout:
 * `en` - English
 * `fr` - French
 * `de` - German
+* `no` - Norwegian
 
 
 ## Intents
