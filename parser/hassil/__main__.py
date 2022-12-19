@@ -39,7 +39,7 @@ def main():
         "name": TextSlotList.from_strings(args.names),
     }
 
-    input_dict = {}
+    input_dict = {"intents": {}}
     for yaml_path_str in args.yaml:
         yaml_path = Path(yaml_path_str)
         if yaml_path.is_dir():
@@ -61,24 +61,27 @@ def main():
     if os.isatty(sys.stdout.fileno()):
         print("Reading sentences from stdin...", file=sys.stderr)
 
-    for line in sys.stdin:
-        line = line.strip()
-        if not line:
-            continue
+    try:
+        for line in sys.stdin:
+            line = line.strip()
+            if not line:
+                continue
 
-        try:
-            result = recognize(line, intents, slot_lists=slot_lists)
-            if result is not None:
-                print(
-                    {
-                        "intent": result.intent.name,
-                        **{e.name: e.value for e in result.entities_list},
-                    }
-                )
-            else:
-                print("<no match>")
-        except Exception:
-            _LOGGER.exception(line)
+            try:
+                result = recognize(line, intents, slot_lists=slot_lists)
+                if result is not None:
+                    print(
+                        {
+                            "intent": result.intent.name,
+                            **{e.name: e.value for e in result.entities_list},
+                        }
+                    )
+                else:
+                    print("<no match>")
+            except Exception:
+                _LOGGER.exception(line)
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == "__main__":
