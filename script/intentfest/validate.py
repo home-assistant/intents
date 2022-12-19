@@ -329,6 +329,8 @@ def validate_language(intent_schemas, language, errors):
                         f"got {slots.get('domain')}"
                     )
 
+    seen_sentences = set()
+
     for test_file in test_dir.iterdir():
         path = str(test_dir.relative_to(ROOT) / test_file.name)
 
@@ -383,6 +385,12 @@ def validate_language(intent_schemas, language, errors):
 
         if sentence_count > test_count:
             errors[language].append(f"{path}: not all sentences have tests")
+
+        for test in content["tests"]:
+            for sentence in test["sentences"]:
+                if sentence in seen_sentences:
+                    errors[language].append(f"{path}: duplicate sentence {sentence}")
+                seen_sentences.add(sentence)
 
     if sentence_files:
         for sentence_file in sentence_files:
