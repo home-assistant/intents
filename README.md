@@ -23,7 +23,7 @@ Repository layout:
 * `en` - English
 * `fr` - French
 * `de` - German
-* `no` - Norwegian
+* `nb` - Norwegian Bokmål
 
 
 ## Intents
