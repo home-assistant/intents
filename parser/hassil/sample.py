@@ -1,4 +1,4 @@
-"""CLI tool for generate sentences from intents."""
+"""CLI tool for sampling sentences from intents."""
 import argparse
 import itertools
 import json
@@ -23,10 +23,10 @@ from .intents import Intents, RangeSlotList, SlotList, TextSlotList
 from .recognize import MissingListError, MissingRuleError
 from .util import merge_dict
 
-_LOGGER = logging.getLogger("hassil.generate")
+_LOGGER = logging.getLogger("hassil.sample")
 
 
-def generate_intents(
+def sample_intents(
     intents: Intents,
     slot_lists: Optional[Dict[str, SlotList]] = None,
     expansion_rules: Optional[Dict[str, Sentence]] = None,
@@ -34,7 +34,7 @@ def generate_intents(
     max_sentences_per_intent: Optional[int] = None,
     intent_names: Optional[Set[str]] = None,
 ) -> Iterable[Tuple[str, str]]:
-    """Generate text strings for sentences from intents."""
+    """Sample text strings for sentences from intents."""
     if slot_lists is None:
         slot_lists = intents.slot_lists
     else:
@@ -60,17 +60,15 @@ def generate_intents(
 
         for intent_data in intent.data:
             for intent_sentence in intent_data.sentences:
-                sentence_texts = generate_expression(
+                sentence_texts = sample_expression(
                     intent_sentence, slot_lists, expansion_rules, separator
                 )
                 for sentence_text in sentence_texts:
                     yield (intent_name, sentence_text)
                     num_intent_sentences += 1
 
-                    if (
-                        (max_sentences_per_intent is not None)
-                        and (max_sentences_per_intent > 0)
-                        and (num_intent_sentences >= max_sentences_per_intent)
+                    if (max_sentences_per_intent is not None) and (
+                        0 < max_sentences_per_intent <= num_intent_sentences
                     ):
                         skip_intent = True
                         break
@@ -85,13 +83,13 @@ def generate_intents(
 _X = False
 
 
-def generate_expression(
+def sample_expression(
     expression: Expression,
     slot_lists: Optional[Dict[str, SlotList]] = None,
     expansion_rules: Optional[Dict[str, Sentence]] = None,
     separator: str = " ",
 ) -> Iterable[str]:
-    """Generate possible text strings from an expression."""
+    """Sample possible text strings from an expression."""
     if isinstance(expression, TextChunk):
         chunk: TextChunk = expression
         yield chunk.text
@@ -99,13 +97,13 @@ def generate_expression(
         seq: Sequence = expression
         if seq.type == SequenceType.ALTERNATIVE:
             for item in seq.items:
-                yield from generate_expression(
+                yield from sample_expression(
                     item, slot_lists, expansion_rules, separator
                 )
         elif seq.type == SequenceType.GROUP:
             seq_sentences = map(
                 partial(
-                    generate_expression,
+                    sample_expression,
                     slot_lists=slot_lists,
                     expansion_rules=expansion_rules,
                     separator=separator,
@@ -132,7 +130,7 @@ def generate_expression(
                 _LOGGER.warning("No values for list: %s", list_ref.list_name)
 
             for text_value in text_list.values:
-                yield from generate_expression(
+                yield from sample_expression(
                     text_value.text_in,
                     slot_lists,
                     expansion_rules,
@@ -154,7 +152,7 @@ def generate_expression(
             raise MissingRuleError(f"Missing expansion rule <{rule_ref.rule_name}>")
 
         rule_body = expansion_rules[rule_ref.rule_name]
-        yield from generate_expression(
+        yield from sample_expression(
             rule_body,
             slot_lists,
             expansion_rules,
@@ -175,7 +173,7 @@ def main():
         help="Limit number of sentences per intent",
     )
     parser.add_argument(
-        "--intents", nargs="+", help="Only generate sentences from these intents"
+        "--intents", nargs="+", help="Only sample sentences from these intents"
     )
     parser.add_argument(
         "--separator",
@@ -221,7 +219,7 @@ def main():
     assert input_dict, "No intent YAML files loaded"
     intents = Intents.from_dict(input_dict)
 
-    intents_and_texts = generate_intents(
+    intents_and_texts = sample_intents(
         intents,
         slot_lists,
         separator=args.separator,
