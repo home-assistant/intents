@@ -4,8 +4,6 @@ This repository contains training data for Home Assistant's local voice control.
 
 Repository layout:
 
-* `parser`
-    * Sentence template parser and intent recognizer
 * `sentences/<language>`
     * YAML files for `<language>` with the name `<domain>_<intent>.yaml`
     * [File format](sentences/README.md#file-format)
@@ -19,16 +17,28 @@ Repository layout:
 
 ## Supported Languages
 
-* `nl` - Dutch
-* `en` - English
-* `fr` - French
-* `de` - German
-* `nb` - Norwegian Bokmål
+* `nl` - Dutch (language leader position open)
+* `en` - English (language leader position open)
+* `fr` - French (language leader position open)
+* `de` - German (language leader position open)
+* `nb` - Norwegian Bokmål (language leader position open)
 
+
+## Language leader
+
+Each language is maintained by one or more language leaders. Language leaders are responsible for reviewing the contributions in their language and making sure that they are grammatically correct.
+
+Anyone can apply to become one. If you want to apply to be a language leader, join us in `#devs_voice` on [Discord](https://www.home-assistant.io/join-chat/) or [open an issue](https://github.com/home-assistant/intents/issues).
+
+## Contributing sentences
+
+Anyone can contribute sentence matches to the repository. The sentences will be reviewed by the language leaders and merged if they are correct. You can either contribute new sentences or improve existing ones.
+
+If you only want to contribute sentences that should be supported, but don't feel comfortable with YAML, you can add them to [the issue of your language](https://github.com/home-assistant/intents/issues?q=is:issue+is:open+label:%22suggest+sentence%22). Limit your submissions to commands that work with the [supported intents](intents.yaml).
 
 ## Intents
 
-See [intents.yaml](intents.yaml) for available intent schemas.
+See [intents.yaml](intents.yaml) for the Home Assistant intent schemas that are supported.
 
 
 ## Lists
@@ -61,7 +71,7 @@ Run the tests. Leave `--language` off to run all tests.
 pytest tests --language nl
 ```
 
-## Testing sentences
+## Test parsing sentences
 
 You can try parsing sentences for a specific language with:
 
