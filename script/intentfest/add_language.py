@@ -162,7 +162,7 @@ def run() -> int:
                     "responses": {
                         "intents": {
                             intent: {
-                                "success": [],
+                                "success": {"templates": []},
                             },
                         },
                     },

@@ -13,5 +13,6 @@ responses:
       # as a Home Assistant template. Intents can make extra variables
       # available that can be referenced in the success message.
       success:
-        - "{{ state.state }} degrees"
+        - templates:
+          - "{{ state.state }} degrees"
 ```
