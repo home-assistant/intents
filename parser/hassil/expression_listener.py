@@ -22,7 +22,7 @@ GROUP_MARKER = None
 class HassILExpressionListener(HassILGrammarListener):
     """Listener that transforms ANTLR form into expressions."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         # List of sentences parsed so far
         self.sentences: List[Sentence] = []
 
