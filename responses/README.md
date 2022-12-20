@@ -14,5 +14,16 @@ responses:
       # available that can be referenced in the success message.
       success:
         - templates:
-          - "{{ state.state }} degrees"
+            - "{{ state.state }} degrees"
 ```
+
+Extra keys can be added alongside the templates, for example:
+
+``` yaml
+success:
+  - templates:
+      - "..."
+    key: <value>
+```
+
+These extra keys will be used during selection of the response, for example if the target language has [grammatical gender](https://en.wikipedia.org/wiki/Grammatical_gender).
