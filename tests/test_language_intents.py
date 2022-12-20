@@ -6,7 +6,7 @@ from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import TextSlotList
 
 
-def test_language_intents(language_intents, intent_schemas):
+def test_language_intents(language_intents: Intents, intent_schemas: Dict[str, Any]):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
     # Add placeholder slots that HA will generate
     language_intents.slot_lists["area"] = TextSlotList(values=[])
