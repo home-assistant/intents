@@ -72,12 +72,28 @@ def run() -> int:
                 "language": language,
                 "responses": {
                     "errors": {
-                        "no_intent": "TODO Sorry, I couldn't understand that",
-                        "no_area": "TODO No area named {{ area }}",
-                        "no_domain": "TODO {{ area }} does not contain a {{ domain }}",
-                        "no_device_class": "TODO {{ area }} does not contain a {{ device_class }}",
-                        "no_entity": "TODO No device or entity named {{ entity }}",
-                        "handle_error": "TODO An unexpected error occurred while handling the intent",
+                        "no_intent": [
+                            {"template": "TODO Sorry, I couldn't understand that"}
+                        ],
+                        "no_area": [{"template": "TODO No area named {{ area }}"}],
+                        "no_domain": [
+                            {
+                                "template": "TODO {{ area }} does not contain a {{ domain }}"
+                            }
+                        ],
+                        "no_device_class": [
+                            {
+                                "template": "TODO {{ area }} does not contain a {{ device_class }}"
+                            }
+                        ],
+                        "no_entity": [
+                            {"template": "TODO No device or entity named {{ entity }}"}
+                        ],
+                        "handle_error": [
+                            {
+                                "template": "TODO An unexpected error occurred while handling the intent"
+                            }
+                        ],
                     },
                 },
                 "lists": {},
@@ -162,7 +178,7 @@ def run() -> int:
                     "responses": {
                         "intents": {
                             intent: {
-                                "success": {"templates": []},
+                                "success": [{"templates": []}],
                             },
                         },
                     },
