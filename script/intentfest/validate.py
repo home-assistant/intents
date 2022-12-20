@@ -331,6 +331,10 @@ def validate_language(intent_schemas, language, errors):
 
     seen_sentences = set()
 
+    if not test_dir.exists():
+        errors[language].append(f"Missing tests directory {test_dir}")
+        return
+
     for test_file in test_dir.iterdir():
         path = str(test_dir.relative_to(ROOT) / test_file.name)
 
