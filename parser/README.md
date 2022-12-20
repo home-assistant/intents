@@ -50,12 +50,12 @@ open the trapdoor in the office
 ```
 
 
-### Generating Sentences
+### Sampling Sentences
 
-Sentences for each intent can be generated from the YAML files:
+Sentences for each intent can be sampled from the intent YAML files:
 
 ``` sh
-python3 -m hassil.generate sentences/en -n 1
+python3 -m hassil.sample sentences/en -n 1
 {"intent": "HassTurnOff", "text": "turn off all the fan in the area"}
 {"intent": "HassTurnOn", "text": "turn on the light in the area"}
 {"intent": "HassCloseCover", "text": "close the entity"}
@@ -67,7 +67,7 @@ python3 -m hassil.generate sentences/en -n 1
 
 The `--areas` and `--names` arguments are the same from `python3 -m hassil`, but default to generic "area" and "entity" terms.
 
-Exclude the `-n` argument to generate all possible sentences.
+Exclude the `-n` argument to sample all possible sentences.
 
 
 ## Sentence Templates
