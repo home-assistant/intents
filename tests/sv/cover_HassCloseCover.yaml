@@ -1,6 +1,35 @@
 language: sv
 tests:
-- sentences: []
-  intent:
-    name: HassCloseCover
-    slots: {}
+  - sentences: 
+      - "stäng gardin"
+    intent:
+      name: HassCloseCover
+      slots: 
+        name: cover.gardin
+  - sentences: 
+      - "stäng gardin i Vardagsrum"
+    intent:
+      name: HassCloseCover
+      slots: 
+        name: cover.gardin
+        area: living_room
+
+  - sentences:
+      - "stäng garagedörren"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        device_class: "garage_door"
+
+  - sentences:
+      - "stäng gardinerna i Sovrum"
+      - "stäng sovrum gardinerna"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        area: "bedroom"
+        device_class:
+          value:
+            - "blind"
+            - "curtain"
+            - "shutter"
