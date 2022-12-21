@@ -13,5 +13,17 @@ responses:
       # as a Home Assistant template. Intents can make extra variables
       # available that can be referenced in the success message.
       success:
-        - "{{ state.state }} degrees"
+        - templates:
+            - "{{ state.state }} degrees"
 ```
+
+Extra keys can be added alongside the templates, for example:
+
+``` yaml
+success:
+  - templates:
+      - "..."
+    key: <value>
+```
+
+These extra keys will be used during selection of the response, for example if the target language has [grammatical gender](https://en.wikipedia.org/wiki/Grammatical_gender).

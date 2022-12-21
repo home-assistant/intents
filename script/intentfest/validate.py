@@ -123,7 +123,7 @@ SENTENCE_SCHEMA = vol.Schema(
         vol.Optional("skip_words"): [str],
         vol.Optional("responses"): {
             vol.Optional("errors"): {
-                vol.In(INTENT_ERRORS): str,
+                vol.In(INTENT_ERRORS): [{"template": str}],
             }
         },
     }
@@ -174,7 +174,7 @@ RESPONSE_SCHEMA = vol.Schema(
         vol.Required("language"): str,
         vol.Optional("responses"): {
             vol.Optional("intents"): {
-                str: {vol.Required("success"): [str]},
+                str: {vol.Required("success"): [{"templates": [str]}]},
             }
         },
     }
