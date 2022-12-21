@@ -16,10 +16,13 @@ base_dir="$(realpath "${this_dir}/..")"
 python_version="$(${PYTHON} --version)"
 
 # Create virtual environment
-echo "Creating virtual environment at ${venv} (${python_version})"
-rm -rf "${venv}"
-"${PYTHON}" -m venv "${venv}"
-source "${venv}/bin/activate"
+if [ ! -n "$DEVCONTAINER" ];then
+  echo "Creating virtual environment at ${venv} (${python_version})"
+  rm -rf "${venv}"
+  "${PYTHON}" -m venv "${venv}"
+  source "${venv}/bin/activate"
+fi
+
 
 # Install Python dependencies
 echo 'Installing Python dependencies'
