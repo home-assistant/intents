@@ -54,9 +54,7 @@ Home Assistant will automatically generate the following lists during recognitio
 
 # Development
 
-Checkout the repository and get a development enviornment with `script/setup`.
-
-Then install the requirements with `pip install -r requirements.txt`.
+Checkout the repository and get a development enviornment with `script/setup`. This will create a new virtual environment in the `venv` directory of the repository, and install all necessary requirements.
 
 Before developing, always activate your virtual environment with `source venv/bin/activate`.
 
@@ -102,6 +100,6 @@ This will print a line of JSON for each `--sentence`:
 python3 -m script.intentfest add_language <language>
 ```
 
-`<language>` should be something like `en` or `pl` according to ISO 639.
+`<language>` should be something like `en` or `pl` according to [ISO 639](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 
 Before you start on a new language, confirm that no one else is already working on one.
