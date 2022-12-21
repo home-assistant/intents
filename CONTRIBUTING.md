@@ -35,10 +35,12 @@ If you do not see your language in the repository, please [open an issue](https:
 
 # Sentence Templates
 
-In order to match text to [intents](https://developers.home-assistant.io/docs/intent_index), we have created a specialized [template language and matcher](https://github.com/home-assistant/hassil). These sentences are grouped by intent, and collected into [YAML files](sentences/README.md#file-format).
+In order to match text to [intents](https://developers.home-assistant.io/docs/intent_index), we have created a specialized [template language and matcher](https://github.com/home-assistant/hassil). These sentences are grouped by intent, and collected into [YAML files](sentences/README.md#file-format). By convention, lists and expansion rules put into `sentences/<language>/_common.yaml`
 
 
 # Test Sentences
+
+Sentences and the intents they should match are collected together into [YAML files](tests/README.md#file-format). By convention, test names for areas and entities are put into `tests/<language>/_common.yaml`
 
 
 # Response Templates
