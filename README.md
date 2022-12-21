@@ -33,7 +33,7 @@ Anyone can apply to become one. If you want to apply to be a language leader, jo
 
 ## Contributing sentences
 
-Anyone can contribute sentence matches to the repository. The sentences will be reviewed by the language leaders and merged if they are correct. You can either contribute new sentences or improve existing ones.
+Anyone can [contribute to the repository](CONTRIBUTING.md). The sentences will be reviewed by the language leaders and merged if they are correct. You can either contribute new sentences or improve existing ones.
 
 If you only want to contribute sentences that should be supported, but don't feel comfortable with YAML, you can add them to [the issue of your language](https://github.com/home-assistant/intents/issues?q=is:issue+is:open+label:%22suggest+sentence%22). Limit your submissions to commands that work with the [supported intents](intents.yaml).
 
