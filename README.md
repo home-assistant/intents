@@ -22,6 +22,7 @@ Repository layout:
 * `fr` - French (language leader position open)
 * `de` - German (language leader position open)
 * `nb` - Norwegian Bokmål (language leader position open)
+* `sv` - Swedish (language leader position open)
 
 
 ## Language leader
@@ -54,6 +55,8 @@ Home Assistant will automatically generate the following lists during recognitio
 # Development
 
 Checkout the repository and get a development enviornment with `script/setup`.
+
+Then install the requirements with `pip install -r requirements.txt`.
 
 Before developing, always activate your virtual environment with `source venv/bin/activate`.
 
@@ -98,5 +101,7 @@ This will print a line of JSON for each `--sentence`:
 ```
 python3 -m script.intentfest add_language <language>
 ```
+
+`<language>` should be something like `en` or `pl` according to ISO 639.
 
 Before you start on a new language, confirm that no one else is already working on one.
