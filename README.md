@@ -94,6 +94,52 @@ This will print a line of JSON for each `--sentence`:
 }
 ```
 
+## Test sampling sentences
+
+You can sample the possible sentences for a specific language with:
+
+``` sh
+python3 -m script.intentfest sample --language en -n 1
+```
+
+This will print a line of JSON for each possible sentence:
+
+``` sh
+python3 -m script.intentfest sample --language en -n 1
+{"intent": "HassTurnOff", "text": "turn off all the fan in the kitchen"}
+{"intent": "HassTurnOn", "text": "turn on the light in the kitchen"}
+{"intent": "HassCloseCover", "text": "close the bedroom lamp"}
+{"intent": "HassClimateSetTemperature", "text": "set the temp to 0 degrees celsius"}
+{"intent": "HassLightSet", "text": "set the bedroom lamp brightness to 0 percent"}
+{"intent": "HassOpenCover", "text": "open the bedroom lamp"}
+{"intent": "HassClimateGetTemperature", "text": "what's the temp "}
+```
+
+Leave off `-n` to generate all possible sentences.
+
+
+## Test sampling template
+
+To quickly test a sentence template, use:
+
+``` sh
+python3 -m script.intentfest sample_template <template>
+```
+
+For example:
+
+``` sh
+python3 -m script.intentfest sample_template 'open [the] door'
+open the door
+open door
+```
+
+You can add lists, ranges, and expansion rules as well:
+
+``` sh
+python3 -m script.intentfest sample_template 'set color to <color> and brightness to {brightness}' --values color red green --range brightness 1 2 --rule color '[the] {color}'
+```
+
 ## Add new language
 
 ```

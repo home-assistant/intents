@@ -2,14 +2,12 @@
 from __future__ import annotations
 
 import argparse
-import json
-import sys
-from typing import Any, Dict
+from typing import Dict
 
+from hassil.expression import Sentence
+from hassil.intents import RangeSlotList, SlotList, TextSlotList
 from hassil.parse import parse_sentence
 from hassil.sample import sample_expression
-from hassil.intents import SlotList, TextSlotList, RangeSlotList
-from hassil.expression import Sentence
 
 from .util import get_base_arg_parser
 
@@ -49,8 +47,31 @@ def get_arguments() -> argparse.Namespace:
 def run() -> int:
     args = get_arguments()
 
+    slot_lists: Dict[str, SlotList] = {}
+    expansion_rules: Dict[str, Sentence] = {}
+
+    if args.values:
+        for name_and_values in args.values:
+            name, values = name_and_values[0], name_and_values[1:]
+            slot_lists[name] = TextSlotList.from_strings(values)
+
+    if args.range:
+        for name_and_args in args.range:
+            name, start, stop = (
+                name_and_args[0],
+                int(name_and_args[1]),
+                int(name_and_args[2]),
+            )
+            slot_lists[name] = RangeSlotList(start, stop)
+
+    if args.rule:
+        for name, body in args.rule:
+            expansion_rules[name] = parse_sentence(body)
+
     template = parse_sentence(args.template)
-    for sentence in sample_expression(template):
-        print(sentence)
+    for sentence in sample_expression(
+        template, slot_lists=slot_lists, expansion_rules=expansion_rules
+    ):
+        print(sentence.strip())
 
     return 0
