@@ -12,7 +12,7 @@ Anyone can contribute to this repository, including:
 Several workflows are available for contribution:
 
 * For small edits to existing files, you can [edit directly on Github](docs/github/README.md)
-* A complete online development environment is available with [Github codespaces](docs/codespaces/README.md)
+* A complete online development environment is available with [Github codespaces](docs/codespace/README.md)
 * Local development should be done by [forking and setting up a local development environment](docs/forking/README.md)
 
 
