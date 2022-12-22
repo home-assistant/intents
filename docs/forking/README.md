@@ -6,9 +6,9 @@
 4. Create a new branch off of `main` with `git checkout -b <branch>`
 5. If your [language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) does not exist yet, run `python3 -m script.intentfest add-language <language_code>`
 6. Modify the files for your language in:
-    * `sentences/<language>` ([sentence templates](#sentence-templates))
-    * `tests/<language>` ([test sentences](#test-sentences))
-    * `responses/<language>` ([response templates](#response-templates))
+    * `sentences/<language>`
+    * `tests/<language>`
+    * `responses/<language>`
 6. Run `script/lint` and `script/test` to ensure everything is working
     * Make sure you have at least one test sentence for every intent sentence template
 7. Commit and push your changes with `git commit` and `git push`
