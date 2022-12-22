@@ -20,7 +20,7 @@ Click "Create new branch" at the top of the window:
 
 Enter a name for your branch and then press Enter:
 
-![Branch name](branch name.jpg)
+![Branch name](branch_name.jpg)
 
 Once you've made some changes, you can run the tests right here! Choose "Terminal" and then "Run Task" from the hamburger menu (3 lines) on the left sidebar:
 
