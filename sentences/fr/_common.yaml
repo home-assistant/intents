@@ -7,9 +7,31 @@ responses:
     no_device_class: "{{ area }} ne contient pas de {{ device_class }}"
     no_entity: "Aucun appareil ou entité appelé {{ entity }}"
     handle_error: "Une erreur est intervenue pendant le traitement"
-lists: {}
+lists:
+  color:
+    values:
+      - "blanc"
+      - "noire"
+      - "rouge"
+      - "orange"
+      - "jaune"
+      - "vert"
+      - "bleu"
+      - "pourpre"
+      - "mauve"
+      - "violet"
+      - "marron"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
 expansion_rules:
   name: "([le | la | les] {name} | [l']{name})"
   area: "([le | la] {area} | [l']{area})"
+  brightness: "([la] {brightness:brightness_pct} [pourcent])"
+  what_is: "(qu'est ce que | qu'est-ce que)"
+  turn: "(turn | interrupteur)"
+  temperature: "{temperature} [degré] [{temperature_unit}]"
 skip_words:
   - "s'il te plaît"
