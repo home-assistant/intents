@@ -43,16 +43,49 @@ skip_words:
 ```
 
 
+## Intents
+
+Intent names correspond to [Home Assistant intents](https://developers.home-assistant.io/docs/intent_index). Any `{list}` in the [sentence templates](#sentence-templates) will be automatically added as a slot during recognition.
+
+Under `data` there is a list of sentence groups, for example:
+
+``` yaml
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "turn on the light"
+```
+
+In addition to sentences, the `slots` section can be used to set fixed slot values in the intent:
+
+``` yaml
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "turn on the light"
+        slots:
+          domain: "light"
+```
+
+
 ## Sentence Templates
 
-* Alternative words or phrases
+* Alternative word, phrases, or parts of a word
   * `(red | green | blue)`
-* Optional words or phrases
+  * `turn(ed | ing)`
+* Optional word, phrases, or parts of a word
   * `[the]`
   * `[this | that]`
+  * `light[s]`
 * Slot Lists
-  * `{list_name:slot_name}`
+  * `{list_name}`
+  * `{list_name:slot_name}` (if intent slot is named different)
+  * Every value of the list is a different option
   * In YAML, `list_name` should be under `lists`
+  * Use `values` for text lists, `range` for numeric lists
 * Expansion Rules
   * `<rule_name>`
+  * The body of the rule is substituted for `<rule_name>`
   * In YAML, `rule_name` should be under `expansion_rules`. If the `rule_name` wraps a slot name, it should match the slot name. Otherwise it should be in the native language.

@@ -1,6 +1,6 @@
 # Responses
 
-YAML files for each intent with the response that Home Assistant will give when the intent is executed.
+YAML files for each intent with the [response template](https://www.home-assistant.io/docs/configuration/templating/) that Home Assistant will give when the intent is executed.
 
 ## File Format
 
@@ -15,3 +15,5 @@ responses:
       success:
         - "{{ state.state }} degrees"
 ```
+
+**NOTE:** These are not the same format as the sentence templates in this repository.
