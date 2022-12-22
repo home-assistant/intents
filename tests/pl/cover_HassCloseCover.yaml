@@ -1,6 +1,37 @@
-language: pl
+language: "pl"
 tests:
-- sentences: []
-  intent:
-    name: HassCloseCover
-    slots: {}
+  - sentences:
+      - "Zamknij szufladę"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.cloth
+  - sentences:
+      - "Zamknij szufladę w salonie"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.cloth
+        area: living_room
+
+  - sentences:
+      - "Zamknij drzwi garażowe"
+      - "Zamknij drzwi od garażu"
+      - "Drzwi garażowe zamknij"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        device_class: "garage_door"
+
+  - sentences:
+      - "Zasłoń rolety w sypialni"
+      - "Zamknij w sypialni wszystkie rolety"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        area: "bedroom"
+        device_class:
+          value:
+            - "blind"
+            - "curtain"
+            - "shutter"
