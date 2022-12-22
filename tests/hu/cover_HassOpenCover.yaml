@@ -1,6 +1,29 @@
 language: hu
 tests:
-- sentences: []
-  intent:
-    name: HassOpenCover
-    slots: {}
+  - sentences:
+      - "redőny utcafront fel"
+      - "utcafront redőny fel"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.cloth
+  - sentences:
+      - "redőny nappali utcafront fel"
+      - "utcafront nappali redőny fel"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.cloth
+        area: living_room
+
+  - sentences:
+      - "árnyékolók hálószoba terasz nyit"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        area: "bedroom"
+        device_class:
+          value:
+            - "blind"
+            - "curtain"
+            - "shade"
