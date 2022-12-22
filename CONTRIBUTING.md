@@ -40,7 +40,7 @@ In order to match text to [intents](https://developers.home-assistant.io/docs/in
 
 # Test Sentences
 
-Sentences and the intents they should match are collected together into [YAML files](tests/README.md#file-format). By convention, test names for areas and entities are put into `tests/<language>/_common.yaml`
+Sentences and the intents they should match are collected together into [YAML files](tests/README.md#file-format). By convention, test names for areas and entities are put into `tests/<language>/_fixtures.yaml`
 
 
 # Response Templates
