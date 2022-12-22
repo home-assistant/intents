@@ -92,7 +92,7 @@ def run() -> int:
     english_tests = TESTS_DIR / "en"
 
     for english_filename in english_tests.iterdir():
-        if english_filename.name == "_common.yaml":
+        if english_filename.name == "_fixtures.yaml":
             continue
 
         _domain, intent = english_filename.stem.split("_")
