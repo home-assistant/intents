@@ -115,7 +115,7 @@ def run() -> int:
             )
         )
 
-    (tests_dir / "_common.yaml").write_text(
+    (tests_dir / "_fixtures.yaml").write_text(
         yaml.dump(
             {
                 "language": language,
@@ -130,19 +130,16 @@ def run() -> int:
                         "name": "Bedroom Lamp",
                         "id": "light.bedroom_lamp",
                         "area": "bedroom",
-                        "domain": "light",
                     },
                     {
                         "name": "Kitchen Switch",
                         "id": "switch.kitchen",
                         "area": "kitchen",
-                        "domain": "switch",
                     },
                     {
                         "name": "Ceiling Fan",
                         "id": "fan.ceiling",
                         "area": "living_room",
-                        "domain": "fan",
                     },
                 ],
             },
