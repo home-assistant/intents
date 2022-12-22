@@ -7,30 +7,13 @@ Anyone can contribute to this repository, including:
 * [Response templates](#response-templates) that Home Assistant will use to generate responses
 
 
-## Existing Languages
+## Workflows
 
-If your [language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) already exists in the [list of sentences](https://github.com/home-assistant/intents/tree/main/sentences), you can contribute by:
+Several workflows are available for contribution:
 
-1. Forking [the repository](https://github.com/home-assistant/intents) on Github
-2. Setting up a local development environment with `script/setup`
-3. Creating a new branch off of `main`
-4. Modifying the files for your language in:
-    * `sentences/<language>` ([sentence templates](#sentence-templates))
-    * `tests/<language>` ([test sentences](#test-sentences))
-    * `responses/<language>` ([response templates](#response-templates))
-5. Running `script/lint` and `script/test`
-6. Submitting a pull request (PR) with your suggested changes
-
-
-## New Languages
-
-If you do not see your language in the repository, please [open an issue](https://github.com/home-assistant/intents/issues) or:
-
-1. Fork [the repository](https://github.com/home-assistant/intents) on Github
-2. Set up a local development environment with `script/setup`
-3. Create a new branch off of `main`
-4. Run `python3 -m script.intentfest add-language <language>` with a new [language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
-5. Submit a pull request (PR) with your suggested changes
+* For small edits to existing files, you can [edit directly on Github](docs/github/README.md)
+* A complete online development environment is available with [Github codespaces](docs/codespaces/README.md)
+* Local development should be done by [forking and setting up a local development environment](docs/forking/README.md)
 
 
 # Sentence Templates
