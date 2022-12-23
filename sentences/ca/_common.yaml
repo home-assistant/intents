@@ -1,12 +1,55 @@
 language: ca
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: "Ho sento, no ho he entès."
+    no_area: "No hi ha una àrea anomenada {{ area }}"
+    no_domain: "{{ area }} no conté {{ domain }}"
+    no_device_class: "{{ area }} no conté {{ device_class }}"
+    no_entity: "No hi ha un dispositiu o entitat anomenat {{ entity }}"
+    handle_error: "Ha ocorregut un error al gestionar la petició"
+lists:
+  color:
+    values:
+      - in: "blanc"
+        out: "white"
+      - in: "negre"
+        out: "black"
+      - in: "vermell"
+        out: "red"
+      - in: "taronja"
+        out: "orange"
+      - in: "groc"
+        out: "yellow"
+      - in: "verd"
+        out: "green"
+      - in: "blau"
+        out: "blue"
+      - in: "(lila|morat|violeta)"
+        out: "purple"
+      - in: "marró"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+expansion_rules:
+  name: "([el | la] {name} | [l']{name})"
+  area: "([el | la] {area} | [l']{area})"
+skip_words:
+  - "Si us plau"
+  - "Sisplau"
+  - "Per favor"
