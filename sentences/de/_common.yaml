@@ -7,14 +7,60 @@ responses:
     no_device_class: "{{ device_class }} gibt es nicht im Bereich {{ area }}"
     no_entity: "{{ entity }} gibt es nicht"
     handle_error: "Es ist etwas schief gegangen"
-lists: {}
+lists:
+  color:
+    values:
+      - in: "weiß"
+        out: "white"
+      - in: "schwarz"
+        out: "black"
+      - in: "rot"
+        out: "red"
+      - in: "orange"
+        out: "orange"
+      - in: "gelb"
+        out: "yellow"
+      - in: "grün"
+        out: "green"
+      - in: "blau"
+        out: "blue"
+      - in: "violett"
+        out: "purple"
+      - in: "braun"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
 expansion_rules:
-  articels_3rd_case: "(den | die | das)"
-  articels_4th_case: "(der | dem)"
-  prefix: "(in | im)"
-  name: "[(den | die | das)] {name}"
+  name: "[(der | den | die | das)] {name}"
   area: "(in (der | dem) | im) {area}"
-  turn_on: "(an | ein)"
-  turn_off: "(ab | aus)"
+  an_ein: "(an | ein)"
+  ab_aus: "(ab | aus)"
+  schliessen: "(schließ | schließe)"
+  machen: "(mach | mache)"
+  setzen: "(setze | stelle | ändere)"
+  abdeckung: "(das Rollo | die Rollos | die Abdeckung | die Abdeckungen | den Rollladen | die Rollläden | die (Jalousie | Jalousien))"
+  alle_abdeckungen: "alle (Rollos | Abdeckungen | Rollläden | Jalousien)"
+  tor: "(das Tor | die Tore | die Garage | die Garagen | das Garagentor | die Garagentore)"
+  alle_tore: "alle (Tore | Garagen | Garagentore)"
+  luefter: "(den Ventilator | die Ventilatoren | (den | die) Lüfter)"
+  alle_luefter: "alle (Ventilatoren | Lüfter)"
+  brightness: "{brightness:brightness_pct} [Prozent]"
+  temperature: "{temperature} [Grad] [{temperature_unit}]"
 skip_words:
   - "bitte"
