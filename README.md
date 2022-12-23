@@ -25,7 +25,7 @@ Repository layout:
 | `fr` | French           | @benjaminlecouteux |
 | `hu` | Hungarian        | @nagyrobi          |
 | `nb` | Norwegian Bokmål | (position open)    |
-| `nl` | Dutch            | (position open)    |
+| `nl` | Dutch            | @TheFes            |
 | `pl` | Polish           | (position open)    |
 | `sk` | Slovak           | (position open)    |
 | `sv` | Swedish          | (position open)    |
