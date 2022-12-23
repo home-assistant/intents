@@ -8,11 +8,11 @@ The HassIL syntax lets you **compactly describe a set of sentences**, for either
 
 To follow along with this guide, you will need to set up a development environment. The easiest way is to create a codespace on Github:
 
-![Create codespace](create_codespace.jpg)
+![Create codespace](codespace/create_codespace.jpg)
 
 This will set up a complete environment for you, and provide a code editor and terminal:
 
-![Code editor](editor.jpg)
+![Code editor](codespace/editor.jpg)
 
 If you prefer a local environment, you will need to clone the repository:
 
