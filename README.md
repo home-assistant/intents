@@ -17,19 +17,18 @@ Repository layout:
 
 ## Supported Languages
 
-* `de` - German
-    * Leaders: @Scorpoon
-* `dk` - Danish (language leader position open)
-* `en` - English (language leader position open)
-* `fr` - French (language leader position open)
-    * Leaders: @benjaminlecouteux
-* `hu` - Hungarian
-    * Leaders: @nagyrobi
-* `nb` - Norwegian Bokmål (language leader position open)
-* `nl` - Dutch (language leader position open)
-* `pl` - Polish (language leader position open)
-* `sk` - Slovak (language leader position open)
-* `sv` - Swedish (language leader position open)
+| Code | Language         | Leaders            |
+|------|------------------|--------------------|
+| `de` | German           | @Scorpoon          |
+| `dk` | Danish           | (position open)    |
+| `en` | English          | (position open)    |
+| `fr` | French           | @benjaminlecouteux |
+| `hu` | Hungarian        | @nagyrobi          |
+| `nb` | Norwegian Bokmål | (position open)    |
+| `nl` | Dutch            | (position open)    |
+| `pl` | Polish           | (position open)    |
+| `sk` | Slovak           | (position open)    |
+| `sv` | Swedish          | (position open)    |
 
 
 ## Language leader
