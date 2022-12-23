@@ -13,6 +13,8 @@ Repository layout:
 * `tests/<language>`
     * YAML files for `<language>` with test sentences and corresponding intents
     * [File format](tests/README.md#file-format)
+    
+See the [documentation](docs/README.md) for more information.
 
 
 ## Supported Languages
