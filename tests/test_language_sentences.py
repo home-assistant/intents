@@ -3,6 +3,7 @@
 import pytest
 from hassil import recognize
 from hassil.intents import TextSlotList
+import pprint
 
 
 @pytest.fixture(name="slot_lists", scope="session")
@@ -31,6 +32,9 @@ def test_language_sentences(slot_lists, language_intents, language_tests):
             for slot_name, slot_dict in intent.get("slots", {}).items():
                 if not isinstance(slot_dict, dict):
                     slot_dict = {"value": slot_dict}
+                pprint.pprint('-------')
+                pprint.pprint(sentence)
+                pprint.pprint(intent["name"])
                 assert (
                     slot_name in result.entities
                 ), f"For '{sentence}' did not receive slot '{slot_name}'"
