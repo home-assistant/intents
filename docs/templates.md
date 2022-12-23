@@ -173,3 +173,70 @@ This will match the sentence "turn on my light" to the `HassTurnOn` intent *and*
 
 
 ### Expansion Rules
+
+Commonly used sentence template snippets can be replaced with a `<rule>`. These rules are automatically expanded inside templates, and can reference both lists and other rules.
+
+In [YAML](../sentences/README.md#file-format), this looks like:
+
+```yaml
+language: "en"
+intents:
+  HassLightSet:
+    data:
+      - sentences:
+          - "set light to <color>"
+expansion_rules:
+  color: "(red | green | blue)"
+```
+
+On the command line, we can use them with `--rule`:
+
+```sh
+python3 -m script.intentfest sample_template 'set color to <color>' --rule color '(red | green | blue)' 
+```
+
+which again prints:
+
+```
+set color to red
+set color to green
+set color to blue
+```
+
+Expansion rules are especially useful when combined with lists:
+
+```yaml
+language: "en"
+intents:
+  HassLightSet:
+    data:
+      - sentences:
+          - "set light to <color>"
+lists:
+  color:
+    values:
+      - "red"
+      - "green"
+      - "blue"
+expansion_rules:
+  color: "[the color] {color}"
+```
+
+*Note*: the list and rule names do not both have to be "color".
+
+On the command line, we now have:
+
+```sh
+python3 -m script.intentfest sample_template 'set color to <color>' --rule color '[the color] {color}' --values color red green blue 
+```
+
+which prints all 6 possible sentences:
+
+```
+set color to the color red
+set color to the color green
+set color to the color blue
+set color to red
+set color to green
+set color to blue
+```
