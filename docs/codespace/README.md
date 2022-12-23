@@ -2,7 +2,7 @@
 
 A complete development environment can be accessed through [Github codespaces](https://docs.github.com/en/codespaces/overview). 
 
-To get started, simply click the green "Code" button on the repository's main page, and then click "Create codespace on main":
+To get started, click the green "Code" button on the repository's main page, and then click "Create codespace on main":
 
 ![Create codespace](create_codespace.jpg)
 
