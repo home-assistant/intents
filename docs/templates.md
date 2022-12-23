@@ -3,6 +3,11 @@
 This repository uses a special template syntax for describing sentences called the [Home Assistant Intent Language](https://github.com/home-assistant/hassil) or HassIL.
 The HassIL syntax lets you **compactly describe a set of sentences**, for either matching or generating text.
 
+* [Alternatives](#alternatives)
+* [Optionals](#optionals)
+* [Lists and Slots](#lists-and-slots)
+* [Expansion Rules](#expansion-rules)
+
 
 ## Getting Started
 
