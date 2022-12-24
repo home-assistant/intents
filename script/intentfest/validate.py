@@ -267,6 +267,15 @@ def validate_language(intent_schemas, language, errors):
         if "expansion_rules" in content:
             expansion_rules.update(content["expansion_rules"])
 
+    # Validate if colors are translated if not English
+    if language != "en" and (values := lists.get("color", {}).get("values", [])):
+        for color in values:
+            if not isinstance(color, dict):
+                errors[language].append(
+                    "Colors should use the in-out format to output English color names for Home Assistant to consume. See sentences/nl/_common.yaml for an example."
+                )
+                break
+
     for sentence_file, content in sentence_files.items():
         if sentence_file.startswith("_"):
             if "intents" in content:
