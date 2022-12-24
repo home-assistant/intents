@@ -25,7 +25,7 @@ See the [documentation](docs/README.md) for more information.
 | `dk` | Danish           | (position open)    |
 | `en` | English          | (position open)    |
 | `fr` | French           | @benjaminlecouteux |
-| `he` | Hebrew           | @leranp            |
+| `he` | Hebrew           | @haim-b, @leranp   |
 | `hu` | Hungarian        | @nagyrobi          |
 | `nb` | Norwegian Bokmål | (position open)    |
 | `nl` | Dutch            | @TheFes            |
