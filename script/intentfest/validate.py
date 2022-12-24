@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import re
+from pathlib import Path
 from typing import Any
 
 import voluptuous as vol
@@ -149,7 +150,7 @@ TESTS_SCHEMA = vol.Schema(
     }
 )
 
-TESTS_COMMON = vol.Schema(
+TESTS_FIXTURES = vol.Schema(
     {
         vol.Required("language"): str,
         vol.Optional("areas"): [
@@ -163,7 +164,6 @@ TESTS_COMMON = vol.Schema(
                 vol.Required("name"): str,
                 vol.Required("id"): str,
                 vol.Required("area"): str,
-                vol.Required("domain"): str,
             }
         ],
     }
@@ -231,9 +231,9 @@ def run() -> int:
 
 
 def validate_language(intent_schemas, language, errors):
-    sentence_dir = SENTENCE_DIR / language
-    test_dir = TESTS_DIR / language
-    response_dir = RESPONSE_DIR / language
+    sentence_dir: Path = SENTENCE_DIR / language
+    test_dir: Path = TESTS_DIR / language
+    response_dir: Path = RESPONSE_DIR / language
 
     sentence_files = {}
     lists = {}
@@ -241,8 +241,14 @@ def validate_language(intent_schemas, language, errors):
 
     for sentence_file in sentence_dir.iterdir():
         path = str(sentence_dir.relative_to(ROOT) / sentence_file.name)
-        content = yaml.safe_load(sentence_file.read_text())
-        sentence_files[sentence_file.name] = content
+        try:
+            content = yaml.safe_load(sentence_file.read_text())
+        except yaml.YAMLError as err:
+            errors[language].append(f"{path}: invalid YAML: {err}")
+            continue
+
+        if sentence_file.name != "_common.yaml":
+            sentence_files[sentence_file.name] = content
 
         try:
             validate_with_humanized_errors(content, SENTENCE_SCHEMA)
@@ -331,8 +337,31 @@ def validate_language(intent_schemas, language, errors):
 
     seen_sentences = set()
 
+    if not test_dir.exists():
+        errors[language].append(f"Missing tests directory {test_dir}")
+        return
+
     for test_file in test_dir.iterdir():
         path = str(test_dir.relative_to(ROOT) / test_file.name)
+        try:
+            content = yaml.safe_load(test_file.read_text())
+        except yaml.YAMLError as err:
+            errors[language].append(f"{path}: invalid YAML: {err}")
+            continue
+
+        if test_file.name == "_fixtures.yaml":
+            try:
+                validate_with_humanized_errors(content, TESTS_FIXTURES)
+            except vol.Error as err:
+                errors[language].append(f"{path}: invalid format: {err}")
+                continue
+
+            if content["language"] != language:
+                errors[language].append(
+                    f"{path}: references incorrect language {content['language']}"
+                )
+
+            continue
 
         if test_file.name not in sentence_files:
             errors[language].append(f"{path}: has no matching sentence file")
@@ -340,15 +369,8 @@ def validate_language(intent_schemas, language, errors):
 
         sentence_file = sentence_files.pop(test_file.name)
 
-        content = yaml.safe_load(test_file.read_text())
-
-        if test_file.name == "_common.yaml":
-            schema = TESTS_COMMON
-        else:
-            schema = TESTS_SCHEMA
-
         try:
-            validate_with_humanized_errors(content, schema)
+            validate_with_humanized_errors(content, TESTS_SCHEMA)
         except vol.Error as err:
             errors[language].append(f"{path}: invalid format: {err}")
             continue
@@ -357,9 +379,6 @@ def validate_language(intent_schemas, language, errors):
             errors[language].append(
                 f"{path}: references incorrect language {content['language']}"
             )
-
-        if test_file.name == "_common.yaml":
-            continue
 
         domain, intent = test_file.stem.split("_")
 
@@ -406,7 +425,11 @@ def validate_language(intent_schemas, language, errors):
             )
             continue
 
-        content = yaml.safe_load(response_file.read_text())
+        try:
+            content = yaml.safe_load(response_file.read_text())
+        except yaml.YAMLError as err:
+            errors[language].append(f"{path}: invalid YAML: {err}")
+            continue
 
         try:
             validate_with_humanized_errors(content, RESPONSE_SCHEMA)
