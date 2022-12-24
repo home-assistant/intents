@@ -6,14 +6,45 @@ from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import TextSlotList
 
 
-def test_language_intents(language_intents: Intents, intent_schemas: Dict[str, Any]):
+def test_language_common(
+    language,
+    language_sentences_yaml: Dict[str, Any],
+):
+    """Test the language common file."""
+    common_files = [key for key in language_sentences_yaml if key.startswith("_")]
+
+    assert common_files == [
+        "_common.yaml"
+    ], "Only _common.yaml is allowed as common file"
+
+    if language == "en":
+        return
+
+    content = language_sentences_yaml["_common.yaml"]
+
+    if values := content["lists"].get("color", {}).get("values", []):
+        for color in values:
+            assert isinstance(
+                color, dict
+            ), "Color list should use the in-out format to output English color names for Home Assistant to consume. See sentences/nl/_common.yaml for an example."
+
+    assert (
+        "intents" not in content
+    ), "_common.yaml is a common file and should not contain intents"
+
+
+def test_language_sentences(
+    language_sentences: Intents,
+    language_sentences_yaml: Dict[str, Any],
+    intent_schemas: Dict[str, Any],
+):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
     # Add placeholder slots that HA will generate
-    language_intents.slot_lists["area"] = TextSlotList(values=[])
-    language_intents.slot_lists["name"] = TextSlotList(values=[])
+    language_sentences.slot_lists["area"] = TextSlotList(values=[])
+    language_sentences.slot_lists["name"] = TextSlotList(values=[])
 
     # Lint sentences
-    for intent_name, intent in language_intents.intents.items():
+    for intent_name, intent in language_sentences.intents.items():
         intent_schema = intent_schemas[intent_name]
         slot_schema = intent_schema["slots"]
         slot_combinations = intent_schema.get("slot_combinations")
@@ -24,7 +55,7 @@ def test_language_intents(language_intents: Intents, intent_schemas: Dict[str, A
                 for expression in _flatten(sentence):
                     _verify(
                         expression,
-                        language_intents,
+                        language_sentences,
                         intent_name,
                         slot_schema,
                         visited_rules=set(),
@@ -65,12 +96,12 @@ def _verify(
         # Ensure list exists
         assert (
             list_ref.list_name in intents.slot_lists
-        ), f"Missing slot list: {{{list_ref.list_name}}}"
+        ), f"Missing slot list: {{{list_ref.list_name}}}. Available slots: {', '.join(intents.slot_lists)}"
 
         # Ensure slot is part of intent
         assert (
             list_ref.slot_name in slot_schema
-        ), f"Unexpected slot '{list_ref.slot_name}' in intent '{intent_name}"
+        ), f"Unexpected slot '{list_ref.slot_name}' for intent '{intent_name}"
 
         # Track slots for combination check
         found_slots.add(list_ref.slot_name)

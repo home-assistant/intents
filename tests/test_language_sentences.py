@@ -18,12 +18,12 @@ def slot_lists_fixture(language_tests):
     }
 
 
-def test_language_sentences(slot_lists, language_intents, language_tests):
+def test_language_sentences(slot_lists, language_sentences, language_tests):
     """Tests recognition all of the test sentences for a language"""
     for test in language_tests["tests"]:
         intent = test["intent"]
         for sentence in test["sentences"]:
-            result = recognize(sentence, language_intents, slot_lists=slot_lists)
+            result = recognize(sentence, language_sentences, slot_lists=slot_lists)
             assert result is not None, f"Recognition failed for '{sentence}'"
             assert (
                 result.intent.name == intent["name"]
