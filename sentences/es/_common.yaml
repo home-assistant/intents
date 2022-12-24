@@ -7,6 +7,51 @@ responses:
     no_device_class: TODO {{ area }} no tiene {{ device_class }}
     no_entity: TODO No el existe dispositivo o entidad llamado {{ entity }}
     handle_error: TODO Un error inesperado a ocurrido intentando procesar la instruccion
-lists: {}
-expansion_rules: {}
-skip_words: []
+lists:
+  color:
+    values:
+      - in: "white"
+        out: "blanco"
+      - in: "black"
+        out: "negro"
+      - in: "red"
+        out: "rojo"
+      - in: "orange"
+        out: "naranja"
+      - in: "yellow"
+        out: "amarillo"
+      - in: "green"
+        out: "verde"
+      - in: "blue"
+        out: "azul"
+      - in: "purple"
+        out: "morado"
+      - in: "brown"
+        out: "marrón"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+expansion_rules:
+  name: "[el] {name}"
+  area: "[en | en el | en la | la | de la | del ] {area}"
+  brightness: "{brightness:brightness_pct} [porciento]"
+  turn: "(enciende | activa)"
+  temp: "(temperatura)"
+  temperature: "{temperature} [grados] [{temperature_unit}]"
+skip_words:
+  - "por favor"
