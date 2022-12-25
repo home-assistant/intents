@@ -1,9 +1,13 @@
 """Test language intents."""
+import sys
 from typing import Any, Dict, Iterable, Set
 
 from hassil import Intents
 from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import TextSlotList
+from hassil.util import merge_dict
+
+from . import USER_SENTENCES_DIR
 
 
 def test_language_common(
@@ -33,10 +37,17 @@ def test_language_common(
     ), "_common.yaml is a common file and should not contain intents"
 
 
-def test_language_sentences(
-    language_sentences: Intents, intent_schemas: Dict[str, Any]
+def do_test_language_sentences(
+    file_name: str,
+    intent_schemas: Dict[str, Any],
+    language_sentences_yaml: Dict[str, Any],
 ):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
+    merged: dict = {}
+    merge_dict(merged, language_sentences_yaml["_common.yaml"])
+    merge_dict(merged, language_sentences_yaml[f"{file_name}.yaml"])
+
+    language_sentences = Intents.from_dict(merged)
     # Add placeholder slots that HA will generate
     language_sentences.slot_lists["area"] = TextSlotList(values=[])
     language_sentences.slot_lists["name"] = TextSlotList(values=[])
@@ -135,3 +146,26 @@ def _flatten(expression: Expression) -> Iterable[Expression]:
             yield from _flatten(item)
     else:
         yield expression
+
+
+def gen_test(test_file):
+    def test_func(intent_schemas, language_sentences_yaml):
+        do_test_language_sentences(
+            test_file.stem,
+            intent_schemas,
+            language_sentences_yaml,
+        )
+
+    test_func.__name__ = f"test_{test_file.stem}"
+    setattr(sys.modules[__name__], test_func.__name__, test_func)
+
+
+def gen_tests():
+    lang_dir = USER_SENTENCES_DIR / "en"
+
+    for test_file in lang_dir.glob("*.yaml"):
+        if test_file.name != "_common.yaml":
+            gen_test(test_file)
+
+
+gen_tests()
