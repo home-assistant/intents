@@ -53,7 +53,7 @@ def do_test_language_sentences(
 ):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
     parsed_sentences_without_common = Intents.from_dict(
-        language_sentences_yaml[f"{file_name}.yaml"]
+        language_sentences_yaml[file_name]
     )
 
     # Merge common rules with file specific intents.
@@ -165,7 +165,7 @@ def _flatten(expression: Expression) -> Iterable[Expression]:
 def gen_test(test_file):
     def test_func(intent_schemas, language_sentences_yaml, common_language_intents):
         do_test_language_sentences(
-            test_file.stem,
+            test_file.name,
             intent_schemas,
             language_sentences_yaml,
             common_language_intents,
