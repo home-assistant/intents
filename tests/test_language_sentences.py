@@ -5,13 +5,13 @@ import pytest
 from hassil import recognize
 from hassil.intents import TextSlotList
 
-from . import TEST_SENTENCES_DIR
+from . import TEST_SENTENCES_DIR, load_test
 
 
 @pytest.fixture(name="slot_lists", scope="session")
-def slot_lists_fixture(language_tests_yaml):
+def slot_lists_fixture(language):
     """Loads the slot lists for the language."""
-    fixtures = language_tests_yaml["_fixtures.yaml"]
+    fixtures = load_test(language, "_fixtures")
     return {
         "area": TextSlotList.from_tuples(
             (area["name"], area["id"]) for area in fixtures["areas"]
@@ -23,10 +23,10 @@ def slot_lists_fixture(language_tests_yaml):
 
 
 def do_test_language_sentences_file(
-    test_file, language_tests_yaml, slot_lists, language_sentences
+    language, test_file, slot_lists, language_sentences
 ):
     """Tests recognition all of the test sentences for a language"""
-    for test in language_tests_yaml[test_file]["tests"]:
+    for test in load_test(language, test_file)["tests"]:
         intent = test["intent"]
         for sentence in test["sentences"]:
             result = recognize(sentence, language_sentences, slot_lists=slot_lists)
@@ -44,9 +44,9 @@ def do_test_language_sentences_file(
 
 
 def gen_test(test_file):
-    def test_func(language_tests_yaml, slot_lists, language_sentences):
+    def test_func(language, slot_lists, language_sentences):
         do_test_language_sentences_file(
-            test_file.name, language_tests_yaml, slot_lists, language_sentences
+            language, test_file.stem, slot_lists, language_sentences
         )
 
     test_func.__name__ = f"test_{test_file.stem}"

@@ -34,9 +34,7 @@ def test_language_common(
 
 
 def test_language_sentences(
-    language_sentences: Intents,
-    language_sentences_yaml: Dict[str, Any],
-    intent_schemas: Dict[str, Any],
+    language_sentences: Intents, intent_schemas: Dict[str, Any]
 ):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
     # Add placeholder slots that HA will generate

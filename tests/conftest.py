@@ -6,7 +6,7 @@ import yaml
 from hassil import Intents
 from hassil.util import merge_dict
 
-from . import INTENTS_FILE, LANGUAGES, load_sentences, load_tests
+from . import INTENTS_FILE, LANGUAGES, load_sentences
 
 
 def pytest_addoption(parser):
@@ -45,18 +45,3 @@ def language_sentences(language_sentences_yaml: dict):
         merge_dict(merged, intents_dict)
 
     return Intents.from_dict(merged)
-
-
-@pytest.fixture(name="language_tests_yaml", scope="session")
-def language_tests_yaml_fixture(language: str):
-    """Loads the language tests."""
-    return load_tests(language)
-
-
-@pytest.fixture(scope="session")
-def language_tests(language_tests_yaml: dict):
-    """Loads the language tests."""
-    merged: dict = {}
-    for tests in language_tests_yaml.values():
-        merge_dict(merged, tests)
-    return merged
