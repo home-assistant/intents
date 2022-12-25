@@ -35,11 +35,3 @@ def load_test(language: str, test_name: str):
     return yaml.safe_load(
         (TEST_SENTENCES_DIR / language / f"{test_name}.yaml").read_text()
     )
-    # lang_dir = TEST_SENTENCES_DIR / language
-    # files: Dict[str, Any] = {}
-
-    # for yaml_path in lang_dir.rglob("*.yaml"):
-    #     with open(yaml_path, "r", encoding="utf-8") as yaml_file:
-    #         files[yaml_path.name] = yaml.safe_load(yaml_file)
-
-    # return files

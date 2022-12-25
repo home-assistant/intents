@@ -26,8 +26,14 @@ def do_test_language_sentences_file(
     language, test_file, slot_lists, language_sentences
 ):
     """Tests recognition all of the test sentences for a language"""
+    _testing_domain, testing_intent = test_file.split("_", 1)
+
     for test in load_test(language, test_file)["tests"]:
         intent = test["intent"]
+        assert (
+            intent["name"] == testing_intent
+        ), f"File {test_file} should only test for intent {testing_intent}"
+
         for sentence in test["sentences"]:
             result = recognize(sentence, language_sentences, slot_lists=slot_lists)
             assert result is not None, f"Recognition failed for '{sentence}'"
