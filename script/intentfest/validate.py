@@ -99,6 +99,19 @@ SENTENCE_SCHEMA = vol.Schema(
                 ]
             }
         },
+    }
+    # Fields from SENTENCE_COMMON_SCHEMA are allowed by the parser
+    # but we do not accept that in our repository.
+)
+
+SENTENCE_COMMON_SCHEMA = vol.Schema(
+    {
+        vol.Required("language"): str,
+        vol.Optional("responses"): {
+            vol.Optional("errors"): {
+                vol.In(INTENT_ERRORS): str,
+            }
+        },
         vol.Optional("lists"): {
             str: single_key_dict_validator(
                 {
@@ -122,11 +135,6 @@ SENTENCE_SCHEMA = vol.Schema(
         },
         vol.Optional("expansion_rules"): {str: str},
         vol.Optional("skip_words"): [str],
-        vol.Optional("responses"): {
-            vol.Optional("errors"): {
-                vol.In(INTENT_ERRORS): str,
-            }
-        },
     }
 )
 
@@ -236,8 +244,8 @@ def validate_language(intent_schemas, language, errors):
     response_dir: Path = RESPONSE_DIR / language
 
     sentence_files = {}
-    lists = {}
-    expansion_rules = {}
+    lists = None
+    expansion_rules = None
 
     for sentence_file in sentence_dir.iterdir():
         path = str(sentence_dir.relative_to(ROOT) / sentence_file.name)
@@ -247,11 +255,17 @@ def validate_language(intent_schemas, language, errors):
             errors[language].append(f"{path}: invalid YAML: {err}")
             continue
 
-        if sentence_file.name != "_common.yaml":
+        if sentence_file.name == "_common.yaml":
+            schema = SENTENCE_COMMON_SCHEMA
+            lists = content.get("lists", {})
+            expansion_rules = content.get("expansion_rules", {})
+
+        else:
+            schema = SENTENCE_SCHEMA
             sentence_files[sentence_file.name] = content
 
         try:
-            validate_with_humanized_errors(content, SENTENCE_SCHEMA)
+            validate_with_humanized_errors(content, schema)
         except vol.Error as err:
             errors[language].append(f"{path}: invalid format: {err}")
             continue
@@ -261,16 +275,7 @@ def validate_language(intent_schemas, language, errors):
                 f"{path}: references incorrect language {content['language']}"
             )
 
-        if "lists" in content:
-            lists.update(content["lists"])
-
-        if "expansion_rules" in content:
-            expansion_rules.update(content["expansion_rules"])
-
     for sentence_file, content in sentence_files.items():
-        if sentence_file.startswith("_"):
-            continue
-
         domain, intent = sentence_file.split(".")[0].split("_")
 
         if intent not in intent_schemas:
@@ -331,8 +336,6 @@ def validate_language(intent_schemas, language, errors):
                         f"got {slots.get('domain')}"
                     )
 
-    seen_sentences = set()
-
     if not test_dir.exists():
         errors[language].append(f"Missing tests directory {test_dir}")
         return
@@ -378,21 +381,6 @@ def validate_language(intent_schemas, language, errors):
 
         domain, intent = test_file.stem.split("_")
 
-        tested_intents = set(i["intent"]["name"] for i in content["tests"])
-
-        if intent not in tested_intents:
-            errors[language].append(
-                f"{path}: does not contain test for intent {intent}"
-            )
-
-        if extra_intents := tested_intents - {intent}:
-            errors[language].append(
-                f"{path}: tests extra intents {', '.join(sorted(extra_intents))}. Only {intent} allowed"
-            )
-
-        if tested_intents != {intent}:
-            return
-
         test_count = sum(len(test["sentences"]) for test in content["tests"])
         sentence_count = sum(
             len(data["sentences"]) for data in sentence_file["intents"][intent]["data"]
@@ -401,11 +389,13 @@ def validate_language(intent_schemas, language, errors):
         if sentence_count > test_count:
             errors[language].append(f"{path}: not all sentences have tests")
 
+        test_sentences = set()
+
         for test in content["tests"]:
             for sentence in test["sentences"]:
-                if sentence in seen_sentences:
+                if sentence in test_sentences:
                     errors[language].append(f"{path}: duplicate sentence {sentence}")
-                seen_sentences.add(sentence)
+                test_sentences.add(sentence)
 
     if sentence_files:
         for sentence_file in sentence_files:
