@@ -3,19 +3,11 @@ import dataclasses
 import sys
 from typing import Any, Dict, Iterable, Set
 
-import pytest
 from hassil import Intents
 from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import TextSlotList
 
 from . import USER_SENTENCES_DIR
-
-
-@pytest.fixture(name="common_language_intents", scope="session")
-def common_language_intents_fixture(language, language_sentences_yaml):
-    """Loads the common language intents."""
-    language_sentences_yaml["_common.yaml"].setdefault("intents", {})
-    return Intents.from_dict(language_sentences_yaml["_common.yaml"])
 
 
 def test_language_common(
@@ -49,7 +41,7 @@ def do_test_language_sentences(
     file_name: str,
     intent_schemas: Dict[str, Any],
     language_sentences_yaml: Dict[str, Any],
-    common_language_intents: Intents,
+    language_sentences_common: Intents,
 ):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
     parsed_sentences_without_common = Intents.from_dict(
@@ -58,7 +50,7 @@ def do_test_language_sentences(
 
     # Merge common rules with file specific intents.
     language_sentences = dataclasses.replace(
-        common_language_intents, intents=parsed_sentences_without_common.intents
+        language_sentences_common, intents=parsed_sentences_without_common.intents
     )
 
     # Add placeholder slots that HA will generate
@@ -162,12 +154,12 @@ def _flatten(expression: Expression) -> Iterable[Expression]:
 
 
 def gen_test(test_file):
-    def test_func(intent_schemas, language_sentences_yaml, common_language_intents):
+    def test_func(intent_schemas, language_sentences_yaml, language_sentences_common):
         do_test_language_sentences(
             test_file.name,
             intent_schemas,
             language_sentences_yaml,
-            common_language_intents,
+            language_sentences_common,
         )
 
     test_func.__name__ = f"test_{test_file.stem}"
