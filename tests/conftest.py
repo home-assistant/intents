@@ -1,8 +1,12 @@
 """Test configuration and fixtures."""
+from __future__ import annotations
+
 import pytest
 import yaml
+from hassil import Intents
+from hassil.util import merge_dict
 
-from . import INTENTS_FILE, LANGUAGES, load_intents, load_tests
+from . import INTENTS_FILE, LANGUAGES, load_sentences
 
 
 def pytest_addoption(parser):
@@ -27,13 +31,17 @@ def intent_schemas():
         return yaml.safe_load(schema_file)
 
 
-@pytest.fixture(scope="session")
-def language_intents(language: str):
-    """Loads the base intents file"""
-    return load_intents(language)
+@pytest.fixture(name="language_sentences_yaml", scope="session")
+def language_sentences_yaml_fixture(language: str):
+    """Loads the language sentences."""
+    return load_sentences(language)
 
 
 @pytest.fixture(scope="session")
-def language_tests(language: str):
-    """Loads the base intents file"""
-    return load_tests(language)
+def language_sentences(language_sentences_yaml: dict):
+    """Parse language sentences."""
+    merged: dict = {}
+    for intents_dict in language_sentences_yaml.values():
+        merge_dict(merged, intents_dict)
+
+    return Intents.from_dict(merged)

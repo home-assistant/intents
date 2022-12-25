@@ -1,29 +1,41 @@
 """Test language sentences."""
+import sys
 
 import pytest
 from hassil import recognize
 from hassil.intents import TextSlotList
 
+from . import TEST_SENTENCES_DIR, load_test
+
 
 @pytest.fixture(name="slot_lists", scope="session")
-def slot_lists_fixture(language_tests):
+def slot_lists_fixture(language):
     """Loads the slot lists for the language."""
+    fixtures = load_test(language, "_fixtures")
     return {
         "area": TextSlotList.from_tuples(
-            (area["name"], area["id"]) for area in language_tests["areas"]
+            (area["name"], area["id"]) for area in fixtures["areas"]
         ),
         "name": TextSlotList.from_tuples(
-            (entity["name"], entity["id"]) for entity in language_tests["entities"]
+            (entity["name"], entity["id"]) for entity in fixtures["entities"]
         ),
     }
 
 
-def test_language_sentences(slot_lists, language_intents, language_tests):
+def do_test_language_sentences_file(
+    language, test_file, slot_lists, language_sentences
+):
     """Tests recognition all of the test sentences for a language"""
-    for test in language_tests["tests"]:
+    _testing_domain, testing_intent = test_file.split("_", 1)
+
+    for test in load_test(language, test_file)["tests"]:
         intent = test["intent"]
+        assert (
+            intent["name"] == testing_intent
+        ), f"File {test_file} should only test for intent {testing_intent}"
+
         for sentence in test["sentences"]:
-            result = recognize(sentence, language_intents, slot_lists=slot_lists)
+            result = recognize(sentence, language_sentences, slot_lists=slot_lists)
             assert result is not None, f"Recognition failed for '{sentence}'"
             assert (
                 result.intent.name == intent["name"]
@@ -35,3 +47,24 @@ def test_language_sentences(slot_lists, language_intents, language_tests):
                     slot_name in result.entities
                 ), f"For '{sentence}' did not receive slot '{slot_name}'"
                 assert result.entities[slot_name].value == slot_dict["value"]
+
+
+def gen_test(test_file):
+    def test_func(language, slot_lists, language_sentences):
+        do_test_language_sentences_file(
+            language, test_file.stem, slot_lists, language_sentences
+        )
+
+    test_func.__name__ = f"test_{test_file.stem}"
+    setattr(sys.modules[__name__], test_func.__name__, test_func)
+
+
+def gen_tests():
+    lang_dir = TEST_SENTENCES_DIR / "en"
+
+    for test_file in lang_dir.glob("*.yaml"):
+        if test_file.name != "_fixtures.yaml":
+            gen_test(test_file)
+
+
+gen_tests()
