@@ -61,7 +61,6 @@ def do_test_language_sentences(
         common_language_intents, intents=parsed_sentences_without_common.intents
     )
 
-    # language_sentences = Intents.from_dict(merged)
     # Add placeholder slots that HA will generate
     language_sentences.slot_lists["area"] = TextSlotList(values=[])
     language_sentences.slot_lists["name"] = TextSlotList(values=[])
