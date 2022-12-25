@@ -1,13 +1,21 @@
 """Test language intents."""
+import dataclasses
 import sys
 from typing import Any, Dict, Iterable, Set
 
+import pytest
 from hassil import Intents
 from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import TextSlotList
-from hassil.util import merge_dict
 
 from . import USER_SENTENCES_DIR
+
+
+@pytest.fixture(name="common_language_intents", scope="session")
+def common_language_intents_fixture(language, language_sentences_yaml):
+    """Loads the common language intents."""
+    language_sentences_yaml["_common.yaml"].setdefault("intents", {})
+    return Intents.from_dict(language_sentences_yaml["_common.yaml"])
 
 
 def test_language_common(
@@ -41,13 +49,19 @@ def do_test_language_sentences(
     file_name: str,
     intent_schemas: Dict[str, Any],
     language_sentences_yaml: Dict[str, Any],
+    common_language_intents: Intents,
 ):
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
-    merged: dict = {}
-    merge_dict(merged, language_sentences_yaml["_common.yaml"])
-    merge_dict(merged, language_sentences_yaml[f"{file_name}.yaml"])
+    parsed_sentences_without_common = Intents.from_dict(
+        language_sentences_yaml[f"{file_name}.yaml"]
+    )
 
-    language_sentences = Intents.from_dict(merged)
+    # Merge common rules with file specific intents.
+    language_sentences = dataclasses.replace(
+        common_language_intents, intents=parsed_sentences_without_common.intents
+    )
+
+    # language_sentences = Intents.from_dict(merged)
     # Add placeholder slots that HA will generate
     language_sentences.slot_lists["area"] = TextSlotList(values=[])
     language_sentences.slot_lists["name"] = TextSlotList(values=[])
@@ -149,11 +163,12 @@ def _flatten(expression: Expression) -> Iterable[Expression]:
 
 
 def gen_test(test_file):
-    def test_func(intent_schemas, language_sentences_yaml):
+    def test_func(intent_schemas, language_sentences_yaml, common_language_intents):
         do_test_language_sentences(
             test_file.stem,
             intent_schemas,
             language_sentences_yaml,
+            common_language_intents,
         )
 
     test_func.__name__ = f"test_{test_file.stem}"
