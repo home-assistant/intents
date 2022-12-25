@@ -3,7 +3,6 @@ from pathlib import Path
 from typing import Any, Dict
 
 import yaml
-from hassil.util import merge_dict
 
 _DIR = Path(__file__).parent
 _BASE_DIR = _DIR.parent
@@ -18,6 +17,7 @@ def load_sentences(language: str):
     """Load sentences from sentences/ for a language"""
     lang_dir = USER_SENTENCES_DIR / language
     files: Dict[str, Any] = {}
+
     for yaml_path in lang_dir.glob("*.yaml"):
         with open(yaml_path, "r", encoding="utf-8") as yaml_file:
             yaml_dict = yaml.safe_load(yaml_file)
@@ -26,16 +26,17 @@ def load_sentences(language: str):
                 yaml_dict["language"] == language
             ), f"Expected language '{language}', got '{yaml_dict['language']}'"
             files[yaml_path.name] = yaml_dict
+
     return files
 
 
 def load_tests(language: str):
     """Load test sentences from tests/ for a language"""
     lang_dir = TEST_SENTENCES_DIR / language
-    tests_dict: Dict[str, Any] = {}
+    files: Dict[str, Any] = {}
+
     for yaml_path in lang_dir.rglob("*.yaml"):
         with open(yaml_path, "r", encoding="utf-8") as yaml_file:
-            merge_dict(tests_dict, yaml.safe_load(yaml_file))
+            files[yaml_path.name] = yaml.safe_load(yaml_file)
 
-    assert tests_dict, "No test YAML files loaded"
-    return tests_dict
+    return files
