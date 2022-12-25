@@ -124,8 +124,21 @@ python3 -m script.intentfest sample --language en -n 1
 {"intent": "HassClimateGetTemperature", "text": "what's the temp "}
 ```
 
-Leave off `-n` to generate all possible sentences.
+You also can sample the possible sentences for a specific language and intent(s) with:
 
+``` sh
+python3 -m script.intentfest sample --language en -n 1 --intents HassTurnOn HassClimateGetTemperature
+```
+
+This will print a line of JSON for each possible sentence for the given intents:
+
+``` sh
+python3 -m script.intentfest sample --language en -n 1 --intents HassTurnOn HassClimateGetTemperature
+{"intent": "HassClimateGetTemperature", "text": "what's the temp"}
+{"intent": "HassTurnOn", "text": "turn on all the fan in the kitchen"}
+```
+
+Leave off `-n` to generate all possible sentences.
 
 ## Test sampling template
 
