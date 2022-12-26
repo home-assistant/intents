@@ -1,6 +1,8 @@
 """Test configuration and fixtures."""
 from __future__ import annotations
 
+import dataclasses
+
 import pytest
 import yaml
 from hassil import Intents
@@ -37,11 +39,22 @@ def language_sentences_yaml_fixture(language: str):
     return load_sentences(language)
 
 
+@pytest.fixture(name="language_sentences_common", scope="session")
+def language_sentences_common_fixture(language, language_sentences_yaml):
+    """Loads the common language intents."""
+    language_sentences_yaml["_common.yaml"].setdefault("intents", {})
+    return Intents.from_dict(language_sentences_yaml["_common.yaml"])
+
+
 @pytest.fixture(scope="session")
-def language_sentences(language_sentences_yaml: dict):
+def language_sentences(language_sentences_yaml: dict, language_sentences_common):
     """Parse language sentences."""
     merged: dict = {}
-    for intents_dict in language_sentences_yaml.values():
+    for file_name, intents_dict in language_sentences_yaml.items():
+        if file_name == "_common.yaml":
+            continue
         merge_dict(merged, intents_dict)
 
-    return Intents.from_dict(merged)
+    intents = Intents.from_dict(merged)
+
+    return dataclasses.replace(language_sentences_common, intents=intents.intents)

@@ -7,15 +7,15 @@ import yaml
 _DIR = Path(__file__).parent
 _BASE_DIR = _DIR.parent
 INTENTS_FILE = _BASE_DIR / "intents.yaml"
-USER_SENTENCES_DIR = _BASE_DIR / "sentences"
-TEST_SENTENCES_DIR = _BASE_DIR / "tests"
+SENTENCES_DIR = _BASE_DIR / "sentences"
+TESTS_DIR = _BASE_DIR / "tests"
 
-LANGUAGES = [p.name for p in USER_SENTENCES_DIR.iterdir() if p.is_dir()]
+LANGUAGES = [p.name for p in SENTENCES_DIR.iterdir() if p.is_dir()]
 
 
 def load_sentences(language: str):
     """Load sentences from sentences/ for a language"""
-    lang_dir = USER_SENTENCES_DIR / language
+    lang_dir = SENTENCES_DIR / language
     files: Dict[str, Any] = {}
 
     for yaml_path in lang_dir.glob("*.yaml"):
@@ -32,6 +32,4 @@ def load_sentences(language: str):
 
 def load_test(language: str, test_name: str):
     """Load test sentences from tests/ for a language"""
-    return yaml.safe_load(
-        (TEST_SENTENCES_DIR / language / f"{test_name}.yaml").read_text()
-    )
+    return yaml.safe_load((TESTS_DIR / language / f"{test_name}.yaml").read_text())

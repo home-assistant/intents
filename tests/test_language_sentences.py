@@ -5,7 +5,7 @@ import pytest
 from hassil import recognize
 from hassil.intents import TextSlotList
 
-from . import TEST_SENTENCES_DIR, load_test
+from . import TESTS_DIR, load_test
 
 
 @pytest.fixture(name="slot_lists", scope="session")
@@ -28,6 +28,8 @@ def do_test_language_sentences_file(
     """Tests recognition all of the test sentences for a language"""
     _testing_domain, testing_intent = test_file.split("_", 1)
 
+    seen_sentences = set()
+
     for test in load_test(language, test_file)["tests"]:
         intent = test["intent"]
         assert (
@@ -35,6 +37,11 @@ def do_test_language_sentences_file(
         ), f"File {test_file} should only test for intent {testing_intent}"
 
         for sentence in test["sentences"]:
+            assert (
+                sentence not in seen_sentences
+            ), f"Duplicate sentence found: {sentence}"
+            seen_sentences.add(sentence)
+
             result = recognize(sentence, language_sentences, slot_lists=slot_lists)
             assert result is not None, f"Recognition failed for '{sentence}'"
             assert (
@@ -60,7 +67,7 @@ def gen_test(test_file):
 
 
 def gen_tests():
-    lang_dir = TEST_SENTENCES_DIR / "en"
+    lang_dir = TESTS_DIR / "en"
 
     for test_file in lang_dir.glob("*.yaml"):
         if test_file.name != "_fixtures.yaml":
