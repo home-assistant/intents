@@ -126,8 +126,9 @@ python3 -m script.intentfest sample --language en -n 1
 {"intent": "HassClimateGetTemperature", "text": "what's the temp "}
 ```
 
-Leave off `-n` to generate all possible sentences.
+You can filter for specific intents by adding `--intents HassTurnOn HassTurnOff`.
 
+Leave off `-n` to generate all possible sentences.
 
 ## Test sampling template
 
