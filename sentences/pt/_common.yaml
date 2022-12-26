@@ -1,12 +1,51 @@
 language: pt
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: "Desculpe, não consegui entender o pedido."
+    no_area: "Não há nenhuma área chamada {{ area }}."
+    no_domain: "{{ area }} não contém {{ domain }}."
+    no_device_class: "{{ area }} não contém {{ device_class }}."
+    no_entity: "Nenhum dispositivo ou entidade chamado {{ entity }}."
+    handle_error: "Um erro inesperado ocurreu ao processar o pedido."
+lists:
+  color:
+    values:
+      - "branco"
+      - "preto"
+      - "vermelho"
+      - "laranja"
+      - "amarelo"
+      - "verde"
+      - "azul"
+      - "roxo"
+      - "castanho"
+  brilho:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperatura:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperatura_unidade:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "centígrados"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+expansion_rules:
+  nome: "[(o | a)] {nome}"
+  zona: "[(o | a)] {zona}"
+  qual: "(qual | qual é)"
+  brilho: "{brilho:brightness_pct} [porcento]"
+  temperatura: "{temperatura} [graus] [{temperatura_unidade}]"
+skip_words:
+  - "por favor"
+  - "pode"
