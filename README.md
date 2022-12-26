@@ -13,7 +13,7 @@ Repository layout:
 * `tests/<language>`
     * YAML files for `<language>` with test sentences and corresponding intents
     * [File format](tests/README.md#file-format)
-    
+
 See the [documentation](docs/README.md) for more information.
 
 
@@ -75,10 +75,10 @@ Validate the data is correctly formatted.
 python3 -m script.intentfest validate
 ```
 
-Run the tests. Leave `--language` off to run all tests.
+Run the tests. Specify a language with `--language` and specify a file with `-k`. Leave off both to run the full test suite.
 
 ```
-pytest tests --language nl
+pytest tests --language nl -k fan_HassTurnOn
 ```
 
 ## Test parsing sentences
