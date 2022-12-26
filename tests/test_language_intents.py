@@ -7,7 +7,7 @@ from hassil import Intents
 from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import TextSlotList
 
-from . import USER_SENTENCES_DIR
+from . import SENTENCES_DIR
 
 
 def test_language_common(
@@ -167,7 +167,7 @@ def gen_test(test_file):
 
 
 def gen_tests():
-    lang_dir = USER_SENTENCES_DIR / "en"
+    lang_dir = SENTENCES_DIR / "en"
 
     for test_file in lang_dir.glob("*.yaml"):
         if test_file.name != "_common.yaml":

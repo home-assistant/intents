@@ -5,7 +5,7 @@ import pytest
 from hassil import recognize
 from hassil.intents import TextSlotList
 
-from . import TEST_SENTENCES_DIR, load_test
+from . import TESTS_DIR, load_test
 
 
 @pytest.fixture(name="slot_lists", scope="session")
@@ -67,7 +67,7 @@ def gen_test(test_file):
 
 
 def gen_tests():
-    lang_dir = TEST_SENTENCES_DIR / "en"
+    lang_dir = TESTS_DIR / "en"
 
     for test_file in lang_dir.glob("*.yaml"):
         if test_file.name != "_fixtures.yaml":
