@@ -69,17 +69,19 @@ Before developing, always activate your virtual environment with `source venv/bi
 
 ## Run tests
 
-Validate the data is correctly formatted.
+Validate that the data is correctly formatted:
 
 ```
-python3 -m script.intentfest validate
+python3 -m script.intentfest validate --language nl
 ```
 
-Run the tests. Specify a language with `--language` and specify a file with `-k`. Leave off both to run the full test suite.
+Run the tests. This will parse the sentences and verifies them with the test sentences.
 
 ```
 pytest tests --language nl -k fan_HassTurnOn
 ```
+
+Leave off `--language` to test all languages. Leave off `-k` to test all files.
 
 ## Test parsing sentences
 
