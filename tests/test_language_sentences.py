@@ -1,15 +1,18 @@
 """Test language sentences."""
+from __future__ import annotations
+
 import sys
+from pathlib import Path
 
 import pytest
-from hassil import recognize
-from hassil.intents import TextSlotList
+from hassil import Intents, recognize
+from hassil.intents import SlotList, TextSlotList
 
-from . import TEST_SENTENCES_DIR, load_test
+from . import TESTS_DIR, load_test
 
 
 @pytest.fixture(name="slot_lists", scope="session")
-def slot_lists_fixture(language):
+def slot_lists_fixture(language: str) -> dict[str, SlotList]:
     """Loads the slot lists for the language."""
     fixtures = load_test(language, "_fixtures")
     return {
@@ -23,10 +26,15 @@ def slot_lists_fixture(language):
 
 
 def do_test_language_sentences_file(
-    language, test_file, slot_lists, language_sentences
-):
+    language: str,
+    test_file: str,
+    slot_lists: dict[str, SlotList],
+    language_sentences: Intents,
+) -> None:
     """Tests recognition all of the test sentences for a language"""
     _testing_domain, testing_intent = test_file.split("_", 1)
+
+    seen_sentences = set()
 
     for test in load_test(language, test_file)["tests"]:
         intent = test["intent"]
@@ -35,6 +43,11 @@ def do_test_language_sentences_file(
         ), f"File {test_file} should only test for intent {testing_intent}"
 
         for sentence in test["sentences"]:
+            assert (
+                sentence not in seen_sentences
+            ), f"Duplicate sentence found: {sentence}"
+            seen_sentences.add(sentence)
+
             result = recognize(sentence, language_sentences, slot_lists=slot_lists)
             assert result is not None, f"Recognition failed for '{sentence}'"
             assert (
@@ -49,8 +62,12 @@ def do_test_language_sentences_file(
                 assert result.entities[slot_name].value == slot_dict["value"]
 
 
-def gen_test(test_file):
-    def test_func(language, slot_lists, language_sentences):
+def gen_test(test_file: Path) -> None:
+    def test_func(
+        language: str,
+        slot_lists: dict[str, SlotList],
+        language_sentences: Intents,
+    ) -> None:
         do_test_language_sentences_file(
             language, test_file.stem, slot_lists, language_sentences
         )
@@ -59,8 +76,8 @@ def gen_test(test_file):
     setattr(sys.modules[__name__], test_func.__name__, test_func)
 
 
-def gen_tests():
-    lang_dir = TEST_SENTENCES_DIR / "en"
+def gen_tests() -> None:
+    lang_dir = TESTS_DIR / "en"
 
     for test_file in lang_dir.glob("*.yaml"):
         if test_file.name != "_fixtures.yaml":

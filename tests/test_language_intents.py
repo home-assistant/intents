@@ -1,15 +1,22 @@
 """Test language intents."""
-from typing import Any, Dict, Iterable, Set
+from __future__ import annotations
+
+import dataclasses
+import sys
+from pathlib import Path
+from typing import Any, Iterable
 
 from hassil import Intents
 from hassil.expression import Expression, ListReference, RuleReference, Sequence
 from hassil.intents import TextSlotList
 
+from . import SENTENCES_DIR
+
 
 def test_language_common(
-    language,
-    language_sentences_yaml: Dict[str, Any],
-):
+    language: str,
+    language_sentences_yaml: dict[str, Any],
+) -> None:
     """Test the language common file."""
     common_files = [key for key in language_sentences_yaml if key.startswith("_")]
 
@@ -33,10 +40,22 @@ def test_language_common(
     ), "_common.yaml is a common file and should not contain intents"
 
 
-def test_language_sentences(
-    language_sentences: Intents, intent_schemas: Dict[str, Any]
-):
+def do_test_language_sentences(
+    file_name: str,
+    intent_schemas: dict[str, Any],
+    language_sentences_yaml: dict[str, Any],
+    language_sentences_common: Intents,
+) -> None:
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
+    parsed_sentences_without_common = Intents.from_dict(
+        language_sentences_yaml[file_name]
+    )
+
+    # Merge common rules with file specific intents.
+    language_sentences = dataclasses.replace(
+        language_sentences_common, intents=parsed_sentences_without_common.intents
+    )
+
     # Add placeholder slots that HA will generate
     language_sentences.slot_lists["area"] = TextSlotList(values=[])
     language_sentences.slot_lists["name"] = TextSlotList(values=[])
@@ -49,7 +68,7 @@ def test_language_sentences(
 
         for data in intent.data:
             for sentence in data.sentences:
-                found_slots: Set[str] = set()
+                found_slots: set[str] = set()
                 for expression in _flatten(sentence):
                     _verify(
                         expression,
@@ -84,22 +103,22 @@ def _verify(
     expression: Expression,
     intents: Intents,
     intent_name: str,
-    slot_schema: Dict[str, Any],
-    visited_rules: Set[str],
-    found_slots: Set[str],
-):
+    slot_schema: dict[str, Any],
+    visited_rules: set[str],
+    found_slots: set[str],
+) -> None:
     if isinstance(expression, ListReference):
         list_ref: ListReference = expression
 
         # Ensure list exists
         assert (
             list_ref.list_name in intents.slot_lists
-        ), f"Missing slot list: {{{list_ref.list_name}}}. Available slots: {', '.join(intents.slot_lists)}"
+        ), f"Missing slot list: {{{list_ref.list_name}}}. Are you missing a 'lists' entry in _common.yaml?"
 
         # Ensure slot is part of intent
         assert (
             list_ref.slot_name in slot_schema
-        ), f"Unexpected slot '{list_ref.slot_name}' for intent '{intent_name}"
+        ), f"Intent {intent_name} does not support slot '{list_ref.slot_name}'. See intents.yaml for supported slots"
 
         # Track slots for combination check
         found_slots.add(list_ref.slot_name)
@@ -107,7 +126,7 @@ def _verify(
         rule_ref: RuleReference = expression
         assert (
             rule_ref.rule_name in intents.expansion_rules
-        ), f"Missing expansion rule: <{rule_ref.rule_name}>"
+        ), f"Missing expansion rule: <{rule_ref.rule_name}>. Are you missing an 'expansion_rules' entry in _common.yaml?"
 
         # Check for recursive rules (not supported)
         assert (
@@ -135,3 +154,31 @@ def _flatten(expression: Expression) -> Iterable[Expression]:
             yield from _flatten(item)
     else:
         yield expression
+
+
+def gen_test(test_file: Path) -> None:
+    def test_func(
+        intent_schemas: dict[str, Any],
+        language_sentences_yaml: dict[str, Any],
+        language_sentences_common: Intents,
+    ) -> None:
+        do_test_language_sentences(
+            test_file.name,
+            intent_schemas,
+            language_sentences_yaml,
+            language_sentences_common,
+        )
+
+    test_func.__name__ = f"test_{test_file.stem}"
+    setattr(sys.modules[__name__], test_func.__name__, test_func)
+
+
+def gen_tests() -> None:
+    lang_dir = SENTENCES_DIR / "en"
+
+    for test_file in lang_dir.glob("*.yaml"):
+        if test_file.name != "_common.yaml":
+            gen_test(test_file)
+
+
+gen_tests()
