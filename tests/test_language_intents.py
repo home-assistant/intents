@@ -123,7 +123,7 @@ def _verify(
         rule_ref: RuleReference = expression
         assert (
             rule_ref.rule_name in intents.expansion_rules
-        ), f"Missing expansion rule: <{rule_ref.rule_name}>. Are you missing a 'expansion_rules' entry in _common.yaml?"
+        ), f"Missing expansion rule: <{rule_ref.rule_name}>. Are you missing an 'expansion_rules' entry in _common.yaml?"
 
         # Check for recursive rules (not supported)
         assert (
