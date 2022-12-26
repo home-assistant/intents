@@ -1,7 +1,10 @@
 """Test language intents."""
+from __future__ import annotations
+
 import dataclasses
 import sys
-from typing import Any, Dict, Iterable, Set
+from pathlib import Path
+from typing import Any, Iterable
 
 from hassil import Intents
 from hassil.expression import Expression, ListReference, RuleReference, Sequence
@@ -11,9 +14,9 @@ from . import SENTENCES_DIR
 
 
 def test_language_common(
-    language,
-    language_sentences_yaml: Dict[str, Any],
-):
+    language: str,
+    language_sentences_yaml: dict[str, Any],
+) -> None:
     """Test the language common file."""
     common_files = [key for key in language_sentences_yaml if key.startswith("_")]
 
@@ -39,10 +42,10 @@ def test_language_common(
 
 def do_test_language_sentences(
     file_name: str,
-    intent_schemas: Dict[str, Any],
-    language_sentences_yaml: Dict[str, Any],
+    intent_schemas: dict[str, Any],
+    language_sentences_yaml: dict[str, Any],
     language_sentences_common: Intents,
-):
+) -> None:
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
     parsed_sentences_without_common = Intents.from_dict(
         language_sentences_yaml[file_name]
@@ -65,7 +68,7 @@ def do_test_language_sentences(
 
         for data in intent.data:
             for sentence in data.sentences:
-                found_slots: Set[str] = set()
+                found_slots: set[str] = set()
                 for expression in _flatten(sentence):
                     _verify(
                         expression,
@@ -100,10 +103,10 @@ def _verify(
     expression: Expression,
     intents: Intents,
     intent_name: str,
-    slot_schema: Dict[str, Any],
-    visited_rules: Set[str],
-    found_slots: Set[str],
-):
+    slot_schema: dict[str, Any],
+    visited_rules: set[str],
+    found_slots: set[str],
+) -> None:
     if isinstance(expression, ListReference):
         list_ref: ListReference = expression
 
@@ -153,8 +156,12 @@ def _flatten(expression: Expression) -> Iterable[Expression]:
         yield expression
 
 
-def gen_test(test_file):
-    def test_func(intent_schemas, language_sentences_yaml, language_sentences_common):
+def gen_test(test_file: Path) -> None:
+    def test_func(
+        intent_schemas: dict[str, Any],
+        language_sentences_yaml: dict[str, Any],
+        language_sentences_common: Intents,
+    ) -> None:
         do_test_language_sentences(
             test_file.name,
             intent_schemas,
@@ -166,7 +173,7 @@ def gen_test(test_file):
     setattr(sys.modules[__name__], test_func.__name__, test_func)
 
 
-def gen_tests():
+def gen_tests() -> None:
     lang_dir = SENTENCES_DIR / "en"
 
     for test_file in lang_dir.glob("*.yaml"):

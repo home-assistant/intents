@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import dataclasses
+from typing import Any
 
 import pytest
 import yaml
@@ -27,27 +28,33 @@ def pytest_generate_tests(metafunc):
 
 
 @pytest.fixture(scope="session")
-def intent_schemas():
+def intent_schemas() -> dict[str, Any]:
     """Loads the base intents file"""
     with open(INTENTS_FILE, "r", encoding="utf-8") as schema_file:
         return yaml.safe_load(schema_file)
 
 
 @pytest.fixture(name="language_sentences_yaml", scope="session")
-def language_sentences_yaml_fixture(language: str):
+def language_sentences_yaml_fixture(language: str) -> dict[str, Any]:
     """Loads the language sentences."""
     return load_sentences(language)
 
 
 @pytest.fixture(name="language_sentences_common", scope="session")
-def language_sentences_common_fixture(language, language_sentences_yaml):
+def language_sentences_common_fixture(
+    language: str,
+    language_sentences_yaml: dict[str, Any],
+) -> Intents:
     """Loads the common language intents."""
     language_sentences_yaml["_common.yaml"].setdefault("intents", {})
     return Intents.from_dict(language_sentences_yaml["_common.yaml"])
 
 
 @pytest.fixture(scope="session")
-def language_sentences(language_sentences_yaml: dict, language_sentences_common):
+def language_sentences(
+    language_sentences_yaml: dict[str, Any],
+    language_sentences_common: Intents,
+) -> Intents:
     """Parse language sentences."""
     merged: dict = {}
     for file_name, intents_dict in language_sentences_yaml.items():

@@ -13,7 +13,7 @@ TESTS_DIR = _BASE_DIR / "tests"
 LANGUAGES = [p.name for p in SENTENCES_DIR.iterdir() if p.is_dir()]
 
 
-def load_sentences(language: str):
+def load_sentences(language: str) -> dict[str, Any]:
     """Load sentences from sentences/ for a language"""
     lang_dir = SENTENCES_DIR / language
     files: Dict[str, Any] = {}
@@ -30,6 +30,6 @@ def load_sentences(language: str):
     return files
 
 
-def load_test(language: str, test_name: str):
+def load_test(language: str, test_name: str) -> dict[str, Any]:
     """Load test sentences from tests/ for a language"""
     return yaml.safe_load((TESTS_DIR / language / f"{test_name}.yaml").read_text())
