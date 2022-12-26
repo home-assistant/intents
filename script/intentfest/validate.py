@@ -347,14 +347,6 @@ def validate_language(intent_schemas, language, errors):
         if sentence_count > test_count:
             errors[language].append(f"{path}: not all sentences have tests")
 
-        test_sentences = set()
-
-        for test in content["tests"]:
-            for sentence in test["sentences"]:
-                if sentence in test_sentences:
-                    errors[language].append(f"{path}: duplicate sentence {sentence}")
-                test_sentences.add(sentence)
-
     if sentence_files:
         for sentence_file in sentence_files:
             errors[language].append(f"{sentence_file} has no tests")
