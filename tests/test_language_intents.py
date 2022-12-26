@@ -110,12 +110,12 @@ def _verify(
         # Ensure list exists
         assert (
             list_ref.list_name in intents.slot_lists
-        ), f"Missing slot list: {{{list_ref.list_name}}}. Available slots: {', '.join(intents.slot_lists)}"
+        ), f"Missing slot list: {{{list_ref.list_name}}}. Are you missing a 'lists' entry in _common.yaml?"
 
         # Ensure slot is part of intent
         assert (
             list_ref.slot_name in slot_schema
-        ), f"Unexpected slot '{list_ref.slot_name}' for intent '{intent_name}"
+        ), f"Intent {intent_name} does not support slot '{list_ref.slot_name}'. See intents.yaml for supported slots"
 
         # Track slots for combination check
         found_slots.add(list_ref.slot_name)
@@ -123,7 +123,7 @@ def _verify(
         rule_ref: RuleReference = expression
         assert (
             rule_ref.rule_name in intents.expansion_rules
-        ), f"Missing expansion rule: <{rule_ref.rule_name}>"
+        ), f"Missing expansion rule: <{rule_ref.rule_name}>. Are you missing a 'expansion_rules' entry in _common.yaml?"
 
         # Check for recursive rules (not supported)
         assert (

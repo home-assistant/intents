@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import re
 from pathlib import Path
 from typing import Any
 
@@ -12,10 +11,6 @@ from voluptuous.humanize import validate_with_humanized_errors
 
 from .const import INTENTS_FILE, LANGUAGES, RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
-
-# Slots can be {name} or {name:new_name}
-PATTERN_SLOTS = re.compile(r"\{(?P<name>[a-z_]+)(?:|:\w+)\}")
-PATTERN_EXPANSION_RULES = re.compile(r"\<(?P<name>[a-z_]+)\>")
 
 
 def match_anything(value):
@@ -244,8 +239,6 @@ def validate_language(intent_schemas, language, errors):
     response_dir: Path = RESPONSE_DIR / language
 
     sentence_files = {}
-    lists = None
-    expansion_rules = None
 
     for sentence_file in sentence_dir.iterdir():
         path = str(sentence_dir.relative_to(ROOT) / sentence_file.name)
@@ -257,8 +250,6 @@ def validate_language(intent_schemas, language, errors):
 
         if sentence_file.name == "_common.yaml":
             schema = SENTENCE_COMMON_SCHEMA
-            lists = content.get("lists", {})
-            expansion_rules = content.get("expansion_rules", {})
 
         else:
             schema = SENTENCE_SCHEMA
@@ -291,42 +282,9 @@ def validate_language(intent_schemas, language, errors):
                 )
                 continue
 
-            intent_slots = intent_schemas[intent].get("slots", {})
-            intent_slots_plus_lists = {*intent_slots, *lists}
-
             for idx, sentence_info in enumerate(intent_info["data"]):
                 prefix = f"{path} sentence block {idx + 1}:"
                 slots = sentence_info.get("slots", {})
-
-                for sentence in sentence_info["sentences"]:
-                    for slot in PATTERN_SLOTS.findall(sentence):
-                        if slot not in intent_slots_plus_lists:
-                            errors[language].append(
-                                f"{prefix} sentence '{sentence}' references unknown slot '{slot}'"
-                            )
-                        continue
-
-                    for expansion_rule in PATTERN_EXPANSION_RULES.findall(sentence):
-                        if expansion_rule not in expansion_rules:
-                            errors[language].append(
-                                f"{prefix} sentence '{sentence}' references unknown expansion rule '{expansion_rule}'"
-                            )
-                            continue
-
-                        for slot in PATTERN_SLOTS.findall(
-                            expansion_rules[expansion_rule]
-                        ):
-                            if slot not in intent_slots_plus_lists:
-                                errors[language].append(
-                                    f"{prefix} sentence '{sentence}' references expansion rule '{expansion_rule}' which references unknown slot '{slot}'"
-                                )
-                            continue
-
-                for slot in slots:
-                    if slot not in intent_slots:
-                        errors[language].append(
-                            f"{prefix} references unknown slot {slot}"
-                        )
 
                 if require_sentence_domain_slot(intent, domain) and domain != slots.get(
                     "domain"
