@@ -32,6 +32,7 @@ See the [documentation](docs/README.md) for more information.
 | `pl` | Polish           | (position open)    |
 | `sk` | Slovak           | (position open)    |
 | `sv` | Swedish          | (position open)    |
+| `ur` | Urdu             | @AalianKhan        |
 
 
 ## Language leader
