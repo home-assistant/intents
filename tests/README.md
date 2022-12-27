@@ -2,6 +2,8 @@
 
 Test sentences and their corresponding intents.
 
+By convention, test names for areas and entities are put into `tests/<language>/_fixtures.yaml`
+
 
 ## File Format
 

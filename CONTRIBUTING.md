@@ -1,35 +1,27 @@
 # Contributing
 
-Anyone can contribute to this repository, including:
+This repository contains three different types of files:
 
-* [Sentence templates](#sentence-templates) that will be matched to intents
-* [Test sentences](#test-sentences) for testing the sentence templates
-* [Response templates](#response-templates) that Home Assistant will use to generate responses
+* Directory `sentences` contains [sentence templates](sentences/README.md). These are sentences that match user input to intents.
+* Directory `tests` contain [test sentences](tests/README.md). These are example user input and the intent that we should match it to.
+* Directory `responses` contain [response templates](responses/README.md). These are used by Home Assistant to generate responses
 
+We prefer a lot of small contributions over a few large ones. Contributions that contain a lot of changes are hard to review. That's why we want each contribution limited to a single language and single domain.
 
-## Workflows
+The filenames of sentences and tests are named like `<domain>_<intent>.yaml`. So if you are translating covers, only add sentences and tests to `cover_HassCoverOpen.yaml` and `cover_HassCoverClose.yaml`.
 
-Several workflows are available for contribution:
+## Adding a new language
+
+New languages should be based on the output of `python3 -m script.intentfest add_language <language>`, which generates an empty language directory with all the files needed for a new language.
+
+Limit the first contribution to translations of the error sentences in `_common.yaml` and adding sentences and tests for the `homeassistant` domain.
+
+If you are unable to run the `add_language` script locally, ask in Discord to have a maintainer run it for you.
+
+## Ways to contribute
+
+There are several workflows available to contribute:
 
 * For small edits to existing files, you can [edit directly on Github](docs/github/README.md)
 * A complete online development environment is available with [Github codespaces](docs/codespace/README.md)
 * Local development should be done by [forking and setting up a local development environment](docs/forking/README.md)
-
-
-# Sentence Templates
-
-In order to match text to [intents](https://developers.home-assistant.io/docs/intent_index), we have created a specialized [template language and matcher](https://github.com/home-assistant/hassil). These sentences are grouped by intent, and collected into [YAML files](sentences/README.md#file-format). By convention, lists and expansion rules put into `sentences/<language>/_common.yaml`
-
-
-# Test Sentences
-
-Sentences and the intents they should match are collected together into [YAML files](tests/README.md#file-format). By convention, test names for areas and entities are put into `tests/<language>/_fixtures.yaml`
-
-
-# Response Templates
-
-Responses to intents will be generated with [Home Assistant templates](https://www.home-assistant.io/docs/configuration/templating/). These are different than the [sentence templates](#sentence-templates), which are used for matching text to intents.
-
-Response templates will have access to the [state object](https://www.home-assistant.io/docs/configuration/state_object) of the matched entity, such as the `climate` entity for the sentence "what is the temperature?".
-
-See [file format](responses/README.md#file-format) for more details on the YAML format for response templates.
