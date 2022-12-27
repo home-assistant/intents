@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+
+"""
+This script will run the tests for a given file.
+"""
+
+import sys
+from pathlib import Path
+import subprocess
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: scrip/test_file <path> [--select-language]")
+        sys.exit(1)
+
+    target_path = Path(sys.argv[1])
+    select_language = len(sys.argv) > 2 and sys.argv[2] == "--select-language"
+
+    if len(target_path.parts) != 3 or target_path.parts[0] not in (
+        "sentences",
+        "tests",
+    ):
+        print("Error: File must be in the sentences or tests directory")
+        sys.exit(2)
+
+    language = target_path.parts[1]
+    file_name = target_path.parts[2]
+
+    test_cmd = [
+        "pytest",
+        "-v",
+        "--language",
+        language,
+    ]
+
+    if select_language or file_name in ("_fixtures.yaml", "_common.yaml"):
+        print(f"Running all tests for {language.upper()}")
+
+    else:
+        print("Running tests for file", file_name)
+        test_cmd.extend(["-k", target_path.stem])
+
+    print()
+
+    try:
+        subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "script.intentfest",
+                "validate",
+                "--language",
+                language,
+            ],
+            cwd=Path(__file__).parent.parent,
+            check=True,
+        )
+    except subprocess.CalledProcessError as err:
+        sys.exit(err.returncode)
+
+    try:
+        subprocess.run(
+            test_cmd,
+            cwd=Path(__file__).parent.parent,
+            check=True,
+        )
+    except subprocess.CalledProcessError as err:
+        sys.exit(err.returncode)
+
+
+main()
