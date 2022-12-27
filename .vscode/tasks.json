@@ -2,34 +2,48 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run Tests",
+      "label": "Run Test for current file",
       "type": "shell",
-      "command": "pytest tests",
-      "dependsOn": ["Validate files"],
+      "command": "script/test_file",
+      "args": ["${relativeFile}"],
       "group": {
         "kind": "test",
         "isDefault": true
       },
       "presentation": {
         "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
+        "panel": "shared",
+        "clear": true
+      }
     },
     {
-      "label": "Validate files",
+      "label": "Run Test for current language",
       "type": "shell",
-      "command": "python3 -m script.intentfest validate",
-      "dependsOn": [],
+      "command": "script/test_file",
+      "args": ["${relativeFile}", "--select-language"],
       "group": {
         "kind": "test",
         "isDefault": true
       },
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "Run Tests for all languages",
+      "type": "shell",
+      "command": "python3 -m script.intentfest validate && pytest tests",
+      "group": {
+        "kind": "test",
+        "isDefault": false
       },
-      "problemMatcher": []
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
     }
   ]
 }
