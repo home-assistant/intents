@@ -8,7 +8,7 @@ This repository contains three different types of files:
 
 We prefer a lot of small contributions over a few large ones. Contributions that contain a lot of changes are hard to review. That's why we want each contribution limited to a single language and single domain.
 
-The filenames of sentences and tests are named like `<domain>_<intent>.yaml`. So if you are translating covers, only add sentences and tests to `cover_HassCoverOpen.yaml` and `cover_HassCoverClose.yaml`.
+The filenames of sentences and tests are named like `<domain>_<intent>.yaml`. So if you are contributing to the cover domain, you would only add sentences and tests to `cover_HassCoverOpen.yaml` and `cover_HassCoverClose.yaml`.
 
 ## Adding a new language
 
