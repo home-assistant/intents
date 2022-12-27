@@ -1,6 +1,41 @@
-language: it
+language: "it"
 tests:
-- sentences: []
-  intent:
-    name: HassOpenCover
-    slots: {}
+  - sentences:
+      - "apri la tenda sinistra"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.curtain_left
+  - sentences:
+      - "apri la tenda sinistra in soggiorno"
+      - "apri la tenda sinistra del soggiorno"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.curtain_left
+        area: soggiorno
+  - sentences:
+      - "apri la serranda del garage"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        device_class: "garage_door"
+  - sentences:
+      - "apri le tende in camera da letto"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        area: "camera_da_letto"
+        device_class:
+          value:
+            - "blind"
+            - "curtain"
+  - sentences:
+      - "apri la tapparella in camera da letto"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        area: "camera_da_letto"
+        device_class:
+          value:
+            - "shutter"
