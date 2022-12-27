@@ -27,6 +27,7 @@ See the [documentation](docs/README.md) for more information.
 | `fr` | French           | @benjaminlecouteux |
 | `he` | Hebrew           | @leranp            |
 | `hu` | Hungarian        | @nagyrobi          |
+| `it` | Italian          | @auanasgheps       |
 | `nb` | Norwegian Bokmål | (position open)    |
 | `nl` | Dutch            | @TheFes            |
 | `pl` | Polish           | (position open)    |
