@@ -1,12 +1,57 @@
 language: es
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: Lo siento, no te he entendido
+    no_area: No existe ninguna area llamdo {{ area }}
+    no_domain: "{{ area }} no tiene {{ domain }}"
+    no_device_class: "{{ area }} no tiene {{ device_class }}"
+    no_entity: No el existe dispositivo o entidad llamado {{ entity }}
+    handle_error: Un error inesperado a ocurrido intentando procesar la instruccion
+lists:
+  color:
+    values:
+      - in: "blanco"
+        out: "white"
+      - in: "negro"
+        out: "black"
+      - in: "rojo"
+        out: "red"
+      - in: "naranja"
+        out: "orange"
+      - in: "amarillo"
+        out: "yellow"
+      - in: "verde"
+        out: "green"
+      - in: "azul"
+        out: "blue"
+      - in: "morado"
+        out: "purple"
+      - in: "marrón"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+expansion_rules:
+  name: "[el | la] {name}"
+  area: "[en | en el | en la | la | de la | del | de | el] {area}"
+  brightness: "{brightness:brightness_pct} [porciento]"
+  enciende: "(enciende | activa)"
+  temp: "[la] (temperatura)"
+  temperature: "{temperature} [grados] [{temperature_unit}]"
+skip_words:
+  - "por favor"
