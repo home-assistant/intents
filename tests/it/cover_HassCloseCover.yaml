@@ -1,6 +1,35 @@
 language: it
 tests:
-- sentences: []
-  intent:
-    name: HassCloseCover
-    slots: {}
+  - sentences:
+      - "Chiudi la tenda sinistra"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.curtain_left
+  - sentences:
+      - "Chiudi la tenda sinistra nel soggiorno"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.curtain_left
+        area: soggiorno
+
+  - sentences:
+      - "Chiudi la porta del garage"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        device_class: "garage_door"
+
+  - sentences:
+      - "Chiudi le tapparelle in camera da letto"
+      - "Chiudi camera da letto tapparelle"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        area: "camera_da_letto"
+        device_class:
+          value:
+            - "blind"
+            - "curtain"
+            - "shutter"
