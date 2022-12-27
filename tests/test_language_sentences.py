@@ -57,7 +57,10 @@ def do_test_language_sentences_file(
                 if not isinstance(slot_dict, dict):
                     slot_dict = {"value": slot_dict}
                 assert (
-                    slot_name in result.entities
+                    slot_name
+                    in
+                    # wrap it in a list to get more readable pytest assertion
+                    list(result.entities)
                 ), f"For '{sentence}' did not receive slot '{slot_name}'"
                 assert result.entities[slot_name].value == slot_dict["value"]
 
