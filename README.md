@@ -25,11 +25,12 @@ See the [documentation](docs/README.md) for more information.
 | `dk` | Danish           | (position open)    |
 | `en` | English          | (position open)    |
 | `fr` | French           | @benjaminlecouteux |
-| `he` | Hebrew           | @leranp            |
+| `he` | Hebrew           | @leranp, @haim-b  |
 | `hu` | Hungarian        | @nagyrobi          |
 | `nb` | Norwegian Bokmål | (position open)    |
 | `nl` | Dutch            | @TheFes            |
 | `pl` | Polish           | (position open)    |
+| `ru` | Russian          | @HepoH3            |
 | `sk` | Slovak           | (position open)    |
 | `sv` | Swedish          | (position open)    |
 
@@ -155,9 +156,9 @@ python3 -m script.intentfest sample_template 'set color to <color> and brightnes
 ## Add new language
 
 ```
-python3 -m script.intentfest add_language <language>
+python3 -m script.intentfest add_language <language code> <language name>
 ```
 
-`<language>` should be something like `en` or `pl` according to [ISO 639](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
+`<language code>` should be something like `en` or `pl` according to [ISO 639](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 
-Before you start on a new language, confirm that no one else is already working on one.
+Language name should be the name of the language in its own language.
