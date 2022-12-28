@@ -2,6 +2,11 @@
 
 YAML files for each domain and language with sentences and the intents that they will evoke.
 
+Each file is named after `<domain>_<intent>.yaml` and should contain sentences that match only the intent from the filename.
+
+Files are formatted based on our [template language and matcher](https://github.com/home-assistant/hassil).
+
+By convention, lists, expansion rules and skip words are put into `sentences/<language>/_common.yaml`.
 
 ## File Format
 
