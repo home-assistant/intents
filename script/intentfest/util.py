@@ -8,7 +8,13 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "action",
         type=str,
-        choices=["add_language", "validate", "parse", "sample", "sample_template"],
+        choices=[
+            "add_language",
+            "parse",
+            "sample_template",
+            "sample",
+            "validate",
+        ],
     )
     parser.add_argument("--debug", action="store_true", help="Enable log output")
     return parser
