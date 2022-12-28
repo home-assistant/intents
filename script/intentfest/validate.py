@@ -324,6 +324,12 @@ def validate_language(intent_schemas, language, errors):
         content = _load_yaml_file(errors[language], language, test_file, schema)
 
         if content is None or test_file.name == "_fixtures.yaml":
+            area_ids = set(area["id"] for area in content.get("areas", []))
+            for entity in content.get("entities", []):
+                if entity["area"] not in area_ids:
+                    errors[language].append(
+                        f"{path}: Entity {entity['name']} references unknown area {entity['id']}"
+                    )
             continue
 
         if test_file.name not in sentence_files:
