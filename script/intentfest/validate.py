@@ -79,6 +79,11 @@ INTENT_ERRORS = {
     "handle_error",
 }
 
+SENTENCE_MATCHER = vol.Match(
+    r"^[\w \|\(\)\[\]\{\}\<\>]+$",
+    msg="Sentences should only contain words and matching syntax. They should not contain punctuation.",
+)
+
 SENTENCE_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
@@ -86,7 +91,7 @@ SENTENCE_SCHEMA = vol.Schema(
             str: {
                 vol.Required("data"): [
                     {
-                        vol.Required("sentences"): [str],
+                        vol.Required("sentences"): [SENTENCE_MATCHER],
                         vol.Optional("slots"): {
                             str: match_anything,
                         },
