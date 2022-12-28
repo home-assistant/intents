@@ -30,6 +30,7 @@ See the [documentation](docs/README.md) for more information.
 | `nb` | Norwegian Bokmål | (position open)    |
 | `nl` | Dutch            | @TheFes            |
 | `pl` | Polish           | (position open)    |
+| `ru` | Russian          | (position open)    |
 | `sk` | Slovak           | (position open)    |
 | `sv` | Swedish          | (position open)    |
 
