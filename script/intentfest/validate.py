@@ -9,7 +9,15 @@ import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
-from .const import INTENTS_FILE, LANGUAGES, RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
+from .const import (
+    INTENTS_FILE,
+    LANGUAGES_FILE,
+    LANGUAGES,
+    RESPONSE_DIR,
+    ROOT,
+    SENTENCE_DIR,
+    TESTS_DIR,
+)
 from .util import get_base_arg_parser, require_sentence_domain_slot
 
 
@@ -47,6 +55,16 @@ def single_key_dict_validator(schemas: dict[str, Any]) -> vol.Schema:
 
     return validate
 
+
+LANGUAGES_SCHEMA = vol.Schema(
+    {
+        str: {
+            vol.Required("nativeName"): str,
+            vol.Optional("isRTL"): bool,
+            vol.Optional("leaders"): [str],
+        }
+    }
+)
 
 INTENTS_SCHEMA = vol.Schema(
     {
@@ -206,19 +224,43 @@ def run() -> int:
     else:
         languages = [args.language]
 
-    intent_schemas = yaml.safe_load(INTENTS_FILE.read_text())
+    load_errors = []
+    intent_schemas = _load_yaml_file(load_errors, None, INTENTS_FILE, INTENTS_SCHEMA)
+    if load_errors:
+        print("File intents.yaml has invalid format:")
+        for error in load_errors:
+            print(f" - {error}")
+        return 1
 
-    try:
-        validate_with_humanized_errors(intent_schemas, INTENTS_SCHEMA)
-    except vol.Error as err:
-        print(f"File intents.yaml has invalid format: {err}")
+    language_infos = _load_yaml_file(
+        load_errors, None, LANGUAGES_FILE, LANGUAGES_SCHEMA
+    )
+    # If no load errors, validate some info.
+    if not load_errors:
+        languages_without_files = set(LANGUAGES) - set(language_infos)
+        if languages_without_files:
+            load_errors.append(
+                f"Contains language without files: {', '.join(sorted(languages_without_files))}"
+            )
+        if sorted(language_infos) != list(language_infos):
+            load_errors.append("Languages should be sorted alphabetically")
+
+    if load_errors:
+        print("File languages.yaml has invalid format:")
+        for error in load_errors:
+            print(f" - {error}")
         return 1
 
     errors: dict[str, list[str]] = {}
 
     for language in languages:
         errors[language] = []
-        validate_language(intent_schemas, language, errors)
+        validate_language(
+            language_infos.get(language),
+            intent_schemas,
+            language,
+            errors[language],
+        )
         # Remove language if no errors
         if not errors[language]:
             errors.pop(language)
@@ -239,7 +281,7 @@ def run() -> int:
 
 
 def _load_yaml_file(
-    errors: list, language: str, file_path: Path, schema: vol.Schemna
+    errors: list, language: str | None, file_path: Path, schema: vol.Schemna
 ) -> dict | None:
     """Load a YAML file."""
     path = str(file_path.relative_to(ROOT))
@@ -255,17 +297,25 @@ def _load_yaml_file(
         errors.append(f"{path}: invalid format: {err}")
         return None
 
-    if content["language"] != language:
+    if language is not None and content["language"] != language:
         errors.append(f"{path}: references incorrect language {content['language']}")
         return None
 
     return content
 
 
-def validate_language(intent_schemas, language, errors):
+def validate_language(
+    language_info: dict | None,
+    intent_schemas: dict,
+    language: str,
+    errors: list[str],
+):
     sentence_dir: Path = SENTENCE_DIR / language
     test_dir: Path = TESTS_DIR / language
     response_dir: Path = RESPONSE_DIR / language
+
+    if language_info is None:
+        errors.append("Language not defined in languages.yaml")
 
     sentence_files = {}
 
@@ -277,7 +327,7 @@ def validate_language(intent_schemas, language, errors):
         else:
             schema = SENTENCE_SCHEMA
 
-        content = _load_yaml_file(errors[language], language, sentence_file, schema)
+        content = _load_yaml_file(errors, language, sentence_file, schema)
 
         if sentence_file.name == "_common.yaml":
             continue
@@ -290,14 +340,12 @@ def validate_language(intent_schemas, language, errors):
         domain, intent = sentence_file.stem.split("_")
 
         if intent not in intent_schemas:
-            errors[language].append(
-                f"{path}: Filename references unknown intent {intent}.yaml"
-            )
+            errors.append(f"{path}: Filename references unknown intent {intent}.yaml")
             continue
 
         for intent_name, intent_info in content["intents"].items():
             if intent != intent_name:
-                errors[language].append(
+                errors.append(
                     f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"
                 )
                 continue
@@ -309,13 +357,13 @@ def validate_language(intent_schemas, language, errors):
                 if require_sentence_domain_slot(intent, domain) and domain != slots.get(
                     "domain"
                 ):
-                    errors[language].append(
+                    errors.append(
                         f"{prefix} expected domain slot for {domain}, "
                         f"got {slots.get('domain')}"
                     )
 
     if not test_dir.exists():
-        errors[language].append(f"Missing tests directory {test_dir}")
+        errors.append(f"Missing tests directory {test_dir}")
         return
 
     for test_file in test_dir.iterdir():
@@ -326,7 +374,7 @@ def validate_language(intent_schemas, language, errors):
         else:
             schema = TESTS_SCHEMA
 
-        content = _load_yaml_file(errors[language], language, test_file, schema)
+        content = _load_yaml_file(errors, language, test_file, schema)
 
         if content is None:
             continue
@@ -335,13 +383,13 @@ def validate_language(intent_schemas, language, errors):
             area_ids = set(area["id"] for area in content.get("areas", []))
             for entity in content.get("entities", []):
                 if entity["area"] not in area_ids:
-                    errors[language].append(
+                    errors.append(
                         f"{path}: Entity {entity['name']} references unknown area {entity['id']}"
                     )
             continue
 
         if test_file.name not in sentence_files:
-            errors[language].append(f"{path}: has no matching sentence file")
+            errors.append(f"{path}: has no matching sentence file")
             continue
 
         sentence_content = sentence_files.pop(test_file.name)
@@ -360,31 +408,29 @@ def validate_language(intent_schemas, language, errors):
             )
 
             if sentence_count > test_count:
-                errors[language].append(f"{path}: not all sentences have tests")
+                errors.append(f"{path}: not all sentences have tests")
 
     if sentence_files:
         for sentence_file in sentence_files:
-            errors[language].append(f"{sentence_file} has no tests")
+            errors.append(f"{sentence_file} has no tests")
 
     for response_file in response_dir.iterdir():
         path = str(response_file.relative_to(ROOT))
         intent = response_file.stem
 
         if intent not in intent_schemas:
-            errors[language].append(
+            errors.append(
                 f"{path}: Filename references unknown intent {response_file.stem}"
             )
             continue
 
-        content = _load_yaml_file(
-            errors[language], language, response_file, RESPONSE_SCHEMA
-        )
+        content = _load_yaml_file(errors, language, response_file, RESPONSE_SCHEMA)
 
         if content is None:
             continue
 
         for intent_name, intent_info in content["responses"]["intents"].items():
             if intent != intent_name:
-                errors[language].append(
+                errors.append(
                     f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"
                 )
