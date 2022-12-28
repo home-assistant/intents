@@ -13,7 +13,7 @@ Repository layout:
 * `tests/<language>`
     * YAML files for `<language>` with test sentences and corresponding intents
     * [File format](tests/README.md#file-format)
-    
+
 See the [documentation](docs/README.md) for more information.
 
 
@@ -25,6 +25,7 @@ See the [documentation](docs/README.md) for more information.
 | `dk` | Danish           | (position open)    |
 | `en` | English          | (position open)    |
 | `fr` | French           | @benjaminlecouteux |
+| `he` | Hebrew           | @leranp, @haim-b  |
 | `hu` | Hungarian        | @nagyrobi          |
 | `nb` | Norwegian Bokmål | (position open)    |
 | `nl` | Dutch            | @TheFes            |
@@ -68,17 +69,19 @@ Before developing, always activate your virtual environment with `source venv/bi
 
 ## Run tests
 
-Validate the data is correctly formatted.
+Validate that the data is correctly formatted:
 
 ```
-python3 -m script.intentfest validate
+python3 -m script.intentfest validate --language nl
 ```
 
-Run the tests. Leave `--language` off to run all tests.
+Run the tests. This will parse the sentences and verifies them with the test sentences.
 
 ```
-pytest tests --language nl
+pytest tests --language nl -k fan_HassTurnOn
 ```
+
+Leave off `--language` to test all languages. Leave off `-k` to test all files.
 
 ## Test parsing sentences
 
@@ -123,8 +126,9 @@ python3 -m script.intentfest sample --language en -n 1
 {"intent": "HassClimateGetTemperature", "text": "what's the temp "}
 ```
 
-Leave off `-n` to generate all possible sentences.
+You can filter for specific intents by adding `--intents HassTurnOn HassTurnOff`.
 
+Leave off `-n` to generate all possible sentences.
 
 ## Test sampling template
 
