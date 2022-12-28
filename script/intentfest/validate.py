@@ -11,8 +11,8 @@ from voluptuous.humanize import validate_with_humanized_errors
 
 from .const import (
     INTENTS_FILE,
-    LANGUAGES_FILE,
     LANGUAGES,
+    LANGUAGES_FILE,
     RESPONSE_DIR,
     ROOT,
     SENTENCE_DIR,
