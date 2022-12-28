@@ -224,9 +224,9 @@ def run() -> int:
     else:
         languages = [args.language]
 
-    load_errors = []
+    load_errors: list[str] = []
     intent_schemas = _load_yaml_file(load_errors, None, INTENTS_FILE, INTENTS_SCHEMA)
-    if load_errors:
+    if intent_schemas is None:
         print("File intents.yaml has invalid format:")
         for error in load_errors:
             print(f" - {error}")
@@ -236,7 +236,7 @@ def run() -> int:
         load_errors, None, LANGUAGES_FILE, LANGUAGES_SCHEMA
     )
     # If no load errors, validate some info.
-    if not load_errors:
+    if language_infos:
         languages_without_files = set(LANGUAGES) - set(language_infos)
         if languages_without_files:
             load_errors.append(
@@ -245,7 +245,7 @@ def run() -> int:
         if sorted(language_infos) != list(language_infos):
             load_errors.append("Languages should be sorted alphabetically")
 
-    if load_errors:
+    if language_infos is None or load_errors:
         print("File languages.yaml has invalid format:")
         for error in load_errors:
             print(f" - {error}")
@@ -411,8 +411,8 @@ def validate_language(
                 errors.append(f"{path}: not all sentences have tests")
 
     if sentence_files:
-        for sentence_file in sentence_files:
-            errors.append(f"{sentence_file} has no tests")
+        for sentence_file_without_tests in sentence_files:
+            errors.append(f"{sentence_file_without_tests} has no tests")
 
     for response_file in response_dir.iterdir():
         path = str(response_file.relative_to(ROOT))
