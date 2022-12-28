@@ -12,7 +12,7 @@ The filenames of sentences and tests are named like `<domain>_<intent>.yaml`. So
 
 ## Adding a new language
 
-New languages should be based on the output of `python3 -m script.intentfest add_language <language>`, which generates an empty language directory with all the files needed for a new language.
+New languages should be based on the output of `python3 -m script.intentfest add_language <language code> <language name>`, which generates an empty language directory with all the files needed for a new language.
 
 Limit the first contribution to translations of the error sentences in `_common.yaml` and adding sentences and tests for the `homeassistant` domain.
 
