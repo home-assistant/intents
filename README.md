@@ -19,20 +19,20 @@ See the [documentation](docs/README.md) for more information.
 
 ## Supported Languages
 
-| Code | Language         | Leaders            |
-|------|------------------|--------------------|
-| `de` | German           | @Scorpoon          |
-| `dk` | Danish           | (position open)    |
-| `en` | English          | (position open)    |
-| `fr` | French           | @benjaminlecouteux |
-| `he` | Hebrew           | @leranp            |
-| `hu` | Hungarian        | @nagyrobi          |
-| `it` | Italian          | @auanasgheps       |
-| `nb` | Norwegian Bokmål | (position open)    |
-| `nl` | Dutch            | @TheFes            |
-| `pl` | Polish           | (position open)    |
-| `sk` | Slovak           | (position open)    |
-| `sv` | Swedish          | (position open)    |
+| Code | Language         | Leaders               |
+|------|------------------|-----------------------|
+| `de` | German           | @Scorpoon             |
+| `dk` | Danish           | (position open)       |
+| `en` | English          | (position open)       |
+| `fr` | French           | @benjaminlecouteux    |
+| `he` | Hebrew           | @leranp               |
+| `hu` | Hungarian        | @nagyrobi             |
+| `it` | Italian          | @auanasgheps, @xraver |
+| `nb` | Norwegian Bokmål | (position open)       |
+| `nl` | Dutch            | @TheFes               |
+| `pl` | Polish           | (position open)       |
+| `sk` | Slovak           | (position open)       |
+| `sv` | Swedish          | (position open)       |
 
 
 ## Language leader
