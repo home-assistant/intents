@@ -4,28 +4,27 @@ This repository contains training data for Home Assistant's local voice control.
 
 Repository layout:
 
-* `sentences/<language>`
-    * YAML files for `<language>` with the name `<domain>_<intent>.yaml`
-    * [File format](sentences/README.md#file-format)
-* `responses/<language>`
-    * YAML files for `<language>` with responses for intents
-    * [File format](responses/README.md#file-format)
-* `tests/<language>`
-    * YAML files for `<language>` with test sentences and corresponding intents
-    * [File format](tests/README.md#file-format)
+- `sentences/<language>`
+  - YAML files for `<language>` with the name `<domain>_<intent>.yaml`
+  - [File format](sentences/README.md#file-format)
+- `responses/<language>`
+  - YAML files for `<language>` with responses for intents
+  - [File format](responses/README.md#file-format)
+- `tests/<language>`
+  - YAML files for `<language>` with test sentences and corresponding intents
+  - [File format](tests/README.md#file-format)
 
 See the [documentation](docs/README.md) for more information.
-
 
 ## Supported Languages
 
 | Code | Language         | Leaders            |
-|------|------------------|--------------------|
+| ---- | ---------------- | ------------------ |
 | `de` | German           | @Scorpoon          |
 | `dk` | Danish           | (position open)    |
 | `en` | English          | (position open)    |
 | `fr` | French           | @benjaminlecouteux |
-| `he` | Hebrew           | @leranp, @haim-b  |
+| `he` | Hebrew           | @leranp, @haim-b   |
 | `hu` | Hungarian        | @nagyrobi          |
 | `nb` | Norwegian Bokmål | (position open)    |
 | `nl` | Dutch            | @TheFes            |
@@ -33,7 +32,7 @@ See the [documentation](docs/README.md) for more information.
 | `ru` | Russian          | @HepoH3            |
 | `sk` | Slovak           | (position open)    |
 | `sv` | Swedish          | (position open)    |
-
+| `ur` | Urdu             | @AalianKhan        |
 
 ## Language leader
 
@@ -51,16 +50,14 @@ If you only want to contribute sentences that should be supported, but don't fee
 
 See [intents.yaml](intents.yaml) for the Home Assistant intent schemas that are supported.
 
-
 ## Lists
 
 Home Assistant will automatically generate the following lists during recognition:
 
-* `{name}`
-    * List of device or entity names
-* `{area}`
-    * List of area names
-
+- `{name}`
+  - List of device or entity names
+- `{area}`
+  - List of area names
 
 # Development
 
@@ -88,7 +85,7 @@ Leave off `--language` to test all languages. Leave off `-k` to test all files.
 
 You can try parsing sentences for a specific language with:
 
-``` sh
+```sh
 python3 -m script.intentfest parse --language en --sentence 'turn on the lights in the kitchen'
 ```
 
@@ -110,13 +107,13 @@ This will print a line of JSON for each `--sentence`:
 
 You can sample the possible sentences for a specific language with:
 
-``` sh
+```sh
 python3 -m script.intentfest sample --language en -n 1
 ```
 
 This will print a line of JSON for each possible sentence:
 
-``` sh
+```sh
 python3 -m script.intentfest sample --language en -n 1
 {"intent": "HassTurnOff", "text": "turn off all the fan in the kitchen"}
 {"intent": "HassTurnOn", "text": "turn on the light in the kitchen"}
@@ -135,13 +132,13 @@ Leave off `-n` to generate all possible sentences.
 
 To quickly test a sentence template, use:
 
-``` sh
+```sh
 python3 -m script.intentfest sample_template <template>
 ```
 
 For example:
 
-``` sh
+```sh
 python3 -m script.intentfest sample_template 'open [the] door'
 open the door
 open door
@@ -149,7 +146,7 @@ open door
 
 You can add lists, ranges, and expansion rules as well:
 
-``` sh
+```sh
 python3 -m script.intentfest sample_template 'set color to <color> and brightness to {brightness}' --values color red green --range brightness 1 2 --rule color '[the] {color}'
 ```
 
