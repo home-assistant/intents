@@ -45,7 +45,7 @@ See the [documentation](docs/README.md) for more information.
 | `sr` | Српски       | (position open)    |
 | `sv` | Svenska      | (position open)    |
 | `tr` | Türkçe       | (position open)    |
-| `uk` | Українська   | (position open)    |
+| `uk` | Українська   | @skynetua          |
 | `ur` | اُردُو         | (position open)    |
 | `vi` | Tiếng Việt   | (position open)    |
 | `zh` | 中文         | (position open)    |
