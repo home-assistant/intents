@@ -1,0 +1,18 @@
+# Stop on errors
+set -e
+
+cd "$(dirname "$0")/.."
+
+rm -rf dist
+cp -r public dist
+
+# Quit all background tasks when script exits
+trap "kill 0" EXIT
+
+cd ..
+python3 -m script.intentfest website_summary > website/src-11ty/_data/intentSummary.json
+cd website
+
+npm exec -- serve dist -p 5100 &
+npm exec -- eleventy --watch &
+wait
