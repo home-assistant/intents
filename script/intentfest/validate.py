@@ -98,7 +98,7 @@ INTENT_ERRORS = {
 }
 
 SENTENCE_MATCHER = vol.Match(
-    r"^[\w \|\(\)\[\]\{\}\<\>]+$",
+    r"^[\w '\|\(\)\[\]\{\}\<\>]+$",
     msg="Sentences should only contain words and matching syntax. They should not contain punctuation.",
 )
 
