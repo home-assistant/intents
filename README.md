@@ -1,6 +1,6 @@
 # Intents for Home Assistant
 
-This repository contains training data for Home Assistant's local voice control.
+This repository contains training data for Home Assistant's local voice control. For a list of supported languages and it's progress, see [the website](https://home-assistant.github.io/intents/).
 
 Repository layout:
 
@@ -15,41 +15,6 @@ Repository layout:
   - [File format](tests/README.md#file-format)
 
 See the [documentation](docs/README.md) for more information.
-
-## Supported Languages
-
-| Code | Language     | Leaders            |
-|------|--------------|--------------------|
-| `ar` | العربية      | (position open)    |
-| `ca` | Català       | (position open)    |
-| `cs` | Čeština      | (position open)    |
-| `da` | Dansk        | (position open)    |
-| `de` | Deutsch      | @Scorpoon          |
-| `el` | Ελληνικά     | (position open)    |
-| `en` | English      | (position open)    |
-| `es` | Español      | (position open)    |
-| `fr` | Français     | @benjaminlecouteux |
-| `he` | עברית        | @leranp, @haim-b   |
-| `hr` | Hrvatski     | (position open)    |
-| `hu` | Magyar       | @nagyrobi          |
-| `it` | Italiano     | (position open)    |
-| `ka` | ಕನ್ನಡ         | (position open)    |
-| `nb` | Norsk Bokmål | (position open)    |
-| `nl` | Nederlands   | @TheFes            |
-| `pl` | Polski       | (position open)    |
-| `pt` | Português    | (position open)    |
-| `ro` | Română       | (position open)    |
-| `ru` | Русский      | (position open)    |
-| `sk` | Slovenčina   | (position open)    |
-| `sl` | Slovenščina  | (position open)    |
-| `sr` | Српски       | (position open)    |
-| `sv` | Svenska      | (position open)    |
-| `tr` | Türkçe       | (position open)    |
-| `uk` | Українська   | @skynetua          |
-| `ur` | اُردُو         | (position open)    |
-| `vi` | Tiếng Việt   | (position open)    |
-| `zh` | 中文         | (position open)    |
-
 
 ## Language leader
 

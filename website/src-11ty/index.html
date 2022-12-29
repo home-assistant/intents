@@ -11,6 +11,7 @@ description: Progress of translations.
       <th>{{intent[0] | remove_first: "Hass"}}</th>
       {% endfor %}
       <th>Errors translated</th>
+      <th>Leader</th>
     </tr>
   </thead>
   <tbody>
@@ -53,6 +54,22 @@ description: Progress of translations.
         >
           {% if summary.errors_translated == true %}yes{% else %}no{% endif %}
         </a>
+      </td>
+      <td
+        class="{% if summary.leaders and (summary.leaders | len) > 1 %}multiple{% endif %}"
+      >
+        {% if summary.leaders %} {% for leader in summary.leaders %}
+        <a href="https://github.com/{{ leader }}" target="_blank">
+          @{{ leader }}
+        </a>
+        {% endfor %} {% else %}
+        <a
+          href="https://github.com/home-assistant/intents#language-leader"
+          target="_blank"
+        >
+          &lt;position open&gt;
+        </a>
+        {% endif %}
       </td>
     </tr>
     {% endfor %}
