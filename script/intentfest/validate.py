@@ -434,4 +434,4 @@ def validate_language(
             if intent != intent_name:
                 errors.append(
                     f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"
-                )
+                ) 
