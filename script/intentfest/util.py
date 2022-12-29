@@ -18,7 +18,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
             "parse",
             "sample_template",
             "sample",
-            "summary",
+            "website_summary",
             "validate",
         ],
     )

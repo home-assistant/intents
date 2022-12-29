@@ -1,4 +1,4 @@
-"""Generate a summary."""
+"""Generate a summary for the website."""
 from __future__ import annotations
 
 from collections import defaultdict
