@@ -10,7 +10,7 @@ INTENTS_FILE = _BASE_DIR / "intents.yaml"
 SENTENCES_DIR = _BASE_DIR / "sentences"
 TESTS_DIR = _BASE_DIR / "tests"
 
-LANGUAGES = [p.name for p in SENTENCES_DIR.iterdir() if p.is_dir()]
+LANGUAGES = sorted(p.name for p in SENTENCES_DIR.iterdir() if p.is_dir())
 
 
 def load_sentences(language: str) -> dict[str, Any]:

@@ -3,14 +3,28 @@ import argparse
 
 import yaml
 
-from .const import RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
+from .const import LANGUAGES_FILE, RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
 from .util import get_base_arg_parser, require_sentence_domain_slot
 
 
 def get_arguments() -> argparse.Namespace:
     """Get parsed passed in arguments."""
     parser = get_base_arg_parser()
-    parser.add_argument("language", type=str, help="The language to add.")
+    parser.add_argument(
+        "language",
+        type=str,
+        help="ISO 639 code of the language.",
+    )
+    parser.add_argument(
+        "native_name",
+        type=str,
+        help="Name of the language in its own language.",
+    )
+    parser.add_argument(
+        "--rtl",
+        action="store_true",
+        help="Specify if the language is right-to-left.",
+    )
     return parser.parse_args()
 
 
@@ -167,6 +181,22 @@ def run() -> int:
                 sort_keys=False,
             )
         )
+
+    # Update languages.yaml
+    languages = yaml.safe_load(LANGUAGES_FILE.read_text())
+    languages[language] = {
+        "nativeName": args.native_name,
+    }
+    if args.rtl:
+        languages[language]["isRTL"] = True
+
+    LANGUAGES_FILE.write_text(
+        yaml.dump(
+            # Sort the languages by code.
+            dict(sorted(languages.items())),
+            sort_keys=False,
+        )
+    )
 
     rel_sentence_dir = sentence_dir.relative_to(ROOT)
     rel_test_dir = tests_dir.relative_to(ROOT)
