@@ -10,15 +10,24 @@ responses:
 lists:
   color:
     values:
-      - "أبيض"
-      - "أسود"
-      - "أحمر"
-      - برتقالي"
-      - "أصفر"
-      - "أخضر"
-      - "أزرق"
-      - "ارجواني"
-      - "بني"
+      - in: "[ال]أبيض"
+        out: "white"
+      - in: "[ال]أسود"
+        out: "black"
+      - in: "[ال]أحمر"
+        out: "red"
+      - in: "[ال]برتقالى"
+        out: "orange"
+      - in: "[ال]أصفر"
+        out: "yellow"
+      - in: "[ال]أخضر"
+        out: "green"
+      - in: "[ال]أزرق"
+        out: "blue"
+      - in: "[ال]أرجوانى"
+        out: "purple"
+      - in: "[ال]بني"
+        out: "brown"
   brightness:
     range:
       type: "percentage"
@@ -31,20 +40,23 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - "درجة مئوية"
+      - "celsius"
       - in: "c"
-        out: "درجة مئوية"
-      - "فهرنهايت"
+        out: "celsius"
+      - "fahrenheit"
       - in: "f"
-        out: "فهرنهايت"
+        out: "fahrenheit"
 expansion_rules:
-  name: "[ال] {name}"
-  area: "[ال] {area}"
-  what_is: "ماذا (يكون | تكون)"
+  name: "[ال]{name}"
+  area: "[ال]{area}"
+  what_is: "(ماذا (يكون | تكون) | ما (هو | هى))"
   brightness: "{brightness:brightness_pct} [درجة مئوية]"
-  # In arabic there is a distinct word for turn on and turn off shall I delete this line or insert two entries ?
-  # turn: "(turn | switch)"
-  temp: "(درجة الحرارة | الحرارة)"
+  turn_on: "(شغل | أفتح)"
+  turn_off: "(أقفل | أغلق)"
+  set: "(اضبط | ضع)"
+  temp: "(درجة [ال]حرارة | الحرارة)"
   temperature: "{temperature} [درجة] [{temperature_unit}]"
 skip_words:
-  - "(من فضلك | بعد إذنك)"
+  - "بعد إذنك"
+  - "من فضلك"
+  - "(لو | إذا) سمحت"
