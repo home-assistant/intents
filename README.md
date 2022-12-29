@@ -32,6 +32,7 @@ See the [documentation](docs/README.md) for more information.
 | `ru` | Russian          | @HepoH3            |
 | `sk` | Slovak           | (position open)    |
 | `sv` | Swedish          | (position open)    |
+| `uk` | Ukrainian        | @skynetua          |
 | `ur` | Urdu             | @AalianKhan        |
 
 ## Language leader
