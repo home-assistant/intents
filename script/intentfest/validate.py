@@ -69,6 +69,7 @@ LANGUAGES_SCHEMA = vol.Schema(
 INTENTS_SCHEMA = vol.Schema(
     {
         str: {
+            vol.Required("domain"): str,
             vol.Required("description"): str,
             vol.Optional("slots"): {
                 str: {
@@ -98,7 +99,7 @@ INTENT_ERRORS = {
 }
 
 SENTENCE_MATCHER = vol.Match(
-    r"^[\w \|\(\)\[\]\{\}\<\>]+$",
+    r"^[\w '\|\(\)\[\]\{\}\<\>]+$",
     msg="Sentences should only contain words and matching syntax. They should not contain punctuation.",
 )
 
