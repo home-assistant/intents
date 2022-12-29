@@ -18,22 +18,38 @@ See the [documentation](docs/README.md) for more information.
 
 ## Supported Languages
 
-| Code | Language         | Leaders            |
-| ---- | ---------------- | ------------------ |
-| `de` | German           | @Scorpoon          |
-| `dk` | Danish           | (position open)    |
-| `en` | English          | (position open)    |
-| `fr` | French           | @benjaminlecouteux |
-| `he` | Hebrew           | @leranp, @haim-b   |
-| `hu` | Hungarian        | @nagyrobi          |
-| `nb` | Norwegian Bokmål | (position open)    |
-| `nl` | Dutch            | @TheFes            |
-| `pl` | Polish           | (position open)    |
-| `ru` | Russian          | @HepoH3            |
-| `sk` | Slovak           | (position open)    |
-| `sv` | Swedish          | (position open)    |
-| `uk` | Ukrainian        | @skynetua          |
-| `ur` | Urdu             | @AalianKhan        |
+| Code | Language     | Leaders            |
+|------|--------------|--------------------|
+| `ar` | العربية      | (position open)    |
+| `ca` | Català       | (position open)    |
+| `cs` | Čeština      | (position open)    |
+| `da` | Dansk        | (position open)    |
+| `de` | Deutsch      | @Scorpoon          |
+| `el` | Ελληνικά     | (position open)    |
+| `en` | English      | (position open)    |
+| `es` | Español      | (position open)    |
+| `fr` | Français     | @benjaminlecouteux |
+| `he` | עברית        | @leranp, @haim-b   |
+| `hr` | Hrvatski     | (position open)    |
+| `hu` | Magyar       | @nagyrobi          |
+| `it` | Italiano     | (position open)    |
+| `ka` | ಕನ್ನಡ         | (position open)    |
+| `nb` | Norsk Bokmål | (position open)    |
+| `nl` | Nederlands   | @TheFes            |
+| `pl` | Polski       | (position open)    |
+| `pt` | Português    | (position open)    |
+| `ro` | Română       | (position open)    |
+| `ru` | Русский      | (position open)    |
+| `sk` | Slovenčina   | (position open)    |
+| `sl` | Slovenščina  | (position open)    |
+| `sr` | Српски       | (position open)    |
+| `sv` | Svenska      | (position open)    |
+| `tr` | Türkçe       | (position open)    |
+| `uk` | Українська   | @skynetua          |
+| `ur` | اُردُو         | (position open)    |
+| `vi` | Tiếng Việt   | (position open)    |
+| `zh` | 中文         | (position open)    |
+
 
 ## Language leader
 
