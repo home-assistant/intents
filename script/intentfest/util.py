@@ -15,6 +15,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
         type=str,
         choices=[
             "add_language",
+            "codeowners",
             "parse",
             "sample_template",
             "sample",
