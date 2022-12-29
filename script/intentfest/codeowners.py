@@ -5,9 +5,8 @@ import argparse
 
 import yaml
 
-from .const import ROOT, LANGUAGES_FILE
+from .const import LANGUAGES_FILE, ROOT
 from .util import get_base_arg_parser
-
 
 CODEOWNERS_FILE = ROOT / "CODEOWNERS"
 
