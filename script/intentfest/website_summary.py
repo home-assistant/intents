@@ -1,12 +1,11 @@
 """Generate a summary for the website."""
 from __future__ import annotations
 
-from collections import defaultdict
 import json
 
 import yaml
 
-from .const import LANGUAGES, LANGUAGES_FILE, INTENTS_FILE
+from .const import INTENTS_FILE, LANGUAGES, LANGUAGES_FILE
 from .util import load_merged_responses, load_merged_sentences
 
 
@@ -28,9 +27,10 @@ def run() -> int:
             for sentence_set in info["data"]:
                 intent_sentence_count[intent] += len(sentence_set["sentences"])
 
-        response_sentence_count = defaultdict(int)
+        response_sentence_count: dict[str, int] = {}
 
         for intent, info in merged_responses["responses"]["intents"].items():
+            response_sentence_count.setdefault(intent, 0)
             response_sentence_count[intent] += len(info["success"])
 
         errors_translated = not any(

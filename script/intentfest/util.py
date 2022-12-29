@@ -1,8 +1,8 @@
 """Translation utils."""
 import argparse
 
-from hassil.util import merge_dict
 import yaml
+from hassil.util import merge_dict
 
 from .const import RESPONSE_DIR, SENTENCE_DIR
 
