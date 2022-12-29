@@ -26,7 +26,7 @@ Once you've made some changes, you can run the tests right here! Choose "Termina
 
 ![Run task](run_task.jpg)
 
-Next, type "test" into the text box at the top and click "Run Test for current file":
+Next, type "test" into the text box at the top and click "Run tests for current file":
 
 ![Run tests](run_tests.jpg)
 
