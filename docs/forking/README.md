@@ -4,7 +4,7 @@
 2. Clone your fork locally with `git clone <url>`
 3. Set up a local development environment with `script/setup`
 4. Create a new branch off of `main` with `git checkout -b <branch>`
-5. If your [language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) does not exist yet, run `python3 -m script.intentfest add-language <language_code>`
+5. If your [language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) does not exist yet, run `python3 -m script.intentfest add_language <language_code> <language name>`
 6. Modify the files for your language in:
     * `sentences/<language>`
     * `tests/<language>`
