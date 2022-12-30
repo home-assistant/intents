@@ -1,0 +1,77 @@
+---
+layout: base
+description: Progress of translations.
+---
+
+<table>
+  <thead>
+    <tr>
+      <th>Language</th>
+      {% for intent in intentSummary.languages[0].intents %}
+      <th>{{intent[0] | remove_first: "Hass"}}</th>
+      {% endfor %}
+      <th>Errors translated</th>
+      <th>Leader</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for summary in intentSummary.languages %}
+    <tr class="{% if summary.usable %}usable{% endif %}">
+      <td>
+        <a
+          href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/"
+          target="_blank"
+        >
+          <code>{{summary.language}}</code> {{summary.native_name}}
+        </a>
+      </td>
+
+      {% for intent in summary.intents %}
+      <td
+        class="{% if intent[1] == 0 %}zero{% endif %} {% if summary.responses[intent[0]] != nil %}multiple{% endif %}"
+      >
+        <a
+          href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/{{ intentSummary.intents[intent[0]].file_name }}"
+          target="_blank"
+        >
+          {{intent[1]}}
+        </a>
+        {% if summary.responses[intent[0]] != nil %} +
+        <a
+          href="https://github.com/home-assistant/intents/blob/main/responses/{{ summary.language }}/{{ intent[0] }}.yaml"
+          target="_blank"
+        >
+          {{summary.responses[intent[0]]}}
+        </a>
+        {% endif %}
+      </td>
+      {% endfor %}
+
+      <td class="{% if summary.errors_translated != true %}zero{% endif %}">
+        <a
+          href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/_common.yaml"
+          target="_blank"
+        >
+          {% if summary.errors_translated == true %}yes{% else %}no{% endif %}
+        </a>
+      </td>
+      <td
+        class="{% if summary.leaders and (summary.leaders | len) > 1 %}multiple{% endif %}"
+      >
+        {% if summary.leaders %} {% for leader in summary.leaders %}
+        <a href="https://github.com/{{ leader }}" target="_blank">
+          @{{ leader }}
+        </a>
+        {% endfor %} {% else %}
+        <a
+          href="https://github.com/home-assistant/intents#language-leader"
+          target="_blank"
+        >
+          &lt;position open&gt;
+        </a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
