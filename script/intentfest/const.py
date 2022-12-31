@@ -1,4 +1,4 @@
-"""Costants."""
+"""Constants."""
 
 from pathlib import Path
 

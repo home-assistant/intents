@@ -48,6 +48,7 @@ def run() -> int:
             {
                 "language": language,
                 "native_name": language_info[language]["nativeName"],
+                "leaders": language_info[language].get("leaders"),
                 "intents": intent_sentence_count,
                 "responses": response_sentence_count,
                 "errors_translated": errors_translated,
