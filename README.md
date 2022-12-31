@@ -43,7 +43,7 @@ Home Assistant will automatically generate the following lists during recognitio
 
 # Development
 
-Checkout the repository and get a development enviornment with `script/setup`. This will create a new virtual environment in the `venv` directory of the repository, and install all necessary requirements.
+Checkout the repository and get a development environment with `script/setup`. This will create a new virtual environment in the `venv` directory of the repository, and install all necessary requirements.
 
 Before developing, always activate your virtual environment with `source venv/bin/activate`.
 
