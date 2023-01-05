@@ -1,6 +1,38 @@
-language: cs
+language: "cs"
 tests:
-- sentences: []
-  intent:
-    name: HassCloseCover
-    slots: {}
+  - sentences:
+      - "zatáhni levý závěs"
+      - "zavři levý závěs"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.curtain_left
+  - sentences:
+      - "zatáhni levý závěs v obýváku"
+      - "zavři levý závěs v obýváku"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.curtain_left
+        area: living_room
+
+  - sentences:
+      - "zavři vrata garáže"
+      - "zavři garáž"
+      - "zavři vrata"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        device_class: "garage_door"
+
+  - sentences:
+      - "zatáhni závěsy v ložnici"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        area: "bedroom"
+        device_class:
+          value:
+            - "blind"
+            - "curtain"
+            - "shutter"

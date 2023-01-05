@@ -1,6 +1,38 @@
-language: cs
+language: "cs"
 tests:
-- sentences: []
-  intent:
-    name: HassOpenCover
-    slots: {}
+  - sentences:
+      - "roztáhni levý závěs"
+    intent:
+      name: "HassOpenCover"
+      slots:
+        name: cover.curtain_left
+  - sentences:
+      - "roztáhni levý závěs v obýváku"
+    intent:
+      name: "HassOpenCover"
+      slots:
+        name: cover.curtain_left
+        area: living_room
+
+  # Garage door
+  - sentences:
+      - "otevři vrata"
+      - "otevři vrata garáže"
+      - "otevři garáž"
+    intent:
+      name: "HassOpenCover"
+      slots:
+        device_class: "garage_door"
+
+  # Blinds
+  - sentences:
+      - "roztáhni závěsy v kuchyni"
+    intent:
+      name: "HassOpenCover"
+      slots:
+        area: "kitchen"
+        device_class:
+          value:
+            - "blind"
+            - "curtain"
+            - "shutter"
