@@ -411,7 +411,7 @@ def validate_language(
         if content is None:
             continue
 
-        for intent_name, intent_info in content["responses"]["intents"].items():
+        for intent_name in content["responses"]["intents"]:
             if intent != intent_name:
                 errors.append(
                     f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"
