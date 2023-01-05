@@ -53,16 +53,18 @@ def do_test_language_sentences_file(
             assert (
                 result.intent.name == intent["name"]
             ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
+
+            matched_slots = {slot.name: slot.value for slot in result.entities.values()}
+            expected_slots = {}
             for slot_name, slot_dict in intent.get("slots", {}).items():
-                if not isinstance(slot_dict, dict):
-                    slot_dict = {"value": slot_dict}
-                assert (
-                    slot_name
-                    in
-                    # wrap it in a list to get more readable pytest assertion
-                    list(result.entities)
-                ), f"For '{sentence}' did not receive slot '{slot_name}'"
-                assert result.entities[slot_name].value == slot_dict["value"]
+                if isinstance(slot_dict, dict):
+                    expected_slots[slot_name] = slot_dict["value"]
+                else:
+                    expected_slots[slot_name] = slot_dict
+
+            assert (
+                matched_slots == expected_slots
+            ), f"Slots do not match for: {sentence}"
 
 
 def gen_test(test_file: Path) -> None:
