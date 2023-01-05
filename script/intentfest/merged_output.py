@@ -7,7 +7,7 @@ import yaml
 from hassil.util import merge_dict
 
 from .const import INTENTS_FILE, LANGUAGES, RESPONSE_DIR, SENTENCE_DIR
-from .util import get_base_arg_parser
+from .util import YamlDumper, get_base_arg_parser
 
 
 def get_arguments() -> argparse.Namespace:
@@ -83,7 +83,9 @@ def run() -> int:
                 output.setdefault("responses", {})["intents"] = domain_responses
 
             (target / domain / "sentences" / f"{language}.yaml").write_text(
-                yaml.dump(output, sort_keys=False)
+                yaml.dump(
+                    output, sort_keys=False, allow_unicode=True, Dumper=YamlDumper
+                )
             )
 
     return 0
