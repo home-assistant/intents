@@ -44,14 +44,18 @@ def do_test_language_sentences_file(
             intent["name"] == testing_intent
         ), f"File {test_file} should only test for intent {testing_intent}"
 
+        if not test["sentences"]:
+            continue
+
         # Domain specific files (ie light_HassTurnOn.yaml) should only test
         # sentences for the light domain.
-        if (
-            test["sentences"]
-            and intent_schemas[testing_intent]["domain"] != testing_domain
-        ):
-            assert (
-                "domain" in intent["slots"]
+        if intent_schemas[testing_intent]["domain"] == testing_domain:
+            assert "domain" not in intent.get(
+                "slots", {}
+            ), f"File {test_file} should not have a domain slot"
+        else:
+            assert "domain" in intent.get(
+                "slots", {}
             ), f"File {test_file} should have a domain slot"
 
         for sentence in test["sentences"]:
