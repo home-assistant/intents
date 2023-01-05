@@ -62,7 +62,9 @@ def do_test_language_sentences_file(
                 else:
                     expected_slots[slot_name] = slot_dict
 
-            assert matched_slots == expected_slots
+            assert (
+                matched_slots == expected_slots
+            ), f"Slots do not match for: {sentence}"
 
 
 def gen_test(test_file: Path) -> None:
