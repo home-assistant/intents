@@ -7,6 +7,57 @@ responses:
     no_device_class: "{{ area }} neobsahuje {{ device_class }}"
     no_entity: "Žádné zařízení ani entita se nejmenuje {{ entity }}"
     handle_error: "Při zpracování došlo k neočekávané chybě."
-lists: {}
-expansion_rules: {}
-skip_words: []
+lists: 
+  color:
+    values:
+      - in: "bíl(á|é|o)"
+        out: "white"
+      - in: "čern(á|é|o)"
+        out: "black"
+      - in: "červen(á|é|o)"
+        out: "red"
+      - in: "oranžov(á|é|o)"
+        out: "orange"
+      - in: "žlut(á|é|o)"
+        out: "yellow"
+      - in: "zelen(á|é|o)"
+        out: "green"
+      - in: "modr(á|é|o)"
+        out: "blue"
+      - in: "fialov(á|é|o)"
+        out: "purple"
+      - in: "hněd(á|é|o)"
+        out: "brown"
+    brightness:
+      range:
+        type: "percentage"
+        from: 0
+        to: 100
+    temperature:
+      range:
+        type: "temperature"
+        from: 0
+        to: 100
+    temperature_unit:
+      values:
+        - "celsius"
+        - in: "c"
+          out: "celsius"
+        - "fahrenheit"
+        - in: "f"
+          out: "fahrenheit"
+expansion_rules: 
+  name: "{name}"
+  area: "{area}"
+  what_is: "Jak(á|é|ý) je"
+  how_many_is: "Kolik je"
+  turn_on: "(zapnout | zapni)"
+  turn_off: "(vypnout | vypni)"
+  turn_on_light: "rozsviť"
+  turn_off_light: "zhasni"
+  brightness: "{brightness} [procent]"
+  temp: "teplota"
+  temperature: "{temperature} [stupňů] 
+[{temperature_unit}]"
+skip_words: 
+  - "prosim"
