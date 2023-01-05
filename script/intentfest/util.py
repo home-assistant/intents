@@ -16,6 +16,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
         choices=[
             "add_language",
             "codeowners",
+            "merged_output",
             "parse",
             "sample_template",
             "sample",
