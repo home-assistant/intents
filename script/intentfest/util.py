@@ -7,6 +7,14 @@ from hassil.util import merge_dict
 from .const import RESPONSE_DIR, SENTENCE_DIR
 
 
+# pylint:disable=too-many-ancestors
+class YamlDumper(yaml.Dumper):
+    """Subclassed dumper to ensure correct indentation."""
+
+    def increase_indent(self, flow=False, indentless=False):
+        return super().increase_indent(flow, False)
+
+
 def get_base_arg_parser() -> argparse.ArgumentParser:
     """Get a base argument parser."""
     parser = argparse.ArgumentParser(description="Home Assistant Translations")
