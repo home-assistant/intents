@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from typing import Any
 
 import pytest
 from hassil import Intents, recognize
@@ -28,11 +29,12 @@ def slot_lists_fixture(language: str) -> dict[str, SlotList]:
 def do_test_language_sentences_file(
     language: str,
     test_file: str,
+    intent_schemas: dict[str, Any],
     slot_lists: dict[str, SlotList],
     language_sentences: Intents,
 ) -> None:
     """Tests recognition all of the test sentences for a language"""
-    _testing_domain, testing_intent = test_file.split("_", 1)
+    testing_domain, testing_intent = test_file.split("_", 1)
 
     seen_sentences = set()
 
@@ -41,6 +43,20 @@ def do_test_language_sentences_file(
         assert (
             intent["name"] == testing_intent
         ), f"File {test_file} should only test for intent {testing_intent}"
+
+        if not test["sentences"]:
+            continue
+
+        # Domain specific files (ie light_HassTurnOn.yaml) should only test
+        # sentences for the light domain.
+        if intent_schemas[testing_intent]["domain"] == testing_domain:
+            assert "domain" not in intent.get(
+                "slots", {}
+            ), f"File {test_file} should not have a domain slot"
+        else:
+            assert "domain" in intent.get(
+                "slots", {}
+            ), f"File {test_file} should have a domain slot"
 
         for sentence in test["sentences"]:
             assert (
@@ -70,11 +86,16 @@ def do_test_language_sentences_file(
 def gen_test(test_file: Path) -> None:
     def test_func(
         language: str,
+        intent_schemas: dict[str, Any],
         slot_lists: dict[str, SlotList],
         language_sentences: Intents,
     ) -> None:
         do_test_language_sentences_file(
-            language, test_file.stem, slot_lists, language_sentences
+            language,
+            test_file.stem,
+            intent_schemas,
+            slot_lists,
+            language_sentences,
         )
 
     test_func.__name__ = f"test_{test_file.stem}"

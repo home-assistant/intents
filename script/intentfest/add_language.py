@@ -1,10 +1,11 @@
 """Script to add a new language."""
 import argparse
+from functools import partial
 
 import yaml
 
 from .const import LANGUAGES_FILE, RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
-from .util import get_base_arg_parser, require_sentence_domain_slot
+from .util import YamlDumper, get_base_arg_parser, require_sentence_domain_slot
 
 
 def get_arguments() -> argparse.Namespace:
@@ -32,6 +33,9 @@ def run() -> int:
     args = get_arguments()
 
     language = args.language
+    yaml_dump = partial(
+        yaml.dump, sort_keys=False, allow_unicode=True, Dumper=YamlDumper
+    )
 
     # Create language directory
     sentence_dir = SENTENCE_DIR / language
@@ -65,7 +69,7 @@ def run() -> int:
             }
 
         (sentence_dir / english_filename.name).write_text(
-            yaml.dump(
+            yaml_dump(
                 {
                     "language": language,
                     "intents": {
@@ -76,12 +80,11 @@ def run() -> int:
                         },
                     },
                 },
-                sort_keys=False,
             )
         )
 
     (sentence_dir / "_common.yaml").write_text(
-        yaml.dump(
+        yaml_dump(
             {
                 "language": language,
                 "responses": {
@@ -98,7 +101,6 @@ def run() -> int:
                 "expansion_rules": {},
                 "skip_words": [],
             },
-            sort_keys=False,
         )
     )
 
@@ -112,7 +114,7 @@ def run() -> int:
         _domain, intent = english_filename.stem.split("_")
 
         (tests_dir / english_filename.name).write_text(
-            yaml.dump(
+            yaml_dump(
                 {
                     "language": language,
                     "tests": [
@@ -125,12 +127,11 @@ def run() -> int:
                         },
                     ],
                 },
-                sort_keys=False,
             )
         )
 
     (tests_dir / "_fixtures.yaml").write_text(
-        yaml.dump(
+        yaml_dump(
             {
                 "language": language,
                 "areas": [
@@ -157,7 +158,6 @@ def run() -> int:
                     },
                 ],
             },
-            sort_keys=False,
         )
     )
 
@@ -167,7 +167,7 @@ def run() -> int:
         intent = english_filename.stem
 
         (response_dir / english_filename.name).write_text(
-            yaml.dump(
+            yaml_dump(
                 {
                     "language": language,
                     "responses": {
@@ -178,7 +178,6 @@ def run() -> int:
                         },
                     },
                 },
-                sort_keys=False,
             )
         )
 
@@ -191,10 +190,9 @@ def run() -> int:
         languages[language]["isRTL"] = True
 
     LANGUAGES_FILE.write_text(
-        yaml.dump(
+        yaml_dump(
             # Sort the languages by code.
             dict(sorted(languages.items())),
-            sort_keys=False,
         )
     )
 
