@@ -1,12 +1,69 @@
 language: cs
 responses:
   errors:
-    no_intent: "Omlouvám se, ale nerozuměl jsem tomu"
-    no_area: "Nepojmenovaná oblast {{ area }}"
+    no_intent: "Nerozumím"
+    no_area: "Neexistuje oblast {{ area }}"
     no_domain: "{{ area }} neobsahuje {{ domain }}"
     no_device_class: "{{ area }} neobsahuje {{ device_class }}"
-    no_entity: "Žádné zařízení ani entita se nejmenuje {{ entity }}"
-    handle_error: "Při zpracování došlo k neočekávané chybě."
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_entity: "Neexistuje zařízení nebo entita s názvem {{ entity }}"
+    handle_error: "Vyskytla se neočekávaná chyba"
+lists:
+  color:
+    values:
+      - in: "bíl(á|é|ý|ou)"
+        out: "white"
+      - in: "čern(á|é|ý|ou)"
+        out: "black"
+      - in: "červen(á|é|ý|ou)"
+        out: "red"
+      - in: "oranžov(á|é|ý|ou)"
+        out: "orange"
+      - in: "žlut(á|é|ý|ou)"
+        out: "yellow"
+      - in: "zelen(á|é|ý|ou)"
+        out: "green"
+      - in: "modr(á|é|ý|ou)"
+        out: "blue"
+      - in: "fialov(á|é|ý|ou)"
+        out: "purple"
+      - in: "hněd(á|é|ý|ou)"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+expansion_rules:
+  name: "{name}"
+  area: "{area}"
+  what_is: "(co je | kolik je)"
+  how_many: "(kolik je | jaká je)"
+  brightness: "{brightness} [procent]"
+  temp: "teplota"
+  temperature: "{temperature} [stupňů] [{temperature_unit}]"
+  turn_on: "zapni"
+  turn_off: "vypni"
+  turn_on_light: "(zapni | rozsviť | rozžni)"
+  turn_off_light: "(vypni | zhasni)"
+  in: "(v | na)"
+  degree: "(stupeň | stupňů)"
+  set: "(nastav | změň)"
+  blind_off: "(zatáhni | zavři)"
+  blind_on: "(otevři | roztáhni)"
+  fan_all: "(ventilátory | větráky)"
+skip_words:
+  - "prosím"
+  - "mohl(a) bys(te)"
