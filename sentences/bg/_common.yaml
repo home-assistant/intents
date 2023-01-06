@@ -1,12 +1,61 @@
 language: bg
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: Съжалявам, но не разбрах командата
+    no_area: Няма зона, с името {{ area }}
+    no_domain: В зоната {{ area }} няма {{ domain }}
+    no_device_class: В зоната {{ area }} няма устройство с името {{ device_class }}
+    no_entity: Няма устройство или обект с името {{ entity }}
+    handle_error: По време на обработката възникна неочакван проблем
+lists:
+  color:
+    values:
+      - in: "бял | бяло"
+        out: "white"
+      - in: "черен | черно"
+        out: "black"
+      - in: "червен | червено"
+        out: "red"
+      - in: "оранжев | оранжево"
+        out: "orange"
+      - in: "жълт | жълто"
+        out: "yellow"
+      - in: "зелен | зелено"
+        out: "green"
+      - in: "син | синьо"
+        out: "blue"
+      - in: "виолетов | виолетово"
+        out: "purple"
+      - in: "кафяв | кафяво"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "c | целзий | по целзий"
+        out: "celsius"
+      - in: "f | фаренхайт | по фаренхайт"
+        out: "fahrenheit"
+expansion_rules:
+  name: "{name}"
+  area: "[в | на] {area}"
+  brightness: "{brightness} [процента]"
+  temp: "температура[та]"
+  temperature: "{temperature} [градуса] [{temperature_unit}]"
+  turn_on: (пусни | включи)
+  turn_off: (изключи)
+  set: (сложи | настрой | задай | направи | смени)
+  open: (открий | отвори | вдигни)
+  close: (закрий | затвори | пусни)
+skip_words:
+  - "моля"
+  - "може ли"
+  - "кажи ми"
