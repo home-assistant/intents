@@ -1,0 +1,64 @@
+language: lt
+responses:
+  errors:
+    no_intent: "Atsiprašau, užklausa nebuvo suprasta"
+    no_area: "Nėra zonos pavadinimu {{ area }}"
+    no_domain: "{{ area }} neturi {{ domain }}"
+    no_device_class: "{{ area }} neturi {{ device_class }}"
+    no_entity: "Nėra įrenginio ar daikto pavadinimu {{ entity }}"
+    handle_error: "Atsirado nenumatyta klaida bandant įvykdyti užklausą"
+lists:
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  color:
+    values:
+      - in: "balt(a|ą)"
+        out: "white"
+      - in: "juod(a|ą)"
+        out: "black"
+      - in: "raudon(a|ą)"
+        out: "red"
+      - in: "oranžin(ė|ę)"
+        out: "orange"
+      - in: "gelton(a|ą)"
+        out: "yellow"
+      - in: "žali(a|ą)"
+        out: "green"
+      - in: "melyn(a|ą)"
+        out: "blue"
+      - in: "violetin(ė|ę)"
+        out: "purple"
+      - in: "rud(a|ą)"
+        out: "brown"
+      - in: "rožin(ė|ę)"
+        out: "pink"
+      - in: "pilk(a|ą)"
+        out: "gray"
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "c | celcij(us|o|as|aus)"
+        out: "celsius"
+      - in: "f | farenheit(as|o)"
+        out: "fahrenheit"
+expansion_rules:
+  name: "{name}"
+  area: "{area}"
+  what_is: "kokia [yra]"
+  how_many_is: "kiek [yra]"
+  turn_on: "(įjunk | paleisk | pradėk)"
+  turn_off: "(išjunk | stabdyk | sustabdyk)"
+  temp: "temperatūr(a|os|ą) | šilum(os|a|ą) | šal(čio|tis|tį) | karš(tis|čio|tį) | laipsn(ių|ius)"
+  set: "nustaty(k|ti) | [pa]keis(k|ti) | [pa]didink | [pa|su]mažink | padaryk"
+  temperature: "{temperature} [laipsn(ius|ių)] [{temperature_unit}]"
+skip_words:
+  - "prašau"
+  - "ačiū"
+  - "[ar] gali"

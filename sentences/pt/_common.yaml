@@ -1,12 +1,75 @@
 language: pt
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: "Desculpe, não percebi o pedido."
+    no_area: "Não existe nenhuma área com o nome {{ area }}."
+    no_domain: "{{ area }} não contém {{ domain }}."
+    no_device_class: "{{ area }} não contém {{ device_class }}."
+    no_entity: "Não existe nenhum dispositivo ou entidade com o nome {{ entity }}."
+    handle_error: "Ocurreu um erro inesperado ao processar o pedido."
+lists:
+  color:
+    values:
+      - in: "branco"
+        out: "white"
+      - in: "branca"
+        out: "white"
+      - in: "preto"
+        out: "black"
+      - in: "preta"
+        out: "black"
+      - in: "vermelho"
+        out: "red"
+      - in: "vermelha"
+        out: "red"
+      - in: "laranja"
+        out: "orange"
+      - in: "amarelo"
+        out: "yellow"
+      - in: "amarela"
+        out: "yellow"
+      - in: "verde"
+        out: "green"
+      - in: "azul"
+        out: "blue"
+      - in: "roxo"
+        out: "purple"
+      - in: "roxa"
+        out: "purple"
+      - in: "castanho"
+        out: "brown"
+      - in: "castanha"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "centígrados"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+expansion_rules:
+  nome: "[(o | a)] {name}"
+  zona: "[(o | a)] {area}"
+  na_zona: "(no | na | do | da) {area}"
+  qual: "(qual | qual é)"
+  brilho: "{brightness} [porcento]"
+  temperatura: "{temperature} [graus] [{temperature_unit}]"
+skip_words:
+  - "por favor"
+  - "se faz favor"
+  - "pode"
+  - "podes"

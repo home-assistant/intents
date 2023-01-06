@@ -1,16 +1,38 @@
 """Script to add a new language."""
 import argparse
+from functools import partial
 
 import yaml
 
-from .const import RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
-from .util import get_base_arg_parser, require_sentence_domain_slot
+from .const import (
+    INTENTS_FILE,
+    LANGUAGES_FILE,
+    RESPONSE_DIR,
+    ROOT,
+    SENTENCE_DIR,
+    TESTS_DIR,
+)
+from .util import YamlDumper, get_base_arg_parser
 
 
 def get_arguments() -> argparse.Namespace:
     """Get parsed passed in arguments."""
     parser = get_base_arg_parser()
-    parser.add_argument("language", type=str, help="The language to add.")
+    parser.add_argument(
+        "language",
+        type=str,
+        help="ISO 639 code of the language.",
+    )
+    parser.add_argument(
+        "native_name",
+        type=str,
+        help="Name of the language in its own language.",
+    )
+    parser.add_argument(
+        "--rtl",
+        action="store_true",
+        help="Specify if the language is right-to-left.",
+    )
     return parser.parse_args()
 
 
@@ -18,6 +40,11 @@ def run() -> int:
     args = get_arguments()
 
     language = args.language
+    yaml_dump = partial(
+        yaml.dump, sort_keys=False, allow_unicode=True, Dumper=YamlDumper
+    )
+
+    intent_schemas = yaml.safe_load(INTENTS_FILE.read_text())
 
     # Create language directory
     sentence_dir = SENTENCE_DIR / language
@@ -44,14 +71,14 @@ def run() -> int:
         sentence_info: dict = {
             "sentences": [],
         }
-        if require_sentence_domain_slot(intent, domain):
+        if domain != intent_schemas[intent]["domain"]:
             sentence_info["slots"] = {
                 "domain": domain,
                 "name": "all",
             }
 
         (sentence_dir / english_filename.name).write_text(
-            yaml.dump(
+            yaml_dump(
                 {
                     "language": language,
                     "intents": {
@@ -62,12 +89,11 @@ def run() -> int:
                         },
                     },
                 },
-                sort_keys=False,
             )
         )
 
     (sentence_dir / "_common.yaml").write_text(
-        yaml.dump(
+        yaml_dump(
             {
                 "language": language,
                 "responses": {
@@ -84,7 +110,6 @@ def run() -> int:
                 "expansion_rules": {},
                 "skip_words": [],
             },
-            sort_keys=False,
         )
     )
 
@@ -95,10 +120,15 @@ def run() -> int:
         if english_filename.name == "_fixtures.yaml":
             continue
 
-        _domain, intent = english_filename.stem.split("_")
+        domain, intent = english_filename.stem.split("_")
+
+        slots = {}
+
+        if domain != intent_schemas[intent]["domain"]:
+            slots = {"domain": domain, "name": "all"}
 
         (tests_dir / english_filename.name).write_text(
-            yaml.dump(
+            yaml_dump(
                 {
                     "language": language,
                     "tests": [
@@ -106,17 +136,16 @@ def run() -> int:
                             "sentences": [],
                             "intent": {
                                 "name": intent,
-                                "slots": {},
+                                "slots": slots,
                             },
                         },
                     ],
                 },
-                sort_keys=False,
             )
         )
 
     (tests_dir / "_fixtures.yaml").write_text(
-        yaml.dump(
+        yaml_dump(
             {
                 "language": language,
                 "areas": [
@@ -143,7 +172,6 @@ def run() -> int:
                     },
                 ],
             },
-            sort_keys=False,
         )
     )
 
@@ -153,7 +181,7 @@ def run() -> int:
         intent = english_filename.stem
 
         (response_dir / english_filename.name).write_text(
-            yaml.dump(
+            yaml_dump(
                 {
                     "language": language,
                     "responses": {
@@ -164,9 +192,23 @@ def run() -> int:
                         },
                     },
                 },
-                sort_keys=False,
             )
         )
+
+    # Update languages.yaml
+    languages = yaml.safe_load(LANGUAGES_FILE.read_text())
+    languages[language] = {
+        "nativeName": args.native_name,
+    }
+    if args.rtl:
+        languages[language]["isRTL"] = True
+
+    LANGUAGES_FILE.write_text(
+        yaml_dump(
+            # Sort the languages by code.
+            dict(sorted(languages.items())),
+        )
+    )
 
     rel_sentence_dir = sentence_dir.relative_to(ROOT)
     rel_test_dir = tests_dir.relative_to(ROOT)

@@ -7,16 +7,56 @@ responses:
     no_device_class: "{{ area }} neobsahuje {{ device_class }}"
     no_entity: "Žiadne zariadenie alebo entita s názvom {{ entity }}"
     handle_error: "Pri spracovaní došlo k neočakávanej chybe"
-lists: {}
+lists:
+  color:
+    values:
+      - in: "biel(a|e|y|o|u)"
+        out: "white"
+      - in: "čiern(a|e|y|o|u)"
+        out: "black"
+      - in: "červen(á|é|ý|o|ú)"
+        out: "red"
+      - in: "oranžov(á|é|ý|o|ú)"
+        out: "orange"
+      - in: "žlt(á|é|ý|o|ú)"
+        out: "yellow"
+      - in: "zelen(á|é|ý|o|ú)"
+        out: "green"
+      - in: "modr(á|é|ý|o|ú)"
+        out: "blue"
+      - in: "fialov(á|é|ý|o|ú)"
+        out: "purple"
+      - in: "hned(á|é|ý|o|ú)"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "Celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "Fahrenheit"
 expansion_rules:
   name: "{name}"
   area: "{area}"
-  what_is: "(what's | whats | what is)"
-  brightness: "{brightness:brightness_pct} [percent]"
-  temp: "(temp | temperature)"
-  temperature: "{temperature} [degrees] [{temperature_unit}]"
+  what_is: "ak(á|é|ý|o) je"
+  how_many: "koľko je"
+  brightness: "{brightness} [percent]"
+  temp: "(teplota)"
+  temperature: "{temperature} [stupňov] [{temperature_unit}]"
   turn_on: "zapni"
   turn_off: "vypni"
-  turn_on_light: "(zasviet | zazni | rozzni)"
+  turn_on_light: "(zasvieť | zažni | rozžni)"
   turn_off_light: "(zahas | zhasni)"
-skip_words: []
+skip_words:
+  - "prosím"

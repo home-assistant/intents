@@ -1,6 +1,55 @@
 language: pt
 tests:
-- sentences: []
-  intent:
-    name: HassLightSet
-    slots: {}
+  # brightness
+  - sentences:
+      - "põe o brilho da luz do quarto a 50%"
+      - "ponha o brilho da luz do quarto a 50%"
+      - "põe a luz do quarto a 50%"
+      - "põe a luz do quarto a 50 porcento"
+    intent:
+      name: "HassLightSet"
+      slots:
+        brightness: 50
+        name: light.quarto
+  - sentences:
+      - "põe o brilho do quarto a 50%"
+      - "põe o brilho das luzes do quarto a 50%"
+      - "põe o brilho das luzes no quarto a 50%"
+      - "põe o brilho de todas as luzes do quarto a 50%"
+      - "põe todas as luzes do quarto a 50%"
+    intent:
+      name: "HassLightSet"
+      slots:
+        brightness: 50
+        area: "quarto"
+        name: all
+  # color
+  - sentences:
+      - "põe a luz do quarto a vermelho"
+      - "põe a luz do quarto vermelha"
+      - "põe a cor da luz do quarto a vermelho"
+    intent:
+      name: "HassLightSet"
+      slots:
+        color: "red"
+        name: "light.quarto"
+  - sentences:
+      - "põe a luz do quarto no quarto vermelha"
+    intent:
+      name: "HassLightSet"
+      slots:
+        color: "red"
+        name: "light.quarto"
+        area: quarto
+  - sentences:
+      - "põe a cor do quarto a vermelho"
+      - "põe as luzes do quarto a vermelho"
+      - "põe a cor das luzes do quarto a vermelho"
+      - "põe o quarto a vermelho"
+      - "põe o quarto vermelho"
+    intent:
+      name: "HassLightSet"
+      slots:
+        color: "red"
+        area: "quarto"
+        name: all
