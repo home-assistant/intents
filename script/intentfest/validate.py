@@ -138,8 +138,8 @@ SENTENCE_COMMON_SCHEMA = vol.Schema(
                         vol.Any(
                             str,
                             {
-                                "in": str,
-                                "out": match_anything,
+                                vol.Required("in"): str,
+                                vol.Required("out"): match_anything,
                             },
                         )
                     ],
