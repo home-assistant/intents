@@ -20,7 +20,7 @@ See the [documentation](docs/README.md) for more information.
 
 Each language is maintained by one or more language leaders. Language leaders are responsible for reviewing the contributions in their language and making sure that they are grammatically correct.
 
-Anyone can apply to become one. If you want to apply to be a language leader, join us in `#devs_voice` on [Discord](https://www.home-assistant.io/join-chat/) or [open an discussion topic](https://github.com/home-assistant/intents/discussions).
+Anyone can apply to become one. If you want to apply to be a language leader, join us in `#devs_voice` on [Discord](https://www.home-assistant.io/join-chat/) or [open a discussion topic](https://github.com/home-assistant/intents/discussions).
 
 ## Contributing sentences
 
