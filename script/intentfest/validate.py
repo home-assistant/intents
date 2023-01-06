@@ -166,7 +166,7 @@ TESTS_SCHEMA = vol.Schema(
                 vol.Required("intent"): {
                     vol.Required("name"): str,
                     vol.Optional("slots"): {
-                        # In the future, if we want to allowa dictionary,
+                        # In the future, if we want to allow a dictionary,
                         # we should wrap it in a dictionary with {"value": ...}
                         # this will allow us to add more keys in the future.
                         str: match_anything_but_dict,
