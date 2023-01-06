@@ -1,12 +1,63 @@
 language: bg
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: Съжалявам, не можах да разбера това
+    no_area: Няма област с име {{ area }}
+    no_domain: Областта {{ area }} не съдържа {{ domain }}
+    no_device_class: Областта {{ area }} не съдържа {{ device_class }}
+    no_entity: Няма устройство или обект с име {{ entity }}
+    handle_error: Неочаквана грешка при изпълнение на командата
+lists:
+  color:
+    values:
+      - in: "бял | бяло | бяла | бялото | бели(я | ят) | бялата | бели"
+        out: "white"
+      - in: "черен | черно | черна | черното | черни(я | ят) | черната | черни"
+        out: "black"
+      - in: "червен | червено | червена | червеното | червени(я | ят) | червената | червени"
+        out: "red"
+      - in: "оранжев | оранжево | оранжева | оранжевото | оранжеви(я | ят) | оранжевата | оранжеви"
+        out: "orange"
+      - in: "жълт | жълто | жълта | жълтото | жълти(я | ят) | жълтата | жълти"
+        out: "yellow"
+      - in: "зелен | зелено | зелена | зеленото | зелени(я | ят) | зелената | зелени"
+        out: "green"
+      - in: "син | синьо | синя | синьото | сини(я | ят)| синята | сини"
+        out: "blue"
+      - in: "лилав | лилаво | лилава | лилавото | лилави(я | ят) | лилавата | лилави"
+        out: "purple"
+      - in: "кафяв | кафяво | кафява | кафявото | кафяви(я | ят) | кафявата | кафяви"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "c | целзий | по целзий"
+        out: "celsius"
+      - in: "f | фаренхайт | по фаренхайт"
+        out: "fahrenheit"
+expansion_rules:
+  name: "{name}"
+  area: "[в | на] {area}"
+  brightness: "{brightness} [процент(и | а)]"
+  temp: "(температур(а | ата) | градус(a | и))"
+  temperature: "{temperature} [градуса] [{temperature_unit}]"
+  turn_on: (пусни | включи | светни)
+  turn_off: (спри | изключи | изгаси)
+  set: (направи | сложи | постави | смени | промени)
+  close: (затвори | смъкни)
+  open: (отвори | вдигни)
+skip_words:
+  - "извинявай"
+  - "можеш ли"
+  - "може ли"
+  - "кажи ми"
+  
