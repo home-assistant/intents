@@ -8,7 +8,7 @@ import yaml
 from hassil.util import merge_dict
 
 from .const import INTENTS_FILE, LANGUAGES, RESPONSE_DIR, SENTENCE_DIR
-from .util import YamlDumper, get_base_arg_parser
+from .util import get_base_arg_parser
 
 
 def get_arguments() -> argparse.Namespace:
