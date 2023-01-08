@@ -11,8 +11,8 @@ This repository contains training data for Home Assistant's local voice control.
 Repository layout:
 
 - `sentences/<language>`
-  - YAML files for `<language>` with the name `<domain>_<intent>.yaml`
-  - [File format](sentences/README.md#file-format)
+  - Intent matching sentences in YAML files for `<language>` with the name `<domain>_<intent>.yaml`
+  - [File format](https://voice.home-assistant.io/docs/intents/matching-syntax)
 - `responses/<language>`
   - YAML files for `<language>` with responses for intents
   - [File format](responses/README.md#file-format)
@@ -21,15 +21,6 @@ Repository layout:
   - [File format](tests/README.md#file-format)
 
 See the [documentation](docs/README.md) for more information.
-
-## Lists
-
-Home Assistant will automatically generate the following lists during recognition:
-
-- `{name}`
-  - List of device or entity names
-- `{area}`
-  - List of area names
 
 # Development
 
