@@ -1,6 +1,12 @@
 # Intents for Home Assistant
 
-This repository contains training data for Home Assistant's local voice control. For a list of supported languages and it's progress, see [the website](https://home-assistant.github.io/intents/).
+This repository contains training data for Home Assistant's local voice control.
+
+ - [Progress per language x intent](https://home-assistant.github.io/intents/)
+ - [How to contribute](https://voice.home-assistant.io/docs/contributing/intent-sentences)
+ - [Language leaders](https://voice.home-assistant.io/docs/contributing/language-leaders)
+ - [Supported intents](intents.yaml)
+ - [Supported languages](languages.yaml)
 
 Repository layout:
 
@@ -15,22 +21,6 @@ Repository layout:
   - [File format](tests/README.md#file-format)
 
 See the [documentation](docs/README.md) for more information.
-
-## Language leader
-
-Each language is maintained by one or more language leaders. Language leaders are responsible for reviewing the contributions in their language and making sure that they are grammatically correct.
-
-Anyone can apply to become one. If you want to apply to be a language leader, join us in `#devs_voice` on [Discord](https://www.home-assistant.io/join-chat/) or [open a discussion topic](https://github.com/home-assistant/intents/discussions).
-
-## Contributing sentences
-
-Anyone can [contribute to the repository](CONTRIBUTING.md). The sentences will be reviewed by the language leaders and merged if they are correct. You can either contribute new sentences or improve existing ones.
-
-If you only want to contribute sentences that should be supported, but don't feel comfortable with YAML, you can add them to [the discussion for your language](https://github.com/home-assistant/intents/discussions/categories/supported-sentences). Limit your submissions to commands that work with the [supported intents](intents.yaml).
-
-## Intents
-
-See [intents.yaml](intents.yaml) for the Home Assistant intent schemas that are supported.
 
 ## Lists
 
