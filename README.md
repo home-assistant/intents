@@ -15,7 +15,7 @@ Repository layout:
   - [File format](https://voice.home-assistant.io/docs/intents/matching-syntax)
 - `responses/<language>`
   - YAML files for `<language>` with responses for intents
-  - [File format](responses/README.md#file-format)
+  - [File format](https://voice.home-assistant.io/docs/intents/test-syntax)
 - `tests/<language>`
   - YAML files for `<language>` with test sentences and corresponding intents
   - [File format](tests/README.md#file-format)
