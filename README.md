@@ -1,7 +1,8 @@
 # Intents for Home Assistant
 
-This repository contains training data for Home Assistant's local voice control. For a list of supported languages and it's progress, see [the website](https://home-assistant.github.io/intents/).
+This repository contains training data for Home Assistant's local voice control.
 
+ - [Progress per language x intent](https://home-assistant.github.io/intents/)
  - [How to contribute](https://voice.home-assistant.io/docs/contributing/intent-sentences)
  - [Language leaders](https://voice.home-assistant.io/docs/contributing/language-leaders)
  - [Supported intents](intents.yaml)
