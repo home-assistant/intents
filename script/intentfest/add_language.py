@@ -4,8 +4,15 @@ from functools import partial
 
 import yaml
 
-from .const import LANGUAGES_FILE, RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
-from .util import YamlDumper, get_base_arg_parser, require_sentence_domain_slot
+from .const import (
+    INTENTS_FILE,
+    LANGUAGES_FILE,
+    RESPONSE_DIR,
+    ROOT,
+    SENTENCE_DIR,
+    TESTS_DIR,
+)
+from .util import YamlDumper, get_base_arg_parser
 
 
 def get_arguments() -> argparse.Namespace:
@@ -37,6 +44,8 @@ def run() -> int:
         yaml.dump, sort_keys=False, allow_unicode=True, Dumper=YamlDumper
     )
 
+    intent_schemas = yaml.safe_load(INTENTS_FILE.read_text())
+
     # Create language directory
     sentence_dir = SENTENCE_DIR / language
     tests_dir = TESTS_DIR / language
@@ -62,7 +71,7 @@ def run() -> int:
         sentence_info: dict = {
             "sentences": [],
         }
-        if require_sentence_domain_slot(intent, domain):
+        if domain != intent_schemas[intent]["domain"]:
             sentence_info["slots"] = {
                 "domain": domain,
                 "name": "all",
@@ -111,7 +120,12 @@ def run() -> int:
         if english_filename.name == "_fixtures.yaml":
             continue
 
-        _domain, intent = english_filename.stem.split("_")
+        domain, intent = english_filename.stem.split("_")
+
+        slots = {}
+
+        if domain != intent_schemas[intent]["domain"]:
+            slots = {"domain": domain, "name": "all"}
 
         (tests_dir / english_filename.name).write_text(
             yaml_dump(
@@ -122,7 +136,7 @@ def run() -> int:
                             "sentences": [],
                             "intent": {
                                 "name": intent,
-                                "slots": {},
+                                "slots": slots,
                             },
                         },
                     ],

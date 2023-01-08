@@ -42,7 +42,7 @@ def do_test_language_sentences_file(
         intent = test["intent"]
         assert (
             intent["name"] == testing_intent
-        ), f"File {test_file} should only test for intent {testing_intent}"
+        ), f"File {test_file}: Unexpected intent {intent['name']}. Only test for intent {testing_intent}"
 
         if not test["sentences"]:
             continue
@@ -52,11 +52,11 @@ def do_test_language_sentences_file(
         if intent_schemas[testing_intent]["domain"] == testing_domain:
             assert "domain" not in intent.get(
                 "slots", {}
-            ), f"File {test_file} should not have a domain slot"
+            ), f"File {test_file}: tests should not have a domain slot"
         else:
-            assert "domain" in intent.get(
-                "slots", {}
-            ), f"File {test_file} should have a domain slot"
+            assert (
+                intent.get("slots", {}).get("domain") == testing_domain
+            ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
 
         for sentence in test["sentences"]:
             assert (
@@ -71,15 +71,9 @@ def do_test_language_sentences_file(
             ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
 
             matched_slots = {slot.name: slot.value for slot in result.entities.values()}
-            expected_slots = {}
-            for slot_name, slot_dict in intent.get("slots", {}).items():
-                if isinstance(slot_dict, dict):
-                    expected_slots[slot_name] = slot_dict["value"]
-                else:
-                    expected_slots[slot_name] = slot_dict
 
-            assert (
-                matched_slots == expected_slots
+            assert matched_slots == intent.get(
+                "slots", {}
             ), f"Slots do not match for: {sentence}"
 
 

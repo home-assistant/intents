@@ -37,15 +37,6 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def require_sentence_domain_slot(intent, domain):
-    """Return if sentence definition requires a domain slot for intent."""
-    return domain != "homeassistant" and intent in (
-        "HassTurnOn",
-        "HassTurnOff",
-        "HassToggle",
-    )
-
-
 def load_merged_sentences(language: str) -> dict:
     merged_sentences: dict = {}
     for sentence_file in (SENTENCE_DIR / language).iterdir():
