@@ -345,7 +345,7 @@ def validate_language(
             continue
 
     if not test_dir.exists():
-        errors.append(f"Missing tests directory {test_dir}")
+        errors.append(f"{test_dir.relative_to(ROOT)}: Missing tests directory")
         return
 
     for test_file in test_dir.iterdir():
