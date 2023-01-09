@@ -191,6 +191,7 @@ TESTS_FIXTURES = vol.Schema(
                 vol.Required("name"): str,
                 vol.Required("id"): str,
                 vol.Required("area"): str,
+                vol.Optional("device_class"): str,
             }
         ],
     }
