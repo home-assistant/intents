@@ -2,9 +2,9 @@ language: ms
 responses:
   errors:
     no_intent: "Maaf, saya tidak faham arahan anda"
-    no_area: "Tiada kawasan {{ area }} dijumpai"
-    no_domain: "{{ domain }} tiada di kawasan {{ area }}"
-    no_device_class: "{{ device_class }} tiada di kawasan {{ area }}"
+    no_area: "Tiada {{ area }} dijumpai"
+    no_domain: "{{ domain }} tiada di {{ area }}"
+    no_device_class: "{{ device_class }} tiada di {{ area }}"
     no_entity: "Peranti atau entiti {{ entity }} tidak ditemui"
     handle_error: "Maaf, berlaku ralat semasa intent sedang dijalankan"
 lists:
@@ -43,7 +43,17 @@ lists:
       - "celsius"
       - in: "c"
         out: "celsius"
-expansion_rules: {}
+expansion_rules:
+  name: "{name}"
+  what_is: "(apakah | apa itu | apa)"
+  turn_on: "(buka | on | hidupkan)"
+  turn_off: "(tutup | off | matikan)"
+  open: "(buka | dibuka)"
+  close: "(tutup | ditutup)"
+  lamp: "lampu"
+  area: "kawasan {area}"
+  brightness: "{brightness} [peratus]"
+  suhu: "{temperature} [darjah] [{temperature_unit}]"
 skip_words:
   - "tolong"
   - "boleh tak"
