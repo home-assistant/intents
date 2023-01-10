@@ -1,12 +1,71 @@
 language: tr
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent:  "Üzgünüm, bunu anlayamadım."
+    no_area:  "{{ area }}  adında alan yok."
+    no_domain:  "{{ area }}  bir {{ domain }} içermiyor."
+    no_device_class:  "{{ area }}  bir {{ device_class }} içermiyor."
+    no_entity:  "{{ entity }} adında bir cihaz yok."
+    handle_error:  "İstenilen amaç işlenirken bir hata oluştu."
+lists:
+  color:
+    values:
+      - in: "beyaz"
+        out: "white"
+      - in: "siyah"
+        out: "black"
+      - in: "kırmızı"
+        out: "red"
+      - in: "turuncu"
+        out: "orange"
+      - in: "sarı"
+        out: "yellow"
+      - in: "yeşil"
+        out: "green"
+      - in: "mavi"
+        out: "blue"
+      - in: "mor"
+        out: "purple"
+      - in: "kahverengi"
+        out: "brown"
+      - in: "gri"
+        out: "grey"
+      - in: "pembe"
+        out: "pink"
+      - in: "turkuaz"
+        out: "turquoise"
+      - in: "bordo"
+        out: "maroon"
+      - in: "bej"
+        out: "beige"
+      - in: "lacivert"
+        out: "navy"
+
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c | santigrat"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f | fahrenhayt"
+        out: "fahrenheit"
+expansion_rules:
+### Expansion ruleları olabilicek bütün ismin halleri için verilmiştir.
+  ismin_halleri: "[([(n|ın|in|un|ün|y|t|d|nd|nt)]ı|[(n|ın|in|un|ün|y|t|d|nd|nt)]i|[(n|ın|in|un|ün|y|t|d|nd|nt)]ü|[(n|ın|in|un|ün|y|t|d|nd|nt)]u|[(n|ın|in|un|ün|y|t|d|nd|nt)]e|[(n|ın|in|un|ün|y|t|d|nd|nt)]a)][n][ki]"
+  cogulluk: "[(ler|leri|lar|ları)]"
+  area: "{area}<ismin_halleri>"
+  name: "{name}<cogulluk><ismin_halleri>"
+  temperature: "{temperature} [{temperature_unit}]"
+
+skip_words:
+  - "Lütfen"
