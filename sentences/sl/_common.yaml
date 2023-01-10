@@ -3,11 +3,54 @@ responses:
   errors:
     no_intent: "Oprosti, tega nisem razumel"
     no_area: "Območje z imenom {{ area }} ne obstaja"
-    no_domain: "{{ area }} ne obstaja v območju {{ domain }}"
-    no_device_class: "{{ area }} ne vsebuje {{ device_class }}"
+    no_domain: "V območju {{ area }} ne obstaja {{ domain }}"
+    no_device_class: "V območju {{ area }} ne obstaja {{ device_class }}"
     no_entity: "Ni naprave ali entitete z imenom {{ entity }}"
     handle_error: "Med izvajanjem je prišlo do nepričakovane napake"
-lists: {}
-expansion_rules: {}
+lists:
+  color:
+    values:
+      - in: "bela"
+        out: "white"
+      - in: "črna"
+        out: "black"
+      - in: "rdeča"
+        out: "red"
+      - in: "oranžna"
+        out: "orange"
+      - in: "rumena"
+        out: "yellow"
+      - in: "zelena"
+        out: "green"
+      - in: "modra"
+        out: "blue"
+      - in: "vijolična"
+        out: "purple"
+      - in: "rjava"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "C | stopinj[a | i | e] [Celzija]"
+        out: "celsius"
+expansion_rules:
+  name: "{name}"
+  area: "[v [prostoru] | na] {area} [sobi]"
+  brightness: "{brightness} [(procent[a | e | ov] | odstot[e]k[a | e | ov]]"
+  temperature: "[na] {temperature} [stopinj[a | i | e]] [Celzija]"
+  temp: "(stopinj(a | i | e) | temperatur(a | i | e | o))"
+  set: "(nastavi | spremeni | prilagodi | segrej | ohladi)"
+  close: "(zapri | spusti | zagrni | zatesni | z[a]vij)"
+  open: "(odpri | dvigni | odgrni | razkrij | razvij)"
+  covers: "(([garažna | vhodna | balkonska | zadnja | sprednja | drsna]) vrata | [strešn(o | i | a)] okn(o | i | a) | rolet(o | i| e) | žaluzij(o | i |e) | markiz(a | i | e | o) | tend(a | i | e |o) | [pokrov | pokrivalo] bazena | ograj(a | i | e | o)"
 skip_words:
   - "prosim"
