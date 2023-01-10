@@ -71,15 +71,9 @@ def do_test_language_sentences_file(
             ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
 
             matched_slots = {slot.name: slot.value for slot in result.entities.values()}
-            expected_slots = {}
-            for slot_name, slot_dict in intent.get("slots", {}).items():
-                if isinstance(slot_dict, dict):
-                    expected_slots[slot_name] = slot_dict["value"]
-                else:
-                    expected_slots[slot_name] = slot_dict
 
-            assert (
-                matched_slots == expected_slots
+            assert matched_slots == intent.get(
+                "slots", {}
             ), f"Slots do not match for: {sentence}"
 
 

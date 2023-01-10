@@ -138,8 +138,8 @@ SENTENCE_COMMON_SCHEMA = vol.Schema(
                         vol.Any(
                             str,
                             {
-                                "in": str,
-                                "out": match_anything,
+                                vol.Required("in"): str,
+                                vol.Required("out"): match_anything,
                             },
                         )
                     ],
@@ -166,10 +166,10 @@ TESTS_SCHEMA = vol.Schema(
                 vol.Required("intent"): {
                     vol.Required("name"): str,
                     vol.Optional("slots"): {
-                        str: vol.Any(
-                            {vol.Required("value"): match_anything},
-                            match_anything_but_dict,
-                        ),
+                        # In the future, if we want to allow a dictionary,
+                        # we should wrap it in a dictionary with {"value": ...}
+                        # this will allow us to add more keys in the future.
+                        str: match_anything_but_dict,
                     },
                 },
             }
@@ -191,6 +191,7 @@ TESTS_FIXTURES = vol.Schema(
                 vol.Required("name"): str,
                 vol.Required("id"): str,
                 vol.Required("area"): str,
+                vol.Optional("device_class"): str,
             }
         ],
     }
@@ -345,7 +346,7 @@ def validate_language(
             continue
 
     if not test_dir.exists():
-        errors.append(f"Missing tests directory {test_dir}")
+        errors.append(f"{test_dir.relative_to(ROOT)}: Missing tests directory")
         return
 
     for test_file in test_dir.iterdir():
