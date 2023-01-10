@@ -4,18 +4,10 @@ import typing
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-try:
-    import importlib.resources
-
-    files = importlib.resources.files
-except (ImportError, AttributeError):
-    # Backport for Python < 3.9
-    import importlib_resources  # type: ignore
-
-    files = importlib_resources.files
+import importlib.resources
 
 _PACKAGE = "home_assistant_intents"
-_DIR = Path(typing.cast(os.PathLike, files(_PACKAGE)))
+_DIR = Path(typing.cast(os.PathLike, importlib.resources.files(_PACKAGE)))
 _DATA_DIR = _DIR / "data"
 
 
