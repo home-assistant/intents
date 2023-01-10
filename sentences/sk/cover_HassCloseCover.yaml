@@ -1,5 +1,19 @@
-language: sk
+language: "sk"
 intents:
   HassCloseCover:
     data:
-    - sentences: []
+      - sentences:
+          - "<close> {name}"
+          - "<close> {name} [v | vo | na | pred | za | pod | pred] {area}"
+      - sentences:
+          - "<close> garáž"
+          - "<close> garážovú bránu"
+        slots:
+          device_class: "garage"
+      - sentences:
+          - "<close> (rolety | žalúzie | záves[y] | záclon(u|y)) [v | na] {area}"
+        slots:
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"
