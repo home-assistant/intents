@@ -1,12 +1,68 @@
 language: da
 responses:
   errors:
-    no_intent: "Undskyld, jeg kunne ikke forstå det"
+    no_intent: "Undskyld, det forstod jeg ikke"
     no_area: "Området med navnet {{ area }} findes ikke"
     no_domain: "{{ domain }} findes ikke i området {{ area }}"
     no_device_class: "{{ device_class }} findes ikke i området {{ area }}"
     no_entity: "{{ entity }} findes ikke"
-    handle_error: "Noget gik galt med at forarbejde hensigten"
-lists: {}
-expansion_rules: {}
+    handle_error: "Der opstod en uventet fejl under håndtering af hensigten"
+lists:
+  brightness:
+    range:
+      type: percentage
+      from: 0
+      to: 100
+  color:
+    values:
+      - in: hvid
+        out: white
+      - in: sort
+        out: black
+      - in: rød
+        out: red
+      - in: orange
+        out: orange
+      - in: gul
+        out: yellow
+      - in: grøn
+        out: green
+      - in: blå
+        out: blue
+      - in: lilla
+        out: purple
+      - in: brun
+        out: brown
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+expansion_rules:
+  al: "(alle | alt)"
+  blæser: "blæser[(e | en | ne)]"
+  garagedør: "garagedør[(en | e | ene)]"
+  gardin: "gardin[(et | er | erne])]"
+  i_på: "(i | på)"
+  koldt_varmt: "(kold[t] | varm[t])"
+  luk: "luk [for]"
+  lys: "lys[(ene | et)]"
+  lysstyrke: "{brightness} [procent]"
+  navn: "{name}[(en | et | n | t)]"
+  område: "{area}[(en | et | n | t)]"
+  persienne: "persienne[(n | r | rne])]"
+  rullegardin: "rullegardin[(et | er | erne])]"
+  skodde: "skodde[(n | r | rne])]"
+  sluk: "sluk [for]"
+  temperatur: "{temperature} [grader] [{temperature_unit}]"
+  tænd: "tænd [for]"
+  åbn: "åbn [for]"
 skip_words: []

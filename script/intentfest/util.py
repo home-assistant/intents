@@ -7,6 +7,14 @@ from hassil.util import merge_dict
 from .const import RESPONSE_DIR, SENTENCE_DIR
 
 
+# pylint:disable=too-many-ancestors
+class YamlDumper(yaml.Dumper):
+    """Subclassed dumper to ensure correct indentation."""
+
+    def increase_indent(self, flow=False, indentless=False):
+        return super().increase_indent(flow, False)
+
+
 def get_base_arg_parser() -> argparse.ArgumentParser:
     """Get a base argument parser."""
     parser = argparse.ArgumentParser(description="Home Assistant Translations")
@@ -16,6 +24,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
         choices=[
             "add_language",
             "codeowners",
+            "merged_output",
             "parse",
             "sample_template",
             "sample",
@@ -26,15 +35,6 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--debug", action="store_true", help="Enable log output")
     return parser
-
-
-def require_sentence_domain_slot(intent, domain):
-    """Return if sentence definition requires a domain slot for intent."""
-    return domain != "homeassistant" and intent in (
-        "HassTurnOn",
-        "HassTurnOff",
-        "HassToggle",
-    )
 
 
 def load_merged_sentences(language: str) -> dict:

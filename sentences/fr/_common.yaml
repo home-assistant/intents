@@ -7,9 +7,60 @@ responses:
     no_device_class: "{{ area }} ne contient pas de {{ device_class }}"
     no_entity: "Aucun appareil ou entité appelé {{ entity }}"
     handle_error: "Une erreur est intervenue pendant le traitement"
-lists: {}
+lists:
+  color:
+    values:
+      - in: "(blanc|blanche)"
+        out: "white"
+      - in: "(noir | noire)"
+        out: "black"
+      - in: "rouge"
+        out: "red"
+      - in: "orange"
+        out: "orange"
+      - in: "jaune"
+        out: "yellow"
+      - in: "(vert | verte)"
+        out: "green"
+      - in: "(bleu | bleue)"
+        out: "blue"
+      - in: "(violet | violette)"
+        out: "purple"
+      - in: "marron"
+        out: "brown"
+      - in: "rose"
+        out: "pink"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
 expansion_rules:
   name: "([le | la | les] {name} | [l']{name})"
-  area: "([le | la] {area} | [l']{area})"
+  area: "([le | la ] {area} | [l']{area})"
+  brightness: "{brightness:brightness} [pourcent]"
+  temperature: "{temperature} [degrés] [{temperature_unit}]"
+  regle: "(règle | met | ajuste)"
+  allume: "(allume | active | démarre)"
+  eteins: "(éteint | éteins | désactive | stop | arrête)"
+  lumiere: "(la lumière | la lampe | l'ampoule)"
+  lumieres: "[les] (lumières | lampes | ampoules)"
+  ventilateur: "(le ventilateur | le brasseur d'air)"
+  ventilateurs : "(les ventilateurs | les brasseurs d'air)"
+  dans: "(dans | du | de)"
 skip_words:
   - "s'il te plaît"
+  - "merci"
