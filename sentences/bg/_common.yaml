@@ -1,12 +1,65 @@
 language: bg
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: Съжалявам, не можах да разбера това
+    no_area: Няма област с име {{ area }}
+    no_domain: В областта {{ area }} няма {{ domain }}
+    no_device_class: В областта {{ area }} няма {{ device_class }}
+    no_entity: Няма устройство или обект с име {{ entity }}
+    handle_error: Възникна неочаквана грешка при изпълнение на командата
+lists:
+  color:
+    values:
+      - in: "бял[о|а|ото|ата] | бел(и|ия|ият|ите)"
+        out: "white"
+      - in: "черен | черн(о|на|ото|ата|и|ият|ите)"
+        out: "black"
+      - in: "червен[o|a|ото|ата|и|ия|ият]"
+        out: "red"
+      - in: "оранжев[о|а|ото|вата|и|ия|ият]"
+        out: "orange"
+      - in: "жълт[о|а|ото|и|ия|ият|ата]"
+        out: "yellow"
+      - in: "зелен[о|а|ото|ата|и|ия|ият]"
+        out: "green"
+      - in: "син[ьо|я|ьото|ята|ят|и|ите]"
+        out: "blue"
+      - in: "лилав[о|а|ото|ата|и|ия|ият|ите]"
+        out: "purple"
+      - in: "кафяв[о|а|ото|ата|и|ия|ият|ите]"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "c | целзий | [по|в] целзий"
+        out: "celsius"
+      - in: "f | фаренхайт | [по|във] фаренхайт"
+        out: "fahrenheit"
+expansion_rules:
+  name: "{name}"
+  area: "[в | във] {area}"
+  brightness: "{brightness} [процент[а]]"
+  what_is: "(какво [е] | каква [е] | какви [са] | какъв [е] | колко [е] | колко [са])"
+  temp: "(температур(а|ата|ите) | градус[а|и|те]"
+  temperature: "{temperature} [градуса] [{temperature_unit}]"
+  turn_on: (пусни | включи | светни)
+  turn_off: (спри | изключи | изгаси | угаси)
+  set: (направи | сложи | постави | смени | промени | настрой | задай | нагласи | тури)
+  close: (затвори | смъкни | спусни | закрий | свали)
+  open: (отвори | вдигни | открий)
+skip_words:
+  - "извинявай"
+  - "можеш ли"
+  - "може ли"
+  - "кажи ми"
+  - "моля"
+  
