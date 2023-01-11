@@ -3,33 +3,24 @@
 This repository contains training data for Home Assistant's local voice control.
 
  - [Progress per language x intent](https://home-assistant.github.io/intents/)
- - [How to contribute](https://voice.home-assistant.io/docs/contributing/intent-sentences)
- - [Language leaders](https://voice.home-assistant.io/docs/contributing/language-leaders)
+ - [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
+ - [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
  - [Supported intents](intents.yaml)
  - [Supported languages](languages.yaml)
 
 Repository layout:
 
 - `sentences/<language>`
-  - YAML files for `<language>` with the name `<domain>_<intent>.yaml`
-  - [File format](sentences/README.md#file-format)
+  - Intent matching sentences in YAML files for `<language>` with the name `<domain>_<intent>.yaml`
+  - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/template-sentence-syntax/)
 - `responses/<language>`
   - YAML files for `<language>` with responses for intents
-  - [File format](responses/README.md#file-format)
+  - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/test-syntax/)
 - `tests/<language>`
   - YAML files for `<language>` with test sentences and corresponding intents
   - [File format](tests/README.md#file-format)
 
 See the [documentation](docs/README.md) for more information.
-
-## Lists
-
-Home Assistant will automatically generate the following lists during recognition:
-
-- `{name}`
-  - List of device or entity names
-- `{area}`
-  - List of area names
 
 # Development
 
