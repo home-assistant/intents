@@ -71,10 +71,36 @@ def do_test_language_sentences_file(
             ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
 
             matched_slots = {slot.name: slot.value for slot in result.entities.values()}
+            actual_slots = intent.get("slots", {})
 
-            assert matched_slots == intent.get(
-                "slots", {}
-            ), f"Slots do not match for: {sentence}"
+            # Check for all match slots
+            for match_name, match_value in matched_slots.items():
+                actual_value = actual_slots.get(match_name)
+                assert (
+                    actual_value is not None
+                ), f"Missing slot {match_name} for: {sentence}"
+                if isinstance(match_value, list):
+                    # One of multiple possibilities
+                    if isinstance(actual_value, list):
+                        actual_value_set = set(actual_value)
+                        assert actual_value_set.issubset(
+                            match_value
+                        ), "Slots do not match for: {sentence}"
+                    else:
+                        assert (
+                            actual_value in match_value
+                        ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
+                else:
+                    # Only one acceptable value
+                    assert (
+                        actual_value == match_value
+                    ), f"Expected {match_value}, got {actual_value} for slot {match_name} for: {sentence}"
+
+            # Verify no extra slots
+            for actual_name in actual_slots:
+                assert (
+                    actual_name in matched_slots
+                ), f"Slot {actual_name} was not expected for: {sentence}"
 
 
 def gen_test(test_file: Path) -> None:
