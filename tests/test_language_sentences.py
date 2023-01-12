@@ -66,13 +66,15 @@ def do_test_language_sentences_file(
                 intent.get("slots", {}).get("domain") == testing_domain
             ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
 
+        intent_context = intent.get("context", {})
+
         for sentence in test["sentences"]:
             assert (
                 sentence not in seen_sentences
             ), f"Duplicate sentence found: {sentence}"
             seen_sentences.add(sentence)
 
-            result = recognize(sentence, language_sentences, slot_lists=slot_lists)
+            result = recognize(sentence, language_sentences, slot_lists=slot_lists, intent_context=intent_context)
             assert result is not None, f"Recognition failed for '{sentence}'"
             assert (
                 result.intent.name == intent["name"]
