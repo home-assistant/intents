@@ -369,7 +369,7 @@ def validate_language(
             for entity in content.get("entities", []):
                 if entity["area"] not in area_ids:
                     errors.append(
-                        f"{path}: Entity {entity['name']} references unknown area {entity['id']}"
+                        f"{path}: Entity {entity['name']} references unknown area {entity['area']}"
                     )
             continue
 
