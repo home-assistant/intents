@@ -2,4 +2,34 @@ language: ro
 intents:
   HassCloseCover:
     data:
-    - sentences: []
+      # - sentences:
+      #     - "<inchide> <name>"
+      #     - "<inchide> <name> [<din>] <area>"
+      - sentences:
+          - "<inchide> <usa>"
+          - "<inchide> <usa> [<din>] <area>"
+        slots:
+          device_class: door
+      - sentences:
+          - "<inchide> <fereastra>"
+          - "<inchide> <fereastra> [<din>] <area>"
+        slots:
+          device_class: "window"
+      - sentences:
+          - "(<inchide> | trage) <jaluzelele>"
+          - "(<inchide> | trage) <jaluzelele> [<din>] <area>"
+        slots:
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"
+            - "shade"
+      - sentences:
+          - "<inchide> <poarta>"
+          - "<inchide> <poarta> [<din>] <area>"
+        slots:
+          device_class: gate
+      - sentences:
+          - "<inchide> (<poarta> | <usa>) [<din>] garaj"
+        slots:
+          device_class: garage
