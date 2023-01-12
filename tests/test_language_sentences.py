@@ -79,22 +79,24 @@ def do_test_language_sentences_file(
                 assert (
                     actual_value is not None
                 ), f"Missing slot {match_name} for: {sentence}"
-                if isinstance(match_value, list):
-                    # One of multiple possibilities
-                    if isinstance(actual_value, list):
-                        actual_value_set = set(actual_value)
-                        assert actual_value_set.issubset(
-                            match_value
-                        ), "Slots do not match for: {sentence}"
-                    else:
-                        assert (
-                            actual_value in match_value
-                        ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
-                else:
+
+                if not isinstance(match_value, list):
                     # Only one acceptable value
                     assert (
                         actual_value == match_value
                     ), f"Expected {match_value}, got {actual_value} for slot {match_name} for: {sentence}"
+                    continue
+
+                # One of multiple possibilities
+                if isinstance(actual_value, list):
+                    actual_value_set = set(actual_value)
+                    assert actual_value_set.issubset(
+                        match_value
+                    ), "Slots do not match for: {sentence}"
+                else:
+                    assert (
+                        actual_value in match_value
+                    ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
 
             # Verify no extra slots
             for actual_name in actual_slots:
