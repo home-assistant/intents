@@ -18,7 +18,7 @@ from .const import (
     SENTENCE_DIR,
     TESTS_DIR,
 )
-from .util import get_base_arg_parser, require_sentence_domain_slot
+from .util import get_base_arg_parser
 
 
 def match_anything(value):
@@ -114,6 +114,8 @@ SENTENCE_SCHEMA = vol.Schema(
                         vol.Optional("slots"): {
                             str: match_anything,
                         },
+                        vol.Optional("requires_context"): {str: match_anything},
+                        vol.Optional("excludes_context"): {str: match_anything},
                     }
                 ]
             }
@@ -138,8 +140,8 @@ SENTENCE_COMMON_SCHEMA = vol.Schema(
                         vol.Any(
                             str,
                             {
-                                "in": str,
-                                "out": match_anything,
+                                vol.Required("in"): str,
+                                vol.Required("out"): match_anything,
                             },
                         )
                     ],
@@ -166,10 +168,10 @@ TESTS_SCHEMA = vol.Schema(
                 vol.Required("intent"): {
                     vol.Required("name"): str,
                     vol.Optional("slots"): {
-                        str: vol.Any(
-                            {vol.Required("value"): match_anything},
-                            match_anything_but_dict,
-                        ),
+                        # In the future, if we want to allow a dictionary,
+                        # we should wrap it in a dictionary with {"value": ...}
+                        # this will allow us to add more keys in the future.
+                        str: match_anything_but_dict,
                     },
                 },
             }
@@ -191,6 +193,7 @@ TESTS_FIXTURES = vol.Schema(
                 vol.Required("name"): str,
                 vol.Required("id"): str,
                 vol.Required("area"): str,
+                vol.Optional("device_class"): str,
             }
         ],
     }
@@ -338,33 +341,14 @@ def validate_language(
         if content is None:
             continue
 
-        domain, intent = sentence_file.stem.split("_")
+        _domain, intent = sentence_file.stem.split("_")
 
         if intent not in intent_schemas:
             errors.append(f"{path}: Filename references unknown intent {intent}.yaml")
             continue
 
-        for intent_name, intent_info in content["intents"].items():
-            if intent != intent_name:
-                errors.append(
-                    f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"
-                )
-                continue
-
-            for idx, sentence_info in enumerate(intent_info["data"]):
-                prefix = f"{path} sentence block {idx + 1}:"
-                slots = sentence_info.get("slots", {})
-
-                if require_sentence_domain_slot(intent, domain) and domain != slots.get(
-                    "domain"
-                ):
-                    errors.append(
-                        f"{prefix} expected domain slot for {domain}, "
-                        f"got {slots.get('domain')}"
-                    )
-
     if not test_dir.exists():
-        errors.append(f"Missing tests directory {test_dir}")
+        errors.append(f"{test_dir.relative_to(ROOT)}: Missing tests directory")
         return
 
     for test_file in test_dir.iterdir():
@@ -394,7 +378,7 @@ def validate_language(
             continue
 
         sentence_content = sentence_files.pop(test_file.name)
-        domain, intent = test_file.stem.split("_")
+        _domain, intent = test_file.stem.split("_")
 
         test_count = sum(len(test["sentences"]) for test in content["tests"])
 
@@ -430,7 +414,7 @@ def validate_language(
         if content is None:
             continue
 
-        for intent_name, intent_info in content["responses"]["intents"].items():
+        for intent_name in content["responses"]["intents"]:
             if intent != intent_name:
                 errors.append(
                     f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"

@@ -73,9 +73,16 @@ def do_test_language_sentences(
         slot_combinations = intent_schema.get("slot_combinations")
 
         for data in intent.data:
+            if not data.sentences:
+                continue
+
             # Domain specific files (ie light_HassTurnOn.yaml) should only match
             # sentences for the light domain.
-            if data.sentences and intent_schemas[file_intent]["domain"] != file_domain:
+            if intent_schemas[file_intent]["domain"] == file_domain:
+                assert (
+                    "domain" not in data.slots
+                ), f"File {file_name} should only have sentences without a domain slot"
+            else:
                 assert (
                     data.slots.get("domain") == file_domain
                 ), f"File {file_name} should only have sentences with a domain slot set to {file_domain}"

@@ -1,45 +1,26 @@
 # Intents for Home Assistant
 
-This repository contains training data for Home Assistant's local voice control. For a list of supported languages and it's progress, see [the website](https://home-assistant.github.io/intents/).
+This repository contains training data for Home Assistant's local voice control.
+
+ - [Progress per language x intent](https://home-assistant.github.io/intents/)
+ - [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
+ - [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
+ - [Supported intents](intents.yaml)
+ - [Supported languages](languages.yaml)
 
 Repository layout:
 
 - `sentences/<language>`
-  - YAML files for `<language>` with the name `<domain>_<intent>.yaml`
-  - [File format](sentences/README.md#file-format)
+  - Intent matching sentences in YAML files for `<language>` with the name `<domain>_<intent>.yaml`
+  - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/template-sentence-syntax/)
 - `responses/<language>`
   - YAML files for `<language>` with responses for intents
-  - [File format](responses/README.md#file-format)
+  - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/test-syntax/)
 - `tests/<language>`
   - YAML files for `<language>` with test sentences and corresponding intents
   - [File format](tests/README.md#file-format)
 
 See the [documentation](docs/README.md) for more information.
-
-## Language leader
-
-Each language is maintained by one or more language leaders. Language leaders are responsible for reviewing the contributions in their language and making sure that they are grammatically correct.
-
-Anyone can apply to become one. If you want to apply to be a language leader, join us in `#devs_voice` on [Discord](https://www.home-assistant.io/join-chat/) or [open an issue](https://github.com/home-assistant/intents/issues).
-
-## Contributing sentences
-
-Anyone can [contribute to the repository](CONTRIBUTING.md). The sentences will be reviewed by the language leaders and merged if they are correct. You can either contribute new sentences or improve existing ones.
-
-If you only want to contribute sentences that should be supported, but don't feel comfortable with YAML, you can add them to [the issue of your language](https://github.com/home-assistant/intents/issues?q=is:issue+is:open+label:%22suggest+sentence%22). Limit your submissions to commands that work with the [supported intents](intents.yaml).
-
-## Intents
-
-See [intents.yaml](intents.yaml) for the Home Assistant intent schemas that are supported.
-
-## Lists
-
-Home Assistant will automatically generate the following lists during recognition:
-
-- `{name}`
-  - List of device or entity names
-- `{area}`
-  - List of area names
 
 # Development
 
@@ -51,13 +32,13 @@ Before developing, always activate your virtual environment with `source venv/bi
 
 Validate that the data is correctly formatted:
 
-```
+```sh
 python3 -m script.intentfest validate --language nl
 ```
 
 Run the tests. This will parse the sentences and verifies them with the test sentences.
 
-```
+```sh
 pytest tests --language nl -k fan_HassTurnOn
 ```
 
@@ -73,7 +54,7 @@ python3 -m script.intentfest parse --language en --sentence 'turn on the lights 
 
 This will print a line of JSON for each `--sentence`:
 
-```
+```json
 {
   "text": "turn on the lights in the kitchen",
   "match": true,
@@ -134,7 +115,7 @@ python3 -m script.intentfest sample_template 'set color to <color> and brightnes
 
 ## Add new language
 
-```
+```sh
 python3 -m script.intentfest add_language <language code> <language name>
 ```
 

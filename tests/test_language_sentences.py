@@ -21,9 +21,17 @@ def slot_lists_fixture(language: str) -> dict[str, SlotList]:
             (area["name"], area["id"]) for area in fixtures["areas"]
         ),
         "name": TextSlotList.from_tuples(
-            (entity["name"], entity["id"]) for entity in fixtures["entities"]
+            (entity["name"], entity["id"], _entity_context(entity))
+            for entity in fixtures["entities"]
         ),
     }
+
+
+def _entity_context(entity: dict[str, Any]) -> dict[str, Any]:
+    """Extract matching context from test fixture entity."""
+    entity_id = entity["id"]
+    domain = entity_id.split(".", maxsplit=1)[0]
+    return {"domain": domain}
 
 
 def do_test_language_sentences_file(
@@ -42,17 +50,21 @@ def do_test_language_sentences_file(
         intent = test["intent"]
         assert (
             intent["name"] == testing_intent
-        ), f"File {test_file} should only test for intent {testing_intent}"
+        ), f"File {test_file}: Unexpected intent {intent['name']}. Only test for intent {testing_intent}"
+
+        if not test["sentences"]:
+            continue
 
         # Domain specific files (ie light_HassTurnOn.yaml) should only test
         # sentences for the light domain.
-        if (
-            test["sentences"]
-            and intent_schemas[testing_intent]["domain"] != testing_domain
-        ):
+        if intent_schemas[testing_intent]["domain"] == testing_domain:
+            assert "domain" not in intent.get(
+                "slots", {}
+            ), f"File {test_file}: tests should not have a domain slot"
+        else:
             assert (
-                "domain" in intent["slots"]
-            ), f"File {test_file} should have a domain slot"
+                intent.get("slots", {}).get("domain") == testing_domain
+            ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
 
         for sentence in test["sentences"]:
             assert (
@@ -67,16 +79,38 @@ def do_test_language_sentences_file(
             ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
 
             matched_slots = {slot.name: slot.value for slot in result.entities.values()}
-            expected_slots = {}
-            for slot_name, slot_dict in intent.get("slots", {}).items():
-                if isinstance(slot_dict, dict):
-                    expected_slots[slot_name] = slot_dict["value"]
-                else:
-                    expected_slots[slot_name] = slot_dict
+            actual_slots = intent.get("slots", {})
 
-            assert (
-                matched_slots == expected_slots
-            ), f"Slots do not match for: {sentence}"
+            # Check for all match slots
+            for match_name, match_value in matched_slots.items():
+                actual_value = actual_slots.get(match_name)
+                assert (
+                    actual_value is not None
+                ), f"Missing slot {match_name} for: {sentence}"
+
+                if not isinstance(match_value, list):
+                    # Only one acceptable value
+                    assert (
+                        actual_value == match_value
+                    ), f"Expected {match_value}, got {actual_value} for slot {match_name} for: {sentence}"
+                    continue
+
+                # One of multiple possibilities
+                if isinstance(actual_value, list):
+                    actual_value_set = set(actual_value)
+                    assert actual_value_set.issubset(
+                        match_value
+                    ), "Slots do not match for: {sentence}"
+                else:
+                    assert (
+                        actual_value in match_value
+                    ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
+
+            # Verify no extra slots
+            for actual_name in actual_slots:
+                assert (
+                    actual_name in matched_slots
+                ), f"Slot {actual_name} was not expected for: {sentence}"
 
 
 def gen_test(test_file: Path) -> None:
