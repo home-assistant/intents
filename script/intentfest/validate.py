@@ -114,6 +114,8 @@ SENTENCE_SCHEMA = vol.Schema(
                         vol.Optional("slots"): {
                             str: match_anything,
                         },
+                        vol.Optional("requires_context"): {str: match_anything},
+                        vol.Optional("excludes_context"): {str: match_anything},
                     }
                 ]
             }

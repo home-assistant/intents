@@ -7,12 +7,12 @@ import sys
 from typing import Any, Dict
 
 import yaml
-from hassil.intents import Intents, SlotList, TextSlotList
+from hassil.intents import Intents
 from hassil.recognize import recognize
 from hassil.util import merge_dict
 
 from .const import LANGUAGES, SENTENCE_DIR, TESTS_DIR
-from .util import get_base_arg_parser
+from .util import get_base_arg_parser, get_slot_lists
 
 
 def get_arguments() -> argparse.Namespace:
@@ -43,15 +43,7 @@ def run() -> int:
 
     # Load test areas and entities for language
     test_names = yaml.safe_load((tests_dir / "_fixtures.yaml").read_text())
-
-    slot_lists: Dict[str, SlotList] = {
-        "area": TextSlotList.from_tuples(
-            (area["name"], area["id"]) for area in test_names["areas"]
-        ),
-        "name": TextSlotList.from_tuples(
-            (entity["name"], entity["id"]) for entity in test_names["entities"]
-        ),
-    }
+    slot_lists = get_slot_lists(test_names)
 
     # Load intents
     intents_dict: Dict[str, Any] = {}

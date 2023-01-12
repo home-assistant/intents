@@ -1,7 +1,9 @@
 """Translation utils."""
 import argparse
+from typing import Any, Dict
 
 import yaml
+from hassil.intents import SlotList, TextSlotList
 from hassil.util import merge_dict
 
 from .const import RESPONSE_DIR, SENTENCE_DIR
@@ -49,3 +51,20 @@ def load_merged_responses(language: str) -> dict:
     for response_file in (RESPONSE_DIR / language).iterdir():
         merge_dict(merged_responses, yaml.safe_load(response_file.read_text()))
     return merged_responses
+
+
+def get_slot_lists(test_names: Dict[str, Any]) -> Dict[str, SlotList]:
+    # Load test areas and entities for language
+    return {
+        "area": TextSlotList.from_tuples(
+            (area["name"], area["id"]) for area in test_names["areas"]
+        ),
+        "name": TextSlotList.from_tuples(
+            (
+                entity["name"],
+                entity["id"],
+                {"domain": entity["id"].split(".", maxsplit=1)[0]},
+            )
+            for entity in test_names["entities"]
+        ),
+    }
