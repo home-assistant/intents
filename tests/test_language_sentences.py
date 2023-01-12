@@ -74,7 +74,12 @@ def do_test_language_sentences_file(
             ), f"Duplicate sentence found: {sentence}"
             seen_sentences.add(sentence)
 
-            result = recognize(sentence, language_sentences, slot_lists=slot_lists, intent_context=intent_context)
+            result = recognize(
+                sentence,
+                language_sentences,
+                slot_lists=slot_lists,
+                intent_context=intent_context,
+            )
             assert result is not None, f"Recognition failed for '{sentence}'"
             assert (
                 result.intent.name == intent["name"]
