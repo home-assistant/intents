@@ -27,11 +27,11 @@ jobs:
           python-version: "3.10"
           cache: "pip"
       - run: script/setup
-      - run: venv/bin/python3 -m script.intentfest add_language test_add_language_generates_valid_data "CI Added Language"
+      - run: python3 -m script.intentfest add_language test_add_language_generates_valid_data "CI Added Language"
       - name: Register intentfest problem matcher
         run: |
           echo "::add-matcher::.github/workflows/matchers/intentfest.json"
       - run: script/lint
       - run: script/test
-      - run: venv/bin/python3 -m script.intentfest parse --language en --sentence 'turn on the lights in the kitchen'
-      - run: venv/bin/python3 -m script.intentfest codeowners --check
+      - run: python3 -m script.intentfest parse --language en --sentence 'turn on the lights in the kitchen'
+      - run: python3 -m script.intentfest codeowners --check
