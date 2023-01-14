@@ -26,6 +26,30 @@ def get_arguments() -> argparse.Namespace:
 def run() -> int:
     args = get_arguments()
 
+    if not args.check:
+        write_codeowners()
+        return 0
+
+    if not is_codeowners_correct():
+        print("Codeowners file is not up to date")
+        print("Update with: python3 -m script.intentfest codeowners")
+        return 1
+
+    return 0
+
+
+def is_codeowners_correct() -> bool:
+    """Check if the codeowners file is up to date."""
+    return CODEOWNERS_FILE.read_text() == _generate_codeowners()
+
+
+def write_codeowners() -> None:
+    """Write the codeowners file."""
+    CODEOWNERS_FILE.write_text(_generate_codeowners())
+
+
+def _generate_codeowners():
+    """Generate the text of the CODEOWNERS file."""
     languages = yaml.safe_load(LANGUAGES_FILE.read_text())
 
     parts = []
@@ -44,14 +68,4 @@ def run() -> int:
             ]
         )
 
-    output = "\n".join(parts)
-
-    if args.check:
-        if CODEOWNERS_FILE.read_text() != output:
-            print("Codeowners file is not up to date")
-            print("Update with: python3 -m script.intentfest codeowners")
-            return 1
-        return 0
-
-    CODEOWNERS_FILE.write_text(output)
-    return 0
+    return "\n".join(parts)

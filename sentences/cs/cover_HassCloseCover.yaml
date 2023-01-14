@@ -1,5 +1,19 @@
-language: cs
+language: "cs"
 intents:
   HassCloseCover:
     data:
-    - sentences: []
+      - sentences:
+          - "(<zavrit>|<zatahnout>) {name}"
+          - "(<zavrit>|<zatahnout>) {name} <area>"
+      - sentences:
+          - "<zavrit> garáž"
+          - "<zavrit> vrata od garáže"
+        slots:
+          device_class: "garage"
+      - sentences:
+          - "(<zavrit>|<zatahnout>) (rolety|žaluzie|závěsy) <area>"
+        slots:
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"

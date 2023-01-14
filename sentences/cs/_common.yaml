@@ -1,4 +1,4 @@
-language: cs
+language: "cs"
 responses:
   errors:
     no_intent: "Omlouvám se, ale nerozuměl jsem tomu"
@@ -7,6 +7,61 @@ responses:
     no_device_class: "{{ area }} neobsahuje {{ device_class }}"
     no_entity: "Žádné zařízení ani entita se nejmenuje {{ entity }}"
     handle_error: "Při zpracování došlo k neočekávané chybě."
-lists: {}
-expansion_rules: {}
-skip_words: []
+lists:
+  color:
+    values:
+      - in: "bíl(á|ý|é|ou)"
+        out: "white"
+      - in: "čern(á|ý|é|ou)"
+        out: "black"
+      - in: "červen(á|ý|é|ou)"
+        out: "red"
+      - in: "oranžov(á|ý|é|ou)"
+        out: "orange"
+      - in: "žlut(á|ý|é|ou)"
+        out: "yellow"
+      - in: "zelen(á|ý|é|ou)"
+        out: "green"
+      - in: "modr(á|ý|é|ou)"
+        out: "blue"
+      - in: "fialov(á|ý|é|ou)"
+        out: "purple"
+      - in: "hněd(á|ý|é|ou)"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsia"
+      - in: "c"
+        out: "celsia"
+      - "(fahrenheit | fahrenheita)"
+      - in: "f"
+        out: "fahrenheita"
+expansion_rules:
+  area: "[(na|v)] {area}"
+  zapnout: "(zapni|zapnout)"
+  vypnout: "(vypni|vypnout|zastavit|zastav)"
+  rozsvitit: "(rozsviť|rozsvítit)"
+  zhasnout: "(zhasni|zhasnout)"
+  nastavit: "(nastav|nastavit)"
+  zmenit: "(změň|změnit)"
+  ztlumit: "(ztlu(m|it)|snížit|sniž)"
+  zvysit: "zv(yš|ýšit)"
+  teplota: "{temperature} [stupňů] [{temperature_unit}]"
+  brightness: "[na] {brightness} [procent]"
+  zavrit: "(zavři|zavřít)"
+  otevrit: "(otevři|otevřít)"
+  roztahnout: "(roz|vy|od)táhn(out|i)"
+  zatahnout: "zatáhn(out|i)"
+
+skip_words:
+  - "prosím"

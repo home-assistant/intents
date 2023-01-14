@@ -1,6 +1,36 @@
-language: cs
+language: "cs"
 tests:
-- sentences: []
-  intent:
-    name: HassCloseCover
-    slots: {}
+  - sentences:
+      - "zavři přední roletu"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.blind_front
+  - sentences:
+      - "zatáhni přední roletu v ložnici"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        name: cover.blind_front
+        area: bedroom
+
+  # Vrata od garáže (Garage door)
+  - sentences:
+      - "zavři garáž"
+      - "zavřít vrata od garáže"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        device_class: "garage"
+
+  # Rolety a žaluzie (Blinds)
+  - sentences:
+      - "zatáhni žaluzie v kuchyni"
+    intent:
+      name: "HassCloseCover"
+      slots:
+        area: "kitchen"
+        device_class:
+          - "blind"
+          - "curtain"
+          - "shutter"

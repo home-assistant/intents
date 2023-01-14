@@ -1,5 +1,19 @@
-language: cs
+language: "cs"
 intents:
   HassOpenCover:
     data:
-    - sentences: []
+      - sentences:
+          - "(<otevrit>|<roztahnout>) {name}"
+          - "(<otevrit>|<roztahnout>) {name} [v] {area}"
+      - sentences:
+          - "<otevrit> garáž"
+          - "<otevrit> vrata od garáže"
+        slots:
+          device_class: "garage"
+      - sentences:
+          - "(<otevrit>|<roztahnout>) (rolety|žaluzie|závěsy) [v] {area}"
+        slots:
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"
