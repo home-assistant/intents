@@ -32,13 +32,13 @@ Before developing, always activate your virtual environment with `source venv/bi
 
 Validate that the data is correctly formatted:
 
-```
+```sh
 python3 -m script.intentfest validate --language nl
 ```
 
 Run the tests. This will parse the sentences and verifies them with the test sentences.
 
-```
+```sh
 pytest tests --language nl -k fan_HassTurnOn
 ```
 
@@ -54,7 +54,7 @@ python3 -m script.intentfest parse --language en --sentence 'turn on the lights 
 
 This will print a line of JSON for each `--sentence`:
 
-```
+```json
 {
   "text": "turn on the lights in the kitchen",
   "match": true,
@@ -115,7 +115,7 @@ python3 -m script.intentfest sample_template 'set color to <color> and brightnes
 
 ## Add new language
 
-```
+```sh
 python3 -m script.intentfest add_language <language code> <language name>
 ```
 
