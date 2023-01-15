@@ -2,14 +2,18 @@
 
 This repository contains training data for Home Assistant's local voice control.
 
- - [Progress per language x intent](https://home-assistant.github.io/intents/)
+ - [Progress per language and intent](https://home-assistant.github.io/intents/)
  - [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
  - [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
- - [Supported intents](intents.yaml)
- - [Supported languages](languages.yaml)
+ - [Supported intents](https://developers.home-assistant.io/docs/intent_builtin)
+ - [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages)
 
 Repository layout:
 
+- [`languages.yaml`](languages.yaml)
+  - Supported languages and their language leader
+- [`intents.yaml`](intents.yaml)
+  - Supported intents
 - `sentences/<language>`
   - Intent matching sentences in YAML files for `<language>` with the name `<domain>_<intent>.yaml`
   - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/template-sentence-syntax/)
