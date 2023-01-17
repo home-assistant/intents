@@ -8,6 +8,7 @@ from typing import Any
 import regex
 import voluptuous as vol
 import yaml
+from hassil.intents import DEFAULT_RESPONSE_KEY
 from voluptuous.humanize import validate_with_humanized_errors
 
 from .const import (
@@ -20,6 +21,8 @@ from .const import (
     TESTS_DIR,
 )
 from .util import get_base_arg_parser
+
+RESPONSE_KEYS = {"default", "cover", "color"}
 
 
 def match_anything(value):
@@ -129,6 +132,7 @@ SENTENCE_SCHEMA = vol.Schema(
                         },
                         vol.Optional("requires_context"): {str: match_anything},
                         vol.Optional("excludes_context"): {str: match_anything},
+                        vol.Optional("response"): vol.In(RESPONSE_KEYS),
                     }
                 ]
             }
@@ -212,12 +216,13 @@ TESTS_FIXTURES = vol.Schema(
     }
 )
 
+
 RESPONSE_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
         vol.Optional("responses"): {
             vol.Optional("intents"): {
-                str: {vol.Required("success"): [str]},
+                str: {vol.Required("default"): str, vol.In(RESPONSE_KEYS): str},
             }
         },
     }
@@ -359,6 +364,47 @@ def validate_language(
         if intent not in intent_schemas:
             errors.append(f"{path}: Filename references unknown intent {intent}.yaml")
             continue
+
+        # Check for response file
+        response_file = response_dir / f"{intent}.yaml"
+        response_path = str(response_file.relative_to(ROOT))
+        if not response_file.exists():
+            errors.append(f"Missing response file for {intent} at {response_path}")
+            continue
+
+        # Validate response keys ("default" response is implied)
+        expected_response_keys: set[str] = set([DEFAULT_RESPONSE_KEY])
+        for intent in content["intents"]:
+            for intent_data in content["intents"][intent]["data"]:
+                response_key = intent_data.get("response")
+                if response_key is not None:
+                    expected_response_keys.add(response_key)
+
+        response_content = _load_yaml_file(
+            errors, language, response_file, RESPONSE_SCHEMA
+        )
+        intent_response = response_content["responses"]["intents"].get(intent)
+        if intent_response is None:
+            # Will be reported below in response files validation
+            continue
+
+        actual_response_keys: set[str] = set()
+        for response_key, response_template in intent_response.items():
+            actual_response_keys.add(response_key)
+
+        # Keys in the intents, but not in the responses
+        missing_response_keys = expected_response_keys - actual_response_keys
+        if missing_response_keys:
+            errors.append(
+                f"{response_path}: Missing response keys: {missing_response_keys}"
+            )
+
+        # Keys in the responses, but not in the intents
+        unused_response_keys = actual_response_keys - expected_response_keys
+        if unused_response_keys:
+            errors.append(
+                f"{response_path}: Unused response keys: {unused_response_keys}"
+            )
 
     if not test_dir.exists():
         errors.append(f"{test_dir.relative_to(ROOT)}: Missing tests directory")
