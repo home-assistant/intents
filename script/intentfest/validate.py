@@ -383,13 +383,16 @@ def validate_language(
         response_content = _load_yaml_file(
             errors, language, response_file, RESPONSE_SCHEMA
         )
+        if response_content is None:
+            continue
+
         intent_response = response_content["responses"]["intents"].get(intent)
         if intent_response is None:
             # Will be reported below in response files validation
             continue
 
         actual_response_keys: set[str] = set()
-        for response_key, response_template in intent_response.items():
+        for response_key in intent_response:
             actual_response_keys.add(response_key)
 
         # Keys in the intents, but not in the responses
