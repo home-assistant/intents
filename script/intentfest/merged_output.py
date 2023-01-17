@@ -61,7 +61,7 @@ def run() -> int:
             domain_responses = {
                 intent: info
                 for intent, info in merged_responses["responses"]["intents"].items()
-                if intent in supported_intents and len(info["success"]) > 0
+                if intent in supported_intents
             }
 
             if not domain_intents and not domain_responses:
