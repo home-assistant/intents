@@ -1,12 +1,58 @@
 language: zh-cn
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
+    no_intent: "抱歉，我不能理解"
+    no_area: "找不到名为 {{ area }} 的区域"
+    no_domain: "{{ area }} 中找不到 {{ domain }}"
+    no_device_class: "{{ area }} 中找不到 {{ device_class }}"
+    no_entity: "找不到名为 {{ entity }} 的实体"
+    handle_error: "处理意图时发生意外错误"
+lists:
+  color:
+    values:
+      - in: "白色"
+        out: "white"
+      - in: "黑色"
+        out: "black"
+      - in: "红色"
+        out: "red"
+      - in: "橙色"
+        out: "orange"
+      - in: "黄色"
+        out: "yellow"
+      - in: "绿色"
+        out: "green"
+      - in: "蓝色"
+        out: "blue"
+      - in: "紫色"
+        out: "purple"
+      - in: "棕色"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "c | 摄氏度 | 度 | ℃"
+        out: "celsius"
+      - in: "f | 华氏度"
+        out: "fahrenheit"
+expansion_rules:
+  name: "[把 | 给 | 让] {name} [的]"
+  area: "[把 | 给 | 让] {area} [的]"
+  what_is: "是什么"
+  how_many_is: "(是 | 有)多少"
+  brightness: "[百分之] {brightness:brightness_pct}"
+  set_to: "(设置为 | 设置到 | 设定为 | 设定到 | 调节为 | 调节到 | 调到)"
+  turn_on: "(打开 | 开启 | 开)"
+  turn_off: "(关闭 | 关)"
+  temp: "温度"
+  temperature: "{temperature} [{temperature_unit}]"
 skip_words: []
