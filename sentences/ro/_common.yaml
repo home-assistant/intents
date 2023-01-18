@@ -1,12 +1,12 @@
 language: ro
 responses:
   errors:
-    no_intent: "Scuze, nu am înțeles cererea"
-    no_area: "Nu există nici o arie numită {{ area }}"
-    no_domain: "Aria {{ area }} nu conține {{ domain }}"
-    no_device_class: "Aria {{ area }} nu conține {{ device_class }}"
-    no_entity: "Niciun dispozitiv sau entitate cu numele {{ entity }}"
-    handle_error: "A apărut o eroare în timpul procesării cererii"
+    no_intent: "Îmi pare rău, nu am înțeles cererea. Poți, te rog, să repeți?"
+    no_area: "Îmi pare rău, nu este nici o zonă numită {{ area }}"
+    no_domain: "Îmi pare rău, în {{ area }} nu este {{ domain }}"
+    no_device_class: "Îmi pare rău, zona {{ area }} nu conține {{ device_class }}"
+    no_entity: "Îmi pare rău, nu am găsit niciun dispozitiv sau entitate cu numele {{ entity }}"
+    handle_error: "Îmi pare rău, a intervenit o eroare în timpul procesării cererii"
 lists:
   color:
     values:
@@ -36,7 +36,7 @@ lists:
   temperature:
     range:
       type: "temperature"
-      from: 0
+      from: -100
       to: 100
   temperature_unit:
     values:
@@ -47,21 +47,32 @@ lists:
       - in: "f"
         out: "fahrenheit"
 expansion_rules:
-  area: "{area} [(zona | zonă | regiune)]"
-  brightness: "{brightness} [(la suta | la sută | %)]"
-  temperature: "{temperature} [[de] grade] [{temperature_unit}]"
-  name: "({name}[ul] | {name})"
+  area: "[(zon(ă|a) | regiune[a])] {area}"
+  brightness: "{brightness} [(la sut(ă|a) | % | [de] procente)]"
+  temperature: "{temperature} [[de] grad[e]] [{temperature_unit}]"
+  name: "({name}[(ul|a)])"
+  maximum: "(maxim[(a|um)] [posibil[a]])"
+  minimum: "(minim[(a|um)] [posibil[a]])"
   este: "(e | este)"
-  modifica: "(schimba | schimbă | modifica | modifică | seteaza | setează)"
-  in: "(in | în)"
-  din: "(din | in | în | pentru)"
-  deschide: "(start | pornește | porneste | deschide | aprinde | activează | activeaza)"
-  inchide: "(stop | oprește | opreste | închide | inchide | stinge | dezactivează | dezactiveaza)"
-  seteaza: "(seteaza | setează | pune | adjusteaza | adjustează | schimba | schimbă | modifica | modifică)"
+  cat: "((c((â|a|î|i)t[e]))"
+  in: "((î|i)n)"
+  din: "(din | (î|i)n | pentru | [de] la | [de] pe | de )"
+  porneste: "(start | porne(ș|s)te | deschide | aprinde | activeaz(ă|a))"
+  opreste: "(stop | opre(ș|s)te | (î|i)nchide | stinge | dezactiveaz(ă|a))"
+  seteaza: "(seteaz(ă|a) | pune | adjusteaz(ă|a) | schimb(ă|a) | modific(ă|a))"
   lumina: "(luminile | lumina | becul | becurile)"
-  luminozitatea: "(luminozitatea | luminozitate)"
-  temperatura: "(temperatura | temperatură)"
+  luminozitatea: "(luminozitate[a])"
+  culoarea: "(culoare[a])"
+  temperatura: "(temperatur(ă|a))"
+  deschide: "(deschide | ridic(ă|a))"
+  inchide: "((î|i)nchide | coboar(ă|a))"
+  fereastra: "(fereastra | ferestrele | geamul | geamurile)"
+  usa: "(u(ș|s)a | u(ș|s)ile)"
+  jaluzelele: "(jaluzeaua | jaluzelele | draperia | draperiile | perdeaua | perdelele)"
+  poarta: "(poarta | gardul)"
+  ventilatorul: "(ventilatorul | ventilatoarele | aerisirea | aerisirile)"
 skip_words:
   - "mulțumesc"
   - "multumesc"
   - "te rog"
+  - "mer[c|s]i"

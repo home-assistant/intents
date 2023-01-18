@@ -2,4 +2,28 @@ language: ro
 intents:
   HassOpenCover:
     data:
-    - sentences: []
+      - sentences:
+          - "<deschide> <name>"
+          - "<deschide> <name> [<din>] <area>"
+        requires_context:
+          domain: cover
+      - sentences:
+          - "<deschide> <usa> [<din>] <area>"
+        slots:
+          device_class: door
+      - sentences:
+          - "<deschide> <fereastra> [<din>] <area>"
+        slots:
+          device_class: "window"
+      - sentences:
+          - "<deschide> <jaluzelele> [<din>] <area>"
+        slots:
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"
+            - "shade"
+      - sentences:
+          - "<deschide> <poarta> [<din>] <area>"
+        slots:
+          device_class: gate

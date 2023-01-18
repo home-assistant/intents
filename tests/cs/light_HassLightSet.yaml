@@ -1,6 +1,107 @@
 language: cs
 tests:
-- sentences: []
-  intent:
-    name: HassLightSet
-    slots: {}
+  #brightness
+  - sentences:
+      - "Nastav jas lampičky v ložnici na 30 procent."
+      - "Nastav jas lampičky v ložnici na 30."
+      - "Ztlum jas lampičky v ložnici na 30 procent."
+      - "Ztlum lampičku v ložnici na 30 procent."
+      - "Ztlum lampičku v ložnici na 30%."
+      - "Zvýšit jas lampičky v ložnici na 30 procent."
+      - "Zvýšit jas lampičky v ložnici na 30."
+      - "Zvýšit lampičku v ložnici na 30 procent."
+      - "Zvýšit lampičku v ložnici na 30."
+      - "U lampičky v ložnici nastav jas na 30 procent"
+      - "U lampičky v ložnici nastav 30 procent"
+      - "Jas lampičky v ložnici nastav na 30 procent"
+      - "Jas u lampičky v ložnici nastav na 30"
+      - "Jas lampičky v ložnici zvyš na 30 procent"
+      - "Jas lampičky v ložnici sniž na 30"
+      - "Jas lampičky v ložnici změň na 30%"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 30
+        name: light.bedroom_lamp
+  - sentences:
+      - "Nastav jas v ložnici na 30%"
+      - "Nastav jas v ložnici na 30"
+      - "V ložnici nastav jas na 30%"
+      - "Jas v ložnici zvyš na 30%"
+      - "Jas v ložnici sniž na 30 procent"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 30
+        name: "all"
+        area: bedroom
+
+  #Min/Max tests
+  - sentences:
+      - "Nastav jas v ložnici na minimum"
+      - "Nastav jas v ložnici na co nejmíň"
+      - "V ložnici nastav minimální jas"
+      - "Jas v ložnici sniž na co nejmíň"
+      - "V ložnici změň jas na minimum"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 1
+        area: bedroom
+        name: "all"
+
+  - sentences:
+      - "Nastav jas v ložnici na maximum"
+      - "Nastav jas v ložnici na co nejvíc"
+      - "V ložnici nastav nejvyšší jas"
+      - "Jas v ložnici zvyš na co nejvíc"
+      - "V ložnici změň jas na maximum"
+      - "V ložnici nastav jas na co nejvíc"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 100
+        area: bedroom
+        name: "all"
+
+  - sentences:
+      - "Nastav maximální jas u lampičky v ložnici"
+      - "Zvyš jas na maximum u lampičky v ložnici"
+      - "Změň jas na co nejvíc u lampičky v ložnici"
+      - "Jas lampičky v ložnici zvyš na maximum"
+      - "Jas lampičky v ložnici nastav na maximum"
+      - "Jas u lampičky v ložnici změň na co nejvíc"
+      - "U lampičky v ložnici nastav maximální jas"
+      - "U lampičky v ložnici změň jas na maximum"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 100
+        name: "light.bedroom_lamp"
+
+  - sentences:
+      - "Nastav minimální jas u lampičky v ložnici"
+      - "Sniž jas na minimum u lampičky v ložnici"
+      - "Změň jas na co nejmíň u lampičky v ložnici"
+      - "Jas lampičky v ložnici sniž na minimum"
+      - "Jas lampičky v ložnici nastav na minimum"
+      - "Jas u lampičky v ložnici změň na co nejmíň"
+      - "U lampičky v ložnici nastav minimální jas"
+      - "U lampičky v ložnici nastav nejmenší jas"
+      - "U lampičky v ložnici změň jas na co nejmíň"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 1
+        name: "light.bedroom_lamp"
+  #color
+  - sentences:
+      - "Barvu lampičky v ložnici změň na modrou"
+      - "Lampičku v ložnici změň na modrou barvu"
+      - "Lampu v ložnici změnit na modrou"
+      - "Lampu v ložnici nastav na modrou"
+    intent:
+      name: HassLightSet
+      slots:
+        color: "blue"
+        name: "light.bedroom_lamp"

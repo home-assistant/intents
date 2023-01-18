@@ -1,12 +1,65 @@
 language: hr
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: "Nažalost, ne razumijem zahtjev"
+    no_area: "Prostorija s imenom {{ area }} ne postoji"
+    no_domain: "Ne postoji {{ domain }} u prostoriji {{ area }}"
+    no_device_class: "Prostorija {{ area }} ne sadrži {{ device_class }}"
+    no_entity: "Ne postoji uređaj ili entitet pod imenom {{ entity }}"
+    handle_error: "Došlo je do neočekivane pogreške prilikom obrade zahtjeva"
+lists:
+  color:
+    values:
+      - in: "bijel(a|o|u)"
+        out: "white"
+      - in: "crna(a|o|u)"
+        out: "black"
+      - in: "crven(a|o|u)"
+        out: "red"
+      - in: "narandžast(a|o|u)"
+        out: "orange"
+      - in: "žut(a|o|u)"
+        out: "yellow"
+      - in: "zelen(a|o|u)"
+        out: "green"
+      - in: "plav(a|o|u)"
+        out: "blue"
+      - in: "ljubičast(a|o|u)"
+        out: "purple"
+      - in: "smeđ(a|e|u)"
+        out: "brown"
+      - in: "roz(a|o|u)"
+        out: "pink"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "C | [stupanj|stupnjeva|stupnjevi] (Celzijus[a] | u Celzijevim stupnjevima)"
+        out: "celsius"
+      - in: "F | [stupanj|stupnjeva|stupnjevi] (Fahrenheit[a] | u Fahrenheitima)"
+        out: "fahrenheit"
+
+expansion_rules:
+  name: "{name}"
+  area: "[prostorij[i|a]] {area}"
+  brightness: "{brightness} [posto]"
+  temperature: "{temperature}"
+  uključi: "(uključi[š|te|mo] | upali[š|te|mo])"
+  isključi: "(isključi[š|te|mo] | ugasi[š|te|mo])"
+  promijeni: "(podesi[š|te|mo] | namjesti[š|te|mo] | postavi[š|te|mo] | stavi | promijeni[š|te|mo] | smanji | povećaj)"
+  otvori: "(otvori|te|mo | podigni|te)"
+  zatvori: "(zatvori|te|mo | spusti|te)"
+skip_words:
+  - "molim [te|vas] [da]"
+  - "može(š|te) [li] [da]"
+  - "idemo"
+  - "odmah"
+

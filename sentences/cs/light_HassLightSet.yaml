@@ -2,4 +2,49 @@ language: cs
 intents:
   HassLightSet:
     data:
-    - sentences: []
+      - sentences:
+          - "(<nastavit>|<zmenit>) jas {name} <brightness>"
+          - "(<ztlumit>|<zvysit>) [jas] {name} <brightness>"
+          - "[jas] [u] {name} (<nastavit>|<zvysit>|<ztlumit>|<zmenit>) [jas] <brightness>"
+      - sentences:
+          - "(<nastavit>|<zvysit>|<ztlumit>) [jas] <area> <brightness>"
+          - "[jas] <area> (<zvysit>|<ztlumit>|<nastavit>|<zmenit>) [jas] <brightness>"
+        slots:
+          name: "all"
+
+        #Max/Min sentences
+      - sentences:
+          - "(<nastavit>|<zvysit>|<zmenit>) [jas] <area> na (maximum | max | [co] nejvíc)"
+          - "(<nastavit>|<zvysit>|<zmenit>) [na] (maximální | [co] nej(vyšší | větší)) [jas] <area>"
+          - "[jas] <area> (<zvysit>|<nastavit>|<zmenit>) [jas] [na] [([co] nej(vyšší|víc) | maximální)] [jas] [(maximum | max)]"
+        slots:
+          name: "all"
+          brightness: 100
+
+      - sentences:
+          - "(<nastavit>|<ztlumit>|<zmenit>) [jas] <area> na (minimum | min | [co] nejmíň)"
+          - "(<nastavit>|<ztlumit>|<zmenit>) [na] (minimum | [co] nejmíň) [jas] <area>"
+          - "[jas] <area> (<ztlumit>|<nastavit>|<zmenit>) [na] [minimální] [jas] [(minimum | [co] nej(míň | nižší | menší)]"
+          - "[jas] <area> (<ztlumit>|<nastavit>|<zmenit>) jas na [(minimum | [co] (nej(míň | nižší)]"
+        slots:
+          name: "all"
+          brightness: 1
+
+      - sentences:
+          - "(<nastavit>|<zmenit>|<zvysit>) [jas] [na] ([co] nej(větší|víc) | maxim(um|ální)) [jas] [u] {name}"
+          - "[jas] [u] {name} (<nastavit>|<zvysit>|<zmenit>) [jas] [na] (maximum | [co] nej[víc|větší] | maximální) [jas]"
+        slots:
+          brightness: 100
+
+      - sentences:
+          - "(<nastavit>|<zmenit>|<ztlumit>) [minimální] [jas] [u] [na] [(minimum | [co] nejmíň)] [u] {name} [(na minimum | na co nejmíň)]"
+          - "[jas] [u] {name} (<ztlumit>|<nastavit>|<zmenit>) [jas] ([na] mini(mum|mální) | na co nejmíň | nejnižší | nejmenší) [jas]"
+        slots:
+          brightness: 1
+
+      #color
+      - sentences:
+          - "(<nastavit>|<zmenit>) {color} [barvu] [na] {name}"
+          - "(<nastavit>|<zmenit> {name} na {color} [barvu]"
+          - "{name} (<zmenit>|<nastavit>) na {color} [barvu]"
+          - "Barvu {name} (<zmenit>|<nastavit>) na {color} [barvu]"
