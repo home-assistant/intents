@@ -5,6 +5,7 @@ import argparse
 from pathlib import Path
 from typing import Any
 
+import regex
 import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
@@ -29,8 +30,20 @@ def match_anything(value):
 def match_anything_but_dict(value):
     """Validator that matches everything but a dict"""
     if isinstance(value, dict):
-        raise vol.Invalid("Expected anythung but a dictionary")
+        raise vol.Invalid("Expected anything but a dictionary")
     return value
+
+
+def match_unicode_regex(pattern: str):
+    """Validator that matches a regex with support for Unicode properties."""
+
+    def inner_match(value):
+        if regex.match(pattern, value) is None:
+            raise vol.Invalid(f"{value} did not match pattern {pattern}")
+
+        return value
+
+    return inner_match
 
 
 def single_key_dict_validator(schemas: dict[str, Any]) -> vol.Schema:
@@ -98,8 +111,8 @@ INTENT_ERRORS = {
     "handle_error",
 }
 
-SENTENCE_MATCHER = vol.Match(
-    r"^[\w '\|\(\)\[\]\{\}\<\>]+$",
+SENTENCE_MATCHER = vol.All(
+    match_unicode_regex(r"^[\w\p{M} :'\|\(\)\[\]\{\}\<\>]+$"),
     msg="Sentences should only contain words and matching syntax. They should not contain punctuation.",
 )
 
