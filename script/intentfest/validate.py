@@ -2,13 +2,14 @@
 from __future__ import annotations
 
 import argparse
+from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+import jinja2
 import regex
 import voluptuous as vol
 import yaml
-from hassil.intents import DEFAULT_RESPONSE_KEY
 from voluptuous.humanize import validate_with_humanized_errors
 
 from .const import (
@@ -21,8 +22,6 @@ from .const import (
     TESTS_DIR,
 )
 from .util import get_base_arg_parser
-
-RESPONSE_KEYS = {"default", "cover", "color"}
 
 
 def match_anything(value):
@@ -132,7 +131,7 @@ SENTENCE_SCHEMA = vol.Schema(
                         },
                         vol.Optional("requires_context"): {str: match_anything},
                         vol.Optional("excludes_context"): {str: match_anything},
-                        vol.Optional("response"): vol.In(RESPONSE_KEYS),
+                        vol.Optional("response"): str,
                     }
                 ]
             }
@@ -222,7 +221,8 @@ RESPONSE_SCHEMA = vol.Schema(
         vol.Required("language"): str,
         vol.Optional("responses"): {
             vol.Optional("intents"): {
-                str: {vol.Required("default"): str, vol.In(RESPONSE_KEYS): str},
+                # intent -> response key -> Jinja2 template
+                str: {str: str},
             }
         },
     }
@@ -341,6 +341,9 @@ def validate_language(
 
     sentence_files = {}
 
+    # intent -> {response}
+    used_response_keys: dict[str, set[str]] = defaultdict(set)
+
     for sentence_file in sentence_dir.iterdir():
         path = str(sentence_file.relative_to(ROOT))
 
@@ -365,49 +368,12 @@ def validate_language(
             errors.append(f"{path}: Filename references unknown intent {intent}.yaml")
             continue
 
-        # Check for response file
-        response_file = response_dir / f"{intent}.yaml"
-        response_path = str(response_file.relative_to(ROOT))
-        if not response_file.exists():
-            errors.append(f"Missing response file for {intent} at {response_path}")
-            continue
-
-        # Validate response keys ("default" response is implied)
-        expected_response_keys: set[str] = set([DEFAULT_RESPONSE_KEY])
+        # Gather response keys used in intents.
+        # They will be validated against the response files below.
         for intent in content["intents"]:
             for intent_data in content["intents"][intent]["data"]:
-                response_key = intent_data.get("response")
-                if response_key is not None:
-                    expected_response_keys.add(response_key)
-
-        response_content = _load_yaml_file(
-            errors, language, response_file, RESPONSE_SCHEMA
-        )
-        if response_content is None:
-            continue
-
-        intent_response = response_content["responses"]["intents"].get(intent)
-        if intent_response is None:
-            # Will be reported below in response files validation
-            continue
-
-        actual_response_keys: set[str] = set()
-        for response_key in intent_response:
-            actual_response_keys.add(response_key)
-
-        # Keys in the intents, but not in the responses
-        missing_response_keys = expected_response_keys - actual_response_keys
-        if missing_response_keys:
-            errors.append(
-                f"{response_path}: Missing response keys: {missing_response_keys}"
-            )
-
-        # Keys in the responses, but not in the intents
-        unused_response_keys = actual_response_keys - expected_response_keys
-        if unused_response_keys:
-            errors.append(
-                f"{response_path}: Unused response keys: {unused_response_keys}"
-            )
+                response_key = intent_data.get("response", "default")
+                used_response_keys[intent].add(response_key)
 
     if not test_dir.exists():
         errors.append(f"{test_dir.relative_to(ROOT)}: Missing tests directory")
@@ -476,8 +442,20 @@ def validate_language(
         if content is None:
             continue
 
-        for intent_name in content["responses"]["intents"]:
+        used_intent_response_keys = used_response_keys.get(intent, {})
+        for intent_name, intent_responses in content["responses"]["intents"].items():
             if intent != intent_name:
                 errors.append(
                     f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"
                 )
+                continue
+
+            possible_response_keys: set[str] = set()
+            for response_key, response_template in intent_responses.items():
+                possible_response_keys.add(response_key)
+                if response_key not in used_intent_response_keys:
+                    errors.append(f"{path}: unused response {response_key}")
+
+            missing_response_keys = used_intent_response_keys - possible_response_keys
+            for response_key in missing_response_keys:
+                errors.append(f"{path}: response not defined {response_key}")
