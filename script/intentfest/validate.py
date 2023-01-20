@@ -21,7 +21,7 @@ from .const import (
     SENTENCE_DIR,
     TESTS_DIR,
 )
-from .util import get_base_arg_parser
+from .util import get_base_arg_parser, get_jinja2_environment
 
 
 def match_anything(value):
@@ -326,6 +326,11 @@ def _load_yaml_file(
     return content
 
 
+class FakeSlots:
+    def __getattribute__(self, name: str) -> Any:
+        return f"<{name}>"
+
+
 def validate_language(
     language_info: dict | None,
     intent_schemas: dict,
@@ -427,6 +432,9 @@ def validate_language(
         for sentence_file_without_tests in sentence_files:
             errors.append(f"{sentence_file_without_tests} has no tests")
 
+    # Environment used to render response templates
+    jinja2_env = get_jinja2_environment()
+
     for response_file in response_dir.iterdir():
         path = str(response_file.relative_to(ROOT))
         intent = response_file.stem
@@ -442,7 +450,7 @@ def validate_language(
         if content is None:
             continue
 
-        used_intent_response_keys = used_response_keys.get(intent, {})
+        used_intent_response_keys: set[str] = used_response_keys.get(intent, set())
         for intent_name, intent_responses in content["responses"]["intents"].items():
             if intent != intent_name:
                 errors.append(
@@ -451,10 +459,21 @@ def validate_language(
                 continue
 
             possible_response_keys: set[str] = set()
+            slots = FakeSlots()
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)
                 if response_key not in used_intent_response_keys:
                     errors.append(f"{path}: unused response {response_key}")
+
+                if response_template:
+                    try:
+                        jinja2_env.from_string(response_template).render(
+                            {"state": {"name": "<name>", "state": 0}, "slots": slots}
+                        )
+                    except jinja2.exceptions.UndefinedError as err:
+                        errors.append(
+                            f"{path}: {err.args[0]} in response '{response_key}' (template='{response_template}')"
+                        )
 
             missing_response_keys = used_intent_response_keys - possible_response_keys
             for response_key in missing_response_keys:
