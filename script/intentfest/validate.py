@@ -459,7 +459,10 @@ def validate_language(
                 continue
 
             possible_response_keys: set[str] = set()
-            slots = FakeSlots()
+            slots = {
+                slot_name: f"<{slot_name}>"
+                for slot_name in intent_schemas[intent_name].get("slots", {})
+            }
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)
                 if response_key not in used_intent_response_keys:

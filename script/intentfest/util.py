@@ -6,7 +6,7 @@ import yaml
 from hassil.intents import SlotList, TextSlotList
 from hassil.recognize import RecognizeResult
 from hassil.util import merge_dict
-from jinja2 import Environment, BaseLoader, StrictUndefined
+from jinja2 import BaseLoader, Environment, StrictUndefined
 
 from .const import RESPONSE_DIR, SENTENCE_DIR
 
