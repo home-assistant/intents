@@ -326,11 +326,6 @@ def _load_yaml_file(
     return content
 
 
-class FakeSlots:
-    def __getattribute__(self, name: str) -> Any:
-        return f"<{name}>"
-
-
 def validate_language(
     language_info: dict | None,
     intent_schemas: dict,
