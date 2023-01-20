@@ -27,7 +27,9 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install dependencies
-        run: script/setup
+        run: |
+          script/setup && \
+          python3 -m pip install build
 
       - name: Build nightly Python package
         run: script/package
@@ -36,5 +38,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: package
-          path: package/dist/*.tar.gz
+          path: package/dist/*.whl
           if-no-files-found: error

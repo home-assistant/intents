@@ -2,20 +2,24 @@
 
 This repository contains training data for Home Assistant's local voice control.
 
- - [Progress per language x intent](https://home-assistant.github.io/intents/)
- - [How to contribute](https://voice.home-assistant.io/docs/contributing/intent-sentences)
- - [Language leaders](https://voice.home-assistant.io/docs/contributing/language-leaders)
- - [Supported intents](intents.yaml)
- - [Supported languages](languages.yaml)
+ - [Progress per language and intent](https://home-assistant.github.io/intents/)
+ - [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
+ - [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
+ - [Supported intents](https://developers.home-assistant.io/docs/intent_builtin)
+ - [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages)
 
 Repository layout:
 
+- [`languages.yaml`](languages.yaml)
+  - Supported languages and their language leader
+- [`intents.yaml`](intents.yaml)
+  - Supported intents
 - `sentences/<language>`
   - Intent matching sentences in YAML files for `<language>` with the name `<domain>_<intent>.yaml`
-  - [File format](https://voice.home-assistant.io/docs/intents/matching-syntax)
+  - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/template-sentence-syntax/)
 - `responses/<language>`
   - YAML files for `<language>` with responses for intents
-  - [File format](https://voice.home-assistant.io/docs/intents/test-syntax)
+  - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/test-syntax/)
 - `tests/<language>`
   - YAML files for `<language>` with test sentences and corresponding intents
   - [File format](tests/README.md#file-format)
@@ -32,13 +36,13 @@ Before developing, always activate your virtual environment with `source venv/bi
 
 Validate that the data is correctly formatted:
 
-```
+```sh
 python3 -m script.intentfest validate --language nl
 ```
 
 Run the tests. This will parse the sentences and verifies them with the test sentences.
 
-```
+```sh
 pytest tests --language nl -k fan_HassTurnOn
 ```
 
@@ -54,7 +58,7 @@ python3 -m script.intentfest parse --language en --sentence 'turn on the lights 
 
 This will print a line of JSON for each `--sentence`:
 
-```
+```json
 {
   "text": "turn on the lights in the kitchen",
   "match": true,
@@ -115,7 +119,7 @@ python3 -m script.intentfest sample_template 'set color to <color> and brightnes
 
 ## Add new language
 
-```
+```sh
 python3 -m script.intentfest add_language <language code> <language name>
 ```
 

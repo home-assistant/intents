@@ -21,9 +21,17 @@ def slot_lists_fixture(language: str) -> dict[str, SlotList]:
             (area["name"], area["id"]) for area in fixtures["areas"]
         ),
         "name": TextSlotList.from_tuples(
-            (entity["name"], entity["id"]) for entity in fixtures["entities"]
+            (entity["name"], entity["id"], _entity_context(entity))
+            for entity in fixtures["entities"]
         ),
     }
+
+
+def _entity_context(entity: dict[str, Any]) -> dict[str, Any]:
+    """Extract matching context from test fixture entity."""
+    entity_id = entity["id"]
+    domain = entity_id.split(".", maxsplit=1)[0]
+    return {"domain": domain}
 
 
 def do_test_language_sentences_file(
@@ -71,10 +79,38 @@ def do_test_language_sentences_file(
             ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
 
             matched_slots = {slot.name: slot.value for slot in result.entities.values()}
+            actual_slots = intent.get("slots", {})
 
-            assert matched_slots == intent.get(
-                "slots", {}
-            ), f"Slots do not match for: {sentence}"
+            # Check for all match slots
+            for match_name, match_value in matched_slots.items():
+                actual_value = actual_slots.get(match_name)
+                assert (
+                    actual_value is not None
+                ), f"Missing slot {match_name} for: {sentence} (value={match_value})"
+
+                if not isinstance(match_value, list):
+                    # Only one acceptable value
+                    assert (
+                        actual_value == match_value
+                    ), f"Expected {match_value}, got {actual_value} for slot {match_name} for: {sentence}"
+                    continue
+
+                # One of multiple possibilities
+                if isinstance(actual_value, list):
+                    actual_value_set = set(actual_value)
+                    assert actual_value_set.issubset(
+                        match_value
+                    ), "Slots do not match for: {sentence}"
+                else:
+                    assert (
+                        actual_value in match_value
+                    ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
+
+            # Verify no extra slots
+            for actual_name in actual_slots:
+                assert (
+                    actual_name in matched_slots
+                ), f"Slot {actual_name} was not expected for: {sentence}"
 
 
 def gen_test(test_file: Path) -> None:
