@@ -1,7 +1,26 @@
-language: "en"
+language: en
 intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<turn> on [the] {name}"
-          - "<turn> [the] {name} [to] on"
+          - <turn> on [the] {name}
+          - <turn> [the] {name} [to] on
+      - sentences:
+          - <open> <name>
+          - <open> <name> in <area>
+        response: cover
+      - sentences:
+          - <open> [the] garage door
+        slots:
+          device_class: garage
+        response: cover
+      - sentences:
+          - <open> [the] <window> in <area>
+          - <open> <area> <window>
+        slots:
+          device_class:
+            - window
+            - blind
+            - curtain
+            - shutter
+        response: cover_area
