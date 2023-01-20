@@ -86,7 +86,7 @@ def do_test_language_sentences_file(
                 actual_value = actual_slots.get(match_name)
                 assert (
                     actual_value is not None
-                ), f"Missing slot {match_name} for: {sentence}"
+                ), f"Missing slot {match_name} for: {sentence} (value={match_value})"
 
                 if not isinstance(match_value, list):
                     # Only one acceptable value

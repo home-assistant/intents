@@ -2,4 +2,23 @@ language: ml
 intents:
   HassCloseCover:
     data:
-      - sentences: []
+      - sentences:
+          - "<close> <name>"
+          - "<close> <name> <area>യിലെ"
+          - "<area>[യിലെ] <name> <close>"
+        slots:
+          device_class: curtain
+      - sentences:
+          - "<close> [<the>] ഗരാജ് വാതിൽ"
+          - "[<the>] ഗരാജ് വാതിൽ <close>"
+        slots:
+          device_class: garage
+      - sentences:
+          - "<close> [<the>] <window> <area>യിലെ"
+          - "<close> <area>[<in>] <window>"
+        slots:
+          device_class:
+            - window
+            - blind
+            - curtain
+            - shutter
