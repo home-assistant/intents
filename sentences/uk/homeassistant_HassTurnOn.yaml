@@ -2,5 +2,27 @@ language: uk
 intents:
   HassTurnOn:
     data:
-    - sentences:
-        - "<ввімкни> <name>"
+      - sentences:
+          - <ввімкни> <name>
+      - sentences:
+          - <відкрий> <name>
+        response: cover
+      - sentences:
+          - <відкрий> <name> <area>
+        response: cover_area
+      - sentences:
+          - <відкрий> [двері] [у | в] гараж[а | у | і]
+          - <відкрий> гаражні двері
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - <відкрий> [всі] (вікн(о | а) | жалюзі | штор(у | и)) [<area>]
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover

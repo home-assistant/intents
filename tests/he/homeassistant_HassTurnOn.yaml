@@ -1,10 +1,43 @@
-language: "he"
+language: he
 tests:
   - sentences:
-      - "הדלק את המנורה"
-      - "הדלקה של המנורה"
-      - "להדליק את המנורה"
+      - הדלק את המנורה
+      - הדלקה של המנורה
+      - להדליק את המנורה
     intent:
-      name: "HassTurnOn"
+      name: HassTurnOn
       slots:
-        name: "switch.bedroom_lamp"
+        name: switch.bedroom_lamp
+  - sentences:
+      - פתח את התריס
+    intent:
+      name: HassTurnOn
+      slots:
+        device_class:
+          - garage
+          - blind
+          - curtain
+          - shutter
+        name: cover.curtain_left
+        domain: cover
+  - sentences:
+      - פתח את התריסים בסלון
+    intent:
+      name: HassTurnOn
+      slots:
+        device_class:
+          - blind
+          - curtain
+          - shutter
+        area: living_room
+        domain: cover
+  - sentences:
+      - פתח את הדלת בסלון
+    intent:
+      name: HassTurnOn
+      slots:
+        device_class:
+          - garage
+        name: cover.garage_door
+        area: living_room
+        domain: cover

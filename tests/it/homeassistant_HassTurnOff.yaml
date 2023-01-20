@@ -1,13 +1,66 @@
-language: "it"
+language: it
 tests:
   - sentences:
-      - "spegni l'interruttore cucina"
-      - "spegni interruttore cucina"
-      - "puoi spegnere l'interruttore cucina"
-      - "potresti disattivare l'interruttore cucina per favore"
-      - "per favore spegni interruttore cucina"
-      - "disattiva interruttore cucina grazie"
+      - spegni l'interruttore cucina
+      - spegni interruttore cucina
+      - puoi spegnere l'interruttore cucina
+      - potresti disattivare l'interruttore cucina per favore
+      - per favore spegni interruttore cucina
+      - disattiva interruttore cucina grazie
     intent:
-      name: "HassTurnOff"
+      name: HassTurnOff
       slots:
-        name: "switch.cucina"
+        name: switch.cucina
+  - sentences:
+      - chiudi la tenda sinistra
+    intent:
+      name: HassTurnOff
+      slots:
+        name: cover.tenda_sinistra
+  - sentences:
+      - chiudi la tenda sinistra del soggiorno
+      - abbassa la tenda sinistra del soggiorno
+    intent:
+      name: HassTurnOff
+      slots:
+        name: cover.tenda_sinistra
+        area: soggiorno
+  - sentences:
+      - chiudi le tende del soggiorno
+    intent:
+      name: HassTurnOff
+      slots:
+        area: soggiorno
+        device_class:
+          - blind
+          - curtain
+          - shutter
+        domain: cover
+  - sentences:
+      - abbassa la tapparella del soggiorno
+    intent:
+      name: HassTurnOff
+      slots:
+        area: soggiorno
+        name: cover.tapparella_bagno
+  - sentences:
+      - chiudi la porta del garage
+      - chiudi la serranda del garage
+    intent:
+      name: HassTurnOff
+      slots:
+        device_class: garage
+        domain: cover
+  - sentences:
+      - chiudi le tapparelle in camera da letto
+      - abbassa le tende in camera da letto
+      - chiudi camera da letto tapparelle
+    intent:
+      name: HassTurnOff
+      slots:
+        area: camera_da_letto
+        device_class:
+          - blind
+          - curtain
+          - shutter
+        domain: cover
