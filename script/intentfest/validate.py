@@ -300,15 +300,15 @@ def run() -> int:
         for language, language_errors in errors.items():
             print(f"Language: {language}")
             for error in language_errors:
-                print(f" - {error}")
+                print(f"[ERROR] {error}")
             print()
         return 1
 
     if warnings:
         for language, language_warnings in warnings.items():
             print(f"Language: {language}")
-            for error in language_warnings:
-                print(f" - {warnings}")
+            for warning in language_warnings:
+                print(f"[WARN] {warning}")
             print()
 
     print("All good!")
