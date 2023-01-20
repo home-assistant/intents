@@ -1,5 +1,21 @@
-language: lt
+language: pl
 intents:
   HassOpenCover:
     data:
-    - sentences: []
+      - sentences:
+          - "<open> <name>"
+          - "<open> <name> <area>"
+      - sentences:
+          - "<open> (garažo | garaže) (duris | vartus)"
+          - "(Duris | Vartus) (garažo | garažė) <open>"
+        slots:
+          device_class: "garage"
+      - sentences:
+          - "(Roletus| Užuolaidas | Žaliuzes) <area> <open>"
+          - "<open> (roletus| užuolaidas | žaliuzes) <area>"
+          - "<open> <area> (roletus| užuolaidas | žaliuzes)"
+        slots:
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"

@@ -2,4 +2,20 @@ language: lt
 intents:
   HassCloseCover:
     data:
-    - sentences: []
+      - sentences:
+          - "<close> <name>"
+          - "<close> <name> <area>"
+      - sentences:
+          - "<close> (garažo | garaže) (duris | vartus)"
+          - "(Duris | Vartus) (garažo | garažė) <close>"
+        slots:
+          device_class: "garage"
+      - sentences:
+          - "(Roletus| Užuolaidas | Žaliuzes) <area> <close>"
+          - "<close> (roletus| užuolaidas | žaliuzes) <area>"
+          - "<close> <area> (roletus| užuolaidas | žaliuzes)"
+        slots:
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"
