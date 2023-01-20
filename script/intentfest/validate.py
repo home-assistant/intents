@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import argparse
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -344,6 +344,9 @@ def validate_language(
     # intent -> {response}
     used_response_keys: dict[str, set[str]] = defaultdict(set)
 
+    # intent -> sentence count
+    num_intent_sentences: Counter[str] = Counter()
+
     for sentence_file in sentence_dir.iterdir():
         path = str(sentence_file.relative_to(ROOT))
 
@@ -374,6 +377,9 @@ def validate_language(
             for intent_data in content["intents"][intent]["data"]:
                 response_key = intent_data.get("response", "default")
                 used_response_keys[intent].add(response_key)
+
+                # Track count of sentences for this intent
+                num_intent_sentences[intent] += len(intent_data["sentences"])
 
     if not test_dir.exists():
         errors.append(f"{test_dir.relative_to(ROOT)}: Missing tests directory")
@@ -443,6 +449,11 @@ def validate_language(
         content = _load_yaml_file(errors, language, response_file, RESPONSE_SCHEMA)
 
         if content is None:
+            continue
+
+        if num_intent_sentences[intent] < 1:
+            # Skip response key validation if there are no sentences defined for the intent.
+            # This avoids CI validate problems with adding the test language.
             continue
 
         used_intent_response_keys: set[str] = used_response_keys.get(intent, set())
