@@ -274,18 +274,24 @@ def run() -> int:
         return 1
 
     errors: dict[str, list[str]] = {}
+    warnings: dict[str, list[str]] = {}
 
     for language in languages:
         errors[language] = []
+        warnings[language] = []
         validate_language(
             language_infos.get(language),
             intent_schemas,
             language,
             errors[language],
+            warnings[language],
         )
         # Remove language if no errors
         if not errors[language]:
             errors.pop(language)
+
+        if not warnings[language]:
+            warnings.pop(language)
 
     if errors:
         print("Validation failed")
@@ -294,9 +300,16 @@ def run() -> int:
         for language, language_errors in errors.items():
             print(f"Language: {language}")
             for error in language_errors:
-                print(f" - {error}")
+                print(f"[ERROR] {error}")
             print()
         return 1
+
+    if warnings:
+        for language, language_warnings in warnings.items():
+            print(f"Language: {language}")
+            for warning in language_warnings:
+                print(f"[WARN] {warning}")
+            print()
 
     print("All good!")
     return 0
@@ -331,6 +344,7 @@ def validate_language(
     intent_schemas: dict,
     language: str,
     errors: list[str],
+    warnings: list[str],
 ):
     sentence_dir: Path = SENTENCE_DIR / language
     test_dir: Path = TESTS_DIR / language
@@ -472,7 +486,7 @@ def validate_language(
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)
                 if response_key not in used_intent_response_keys:
-                    errors.append(f"{path}: unused response {response_key}")
+                    warnings.append(f"{path}: unused response {response_key}")
 
                 if response_template:
                     try:

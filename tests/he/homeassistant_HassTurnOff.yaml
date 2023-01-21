@@ -1,10 +1,43 @@
-language: "he"
+language: he
 tests:
   - sentences:
-      - "כיבוי של המנורה"
-      - "לכבות את המנורה"
-      - "כבה את המנורה"
+      - כיבוי של המנורה
+      - לכבות את המנורה
+      - כבה את המנורה
     intent:
-      name: "HassTurnOff"
+      name: HassTurnOff
       slots:
-        name: "switch.bedroom_lamp"
+        name: switch.bedroom_lamp
+  - sentences:
+      - סגור את התריס
+    intent:
+      name: HassTurnOff
+      slots:
+        device_class:
+          - garage
+          - blind
+          - curtain
+          - shutter
+        name: cover.curtain_left
+        domain: cover
+  - sentences:
+      - סגור את התריסים בסלון
+    intent:
+      name: HassTurnOff
+      slots:
+        device_class:
+          - blind
+          - curtain
+          - shutter
+        area: living_room
+        domain: cover
+  - sentences:
+      - סגור את הדלת בסלון
+    intent:
+      name: HassTurnOff
+      slots:
+        device_class:
+          - garage
+        name: cover.garage_door
+        area: living_room
+        domain: cover
