@@ -2,24 +2,37 @@ language: hr
 intents:
   HassLightSet:
     data:
-    #brightness
       - sentences:
-        - "<promijeni> <name> na <brightness>"
-        - "<promijeni> [osvjetljenje | jačinu | svjetlinu] [svjetla | svjetlo | rasvjet(e|u)] [u|na] <name> na <brightness> [snage | jačine | svjetline | posto]"
-        - "<promijeni> [jačinu | intenzitet] [svjetl(a|o) | osvjetljenje | rasvjetu] [u|na] <area> [na] <brightness> [snage | jačine | svjetline | posto]"
-    #brightness min/max
+          - <promijeni> <name> na <brightness>
+          - <promijeni> [osvjetljenje | jačinu | svjetlinu] [svjetla | svjetlo | rasvjet(e|u)]
+            [u|na] <name> na <brightness> [snage | jačine | svjetline | posto]
+          - <promijeni> [jačinu | intenzitet] [svjetl(a|o) | osvjetljenje | rasvjetu]
+            [u|na] <area> [na] <brightness> [snage | jačine | svjetline | posto]
+        response: brightness_area
+
+      #brightness min/max
       - sentences:
-        - "<promijeni> <name> na {brightness_level:brightness}"
-        - "<promijeni> [osvjetljenje | jačinu | svjetlinu | svjetlost] [svjetla | svjetlo | rasvjet(e|u)] [u|na] <name> na {brightness_level:brightness} [snagu | jačinu | svjetlinu | osvjetljenje]"
-        - "<promijeni> [jačinu | intenzitet] [svjetl(a|o|la) | osvjetljenje | rasvjetu] [u|na] <area> [na] {brightness_level:brightness} [snagu | jačinu | svjetlinu]"
-        - "<promijeni> <area> [jačinu | intenzitet] (svjetl(a|o|la) | osvjetljenje | rasvjet(e|u)) [na] {brightness_level:brightness} [snagu | jačinu | svjetlinu]"
+          - "<promijeni> <name> na {brightness_level:brightness}"
+          - "<promijeni> [osvjetljenje | jačinu | svjetlinu | svjetlost] [svjetla | svjetlo | rasvjet(e|u)] [u|na] <name> na {brightness_level:brightness} [snagu | jačinu | svjetlinu | osvjetljenje]"
         slots:
           brightness: 100
+        response: brightness
 
-     # color
       - sentences:
-        - "<promijeni> [boju] <name> [na|u] {color}"
-        - "<promijeni> <name> [na|u] {color} [boju]"
-        - "<promijeni> [boju] [svjetl(a|o) | rasvjet(e|u)] [u|na] [prostoriji] <area> [na|u] {color}"
-        - "<promijeni> [svjetl(a|o) | osvjetljenje | rasvjetu] [u|na] <area> [na|u] {color}"
-        - "<promijeni> [u|na] <area> [svjetl(a|o) | osvjetljenje | rasvjetu] [na|u] {color}"
+          - "<promijeni> [jačinu | intenzitet] [svjetl(a|o|la) | osvjetljenje | rasvjetu] [u|na] <area> [na] {brightness_level:brightness} [snagu | jačinu | svjetlinu]"
+          - "<promijeni> <area> [jačinu | intenzitet] (svjetl(a|o|la) | osvjetljenje | rasvjet(e|u)) [na] {brightness_level:brightness} [snagu | jačinu | svjetlinu]"
+        slots:
+          brightness: 100
+        response: brightness_area
+
+      # color
+      - sentences:
+          - <promijeni> [boju] <name> [na|u] {color}
+          - <promijeni> <name> [na|u] {color} [boju]
+          - <promijeni> [boju] [svjetl(a|o) | rasvjet(e|u)] [u|na] [prostoriji] <area>
+            [na|u] {color}
+          - <promijeni> [svjetl(a|o) | osvjetljenje | rasvjetu] [u|na] <area> [na|u]
+            {color}
+          - <promijeni> [u|na] <area> [svjetl(a|o) | osvjetljenje | rasvjetu] [na|u]
+            {color}
+        response: color_area

@@ -3,9 +3,45 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<porneste> <name>"
+          - <porneste> <name>
         excludes_context:
           domain:
             - cover
             - fan
-
+      - sentences:
+          - <deschide> <name>
+        response: cover
+        requires_context: &id001
+          domain: cover
+      - sentences:
+          - <deschide> <name> [<din>] <area>
+        response: cover_area
+        requires_context: *id001
+      - sentences:
+          - <deschide> <usa> [<din>] <area>
+        response: cover_area
+        slots:
+          device_class: door
+          domain: cover
+      - sentences:
+          - <deschide> <fereastra> [<din>] <area>
+        response: cover_area
+        slots:
+          device_class: window
+          domain: cover
+      - sentences:
+          - <deschide> <jaluzelele> [<din>] <area>
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+            - shade
+          domain: cover
+      - sentences:
+          - <deschide> <poarta> [<din>] <area>
+        response: cover_area
+        slots:
+          device_class: gate
+          domain: cover
