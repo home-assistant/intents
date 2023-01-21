@@ -22,7 +22,9 @@ def run() -> int:
         merged_responses = load_merged_responses(language)
 
         intent_sentence_count = {intent: 0 for intent in intent_info}
-        used_responses_per_intent = {intent: set() for intent in intent_info}
+        used_responses_per_intent: dict[str, set[str]] = {
+            intent: set() for intent in intent_info
+        }
 
         for intent, info in merged_sentences["intents"].items():
             for sentence_set in info["data"]:
