@@ -1,6 +1,5 @@
-language: "cs"
+language: cs
 responses:
   intents:
     HassClimateGetTemperature:
-      success:
-        - "{{ state.state }} stupňů"
+      default: "{{ state.state }} {{ 'stupeň' if state.state | int | abs == 1 else 'stupně' if state.state | int | abs in [2,3,4] else 'stupňů' }}"

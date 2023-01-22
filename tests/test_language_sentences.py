@@ -55,16 +55,17 @@ def do_test_language_sentences_file(
         if not test["sentences"]:
             continue
 
-        # Domain specific files (ie light_HassTurnOn.yaml) should only test
-        # sentences for the light domain.
-        if intent_schemas[testing_intent]["domain"] == testing_domain:
-            assert "domain" not in intent.get(
-                "slots", {}
-            ), f"File {test_file}: tests should not have a domain slot"
-        else:
-            assert (
-                intent.get("slots", {}).get("domain") == testing_domain
-            ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
+        if testing_domain != "homeassistant":
+            # Domain specific files (ie light_HassTurnOn.yaml) should only test
+            # sentences for the light domain.
+            if intent_schemas[testing_intent]["domain"] == testing_domain:
+                assert "domain" not in intent.get(
+                    "slots", {}
+                ), f"File {test_file}: tests should not have a domain slot"
+            else:
+                assert (
+                    intent.get("slots", {}).get("domain") == testing_domain
+                ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
 
         for sentence in test["sentences"]:
             assert (
@@ -86,7 +87,7 @@ def do_test_language_sentences_file(
                 actual_value = actual_slots.get(match_name)
                 assert (
                     actual_value is not None
-                ), f"Missing slot {match_name} for: {sentence}"
+                ), f"Missing slot {match_name} for: {sentence} (value={match_value})"
 
                 if not isinstance(match_value, list):
                     # Only one acceptable value
