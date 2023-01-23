@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+# Directory of *this* script
+this_dir="$( cd "$( dirname "$0" )" && pwd )"
+
+# Base directory of repo
+base_dir="$(realpath "${this_dir}/..")"
+
+# Path to virtual environment
+: "${venv:=${base_dir}/venv}"
+
+if [ -d "${venv}" ]; then
+    # Activate virtual environment if available
+    source "${venv}/bin/activate"
+fi
+
+python3 -m script.intentfest merged_output "${base_dir}/package/home_assistant_intents/data"
+cd "${base_dir}/package" && python3 -m build
+
+echo "See: ${base_dir}/package/dist"

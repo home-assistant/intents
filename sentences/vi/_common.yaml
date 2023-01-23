@@ -1,12 +1,69 @@
 language: vi
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: "Xin lỗi, tôi chưa hiểu yêu cầu này"
+    no_area: "Không có khu vực nào tên là {{ area }}"
+    no_domain: "{{ area }} không chứa {{ domain }}"
+    no_device_class: "{{ area }} không chứa {{ device_class }}"
+    no_entity: "Không có thiết bị hoặc thực thể nào có tên {{ entity }}"
+    handle_error: "Đã xảy ra lỗi khi phân tích câu"  
+lists:
+  color:
+    values:
+      - in: "mầu trắng"
+        out: "white"
+      - in: "mầu đen"
+        out: "black"
+      - in: "mầu đỏ"
+        out: "red"
+      - in: "mầu cam"
+        out: "orange"
+      - in: "mầu vàng"
+        out: "yellow"
+      - in: "mầu xanh lá"
+        out: "green"
+      - in: "mầu xanh lục"
+        out: "blue"
+      - in: "mầu tím"
+        out: "purple"
+      - in: "mầu nâu"
+        out: "brown"
+      - in: "mầu hồng"
+        out: "pink"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "độ"
+        out: "celsius"
+      - in: "độ F"
+        out: "fahrenheit"
+
+expansion_rules:
+  name: "[cái] {name}"
+  area: "[ trong | ở trong | ngoài | ở ngoài | bên trong] {area}"
+  what_is: "(cái gì | gì | những gì)"
+  brightness: "{brightness} [phần trăm]"
+  turn: "(bật)"
+  turn_off: "(tắt)"
+  temp: "(nhiệt độ)"
+  close: "(đóng | kéo | thu gọn)"
+  open: "mở"
+  temperature: "{temperature} [độ] [{temperature_unit}]"
+  percentage: "phần trăm"
+skip_words:
+  - "xin"
+  - "hãy"
+  - "làm ơn"
+  - "vui lòng"
+  - "hộ tôi"
+  - "nhé"
+  - "xin hãy"

@@ -3,5 +3,23 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> <name>"
-          - "<turn_off> <area> <name>"
+          - "(<turn_off>|<close>) <name>"
+          - "(<turn_off>|<close>) <area> <name>"
+          - "(<turn_off>|<close>) <name> <area>"
+      - sentences:
+          - "<close> (garažo | garaže) (duris | vartus)"
+          - "(Duris | Vartus) (garažo | garaže) <close>"
+        slots:
+          domain: cover
+          device_class: "garage"
+        response: cover
+      - sentences:
+          - "(Roletus| Užuolaidas | Žaliuzes) <area> <close>"
+          - "<close> (roletus| užuolaidas | žaliuzes) <area>"
+          - "<close> <area> (roletus| užuolaidas | žaliuzes)"
+        slots:
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"
+        response: cover_area

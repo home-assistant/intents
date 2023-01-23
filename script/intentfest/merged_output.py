@@ -1,6 +1,7 @@
 """Command to generate merged output."""
 
 import argparse
+import json
 from pathlib import Path
 
 import yaml
@@ -19,9 +20,7 @@ def get_arguments() -> argparse.Namespace:
 
 def run() -> int:
     args = get_arguments()
-
     target = Path(args.target)
-    target.mkdir(exist_ok=True)
 
     intent_info = yaml.safe_load(INTENTS_FILE.read_text())
     intent_by_domain: dict[str, list] = {}
@@ -31,7 +30,7 @@ def run() -> int:
         intents.sort()
 
     for domain in intent_by_domain:
-        (target / domain / "sentences").mkdir(parents=True, exist_ok=True)
+        (target / domain).mkdir(parents=True, exist_ok=True)
 
     for language in LANGUAGES:
         merged_sentences: dict = {}
@@ -62,7 +61,7 @@ def run() -> int:
             domain_responses = {
                 intent: info
                 for intent, info in merged_responses["responses"]["intents"].items()
-                if intent in supported_intents and len(info["success"]) > 0
+                if intent in supported_intents
             }
 
             if not domain_intents and not domain_responses:
@@ -82,8 +81,9 @@ def run() -> int:
             if domain_responses:
                 output.setdefault("responses", {})["intents"] = domain_responses
 
-            (target / domain / "sentences" / f"{language}.yaml").write_text(
-                yaml.dump(output, sort_keys=False)
-            )
+            # Write as JSON
+            target_path = target / domain / f"{language}.json"
+            with target_path.open("w", encoding="utf-8") as target_file:
+                json.dump(output, target_file, ensure_ascii=False, indent=2)
 
     return 0
