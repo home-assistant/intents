@@ -43,7 +43,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
 
 def load_merged_sentences(language: str) -> dict:
     merged_sentences: dict = {}
-    for sentence_file in (SENTENCE_DIR / language).iterdir():
+    for sentence_file in sorted((SENTENCE_DIR / language).iterdir()):
         merge_dict(merged_sentences, yaml.safe_load(sentence_file.read_text()))
     return merged_sentences
 
