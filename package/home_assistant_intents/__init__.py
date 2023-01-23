@@ -14,7 +14,7 @@ _DATA_DIR = _DIR / "data"
 def get_intents(
     domain: str,
     language: str,
-    json_load: Callable[IO[str], Dict[str, Any]] = json.load,
+    json_load: Callable[[IO[str]], Dict[str, Any]] = json.load,
 ) -> Optional[Dict[str, Any]]:
     """Load intents by domain/language."""
     intents_path = _DATA_DIR / domain / f"{language}.json"

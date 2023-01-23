@@ -1,10 +1,12 @@
 """Translation utils."""
 import argparse
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import yaml
 from hassil.intents import SlotList, TextSlotList
+from hassil.recognize import RecognizeResult
 from hassil.util import merge_dict
+from jinja2 import BaseLoader, Environment, StrictUndefined
 
 from .const import RESPONSE_DIR, SENTENCE_DIR
 
@@ -41,7 +43,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
 
 def load_merged_sentences(language: str) -> dict:
     merged_sentences: dict = {}
-    for sentence_file in (SENTENCE_DIR / language).iterdir():
+    for sentence_file in sorted((SENTENCE_DIR / language).iterdir()):
         merge_dict(merged_sentences, yaml.safe_load(sentence_file.read_text()))
     return merged_sentences
 
@@ -68,3 +70,19 @@ def get_slot_lists(test_names: Dict[str, Any]) -> Dict[str, SlotList]:
             for entity in test_names["entities"]
         ),
     }
+
+
+def get_jinja2_environment() -> Environment:
+    """Create default Jinja2 environment."""
+    return Environment(loader=BaseLoader(), undefined=StrictUndefined)
+
+
+def render_response(
+    response_template: str, result: RecognizeResult, env: Optional[Environment] = None
+) -> str:
+    if env is None:
+        env = get_jinja2_environment()
+
+    return env.from_string(response_template).render(
+        {"slots": {entity.name: entity.value for entity in result.entities_list}}
+    )

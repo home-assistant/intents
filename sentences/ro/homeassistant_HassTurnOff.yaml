@@ -4,3 +4,41 @@ intents:
     data:
       - sentences:
           - "<opreste> <name>"
+        excludes_context:
+          domain: cover
+      - sentences:
+          - "<inchide> <name>"
+          - "<inchide> <name> [<din>] <area>"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+        response: cover
+      - sentences:
+          - "<inchide> [toate] <usa> [<din>] <area>"
+        slots:
+          device_class: door
+          domain: cover
+        response: doors_area
+      - sentences:
+          - "<inchide> [toate] <fereastra> [<din>] <area>"
+        slots:
+          device_class: window
+          domain: cover
+        response: windows_area
+      - sentences:
+          - "<inchide> [toate] <jaluzelele> [<din>] <area>"
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+            - shade
+          domain: cover
+        response: covers_area
+      - sentences:
+          - "<inchide> [toate] <poarta> [<din>] <area>"
+        slots:
+          device_class: gate
+          domain: cover
+        response: gates_area

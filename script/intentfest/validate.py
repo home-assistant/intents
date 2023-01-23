@@ -2,9 +2,12 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
+import jinja2
+import regex
 import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
@@ -18,7 +21,7 @@ from .const import (
     SENTENCE_DIR,
     TESTS_DIR,
 )
-from .util import get_base_arg_parser
+from .util import get_base_arg_parser, get_jinja2_environment
 
 
 def match_anything(value):
@@ -29,8 +32,20 @@ def match_anything(value):
 def match_anything_but_dict(value):
     """Validator that matches everything but a dict"""
     if isinstance(value, dict):
-        raise vol.Invalid("Expected anythung but a dictionary")
+        raise vol.Invalid("Expected anything but a dictionary")
     return value
+
+
+def match_unicode_regex(pattern: str):
+    """Validator that matches a regex with support for Unicode properties."""
+
+    def inner_match(value):
+        if regex.match(pattern, value) is None:
+            raise vol.Invalid(f"{value} did not match pattern {pattern}")
+
+        return value
+
+    return inner_match
 
 
 def single_key_dict_validator(schemas: dict[str, Any]) -> vol.Schema:
@@ -98,8 +113,8 @@ INTENT_ERRORS = {
     "handle_error",
 }
 
-SENTENCE_MATCHER = vol.Match(
-    r"^[\w '\|\(\)\[\]\{\}\<\>]+$",
+SENTENCE_MATCHER = vol.All(
+    match_unicode_regex(r"^[\w\p{M} :'\|\(\)\[\]\{\}\<\>]+$"),
     msg="Sentences should only contain words and matching syntax. They should not contain punctuation.",
 )
 
@@ -116,6 +131,7 @@ SENTENCE_SCHEMA = vol.Schema(
                         },
                         vol.Optional("requires_context"): {str: match_anything},
                         vol.Optional("excludes_context"): {str: match_anything},
+                        vol.Optional("response"): str,
                     }
                 ]
             }
@@ -199,12 +215,14 @@ TESTS_FIXTURES = vol.Schema(
     }
 )
 
+
 RESPONSE_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
         vol.Optional("responses"): {
             vol.Optional("intents"): {
-                str: {vol.Required("success"): [str]},
+                # intent -> response key -> Jinja2 template
+                str: {str: str},
             }
         },
     }
@@ -256,18 +274,24 @@ def run() -> int:
         return 1
 
     errors: dict[str, list[str]] = {}
+    warnings: dict[str, list[str]] = {}
 
     for language in languages:
         errors[language] = []
+        warnings[language] = []
         validate_language(
             language_infos.get(language),
             intent_schemas,
             language,
             errors[language],
+            warnings[language],
         )
         # Remove language if no errors
         if not errors[language]:
             errors.pop(language)
+
+        if not warnings[language]:
+            warnings.pop(language)
 
     if errors:
         print("Validation failed")
@@ -276,9 +300,16 @@ def run() -> int:
         for language, language_errors in errors.items():
             print(f"Language: {language}")
             for error in language_errors:
-                print(f" - {error}")
+                print(f"[ERROR] {error}")
             print()
         return 1
+
+    if warnings:
+        for language, language_warnings in warnings.items():
+            print(f"Language: {language}")
+            for warning in language_warnings:
+                print(f"[WARN] {warning}")
+            print()
 
     print("All good!")
     return 0
@@ -313,6 +344,7 @@ def validate_language(
     intent_schemas: dict,
     language: str,
     errors: list[str],
+    warnings: list[str],
 ):
     sentence_dir: Path = SENTENCE_DIR / language
     test_dir: Path = TESTS_DIR / language
@@ -322,6 +354,12 @@ def validate_language(
         errors.append("Language not defined in languages.yaml")
 
     sentence_files = {}
+
+    # intent -> {response}
+    used_response_keys: dict[str, set[str]] = defaultdict(set)
+
+    # intent -> sentence count
+    num_intent_sentences: Counter[str] = Counter()
 
     for sentence_file in sentence_dir.iterdir():
         path = str(sentence_file.relative_to(ROOT))
@@ -346,6 +384,16 @@ def validate_language(
         if intent not in intent_schemas:
             errors.append(f"{path}: Filename references unknown intent {intent}.yaml")
             continue
+
+        # Gather response keys used in intents.
+        # They will be validated against the response files below.
+        for intent in content["intents"]:
+            for intent_data in content["intents"][intent]["data"]:
+                response_key = intent_data.get("response", "default")
+                used_response_keys[intent].add(response_key)
+
+                # Track count of sentences for this intent
+                num_intent_sentences[intent] += len(intent_data["sentences"])
 
     if not test_dir.exists():
         errors.append(f"{test_dir.relative_to(ROOT)}: Missing tests directory")
@@ -399,6 +447,9 @@ def validate_language(
         for sentence_file_without_tests in sentence_files:
             errors.append(f"{sentence_file_without_tests} has no tests")
 
+    # Environment used to render response templates
+    jinja2_env = get_jinja2_environment()
+
     for response_file in response_dir.iterdir():
         path = str(response_file.relative_to(ROOT))
         intent = response_file.stem
@@ -414,8 +465,39 @@ def validate_language(
         if content is None:
             continue
 
-        for intent_name in content["responses"]["intents"]:
+        if num_intent_sentences[intent] < 1:
+            # Skip response key validation if there are no sentences defined for the intent.
+            # This avoids CI validate problems with adding the test language.
+            continue
+
+        used_intent_response_keys: set[str] = used_response_keys.get(intent, set())
+        for intent_name, intent_responses in content["responses"]["intents"].items():
             if intent != intent_name:
                 errors.append(
                     f"{path}: references incorrect intent {intent_name}. Only {intent} allowed"
                 )
+                continue
+
+            possible_response_keys: set[str] = set()
+            slots = {
+                slot_name: f"<{slot_name}>"
+                for slot_name in intent_schemas[intent_name].get("slots", {})
+            }
+            for response_key, response_template in intent_responses.items():
+                possible_response_keys.add(response_key)
+                if response_key not in used_intent_response_keys:
+                    warnings.append(f"{path}: unused response {response_key}")
+
+                if response_template:
+                    try:
+                        jinja2_env.from_string(response_template).render(
+                            {"state": {"name": "<name>", "state": 0}, "slots": slots}
+                        )
+                    except jinja2.exceptions.UndefinedError as err:
+                        errors.append(
+                            f"{path}: {err.args[0]} in response '{response_key}' (template='{response_template}')"
+                        )
+
+            missing_response_keys = used_intent_response_keys - possible_response_keys
+            for response_key in missing_response_keys:
+                errors.append(f"{path}: response not defined {response_key}")

@@ -3,7 +3,24 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "(άνοιξε | ενεργοποίησε | άρχισε | ξεκίνα) <articles> <name>"
-          - "<articles> <name> να (ανοίξει | ενεργοποιηθεί | αρχίσει | ξεκινήσει)"
-          - "να (ανοίξει | ενεργοποιηθεί | αρχίσει | ξεκινήσει) <articles> <name>"
-          - "να (ανοίξεις | ενεργοποιήσεις | αρχίσεις | ξεκινήσεις) <articles> <name>"
+          - <turn_on> <articles> <name>
+          - <articles> <name> να <turn_on>
+          - να <turn_on> <articles> <name>
+          - να <turn_on> <articles> <name>
+      - sentences:
+          - <turn_on> [(πάνω | ψηλά)] [<all>] [<articles>] (<garage_doors> | <doors>
+            | <covers>) [(πάνω | ψηλά)]
+        response: cover
+        slots:
+          domain: cover
+          device_class:
+            - window
+            - blind
+            - curtain
+            - shutter
+      - sentences:
+          - <turn_on> [(πάνω | ψηλά)] [<all>] [<articles>] (<garage_doors> | <doors>
+            | <covers>) <articles> <area> [(πάνω | ψηλά)]
+          - <turn_on> [(πάνω | ψηλά)] <articles> <area> [<all>] [<articles>] (<garage_doors>
+            | <doors> | <covers>) [(πάνω | ψηλά)]
+        response: cover_area

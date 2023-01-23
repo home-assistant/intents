@@ -35,6 +35,12 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: (maksimum | najjače | maksimalnu | maksimalno)
+        out: 100
+      - in: (minimum | minimalnu | minimalno | najslabije | najmanje)
+        out: 1
   temperature:
     range:
       type: "temperature"
@@ -42,22 +48,27 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - in: "C | [stupanj|stupnjeva|stupnjevi] (Celzijus[a] | u Celzijevim stupnjevima)"
+      - "celsius"
+      - in: "c | celzijus | celzijusa | celzija | celzijev | celzijevih | celczijeva"
         out: "celsius"
-      - in: "F | [stupanj|stupnjeva|stupnjevi] (Fahrenheit[a] | u Fahrenheitima)"
+      - "fahrenheit"
+      - in: "f | faranhajd | faranhajda"
         out: "fahrenheit"
-
 expansion_rules:
   name: "{name}"
   area: "[prostorij[i|a]] {area}"
   brightness: "{brightness} [posto]"
-  temperature: "{temperature}"
-  uključi: "(uključi[š|te|mo] | upali[š|te|mo])"
-  isključi: "(isključi[š|te|mo] | ugasi[š|te|mo])"
-  promijeni: "(podesi[š|te|mo] | namjesti[š|te|mo] | postavi[š|te|mo] | stavi | promijeni[š|te|mo] | smanji | povećaj)"
+  temperature: "{temperature} [<stupanj>] [{temperature_unit}]"
+  stupanj: "[stupanj | stupnjeva]"
+  temp: "temperatura | temperaturu"
+  uključi: "uključi[te|mo] | upali[te|mo]"
+  isključi: "isključi[te|mo] | ugasi[te|mo]"
+  promijeni: "podesi[te|mo] | namjesti[te|mo] | postavi[te|mo] | stavi | promijeni[te|mo] | smanji | povećaj "
+  otvori: "otvori[te|mo] | podigni[te|mo]"
+  zatvori: "zatvori[te|mo] | spusti[te|mo]"
+  koja_je: "koja je | kolika je | kakva je | reci [mi]"
 skip_words:
   - "molim [te|vas] [da]"
   - "može(š|te) [li] [da]"
   - "idemo"
   - "odmah"
-
