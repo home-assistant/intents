@@ -56,6 +56,9 @@ def run() -> int:
                     for response in intent_responses.values()
                 )
 
+        if language == "en":
+            responses_translated = True
+
         errors_translated = not any(
             translation.startswith("TODO ")
             for translation in merged_sentences["responses"]["errors"].values()
@@ -83,7 +86,7 @@ def run() -> int:
                 "used_responses": used_responses_count,
                 "responses": response_sentence_count,
                 "errors_translated": errors_translated,
-                "responses_translated": language == "en" or responses_translated,
+                "responses_translated": responses_translated,
                 "usable": usable,
             }
         )
