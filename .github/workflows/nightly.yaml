@@ -1,0 +1,42 @@
+name: Nightly
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * *"
+
+env:
+  PYTHON_VERSION: "3.10"
+
+permissions:
+  actions: none
+
+jobs:
+  nightly:
+    name: Nightly
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3.2.0
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          script/setup && \
+          python3 -m pip install build
+
+      - name: Build nightly Python package
+        run: script/package
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: package
+          path: package/dist/*.whl
+          if-no-files-found: error

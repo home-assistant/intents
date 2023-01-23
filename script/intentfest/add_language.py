@@ -1,10 +1,18 @@
 """Script to add a new language."""
 import argparse
+from functools import partial
 
 import yaml
 
-from .const import LANGUAGES_FILE, RESPONSE_DIR, ROOT, SENTENCE_DIR, TESTS_DIR
-from .util import get_base_arg_parser, require_sentence_domain_slot
+from .const import (
+    INTENTS_FILE,
+    LANGUAGES_FILE,
+    RESPONSE_DIR,
+    ROOT,
+    SENTENCE_DIR,
+    TESTS_DIR,
+)
+from .util import YamlDumper, get_base_arg_parser
 
 
 def get_arguments() -> argparse.Namespace:
@@ -32,6 +40,11 @@ def run() -> int:
     args = get_arguments()
 
     language = args.language
+    yaml_dump = partial(
+        yaml.dump, sort_keys=False, allow_unicode=True, Dumper=YamlDumper
+    )
+
+    intent_schemas = yaml.safe_load(INTENTS_FILE.read_text(encoding="utf-8"))
 
     # Create language directory
     sentence_dir = SENTENCE_DIR / language
@@ -58,14 +71,14 @@ def run() -> int:
         sentence_info: dict = {
             "sentences": [],
         }
-        if require_sentence_domain_slot(intent, domain):
+        if domain != intent_schemas[intent]["domain"]:
             sentence_info["slots"] = {
                 "domain": domain,
                 "name": "all",
             }
 
         (sentence_dir / english_filename.name).write_text(
-            yaml.dump(
+            yaml_dump(
                 {
                     "language": language,
                     "intents": {
@@ -76,29 +89,27 @@ def run() -> int:
                         },
                     },
                 },
-                sort_keys=False,
             )
         )
 
     (sentence_dir / "_common.yaml").write_text(
-        yaml.dump(
+        yaml_dump(
             {
                 "language": language,
                 "responses": {
                     "errors": {
-                        "no_intent": "TODO Sorry, I couldn't understand that",
-                        "no_area": "TODO No area named {{ area }}",
-                        "no_domain": "TODO {{ area }} does not contain a {{ domain }}",
-                        "no_device_class": "TODO {{ area }} does not contain a {{ device_class }}",
-                        "no_entity": "TODO No device or entity named {{ entity }}",
-                        "handle_error": "TODO An unexpected error occurred while handling the intent",
+                        "no_intent": "Sorry, I couldn't understand that",
+                        "no_area": "No area named {{ area }}",
+                        "no_domain": "{{ area }} does not contain a {{ domain }}",
+                        "no_device_class": "{{ area }} does not contain a {{ device_class }}",
+                        "no_entity": "No device or entity named {{ entity }}",
+                        "handle_error": "An unexpected error occurred while handling the intent",
                     },
                 },
                 "lists": {},
                 "expansion_rules": {},
                 "skip_words": [],
             },
-            sort_keys=False,
         )
     )
 
@@ -109,10 +120,15 @@ def run() -> int:
         if english_filename.name == "_fixtures.yaml":
             continue
 
-        _domain, intent = english_filename.stem.split("_")
+        domain, intent = english_filename.stem.split("_")
+
+        slots = {}
+
+        if domain != intent_schemas[intent]["domain"]:
+            slots = {"domain": domain, "name": "all"}
 
         (tests_dir / english_filename.name).write_text(
-            yaml.dump(
+            yaml_dump(
                 {
                     "language": language,
                     "tests": [
@@ -120,17 +136,16 @@ def run() -> int:
                             "sentences": [],
                             "intent": {
                                 "name": intent,
-                                "slots": {},
+                                "slots": slots,
                             },
                         },
                     ],
                 },
-                sort_keys=False,
             )
         )
 
     (tests_dir / "_fixtures.yaml").write_text(
-        yaml.dump(
+        yaml_dump(
             {
                 "language": language,
                 "areas": [
@@ -157,33 +172,28 @@ def run() -> int:
                     },
                 ],
             },
-            sort_keys=False,
         )
     )
 
+    # Create response files based off English
     english_responses = RESPONSE_DIR / "en"
 
     for english_filename in english_responses.iterdir():
         intent = english_filename.stem
+        with open(english_filename, "r", encoding="utf-8") as english_file:
+            responses = yaml.safe_load(english_file)["responses"]
 
         (response_dir / english_filename.name).write_text(
-            yaml.dump(
+            yaml_dump(
                 {
                     "language": language,
-                    "responses": {
-                        "intents": {
-                            intent: {
-                                "success": [],
-                            },
-                        },
-                    },
+                    "responses": responses,
                 },
-                sort_keys=False,
             )
         )
 
     # Update languages.yaml
-    languages = yaml.safe_load(LANGUAGES_FILE.read_text())
+    languages = yaml.safe_load(LANGUAGES_FILE.read_text(encoding="utf-8"))
     languages[language] = {
         "nativeName": args.native_name,
     }
@@ -191,10 +201,9 @@ def run() -> int:
         languages[language]["isRTL"] = True
 
     LANGUAGES_FILE.write_text(
-        yaml.dump(
+        yaml_dump(
             # Sort the languages by code.
             dict(sorted(languages.items())),
-            sort_keys=False,
         )
     )
 

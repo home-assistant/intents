@@ -1,12 +1,66 @@
-language: el
+language: "el"
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: "Συγγνώμη, δεν μπόρεσα να το καταλάβω αυτό"
+    no_area: "Δεν υπάρχει περιοχή με όνομα {{ area }}"
+    no_domain: "Η περιοχή {{ area }} δεν περιέχει ένα {{ domain }}"
+    no_device_class: "Η περιοχή {{ area }} δεν περιέχει {{ device_class }}"
+    no_entity: "Δεν υπάρχει συσκευή ή οντότητα με όνομα {{ entity }}"
+    handle_error: "Προέκυψε ένα απροσδόκητο σφάλμα κατά το χειρισμό της πρόθεσης"
+lists:
+  color:
+    values:
+      - in: "λευκό"
+        out: "white"
+      - in: "μαύρο"
+        out: "black"
+      - in: "κόκκινο"
+        out: "red"
+      - in: "πορτοκαλί"
+        out: "orange"
+      - in: "κίτρινο"
+        out: "yellow"
+      - in: "πράσινο"
+        out: "green"
+      - in: "μπλε"
+        out: "blue"
+      - in: "μωβ"
+        out: "purple"
+      - in: "καφέ"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: Κελσίου
+        out: celsius
+      - in: Φαρενάιτ
+        out: fahrenheit
+expansion_rules:
+  name: "[(ο | τον | η | την | το | τα | τις | τους | στον | στη | στην | στο | στους | στις | στα)] {name}"
+  area: "[(ο | τον | η | την | το | τα | τις | τους | στον | στη | στην | στο | στους | στις | στα)] {area}"
+  articles: "(ο | τον | η | την | τη | το | τα | τις | τους | του | της | στον | στη | στην | στο | στους | στις | στα)"
+  all: "(όλους | όλες | όλα)"
+  set: "(όρισε | ρύθμισε | άλλαξε)"
+  turn_on: "(άνοιξε | άρχισε | ξεκίνα | ενεργοποίησε | άναψε | σήκωσε | άνοιξε | ενεργοποίησε | άρχισε | ξεκίνα | ανοίξει[ς] | ενεργοποιήσεις | ενεργοποιηθεί | αρχίσει[ς] | ξεκινήσει[ς])"
+  turn_off: "(κλείσε | απενεργοποίησε | σταμάτα | σταμάτησε | σβήσε | κατέβασε | κλείσει[ς] | σταματήσει[ς] | απενεργοποιήσεις | απενεργοποιηθεί)"
+  garage_doors: "(γκαραζόπορτα | γκαραζόπορτες)"
+  covers: "(περσίδα | περσίδες | παντζούρι | παντζούρια | ρολό | ρολά | κάλυμμα | καλύμματα)"
+  doors: "(πόρτα | πόρτες)"
+  fans: "(ανεμιστήρ(α[ς] | ες) | εξαερισμ(ό[ς] | οί | ούς))"
+  lights: "(φως | φώτα | λάμπ(α[ς] | ες) | φωτιστικ(ό | ά))"
+  brightness: "{brightness} [τοις εκατό]"
+  temperature: "{temperature} [βαθμ(οί | ούς)] [{temperature_unit}]"
+skip_words:
+  - παρακαλώ
+  - σε παρακαλώ
+  - μπορείς
+  - θα μπορούσες

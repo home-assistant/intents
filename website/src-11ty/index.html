@@ -3,6 +3,12 @@ layout: base
 description: Progress of translations.
 ---
 
+Cell format:
+<code
+  >&lt;template&nbsp;sentence&nbsp;count&gt; + &lt;used&nbsp;responses&gt; /
+  &lt;defined&nbsp;responses&gt;</code
+>
+
 <table>
   <thead>
     <tr>
@@ -27,23 +33,21 @@ description: Progress of translations.
       </td>
 
       {% for intent in summary.intents %}
-      <td
-        class="{% if intent[1] == 0 %}zero{% endif %} {% if summary.responses[intent[0]] != nil %}multiple{% endif %}"
-      >
+      <td class="multiple {% if intent[1] == 0 %}zero{% endif %}">
         <a
           href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/{{ intentSummary.intents[intent[0]].file_name }}"
           target="_blank"
         >
           {{intent[1]}}
         </a>
-        {% if summary.responses[intent[0]] != nil %} +
+        +
         <a
           href="https://github.com/home-assistant/intents/blob/main/responses/{{ summary.language }}/{{ intent[0] }}.yaml"
           target="_blank"
+          class="{% if intent[1] > 0 and summary.intent_responses_translated[intent[0]] == false %}zero{% endif %}"
         >
-          {{summary.responses[intent[0]]}}
+          {{summary.used_responses[intent[0]]}}/{{summary.responses[intent[0]]}}
         </a>
-        {% endif %}
       </td>
       {% endfor %}
 
@@ -64,7 +68,7 @@ description: Progress of translations.
         </a>
         {% endfor %} {% else %}
         <a
-          href="https://github.com/home-assistant/intents#language-leader"
+          href="https://developers.home-assistant.io/docs/voice/language-leaders/"
           target="_blank"
         >
           &lt;position open&gt;

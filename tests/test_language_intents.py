@@ -47,6 +47,8 @@ def do_test_language_sentences(
     language_sentences_common: Intents,
 ) -> None:
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
+    file_domain, file_intent = file_name.split(".")[0].split("_", 1)
+
     parsed_sentences_without_common = Intents.from_dict(
         language_sentences_yaml[file_name]
     )
@@ -62,11 +64,30 @@ def do_test_language_sentences(
 
     # Lint sentences
     for intent_name, intent in language_sentences.intents.items():
+        assert (
+            file_intent == intent_name
+        ), f"File {file_name} should only contain sentences for intent {file_intent}"
+
         intent_schema = intent_schemas[intent_name]
         slot_schema = intent_schema["slots"]
         slot_combinations = intent_schema.get("slot_combinations")
 
         for data in intent.data:
+            if not data.sentences:
+                continue
+
+            if file_domain != "homeassistant":
+                # Domain specific files (ie light_HassTurnOn.yaml) should only match
+                # sentences for the light domain.
+                if intent_schemas[file_intent]["domain"] == file_domain:
+                    assert (
+                        "domain" not in data.slots
+                    ), f"File {file_name} should only have sentences without a domain slot"
+                else:
+                    assert (
+                        data.slots.get("domain") == file_domain
+                    ), f"File {file_name} should only have sentences with a domain slot set to {file_domain}"
+
             for sentence in data.sentences:
                 found_slots: set[str] = set()
                 for expression in _flatten(sentence):
@@ -79,6 +100,9 @@ def do_test_language_sentences(
                         found_slots=found_slots,
                     )
 
+                # Add inferred slots
+                found_slots.update(data.slots)
+
                 # Check required slots
                 for slot_name, slot_info in slot_schema.items():
                     if slot_info.get("required", False):
@@ -90,7 +114,7 @@ def do_test_language_sentences(
                     # Verify one of the combinations is matched
                     combo_matched = False
                     for combo_slots in slot_combinations.values():
-                        if set(combo_slots) == found_slots:
+                        if found_slots.issuperset(combo_slots):
                             combo_matched = True
                             break
 

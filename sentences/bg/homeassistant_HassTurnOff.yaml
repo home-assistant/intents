@@ -2,4 +2,34 @@ language: bg
 intents:
   HassTurnOff:
     data:
-    - sentences: []
+      - sentences:
+          - <turn_off> <name>
+      - sentences:
+          - <close> <name>
+        response: cover
+      - sentences:
+          - <close> <name> <area>
+          - <close> <area> <name>
+        response: cover_area
+      - sentences:
+          - <close> [вратата] [на] гаража
+          - <close> гаражната врата
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - <close> [всички] (щор(а | и | ата | ите) | завес(a | и | ата | ите) |
+            перде[то | та | тата] | кепенци[те] | капа(к | ка | кът | ци | ците))
+            <area>
+          - <close>  <area> [всички] (щор(а | и | ата | ите) | завес(a | и | ата |
+            ите) | перде[то | тa | тaтa] | кепенци[те] | капа(к | ка | кът | ци |
+            ците))
+        response: cover_area
+        slots:
+          area: bedroom
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover

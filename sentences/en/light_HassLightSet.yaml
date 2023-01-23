@@ -4,19 +4,77 @@ intents:
     data:
       # brightness
       - sentences:
-          - "set <name> brightness to <brightness>"
-          - "set [the] brightness of <name> to <brightness>"
-          - "set <name> to <brightness> brightness"
-          - "set <name> to <brightness>"
+          - "(set | change) <name> brightness to <brightness>"
+          - "(set | change) [the] brightness of <name> to <brightness>"
+          - "(set | change) <name> to <brightness> brightness"
+        response: "brightness"
       - sentences:
-          - "set [the] brightness in <area> to <brightness>"
-          - "set [the] brightness of <area> to <brightness>"
-          - "set <area> brightness to <brightness>"
-          - "set <area> to <brightness> brightness"
-          - "set <area> to <brightness>"
+          - "(set | change) <name> to <brightness>"
+        requires_context:
+          domain: "light"
+        response: "brightness"
+      - sentences:
+          - "(set | change) [the] brightness in <area> to <brightness>"
+          - "(set | change) [the] brightness of <area> to <brightness>"
+          - "(set | change) <area> brightness to <brightness>"
+          - "(set | change) <area> to <brightness> brightness"
+          - "(set | change) <area> to <brightness>"
         slots:
           name: "all"
+        response: "brightness_area"
+      - sentences:
+          - "(set | change) <area> to <brightness>"
+        requires_context:
+          domain: "light"
+        slots:
+          name: "all"
+        response: "brightness_area"
+
+      # Max/Min brightness
+      - sentences:
+          - "set <name> brightness to [the] (max | maximum | highest)"
+          - "set [the] brightness of <name> to [the] (max | maximum | highest)"
+          - "set <name> to [the] (max | maximum | highest) brightness"
+        slots:
+          brightness: 100
+        response: "brightness"
+
+      - sentences:
+          - "set <name> brightness to [the] ( minimum | lowest)"
+          - "set [the] brightness of <name> to [the] ( minimum | lowest)"
+          - "set <name> to [the] ( minimum | lowest) brightness"
+        slots:
+          brightness: 1
+        response: "brightness"
+
+      - sentences:
+          - "set [the] brightness in <area> to [the] (max | maximum | highest)"
+          - "set [the] brightness of <area> to [the] (max | maximum | highest)"
+          - "set <area> brightness to [the] (max | maximum | highest)"
+          - "set <area> to [the] (max | maximum | highest) brightness"
+        slots:
+          name: "all"
+          brightness: 100
+        response: "brightness_area"
+
+      - sentences:
+          - "set [the] brightness in <area> to [the] ( minimum | lowest)"
+          - "set [the] brightness of <area> to [the] ( minimum | lowest)"
+          - "set <area> brightness to [the] ( minimum | lowest)"
+          - "set <area> to [the] ( minimum | lowest) brightness"
+        slots:
+          name: "all"
+          brightness: 1
+        response: "brightness"
+
       # color
       - sentences:
-          - "set <name> [color] to {color}"
-          - "set [[the] color of] <name> to {color}"
+          - "(set | change) <name> [color] to {color}"
+          - "(set | change) [[the] color of] <name> to {color}"
+        response: "color"
+      - sentences:
+          - "(set | change) [[the] color of] (<area> | [all] lights in <area> | [all] <area> lights) to {color}"
+          - "(set | change) (<area> | [all] lights in <area> | [all] <area> lights) [color] to {color}"
+        slots:
+          name: "all"
+        response: "color_area"
