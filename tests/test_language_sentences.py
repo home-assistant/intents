@@ -8,6 +8,8 @@ from typing import Any
 import pytest
 from hassil import Intents, recognize
 from hassil.intents import SlotList, TextSlotList
+from hassil.util import normalize_whitespace
+from jinja2 import BaseLoader, Environment
 
 from . import TESTS_DIR, load_test
 
@@ -40,11 +42,13 @@ def do_test_language_sentences_file(
     intent_schemas: dict[str, Any],
     slot_lists: dict[str, SlotList],
     language_sentences: Intents,
+    language_responses: dict[str, Any],
 ) -> None:
     """Tests recognition all of the test sentences for a language"""
     testing_domain, testing_intent = test_file.split("_", 1)
 
     seen_sentences = set()
+    template_env = Environment(loader=BaseLoader())
 
     for test in load_test(language, test_file)["tests"]:
         intent = test["intent"]
@@ -68,6 +72,7 @@ def do_test_language_sentences_file(
                 ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
 
         intent_context = intent.get("context", {})
+        expected_response_text = test.get("response")
 
         for sentence in test["sentences"]:
             assert (
@@ -120,6 +125,34 @@ def do_test_language_sentences_file(
                     actual_name in matched_slots
                 ), f"Slot {actual_name} was not expected for: {sentence}"
 
+            # Verify response
+            if expected_response_text:
+                actual_response_key = result.response
+                assert actual_response_key, f"Expected a response for: {sentence}"
+
+                response_template_str = language_responses.get(
+                    result.intent.name, {}
+                ).get(actual_response_key)
+                assert (
+                    response_template_str
+                ), f"No response template for intent {result.intent.name} named {actual_response_key}: {sentence}"
+
+                response_template = template_env.from_string(response_template_str)
+                actual_response_text = response_template.render(
+                    {
+                        "slots": {
+                            entity_name: entity_value.text or entity_value.value
+                            for entity_name, entity_value in result.entities.items()
+                        }
+                    }
+                )
+                actual_response_text = normalize_whitespace(
+                    actual_response_text
+                ).strip()
+                assert (
+                    actual_response_text == expected_response_text
+                ), f"Incorrect response for: {sentence}"
+
 
 def gen_test(test_file: Path) -> None:
     def test_func(
@@ -127,6 +160,7 @@ def gen_test(test_file: Path) -> None:
         intent_schemas: dict[str, Any],
         slot_lists: dict[str, SlotList],
         language_sentences: Intents,
+        language_responses: dict[str, Any],
     ) -> None:
         do_test_language_sentences_file(
             language,
@@ -134,6 +168,7 @@ def gen_test(test_file: Path) -> None:
             intent_schemas,
             slot_lists,
             language_sentences,
+            language_responses,
         )
 
     test_func.__name__ = f"test_{test_file.stem}"

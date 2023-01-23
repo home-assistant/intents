@@ -190,6 +190,7 @@ TESTS_SCHEMA = vol.Schema(
                         str: match_anything_but_dict,
                     },
                 },
+                vol.Optional("response"): str,
             }
         ],
     }
