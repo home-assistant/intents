@@ -72,7 +72,12 @@ def do_test_language_sentences_file(
                 ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
 
         intent_context = intent.get("context", {})
-        expected_response_text = test.get("response")
+        expected_response_texts = test.get("response")
+        if expected_response_texts:
+            if isinstance(expected_response_texts, str):
+                expected_response_texts = {expected_response_texts}
+            else:
+                expected_response_texts = set(expected_response_texts)
 
         for sentence in test["sentences"]:
             assert (
@@ -126,7 +131,7 @@ def do_test_language_sentences_file(
                 ), f"Slot {actual_name} was not expected for: {sentence}"
 
             # Verify response
-            if expected_response_text:
+            if expected_response_texts:
                 actual_response_key = result.response
                 assert actual_response_key, f"Expected a response for: {sentence}"
 
@@ -150,7 +155,7 @@ def do_test_language_sentences_file(
                     actual_response_text
                 ).strip()
                 assert (
-                    actual_response_text == expected_response_text
+                    actual_response_text in expected_response_texts
                 ), f"Incorrect response for: {sentence}"
 
 
