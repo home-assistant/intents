@@ -8,6 +8,8 @@ intents:
           - "(set | change) [the] brightness of <name> to <brightness>"
           - "(set | change) <name> to <brightness> brightness"
         response: "brightness"
+        requires_context:
+          domain: light
       - sentences:
           - "(set | change) <name> to <brightness>"
         requires_context:
@@ -24,8 +26,6 @@ intents:
         response: "brightness_area"
       - sentences:
           - "(set | change) <area> to <brightness>"
-        requires_context:
-          domain: "light"
         slots:
           name: "all"
         response: "brightness_area"
@@ -35,6 +35,8 @@ intents:
           - "set <name> brightness to [the] (max | maximum | highest)"
           - "set [the] brightness of <name> to [the] (max | maximum | highest)"
           - "set <name> to [the] (max | maximum | highest) brightness"
+        requires_context:
+          domain: light
         slots:
           brightness: 100
         response: "brightness"
@@ -43,6 +45,8 @@ intents:
           - "set <name> brightness to [the] ( minimum | lowest)"
           - "set [the] brightness of <name> to [the] ( minimum | lowest)"
           - "set <name> to [the] ( minimum | lowest) brightness"
+        requires_context:
+          domain: light
         slots:
           brightness: 1
         response: "brightness"
@@ -65,12 +69,14 @@ intents:
         slots:
           name: "all"
           brightness: 1
-        response: "brightness"
+        response: "brightness_area"
 
       # color
       - sentences:
           - "(set | change) <name> [color] to {color}"
           - "(set | change) [[the] color of] <name> to {color}"
+        requires_context:
+          domain: light
         response: "color"
       - sentences:
           - "(set | change) [[the] color of] (<area> | [all] lights in <area> | [all] <area> lights) to {color}"
