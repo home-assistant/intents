@@ -102,6 +102,8 @@ def do_test_language_sentences(
 
                 # Add inferred slots
                 found_slots.update(data.slots)
+                if data.requires_context:
+                    found_slots.update(data.requires_context)
 
                 # Check required slots
                 for slot_name, slot_info in slot_schema.items():
