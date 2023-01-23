@@ -16,7 +16,6 @@ Cell format:
       {% for intent in intentSummary.languages[0].intents %}
       <th>{{intent[0] | remove_first: "Hass"}}</th>
       {% endfor %}
-      <th>Responses translated</th>
       <th>Errors translated</th>
       <th>Leader</th>
     </tr>
@@ -45,21 +44,13 @@ Cell format:
         <a
           href="https://github.com/home-assistant/intents/blob/main/responses/{{ summary.language }}/{{ intent[0] }}.yaml"
           target="_blank"
+          class="{% if intent[1] > 0 and summary.intent_responses_translated[intent[0]] == false %}zero{% endif %}"
         >
           {{summary.used_responses[intent[0]]}}/{{summary.responses[intent[0]]}}
         </a>
       </td>
       {% endfor %}
 
-      <td class="{% if summary.responses_translated != true %}zero{% endif %}">
-        <a
-          href="https://github.com/home-assistant/intents/blob/main/responses/{{ summary.language }}/"
-          target="_blank"
-        >
-          {% if summary.responses_translated == true %}yes{% else %}no{% endif
-          %}
-        </a>
-      </td>
       <td class="{% if summary.errors_translated != true %}zero{% endif %}">
         <a
           href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/_common.yaml"
