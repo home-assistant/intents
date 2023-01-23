@@ -444,6 +444,16 @@ def validate_language(
             if sentence_count > test_count:
                 errors.append(f"{path}: not all sentences have tests")
 
+        missing_response_checks = 0
+        for test_data in content["tests"]:
+            if "response" not in test_data:
+                missing_response_checks += 1
+
+        if missing_response_checks > 0:
+            warnings.append(
+                f"{path}: {missing_response_checks} test(s) missing response check"
+            )
+
     if sentence_files:
         for sentence_file_without_tests in sentence_files:
             errors.append(f"{sentence_file_without_tests} has no tests")
