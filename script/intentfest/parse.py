@@ -9,7 +9,7 @@ from typing import Any, Dict
 import yaml
 from hassil.intents import Intents
 from hassil.recognize import recognize
-from hassil.util import merge_dict
+from hassil.util import merge_dict, normalize_whitespace
 
 from .const import LANGUAGES, SENTENCE_DIR, TESTS_DIR
 from .util import (
@@ -78,7 +78,9 @@ def run() -> int:
             response_template = responses.get(result.intent.name, {}).get(
                 result.response
             )
-            output_dict["response"] = render_response(response_template, result)
+            output_dict["response"] = normalize_whitespace(
+                render_response(response_template, result)
+            ).strip()
 
         json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)
         print("")

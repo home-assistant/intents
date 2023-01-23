@@ -80,9 +80,15 @@ def get_jinja2_environment() -> Environment:
 def render_response(
     response_template: str, result: RecognizeResult, env: Optional[Environment] = None
 ) -> str:
+    """Renders a response template using Jinja2."""
     if env is None:
         env = get_jinja2_environment()
 
     return env.from_string(response_template).render(
-        {"slots": {entity.name: entity.value for entity in result.entities_list}}
+        {
+            "slots": {
+                entity.name: entity.text or entity.value
+                for entity in result.entities_list
+            }
+        }
     )
