@@ -189,6 +189,9 @@ TESTS_SCHEMA = vol.Schema(
                         # this will allow us to add more keys in the future.
                         str: match_anything_but_dict,
                     },
+                    vol.Optional("context"): {
+                        str: match_anything_but_dict,
+                    },
                 },
                 vol.Optional("response"): vol.Any(str, [str]),
             }
