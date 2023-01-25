@@ -190,6 +190,7 @@ TESTS_SCHEMA = vol.Schema(
                         str: match_anything_but_dict,
                     },
                 },
+                vol.Optional("response"): vol.Any(str, [str]),
             }
         ],
     }
@@ -443,6 +444,16 @@ def validate_language(
             if sentence_count > test_count:
                 errors.append(f"{path}: not all sentences have tests")
 
+        missing_response_checks = 0
+        for test_data in content["tests"]:
+            if "response" not in test_data:
+                missing_response_checks += 1
+
+        if missing_response_checks > 0:
+            warnings.append(
+                f"{path}: {missing_response_checks} test(s) missing response check"
+            )
+
     if sentence_files:
         for sentence_file_without_tests in sentence_files:
             errors.append(f"{sentence_file_without_tests} has no tests")
@@ -493,7 +504,7 @@ def validate_language(
                         jinja2_env.from_string(response_template).render(
                             {"state": {"name": "<name>", "state": 0}, "slots": slots}
                         )
-                    except jinja2.exceptions.UndefinedError as err:
+                    except jinja2.exceptions.TemplateError as err:
                         errors.append(
                             f"{path}: {err.args[0]} in response '{response_key}' (template='{response_template}')"
                         )

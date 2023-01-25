@@ -43,7 +43,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
 
 def load_merged_sentences(language: str) -> dict:
     merged_sentences: dict = {}
-    for sentence_file in (SENTENCE_DIR / language).iterdir():
+    for sentence_file in sorted((SENTENCE_DIR / language).iterdir()):
         merge_dict(merged_sentences, yaml.safe_load(sentence_file.read_text()))
     return merged_sentences
 
@@ -80,9 +80,15 @@ def get_jinja2_environment() -> Environment:
 def render_response(
     response_template: str, result: RecognizeResult, env: Optional[Environment] = None
 ) -> str:
+    """Renders a response template using Jinja2."""
     if env is None:
         env = get_jinja2_environment()
 
     return env.from_string(response_template).render(
-        {"slots": {entity.name: entity.value for entity in result.entities_list}}
+        {
+            "slots": {
+                entity.name: entity.text or entity.value
+                for entity in result.entities_list
+            }
+        }
     )
