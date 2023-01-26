@@ -504,7 +504,7 @@ def validate_language(
                         jinja2_env.from_string(response_template).render(
                             {"state": {"name": "<name>", "state": 0}, "slots": slots}
                         )
-                    except jinja2.exceptions.UndefinedError as err:
+                    except jinja2.exceptions.TemplateError as err:
                         errors.append(
                             f"{path}: {err.args[0]} in response '{response_key}' (template='{response_template}')"
                         )
