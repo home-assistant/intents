@@ -20,3 +20,39 @@ intents:
           - <set> [на] {color} [цвета|цвят] [на] <name>
           - <set> <name> {color} [цвят]
         response: color
+        
+      # Max/Min brightness
+      - sentences:
+          - "<set> <name> [до|на] <lights_brightness> [до|на] <max>"
+          - "<set> <lights_brightness> [на] <name> [до|на] <max>"
+          - "<set> <name> [на] <max> <lights_brightness>"
+          - "<set> <max> <lights_brightness> [на]  <name>"
+        slots:
+          brightness: 100
+        response: "brightness"
+
+      - sentences:
+          - "<set> <name> [на|до] <lights_brightness> <min>"
+          - "<set> <lights_brightness> [на] <name> [на|до] <min>"
+          - "<set> <name> [на] <min> <lights_brightness> "
+        slots:
+          brightness: 1
+        response: "brightness"
+
+      - sentences:
+          - "<set> <lights_brightness> <area> [на|до] <max>"
+          - "<set> <area> <lights_brightness> [на|до] <max>"
+          - "<set> <area> [на|до] <max> <lights_brightness> "
+        slots:
+          name: "all"
+          brightness: 100
+        response: "brightness_area"
+
+      - sentences:
+          - "<set> <lights_brightness> <area> [на|до] <min>"
+          - "<set> <area> <lights_brightness> [на|до] <min>"
+          - "<set> <area> [на|до] <min> <lights_brightness>"
+        slots:
+          name: "all"
+          brightness: 1
+        response: "brightness"
