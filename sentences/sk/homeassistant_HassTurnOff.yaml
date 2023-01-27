@@ -1,6 +1,28 @@
-language: "sk"
+language: sk
 intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> <name>"
+          - <turn_off> <name>
+      - sentences:
+          - <close> {name}
+        response: cover
+      - sentences:
+          - <close> {name} [v | vo | na | pred | za | pod | pred] {area}
+        response: cover_area
+      - sentences:
+          - <close> garáž
+          - <close> garážovú bránu
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - <close> (rolety | žalúzie | záves[y] | záclon(u|y)) [v | na] {area}
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover

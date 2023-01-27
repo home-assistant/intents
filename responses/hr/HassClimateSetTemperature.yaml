@@ -1,0 +1,11 @@
+language: hr
+responses:
+  intents:
+    HassClimateSetTemperature:
+      default: >
+        {% set temp = state.state | round | int | abs %}
+        Temperatura je postavljena na {{ slots.temperature }}
+        {%- if temp % 10  == 1 %} stupanj
+        {%- elif temp % 10  in [2, 3, 4] and (temp < 10 or temp > 20) %} stupnja
+        {% else %} stupnjeva
+        {% endif %}

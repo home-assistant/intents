@@ -3,4 +3,32 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<doe> <name> [<naar>] uit"
+          - <doe> <name> [<naar>] uit
+      - sentences:
+          - sluit <name>
+          - "[doe | maak] <name> dicht"
+        response: cover
+      - sentences:
+          - sluit <name> in <area>
+          - "[doe | maak] <name> in <area> dicht"
+        response: cover_area
+      - sentences:
+          - sluit de garage [deur]
+          - (doe | mag) de garage [deur] dicht
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - sluit [de | het] (gordijn | gordijnen | luxaflex | rolluik | rolluiken | screen |screens) in <area>
+          - (doe | mogen) [de] (gordijnen | rolluiken | screens) dicht in <area>
+          - (doe | mogen) [de] (gordijnen | rolluiken | screens) in <area> dicht
+          - (doe | mag) [de | het] (gordijn | luxaflex | rolluik | screen) dicht in <area>
+          - (doe | mag) [de | het] (gordijn | luxaflex | rolluik | screen) in <area> dicht
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover

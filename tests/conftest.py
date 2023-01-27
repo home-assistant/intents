@@ -9,7 +9,7 @@ import yaml
 from hassil import Intents
 from hassil.util import merge_dict
 
-from . import INTENTS_FILE, LANGUAGES, load_sentences
+from . import INTENTS_FILE, LANGUAGES, RESPONSES_DIR, load_sentences
 
 
 def pytest_addoption(parser):
@@ -65,3 +65,12 @@ def language_sentences(
     intents = Intents.from_dict(merged)
 
     return dataclasses.replace(language_sentences_common, intents=intents.intents)
+
+
+@pytest.fixture(scope="session")
+def language_responses(language: str) -> dict[str, Any]:
+    """Load intent responses for a language."""
+    merged_responses: dict = {}
+    for response_file in (RESPONSES_DIR / language).iterdir():
+        merge_dict(merged_responses, yaml.safe_load(response_file.read_text()))
+    return merged_responses.get("responses", {}).get("intents", {})
