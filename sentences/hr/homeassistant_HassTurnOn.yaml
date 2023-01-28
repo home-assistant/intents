@@ -2,5 +2,78 @@ language: hr
 intents:
   HassTurnOn:
     data:
-    - sentences:
-        - "<uključi> <name>"
+      - sentences:
+          - <uključi> <name>
+      - sentences:
+          - <otvori> {name}
+        response: cover
+      - sentences:
+          - <otvori> {name} [u] {area}
+        response: cover_area
+
+      - sentences:
+          - <otvori> {name} (prozor(e)) [u | na] {area}
+          - <otvori> [sve] prozor[e] [u | na] {area}
+          - <otvori> {area} prozor[e]
+        response: windows_area
+        slots:
+          device_class:
+            - window
+          domain: cover
+
+      - sentences:
+          - <otvori> {name} (vrata) [u | na] {area}
+          - <otvori> [sva] vrata [u | na] {area}
+          - <otvori> {area} vrata
+        response: doors_area
+        slots:
+          device_class:
+            - door
+          domain: cover
+
+      - sentences:
+          - <otvori> {name} [zavjes[e|u] | zastor(e)] [u | na] {area}
+        response: curtains_area
+        slots:
+          device_class:
+            - curtain
+          domain: cover
+
+      - sentences:
+          - <otvori> {name} [rolet[e|u]] [u | na] {area}
+        response: blinds_area
+        slots:
+          device_class:
+            - blind
+          domain: cover
+
+      - sentences:
+          - <otvori> {name} [zavjes[e|u] | zastor(e) |rolet[e|u] | žaluzin[e|u] |
+            tend(e|u) | nadstrešnic(e|u) ] [u | na] {area}
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+            - shade
+            - awning
+          domain: cover
+      - sentences:
+          - <otvori> zavjes(e|u)
+        response: cover
+        slots: &id001
+          device_class:
+            - blind
+            - curtain
+            - shutter
+            - shade
+            - awning
+          domain: cover
+      - sentences:
+          - <otvori> [sve] [zavjes[e|u] | zastor(e) | rolet[e|u] | žaluzin[e|u] |
+            tend(e|u) | nadstrešnic(e|u) ] [u | na] {area}
+          - <otvori> zavjes(e|u) [u | na] <area>
+          - <otvori> <area> zavjes(e|u)
+        response: cover_area
+        slots: *id001

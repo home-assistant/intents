@@ -3,4 +3,29 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> <name>"
+          - <turn_off> <name>
+      - sentences:
+          - <close> <name>
+        response: cover
+      - sentences:
+          - <close> <name> <area>
+          - <close> <area> <name>
+        response: cover_area
+      - sentences:
+          - <close> [вратата] [на] гаража
+          - <close> гаражната врата
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - <close> [<all>] <covers> <area>
+          - <close>  <area> [<all>] <covers>
+        response: cover_area
+        slots:
+          area: bedroom
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover
