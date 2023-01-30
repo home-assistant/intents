@@ -2,7 +2,7 @@ language: "cs"
 responses:
   errors:
     no_intent: "Omlouvám se, ale nerozuměl jsem tomu"
-    no_area: "Nepojmenovaná oblast {{ area }}"
+    no_area: "Oblast {{ area }} jsem nenašel"
     no_domain: "{{ area }} neobsahuje {{ domain }}"
     no_device_class: "{{ area }} neobsahuje {{ device_class }}"
     no_entity: "Žádné zařízení ani entita se nejmenuje {{ entity }}"
@@ -51,16 +51,16 @@ lists:
   temperature_unit:
     values:
       - "celsia"
-      - in: "c"
-        out: "celsia"
-      - "(fahrenheit | fahrenheita)"
-      - in: "f"
-        out: "fahrenheita"
+      - in: "(c | celsia)"
+        out: celsia
+      - "fahrenheita"
+      - in: "(f | fahrenhait[a])"
+        out: fahrenheita
 expansion_rules:
   area: "[(na|v)] {area}"
   zapnout: "(zapni|zapnout)"
   vypnout: "(vypni|vypnout|zastavit|zastav)"
-  rozsvitit: "(rozsviť|rozsvítit)"
+  rozsvitit: "(rozsviť|rozsvítit|rožn[i|out])" #some dialect to be served for users :)
   zhasnout: "(zhasni|zhasnout)"
   nastavit: "(nastav|nastavit)"
   zmenit: "(změň|změnit)"
