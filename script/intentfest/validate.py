@@ -84,6 +84,7 @@ LANGUAGES_SCHEMA = vol.Schema(
 INTENTS_SCHEMA = vol.Schema(
     {
         str: {
+            vol.Optional("supported"): bool,
             vol.Required("domain"): str,
             vol.Required("description"): str,
             vol.Optional("slots"): {
