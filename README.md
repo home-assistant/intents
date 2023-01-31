@@ -2,11 +2,11 @@
 
 This repository contains training data for Home Assistant's local voice control.
 
- - [Progress per language and intent](https://home-assistant.github.io/intents/)
- - [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
- - [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
- - [Supported intents](https://developers.home-assistant.io/docs/intent_builtin)
- - [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages)
+- [Progress per language and intent](https://home-assistant.github.io/intents/)
+- [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
+- [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
+- [Supported intents](https://developers.home-assistant.io/docs/intent_builtin)
+- [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages)
 
 Repository layout:
 
@@ -115,6 +115,60 @@ You can add lists, ranges, and expansion rules as well:
 
 ```sh
 python3 -m script.intentfest sample_template 'set color to <color> and brightness to {brightness}' --values color red green --range brightness 1 2 --rule color '[the] {color}'
+```
+
+## Check what the conversation would look like
+
+To quickly simulate a conversation, use:
+
+```sh
+python3 -m script.intentfest conversation --language en # Set your preferred language
+```
+
+For example:
+
+```
+python3 -m script.intentfest conversation --language en
+Write here your query, or type 'a' (or "arrow up" on keyboard), to repeat the last one question. Type in 'r' to reload intents (after changing "sentences" or "responses").
+
+<<< Turn on the lights in the living room
+>>> Turned on lights in living room
+<<< r
+New intents reloaded!
+<<< a
+<<< Turn on the lights in the living room
+>>> Turned on lights in living room sir.
+<<<
+```
+
+You can type **`r`** to reload new responses and / or sentences, and **`a`** (or `arrow up` - something like in terminal using commands history).
+
+There is also an option to see all the response data, just type **`d`** to toggle debug mode, or call the `conversation` module with `--sentence-debug 1` to turn it on immediately:
+
+```
+python3 -m script.intentfest conversation --language en --debug-response 1
+Write here your query, or type 'a' (or "arrow up" on keyboard), to repeat the last one question. Type in 'r' to reload intents (after changing "sentences" or "responses").
+
+<<< Set the kitchen brightness to 10
+>>> Brightness in kitchen set to 10
+Debug: {
+  "text": "Set the kitchen brightness to 10",
+  "match": true,
+  "intent": "HassLightSet",
+  "slots": {
+    "area": "kitchen",
+    "brightness": 10,
+    "name": "all"
+  },
+  "response_key": "brightness_area",
+  "response": "Brightness in kitchen set to 10"
+}
+------------------------------
+<<< d
+Debug: OFF
+<<< Set the kitchen brightness to 30
+>>> Brightness in kitchen set to 30
+<<<
 ```
 
 ## Add new language
