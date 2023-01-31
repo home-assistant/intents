@@ -115,7 +115,7 @@ INTENT_ERRORS = {
 }
 
 SENTENCE_MATCHER = vol.All(
-    match_unicode_regex(r"^[\w\p{M} :'\|\(\)\[\]\{\}\<\>]+$"),
+    match_unicode_regex(r"^[\w\p{M} :\-'\|\(\)\[\]\{\}\<\>]+$"),
     msg="Sentences should only contain words and matching syntax. They should not contain punctuation.",
 )
 
@@ -145,6 +145,7 @@ SENTENCE_SCHEMA = vol.Schema(
 SENTENCE_COMMON_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
+        vol.Optional("settings"): {str: match_anything},
         vol.Optional("responses"): {
             vol.Optional("errors"): {
                 vol.In(INTENT_ERRORS): str,
