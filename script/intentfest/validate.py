@@ -145,7 +145,7 @@ SENTENCE_SCHEMA = vol.Schema(
 SENTENCE_COMMON_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
-        vol.Optional("settings"): {str: match_anything},
+        vol.Optional("settings"): {vol.Any("ignore_whitespace"): bool},
         vol.Optional("responses"): {
             vol.Optional("errors"): {
                 vol.In(INTENT_ERRORS): str,
