@@ -3,14 +3,16 @@ intents:
   HassLightSet:
     data:
       - sentences:
-          - <set> [яркост[та] [на светене] | светлина[та]] [на] <name> [на | до] <brightness>
-          - '<set> <all> <name> [на] [яркостта [на светене] | светлина[та]] [на |
+          - <set> <lights_brightness> <name> [на | до] <brightness>
+          - '<set> <all> <name> <lights_brightness> [на |
             до] <brightness> '
         response: brightness
+        requires_context:
+          domain: "light"
       - sentences:
           - <set> [(на | до)] <brightness> <area>
-          - <set> [яркост[та] [на светене] | светлина[та]] <area> [на | до] <brightness>
-          - '<set> <area> [на] [яркост[та] [на светене] | светлина[та]] [на | до]
+          - <set> <lights_brightness> <area> [на | до] <brightness>
+          - '<set> <area> [на] <lights_brightness> [на | до]
             <brightness> '
         slots:
           name: all
@@ -20,7 +22,15 @@ intents:
           - <set> [на] {color} [цвета|цвят] [на] <name>
           - <set> <name> {color} [цвят]
         response: color
-        
+        requires_context:
+          domain: "light"
+      - sentences:
+          - "<set> [цвет(а|ът)|цвят]  (<area> | <all> <lights> <area> | <all> <area> <lights>) [в|на] {color} [цвят]"
+          - "<set> (<area> | <all> <lights> <area> | <all> <area> <lights>) [в|на] [цвет(а|ът)|цвят] {color} [цвят] "
+          - "<set> {color} [цвет(а|ът)|цвят]<area>  "
+        slots:
+          name: "all"
+        response: "color_area"
       # Max/Min brightness
       - sentences:
           - "<set> <name> [до|на] <lights_brightness> [до|на] <max>"
@@ -30,7 +40,8 @@ intents:
         slots:
           brightness: 100
         response: "brightness"
-
+        requires_context:
+          domain: "light"
       - sentences:
           - "<set> <name> [на|до] <lights_brightness> <min>"
           - "<set> <lights_brightness> [на] <name> [на|до] <min>"
@@ -38,7 +49,8 @@ intents:
         slots:
           brightness: 1
         response: "brightness"
-
+        requires_context:
+          domain: "light"
       - sentences:
           - "<set> <lights_brightness> <area> [на|до] <max>"
           - "<set> <area> <lights_brightness> [на|до] <max>"
@@ -55,4 +67,4 @@ intents:
         slots:
           name: "all"
           brightness: 1
-        response: "brightness"
+        response: "brightness_area"
