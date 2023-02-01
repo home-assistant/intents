@@ -1,0 +1,33 @@
+language: ee
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - <turn_off> <name>
+          - '[<set>] <name> <turn_off>'
+          - '[<set>] <name> <close>'
+      - sentences:
+          - <close> <name>
+        response: cover
+      - sentences:
+          - <close> <name> <area>
+          - <close> <area> <name>
+        response: cover_area
+      - sentences:
+          - <close> garaaž[i] [uks]
+          - '[<set>] garaaž[i] [uks] <close>'
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - <close> ([ribi]kardin[ad] | ruloo[d]) <area>
+          - '[<set>] <area> ([ribi]kardin[ad] | ruloo[d]) <close>'
+          - <close> <area> ([ribi]kardin[ad] | ruloo[d])
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover
