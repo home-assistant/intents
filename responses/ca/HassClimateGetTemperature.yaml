@@ -2,5 +2,4 @@ language: ca
 responses:
   intents:
     HassClimateGetTemperature:
-      success:
-        - "{{ state.state }} graus"
+      default: "{{ state.state | float | abs | round(2) }} {{ 'grau' if state.state | float | abs == 1 else 'graus' }} {{ 'sota zero' if state.state | float < 0 else '' }}"

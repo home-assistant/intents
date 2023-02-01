@@ -14,7 +14,7 @@ lists:
         out: "white"
       - in: "negru"
         out: "black"
-      - in: "(roșu | rosu)"
+      - in: "ro(ș|s)u"
         out: "red"
       - in: "(portocaliu | oranj)"
         out: "orange"
@@ -33,6 +33,12 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  brightness_min_max:
+    values:
+      - in: "<maximum>"
+        out: 100
+      - in: "<minimum>"
+        out: 1
   temperature:
     range:
       type: "temperature"
@@ -47,27 +53,34 @@ lists:
       - in: "f"
         out: "fahrenheit"
 expansion_rules:
-  area: "{area} [(zon(ă|a) | regiune)]"
-  brightness: "{brightness} [(la sut(ă|a) | %)]"
-  temperature: "{temperature} [[de] grade] [{temperature_unit}]"
-  name: "({name}[ul] | {name})"
+  area: "[(zona | regiunea )] {area}"
+  brightness: "{brightness} [(la sut(ă|a) | % | [de] procente)]"
+  temperature: "{temperature} [[de] grad[e]] [{temperature_unit}]"
+  name: "({name}[(ul|a)])"
+  maximum: "(maxim[(ă|a|um)] [posibil[(ă|a)]])"
+  minimum: "(minim[(ă|a|um)] [posibil[(ă|a)]])"
   este: "(e | este)"
-  modifica: "(schimb(ă|a) | modific(ă|a) | seteaz(ă|a))"
+  cat: "(c(â|a|î|i)t[e])"
   in: "((î|i)n)"
-  din: "(din | (î|i)n | pentru | [de] la | [de] pe | de )"
+  din: "(din | (î|i)n | pentru | [de] la | [de] pe | de)"
   porneste: "(start | porne(ș|s)te | deschide | aprinde | activeaz(ă|a))"
   opreste: "(stop | opre(ș|s)te | (î|i)nchide | stinge | dezactiveaz(ă|a))"
-  seteaza: "(seteaz(ă|a) | pune | adjusteaz(ă|a) | schimb(ă|a) | modific(ă|a))"
+  seteaza: "(seteaz(ă|a) | pune | a[d]justeaz(ă|a) | schimb(ă|a) | modific(ă|a))"
   lumina: "(luminile | lumina | becul | becurile)"
-  luminozitatea: "(luminozitatea | luminozitate)"
+  luminozitatea: "(luminozitate[a])"
+  culoarea: "(culoare[a])"
   temperatura: "(temperatur(ă|a))"
   deschide: "(deschide | ridic(ă|a))"
   inchide: "((î|i)nchide | coboar(ă|a))"
   fereastra: "(fereastra | ferestrele | geamul | geamurile)"
   usa: "(u(ș|s)a | u(ș|s)ile)"
-  jaluzelele: "(jaluzeaua | jaluzelele | draperia | draperiile | perdeaua | perdelele)"
-  poarta: "(poarta | gardul)"
+  jaluzelele: "(jaluzeaua | jaluzelele | draperia | draperiile | perdeaua | perdelele | ruloul | rulourile)"
+  poarta: "(poarta | porțile | gardul)"
+  ventilatorul: "(ventilatorul | ventilatoarele | aerisirea | aerisirile)"
 skip_words:
   - "mulțumesc"
   - "multumesc"
   - "te rog"
+  - "te rog frumos"
+  - "merci"
+  - "mersi"

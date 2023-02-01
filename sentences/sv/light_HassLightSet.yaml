@@ -5,50 +5,38 @@ intents:
       - sentences:
           - "[<dimra>] [upp | ner] <name> [<ljusintensitet>] till <brightness>"
           - "[<dimra>] [upp | ner] <name> till <brightness> [<ljusintensitet>]"
-          - "<name> [upp | ner ] [till] <brightness> [<ljusintensitet>]"
+          - <name> [upp | ner ] [till] <brightness> [<ljusintensitet>]
+        response: brightness
       - sentences:
-          - "[<dimra>] [upp | ner] [<alla>] <ljuskällor> [<i_på>] <area> [upp | ner ] till <brightness> [<ljusintensitet>]"
+          - "[<dimra>] [upp | ner] [<alla>] <ljuskällor> [<i_på>] <area> [upp | ner
+            ] till <brightness> [<ljusintensitet>]"
           - "[<dimra>] [upp | ner] [<alla>] <ljuskällor> till <brightness> i <area>"
         slots:
-          name: "all"
-
+          name: all
+        response: brightness_area
       - sentences:
-          - "[<dimra>] [upp] <name> [<ljusintensitet>] till <maximal> [<möjliga>]"
-          - "[<dimra>] [upp] <name> till <maximal> [<möjliga>] [<ljusintensitet>]"
-          - "<name> [upp ] [till] <maximal> [<möjliga>] [<ljusintensitet>]"
+          - "[<dimra>] [upp | ner] <name> [<ljusintensitet>] till {brightness_level:brightness}
+            [<möjliga>]"
+          - "[<dimra>] [upp | ner] <name> till {brightness_level:brightness} [<möjliga>]
+            [<ljusintensitet>]"
+          - <name> [upp ] [till] {brightness_level:brightness} [<möjliga>] [<ljusintensitet>]
+        response: brightness
+      - sentences:
+          - "{brightness_level:brightness} [<möjliga>] <ljusintensitet> <i_på> <area>"
+          - "[<dimra>] [upp | ner] [<alla>] <ljuskällor> till {brightness_level:brightness}
+            [<möjliga>] <i_på> <area>"
+          - "[<dimra>] [upp | ner] [<alla>] <ljuskällor> <i_på> <area> till {brightness_level:brightness}
+            [<möjliga>]"
+          - "[upp | ner] till {brightness_level:brightness} [<möjliga>] <ljusintensitet>
+            <i_på> <area>"
         slots:
-          brightness: 100
-
+          name: all
+        response: brightness_area
       - sentences:
-          - "[<dimra>] [ner] <name> [<ljusintensitet>] till <minimal> [<möjliga>]"
-          - "[<dimra>] [ner] <name> till <minimal> [<möjliga>] [<ljusintensitet>]"
-          - "<name> [upp ] [till] <minimal> [<möjliga>] [<ljusintensitet>]"
-        slots:
-          brightness: 1
-
-      - sentences:
-          - "<maximal> [<möjliga>] <ljusintensitet> <i_på> <area>"
-          - "[<dimra>] [upp] [<alla>] <ljuskällor> till <maximal> [<möjliga>] <i_på> <area>"
-          - "[<dimra>] [upp] [<alla>] <ljuskällor> <i_på> <area> till <maximal> [<möjliga>]"
-          - "[upp] till <maximal> [<möjliga>] <ljusintensitet> <i_på> <area>"
-
-        slots:
-          name: "all"
-          brightness: 100
-
-      - sentences:
-          - "<minimal> [<möjliga>] <ljusintensitet> <i_på> <area>"
-          - "[<dimra>] [ner] [<alla>] <ljuskällor> till <minimal> [<möjliga>] <i_på> <area>"
-          - "[<dimra>] [ner] [<alla>] <ljuskällor> <i_på> <area> till <minimal> [<möjliga>]"
-          - "[ner] till <minimal> [<möjliga>] <ljusintensitet> <i_på> <area>"
-        slots:
-          name: "all"
-          brightness: 1
-
-      - sentences:
-          - "(färga | ändra | byt) <name> [till] {color}"
-
+          - <färga> <name> [till] {color}
+        response: color
       - sentences:
           - "{color} ljus i <area>"
         slots:
-          name: "all"
+          name: all
+        response: color_area

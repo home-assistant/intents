@@ -25,9 +25,9 @@ def run() -> int:
     intent_info = yaml.safe_load(INTENTS_FILE.read_text())
     intent_by_domain: dict[str, list] = {}
     for intent, info in intent_info.items():
+        if not info.get("supported", True):
+            continue
         intent_by_domain.setdefault(info["domain"], []).append(intent)
-    for intents in intent_by_domain.values():
-        intents.sort()
 
     for domain in intent_by_domain:
         (target / domain).mkdir(parents=True, exist_ok=True)
@@ -61,7 +61,7 @@ def run() -> int:
             domain_responses = {
                 intent: info
                 for intent, info in merged_responses["responses"]["intents"].items()
-                if intent in supported_intents and len(info["success"]) > 0
+                if intent in supported_intents
             }
 
             if not domain_intents and not domain_responses:

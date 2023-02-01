@@ -2,5 +2,25 @@ language: sv
 intents:
   HassTurnOn:
     data:
-    - sentences:
-        - "<slå_på> <name>"
+      - sentences:
+          - <slå_på> <name>
+      - sentences:
+          - <öppna_gardiner> <name>
+        response: cover
+      - sentences:
+          - <öppna_gardiner> garagedörren
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - <öppna_gardiner> <gardiner> <i_på> <area>
+          - <öppna_gardiner> [<alla>] <area><gardiner>
+          - <öppna_gardiner> [<alla>] <area> <gardiner>
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover
