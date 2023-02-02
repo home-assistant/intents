@@ -3,10 +3,26 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - <apaga> <name>
-          - <apaga> <name> <area>
+          - <apaga> <name>[ <area>]
       - sentences:
-          - <cierra> <name> [<area>]
+          - <cierra> <name>[ <area>]
+        slots:
+          device_class:
+           - blind
+           - curtain
+           - shutter
+           - door
+           - gate
+        response: cover
+      - sentences:
+          - <cierra> <area>
+        slots:
+          device_class:
+           - blind
+           - curtain
+           - shutter
+           - door
+           - gate
         response: cover_area
       - sentences:
           - <cierra> <puerta> [(del|de|de la)] (garaje|cochera)
@@ -16,7 +32,7 @@ intents:
           domain: cover
       - sentences:
           - <cierra> <puerta> [<area>]
-        response: cover_area
+        response: cover
         slots:
           device_class: gate
           domain: cover
