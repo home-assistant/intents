@@ -2,7 +2,78 @@ language: sl
 intents:
   HassTurnOn:
     data:
-    - sentences: []
-      slots:
-        domain: fan
-        name: all
+      - sentences:
+          - <vključi> <name>
+      - sentences:
+          - <odpri> {name}
+        response: cover
+      - sentences:
+          - <odpri> {name} [v] {area}
+        response: cover_area
+
+      - sentences:
+          - <odpri> {name} (okno | okna) [v | na] {area}
+          - <odpri> [vsa] okna [v | na] {area}
+          - <odpri> {area} okno
+          - <odpri> {area} okna
+        response: windows_area
+        slots:
+          device_class:
+            - window
+          domain: cover
+
+      - sentences:
+          - <odpri> {name} (vrata) [v | na] {area}
+          - <odpri> [vsa] vrata [v | na] {area}
+          - <odpri> {area} vrata
+        response: doors_area
+        slots:
+          device_class:
+            - door
+          domain: cover
+
+      - sentences:
+          - <odpri> {name} zaves[o|i|e] [v | na | nad | pod] {area}
+        response: curtains_area
+        slots:
+          device_class:
+            - curtain
+          domain: cover
+
+      - sentences:
+          - <odpri> {name} [rolet[o|i|e]] [v | na | nad | pod] {area}
+        response: blinds_area
+        slots:
+          device_class:
+            - blind
+          domain: cover
+
+      - sentences:
+          - <odpri> {name} [zaves[o|i|e] | rolet[o|e|u] | žaluzij[o|i|e] |
+            tend(o|i|e) | nadstrešnic(o|i|e) ] [v | na | nad | pod] {area}
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+            - shade
+            - awning
+          domain: cover
+      - sentences:
+          - <odpri> zaves(o|i|e)
+        response: cover
+        slots: &id001
+          device_class:
+            - blind
+            - curtain
+            - shutter
+            - shade
+            - awning
+          domain: cover
+      - sentences:
+          - <odpri> [vse] [zavese | zastore | rolete | žaluzije | tende | nadstrešnice] [v | na | nad | pod] {area}
+          - <odpri> zaves(o|i|e) [v | na | nad | pod] <area>
+          - <odpri> <area> zaves(o|i|e)
+        response: cover_area
+        slots: *id001
