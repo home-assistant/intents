@@ -3,5 +3,32 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<enciende> <name>"
-          - "<enciende> <name> <area>"
+          - <enciende> <name>
+          - <enciende> <name> <area>
+      - sentences:
+          - <abre> <name>
+        response: cover
+      - sentences:
+          - <abre> <name> <area>
+        response: cover_area
+      - sentences:
+          - <abre> <puerta> [(del|de|de la)] (garaje|cochera)
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - <abre> <puerta> [<area>]
+        response: cover_area
+        slots:
+          device_class: gate
+          domain: cover
+      - sentences:
+          - <abre> [la | las | los] (cortinas | persianas | estores) <area>
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover

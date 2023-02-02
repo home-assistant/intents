@@ -3,4 +3,29 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<doe> <name> [<naar>] aan"
+          - <doe> <name> [<naar>] aan
+      - sentences:
+          - open <name>
+          - "<doe> <name> open"
+        response: cover
+      - sentences:
+          - open <name> in <area>
+          - "<doe> <name> in <area> open"
+        response: cover_area
+      - sentences:
+          - open [de] garage [deur]
+          - (mag | <doe>) [de] garage [deur] open
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - open <afdekking> in <area>
+          - <doe> <afdekking> (open in <area> | in <area> open)
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover

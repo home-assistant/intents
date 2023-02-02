@@ -2,4 +2,41 @@ language: ml
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      - sentences:
+          - (<set>|<change>) <name>[<of>] <_brightness> <brightness> [<to>]
+          - (<set>|<change>) <_brightness> <name>[<of>] <brightness> [<to>]
+          - (<set>|<change>) <name> <brightness> <_brightness> [<to>]
+          - (<set>|<change>) <name> <brightness> [<to>]
+          - <name><of> <_brightness> <brightness> <turn>
+          - <name><in> <_brightness> <brightness> <turn>
+        response: brightness
+      - sentences:
+          - (<set>|<change>) <_brightness> <area>[<in>] <brightness> [<to>]
+          - (<set>|<change>) <_brightness> <area>[<of>] <brightness> [<to>]
+          - (<set>|<change>) <area>[<in>] <_brightness> <brightness> <to>
+          - (<set>|<change>) <area> <brightness> <_brightness> <to>
+          - (<set>|<change>) <area> <brightness> <to>
+          - <area>[<of>] <_brightness> <brightness> <turn>
+          - <area>[<in>] <_brightness> <brightness> <turn>
+        slots:
+          name: all
+        response: brightness_area
+      - sentences:
+          - <set> <name><of> <_brightness> <max> <to>
+          - <set> <_brightness> <name><of> <max> [<to>]
+          - <set> <name> <max> [<to>]
+        slots:
+          brightness: 100
+        response: brightness
+      - sentences:
+          - <set> <name>[<of>] <_brightness> <min> [<to>]
+          - <set> <name>[<in>] <_brightness> <min> [<to>]
+          - <set> <_brightness> <name>[<of>] <min> [<to>]
+          - <set> <name> <min> <_brightness> [<to>]
+        slots:
+          brightness: 1
+        response: brightness
+      - sentences:
+          - <set> <name> {color} [<colour>] [<to>]
+          - <set> [<the>] [<colour>] <name><of> {color} [<to>]
+        response: color

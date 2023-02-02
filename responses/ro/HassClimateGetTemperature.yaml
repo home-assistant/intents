@@ -2,5 +2,4 @@ language: ro
 responses:
   intents:
     HassClimateGetTemperature:
-      success:
-        - "{{ state.state }} grade"
+      default: "{{ state.state }} {{ 'grad' if state.state | float | abs == 1 else 'grade' if state.state == 0 or state.state | float % 1 != 0 or state.state | float % 100 | abs < 20 else 'de grade' }}"

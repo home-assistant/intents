@@ -1,6 +1,51 @@
 language: sv
 tests:
-- sentences: []
-  intent:
-    name: HassClimateSetTemperature
-    slots: {}
+  - sentences:
+      - "sätt temperaturen till 30°"
+      - "ändra temperaturen till 30°"
+      - "sätt temperaturen till 30 grader"
+    intent:
+      name: "HassClimateSetTemperature"
+      slots:
+        temperature: 30
+  - sentences:
+      - "sätt temperaturen till 30° C"
+    intent:
+      name: "HassClimateSetTemperature"
+      slots:
+        temperature: 30
+        temperature_unit: "celsius"
+  - sentences:
+      - "Ställ in temperaturen till 50 grader fahrenheit i sovrum"
+      - "Ställ in temperaturen till 50 grader F i sovrummet"
+    intent:
+      name: "HassClimateSetTemperature"
+      slots:
+        area: "bedroom"
+        temperature: 50
+        temperature_unit: "fahrenheit"
+  - sentences:
+      - "Ställ in temperaturen till 18 grader celsius i sovrummet"
+      - "Ställ in temperaturen till 18 grader c i sovrum"
+      - "ändra sovrums temperaturen till 18 celsius"
+      - "justera temperaturen i sovrummet till 18 grader c"
+      - "sätt sovrum till 18 grader c"
+      - "ändra till 18 grader c i sovrummet"
+      - "ställ in 18 grader c i sovrum"
+    intent:
+      name: "HassClimateSetTemperature"
+      slots:
+        area: "bedroom"
+        temperature: 18
+        temperature_unit: "celsius"
+  - sentences:
+      - "Ställ in temperaturen till 18 grader i köket"
+      - "ändra köks temperaturen till 18 grader"
+      - "ändra kök till 18 grader"
+      - "vrid upp köks temperaturen till 18 grader"
+      - "vrid ner köks temperaturen till 18 grader"
+    intent:
+      name: "HassClimateSetTemperature"
+      slots:
+        area: "kitchen"
+        temperature: 18

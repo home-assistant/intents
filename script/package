@@ -15,7 +15,10 @@ if [ -d "${venv}" ]; then
     source "${venv}/bin/activate"
 fi
 
-python3 -m script.intentfest merged_output "${base_dir}/package/home_assistant_intents/data"
-cd "${base_dir}/package" && python3 setup.py sdist
+output_dir="${base_dir}/package/home_assistant_intents/data"
+rm -rf "${output_dir}"
+
+python3 -m script.intentfest merged_output "${output_dir}"
+cd "${base_dir}/package" && python3 -m build
 
 echo "See: ${base_dir}/package/dist"

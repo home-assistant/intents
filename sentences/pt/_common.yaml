@@ -6,7 +6,7 @@ responses:
     no_domain: "{{ area }} não contém {{ domain }}."
     no_device_class: "{{ area }} não contém {{ device_class }}."
     no_entity: "Não existe nenhum dispositivo ou entidade com o nome {{ entity }}."
-    handle_error: "Ocurreu um erro inesperado ao processar o pedido."
+    handle_error: "Ocorreu um erro inesperado ao processar o pedido."
 lists:
   color:
     values:
@@ -52,11 +52,7 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - "celsius"
-      - in: "c"
-        out: "celsius"
-      - "centígrados"
-      - in: "c"
+      - in: "(celsius|c|centígrados)"
         out: "celsius"
       - "fahrenheit"
       - in: "f"
@@ -66,8 +62,8 @@ expansion_rules:
   zona: "[(o | a)] {area}"
   na_zona: "(no | na | do | da) {area}"
   qual: "(qual | qual é)"
-  brilho: "{brightness} [porcento]"
-  temperatura: "{temperature} [graus] [{temperature_unit}]"
+  brilho: "{brightness}[%| porcento]"
+  temperatura: "{temperature}[°| graus] [{temperature_unit}]"
 skip_words:
   - "por favor"
   - "se faz favor"

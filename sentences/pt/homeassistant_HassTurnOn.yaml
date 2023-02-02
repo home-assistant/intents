@@ -3,5 +3,25 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "(ligue | liga) [(o | a)] <nome>"
-          - "(ligue | liga) [(o | a)] <nome> <na_zona>"
+          - (ligue | liga | ligar) [(o | a)] <nome>
+          - (ligue | liga | ligar) [(o | a)] <nome> <na_zona>
+      - sentences:
+          - (abra | abre | abrir) <nome>
+          - (abra | abre | abrir) <nome> <na_zona>
+        response: cover
+      - sentences:
+          - (abra | abre | abrir) [(o | a)] [(porta | portão) da] garagem
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - (abra | abre |abrir) [as | os] [(cortinas | cortinados | estores | persianas)]
+            <na_zona>
+        response: cover
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover

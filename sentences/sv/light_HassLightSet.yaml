@@ -3,18 +3,40 @@ intents:
   HassLightSet:
     data:
       - sentences:
-          - "[sätt | vrid | dra [på] | skruva | dimmra] [upp | ner ] <name>[s | n | ns ] [<ljusintensitet>] till <brightness>"
-          - "[sätt | vrid | dra [på] | skruva | dimmra] [upp | ner ] <name>[n]  till <brightness> [<ljusintensitet>]"
-          - "<name>[s | n | ns ] [upp | ner ] [till] <brightness> [<ljusintensitet>]"
+          - "[<dimra>] [upp | ner] <name> [<ljusintensitet>] till <brightness>"
+          - "[<dimra>] [upp | ner] <name> till <brightness> [<ljusintensitet>]"
+          - <name> [upp | ner ] [till] <brightness> [<ljusintensitet>]
+        response: brightness
       - sentences:
-          - "[sätt | vrid | dra [på] | skruva | dimmra] [upp | ner ] <alla> <ljuskällor> [<i_på>] <area>[et] [upp | ner ] till <brightness> [<ljusintensitet>]"
+          - "[<dimra>] [upp | ner] [<alla>] <ljuskällor> [<i_på>] <area> [upp | ner
+            ] till <brightness> [<ljusintensitet>]"
+          - "[<dimra>] [upp | ner] [<alla>] <ljuskällor> till <brightness> i <area>"
         slots:
-          name: "all"
-
+          name: all
+        response: brightness_area
       - sentences:
-          - "(färga | ändra | byt) <name> [till] {color}"
-
+          - "[<dimra>] [upp | ner] <name> [<ljusintensitet>] till {brightness_level:brightness}
+            [<möjliga>]"
+          - "[<dimra>] [upp | ner] <name> till {brightness_level:brightness} [<möjliga>]
+            [<ljusintensitet>]"
+          - <name> [upp ] [till] {brightness_level:brightness} [<möjliga>] [<ljusintensitet>]
+        response: brightness
+      - sentences:
+          - "{brightness_level:brightness} [<möjliga>] <ljusintensitet> <i_på> <area>"
+          - "[<dimra>] [upp | ner] [<alla>] <ljuskällor> till {brightness_level:brightness}
+            [<möjliga>] <i_på> <area>"
+          - "[<dimra>] [upp | ner] [<alla>] <ljuskällor> <i_på> <area> till {brightness_level:brightness}
+            [<möjliga>]"
+          - "[upp | ner] till {brightness_level:brightness} [<möjliga>] <ljusintensitet>
+            <i_på> <area>"
+        slots:
+          name: all
+        response: brightness_area
+      - sentences:
+          - <färga> <name> [till] {color}
+        response: color
       - sentences:
           - "{color} ljus i <area>"
         slots:
-          name: "all"
+          name: all
+        response: color_area
