@@ -5,17 +5,23 @@ intents:
       - sentences:
           - "[<doe>] [alle] <lamp> [<naar>] uit in <area>"
           - "<doe> [alle] <lamp> in <area> [<naar>] uit"
-          - "<doe> (alle | in) <area> <lamp> [<naar>] uit"
-        response: lights_area
+          - "<doe> (alle|in) <area> <lamp> [<naar>] uit"
+        response: "lights_area"
         slots:
-          domain: light
-          name: all
+          domain: "light"
+          name: "all"
       - sentences:
-          - "<doe> (overal | alle) <lamp> uit"
+          - "<doe> <name>[' ']<lamp> [<naar>] uit"
+        requires_context:
+          domain: "light"
+        slots:
+          domain: "light"
+      - sentences:
+          - "<doe> (overal|alle) <lamp> uit"
           - "<doe> <lamp> overal uit"
           - "<lamp> uit"
-        response: light_all
+        response: "light_all"
         slots:
-          domain: light
-          area: all
-          name: all
+          domain: "light"
+          area: "all"
+          name: "all"
