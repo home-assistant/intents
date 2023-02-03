@@ -8,24 +8,6 @@ responses:
     no_entity: "Ei laitetta tai kohdetta nimellä {{ entity }}"
     handle_error: "Asian käsittelyssä odottamaton ongelma"
 lists:
-  brightness:
-    range:
-      type: "percentage"
-      from: 0
-      to: 100
-  temperature:
-    range:
-      type: "temperature"
-      from: 0
-      to: 100
-  temperature_unit:
-    values:
-      - "celsius"
-      - in: "c"
-        out: "celsius"
-      - "fahrenheit"
-      - in: "f"
-        out: "fahrenheit"
   color:
     values:
       - in: "valkoinen"
@@ -40,14 +22,40 @@ lists:
         out: "blue"
       - in: "vihreä"
         out: "green"
+      - in: "violetti"
+        out: "purple"
+      - in: "ruskea"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "(c|celsius)"
+        out: "celsius"
+      - in: "(f|fahrenheit)"
+        out: "fahrenheit"
 expansion_rules:
-  laita: "(kytke | käynnistä | aseta)"
+  käynnistä: "(kytke | käynnistä | aseta)"
   mikä: "(mikä | mikä on)"
   temp: "(lämpö | lämpötila)"
-  area: "{area}"
-  brightness: "{brightness} [Prosenttia]"
-  name: "{name}"
-  turn: "(käännä | kytke)"
-  turn_on: "(laita | laita päälle)"
-  turn_off: "(poista | laita pois)"
-skip_words: []
+  area: "(alue)"
+  kirkkaus: "(kirkkaus)"
+  nimi: "(nimi)"
+  avaa: "(avaa)"
+  sulje: "(sulje)"
+  käännä: "(käännä | kytke)"
+  päälle: "(laita | laita päälle | päälle)"
+  pois: "(pois | pois päältä | sammuta)"
+  valo: "(valo | valot | lamppu | lamput)"
+skip_words:
+  - "voisitko"
+  - "olisitko ystävällinen"
+  - "laittaisitko"
