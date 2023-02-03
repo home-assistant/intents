@@ -84,6 +84,7 @@ LANGUAGES_SCHEMA = vol.Schema(
 INTENTS_SCHEMA = vol.Schema(
     {
         str: {
+            vol.Optional("supported"): bool,
             vol.Required("domain"): str,
             vol.Required("description"): str,
             vol.Optional("slots"): {
@@ -114,7 +115,7 @@ INTENT_ERRORS = {
 }
 
 SENTENCE_MATCHER = vol.All(
-    match_unicode_regex(r"^[\w\p{M} :'\|\(\)\[\]\{\}\<\>]+$"),
+    match_unicode_regex(r"^[\w\p{M} :\-'\|\(\)\[\]\{\}\<\>]+$"),
     msg="Sentences should only contain words and matching syntax. They should not contain punctuation.",
 )
 
@@ -144,6 +145,7 @@ SENTENCE_SCHEMA = vol.Schema(
 SENTENCE_COMMON_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
+        vol.Optional("settings"): {vol.Any("ignore_whitespace"): bool},
         vol.Optional("responses"): {
             vol.Optional("errors"): {
                 vol.In(INTENT_ERRORS): str,
@@ -187,6 +189,9 @@ TESTS_SCHEMA = vol.Schema(
                         # In the future, if we want to allow a dictionary,
                         # we should wrap it in a dictionary with {"value": ...}
                         # this will allow us to add more keys in the future.
+                        str: match_anything_but_dict,
+                    },
+                    vol.Optional("context"): {
                         str: match_anything_but_dict,
                     },
                 },
