@@ -4,9 +4,9 @@ from __future__ import annotations
 import argparse
 from typing import Dict
 
+from hassil import parse_sentence
 from hassil.expression import Sentence
 from hassil.intents import RangeSlotList, SlotList, TextSlotList
-from hassil.parse import parse_sentence
 from hassil.sample import sample_expression
 
 from .util import get_base_arg_parser
