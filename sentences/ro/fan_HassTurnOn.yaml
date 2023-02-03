@@ -3,14 +3,15 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<porneste> <name>"
-          - "<porneste> <name> [<din>] <area>"
-        requires_context:
-          domain: fan
-        slots:
-          domain: fan
-      - sentences:
           - "<porneste> [toate] <ventilatorul> [<din>] <area>"
           - "<porneste> [<din>] <area> [toate] <ventilatorul>"
         slots:
           domain: fan
+        response: fans_area
+      - sentences:
+          - "<porneste> [toate] <ventilatorul>"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+        response: fans_area

@@ -3,32 +3,36 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <turn_on> <name>
+          - "<turn_on> <name>"
       - sentences:
-          - <open> <name>
-        response: cover
+          - "<turn_on> <name>"
+        requires_context:
+          domain: "light"
+        response: "light"
       - sentences:
-          - <open> <name>  <area>
-          - <open> <area> <name>
-        response: cover_area
+          - "<open> <name>"
+        requires_context:
+          domain: "cover"
+        response: "cover"
       - sentences:
-          - <open> [вратата] [на] гаража
-          - <open> гаражната врата
-        response: cover
+          - "<open> <name>  <area>"
+          - "<open> <area> <name>"
+        response: "cover_area"
+      - sentences:
+          - "<open> [вратата] [на] гаража"
+          - "<open> гаражната врата"
+        response: "cover"
         slots:
-          device_class: garage
-          domain: cover
+          device_class: "garage"
+          domain: "cover"
       - sentences:
-          - <open> [всички] (щор(а | и | ата | ите) | завес(a | и | ата | ите) | перде[то
-            | та | тата] | кепенци[те] | капа(к | ка | кът | ци | ците)) <area>
-          - <open>  <area> [всички] (щор(а | и | ата | ите) | завес(a | и | ата |
-            ите) | перде[то | тa | тaтa] | кепенци[те] | капа(к | ка | кът | ци |
-            ците))
-        response: cover_area
+          - "<open> [<all>] <covers> <area>"
+          - "<open> <area> [<all>] <covers>"
+        response: "cover_area"
         slots:
-          area: bedroom
+          area: "bedroom"
           device_class:
-            - blind
-            - curtain
-            - shutter
-          domain: cover
+            - "blind"
+            - "curtain"
+            - "shutter"
+          domain: "cover"

@@ -17,6 +17,15 @@ def run() -> int:
     # Sort intent info by (domain, intent)
     intent_info = yaml.safe_load(INTENTS_FILE.read_text())
 
+    # Collect all English responses.
+    all_english_responses = {
+        intent_sentence
+        for intent_sentences in load_merged_responses("en")["responses"][
+            "intents"
+        ].values()
+        for intent_sentence in intent_sentences.values()
+    }
+
     for language in LANGUAGES:
         merged_sentences = load_merged_sentences(language)
         merged_responses = load_merged_responses(language)
@@ -34,12 +43,21 @@ def run() -> int:
                 )
 
         response_sentence_count = {intent: 0 for intent in intent_info}
+        intent_responses_translated: dict[str, bool] = {}
 
         for intent, intent_responses in merged_responses["responses"][
             "intents"
         ].items():
             response_sentence_count.setdefault(intent, 0)
             response_sentence_count[intent] += len(intent_responses)
+
+            if language == "en":
+                intent_responses_translated[intent] = True
+            else:
+                intent_responses_translated[intent] = all(
+                    response not in all_english_responses
+                    for response in intent_responses.values()
+                )
 
         errors_translated = not any(
             translation.startswith("TODO ")
@@ -50,6 +68,7 @@ def run() -> int:
             all(value > 0 for value in intent_sentence_count.values())
             and all(len(value) > 0 for value in used_responses_per_intent.values())
             and errors_translated
+            and all(intent_responses_translated.values())
         )
 
         # Turn set into count
@@ -66,6 +85,7 @@ def run() -> int:
                 "intents": intent_sentence_count,
                 "used_responses": used_responses_count,
                 "responses": response_sentence_count,
+                "intent_responses_translated": intent_responses_translated,
                 "errors_translated": errors_translated,
                 "usable": usable,
             }

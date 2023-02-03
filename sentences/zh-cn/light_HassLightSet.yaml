@@ -2,4 +2,42 @@ language: zh-cn
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      # brightness
+      - sentences:
+          - "[<let>] <name> (亮度) [<set_to>] <brightness>"
+          - "(设置 | 调节) <name> (亮度) <to> <brightness>"
+        response: brightness
+        requires_context:
+          domain: light
+      - sentences:
+          - "[<let>] <area> [灯] (亮度) [<set_to>] <brightness>"
+          - "(设置 | 调节) <area> [<light>] (亮度) <to> <brightness>"
+        slots:
+          name: all
+        response: brightness_area
+
+      # Max/Min brightness
+      - sentences:
+          - "[<let>] <name> (亮度) [<set_to>] {brightness_level:brightness}"
+          - "(设置 | 调节) <name> (亮度) <to> {brightness_level:brightness}"
+        requires_context:
+          domain: light
+        response: brightness
+      - sentences:
+          - "[<let>] <area> [灯] (亮度) [<set_to>] {brightness_level:brightness}"
+          - "(设置 | 调节) <area> [<light>] (亮度) <to> {brightness_level:brightness}"
+        slots:
+          name: all
+        response: brightness_area
+
+      # color
+      - sentences:
+          - "[<let>] <name> [颜色] [<set_to>] {color}"
+        requires_context:
+          domain: light
+        response: color
+      - sentences:
+          - "[<let>] <area> <light> [颜色] [<set_to>] {color}"
+        slots:
+          name: all
+        response: color_area
