@@ -2,4 +2,16 @@ language: pl
 responses:
   intents:
     HassClimateGetTemperature:
-      default: '{{ state.state }} stopni'
+      default: "Temperatura wynosi {{ state.state }} {{ 'stopień' if state.state | int | abs == 1 else 'stopnie' if state.state | int | abs in [2,3,4] else 'stopnie' if (state.state|string)[-1] | int | abs in [2,3,4] else 'stopni' }}"
+# Explanation and Examples:
+# 0 stopni
+# 1 stopień
+# 2 stopnie
+# 3 stopnie
+# 4 stopnie
+# 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 stopni
+# 22,23,24 stopnie
+# 25,26,27,28,29,30,31 stopni
+# 32,33,34 stopnie
+# 35,36,37,38,39,40,41 stopni
+# 42,43,44 stopnie
