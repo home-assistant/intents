@@ -2,6 +2,7 @@ language: pl
 intents:
   HassLightSet:
     data:
+      # brightness
       - sentences:
           - <set> [jasność] <name> na <brightness>
         response: brightness
@@ -10,6 +11,18 @@ intents:
         slots:
           name: all
         response: brightness_area
+      # min max
+      - sentences:
+          - <set> [jasność] <name> na {brightness_level:brightness}
+        requires_context:
+          domain: light
+        response: brightness
+      - sentences:
+          -  <set> [jasność] <area> na {brightness_level:brightness}
+        slots:
+          name: all
+        response: brightness_area
+      # color
       - sentences:
           - <set> [kolor] <name> na {color}
         response: color
