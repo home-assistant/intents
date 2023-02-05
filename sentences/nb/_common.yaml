@@ -8,6 +8,11 @@ responses:
     no_entity: "Finner ingen enhet med navn {{ entity }}"
     handle_error: "En uventet feil oppsto"
 lists:
+  brightness:
+    range:
+      type: percentage
+      from: 0
+      to: 100
   color:
     values:
       - in: "blå"
@@ -28,5 +33,43 @@ lists:
         out: "red"
       - in: "svart"
         out: "black"
-expansion_rules: {}
-skip_words: []
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+expansion_rules:
+  alle: "(alle|alt|samtlige)"
+  farge: "{color}[t[t]]"
+  i_på: "(i|på|ved [siden av])"
+  lys: "(lys[(ene|et)]|lyskilde[r|n|ene]|[gløde|led|diode]lamp[e|en|er|ene]|lysrør[et|ene]|belysning[en])"
+  lysstyrke: "{brightness}[%| prosent]"
+  navn: "{name}[(en|et|n[s])]"
+  område: "{area}[(n[s]|en|et[s]|met[s])]"
+  skru_av: "(skru av|slukk|slå av|slukk|steng [av]|stopp)"
+  skru_på: "(skru på|tenn|sett[e] (på|igang|fart på)|slå på|start[e])"
+  hva: "(hva er|hva er det|hvilken|hvilke)"
+  endre: "( sett|juster|skru (opp|ned)|vri|dimm[e]|still [inn]|øk|senk|dim[me])"
+  temperatur: "{temperature}[°| grader] [{temperature_unit}]"
+  åpne: "åpne [opp]|heis [opp]|lukk opp|rull opp"
+  lukk: "lukk [igjen]|heis [ned]|rull [ned]|steng|senk"
+  vindu: "[tak]vindu[et|er|ene]|[tak]luke[en|er|ene]"
+  garasjedør: "garasj[edør|eport][(en|er|ene)]"
+  gardin: "[rulle]gardin[(et|er|ene)]|persienn[et|er|ene]|forheng[et|er|ene]"
+  persienne: "persienne[(n|r|ene)]"
+  rullegardin: "rullegardin[(et|er|ene)]"
+  skodde: "[rulle]skodde[(n|r|ene)]|solskjerm[(en|er|ene)]"
+skip_words:
+  - "vær så snill"
+  - "takk"
+  - "vennligts"
+  - "kan du"
+
