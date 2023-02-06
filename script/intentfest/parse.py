@@ -32,13 +32,16 @@ def get_arguments() -> argparse.Namespace:
 
 def run() -> int:
     args = get_arguments()
-    sentenceParser = SentenceParser(args.language)
+    sentence_parser = SentenceParser(args.language)
 
     # Parse sentences
     for sentence in args.sentence:
-        sentenceParser.parse(sentence)
+        sentence_parser.parse(sentence)
         json.dump(
-            sentenceParser.get_response_data(), sys.stdout, ensure_ascii=False, indent=2
+            sentence_parser.get_response_data(),
+            sys.stdout,
+            ensure_ascii=False,
+            indent=2,
         )
 
     return 0
