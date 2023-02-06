@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import argparse
+import json
+import sys
 
 from .const import LANGUAGES
 from .sentenceParser import SentenceParser
@@ -35,6 +37,8 @@ def run() -> int:
     # Parse sentences
     for sentence in args.sentence:
         sentenceParser.parse(sentence)
-        print(sentenceParser.getWholeResponseDebug())
+        json.dump(
+            sentenceParser.get_response_data(), sys.stdout, ensure_ascii=False, indent=2
+        )
 
     return 0

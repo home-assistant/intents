@@ -129,47 +129,46 @@ For example:
 
 ```
 python3 -m script.intentfest conversation --language en
-Write here your query, or type 'a' (or "arrow up" on keyboard), to repeat the last one question. Type in 'r' to reload intents (after changing "sentences" or "responses").
+Type your query here, or type 'a' (or 'arrow up' on the keyboard) to repeat it. Type 'q' (or CTRL+C) to end the conversation.
 
 <<< Turn on the lights in the living room
 >>> Turned on lights in living room
-<<< r
-New intents reloaded!
-<<< a
-<<< Turn on the lights in the living room
->>> Turned on lights in living room sir.
-<<<
-```
-
-You can type **`r`** to reload new responses and / or sentences, and **`a`** (or `arrow up` - something like in terminal using commands history).
-
-There is also an option to see all the response data, just type **`d`** to toggle debug mode, or call the `conversation` module with `--sentence-debug 1` to turn it on immediately:
-
-```
-python3 -m script.intentfest conversation --language en --debug-response 1
-Write here your query, or type 'a' (or "arrow up" on keyboard), to repeat the last one question. Type in 'r' to reload intents (after changing "sentences" or "responses").
-
-<<< Set the kitchen brightness to 10
->>> Brightness in kitchen set to 10
 Debug: {
-  "text": "Set the kitchen brightness to 10",
+  "text": "Turn on the lights in the living room",
   "match": true,
-  "intent": "HassLightSet",
+  "intent": "HassTurnOn",
   "slots": {
-    "area": "kitchen",
-    "brightness": 10,
-    "name": "all"
+    "area": "living_room",
+    "domain": "light"
   },
-  "response_key": "brightness_area",
-  "response": "Brightness in kitchen set to 10"
+  "response_key": "lights_area",
+  "response": "Turned on lights in living room"
 }
 ------------------------------
-<<< d
-Debug: OFF
-<<< Set the kitchen brightness to 30
->>> Brightness in kitchen set to 30
 <<<
+New intents reloaded!
+a
+<<< Turn on the lights in the living room
+>>> Turned on lights in living room sir
+Debug: {
+  "text": "Turn on the lights in the living room",
+  "match": true,
+  "intent": "HassTurnOn",
+  "slots": {
+    "area": "living_room",
+    "domain": "light"
+  },
+  "response_key": "lights_area",
+  "response": "Turned on lights in living room sir"
+}
+------------------------------
+<<< q
+>>> Bye!
 ```
+
+The style of the response changed after the first query - I made a change to the response file, the script noticed this, reloaded the intents and printed "_`New intents reloaded!`_", after which I typed "**`a`**" (or `arrow up` - something like in the terminal using command history) to repeat the last query and check the response again.
+
+There is also an option to see just the response, type **`d`** to toggle debug mode, or call the `conversation` module with `--no-response-debug`.
 
 ## Add new language
 
