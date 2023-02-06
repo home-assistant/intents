@@ -1,12 +1,76 @@
 language: zh-tw
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: "拍謝，我沒聽很懂"
+    no_area: "「{{ area }}」這個區域並不存在"
+    no_domain: "{{ area }}裡面沒有任何{{ domain }}"
+    no_device_class: "{{ area }}裡面並沒有任何{{ device_class }}"
+    no_entity: "「{{ entity }}」這個實體並不存在"
+    handle_error: "處理您的旨意時，發生了意外錯誤"
+lists:
+  color:
+    values:
+      - in: "白色"
+        out: "white"
+      - in: "黑色"
+        out: "black"
+      - in: "紅色"
+        out: "red"
+      - in: "橘色"
+        out: "orange"
+      - in: "黃色"
+        out: "yellow"
+      - in: "綠色"
+        out: "green"
+      - in: "藍色"
+        out: "blue"
+      - in: "紫色"
+        out: "purple"
+      - in: "咖啡色"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "度C|攝氏度|度"
+        out: "celsius"
+      - in: "度F|華氏度"
+        out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: (最大|最亮|最高)
+        out: 100
+      - in: (最小|最暗|最低)
+        out: 1
+expansion_rules:
+  name: "{name}[的]"
+  area: "{area}[的]"
+  let: "[把|將]"
+  all: "(全部|所有)[的]"
+  what_is: "是什麼"
+  how_many_is: "(是|有)多少"
+  brightness: "[百分之] {brightness}[%|趴]"
+  to: "(為|到|成|至)"
+  set_to: "(設|設定|調|調整)(為|到|成|至)"
+  turn_on: "(打開|開)"
+  turn_off: "(關|關掉)"
+  open: "(打開 | 開啟 | 開)"
+  close: "(關| 關閉 | 關上)"
+  light: "(燈|照明|桌燈|檯燈|床頭燈|壁燈)[的]"
+  fan: "(電扇|電風扇|風扇|循環扇|吊扇)"
+  temp: "溫度"
+  temperature: "{temperature} [{temperature_unit}]"
+skip_words:
+  - "請"
+  - "請問"
+  - "謝謝"
+  - "幫我"
+  - "告訴我"
