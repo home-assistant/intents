@@ -5,13 +5,17 @@ intents:
       - sentences:
           - "<opreste> <name>"
         excludes_context:
-          domain: cover
+          domain:
+            - light
+            - cover
       - sentences:
-          - "<inchide> <name>"
-          - "<inchide> <name> [<din>] <area>"
+          - "<opreste> <name>"
         requires_context:
-          domain: cover
-        slots:
+          domain: light
+        response: light
+      - sentences:
+          - "<inchide> <name> [[<din>] <area>]"
+        requires_context:
           domain: cover
         response: cover
       - sentences:
@@ -42,9 +46,3 @@ intents:
           device_class: gate
           domain: cover
         response: gates_area
-      - sentences:
-          - "<opreste> <name>"
-        slots:
-          domain: light
-        response: light
-
