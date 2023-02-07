@@ -28,9 +28,9 @@ See the [documentation](docs/README.md) for more information.
 
 # Development
 
-Checkout the repository and get a development environment with `script/setup`. This will create a new virtual environment in the `venv` directory of the repository, and install all necessary requirements.
+Checkout the repository and get a development environment with `script/setup`. This will create a new virtual environment in the `venv` directory of the repository, and install all necessary requirements. It will also build your code space to install latest dependencies, so you should run it again occasionally.
 
-Before developing, always activate your virtual environment with `source venv/bin/activate`.
+Before developing, always activate your virtual environment with `source venv/bin/activate`. This handles python dependencies so that they do not conflict with other python projects. You can deactivate the virtual environment by running `deactivate`.
 
 ## Run tests
 
