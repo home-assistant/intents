@@ -1,6 +1,65 @@
 language: zh-hk
 tests:
-  - sentences: []
+  - sentences:
+      - "打開廚房開關制"
     intent:
       name: HassTurnOn
-      slots: {}
+      slots:
+        name: switch.kitchen
+    response:
+      # - "廚房開關已打開"
+      - "廚房開關制已打開"
+
+  - sentences:
+      - "打開左邊窗簾"
+    intent:
+      name: HassTurnOn
+      slots:
+        name: cover.curtain_left
+    response:
+      #- "左側窗簾已打開"
+      - "左邊窗簾已打開"
+
+  - sentences:
+      - "打開客廳的左邊窗簾"
+    intent:
+      name: HassTurnOn
+      slots:
+        name: cover.curtain_left
+        area: living_room
+    response:
+      # - "左邊窗簾已打開"
+      - "左邊窗簾已打開"
+
+  - sentences:
+      - "打開睡房的百葉窗"
+      #- "把睡房的百葉窗打開"
+    intent:
+      name: HassTurnOn
+      slots:
+        area: bedroom
+        domain: cover
+        device_class: blind
+    response: "睡房窗簾已打開"
+
+  - sentences:
+      - "打開車房門"
+      # - "把車房門打開"
+    intent:
+      name: HassTurnOn
+      slots:
+        area: garage
+        domain: cover
+        device_class: garage
+    response: "車房門已打開"
+
+  - sentences:
+      - "打開睡房的窗戶"
+      #- "把睡房的窗戶打開"
+    intent:
+      name: HassTurnOn
+      slots:
+        area: bedroom
+        domain: cover
+        device_class: window
+    response: "睡房窗戶已打開"
