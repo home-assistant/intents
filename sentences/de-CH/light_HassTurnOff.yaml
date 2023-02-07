@@ -2,7 +2,20 @@ language: de-CH
 intents:
   HassTurnOff:
     data:
-      - sentences: []
+      - sentences:
+          - "(Zünd|Mach|Lösch|Schalt|Schaut) [<Liecht>] <name> <ab_us>"
         slots:
           domain: light
-          name: all
+        requires_context:
+          domain: light
+        response: light
+      - sentences:
+          - "(Zünd|Mach|Schalt|Schaut) (<Liecht>|<Liechter>) <ab_us> <area>"
+          - "(Zünd|Mach|Schalt|Schaut) (<Liecht>|<Liechter>) <area> <ab_us>"
+          - "(Zünd|Mach|Schalt|Schaut) <area> (<Liecht>|<Liechter>) [<ab_us>]"
+          - "Lösch <area> (<Liecht>|<Liechter>) [<ab_us>]"
+          - "Lösch (<Liecht>|<Liechter>) <area> [<ab_us>]"
+          - "Lösch (<Liecht>|<Liechter>) [<ab_us>] <area>"
+        slots:
+          domain: light
+        response: lights_area
