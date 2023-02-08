@@ -1,0 +1,152 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      # check state (one)
+      - sentences:
+          - what is [the] [state of] (<name> [in <area>] | <area> <name>)
+        response: name_short
+
+      # check state (any)
+      - sentences:
+          - (is|are) (anything|any {devices:}) {on_off:state} [in <area>]
+        response: which_short
+
+      # check state (all)
+      - sentences:
+          - (is|are) all [the] {devices:} {on_off:state} [in <area>]
+        response: which_short
+
+      # check state (which)
+      - sentences:
+          - (which|what) {devices:} (is|are) {on_off:state} [in <area>]
+          - <what_is> {on_off:state} [in <area>]
+        response: list_long
+
+      # check state (how many)
+      - sentences:
+          - how many {devices:} (is|are) {on_off:state} [in <area>]
+          - how many {devices:} [is|are] [there] in <area>
+        response: how_many_short
+
+      # get list
+      - sentences:
+          - (which|what) {devices:} (is|are) in <area>
+          - (list|tell me) [my] {devices:} [in <area>]
+        slots:
+          domain: light
+        response: list_long
+
+lists:
+  on_off:
+    values:
+      - "on"
+      - "off"
+  devices:
+    values:
+      - device[s]
+      - entit(y|ies)
+      - thing[s]
+
+responses:
+  intents:
+    HassGetState:
+      name_short: |
+        {{ state_name }} {{ state_attr(state.entity_id, "unit_of_measurement") or "" }}
+      name_long: |
+        {{ slots.name }} is {{ state_name }} {{ state_attr(state.entity_id, "unit_of_measurement") or "" }}
+      name_area_long: |
+        {{ slots.name }} in {{ slots.area }} is {{ state_name }} {{ state_attr(state.entity_id, "unit_of_measurement") or "" }}
+
+      one_short: |
+        {% if not query.matched: %}
+        No
+        {% else: %}
+        Yes
+        {% endif %}
+
+      one_long: |
+        {% if not query.matched: %}
+        No, {{ slots.name }} is {{ state_with_unit }}
+        {% else: %}
+        Yes, {{ slots.name }} is {{ state_with_unit }}
+        {% endif %}
+
+      one_area_long: |
+        {% if not query.matched: %}
+        No, {{ slots.name }} in {{ slots.area }} is {{ state_with_unit }}
+        {% else: %}
+        Yes, {{ slots.name }} in {{ slots.area }} is {{ state_with_unit }}
+        {% endif %}
+
+      any_short: |
+        {% if query.matched: %}
+        Yes
+        {% else: %}
+        No
+        {% endif %}
+
+      all_short: |
+        {% if not query.unmatched: %}
+        Yes
+        {% else: %}
+        No
+        {% endif %}
+
+      which_short: |
+        {% if not query.matched: %}
+        Not any
+        {% else: %}
+        {{ query.matched | map(attribute="name") | join(", ") }}
+        {% endif %}
+
+      how_many_short: |
+        {% if not query.matched: %}
+        0
+        {% else: %}
+        {{ query.matched | length }}
+        {% endif %}
+
+      list_long: |
+        {% if not query.matched: %}
+        Not any
+        {% else: %}
+        {{ query.matched | map(attribute="name") | join(", ") }}
+        {% endif %}
+
+      temperature_short: |
+        {{ state_attr(state.entity_id, "current_temperature") }}
+
+      # person
+      # person_any: |
+      #   {% if : %}
+      #     Yes, these people are {{ translated_state }}:
+      #     {% for person in matched_states %}
+      #       {{ person.name }}{% if not loop.last %}, {% endif %}
+      #     {% endfor %}
+      #   {% else %}
+      #     No:
+      #     {% for person in unmatched_states %}
+      #       {{ person.name }} is {{ translated_states[person.entity_id] }}{% if not loop.last %}, {% endif %}
+      #     {% endfor %}
+      #   {% endif %}
+
+      # person_all: |
+      #   {% if not unmatched_states: %}
+      #     Yes, everyone is {{ translated_state }}
+      #   {% else %}
+      #     No:
+      #     {% for person in unmatched_states %}
+      #       {{ person.name }} is {{ translated_states[person.entity_id] }}{% if not loop.last %}, {% endif %}
+      #     {% endfor %}
+      #   {% endif %}
+
+      # cover_device_class_area: |
+      #   {% if not unmatched_states: %}
+      #     All {{ slots.device_class }}(s) in {{ slots.area }} are {{ translated_state }}
+      #   {% else %}
+      #     No:
+      #     {% for cover in unmatched_states %}
+      #       {{ cover.name }} is {{ translated_states[cover.entity_id] }}{% if not loop.last %}, {% endif %}
+      #     {% endfor %}
+      #   {% endif %}

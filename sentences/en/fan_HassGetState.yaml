@@ -1,0 +1,47 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      # check state (one)
+      - sentences:
+          - (is|are) <name> {fan_states:state} [in <area>]
+        requires_context:
+          domain: fan
+        response: one_short
+
+      # check state (any)
+      - sentences:
+          - (is|are) [any] fan[s] {fan_states:state} [in <area>]
+        slots:
+          domain: fan
+        response: which_short
+
+      # check state (all)
+      - sentences:
+          - (is|are) all [the] fan[s] {fan_states:state} [in <area>]
+        slots:
+          domain: fan
+        response: all_short
+
+      # check state (which)
+      - sentences:
+          - (which|what) fan[s] (is|are) {fan_states:state} [in <area>]
+        slots:
+          domain: fan
+        response: which_short
+
+      # check state (how many)
+      - sentences:
+          - how many fan[s] (is|are) {fan_states:state} [in <area>]
+          - how many fan[s] (is|are) [there] in <area>
+        slots:
+          domain: fan
+        response: how_many_short
+
+      # get list (domain)
+      - sentences:
+          - (which|what) fan[s] (is|are) in <area>
+          - list all fan[s] [in <area>]
+        slots:
+          domain: fan
+        response: list_long

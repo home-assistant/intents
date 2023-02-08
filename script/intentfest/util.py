@@ -65,11 +65,23 @@ def get_slot_lists(test_names: Dict[str, Any]) -> Dict[str, SlotList]:
             (
                 entity["name"],
                 entity["name"],
-                {"domain": entity["id"].split(".", maxsplit=1)[0]},
+                _entity_context(entity),
             )
             for entity in test_names["entities"]
         ),
     }
+
+
+def _entity_context(entity: dict[str, Any]) -> dict[str, Any]:
+    """Extract matching context from test fixture entity."""
+    entity_id = entity["id"]
+    domain = entity_id.split(".", maxsplit=1)[0]
+    context = {"domain": domain}
+
+    if "device_class" in entity:
+        context["device_class"] = entity["device_class"]
+
+    return context
 
 
 def get_jinja2_environment() -> Environment:
@@ -84,12 +96,33 @@ def render_response(
     if env is None:
         env = get_jinja2_environment()
 
+    state: Dict[str, Any] = {"name": "", "state": ""}
+
+    # Guess state based on domain
+    domain = ""
+    for entity in result.entities_list:
+        if entity.name == "domain":
+            domain = entity.value
+        elif entity.name == "name":
+            if "." in entity.value:
+                domain = entity.value.split(".", maxsplit=1)[0]
+            else:
+                state["name"] = entity.value
+
+    if domain:
+        if domain == "climate":
+            state["state"] = 0
+        elif domain == "cover":
+            state["state"] = "open"
+        else:
+            state["state"] = "on"
+
     return env.from_string(response_template).render(
         {
             "slots": {
                 entity.name: entity.text or entity.value
                 for entity in result.entities_list
             },
-            "state": {"state": 0},
+            "state": state,
         }
     )

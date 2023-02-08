@@ -1,0 +1,45 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      # check state (one)
+      - sentences:
+          - is <name> {person_states:state}
+        requires_context:
+          domain: person
+        response: one_short
+
+      # check state (one)
+      - sentences:
+          - where is <name>
+        requires_context:
+          domain: person
+        response: name_short
+
+      # check state (any)
+      - sentences:
+          - is anyone {person_states:state}
+        slots:
+          domain: person
+        response: any_short
+
+      # check state (which)
+      - sentences:
+          - who is {person_states:state}
+        slots:
+          domain: person
+        response: list_long
+
+      # check state (how many)
+      - sentences:
+          - how many people are {person_states:state}
+        slots:
+          domain: person
+        response: how_many_short
+
+      # get list (domain)
+      - sentences:
+          - (is everyone|are all people) {person_states:state}
+        slots:
+          domain: person
+        response: all_short

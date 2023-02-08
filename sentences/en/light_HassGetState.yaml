@@ -1,0 +1,47 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      # check state (one)
+      - sentences:
+          - (is|are) <name> {light_states:state} [in <area>]
+        requires_context:
+          domain: light
+        response: one_short
+
+      # check state (any)
+      - sentences:
+          - (is|are) [any] light[s] {light_states:state} [in <area>]
+        slots:
+          domain: light
+        response: which_short
+
+      # check state (all)
+      - sentences:
+          - (is|are) all [the] light[s] {light_states:state} [in <area>]
+        slots:
+          domain: light
+        response: all_short
+
+      # check state (which)
+      - sentences:
+          - (which|what) light[s] (is|are) {light_states:state} [in <area>]
+        slots:
+          domain: light
+        response: which_short
+
+      # check state (how many)
+      - sentences:
+          - how many light[s] (is|are) {light_states:state} [in <area>]
+          - how many light[s] (is|are) [there] in <area>
+        slots:
+          domain: light
+        response: how_many_short
+
+      # get list (domain)
+      - sentences:
+          - (which|what) light[s] (is|are) in <area>
+          - list all light[s] [in <area>]
+        slots:
+          domain: light
+        response: list_long

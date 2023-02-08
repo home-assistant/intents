@@ -1,0 +1,52 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - (is|are) <name> {cover_states:state}
+        requires_context:
+          domain: cover
+        response: one_long
+
+      - sentences:
+          - (is|are) <name> in <area> {cover_states:state}
+          - (is|are) <area> <name> {cover_states:state}
+        requires_context:
+          domain: cover
+        response: one_area_long
+
+      - sentences:
+          - (which|what) {cover_classes:device_class} (is|are) {cover_states:state}
+          - (is|are) [there] [any] {cover_classes:device_class} {cover_states:state}
+        slots:
+          domain: cover
+        response: which_short
+
+      - sentences:
+          - (which|what) {cover_classes:device_class} (is|are) {cover_states:state} in <area>
+          - (is|are) [there] [any] {cover_classes:device_class} {cover_states:state} in <area>
+        slots:
+          domain: cover
+        response: which_short
+
+lists:
+  cover_classes:
+    values:
+      - in: awning[s]
+        out: awning
+      - in: blind[s]
+        out: blind
+      - in: curtain[s]
+        out: curtain
+      - in: door[s]
+        out: door
+      - in: garage door[s]
+        out: garage
+      - in: gate[s]
+        out: gate
+      - in: shade[s]
+        out: shade
+      - in: shutter[s]
+        out: shutter
+      - in: window[s]
+        out: window
