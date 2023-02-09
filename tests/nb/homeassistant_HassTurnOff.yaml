@@ -1,12 +1,46 @@
-language: 'nb'
+language: "nb"
 tests:
-- intent:
-    name: HassTurnOff
-    slots:
-      name: "fan.ceiling"
-  sentences:
-  - "slå av tak vifte"
-  - "skru av tak viften"
-  - "slå tak vifte av"
-  - "skru tak viften av"
-  
+  - intent:
+      name: HassTurnOff
+      slots:
+        name: "fan.ceiling"
+    sentences:
+      - "slå av takvifte"
+      - "skru av takviften"
+      - "slå takvifte av"
+      - "skru takviften av"
+  - sentences:
+      - Lukk høyre gardin
+    intent:
+      name: HassTurnOff
+      slots:
+        name: cover.curtain_left
+    response: "høyre gardin ble lukket"
+  - sentences:
+      - Lukk høyre gardin i stuen
+    intent:
+      name: HassTurnOff
+      slots:
+        name: cover.curtain_left
+        area: living_room
+    response: "høyre gardin ble lukket"
+  - sentences:
+      - Lukk garasje
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        device_class: garage
+  - sentences:
+      - Lukk gardin på kjøkken
+      - Lukk kjøkkengardin
+    intent:
+      name: HassTurnOff
+      slots:
+        area: kitchen
+        domain: cover
+        device_class:
+          - blind
+          - window
+          - curtain
+          - shutter
