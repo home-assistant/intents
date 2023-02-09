@@ -1,25 +1,41 @@
-language: nb
+language: "nb"
 intents:
   HassLightSet:
     data:
       - sentences:
-        - "sett <navn> [til] [lysstyrke] [til] <lysstyrke>"
-        - "sett lysstyrke[n] <i_på> <navn> til <lysstyrke>"
+        - "<endre> <navn> [til] [lysstyrke] [til] <lysstyrke>"
+        - "<endre> lysstyrke[n] <i_på> <navn> til <lysstyrke>"
         response: brightness
       - sentences:
-          - "sett lysstyrke[n] <i_på> <område> til <lysstyrke>"
-          - "sett <område> [til] [lysstyrke[n]] [til] <lysstyrke>"
+          - "<endre> lysstyrke[n] <i_på> <område> til <lysstyrke>"
+          - "<endre> <område> [til] [lysstyrke[n]] [til] <lysstyrke>"
         slots:
           name: all
         response: brightness
+
+      # Max/Min brightness
       - sentences:
-          - "sett <navn> farge til <farge>"
-          - "sett [farge[n] <i_på>] <navn> til <farge>"
-          - "sett <område>[s][ ]lys"
+          - "<endre> <navn> [til] {brightness_level:brightness}"
+          - "<endre> lysstyrke[n] [til] <navn> til {brightness_level:brightness}"
+        requires_context:
+          domain: light
+        response: "brightness"
+
+      - sentences:
+          - "<endre> lysstyrke[n] <i_på> <område> til {brightness_level:brightness}"
+          - "<endre> <område> [til] [lysstyrke[n]] [til] {brightness_level:brightness}"
+        slots:
+          name: "all"
+        response: "brightness_area"
+
+      - sentences:
+          - "<endre> <navn> farge til <farge>"
+          - "<endre> [farge[n] <i_på>] <navn> til <farge>"
+          - "<endre> <område>[s][ ]lys"
         response: color
       - sentences:
-          - "sett <farge> lys <i_på> <område>"
-          - "sett <område>[s][ ]<lys> til <farge>"
+          - "<endre> <farge> lys <i_på> <område>"
+          - "<endre> <område>[s][ ]<lys> til <farge>"
         slots:
           name: all
         response: color
