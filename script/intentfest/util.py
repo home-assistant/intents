@@ -90,6 +90,6 @@ def render_response(
                 entity.name: entity.text or entity.value
                 for entity in result.entities_list
             },
-            "state": {"state": ""},
+            "state": {"state": 0},
         }
     )
