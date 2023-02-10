@@ -3,11 +3,12 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List, Tuple
 
 import pytest
-from hassil import Intents, recognize
-from hassil.intents import SlotList, TextSlotList
+from hassil import Intents, parse_sentence, recognize
+from hassil.intents import SlotList, TextSlotList, is_template
+from hassil.sample import sample_expression
 from hassil.util import normalize_whitespace
 from jinja2 import BaseLoader, Environment
 
@@ -18,15 +19,33 @@ from . import TESTS_DIR, load_test
 def slot_lists_fixture(language: str) -> dict[str, SlotList]:
     """Loads the slot lists for the language."""
     fixtures = load_test(language, "_fixtures")
-    return {
-        "area": TextSlotList.from_tuples(
-            (area["name"], area["id"]) for area in fixtures["areas"]
-        ),
-        "name": TextSlotList.from_tuples(
-            (entity["name"], entity["id"], _entity_context(entity))
-            for entity in fixtures["entities"]
-        ),
-    }
+    slot_lists: dict[str, SlotList] = {}
+
+    # Generate names from templates
+    area_names: List[str] = []
+    for area in fixtures["areas"]:
+        area_name = area["name"]
+        if is_template(area_name):
+            area_names.extend(sample_expression(parse_sentence(area_name)))
+        else:
+            area_names.append(area_name)
+
+    slot_lists["area"] = TextSlotList.from_strings(area_names)
+
+    entity_tuples: List[Tuple[str, str, Dict[str, Any]]] = []
+    for entity in fixtures["entities"]:
+        context = _entity_context(entity)
+        entity_name = entity["name"]
+        if is_template(entity_name):
+            entity_names = list(sample_expression(parse_sentence(entity_name)))
+        else:
+            entity_names = [entity_name]
+
+        entity_tuples.extend((name, name, context) for name in entity_names)
+
+    slot_lists["name"] = TextSlotList.from_tuples(entity_tuples)
+
+    return slot_lists
 
 
 def _entity_context(entity: dict[str, Any]) -> dict[str, Any]:
@@ -106,23 +125,29 @@ def do_test_language_sentences_file(
                     actual_value is not None
                 ), f"Missing slot {match_name} for: {sentence} (value={match_value})"
 
-                if not isinstance(match_value, list):
-                    # Only one acceptable value
-                    assert (
-                        actual_value == match_value
-                    ), f"Expected {match_value}, got {actual_value} for slot {match_name} for: {sentence}"
-                    continue
-
-                # One of multiple possibilities
                 if isinstance(actual_value, list):
                     actual_value_set = set(actual_value)
-                    assert actual_value_set.issubset(
-                        match_value
-                    ), "Slots do not match for: {sentence}"
+                    if isinstance(match_value, list):
+                        # Both are lists
+                        assert actual_value_set.issubset(
+                            match_value
+                        ), f"Slots do not match for: {sentence}"
+                    else:
+                        # Actual is a list, match is a single value
+                        assert (
+                            match_value in actual_value_set
+                        ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
                 else:
-                    assert (
-                        actual_value in match_value
-                    ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
+                    if isinstance(match_value, list):
+                        # Match is a list, actual is a single value
+                        assert (
+                            actual_value in match_value
+                        ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
+                    else:
+                        # Both are single values
+                        assert (
+                            actual_value == match_value
+                        ), f"Expected {match_value}, got {actual_value} for slot {match_name} for: {sentence}"
 
             # Verify no extra slots
             for actual_name in actual_slots:
