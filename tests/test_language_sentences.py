@@ -6,9 +6,9 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 import pytest
-from hassil import Intents, recognize, parse_sentence
-from hassil.sample import sample_expression
+from hassil import Intents, parse_sentence, recognize
 from hassil.intents import SlotList, TextSlotList, is_template
+from hassil.sample import sample_expression
 from hassil.util import normalize_whitespace
 from jinja2 import BaseLoader, Environment
 
