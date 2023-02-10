@@ -35,6 +35,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
             "website_summary",
             "validate",
             "language_table",
+            "conversation",
         ],
     )
     parser.add_argument("--debug", action="store_true", help="Enable log output")

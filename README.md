@@ -2,11 +2,11 @@
 
 This repository contains training data for Home Assistant's local voice control.
 
- - [Progress per language and intent](https://home-assistant.github.io/intents/)
- - [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
- - [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
- - [Supported intents](https://developers.home-assistant.io/docs/intent_builtin)
- - [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages)
+- [Progress per language and intent](https://home-assistant.github.io/intents/)
+- [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
+- [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
+- [Supported intents](https://developers.home-assistant.io/docs/intent_builtin)
+- [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages)
 
 Repository layout:
 
@@ -116,6 +116,59 @@ You can add lists, ranges, and expansion rules as well:
 ```sh
 python3 -m script.intentfest sample_template 'set color to <color> and brightness to {brightness}' --values color red green --range brightness 1 2 --rule color '[the] {color}'
 ```
+
+## Check what the conversation would look like
+
+To quickly simulate a conversation, use:
+
+```sh
+python3 -m script.intentfest conversation --language en # Set your preferred language
+```
+
+For example:
+
+```
+python3 -m script.intentfest conversation --language en
+Type your query here, or type 'a' (or 'arrow up' on the keyboard) to repeat it. Type 'q' (or CTRL+C) to end the conversation.
+
+<<< Turn on the lights in the living room
+>>> Turned on lights in living room
+Debug: {
+  "text": "Turn on the lights in the living room",
+  "match": true,
+  "intent": "HassTurnOn",
+  "slots": {
+    "area": "living_room",
+    "domain": "light"
+  },
+  "response_key": "lights_area",
+  "response": "Turned on lights in living room"
+}
+------------------------------
+<<<
+New intents reloaded!
+a
+<<< Turn on the lights in the living room
+>>> Turned on lights in living room sir
+Debug: {
+  "text": "Turn on the lights in the living room",
+  "match": true,
+  "intent": "HassTurnOn",
+  "slots": {
+    "area": "living_room",
+    "domain": "light"
+  },
+  "response_key": "lights_area",
+  "response": "Turned on lights in living room sir"
+}
+------------------------------
+<<< q
+>>> Bye!
+```
+
+The style of the response changed after the first query - I made a change to the response file, the script noticed this, reloaded the intents and printed "_`New intents reloaded!`_", after which I typed "**`a`**" (or `arrow up` - something like in the terminal using command history) to repeat the last query and check the response again.
+
+There is also an option to see just the response, type **`d`** to toggle debug mode, or call the `conversation` module with `--no-response-debug`.
 
 ## Add new language
 
