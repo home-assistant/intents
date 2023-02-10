@@ -218,6 +218,8 @@ TESTS_FIXTURES = vol.Schema(
                 vol.Required("id"): str,
                 vol.Required("area"): str,
                 vol.Optional("device_class"): str,
+                vol.Optional("state"): str,
+                vol.Optional("attributes"): {str: match_anything},
             }
         ],
     }
@@ -509,7 +511,16 @@ def validate_language(
                 if response_template:
                     try:
                         jinja2_env.from_string(response_template).render(
-                            {"state": {"name": "<name>", "state": 0}, "slots": slots}
+                            {
+                                "state": {
+                                    "name": "<name>",
+                                    "state": 0,
+                                    "state_with_unit": "",
+                                    "attributes": {},
+                                },
+                                "slots": slots,
+                                "query": {"matched": [], "unmatched": []},
+                            }
                         )
                     except jinja2.exceptions.TemplateError as err:
                         errors.append(
