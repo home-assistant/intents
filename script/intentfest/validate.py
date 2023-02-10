@@ -12,6 +12,8 @@ import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
+from shared import get_jinja2_environment
+
 from .const import (
     INTENTS_FILE,
     LANGUAGES,
@@ -21,7 +23,7 @@ from .const import (
     SENTENCE_DIR,
     TESTS_DIR,
 )
-from .util import get_base_arg_parser, get_jinja2_environment
+from .util import get_base_arg_parser
 
 
 def match_anything(value):

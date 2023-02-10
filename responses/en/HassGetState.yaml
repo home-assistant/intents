@@ -2,8 +2,37 @@ language: en
 responses:
   intents:
     HassGetState:
-      default: "{{ slots.name }} is {{ state.state }}"
-      any_area: "{{ slots.area }}"
-      all_area: "{{ slots.area }}"
-      cover_area: "{{ slots.area }}"
-      light_area: "{{ slots.area }}"
+      one: "{{ slots.name }} is {{ state.state_with_unit }}"
+      one_yesno: |
+        {% if query.matched: %}
+        Yes
+        {% else: %}
+        No, {{ slots.name }} is {{ state.state_with_unit }}
+        {% endif %}
+      any: |
+        {% if query.matched: %}
+        Yes: {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% else: %}
+        No
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+        Yes
+        {% else: %}
+        No: {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      which: |
+        {% if not query.matched: %}
+        Not any
+        {% else: %}
+        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      how_many: |
+        {% if not query.matched: %}
+        0
+        {% else: %}
+        {{ query.matched | length }}
+        {% endif %}
