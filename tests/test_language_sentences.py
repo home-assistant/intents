@@ -20,10 +20,10 @@ def slot_lists_fixture(language: str) -> dict[str, SlotList]:
     fixtures = load_test(language, "_fixtures")
     return {
         "area": TextSlotList.from_tuples(
-            (area["name"], area["id"]) for area in fixtures["areas"]
+            (area["name"], area["name"]) for area in fixtures["areas"]
         ),
         "name": TextSlotList.from_tuples(
-            (entity["name"], entity["id"], _entity_context(entity))
+            (entity["name"], entity["name"], _entity_context(entity))
             for entity in fixtures["entities"]
         ),
     }

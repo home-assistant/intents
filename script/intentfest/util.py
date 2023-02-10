@@ -59,12 +59,12 @@ def get_slot_lists(test_names: Dict[str, Any]) -> Dict[str, SlotList]:
     # Load test areas and entities for language
     return {
         "area": TextSlotList.from_tuples(
-            (area["name"], area["id"]) for area in test_names["areas"]
+            (area["name"], area["name"]) for area in test_names["areas"]
         ),
         "name": TextSlotList.from_tuples(
             (
                 entity["name"],
-                entity["id"],
+                entity["name"],
                 {"domain": entity["id"].split(".", maxsplit=1)[0]},
             )
             for entity in test_names["entities"]
@@ -89,6 +89,7 @@ def render_response(
             "slots": {
                 entity.name: entity.text or entity.value
                 for entity in result.entities_list
-            }
+            },
+            "state": {"state": ""},
         }
     )
