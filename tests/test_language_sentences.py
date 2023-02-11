@@ -3,14 +3,23 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, List
 
 import pytest
-from hassil import Intents, parse_sentence, recognize
-from hassil.intents import SlotList, TextSlotList, is_template
-from hassil.sample import sample_expression
+from hassil import Intents, recognize
+from hassil.intents import SlotList
 from hassil.util import normalize_whitespace
 from jinja2 import BaseLoader, Environment
+
+from shared import (
+    AreaEntry,
+    State,
+    get_areas,
+    get_matched_states,
+    get_slot_lists,
+    get_states,
+    render_response,
+)
 
 from . import TESTS_DIR, load_test
 
@@ -19,40 +28,21 @@ from . import TESTS_DIR, load_test
 def slot_lists_fixture(language: str) -> dict[str, SlotList]:
     """Loads the slot lists for the language."""
     fixtures = load_test(language, "_fixtures")
-    slot_lists: dict[str, SlotList] = {}
-
-    # Generate names from templates
-    area_names: List[str] = []
-    for area in fixtures["areas"]:
-        area_name = area["name"]
-        if is_template(area_name):
-            area_names.extend(sample_expression(parse_sentence(area_name)))
-        else:
-            area_names.append(area_name)
-
-    slot_lists["area"] = TextSlotList.from_strings(area_names)
-
-    entity_tuples: List[Tuple[str, str, Dict[str, Any]]] = []
-    for entity in fixtures["entities"]:
-        context = _entity_context(entity)
-        entity_name = entity["name"]
-        if is_template(entity_name):
-            entity_names = list(sample_expression(parse_sentence(entity_name)))
-        else:
-            entity_names = [entity_name]
-
-        entity_tuples.extend((name, name, context) for name in entity_names)
-
-    slot_lists["name"] = TextSlotList.from_tuples(entity_tuples)
-
-    return slot_lists
+    return get_slot_lists(fixtures)
 
 
-def _entity_context(entity: dict[str, Any]) -> dict[str, Any]:
-    """Extract matching context from test fixture entity."""
-    entity_id = entity["id"]
-    domain = entity_id.split(".", maxsplit=1)[0]
-    return {"domain": domain}
+@pytest.fixture(name="states", scope="session")
+def states_fixture(language: str) -> List[State]:
+    """Loads test entity states for the language."""
+    fixtures = load_test(language, "_fixtures")
+    return get_states(fixtures)
+
+
+@pytest.fixture(name="areas", scope="session")
+def areas_fixture(language: str) -> List[AreaEntry]:
+    """Loads test areas for the language."""
+    fixtures = load_test(language, "_fixtures")
+    return get_areas(fixtures)
 
 
 def do_test_language_sentences_file(
@@ -60,6 +50,8 @@ def do_test_language_sentences_file(
     test_file: str,
     intent_schemas: dict[str, Any],
     slot_lists: dict[str, SlotList],
+    states: List[State],
+    areas: List[AreaEntry],
     language_sentences: Intents,
     language_responses: dict[str, Any],
 ) -> None:
@@ -167,14 +159,9 @@ def do_test_language_sentences_file(
                     response_template_str
                 ), f"No response template for intent {result.intent.name} named {actual_response_key}: {sentence}"
 
-                response_template = template_env.from_string(response_template_str)
-                actual_response_text = response_template.render(
-                    {
-                        "slots": {
-                            entity_name: entity_value.text or entity_value.value
-                            for entity_name, entity_value in result.entities.items()
-                        }
-                    }
+                matched, unmatched = get_matched_states(states, areas, result)
+                actual_response_text = render_response(
+                    response_template_str, result, matched, unmatched, env=template_env
                 )
                 actual_response_text = normalize_whitespace(
                     actual_response_text
@@ -189,6 +176,8 @@ def gen_test(test_file: Path) -> None:
         language: str,
         intent_schemas: dict[str, Any],
         slot_lists: dict[str, SlotList],
+        states: List[State],
+        areas: List[AreaEntry],
         language_sentences: Intents,
         language_responses: dict[str, Any],
     ) -> None:
@@ -197,6 +186,8 @@ def gen_test(test_file: Path) -> None:
             test_file.stem,
             intent_schemas,
             slot_lists,
+            states,
+            areas,
             language_sentences,
             language_responses,
         )
