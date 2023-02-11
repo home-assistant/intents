@@ -2,4 +2,47 @@ language: lb
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      # brightness
+      - sentences:
+          - "<maach> <name> Hellegkeet op <brightness>"
+          - "<maach> [d']Hellegkeet (vu | vun | vum) [(der | dem)] <name> op <brightness>"
+          - "<maach> <name> op <brightness> [Hellegkeet]"
+        response: "brightness"
+        requires_context:
+          domain: light
+      - sentences:
+          - "<maach> <name> op <brightness>"
+        requires_context:
+          domain: "light"
+        response: "brightness"
+      - sentences:
+          - "<maach> [d']Hellegkeet [(vu | vum)] <area> op <brightness>"
+          - "<maach> <area> Hellegkeet op <brightness>"
+          - "<maach> <area> op <brightness> Hellegkeet"
+          - "<maach> <area> op <brightness>"
+        slots:
+          name: "all"
+        response: "brightness_area"
+      - sentences:
+          - "<maach> <area> op <brightness>"
+        requires_context:
+          domain: "light"
+        slots:
+          name: "all"
+        response: "brightness_area"
+
+      # color
+      - sentences:
+          - "<maach> <name> [Faarf] [op] {color}"
+          - "<maach> [[d']Faarf] (vu | vun | vum) [(der | dem)] <name> [op] {color}"
+        requires_context:
+          domain: light
+        response: "color"
+      - sentences:
+          - "<maach> [[d']Faarf] (vu | vun | vum) [(der | dem)] (<area> | [all] <light> <area> | [all] <area> <light>) [op] {color}"
+          - "<maach> <area> [Faarf] [op] {color}"
+          - "<maach> [all | alleguer | alleguerten] <light> <area> [Faarf] [op] {color}"
+          - "<maach> [all | alleguer | alleguerten] <area> <light> [Faarf] [op] {color}"
+        slots:
+          name: "all"
+        response: "color_area"
