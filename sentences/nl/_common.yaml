@@ -13,6 +13,12 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: (max|maximum|maximaal|hoogst[e])
+        out: 100
+      - in: (min|minimum|minimaal|laagst[e])
+        out: 1
   color:
     values:
       - in: "wit"
@@ -48,6 +54,50 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+  on_off_states:
+    values:
+      - in: "aan"
+        out: "on"
+      - in: "uit"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: (lamp[en]|licht[en]|verlichting)
+        out: light
+      - in: fan[s]
+        out: fan
+      - in: schakelaar[s]
+        out: switch
+  cover_states:
+    values:
+      - in: "open"
+        out: "open"
+      - in: "closed"
+        out: "closed"
+      - in: "(open aan het gaan|aan het (openen|open gaan))"
+        out: "opening"
+      - in: "(dicht aan het gaan|aan het (dicht gaan|sluiten))"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: awning[s]
+        out: awning
+      - in: blind[s]
+        out: blind
+      - in: curtain[s]
+        out: curtain
+      - in: deur[en]
+        out: door
+      - in: garage[ ]deur[en]
+        out: garage
+      - in: (hek[ken]|poort[en])
+        out: gate
+      - in: shade[s]
+        out: shade
+      - in: shutter[s]
+        out: shutter
+      - in: (raam|ramen)
+        out: window
 expansion_rules:
   lamp: "[de|het] (lamp[en]|licht[en]|verlichting)"
   ventilator: "[de] (ventilator[s|en]|fan[s])"

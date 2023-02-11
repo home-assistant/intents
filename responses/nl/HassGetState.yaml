@@ -1,4 +1,38 @@
 language: nl
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      one: "{{ slots.name | capitalize }} is {{ state.state_with_unit }}"
+      one_yesno: |
+        {% if query.matched: %}
+        Ja
+        {% else: %}
+        Nee, {{ slots.name }} is {{ state.state_with_unit }}
+        {% endif %}
+      any: |
+        {% if query.matched: %}
+        Ja, {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% else: %}
+        Nee
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+        Ja
+        {% else: %}
+        Nee, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      which: |
+        {% if not query.matched: %}
+        Geen
+        {% else: %}
+        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      how_many: |
+        {% if not query.matched: %}
+        0
+        {% else: %}
+        {{ query.matched | length }}
+        {% endif %}
