@@ -2,4 +2,19 @@ language: de-CH
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      - sentences:
+          - "(setz|steu|schteu|dimm|dim) [(d'|d' |d |die )(Helligkeit|Hälligkeit|Häuigkeit)][( vo| vor| vo der| vo dr| vodr)] <name> uf <brightness> [(ii|y)]"
+        requires_context:
+          domain: light
+        response: brightness
+      - sentences:
+          - "(setz|steu|schteu|dimm|dim) [(d'|d' |d |die )(Helligkeit|Hälligkeit|Häuigkeit)][( vo | vor | vo der | vo dr | vodr )](<Liecht>|<Liechter>) <area> uf <brightness> [(ii|y)]"
+        response: brightness_area
+      - sentences:
+          - "(setz|steu|schteu|wächsle|wächslä) [(d' |d'|d )Farb (vo|vor|vo der|vo dr|vodr)] <name> (uf|nach) {color}"
+        requires_context:
+          domain: light
+        response: color
+      - sentences:
+          - "(setz|steu|schteu|wächsle|wächslä) [(d' |d'|d )Farb (vo|vor|vo de )][(<Liecht>|<Liechter>)] <area> (uf|nach) {color}"
+        response: color_area
