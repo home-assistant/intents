@@ -1,16 +1,18 @@
-language: "cs"
+language: cs
 intents:
   HassTurnOff:
     data:
       - sentences:
-          - "(<vypnout>|<zhasnout>) světlo <area>"
-          - "<area> (<vypnout>|<zhasnout>) světlo"
+          - "(<vypnout>|<zhasnout>) [světlo] {name}"
+          - "{name} (<vypnout>|<zhasnout>) [světlo]"
         slots:
           domain: light
-        response: "light"
+        requires_context:
+          domain: light
+        response: light
       - sentences:
           - "(<vypnout>|<zhasnout>) [všechna] světla <area>"
           - "<area> (<vypnout>|<zhasnout>) [všechna] světla"
         slots:
           domain: light
-        response: "lights_area"
+        response: lights_area

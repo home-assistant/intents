@@ -1,8 +1,8 @@
-language: "cs"
+language: cs
 responses:
   errors:
     no_intent: "Omlouvám se, ale nerozuměl jsem tomu"
-    no_area: "Nepojmenovaná oblast {{ area }}"
+    no_area: "Oblast {{ area }} jsem nenašel"
     no_domain: "{{ area }} neobsahuje {{ domain }}"
     no_device_class: "{{ area }} neobsahuje {{ device_class }}"
     no_entity: "Žádné zařízení ani entita se nejmenuje {{ entity }}"
@@ -32,11 +32,13 @@ lists:
   # might be used for all MIN/MAX sentences,
   # so intended to leave just min_max rather then brightness_level
   # in need to change declaration - change also light_HassLightSet
-  min_max:
+  max:
     values:
-      - in: "(max | maxi(mum|mální) | [co] nej(víc|vyšší|větší))"
+      - in: "(max|maxi(mum|mální)|[co] nej(víc|vyšší|větší))"
         out: 100
-      - in: "(min | mini(mum|mální) | [co] nej(míň|menší|nižší))"
+  min:
+    values:
+      - in: "(min|mini(mum|mální)|[co] nej(míň|menší|nižší))"
         out: 1
   brightness:
     range:
@@ -51,23 +53,23 @@ lists:
   temperature_unit:
     values:
       - "celsia"
-      - in: "c"
-        out: "celsia"
-      - "(fahrenheit | fahrenheita)"
-      - in: "f"
-        out: "fahrenheita"
+      - in: "(c|celsia)"
+        out: celsia
+      - "fahrenheita"
+      - in: "(f|fahrenhait[a])"
+        out: fahrenheita
 expansion_rules:
-  area: "[(na|v)] {area}"
+  area: "[(na|v|ve)] {area}"
   zapnout: "(zapni|zapnout)"
   vypnout: "(vypni|vypnout|zastavit|zastav)"
-  rozsvitit: "(rozsviť|rozsvítit)"
+  rozsvitit: "(rozsviť|rozsvítit|rožn[i|out])" #some dialect to be served for users :)
   zhasnout: "(zhasni|zhasnout)"
   nastavit: "(nastav|nastavit)"
   zmenit: "(změň|změnit)"
   ztlumit: "(ztlu(m|it)|snížit|sniž)"
   zvysit: "zv(yš|ýšit)"
-  teplota: "{temperature} [stupňů] [{temperature_unit}]"
-  brightness: "[na] {brightness} [procent]"
+  teplota: "{temperature}[°| stupňů] [{temperature_unit}]"
+  brightness: "[na] {brightness}[%| procent]"
   zavrit: "(zavři|zavřít)"
   otevrit: "(otevři|otevřít)"
   roztahnout: "(roz|vy|od)táhn(out|i)"

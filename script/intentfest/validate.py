@@ -12,6 +12,8 @@ import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
+from shared import get_jinja2_environment
+
 from .const import (
     INTENTS_FILE,
     LANGUAGES,
@@ -21,7 +23,7 @@ from .const import (
     SENTENCE_DIR,
     TESTS_DIR,
 )
-from .util import get_base_arg_parser, get_jinja2_environment
+from .util import get_base_arg_parser
 
 
 def match_anything(value):
@@ -84,6 +86,7 @@ LANGUAGES_SCHEMA = vol.Schema(
 INTENTS_SCHEMA = vol.Schema(
     {
         str: {
+            vol.Optional("supported"): bool,
             vol.Required("domain"): str,
             vol.Required("description"): str,
             vol.Optional("slots"): {
@@ -114,7 +117,7 @@ INTENT_ERRORS = {
 }
 
 SENTENCE_MATCHER = vol.All(
-    match_unicode_regex(r"^[\w\p{M} :'\|\(\)\[\]\{\}\<\>]+$"),
+    match_unicode_regex(r"^[\w\p{M} :\-'\|\(\)\[\]\{\}\<\>]+$"),
     msg="Sentences should only contain words and matching syntax. They should not contain punctuation.",
 )
 
@@ -144,6 +147,7 @@ SENTENCE_SCHEMA = vol.Schema(
 SENTENCE_COMMON_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
+        vol.Optional("settings"): {vol.Any("ignore_whitespace"): bool},
         vol.Optional("responses"): {
             vol.Optional("errors"): {
                 vol.In(INTENT_ERRORS): str,
@@ -189,6 +193,9 @@ TESTS_SCHEMA = vol.Schema(
                         # this will allow us to add more keys in the future.
                         str: match_anything_but_dict,
                     },
+                    vol.Optional("context"): {
+                        str: match_anything_but_dict,
+                    },
                 },
                 vol.Optional("response"): vol.Any(str, [str]),
             }
@@ -211,6 +218,8 @@ TESTS_FIXTURES = vol.Schema(
                 vol.Required("id"): str,
                 vol.Required("area"): str,
                 vol.Optional("device_class"): str,
+                vol.Optional("state"): str,
+                vol.Optional("attributes"): {str: match_anything},
             }
         ],
     }
@@ -502,7 +511,16 @@ def validate_language(
                 if response_template:
                     try:
                         jinja2_env.from_string(response_template).render(
-                            {"state": {"name": "<name>", "state": 0}, "slots": slots}
+                            {
+                                "state": {
+                                    "name": "<name>",
+                                    "state": 0,
+                                    "state_with_unit": "",
+                                    "attributes": {},
+                                },
+                                "slots": slots,
+                                "query": {"matched": [], "unmatched": []},
+                            }
                         )
                     except jinja2.exceptions.TemplateError as err:
                         errors.append(

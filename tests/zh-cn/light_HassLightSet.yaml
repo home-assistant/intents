@@ -1,6 +1,86 @@
 language: zh-cn
 tests:
-- sentences: []
-  intent:
-    name: HassLightSet
-    slots: {}
+  # brightness
+  - sentences:
+      - 把卧室灯的亮度设置为50%
+      - 设置卧室灯的亮度到50%
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 50
+        name: 卧室灯
+    response: 卧室灯亮度已设置为50%
+  - sentences:
+      - 把卧室的灯亮度设置为50%
+      - 调节卧室的灯亮度到50%
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 50
+        area: 卧室
+        name: all
+    response:
+      卧室灯亮度已设置为50%
+
+      # Max/Min brightness
+  - sentences:
+      - 卧室灯亮度调到最大
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 100
+        name: 卧室灯
+    response:
+      - 卧室灯亮度已设置为最大
+  - sentences:
+      - 卧室亮度调到最亮
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 100
+        area: 卧室
+        name: all
+    response:
+      - 卧室灯亮度已设置为最亮
+
+  - sentences:
+      - 卧室灯亮度调到最暗
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 1
+        name: 卧室灯
+    response:
+      - 卧室灯亮度已设置为最暗
+  - sentences:
+      - 卧室亮度调到最小
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 1
+        area: 卧室
+        name: all
+    response:
+      - 卧室灯亮度已设置为最小
+
+        # color
+  - sentences:
+      - 把卧室灯的颜色设置为红色
+      - 卧室灯调节为红色
+      - 卧室灯红色
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        name: 卧室灯
+    response: 卧室灯颜色已设置为红色
+  - sentences:
+      - 把卧室的灯设置为红色
+      - 卧室的灯调节为红色
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        area: 卧室
+        name: all
+    response: 卧室灯颜色已设置为红色

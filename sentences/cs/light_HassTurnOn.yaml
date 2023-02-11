@@ -3,14 +3,16 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "(<zapnout> | <rozsvitit>) světlo <area>"
-          - "<area> (<zapnout> | <rozsvitit>) světlo"
+          - "(<zapnout>|<rozsvitit>) [světlo] {name}"
+          - "{name} (<zapnout>|<rozsvitit>) [světlo]"
         slots:
           domain: light
-        response: "light"
+        requires_context:
+          domain: light
+        response: light
       - sentences:
-          - "(<zapnout> | <rozsvitit>) [všechna] světla <area>"
-          - "<area> (<zapnout> | <rozsvitit>) [všechna] světla"
+          - "(<zapnout>|<rozsvitit>) [všechna] světla <area>"
+          - "<area> (<zapnout>|<rozsvitit>) [všechna] světla"
         slots:
           domain: light
-        response: "lights_area"
+        response: lights_area

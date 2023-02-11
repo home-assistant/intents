@@ -1,13 +1,39 @@
 language: cs
 tests:
   - sentences:
-      - "zapni světlo v obýváku"
-      - "zapni všechna světla v obývacím pokoji"
-      - "zapni světla v obýváku"
-      - "v obývacím pokoji zapni všechna světla"
-      - "v obýváku zapni světlo"
+      - rozsviť světlo lampička v obývacím pokoji
     intent:
-      name: "HassTurnOn"
+      name: HassTurnOn
       slots:
-        area: living_room
         domain: light
+        name:
+          - lampa v obývacím pokoji
+          - lampička v obývacím pokoji
+          - lampičku v obývacím pokoji
+    response: Světlo lampička v obývacím pokoji bylo zapnuto
+
+  - sentences:
+      - předsíň rozsviť
+      - rozsviť předsíň
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        name: předsíň
+    response: Světlo předsíň bylo zapnuto
+
+  - sentences:
+      - zapni všechna světla v obývacím pokoji
+      - zapni světla v obýváku
+      - v obývacím pokoji zapni všechna světla
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        area:
+          - Obývací pokoji
+          - Obývacím pokoji
+          - obýváku
+    response:
+      - Světla v obývacím pokoji byla zapnuta
+      - Světla v obýváku byla zapnuta
