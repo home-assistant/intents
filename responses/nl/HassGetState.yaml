@@ -2,7 +2,23 @@ language: nl
 responses:
   intents:
     HassGetState:
-      one: "{{ slots.name | capitalize }} is {{ state.state_with_unit }}"
+      one: |
+        {% set translations =
+          {
+            "on": "aan",
+            "off": "uit",
+            "open": "open",
+            "closed": "dicht",
+            "opening": "aan het openen",
+            "closing": "aan het sluiten"
+          }
+        %}
+        {% if state.state in translations %}
+          {% set translated = translations[state.state] %}
+        {% else %}
+          {% set translated = state.state_with_unit %}
+        {% endif %}
+        {{ slots.name | capitalize }} is {{ translated if translated is defined else state.state_with_unit }}
       one_yesno: |
         {% set translations =
           {
@@ -15,12 +31,14 @@ responses:
           }
         %}
         {% if state.state in translations %}
-          {% set translated = translations[state.state_with_unit] %}
+          {% set translated = translations[state.state] %}
+        {% else %}
+          {% set translated = state.state_with_unit %}
         {% endif %}
         {% if query.matched: %}
           Ja
         {% else: %}
-          Nee, die is {{ translated if translated is defined else state.state_with_unit }}
+          Nee, die is {{ translated }}
         {% endif %}
       any: |
         {% if query.matched: %}
