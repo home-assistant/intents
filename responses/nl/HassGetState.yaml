@@ -4,10 +4,23 @@ responses:
     HassGetState:
       one: "{{ slots.name | capitalize }} is {{ state.state_with_unit }}"
       one_yesno: |
+        {% set translations =
+          {
+            "on": "aan",
+            "off": "uit",
+            "open": "open",
+            "closed": "dicht",
+            "opening": "aan het openen",
+            "closing": "aan het sluiten"
+          }
+        %}
+        {% if state.state_with_unit in translations.keys() %}
+          {% set translated = translations[state.state_with_unit] %}
+        {% endif %}
         {% if query.matched: %}
-        Ja
+          Ja
         {% else: %}
-        Nee, {{ slots.name }} is {{ state.state_with_unit }}
+          Nee, {{ slots.name }} is {{ translated if translated is defined else state.state_with_unit }}
         {% endif %}
       any: |
         {% if query.matched: %}
@@ -20,14 +33,19 @@ responses:
         {% if not query.unmatched: %}
         Ja
         {% else: %}
-        Nee, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+        Nee, niet {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
         {% endif %}
 
       which: |
         {% if not query.matched: %}
-        Geen
+          Geen
         {% else: %}
-        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+          {% set matched = query.matched | length %}
+          {% if matched > 3 %}
+            {{ (query.matched | map(attribute="name") | sort | list)[:3] | join(", ") ~ " en nog " ~ (matched - 3)  }}
+          {% else %}
+            {{ query.matched | map(attribute="name") | sort | join(", ") }}
+          {% endif %}
         {% endif %}
 
       how_many: |
