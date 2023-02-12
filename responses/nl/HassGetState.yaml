@@ -40,11 +40,11 @@ responses:
         {% if not query.matched: %}
           Geen
         {% else: %}
-          {% set matched = query.matched | length %}
-          {% if matched > 3 %}
-            {{ (query.matched | map(attribute="name") | sort | list)[:3] | join(", ") ~ " en nog " ~ (matched - 3)  }}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 3 %}
+            {{ match[:3] | join(", ") ~ " en nog " ~ (match | length - 3)  }}
           {% else %}
-            {{ query.matched | map(attribute="name") | sort | join(", ") }}
+            {{ match[:-1] | join(", ") ~ " en " ~ match[-1] if match | length > 1 else match[0] }}
           {% endif %}
         {% endif %}
 
