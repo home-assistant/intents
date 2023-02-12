@@ -118,7 +118,7 @@ def do_test_language_sentences_file(
                 ), f"Missing slot {match_name} for: {sentence} (value={match_value})"
 
                 if isinstance(actual_value, list):
-                    actual_value_set = set([val.lower() for val in actual_value])
+                    actual_value_set = {val.lower() for val in actual_value}
                     if isinstance(match_value, list):
                         # Both are lists
                         assert actual_value_set.issubset(
