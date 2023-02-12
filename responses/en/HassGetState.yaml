@@ -11,7 +11,7 @@ responses:
         {% endif %}
       any: |
         {% if query.matched: %}
-        Yes, {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        Yes, {{ query.matched | map(attribute="name") | sort | join(", ") }} {{ 'is' if (query.matched|length) == 1 else 'are' }} {{ slots.state }}
         {% else: %}
         No
         {% endif %}
@@ -20,14 +20,14 @@ responses:
         {% if not query.unmatched: %}
         Yes
         {% else: %}
-        No, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+        No, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} {{ 'is' if (query.unmatched|length) == 1 else 'are' }} not {{ slots.state }}
         {% endif %}
 
       which: |
         {% if not query.matched: %}
         Not any
         {% else: %}
-        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {{ query.matched | map(attribute="name") | sort | join(", ") }} {{ 'is' if (query.matched|length) == 1 else 'are' }} {{ slots.state }}
         {% endif %}
 
       how_many: |
