@@ -14,13 +14,13 @@ responses:
             "closing": "aan het sluiten"
           }
         %}
-        {% if state.state_with_unit in translations.keys() %}
+        {% if state.state_with_unit in translations %}
           {% set translated = translations[state.state_with_unit] %}
         {% endif %}
         {% if query.matched: %}
           Ja
         {% else: %}
-          Nee, {{ slots.name }} is {{ translated if translated is defined else state.state_with_unit }}
+          Nee, die is {{ translated if translated is defined else state.state_with_unit }}
         {% endif %}
       any: |
         {% if query.matched: %}
@@ -33,7 +33,7 @@ responses:
         {% if not query.unmatched: %}
         Ja
         {% else: %}
-        Nee, niet {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+        Nee, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} niet
         {% endif %}
 
       which: |
