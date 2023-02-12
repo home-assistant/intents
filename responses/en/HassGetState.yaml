@@ -11,7 +11,10 @@ responses:
         {% endif %}
       any: |
         {% if query.matched: %}
-        Yes, {{ query.matched | map(attribute="name") | sort | join(", ") }} {{ 'is' if (query.matched|length) == 1 else 'are' }} {{ slots.state }}
+        {% set sorted_query = query.matched | map(attribute="name") | sort %}
+        {% set list_first = sorted_query[0:-1] | join(", ") %}
+        {% set list_last = sorted_query[-1] %}
+        Yes, {{ ([list_first, list_last] | join(" and ")) if (sorted_query|length > 1) else list_last }} {{ 'is' if (query.matched|length) == 1 else 'are' }} {{ slots.state }}
         {% else: %}
         No
         {% endif %}
@@ -20,14 +23,20 @@ responses:
         {% if not query.unmatched: %}
         Yes
         {% else: %}
-        No, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} {{ 'is' if (query.unmatched|length) == 1 else 'are' }} not {{ slots.state }}
+        {% set sorted_query = query.unmatched | map(attribute="name") | sort %}
+        {% set list_first = sorted_query[0:-1] | join(", ") %}
+        {% set list_last = sorted_query[-1] %}
+        No, {{ ([list_first, list_last] | join(" and ")) if (sorted_query|length > 1) else list_last }} {{ 'is' if (query.unmatched|length) == 1 else 'are' }} not {{ slots.state }}
         {% endif %}
 
       which: |
         {% if not query.matched: %}
         Not any
         {% else: %}
-        {{ query.matched | map(attribute="name") | sort | join(", ") }} {{ 'is' if (query.matched|length) == 1 else 'are' }} {{ slots.state }}
+        {% set sorted_query = query.matched | map(attribute="name") | sort %}
+        {% set list_first = sorted_query[0:-1] | join(", ") %}
+        {% set list_last = sorted_query[-1] %}
+        {{ ([list_first, list_last] | join(" and ")) if (sorted_query|length > 1) else list_last }} {{ 'is' if (query.matched|length) == 1 else 'are' }} {{ slots.state }}
         {% endif %}
 
       how_many: |
