@@ -1,4 +1,37 @@
 language: ro
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "<name> [<din> <area>] <este> {cover_states:state}"
+          - "<este> {cover_states:state} <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<este> | exist(ă|a)) [<vreun>] {cover_classes:device_class} {cover_states:state} [<in> <area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "sunt (to(ț|t)i | toate) {cover_classes:device_class} {cover_states:state} [<in> <area>]"
+          - "(to(ț|t)i | toate) {cover_classes:device_class} sunt {cover_states:state} [<in> <area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "care {cover_classes:device_class} <este> {cover_states:state} [<in> <area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<cate> {cover_classes:device_class} <este> {cover_states:state} [<in> <area>]"
+        response: how_many
+        slots:
+          domain: cover
