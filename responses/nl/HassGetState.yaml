@@ -44,7 +44,10 @@ responses:
           {% if match | length > 4 %}
             {{ match[:3] | join(", ") ~ " en nog " ~ (match | length - 3)  }}
           {% else %}
-            {{ match[:-1] | join(", ") ~ " en " ~ match[-1] if match | length > 1 else match[0] }}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last %} en {% endif -%}
+              {{ name }}
+            {%- endfor -%}
           {% endif %}
         {% endif %}
 
