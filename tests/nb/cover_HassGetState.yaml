@@ -1,2 +1,65 @@
 language: nb
-tests: []
+tests:
+  - sentences:
+      - "er venstre gardin lukket?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Venstre gardin"
+        state: "closed"
+    response: "Nei, venstre gardin er open"
+
+  - sentences:
+      - "er venstre gardin lukket i stuen?"
+      - "er venstre gardin i stuen lukket?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Venstre gardin"
+        area: "Stue"
+        state: "closed"
+    response: "Nei, venstre gardin er open"
+
+  - sentences:
+      - "er noen gardiner åpnet i stuen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Stue"
+        device_class: curtain
+        state: "open"
+    response: "Ja, Venstre gardin"
+
+  - sentences:
+      - "er alle gardiner åpnet i stuen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Stue"
+        device_class: curtain
+        state: "open"
+    response: "Nei, Høyre gardin"
+
+  - sentences:
+      - "hvilke gardiner er lukket?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Høyre gardin, Soveromsgardin"
+
+  - sentences:
+      - "hvor mange gardiner er lukket?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"
