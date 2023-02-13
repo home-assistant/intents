@@ -1,2 +1,64 @@
 language: nl
-tests: []
+tests:
+  - sentences:
+      - "Wat is de buitentemperatuur"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Buitentemperatuur"
+    response: "Buitentemperatuur is 15 °C"
+
+  - sentences:
+      - "Staat de slaapkamerlamp aan?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Slaapkamerlamp"
+        state: "on"
+    response: "Nee, die is uit"
+
+  - sentences:
+      - "Staan er schakelaars aan in de keuken?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Keuken"
+        domain: "switch"
+        state: "on"
+    response: "Ja, Keukenschakelaar"
+
+  - sentences:
+      - "Zijn alle schakelaars aan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Nee, Slaapkamerschakelaar niet"
+
+  - sentences:
+      - "Welke lampen staan aan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Keukenlamp aanrecht, Keukenlamp kastjes, Keukenlamp plafond en nog 2"
+
+  - sentences:
+      - "Welke lampen staan uit?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Slaapkamerlamp en Staande lamp"
+
+  - sentences:
+      - "Hoeveel lampen staan aan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"
