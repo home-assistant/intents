@@ -1,4 +1,38 @@
 language: bg
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      one: "{{ slots.name }} e {{ state.state_with_unit }}"
+      one_yesno: |
+        {% if query.matched: %}
+        Да
+        {% else: %}
+        Не, {{ slots.name }} е {{ state.state_with_unit }}
+        {% endif %}
+      any: |
+        {% if query.matched: %}
+        Да, {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% else: %}
+        Не
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+        Да
+        {% else: %}
+        Не, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      which: |
+        {% if not query.matched: %}
+        Никои
+        {% else: %}
+        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      how_many: |
+        {% if not query.matched: %}
+        0
+        {% else: %}
+        {{ query.matched | length }}
+        {% endif %}
