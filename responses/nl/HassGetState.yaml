@@ -37,21 +37,21 @@ responses:
         {% endif %}
         {% if query.matched: %}
           Ja
-        {% else: %}
+        {% else %}
           Nee, die is {{ translated }}
         {% endif %}
       any: |
         {% if query.matched: %}
           Ja, {{ query.matched | map(attribute="name") | sort | join(", ") }}
-        {% else: %}
-        Nee
+        {% else %}
+          Nee
         {% endif %}
 
       all: |
         {% if not query.unmatched: %}
-        Ja
-        {% else: %}
-        Nee, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} niet
+          Ja
+        {% else %}
+          Nee, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} niet
         {% endif %}
 
       which: |
@@ -63,7 +63,7 @@ responses:
             {{ match[:3] | join(", ") ~ " en nog " ~ (match | length - 3)  }}
           {% else %}
             {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last %} en {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} en {% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}

@@ -1,2 +1,53 @@
 language: nl
-tests: []
+tests:
+  - sentences:
+      - "is gordijn links dicht"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Gordijn links"
+        state: "closed"
+    response: "Nee, die is open"
+
+  - sentences:
+      - "Zijn er gordijnen open in de woonkamer?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Living Room"
+        device_class: curtain
+        state: "open"
+    response: "Ja, Gordijn Links"
+
+  - sentences:
+      - "Zijn alle gordijnen dicht in de woonkamer?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Living Room"
+        device_class: curtain
+        state: "open"
+    response: "Nee, Gordijn Links niet"
+
+  - sentences:
+      - "Welke gordijnen zijn dicht?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Gordijn Rechts en Gordijn Slaapkamer"
+
+  - sentences:
+      - "Hoeveel gordijnen zijn dicht?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"
