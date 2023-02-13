@@ -1,0 +1,30 @@
+language: sk
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - <what_is> <name> [<in> <area>]
+        response: one
+
+      - sentences:
+          - <is> <name> {on_off_states:state} [<in> <area>]
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - <is> {on_off_states:state} <any> {on_off_domains:domain} [<in> <area>]
+        response: any
+
+      - sentences:
+          - <is> <all> {on_off_domains:domain} [<in> <area>] {on_off_states:state}
+        response: all
+
+      - sentences:
+          - <which> {on_off_domains:domain} <is> {on_off_states:state} [<in> <area>]
+        response: which
+
+      - sentences:
+          - <how_many> {on_off_domains:domain} <is> {on_off_states:state} [<in> <area>]
+        response: how_many

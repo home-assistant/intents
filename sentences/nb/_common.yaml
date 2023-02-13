@@ -13,6 +13,12 @@ lists:
       type: percentage
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: (maks[imum]|[det] høyest[e])
+        out: 100
+      - in: (minimum|[det] lavest[e])
+        out: 1
   color:
     values:
       - in: "blå"
@@ -46,28 +52,75 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+  on_off_states:
+    values:
+      - in: "på"
+        out: "on"
+      - in: "av"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: <lys>
+        out: light
+      - in: <vifte>
+        out: fan
+      - in: <bryter>
+        out: switch
+  cover_states:
+    values:
+      - in: "åpen"
+        out: "open"
+      - in: "lukket"
+        out: "closed"
+      - in: "åpner"
+        out: "opening"
+      - in: "lukker"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: <markise>
+        out: awning
+      - in: <rullegardin>
+        out: blind
+      - in: <gardin>
+        out: curtain
+      - in: dør[(er|en[e]|n[s])]
+        out: door
+      - in: <garasje>
+        out: garage
+      - in: port[(er|en[e]|n[s])]
+        out: gate
+      - in: <persienne>
+        out: shade
+      - in: <skodde>
+        out: shutter
+      - in: <vindu>
+        out: window
 expansion_rules:
   alle: "(alle|alt|samtlige)"
   farge: "{color}[t[t]]"
   i_på: "(i|på|ved [siden av])"
   kaldt_varmt: "(kald|kaldt|varm|varmt)"
   lys: "(lys[(ene|et)]|lyskilde[r|n|ene]|[gløde|led|diode]lamp[e|en|er|ene]|lysrør[et|ene]|belysning[en])"
+  bryter: "(bryter[(e|[e]n[e])]|uttak[ene])"
   lysstyrke: "{brightness}[%| prosent]"
   navn: "{name}[(en|et|n[s])]"
   område: "{area}[(n[s]|en|et[s]|met[s])]"
   skru_av: "(skru av|slukk|slå av|slukk|steng [av]|stopp)"
   skru_på: "(skru på|tenn|sett[e] (på|igang|fart på)|slå på|start[e])"
   hva: "(hva er|hva er det|hvilken|hvilke)"
+  tilstand: "((tilstand|status|instilling)[en] [til])"
   endre: "(endre|sett|juster|skru (opp|ned)|vri|dimm[e]|still [inn]|øk|senk|dim[me])"
   temperatur: "{temperature}[°| grader] [{temperature_unit}]"
   åpne: "åpne [opp]|heis [opp]|lukk opp|rull opp"
   lukk: "lukk [igjen]|heis [ned]|rull [ned]|steng|senk"
   vindu: "[tak]vindu[et|er|ene]|[tak]luke[en|er|ene]"
-  garasjedør: "garasj[edør|eport][(en|er|ene)]"
-  gardin: "[rulle]gardin[(et|er|ene)]|persienn[et|er|ene]|forheng[et|er|ene]"
+  garasje: "garasje[dør|port][e][(n|r|ne)]"
+  gardin: "gardin[(et|er|ene)]|forheng[et|er|ene]"
   persienne: "persienne[(n|r|ene)]"
-  rullegardin: "rullegardin[(et|er|ene)]"
+  rullegardin: "[rulle|folde|plisse]gardin[(et|er|ene)]"
   skodde: "[rulle]skodde[(n|r|ene)]|solskjerm[(en|er|ene)]"
+  markise: "markise[(r|n[e])]"
   vifte: "vifte[(r|n[e])]"
 skip_words:
   - "vær så snill"
