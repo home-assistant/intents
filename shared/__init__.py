@@ -108,7 +108,7 @@ def get_matched_states(
 
         if state_name is not None:
             # Match state
-            if state.state == state_name:
+            if state.hass_state == state_name:
                 matched.append(state)
             else:
                 unmatched.append(state)
