@@ -2,12 +2,43 @@ language: nb
 responses:
   intents:
     HassGetState:
-      one: "{{ slots.name }} er {{ state.state_with_unit }}"
+      one: |
+        {% set translations =
+          {
+            "on": "på",
+            "off": "av",
+            "open": "åpen",
+            "closed": "lukket",
+            "opening": "åpner",
+            "closing": "lukker"
+          }
+        %}
+        {% if state.state in translations %}
+          {% set translated = translations[state.state] %}
+        {% else %}
+          {% set translated = state.state_with_unit %}
+        {% endif %}
+        {{ slots.name | capitalize }} er {{ translated }}
       one_yesno: |
+        {% set translations =
+          {
+            "on": "på",
+            "off": "av",
+            "open": "åpen",
+            "closed": "lukket",
+            "opening": "åpner",
+            "closing": "lukker"
+          }
+        %}
+        {% if state.state in translations %}
+          {% set translated = translations[state.state] %}
+        {% else %}
+          {% set translated = state.state_with_unit %}
+        {% endif %}
         {% if query.matched: %}
-        Ja
+          Ja
         {% else: %}
-        Nei, {{ slots.name }} er {{ state.state_with_unit }}
+          Nei, {{ slots.name | capitalize }} er {{ translated }}
         {% endif %}
       any: |
         {% if query.matched: %}
@@ -25,7 +56,15 @@ responses:
         {% if not query.matched: %}
         Ingen
         {% else: %}
-        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") ~ " en nog " ~ (match | length - 3)  }}
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last %} og {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
         {% endif %}
       how_many: |
         {% if not query.matched: %}
