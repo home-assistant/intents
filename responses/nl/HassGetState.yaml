@@ -10,16 +10,18 @@ responses:
         {% else: %}
           Nee, die is {{ state.state_with_unit }}
         {% endif %}
+
       any: |
         {% if query.matched %}
           Ja, {{ query.matched | map(attribute="name") | sort | join(", ") }}
-        {% else: %}
+        {% else %}
           Nee
         {% endif %}
+
       all: |
-        {% if not query.unmatched %}
+        {% if not query.unmatched: %}
           Ja
-        {% else: %}
+        {% else %}
           Nee, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} niet
         {% endif %}
 
@@ -32,7 +34,7 @@ responses:
             {{ match[:3] | join(", ") ~ " en nog " ~ (match | length - 3)  }}
           {% else %}
             {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last %} en {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} en {% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
