@@ -1,0 +1,30 @@
+language: vi
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - trạng thái [của] <name> [trong | ở trong <area>] [là bao nhiêu | thế nào]
+        response: one
+
+      - sentences:
+          - <name>[trong | ở trong <area>] đang {on_off_states:state} (có phải không | phải không)
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - có {on_off_domains:domain} [nào] đang {on_off_states:state} [trong | ở trong] <area> [không | hay không]
+        response: any
+
+      - sentences:
+          - (tất cả | toàn bộ) {on_off_domains:domain} [trong | ở trong] [<area>] đang {on_off_states:state} [phải không | có phải không]
+        response: all
+
+      - sentences:
+          - những {on_off_domains:domain} nào đang {on_off_states:state} [trong | ở trong <area>]
+        response: which
+
+      - sentences:
+          - có bao nhiêu {on_off_domains:domain} đang {on_off_states:state} [trong | ở trong <area>]
+        response: how_many

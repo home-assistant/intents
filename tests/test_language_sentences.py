@@ -3,13 +3,23 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, List
 
 import pytest
 from hassil import Intents, recognize
-from hassil.intents import SlotList, TextSlotList
+from hassil.intents import SlotList
 from hassil.util import normalize_whitespace
 from jinja2 import BaseLoader, Environment
+
+from shared import (
+    AreaEntry,
+    State,
+    get_areas,
+    get_matched_states,
+    get_slot_lists,
+    get_states,
+    render_response,
+)
 
 from . import TESTS_DIR, load_test
 
@@ -18,22 +28,21 @@ from . import TESTS_DIR, load_test
 def slot_lists_fixture(language: str) -> dict[str, SlotList]:
     """Loads the slot lists for the language."""
     fixtures = load_test(language, "_fixtures")
-    return {
-        "area": TextSlotList.from_tuples(
-            (area["name"], area["id"]) for area in fixtures["areas"]
-        ),
-        "name": TextSlotList.from_tuples(
-            (entity["name"], entity["id"], _entity_context(entity))
-            for entity in fixtures["entities"]
-        ),
-    }
+    return get_slot_lists(fixtures)
 
 
-def _entity_context(entity: dict[str, Any]) -> dict[str, Any]:
-    """Extract matching context from test fixture entity."""
-    entity_id = entity["id"]
-    domain = entity_id.split(".", maxsplit=1)[0]
-    return {"domain": domain}
+@pytest.fixture(name="states", scope="session")
+def states_fixture(language: str) -> List[State]:
+    """Loads test entity states for the language."""
+    fixtures = load_test(language, "_fixtures")
+    return get_states(fixtures)
+
+
+@pytest.fixture(name="areas", scope="session")
+def areas_fixture(language: str) -> List[AreaEntry]:
+    """Loads test areas for the language."""
+    fixtures = load_test(language, "_fixtures")
+    return get_areas(fixtures)
 
 
 def do_test_language_sentences_file(
@@ -41,6 +50,8 @@ def do_test_language_sentences_file(
     test_file: str,
     intent_schemas: dict[str, Any],
     slot_lists: dict[str, SlotList],
+    states: List[State],
+    areas: List[AreaEntry],
     language_sentences: Intents,
     language_responses: dict[str, Any],
 ) -> None:
@@ -106,23 +117,29 @@ def do_test_language_sentences_file(
                     actual_value is not None
                 ), f"Missing slot {match_name} for: {sentence} (value={match_value})"
 
-                if not isinstance(match_value, list):
-                    # Only one acceptable value
-                    assert (
-                        actual_value == match_value
-                    ), f"Expected {match_value}, got {actual_value} for slot {match_name} for: {sentence}"
-                    continue
-
-                # One of multiple possibilities
                 if isinstance(actual_value, list):
                     actual_value_set = set(actual_value)
-                    assert actual_value_set.issubset(
-                        match_value
-                    ), "Slots do not match for: {sentence}"
+                    if isinstance(match_value, list):
+                        # Both are lists
+                        assert actual_value_set.issubset(
+                            match_value
+                        ), f"Slots do not match for: {sentence}"
+                    else:
+                        # Actual is a list, match is a single value
+                        assert (
+                            match_value in actual_value_set
+                        ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
                 else:
-                    assert (
-                        actual_value in match_value
-                    ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
+                    if isinstance(match_value, list):
+                        # Match is a list, actual is a single value
+                        assert (
+                            actual_value in match_value
+                        ), f"Slot {match_name} must be one of {match_value} for: {sentence}"
+                    else:
+                        # Both are single values
+                        assert (
+                            actual_value == match_value
+                        ), f"Expected {match_value}, got {actual_value} for slot {match_name} for: {sentence}"
 
             # Verify no extra slots
             for actual_name in actual_slots:
@@ -142,14 +159,9 @@ def do_test_language_sentences_file(
                     response_template_str
                 ), f"No response template for intent {result.intent.name} named {actual_response_key}: {sentence}"
 
-                response_template = template_env.from_string(response_template_str)
-                actual_response_text = response_template.render(
-                    {
-                        "slots": {
-                            entity_name: entity_value.text or entity_value.value
-                            for entity_name, entity_value in result.entities.items()
-                        }
-                    }
+                matched, unmatched = get_matched_states(states, areas, result)
+                actual_response_text = render_response(
+                    response_template_str, result, matched, unmatched, env=template_env
                 )
                 actual_response_text = normalize_whitespace(
                     actual_response_text
@@ -164,6 +176,8 @@ def gen_test(test_file: Path) -> None:
         language: str,
         intent_schemas: dict[str, Any],
         slot_lists: dict[str, SlotList],
+        states: List[State],
+        areas: List[AreaEntry],
         language_sentences: Intents,
         language_responses: dict[str, Any],
     ) -> None:
@@ -172,6 +186,8 @@ def gen_test(test_file: Path) -> None:
             test_file.stem,
             intent_schemas,
             slot_lists,
+            states,
+            areas,
             language_sentences,
             language_responses,
         )
