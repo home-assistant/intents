@@ -1,0 +1,35 @@
+language: vi
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - <name> [trong | ở trong <area>] đang {cover_states:state} [phải không | hay không | đúng không]
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - (có phải | kiểm tra) {cover_classes:device_class} [đang] {cover_states:state} [trong | ở trong <area>]
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - tất cả {cover_classes:device_class} [trong | ở trong] [<area>] đang {cover_states:state} [có phải không | phải không]
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - (những | cái) {cover_classes:device_class} [nào] đang {cover_states:state} [trong | ở trong <area>]
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - (bao nhiêu | có bao nhiêu | số lượng) {cover_classes:device_class} đang {cover_states:state} [trong | ở trong <area>]
+        response: how_many
+        slots:
+          domain: cover

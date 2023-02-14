@@ -1,0 +1,38 @@
+language: ro
+responses:
+  intents:
+    HassGetState:
+      one: "{{ slots.name }} este {{ state.state_with_unit }}"
+      one_yesno: |
+        {% if query.matched: %}
+        Da
+        {% else: %}
+        Nu, {{ slots.name }} este {{ state.state_with_unit }}
+        {% endif %}
+      any: |
+        {% if query.matched: %}
+        Da, {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% else: %}
+        Nu
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+        Da
+        {% else: %}
+        Nu, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} nu {{ 'este' if (query.unmatched|length) == 1 else 'sunt' }} {{ slots.state }}
+        {% endif %}
+
+      which: |
+        {% if not query.matched: %}
+        Niciunul
+        {% else: %}
+        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      how_many: |
+        {% if not query.matched: %}
+        0
+        {% else: %}
+        {{ query.matched | length }}
+        {% endif %}
