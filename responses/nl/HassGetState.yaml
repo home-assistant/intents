@@ -3,59 +3,31 @@ responses:
   intents:
     HassGetState:
       one: |
-        {% set translations =
-          {
-            "on": "aan",
-            "off": "uit",
-            "open": "open",
-            "closed": "dicht",
-            "opening": "aan het openen",
-            "closing": "aan het sluiten"
-          }
-        %}
-        {% if state.state in translations %}
-          {% set translated = translations[state.state] %}
-        {% else %}
-          {% set translated = state.state_with_unit %}
-        {% endif %}
-        {{ slots.name | capitalize }} is {{ translated }}
+        {{ slots.name | capitalize }} is {{ state.state_with_unit }}
+
       one_yesno: |
-        {% set translations =
-          {
-            "on": "aan",
-            "off": "uit",
-            "open": "open",
-            "closed": "dicht",
-            "opening": "aan het openen",
-            "closing": "aan het sluiten"
-          }
-        %}
-        {% if state.state in translations %}
-          {% set translated = translations[state.state] %}
-        {% else %}
-          {% set translated = state.state_with_unit %}
-        {% endif %}
-        {% if query.matched: %}
+        {% if query.matched %}
           Ja
-        {% else: %}
-          Nee, die is {{ translated }}
+        {% else %}
+          Nee, die is {{ state.state_with_unit }}
         {% endif %}
+
       any: |
-        {% if query.matched: %}
+        {% if query.matched %}
           Ja, {{ query.matched | map(attribute="name") | sort | join(", ") }}
-        {% else: %}
-        Nee
+        {% else %}
+          Nee
         {% endif %}
 
       all: |
         {% if not query.unmatched: %}
-        Ja
-        {% else: %}
-        Nee, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} niet
+          Ja
+        {% else %}
+          Nee, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} niet
         {% endif %}
 
       which: |
-        {% if not query.matched: %}
+        {% if not query.matched %}
           Geen
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
@@ -63,7 +35,7 @@ responses:
             {{ match[:3] | join(", ") ~ " en nog " ~ (match | length - 3)  }}
           {% else %}
             {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last %} en {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} en {% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
