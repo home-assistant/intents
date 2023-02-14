@@ -1,2 +1,53 @@
 language: bg
-tests: []
+tests:
+  - sentences:
+      - "Отворена ли е лявата завеса?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Лява завеса"
+        state: "closed"
+    response: "Не, лявата завеса е затворена"
+
+  - sentences:
+      - "Има ли някакви отворени завеси в хола?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Хол"
+        device_class: curtain
+        state: "open"
+    response: "Да, лявата завеса"
+
+  - sentences:
+      - "Всички завеси ли са отворени в хола?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Хол"
+        device_class: curtain
+        state: "open"
+    response: "Не, дясната завеса"
+
+  - sentences:
+      - "Кои завеси са затворени?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Завесата в спалнята, Дясната завеса"
+
+  - sentences:
+      - "Колко завеси са затворени?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"
