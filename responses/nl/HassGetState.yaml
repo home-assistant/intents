@@ -16,7 +16,7 @@ responses:
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Ja, {{ match[:3] | join(", ") ~ " en nog " ~ (match | length - 3) }}
+            Ja, {{ match[:3] | join(", ") }} en nog {{ (match | length - 3) }}
           {%- else -%}
             Ja,
             {% for name in match -%}
@@ -34,7 +34,7 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Nee, {{ no_match[:3] | join(", ") ~ " en nog " ~ (no_match | length - 3)  }} niet
+            Nee, {{ no_match[:3] | join(", ") }} en nog {{ (no_match | length - 3)  }} niet
           {%- else -%}
             Nee,
             {% for name in no_match -%}
@@ -50,7 +50,7 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") ~ " en nog " ~ (match | length - 3)  }}
+            {{ match[:3] | join(", ") }} en nog {{ (match | length - 3)  }}
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} en {% endif -%}
