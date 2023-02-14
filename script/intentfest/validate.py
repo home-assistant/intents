@@ -218,7 +218,9 @@ TESTS_FIXTURES = vol.Schema(
                 vol.Required("id"): str,
                 vol.Required("area"): str,
                 vol.Optional("device_class"): str,
-                vol.Optional("state"): str,
+                vol.Optional("state"): vol.Any(
+                    str, {vol.Required("in"): str, vol.Required("out"): str}
+                ),
                 vol.Optional("attributes"): {str: match_anything},
             }
         ],

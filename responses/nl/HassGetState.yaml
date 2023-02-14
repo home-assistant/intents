@@ -3,45 +3,16 @@ responses:
   intents:
     HassGetState:
       one: |
-        {% set translations =
-          {
-            "on": "aan",
-            "off": "uit",
-            "open": "open",
-            "closed": "dicht",
-            "opening": "aan het openen",
-            "closing": "aan het sluiten"
-          }
-        %}
-        {% if state.state in translations %}
-          {% set translated = translations[state.state] %}
-        {% else %}
-          {% set translated = state.state_with_unit %}
-        {% endif %}
-        {{ slots.name | capitalize }} is {{ translated }}
+        {{ slots.name | capitalize }} is {{ state.state_with_unit }}
       one_yesno: |
-        {% set translations =
-          {
-            "on": "aan",
-            "off": "uit",
-            "open": "open",
-            "closed": "dicht",
-            "opening": "aan het openen",
-            "closing": "aan het sluiten"
-          }
-        %}
-        {% if state.state in translations %}
-          {% set translated = translations[state.state] %}
-        {% else %}
-          {% set translated = state.state_with_unit %}
-        {% endif %}
-        {% if query.matched: %}
+        {% if query.matched %}
           Ja
-        {% else %}
-          Nee, die is {{ translated }}
+        {% else: %}
+          Nee, die is {{ state.state_with_unit }}
         {% endif %}
+
       any: |
-        {% if query.matched: %}
+        {% if query.matched %}
           Ja, {{ query.matched | map(attribute="name") | sort | join(", ") }}
         {% else %}
           Nee
@@ -55,7 +26,7 @@ responses:
         {% endif %}
 
       which: |
-        {% if not query.matched: %}
+        {% if not query.matched %}
           Geen
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
