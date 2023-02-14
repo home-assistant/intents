@@ -14,10 +14,18 @@ class State:
 
     entity_id: str
     name: str
-    state: str
+    hass_state: str
     attributes: Dict[str, Any] = field(default_factory=dict)
     area_id: Optional[str] = None
+    human_state: Optional[str] = None
     _domain: Optional[str] = None
+
+    @property
+    def state(self) -> str:
+        if self.human_state is not None:
+            return self.human_state
+
+        return self.hass_state
 
     @property
     def domain(self) -> str:
@@ -100,7 +108,7 @@ def get_matched_states(
 
         if state_name is not None:
             # Match state
-            if state.state == state_name:
+            if state.hass_state == state_name:
                 matched.append(state)
             else:
                 unmatched.append(state)
@@ -195,13 +203,25 @@ def _entity_context(entity: dict[str, Any]) -> dict[str, Any]:
 
 
 def get_states(fixtures: dict[str, Any]) -> List[State]:
+    """Load entity states from test fixtures."""
     states: List[State] = []
     for entity in fixtures.get("entities", []):
+        # State may either be a string or a dict with in/out, where "in" is the
+        # human (translated) name and "out" is the Home Assistant state name.
+        entity_state = entity.get("state", "off")
+        if isinstance(entity_state, str):
+            hass_state = entity_state
+            human_state: Optional[str] = None
+        else:
+            human_state = entity_state["in"]
+            hass_state = entity_state["out"]
+
         states.append(
             State(
                 entity_id=entity["id"],
                 name=entity["name"],
-                state=entity.get("state", "off"),
+                hass_state=hass_state,
+                human_state=human_state,
                 area_id=entity.get("area"),
                 attributes=entity.get("attributes", {}),
             )
@@ -210,6 +230,7 @@ def get_states(fixtures: dict[str, Any]) -> List[State]:
 
 
 def get_areas(fixtures: dict[str, Any]) -> List[AreaEntry]:
+    """Load areas from test fixtures."""
     areas: List[AreaEntry] = []
     for area in fixtures.get("areas", []):
         areas.append(
