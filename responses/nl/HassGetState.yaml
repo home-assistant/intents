@@ -1,0 +1,42 @@
+language: nl
+responses:
+  intents:
+    HassGetState:
+      one: |
+        {{ slots.name | capitalize }} is {{ state.state_with_unit }}
+      one_yesno: |
+        {% if query.matched %}
+          Ja
+        {% else: %}
+          Nee, die is {{ state.state_with_unit }}
+        {% endif %}
+      any: |
+        {% if query.matched %}
+          Ja, {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% else: %}
+          Nee
+        {% endif %}
+      all: |
+        {% if not query.unmatched %}
+          Ja
+        {% else: %}
+          Nee, {{ query.unmatched | map(attribute="name") | sort | join(", ") }} niet
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Geen
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") ~ " en nog " ~ (match | length - 3)  }}
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last %} en {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

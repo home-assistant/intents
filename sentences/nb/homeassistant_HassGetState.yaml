@@ -1,0 +1,31 @@
+language: nb
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - hva er [<tilstand>] [til] <navn> [<i_på> <område>]
+        response: one
+
+      - sentences:
+          - er [<tilstand>] [til] <navn> {on_off_states:state} [<i_på> <område>] 
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - er noen [av] {on_off_domains:domain} {on_off_states:state} [<i_på> <område>]
+          - er noen [av] {on_off_domains:domain} [<i_på> <område>] {on_off_states:state}
+        response: any
+
+      - sentences:
+          - er alle {on_off_domains:domain} {on_off_states:state} [<i_på> <område>]
+        response: all
+
+      - sentences:
+          - <hva> {on_off_domains:domain} er {on_off_states:state} [<i_på> <område>]
+        response: which
+
+      - sentences:
+          - hvor mange {on_off_domains:domain} er {on_off_states:state} [<i_på> <område>]
+        response: how_many

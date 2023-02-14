@@ -1,0 +1,38 @@
+language: vi
+responses:
+  intents:
+    HassGetState:
+      one: "{{ slots.name }} đang {{ state.state_with_unit }}"
+      one_yesno: |
+        {% if query.matched: %}
+        đúng
+        {% else: %}
+        không, {{ slots.name }} đang {{ state.state_with_unit }}
+        {% endif %}
+      any: |
+        {% if query.matched: %}
+        đúng, {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% else: %}
+        không
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+        đúng
+        {% else: %}
+        không, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      which: |
+        {% if not query.matched: %}
+        không cái nào
+        {% else: %}
+        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      how_many: |
+        {% if not query.matched: %}
+        0
+        {% else: %}
+        {{ query.matched | length }}
+        {% endif %}

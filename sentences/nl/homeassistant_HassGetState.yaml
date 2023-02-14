@@ -1,0 +1,30 @@
+language: nl
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - Wat is de [status van] <name> [in <area>]
+        response: one
+
+      - sentences:
+          - (Is|Staat) [de status van] <name> {on_off_states:state} [in <area>]
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - (is|zijn|staat|staan) er {on_off_domains:domain} {on_off_states:state} [in <area>]
+        response: any
+
+      - sentences:
+          - (Zijn|Staan) alle {on_off_domains:domain} {on_off_states:state} [in <area>]
+        response: all
+
+      - sentences:
+          - Welke {on_off_domains:domain} (zijn|staan) {on_off_states:state} [in <area>]
+        response: which
+
+      - sentences:
+          - Hoe[ ]veel {on_off_domains:domain} (zijn|staan) [er] {on_off_states:state} [in <area>]
+        response: how_many
