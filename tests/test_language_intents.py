@@ -76,17 +76,16 @@ def do_test_language_sentences(
             if not data.sentences:
                 continue
 
-            if file_domain != "homeassistant":
-                # Domain specific files (ie light_HassTurnOn.yaml) should only match
-                # sentences for the light domain.
-                if intent_schemas[file_intent]["domain"] == file_domain:
-                    assert (
-                        "domain" not in data.slots
-                    ), f"File {file_name} should only have sentences without a domain slot"
-                else:
-                    assert (
-                        data.slots.get("domain") == file_domain
-                    ), f"File {file_name} should only have sentences with a domain slot set to {file_domain}"
+            # Domain specific files (ie light_HassTurnOn.yaml) should only match
+            # sentences for the light domain.
+            if intent_schemas[file_intent]["domain"] == file_domain:
+                assert (
+                    "domain" not in data.slots
+                ), f"File {file_name} should only have sentences without a domain slot"
+            else:
+                assert (
+                    data.slots.get("domain") == file_domain
+                ), f"File {file_name} should only have sentences with a domain slot set to {file_domain}"
 
             for sentence in data.sentences:
                 found_slots: set[str] = set()
