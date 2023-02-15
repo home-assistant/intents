@@ -1,0 +1,27 @@
+language: bg
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<open> <name>"
+        requires_context:
+          domain: "cover"
+        response: "cover"
+      - sentences:
+          - "<open> [вратата] [на] гаража"
+          - "<open> гаражната врата"
+        response: "cover"
+        slots:
+          device_class: "garage"
+          domain: "cover"
+      - sentences:
+          - "<open> [<all>] <covers> <area>"
+          - "<open> <area> [<all>] <covers>"
+        response: "cover_area"
+        slots:
+          area: "bedroom"
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"
+          domain: "cover"
