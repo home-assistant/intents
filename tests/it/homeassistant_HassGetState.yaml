@@ -1,2 +1,64 @@
-language: it
-tests: []
+language: en
+tests:
+  - sentences:
+      - "qual'è la temperatura esterna?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Temperatura Esterna"
+    response: "temperatura esterna è 42 °C"
+
+  - sentences:
+      - "lampada bagno è accesa?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Lampada Bagno"
+        state: on
+    response: "No, è spenta"
+
+  - sentences:
+      - "ci sono delle prese accese in cucina?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "cucina"
+        domain: switch
+        state: on
+    response: "Sì, presa cucina"
+
+  - sentences:
+      - "Tutte le prese sono accese?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: switch
+        state: on
+    response: "No, Bedroom Switch no"
+
+  - sentences:
+      - "tutte le luci sono spente?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: light
+        state: off
+    response: "No, luce garage, pensili cucina, soffitto cucina ed altre 2 no"
+
+  - sentences:
+      - "che luci sono accese?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: light
+        state: on
+    response: "luce garage, pensili cucina, soffitto cucina ed altre 2"
+
+  - sentences:
+      - "quante luci sono accese?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: light
+        state: on
+    response: "5"
