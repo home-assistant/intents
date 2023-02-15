@@ -19,7 +19,7 @@ responses:
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length == 4 %}
             Sì, {{ match[:3] | join(", ") }} ed un altro
-          {% if match | length > 5 %}
+          {% elif match | length > 4 %}
             Sì, {{ match[:3] | join(", ") }} ed altri {{ (match | length - 3) }}
           {%- else -%}
             Sì,
@@ -39,7 +39,7 @@ responses:
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length == 4 %}
             No, {{ no_match[:3] | join(", ") }} ed un altro no
-          {% if no_match | length > 4 %}
+          {% elif no_match | length > 4 %}
             No, {{ no_match[:3] | join(", ") }} ed altri {{ (no_match | length - 3) }}
           {%- else -%}
             No,
@@ -57,7 +57,7 @@ responses:
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length == 4 %}
             {{ match[:3] | join(", ") }} ed un altro
-          {% if match | length > 4 %}
+          {% elif match | length > 4 %}
             {{ match[:3] | join(", ") }} ed altri {{ (match | length - 3) }}
           {% else %}
             {%- for name in match -%}
