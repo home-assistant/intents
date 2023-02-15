@@ -6,7 +6,7 @@ tests:
       name: HassGetState
       slots:
         name: "Outside Temperature"
-    response: "outside temperature is 42 °F"
+    response: "Outside temperature is 42 °F"
 
   - sentences:
       - "is the bedroom lamp on?"
@@ -15,7 +15,7 @@ tests:
       slots:
         name: "Bedroom Lamp"
         state: "on"
-    response: "No, bedroom lamp is off"
+    response: "No, it's off"
 
   - sentences:
       - "are any switches on in the kitchen?"
@@ -34,7 +34,16 @@ tests:
       slots:
         domain: "switch"
         state: "on"
-    response: "No, Bedroom Switch"
+    response: "No, Bedroom Switch not"
+
+  - sentences:
+      - "are all lights off?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "No, Garage Light, Kitchen cabinets, Kitchen ceiling and 2 more not"
 
   - sentences:
       - "which lights are on?"
@@ -43,7 +52,7 @@ tests:
       slots:
         domain: "light"
         state: "on"
-    response: "Garage Light, Living Room Lamp"
+    response: "Garage Light, Kitchen cabinets, Kitchen ceiling and 2 more"
 
   - sentences:
       - "how many lights are on?"
@@ -52,4 +61,4 @@ tests:
       slots:
         domain: "light"
         state: "on"
-    response: "2"
+    response: "5"
