@@ -3,17 +3,20 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "sluit [de] garage[ ][deur]"
-          - "[<doe>|<zou>] [de] garage[ ][deur] dicht [willen|kunnen] [<doe>]"
-        response: "cover_device_class"
+          - sluit <name> [in|op] <area>
+          - "[<doe>|<zou>] <name> (<dicht> [in|op] <area>|[in|op] <area> <dicht>) [willen|kunnen] [<doe>]"
+          - "<zou> <name> [in|op] <area> (willen|kunnen) [<dicht>]"
+        response: "cover_area"
         slots:
-          device_class: "garage"
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"
           domain: "cover"
 
       - sentences:
           - "sluit <afdekking> [in|op] <area>"
-          - "[<doe>|<zou>] <afdekking> (<dicht> [in|op] <area>|[in|op] <area> <dicht>)\
-            \ [willen|kunnen] [<doe>]"
+          - "[<doe>|<zou>] <afdekking> (<dicht> [in|op] <area>|[in|op] <area> <dicht>) [willen|kunnen] [<doe>]"
           - "<zou> <afdekking> [in|op] <area> [willen|kunnen] <dicht>"
         response: "cover_area"
         slots:
