@@ -3,9 +3,9 @@ responses:
   errors:
     no_intent: "Desculpe, não consegui entender seu pedido"
     no_area: "Não existe nenhuma área chamada {{ area }}"
-    no_domain: "{{ area }} não contem {{ domain }}"
+    no_domain: "{{ area }} não contém {{ domain }}"
     no_device_class: "{{ area }} não contém {{ device_class }}"
-    no_entity: "Não existe nenhum dispositivo ou entidade com o nome {{ entity }}"
+    no_entity: "Não existe dispositivo ou entidade com o nome {{ entity }}"
     handle_error: "Um erro inesperado ocorreu ao processar o pedido"
 lists:
   color:
@@ -36,6 +36,8 @@ lists:
         out: "purple"
       - in: "roxa"
         out: "purple"
+      - in: "violeta"
+        out: "purple"
       - in: "castanho"
         out: "brown"
       - in: "castanha"
@@ -61,11 +63,73 @@ lists:
         out: "fahrenheit"
   brightness_level:
     values:
-      - in: (maxim(o|a) | forte | alt(o|a))
+      - in: (máxim(o|a) | forte | alt(o|a))
         out: 100
+      - in: (metade|meia luz)
+        out: 50
       - in: (mínim(o|a) | frac(o|a) | baix(o|a))
         out: 1
+  on_off_states:
+    values:
+      - in: "ligad(o|a)[s]"
+        out: "on"
+      - in: "desligad(o|a)[s]"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: luz[es]
+        out: light
+      - in: ventilador[es]
+        out: fan
+      - in: ( interruptor[es] | chave[s] )
+        out: switch
+  cover_states:
+    values:
+      - in: abert(o|a)[s]
+        out: "open"
+      - in: fechad(o|a)[s]
+        out: "closed"
+      - in: abrindo
+        out: "opening"
+      - in: fechando
+        out: "closing"
+  cover_classes:
+    values:
+      - in: toldo[s]
+        out: awning
+      - in: persiana[s]
+        out: blind
+      - in: cortina[s]
+        out: curtain
+      - in: porta[s]
+        out: door
+      - in: porta[s] d(e|a) garage(m|ns)
+        out: garage
+      - in: port(ão|ões)
+        out: gate
+      - in: (veneziana[s] | blecaute[s])
+        out: shutter
+      - in: janela[s]
+        out: window
 expansion_rules:
-  name: "([o]|[a]) {nome}"
+  name: "[ [(d|n)](o|a) ] {name}"
+  area: "[ ( [(d|n)](o|a) | em ) ] {area}"
+  what_is: "(qua[l|is] [(é|est(á|ão))])"
+  brightness: "{brightness}[%| porcento]"
+  turn: "(vir(e|a[r]) | tro(que|ca[r]) | mud(e|a[r]))"
+  temp: "(temp | temperatura)"
+  temperature: "{temperature}[°| graus] [{temperature_unit}]"
+  open: "( abr(a|e|ir) | levant(e|a|ar))"
+  close: "( fech(e|a|ar) | [a]baix(e|a|ar))"
+  window: "(janela[s] | cortina[s] | veneziana[s] | blecaute[s])"
+  na_zona: "[(em | (n|d)(a|o)] {zone}"
+  zona: "[(a|o)] {zone}"
+  mudar: "( p(õe|onha|ôr) | colo(que|ca|car) | (ajust|regul|mud)(e|a|ar) )"
+  turn_on: "( lig(ue|a|ar) | acend(e|a|er) )"
+  turn_off: "( deslig(ue|a|ar) | apag(ue|a|ar) )"
+  is_there: "(existe | tem | há)"
 skip_words:
-  - "porfavor"
+  - "[(por | faz[endo] [o])] favor"
+  - "por obséquio"
+  - "você pode[ria]"
+  - "será que d(á|aria) [(para|pra)] [você]"

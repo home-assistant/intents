@@ -1,4 +1,35 @@
 language: pt-br
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "<what_is> (a situação | o estado) d(a|o) <name> [<area>]"
+          - "Como está [(a|o)] <name> [<area>]"
+        response: one
+
+      - sentences:
+          - [(A|O)] <name> <area> está {on_off_states:state}
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "<is_there> [algum] {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "<area> <is_there> [algum] {on_off_domains:domain} {on_off_states:state}"
+        response: any
+
+      - sentences:
+          - "tod(a|o)s [(a|o)s] {on_off_domains:domain} est(á|ão) {on_off_states:state} [<area>]"
+          - "tod(a|o)s [(a|o)s] {on_off_domains:domain} <area> est(á|ão) {on_off_states:state}"
+        response: all
+
+      - sentences:
+          - "qua(l|is) {on_off_domains:domain} est(á|ão) {on_off_states:state} [<area>]"
+          - "qua(l|is) {on_off_domains:domain} <area> est(á|ão) {on_off_states:state}"
+        response: which
+
+      - sentences:
+          - "quantos {on_off_domains:domain} est(á|ão) {on_off_states:state} [<area>]"
+          - "quantos {on_off_domains:domain} <area> est(á|ão) {on_off_states:state}"
+        response: how_many
