@@ -155,7 +155,7 @@ def render_response(
     return env.from_string(response_template).render(
         {
             "slots": {
-                entity.name: entity.text or entity.value
+                entity.name: entity.text_clean or entity.value
                 for entity in result.entities_list
             },
             "state": state1,
