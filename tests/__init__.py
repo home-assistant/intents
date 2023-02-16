@@ -19,7 +19,7 @@ def load_sentences(language: str) -> dict[str, Any]:
     lang_dir = SENTENCES_DIR / language
     files: Dict[str, Any] = {}
 
-    for yaml_path in lang_dir.glob("*.yaml"):
+    for yaml_path in sorted(lang_dir.glob("*.yaml")):
         with open(yaml_path, "r", encoding="utf-8") as yaml_file:
             yaml_dict = yaml.safe_load(yaml_file)
             assert "language" in yaml_dict, f"Missing language: {yaml_path}"
