@@ -13,6 +13,12 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: (max|maximum|maximaal|hoogst[e])
+        out: 100
+      - in: (min|minimum|minimaal|laagst[e])
+        out: 1
   color:
     values:
       - in: "wit"
@@ -48,23 +54,70 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+  on_off_states:
+    values:
+      - in: "aan"
+        out: "on"
+      - in: "uit"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: <lamp>
+        out: light
+      - in: <ventilator>
+        out: fan
+      - in: <schakelaar>
+        out: switch
+  cover_states:
+    values:
+      - in: "(open|geopend)"
+        out: "open"
+      - in: "(dicht|gesloten)"
+        out: "closed"
+      - in: "(open aan het gaan|aan het (openen|open gaan))"
+        out: "opening"
+      - in: "(dicht aan het gaan|aan het (dicht gaan|sluiten))"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "[een] (luifel[s]|[zonne]scherm[en])"
+        out: awning
+      - in: "[een] (jaloezie[ën]|luxaflex)"
+        out: blind
+      - in: "[een] (gordijn[en]|vitrage[s])"
+        out: curtain
+      - in: "[een] deur[en]"
+        out: door
+      - in: "[een] garage[ ]deur[en]"
+        out: garage
+      - in: "[een] (hek[ken]|poort[en])"
+        out: gate
+      - in: "[een] (screen[s]|rolgordijn[en])"
+        out: shade
+      - in: "[een] (rolluik[en]|shutter[s])"
+        out: shutter
+      - in: "[een] (raam|ramen)"
+        out: window
 expansion_rules:
-  lamp: "[de|het] (lamp[en]|licht[en]|verlichting)"
-  ventilator: "[de] (ventilator[s|en])"
-  afdekking: "[de|het] (gordijn[en]|vitrage[s]|jaloezie[ën]|rolluik[en]|screen[s]|luxaflex|scherm[en])"
+  lamp: "[de|het|een] (lamp[en]|licht[en]|verlichting)"
+  ventilator: "[de|een] (ventilator[s|en]|fan[s])"
+  afdekking: "[de|het|een] (gordijn[en]|vitrage[s]|jaloezie[ën]|rolluik[en]|screen[s]|luxaflex|[zonne]scherm[en]|shutter[s]|luifel[s]|hek[ken]|poort[en]|deur[en]|raam|ramen)"
+  schakelaar: "[de|een] (schakelaar[s]|switch[es])"
+  type: (<lamp>|<ventilator>|<afdekking>|<schakelaar>)
   name: "[de|het] {name}"
   area: "[de|het] {area}"
-  doe: "(zet|mag|mogen|doe|verander|maak|schakel)"
+  doe: "(zet[ten]|mag|mogen|doe[n]|verander[en]|maak|maken|schakel[en])"
+  zou: "(kan|kun[t]|zal|zou) [je|jij|u]"
   naar: "(naar|op)"
-  helderheid: "[de] (helderheid|felheid|intensiteit)"
+  helderheid: "[de] (helderheid|felheid|intensiteit|lichtsterkte)"
   brightness: "{brightness}[%|procent]"
   temperature: "{temperature}[°|graden] [{temperature_unit}]"
   warm: "(warm|heet|koud|koel)"
-  open: "(open|omhoog|naar boven)"
-  dicht: "(dicht|omlaag|naar beneden)"
+  open: "(open[en]|omhoog|naar boven|opwaarts)"
+  dicht: "(dicht|omlaag|naar beneden|sluiten|neerwaarts)"
 skip_words:
   - "alstublieft"
   - "alsjeblieft"
   - "aub"
+  - "ajb"
   - "graag"
-

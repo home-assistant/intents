@@ -1,0 +1,67 @@
+language: ro
+tests:
+  - sentences:
+      - "cat este temperatura exterioara"
+      - "ce stare are temperatura exterioara"
+    intent:
+      name: HassGetState
+      slots:
+        name: "temperatura exterioara"
+    response: "Temperatura exterioara este 21 °C"
+
+  - sentences:
+      - "lustra este pornita?"
+      - "este pornita lustra?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "lustra"
+        state: "on"
+    response: "Nu, lustra este oprit"
+  - sentences:
+      - "lustra din dormitor este aprinsa?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "lustra"
+        state: "on"
+        area: "Dormitor"
+    response: "Nu, lustra este oprit"
+
+  - sentences:
+      - "sunt lumini aprinse in hol?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Hol"
+        domain: "light"
+        state: "on"
+    response: "Da, plafoniera neagra"
+
+  - sentences:
+      - "sunt toate luminile aprinse?"
+      - "toate luminile sunt aprinse?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Nu, lustra și Spot 3 nu sunt aprinse"
+
+  - sentences:
+      - "care lumini sunt aprinse?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "plafoniera neagra, Spot 1, Spot 2 și încă 2"
+
+  - sentences:
+      - "cate lumini sunt pornite?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"
