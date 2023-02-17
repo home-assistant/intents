@@ -1,0 +1,34 @@
+language: it
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - "<close> [<the>]<name>"
+        response: "cover"
+        requires_context:
+          domain: cover
+      - sentences:
+          - "<close> [<the>]<name> [(<in>|<of>)] <area>"
+          - "<close> [<in>] <area> [<the>]<name>"
+        response: "cover_area"
+        requires_context:
+          domain: cover
+      - sentences:
+          - "<close> [la] (serranda | porta | [porta] basculante | saracinesca) [(in|del)]\
+            \ garage"
+          - "<close> [<in>] garage [la] (serranda | porta | [porta] basculante | saracinesca)"
+        response: "cover_device_class"
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - "<close> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e)) [(<in>|<of>)]\
+            \ <area>"
+          - "<close> [<in>] <area> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e))"
+        response: "cover_area"
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover
