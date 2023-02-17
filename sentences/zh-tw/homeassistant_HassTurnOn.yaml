@@ -2,4 +2,28 @@ language: zh-tw
 intents:
   HassTurnOn:
     data:
-      - sentences: []
+      - sentences:
+          - "<turn_on> [<area>] <name>"
+          - "[<let>] [<area>] <name> <turn_on>"
+      - sentences:
+          - "<open> <name>"
+          - "<open> <area> <name> "
+          - "[<let>] [<area>] <name> <open>"
+        response: cover
+      - sentences:
+          - "<open> 車庫門"
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover
+      - sentences:
+          - "<open> <area> <window> "
+          - "[<let>] [<area>] <window> <open>"
+        slots:
+          domain: cover
+          device_class:
+            - window
+            - blind
+            - curtain
+            - shutter
+        response: cover_area
