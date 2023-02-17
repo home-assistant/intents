@@ -155,7 +155,7 @@ def render_response(
     return env.from_string(response_template).render(
         {
             "slots": {
-                entity.name: entity.text or entity.value
+                entity.name: entity.text_clean or entity.value
                 for entity in result.entities_list
             },
             "state": state1,
@@ -173,9 +173,12 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
     for area in fixtures["areas"]:
         area_name = area["name"]
         if is_template(area_name):
-            area_names.extend(sample_expression(parse_sentence(area_name)))
+            area_names.extend(
+                area_name.strip()
+                for area_name in sample_expression(parse_sentence(area_name))
+            )
         else:
-            area_names.append(area_name)
+            area_names.append(area_name.strip())
 
     slot_lists["area"] = TextSlotList.from_strings(area_names)
 
@@ -184,9 +187,11 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
         context = _entity_context(entity)
         entity_name = entity["name"]
         if is_template(entity_name):
-            entity_names = list(sample_expression(parse_sentence(entity_name)))
+            entity_names = list(
+                name.strip() for name in sample_expression(parse_sentence(entity_name))
+            )
         else:
-            entity_names = [entity_name]
+            entity_names = [entity_name.strip()]
 
         entity_tuples.extend((name, name, context) for name in entity_names)
 
