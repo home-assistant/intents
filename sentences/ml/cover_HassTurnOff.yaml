@@ -1,0 +1,35 @@
+language: ml
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - <close> <name>
+        response: cover_device_class
+        slots:
+          device_class: curtain
+          domain: cover
+      - sentences:
+          - <close> <name> <area>യിലെ
+          - <area>[യിലെ] <name> <close>
+        response: cover_area
+        slots:
+          device_class: curtain
+          domain: cover
+      - sentences:
+          - <close> [<the>] ഗരാജ് വാതിൽ
+          - "[<the>] ഗരാജ് വാതിൽ <close>"
+        response: cover_device_class
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - <close> [<the>] <window> <area>യിലെ
+          - <close> <area>[<in>] <window>
+        response: cover_area
+        slots:
+          device_class:
+            - window
+            - blind
+            - curtain
+            - shutter
+          domain: cover
