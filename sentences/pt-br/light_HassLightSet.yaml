@@ -2,4 +2,51 @@ language: pt-br
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      # Brilho
+      - sentences:
+          - "[<mudar> [o]] brilho <name> (para|em) <brightness>"
+          - "[<mudar> [o]] brilho (para|em) <brightness> [para] <name>"
+          - "[<mudar>] <name> (para|em) <brightness>"
+          - "[<mudar>] (para|em) <brightness> <name>"
+        requires_context:
+          domain: "light"
+        response: "brightness"
+      - sentences:
+          - "[<mudar> [o]] brilho <area> (para|em) <brightness>"
+          - "[<mudar>] <area> (para|em) <brightness>"
+          - "[<mudar>] (para|em) <brightness> <area>"
+        slots:
+          name: "all"
+        response: "brightness_area"
+
+      # Brilho max/min
+      - sentences:
+          - "[<mudar> [o]] brilho <name> (para|em|no|a) {brightness_level:brightness}"
+          - "[<mudar> [o]] brilho (para|em|no|a) {brightness_level:brightness} [para] <name>"
+          - "[<mudar>] <name> (para|em|no|a) {brightness_level:brightness}"
+          - "[<mudar>] (para|em|no|a) {brightness_level:brightness} <name>"
+        requires_context:
+          domain: "light"
+        response: "brightness"
+      - sentences:
+          - "[<mudar> [o]] brilho <area> (para|em|no|a) {brightness_level:brightness}"
+          - "[<mudar>] <area> (para|em|no|a) {brightness_level:brightness}"
+          - "[<mudar>] (para|em|no|a) {brightness_level:brightness} <area>"
+        slots:
+          name: "all"
+        response: "brightness_area"
+
+      # Cor
+      - sentences:
+          - "[<mudar> [a]] cor <name> (para|em) {color}"
+          - "[<mudar>] <name> (para|em) {color}"
+          - "[<mudar>] (para|em) {color} <name>"
+        requires_context:
+          domain: light
+        response: "color"
+      - sentences:
+          - "[<mudar> [a]] cor [(de todas|d)as (luzes|lâmpadas)] <area> (para|em) {color}"
+          - "[<mudar>] (para|em) {color} [a] cor [(de todas|d)as (luzes|lâmpadas)] <area>"
+        slots:
+          name: "all"
+        response: "color_area"

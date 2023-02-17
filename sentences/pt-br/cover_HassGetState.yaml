@@ -1,4 +1,38 @@
 language: pt-br
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - [(A|O)] <name> [es]tá {cover_states:state} [<area>]
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - [(Há | Tem | Existe)] algum[a] {cover_classes:device_class} {cover_states:state} [<area>]
+          - algum[a] {cover_classes:device_class} [[es]tá] {cover_states:state} [<area>]
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - [Tod(a|o)[s]] [(a|o)[s]) {cover_classes:device_class} est(á|ão) {cover_states:state} [<area>]
+          - [Tod(a|o)[s]] [(a|o)[s]) {cover_classes:device_class} [<area>] est(á|ão) {cover_states:state}
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - <what_is> {cover_classes:device_class} (est(á|ão) {cover_states:state} [<area>]
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - quant(o|a)[s] {cover_classes:device_class} (est(á|ão)) {cover_states:state} [<area>]
+        response: how_many
+        slots:
+          domain: cover
+
