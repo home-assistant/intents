@@ -517,6 +517,7 @@ def validate_language(
                                 "state": {
                                     "name": "<name>",
                                     "state": 0,
+                                    "domain": "<domain>",
                                     "state_with_unit": "",
                                     "attributes": {},
                                 },

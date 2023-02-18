@@ -1,3 +1,4 @@
+import itertools
 from dataclasses import dataclass, field
 from typing import Any, Dict, Optional, List, Tuple
 
@@ -55,10 +56,12 @@ def get_matched_states(
     states: List[State], areas: List[AreaEntry], result: RecognizeResult
 ) -> Tuple[List[State], List[State]]:
     """Split states into matched/unmatched."""
-    if result.intent.name != "HassGetState":
-        return states, []
 
-    # Implement some matching logic for HassGetState
+    if result.intent.name in ("HassClimateGetTemperature", "HassClimateSetTemperature"):
+        # Match climate entities only
+        states = [state for state in states if state.domain == "climate"]
+
+    # Implement some matching logic from Home Assistant
     entity_name: Optional[str] = None
     name_entity = result.entities.get("name")
     if name_entity is not None:
@@ -115,8 +118,6 @@ def get_matched_states(
         else:
             # Everything "matches" with no state constraint
             matched.append(state)
-
-    # print(matched, area_name, state_name, entity_name, domain_name)
 
     return matched, unmatched
 
