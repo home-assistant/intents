@@ -4,12 +4,21 @@ intents:
     data:
       - sentences:
           - "[<area>] <name> [目前] [狀態]"
+        response: one
+
+      - sentences:
           - "[<area>] <name> [目前] [狀態] (<what_is>|<how_many_is>)"
         response: one
 
       - sentences:
-           - "[<area>] <name> [(是 | 是不是)] {on_off_states:state}"
            - "[<area>] <name> [是] {on_off_states:state} [嗎]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+           - "[<area>] <name> [(是 | 是不是)] {on_off_states:state}"
         response: one_yesno
         excludes_context:
           domain:
@@ -25,10 +34,16 @@ intents:
 
       - sentences:
           - "[<area>] <which> {on_off_domains:domain} [是] {on_off_states:state}"
+        response: which
+
+      - sentences:
           - "<which> [<area>] {on_off_domains:domain} [是] {on_off_states:state}"
         response: which
 
       - sentences:
           - "[<area>] <how_many_is> {on_off_domains:domain} [是] {on_off_states:state}"
+        response: how_many
+
+      - sentences:
           - "<how_many_is> [<area>] {on_off_domains:domain} [是] {on_off_states:state}"
         response: how_many
