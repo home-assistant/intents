@@ -17,12 +17,12 @@ responses:
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
-          {% if match | length > 4 %}
-            是的、{{ match[:3] | join(", ") }} 及另外 {{ (match | length - 3) }} 個
+          {% if match|length > 4 %}
+            是的、{{ match[:3]|join("、") }}及另外{{ (match|length - 3) }}個
           {%- else -%}
             是的、
             {% for name in match -%}
-              {% if not loop.first and not loop.last %}、{% elif loop.last and not loop.first %} 及 {% endif -%}
+              {% if not loop.first and not loop.last %}、{% elif loop.last and not loop.first %}及{% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
@@ -36,11 +36,11 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            沒有、{{ no_match[:3] | join(", ") }} 及另外 {{ (no_match | length - 3) }} 個不是
+            沒有、{{ no_match[:3]|join("、") }}及另外{{ (no_match|length - 3) }}個不是
           {%- else -%}
             沒有、
             {% for name in no_match -%}
-              {% if not loop.first and not loop.last %}、{% elif loop.last and not loop.first %} 及 {% endif -%}
+              {% if not loop.first and not loop.last %}、{% elif loop.last and not loop.first %}及{% endif -%}
               {{ name }}
             {%- endfor %} 不是
           {% endif %}
@@ -52,10 +52,10 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} 及另外 {{ (match | length - 3) }} 個
+            {{ match[:3]|join("、") }}及另外{{ (match | length - 3) }}個
           {% else %}
             {%- for name in match -%}
-              {% if not loop.first and not loop.last %}、{% elif loop.last and not loop.first %} 及 {% endif -%}
+              {% if not loop.first and not loop.last %}、{% elif loop.last and not loop.first %}及{% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
