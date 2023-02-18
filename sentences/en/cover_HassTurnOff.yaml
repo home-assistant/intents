@@ -3,19 +3,21 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - <close> [the] garage door
+          - "<close> <name> [in <area>]"
+        requires_context:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<close> [the] garage door"
         slots:
           domain: cover
           device_class: garage
         response: cover_device_class
+
       - sentences:
-          - <close> [the] <window> in <area>
-          - <close> <area> <window>
+          - "<close> [the] {cover_classes:device_class} in <area>"
+          - "<close> <area> {cover_classes:device_class}"
         slots:
           domain: cover
-          device_class:
-            - window
-            - blind
-            - curtain
-            - shutter
-        response: cover_area
+        response: cover_device_class
