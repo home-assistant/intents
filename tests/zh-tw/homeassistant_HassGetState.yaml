@@ -1,7 +1,15 @@
 language: zh-tw
 tests:
   - sentences:
-      - "戶外的溫度？"
+      - "戶外現在的溫度？"
+    intent:
+      name: HassGetState
+      slots:
+        name: "戶外溫度"
+    response: "戶外溫度為 18 °C"
+
+  - sentences:
+      - "戶外現在溫度是多少？"
     intent:
       name: HassGetState
       slots:
@@ -16,6 +24,16 @@ tests:
         name: "臥室檯燈"
         state: "on"
     response: "不是、關著"
+
+  - sentences:
+      - "臥室的臥室檯燈是打開的嗎？"
+    intent:
+      name: HassGetState
+      slots:
+        area: "臥室"
+        name: "臥室檯燈"
+        state: "on"
+    response: "是、開著"
 
   - sentences:
       - "廚房有任何開關是打開著嗎？"
