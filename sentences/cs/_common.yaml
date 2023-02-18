@@ -29,6 +29,51 @@ lists:
       - in: "hněd(á|ý|é|ou)"
         out: "brown"
 
+  on_off_states:
+    values:
+      - in: "(zapnut[(o|é|o|ý|á)]|rozsvícen(o|é|á))"
+        out: "on"
+      - in: "(vypnut[(o|é|ý|á)]|zahsnut(o|é|á))"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "světl(o|a)"
+        out: light
+      - in: "větrák[y]"
+        out: fan
+      - in: "vypínač[e]"
+        out: switch
+  cover_states:
+    values:
+      - in: "(otevřen(o|ý|é|á|ých)|roztažen(á|é|o|ých))"
+        out: "open"
+      - in: "(zavřen(o|ý|é|á|ých)|zatažen(é|o|á|ých))"
+        out: "closed"
+      - in: "[se] otevír(á|ají) [se]"
+        out: "opening"
+      - in: "[se] zavír(á|ají) [se]"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "markýz(a|y)"
+        out: awning
+      - in: "(žaluzi(e|í)|rolet[(a|y)])"
+        out: blind
+      - in: "závěs[y]"
+        out: curtain
+      - in: "dveře"
+        out: door
+      - in: "((garážov(é|á) (dveře|vrata))|garáž)"
+        out: garage
+      - in: "brán(a|y)"
+        out: gate
+      - in: "clon(a|y)"
+        out: shade
+      - in: "okenice"
+        out: shutter
+      - in: "okn(o|a)"
+        out: window
+
   # might be used for all MIN/MAX sentences,
   # so intended to leave just min_max rather then brightness_level
   # in need to change declaration - change also light_HassLightSet
@@ -74,6 +119,7 @@ expansion_rules:
   otevrit: "(otevři|otevřít)"
   roztahnout: "(roz|vy|od)táhn(out|i)"
   zatahnout: "zatáhn(out|i)"
+  ktere: "(kter(á|é)|jak(é|á))"
 
 skip_words:
   - "prosím"
