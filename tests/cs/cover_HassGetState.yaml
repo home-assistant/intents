@@ -1,2 +1,80 @@
 language: cs
-tests: []
+tests:
+  - sentences:
+      - "je garáž zavřená?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Garáž"
+        state: closed
+    response: "Ne, garáž se otevírá"
+
+  - sentences:
+      - "zavírá se garáž?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Garáž"
+        state: closing
+    response: "Ne, garáž se otevírá"
+
+  - sentences:
+      - "jaký stav má žaluzie ložnice?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Žaluzie ložnice"
+    response: "Žaluzie ložnice je zatažená"
+
+  - sentences:
+      - "jsou některé žaluzie zavřené?"
+    intent:
+      name: HassGetState
+      slots:
+        device_class: blind
+        domain: cover
+        state: closed
+    response: "Ano, Žaluzie ložnice"
+
+  - sentences:
+      - "otevírají se některá garážová vrata?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        state: opening
+        device_class: garage
+    response: "Ano, Garáž"
+
+  - sentences:
+      - "jsou všechny rolety otevřené?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        state: open
+    response: "Ne, Žaluzie ložnice není otevřená"
+
+  - sentences:
+      - "které rolety jsou otevřené?"
+    intent:
+      name: HassGetState
+      slots:
+        device_class: blind
+        domain: cover
+        state: open
+    response: "Přední rolet(a|u|y) je otevřená"
+
+  - sentences:
+      - "kolik rolet se zavírá"
+    intent:
+      name: HassGetState
+      slots:
+        device_class: blind
+        state: closing
+        domain: cover
+    response: "0"
