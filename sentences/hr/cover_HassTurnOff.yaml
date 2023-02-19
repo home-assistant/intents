@@ -2,52 +2,91 @@ language: hr
 intents:
   HassTurnOff:
     data:
+      #windows
       - sentences:
-          - <zatvori> {name} (prozor(e)) [u|na] {area}
           - <zatvori> [sve] prozor[e] [u|na] {area}
           - <zatvori> {area} prozor[e]
         slots:
-          device_class:
-            - window
+          device_class: window
           domain: cover
         response: windows_area
 
       - sentences:
-          - <zatvori> {name} (vrata) [u|na] {area}
+          - <zatvori> <name>
+        requires_context:
+          domain: cover
+        slots:
+          device_class: window
+        response: window
+
+      - sentences:
+          - <zatvori> <name> [u|na] {area}
+        requires_context:
+          domain: cover
+        slots:
+          device_class: window
+        response: window
+
+      #door
+      - sentences:
           - <zatvori> [sva] vrata [u|na] {area}
           - <zatvori> {area} vrata
         slots:
-          device_class:
-            - door
+          device_class: door
           domain: cover
-        response: doors_area
+        response: door
 
+      #error: Expected window, got door for slot device_class for: zatvori ulazna vrata
       - sentences:
-          - <zatvori> {name} [zavjes[e|u]|zastor(e)] [u|na] {area}
-        response: curtains_area
-        slots:
-          device_class:
-            - curtain
+          - <zatvori> {name} (vrata) # [u|na] {area}
+        requires_context:
           domain: cover
+          # device_class: door
+        slots:
+          device_class: door
+        response: door
 
-      - sentences:
-          - <zatvori> {name} [rolet[e|u]] [u|na] {area}
-        response: blinds_area
-        slots:
-          device_class:
-            - blind
-          domain: cover
+      # - sentences:
+      #     - <zatvori> {name} (vrata) [u|na] {area}
+      #   requires_context:
+      #     domain: cover
+      #   slots:
+      #     device_class: door
+      #   response: door
 
-      - sentences:
-          - <zatvori> [sve] [zavjes[e|u]|zastor(e)|rolet[e|u]|žaluzin[e|u]|tend(e|u)|nadstrešnic(e|u)|sjenilo] [u|na] {area}
-          - <zatvori> zavjes(e|u) [[u|na] <area>]
-          - <zatvori> <area> zavjes(e|u)
-        response: cover_area
-        slots:
-          device_class:
-            - blind
-            - curtain
-            - shutter
-            - shade
-            - awning
-          domain: cover
+      # - sentences:
+      #     - "<open> [the] {cover_classes:device_class} in <area>"
+      #     - "<open> <area> {cover_classes:device_class}"
+      #   slots:
+      #     domain: cover
+      #   response: cover_device_class
+
+      # - sentences:
+      #     - <zatvori> {name} [zavjes[e|u]|zastor(e)] [u|na] {area}
+      #   response: curtains_area
+      #   slots:
+      #     device_class:
+      #       - curtain
+      #     domain: cover
+
+      # - sentences:
+      #     - <zatvori> {name} [rolet[e|u]] [u|na] {area}
+      #   response: blinds_area
+      #   slots:
+      #     device_class:
+      #       - blind
+      #     domain: cover
+
+      # - sentences:
+      #     - <zatvori> [sve] [zavjes[e|u]|zastor(e)|rolet[e|u]|žaluzin[e|u]|tend(e|u)|nadstrešnic(e|u)|sjenilo] [u|na] {area}
+      #     - <zatvori> zavjes(e|u) [[u|na] <area>]
+      #     - <zatvori> <area> zavjes(e|u)
+      #   response: cover_area
+      #   slots:
+      #     device_class:
+      #       - blind
+      #       - curtain
+      #       - shutter
+      #       - shade
+      #       - awning
+      #     domain: cover
