@@ -1,4 +1,65 @@
 language: fi
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      one: |
+        {{ slots.name | capitalize }} on {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched %}
+          Kyllä
+        {% else %}
+          Ei, {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Kyllä, {{ match[:3] | join(", ") }} ja {{ (match | length - 3) }} lisää
+          {%- else -%}
+            Kyllä,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ja {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Ei
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Kyllä
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Ei, {{ no_match[:3] | join(", ") }} ja {{ (no_match | length - 3) }} lisää ei
+          {%- else -%}
+            Ei,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ja {% endif -%}
+              {{ name }}
+            {%- endfor %} ei
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Ei yhtään
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} ja {{ (match | length - 3) }} lisää
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ja {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}
