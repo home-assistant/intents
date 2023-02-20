@@ -1,0 +1,35 @@
+language: ee
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - <turn_on> <name>
+          - '[<set>] <name> <turn_on>'
+          - '[<set>] <name> <open>'
+          - '<name> <turn_on>'
+      - sentences:
+          - <open> <name>
+        response: cover
+      - sentences:
+          - <open> <name> <area>
+          - <open> <area> <name>
+          - '[<set>] <area> <name> <open>'
+        response: cover_area
+      - sentences:
+          - <open> garaaž[i] [uks]
+          - '[<set>] garaaž[i] [uks] <open>'
+        response: cover
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - <open> ([ribi]kardin[ad] | ruloo[d]) <area>
+          - <open> <area> ([ribi]kardin[ad] | ruloo[d])
+          - '[<set>] <area> ([ribi]kardin[ad] | ruloo[d]) <open>'
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover

@@ -1,0 +1,49 @@
+language: ee
+tests:
+  - sentences:
+      - lülita magamistoa lamp välja
+      - lülita magamistoa tuli välja
+      - pane magamistoa tuli kustu
+      - magamistoa tuli kustu
+    intent:
+      name: HassTurnOff
+      slots:
+        name: light.bedroom_lamp
+  - sentences:
+      - pane vasak kardin kinni
+      - sule vasak kardin
+    intent:
+      name: HassTurnOff
+      slots:
+        name: cover.curtain_left
+  - sentences:
+      - sule elutoa vasak kardin
+      # TODO: Can't get these common alternative phrases to work
+      # - pane elutoa vasak kardin kinni
+      # - pane kinni kardin elutoas
+    intent:
+      name: HassTurnOff
+      slots:
+        name: cover.curtain_left
+        area: living_room
+  - sentences:
+      - pane garaaži uks kinni
+      - garaaži uks kinni
+      - sule garaaži uks
+    intent:
+      name: HassTurnOff
+      slots:
+        device_class: garage
+        domain: cover
+  - sentences:
+      - sule magamistoa ribikardinad
+      - pane magamistoa ribikardinad kinni
+    intent:
+      name: HassTurnOff
+      slots:
+        area: bedroom
+        device_class:
+          - blind
+          - curtain
+          - shutter
+        domain: cover
