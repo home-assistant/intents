@@ -1,4 +1,32 @@
 language: de-CH
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "Was isch der der Status vo[(m|r)] <name> [<area>]"
+        response: one
+
+      - sentences:
+          - "Isch [der Status] <name> {on_off_states:state} [<area>]"
+        response: one_yesno
+
+      - sentences:
+          - "(Isch|Sy) [e|ei|aui|alli] {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "(Isch|Sy) <area> [e|ei|aui|alli] {on_off_domains:domain} {on_off_states:state}"
+        response: any
+
+      - sentences:
+          - "Sy [d'[' ']|d |aui |alli ]{on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "Sy [d'[' ']|d |aui |alli ]{on_off_domains:domain} [<area>] {on_off_states:state}"
+          - "Sy <area> [d'[' ']|d |aui |alli ]{on_off_domains:domain} {on_off_states:state}"
+        response: all
+
+      - sentences:
+          - "(Wele|weli) {on_off_domains:domain} (isch|sy|si) {on_off_states:state} [<area>]"
+          - "(Wele|weli) {on_off_domains:domain} <area> (isch|sy|si) {on_off_states:state}"
+        response: which
+
+      - sentences:
+          - "Wie mäng[s|e|i] {on_off_domains:domain} (isch|sy|si) {on_off_states:state} [<area>]"
+          - "Wie mäng[s|e|i] {on_off_domains:domain} <area> (isch|sy|si) {on_off_states:state}"
+        response: how_many
