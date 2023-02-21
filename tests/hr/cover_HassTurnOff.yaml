@@ -1,35 +1,70 @@
 language: hr
 tests:
+  #common for covers
   - sentences:
-      - zatvorite sve prozore u kupaonici
-      - zatvori kuhinjske prozore
-    intent:
-      name: HassTurnOff
-      slots:
-        area:
-          - kupaonici
-          - kuhinjske
-        device_class:
-          - window
-        domain: cover
-    response: "Prozori su zatvoreni"
-
-  - sentences:
-      - Zatvori prozore u kuhinji
-      - Zatvori kuhinjski prozor
+      - "zatvori sve prozore u kuhinji"
+      - "zatvori prozore u kuhinji"
+      - "zatvori kuhinjske prozore"
+      - "zatvorite sve prozore u kupaonici"
     intent:
       name: HassTurnOff
       slots:
         area:
           - kuhinji
-          - kuhinjski
-        device_class:
-          - window
+          - kuhinjske
+          - kupaonici
         domain: cover
-    response: "Prozori su zatvoreni"
+        device_class: window
+    response: "Zatvaram prozore"
 
   - sentences:
-      - zatvori stropni prozor
+      - "zatvori sva vrata u hodniku"
+      - "zatvori vrata dnevne sobe"
+      - "zatvori vrata u dnevnom boravku"
+    intent:
+      name: HassTurnOff
+      slots:
+        area:
+          - "hodniku"
+          - "dnevne sobe"
+          - "dnevnom boravku"
+        domain: cover
+        device_class: door
+    response: "Zatvaram vrata"
+
+  - sentences:
+      - "zatvori garažna vrata"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        device_class: garage
+    response: "Zatvaram garažna vrata"
+
+  - sentences:
+      - "navuci zastore u dnevnoj sobi"
+    intent:
+      name: HassTurnOff
+      slots:
+        area:
+          - "dnevnoj sobi"
+        domain: cover
+        device_class: curtain
+    response: "Zatvaram zastore"
+
+    #different resonse for synonyms
+  - sentences:
+      - "zatvori sve zavjese"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        device_class: curtain
+    response: "Zatvaram zavjese"
+
+  #window
+  - sentences:
+      - "zatvori stropni prozor"
     intent:
       name: HassTurnOff
       slots:
@@ -37,10 +72,10 @@ tests:
         device_class: window
       context:
         domain: cover
-    response: "Prozor je zatvoren"
+    response: "Zatvaram stropni prozor"
 
   - sentences:
-      - zatvori mali prozor u kuhinji
+      - "zatvori mali prozor u kuhinji"
     intent:
       name: HassTurnOff
       slots:
@@ -49,141 +84,16 @@ tests:
         device_class: window
       context:
         domain: cover
-    response: "Prozor je zatvoren"
+    response: "Zatvaram mali prozor"
 
-  #door
   - sentences:
-      - zatvori sva vrata u hodniku
-      # - zatvori vrata dnevne sobe
-    intent:
-      name: HassTurnOff
-      slots:
-        area:
-          - hodniku
-        device_class:
-          - door
-        domain: cover
-    response: Vrata su zatvorena
-
-  # error: Expected window, got door for slot device_class for: zatvori ulazna vrata
-  - sentences:
-      - zatvori ulazna vrata
+      - "zatvori ulazna vrata u hodniku"
     intent:
       name: HassTurnOff
       slots:
         name: "ulazna vrata"
+        area: hodniku
         device_class: door
       context:
         domain: cover
-        device_class: door
-    response: "Vrata su zatvorena"
-
-  # - sentences:
-  #     - Zatvori vrata u dnevnoj sobi
-  #     - Zatvori kuhinjska vrata
-  #   intent:
-  #     name: HassTurnOff
-  #     slots:
-  #       area:
-  #         - kuhinja
-  #         - kuhinji
-  #         - kuhinju
-  #         - kuhinje
-  #         - kuhinjsku
-  #         - kuhinjska
-  #         - kuhinjske
-  #         - kuhinjski
-  #       device_class:
-  #         - door
-  #       domain: cover
-  # - sentences:
-  #     - Zatvori vrata dnevne sobe
-  #   intent:
-  #     name: HassTurnOff
-  #     slots:
-  #       area:
-  #         - dnevna soba
-  #         - dnevnoj sobi
-  #         - dnevne sobe
-  #         - dnevni boravak
-  #         - dnevnom boravku
-  #         - dnevnog boravka
-  #       device_class:
-  #         - door
-  #       domain: cover
-
-  # - sentences:
-  #     - zatvorite kupaonica vrata
-  #   intent:
-  #     name: HassTurnOff
-  #     slots:
-  #       area: kupaonica
-  #       device_class:
-  #         - door
-  #       domain: cover
-  #   response: Vrata su zatvorena u prostoriji kupaonica
-
-  # - sentences:
-  #     - zatvorite noćna svjetiljka zavjese u kupaonica
-  #   intent:
-  #     name: HassTurnOff
-  #     slots:
-  #       name: noćna svjetiljka
-  #       area: kupaonica
-  #       device_class:
-  #         - curtain
-  #       domain: cover
-  #   response: Zavjese su zatvorene u prostoriji kupaonica
-  # - sentences:
-  #     - zatvorite noćna svjetiljka rolete u kupaonica
-  #   intent:
-  #     name: HassTurnOff
-  #     slots:
-  #       name: noćna svjetiljka
-  #       area: kupaonica
-  #       device_class:
-  #         - blind
-  #       domain: cover
-  #   response: Rolete su spuštene u prostoriji kupaonica
-  # - sentences:
-  #     - zatvorite sve zavjese u kupaonica
-  #   intent:
-  #     name: HassTurnOff
-  #     slots:
-  #       area: kupaonica
-  #       device_class:
-  #         - blind
-  #         - curtain
-  #         - shutter
-  #         - shade
-  #         - awning
-  #       domain: cover
-  #   response: Sjenila u prostoriji kupaonica su zatvorena
-  # - sentences:
-  #     - zatvorite zavjese u prostoriji kupaonica
-  #   intent:
-  #     name: HassTurnOff
-  #     slots:
-  #       area: kupaonica
-  #       device_class:
-  #         - blind
-  #         - curtain
-  #         - shutter
-  #         - shade
-  #         - awning
-  #       domain: cover
-  #   response: Sjenila u prostoriji kupaonica su zatvorena
-  # - sentences:
-  #     - zatvorite prostoriji kupaonica zavjese
-  #   intent:
-  #     name: HassTurnOff
-  #     slots:
-  #       area: kupaonica
-  #       device_class:
-  #         - blind
-  #         - curtain
-  #         - shutter
-  #         - shade
-  #         - awning
-  #       domain: cover
-  #   response: Sjenila u prostoriji kupaonica su zatvorena
+    response: "Zatvaram ulazna vrata"
