@@ -13,17 +13,33 @@ intents:
         slots:
           name: all
         response: brightness_area
+
+      # max intents
       - sentences:
-          - "(<nastavit>|<zvysit>|<zmenit>|<ztlumit>) [jas] <area> na {min_max:brightness}"
-          - "(<nastavit>|<zvysit>|<zmenit>|<ztlumit>) [na] {min_max:brightness} [jas] <area>"
-          - "[jas] <area> (<zvysit>|<nastavit>|<zmenit>|<ztlumit>) [jas] [na] [{min_max:brightness}] [jas] [{min_max:brightness}]"
+          - "(<nastavit>|<zvysit>|<zmenit>) [jas] <area> na {max:brightness}"
+          - "(<nastavit>|<zvysit>|<zmenit>) [na] {max:brightness} [jas] <area>"
+          - "[jas] <area> (<zvysit>|<nastavit>|<zmenit>) [jas] [na] [{max:brightness}] [jas] [{max:brightness}]"
         slots:
           name: all
-        response: brightness_area
+        response: brightness_area_max
       - sentences:
-          - "(<nastavit>|<zmenit>|<zvysit>|<ztlumit>) [jas] [na] {min_max:brightness} [jas] [u] {name}"
-          - "[jas] [u] {name} (<nastavit>|<zvysit>|<ztlumit>|<zmenit>) [jas] [na] {min_max:brightness} [jas]"
-        response: brightness
+          - "(<nastavit>|<zmenit>|<zvysit>) [jas] [na] {max:brightness} [jas] [u] {name}"
+          - "[jas] [u] {name} (<nastavit>|<zvysit>|<zmenit>) [jas] [na] {max:brightness} [jas]"
+        response: brightness_max
+
+        #min intents
+      - sentences:
+          - "(<nastavit>|<zmenit>|<ztlumit>) [jas] <area> na {min:brightness}"
+          - "(<nastavit>|<zmenit>|<ztlumit>) [na] {min:brightness} [jas] <area>"
+          - "[jas] <area> (<nastavit>|<zmenit>|<ztlumit>) [jas] [na] [{min:brightness}] [jas] [{min:brightness}]"
+        slots:
+          name: all
+        response: brightness_area_min
+      - sentences:
+          - "(<nastavit>|<zmenit>|<ztlumit>) [jas] [na] {min:brightness} [jas] [u] {name}"
+          - "[jas] [u] {name} (<nastavit>|<ztlumit>|<zmenit>) [jas] [na] {min:brightness} [jas]"
+        response: brightness_min
+
       - sentences:
           - "(<nastavit>|<zmenit>) {color} [barvu] [na] {name}"
           - "(<nastavit>|<zmenit>) {name} na {color} [barvu]"

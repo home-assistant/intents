@@ -84,9 +84,9 @@ def do_test_language_sentences(
                         "domain" not in data.slots
                     ), f"File {file_name} should only have sentences without a domain slot"
                 else:
-                    assert (
-                        data.slots.get("domain") == file_domain
-                    ), f"File {file_name} should only have sentences with a domain slot set to {file_domain}"
+                    assert (data.slots.get("domain") == file_domain) or (
+                        data.requires_context.get("domain") == file_domain
+                    ), f"File {file_name} should only have sentences with a domain slot or context key set to {file_domain}"
 
             for sentence in data.sentences:
                 found_slots: set[str] = set()

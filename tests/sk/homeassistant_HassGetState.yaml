@@ -1,0 +1,56 @@
+language: sk
+tests:
+  - sentences:
+      - "aká je vonkajšia teplota?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "vonkajšia teplota"
+    response: "vonkajšia teplota je 27 °C"
+
+  - sentences:
+      - "je nočná lampa zasvietená?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "nočná lampa"
+        state: "on"
+    response: "Nie"
+
+  - sentences:
+      - "je zapnutý nejaký vypínač?"
+    intent:
+      name: HassGetState
+      slots:
+        #https://github.com/home-assistant/intents/issues/980#issuecomment-1426899721
+        #area: kitchen
+        domain: switch
+        state: "on"
+    response: "Áno, kuchynský vypínač"
+
+  - sentences:
+      - "sú všetky vypínače zapnuté?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Nie, spálňový vypínač"
+
+  - sentences:
+      - "ktoré svetlá sú zasvietené?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "garážové svetlo, rohová lampa"
+
+  - sentences:
+      - "koľko svetiel je zasvietených?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "2"

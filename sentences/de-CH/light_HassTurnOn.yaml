@@ -1,14 +1,20 @@
-language: "de-CH"
+language: de-CH
 intents:
   HassTurnOn:
     data:
       - sentences:
-          - "( Zünd | Mach ) [alli | ( s | d )]  (<Liecht> | <Liechter>) a <area>"
-          - "( Zünd | Mach ) [alli | ( s | d )]  (<Liecht> | <Liechter>) <area> a"
-          - "( Zünd | Mach ) <area> [ alli | ( s | d ) ] (<Liecht> | <Liechter>) a"
-          - "Schalt [ alli | (s | d ) ] (<Liecht> | <Liechter>) <a_y> <area>"
-          - "Schalt [ alli | (s | d ) ] (<Liecht> | <Liechter>) <area> <a_y>"
-          - "Mach Liecht <area>"
+          - "(Zünd|Mach|Schalt|Schaut) [<Liecht>] <name> [<a_y>]"
         slots:
-          domain: "light"
-          name: "lights_area"
+          domain: light
+        requires_context:
+          domain: light
+        response: light
+      - sentences:
+          - "(Zünd|Mach) (<Liecht>|<Liechter>) a <area>"
+          - "(Zünd|Mach) (<Liecht>|<Liechter>) <area> [a]"
+          - "(Zünd|Mach) <area> (<Liecht>|<Liechter>) a"
+          - "(Schalt|Schaut) (<Liecht>|<Liechter>) <a_y> <area>"
+          - "(Schalt|Schaut) (<Liecht>|<Liechter>) <area> <a_y>"
+        slots:
+          domain: light
+        response: lights_area

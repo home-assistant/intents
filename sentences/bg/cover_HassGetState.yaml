@@ -1,0 +1,37 @@
+language: bg
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "{cover_states:state} ли е <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "Има ли [няко(й|и|я|е)|някак(ъв|ва|во|ви)] {cover_states:state} {cover_classes:device_class} [<area>]"
+          - "Има ли [няко(й|и|я|е)|някак(ъв|ва|во|ви)] {cover_classes:device_class} [ко(йто|ито|ято|ето) са|e] {cover_states:state} [<area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "Всички[те] {cover_classes:device_class} ли са {cover_states:state} [<area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(кои|кой|коя|кое) {cover_classes:device_class} (е|са) {cover_states:state} [<area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "Колко {cover_classes:device_class} [са|се] {cover_states:state} [<area>]"
+          - "Колко са {cover_states:state} {cover_classes:device_class} [<area>]"
+        response: how_many
+        slots:
+          domain: cover

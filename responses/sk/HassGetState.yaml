@@ -1,0 +1,40 @@
+language: sk
+responses:
+  intents:
+    HassGetState:
+      one: "{{ slots.name }} je {{ state.state_with_unit }}"
+
+      one_yesno: |
+        {% if query.matched: %}
+        Áno
+        {% else: %}
+        Nie
+        {% endif %}
+
+      any: |
+        {% if query.matched: %}
+        Áno, {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% else: %}
+        Nie
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+        Áno
+        {% else: %}
+        Nie, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      which: |
+        {% if not query.matched: %}
+        Žiadne
+        {% else: %}
+        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+        {% endif %}
+
+      how_many: |
+        {% if not query.matched: %}
+        0
+        {% else: %}
+        {{ query.matched | length }}
+        {% endif %}

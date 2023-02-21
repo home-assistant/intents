@@ -11,8 +11,10 @@ from hassil.intents import Intents
 from hassil.sample import sample_intents
 from hassil.util import merge_dict
 
+from shared import get_slot_lists
+
 from .const import LANGUAGES, SENTENCE_DIR, TESTS_DIR
-from .util import get_base_arg_parser, get_slot_lists
+from .util import get_base_arg_parser
 
 
 def get_arguments() -> argparse.Namespace:

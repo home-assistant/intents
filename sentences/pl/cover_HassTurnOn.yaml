@@ -1,0 +1,23 @@
+language: pl
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - <open> garaż
+          - <open> (drzwi | bramę) (garażowe | garażową | od garażu)
+          - (Drzwi | Bramę) (garażowe | garażową | od garażu) <open>
+        slots:
+          device_class: garage
+          domain: cover
+        response: garage
+      - sentences:
+          - Rolety <area> (<open> | <open_blind>)
+          - (<open> | <open_blind>) [wszystkie] rolety <area>
+          - (<open> | <open_blind>) <area> [wszystkie] rolety
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover
+        response: cover_area

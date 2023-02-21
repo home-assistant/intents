@@ -1,0 +1,60 @@
+language: ro
+responses:
+  intents:
+    HassGetState:
+      one: "{{ slots.name | capitalize }} este {{ state.state_with_unit }}"
+      one_yesno: |
+        {% if query.matched: %}
+        Da
+        {% else: %}
+        Nu, {{ slots.name }} este {{ state.state_with_unit }}
+        {% endif %}
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Da, {{ match[:3] | join(", ") }} și încă {{ (match | length - 3) }}
+          {%- else -%}
+            Da,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} și {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Nu
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Da
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nu, {{ no_match[:3] | join(", ") }} și încă {{ (no_match | length - 3) }} nu sunt {{ slots.state }}
+          {%- else -%}
+            Nu,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} și {% endif -%}
+              {{ name }}
+            {%- endfor %} nu {{ 'este' if (query.unmatched|length) == 1 else 'sunt' }} {{ slots.state }}
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Nu există niciun astfel de element
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} și încă {{ (match | length - 3) }}
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} și {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}
