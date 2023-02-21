@@ -1,2 +1,77 @@
 language: es
-tests: []
+tests:
+  - sentences:
+      - "cuál es la temperatura exterior?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Temperatura exterior"
+    response: "El estado del dispositivo Temperatura exterior es 14 °C"
+
+  - sentences:
+      - "¿Qué estado tiene el interruptor cocina?"
+      - "¿Cómo está el interruptor cocina?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Interruptor"
+        area: "Cocina"
+    response: "El estado del dispositivo Interruptor es encendido"
+
+  - sentences:
+      - "¿está la lámpara del dormitorio encendida?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Lámpara de dormitorio"
+        state: "on"
+    response: "No, está apagada"
+
+  - sentences:
+      - "¿hay algún interruptor encendido en la cocina?"
+      - "¿está algún interruptor de la cocina encendido?"
+      - "¿hay algunos interruptores de la cocina encendidos?"
+      - "¿están algunos interruptores encendidos en la cocina?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Cocina"
+        domain: "switch"
+        state: "on"
+    response: "Sí, el dispositivo interruptor cocina"
+
+  - sentences:
+      - "¿están todos los interruptores encendidos?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "No, el dispositivo Interruptor dormitorio no"
+
+  - sentences:
+      - "¿están todas las luces apagadas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "No, los dispositivos Luz de garaje, Armarios de cocina, Luz techo cocina, y 2 más no lo están"
+
+  - sentences:
+      - "¿qué luces hay encendidas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Los dispositivos Luz de garaje, Armarios de cocina, Luz techo cocina y 2 más"
+
+  - sentences:
+      - "¿cuántas luces hay encendidas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"
