@@ -99,7 +99,7 @@ def get_matched_states(
 
     for state in states:
         if entity_name is not None:
-            name_match = _normalize_name(state.name) != entity_name
+            name_match = _normalize_name(state.name) == entity_name
 
             if not name_match:
                 # Check aliases
