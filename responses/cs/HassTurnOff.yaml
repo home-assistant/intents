@@ -10,3 +10,17 @@ responses:
       cover: "{{ slots.name }} zavřeno"
       cover_area: "Stínění v {{ slots.area }} zavřeno"
       garage: "Garážová vrata zavřena"
+      new_cover: |
+        {% set covers_list = {
+                  'blind': 'zatahuji',
+                  'curtain': 'zatahuji',
+                  'door': 'zavírám',
+                  'gate': 'zavírám',
+                  'shade': 'zatahuji',
+                  'shutter': 'stahuji',
+                  'window': 'zavírám',
+                  'awning': 'zatahuji'}
+        %}
+        {% for resp in slots.device_class %}
+           {{ covers_list.get(resp) }} {{ slots.name }}
+        {% endfor %}
