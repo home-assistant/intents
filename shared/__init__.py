@@ -180,7 +180,7 @@ def render_response(
             },
             "state": state1,
             "query": {"matched": matched, "unmatched": unmatched},
-            "entity_device_class": _entity_device_class
+            "entity_device_class": _entity_device_class,
         }
     )
 

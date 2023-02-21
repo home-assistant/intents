@@ -523,7 +523,7 @@ def validate_language(
                                 },
                                 "slots": slots,
                                 "query": {"matched": [], "unmatched": []},
-                                "entity_device_class": ""
+                                "entity_device_class": "",
                             }
                         )
                     except jinja2.exceptions.TemplateError as err:
