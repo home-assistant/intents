@@ -1,0 +1,34 @@
+language: ro
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<cat> <este> <name> [<din> <area>]"
+          - "(ce stare are|(î|i)n ce stare <este>) <name> [<din> <area>]"
+        response: one
+
+      - sentences:
+          - "<name> [<din> <area>] <este> {on_off_states:state}"
+          - "<este> {on_off_states:state} <name> [<din> <area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "(<este> | exist(ă|a)) [<vreun>] {on_off_domains:domain} {on_off_states:state} [<in> <area>]"
+        response: any
+
+      - sentences:
+          - "sunt (to(ț|t)i | toate) {on_off_domains:domain} {on_off_states:state} [<in> <area>]"
+          - "sunt {on_off_states:state} (to(ț|t)i | toate) {on_off_domains:domain} [<in> <area>]"
+          - "(to(ț|t)i | toate) {on_off_domains:domain} sunt {on_off_states:state} [<in> <area>]"
+        response: all
+
+      - sentences:
+          - "(care | ce) {on_off_domains:domain} <este> {on_off_states:state} [<in> <area>]"
+        response: which
+
+      - sentences:
+          - "<cate> {on_off_domains:domain} <este> {on_off_states:state} [<in> <area>]"
+        response: how_many

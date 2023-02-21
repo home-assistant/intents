@@ -1,12 +1,128 @@
 language: zh-tw
+settings:
+  ignore_whitespace: true
 responses:
   errors:
-    no_intent: TODO Sorry, I couldn't understand that
-    no_area: TODO No area named {{ area }}
-    no_domain: TODO {{ area }} does not contain a {{ domain }}
-    no_device_class: TODO {{ area }} does not contain a {{ device_class }}
-    no_entity: TODO No device or entity named {{ entity }}
-    handle_error: TODO An unexpected error occurred while handling the intent
-lists: {}
-expansion_rules: {}
-skip_words: []
+    no_intent: "拍謝，我沒聽很懂"
+    no_area: "「{{ area }}」這個區域並不存在"
+    no_domain: "{{ area }}裡面沒有任何{{ domain }}"
+    no_device_class: "{{ area }}裡面並沒有任何{{ device_class }}"
+    no_entity: "「{{ entity }}」這個實體並不存在"
+    handle_error: "處理您的旨意時，發生了意外錯誤"
+lists:
+  color:
+    values:
+      - in: "白色"
+        out: "white"
+      - in: "黑色"
+        out: "black"
+      - in: "紅色"
+        out: "red"
+      - in: "橘色"
+        out: "orange"
+      - in: "黃色"
+        out: "yellow"
+      - in: "綠色"
+        out: "green"
+      - in: "藍色"
+        out: "blue"
+      - in: "紫色"
+        out: "purple"
+      - in: "咖啡色"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "度C|攝氏度|度"
+        out: "celsius"
+      - in: "度F|華氏度"
+        out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: (最大|最亮|最高)
+        out: 100
+      - in: (最小|最暗|最低)
+        out: 1
+  on_off_states:
+    values:
+      - in: "(開啟 | 打開 | 開) [的]"
+        out: "on"
+      - in: "(關閉 | 關上 | 關) [的]"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "(燈 | 照明 | 桌燈 | 檯燈 | 床頭燈 | 壁燈 | 吸頂燈 | 崁燈) [的]"
+        out: light
+      - in: "(電扇 | 電風扇 | 風扇 | 循環扇 | 吊扇)"
+        out: fan
+      - in: "(開關 | 電源 | 插座 | 總開關 | 燈光)"
+        out: switch
+  cover_states:
+    values:
+      - in: "(開啟 | 打開 | 開著 | 開) [的]"
+        out: "open"
+      - in: "(關閉 | 關上 | 關著 | 關) [的]"
+        out: "closed"
+      - in: "(開啟中 | 打開中 | 正在開啟 | 正在打開)"
+        out: "opening"
+      - in: "(關閉中 | 關閉中 | 正在關閉 | 正在關上)"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "(遮陽棚 | 遮雨棚 | 雨棚)"
+        out: awning
+      - in: "(窗簾 | 百葉窗 | 羅馬簾 | 捲簾)"
+        out: blind
+      - in: "(窗簾 | 百葉窗 | 羅馬簾 | 捲簾)"
+        out: curtain
+      - in: "(門 | 房間門 | 房門)"
+        out: door
+      - in: "(車庫門 | 車庫)"
+        out: garage
+      - in: "大門"
+        out: gate
+      - in: "(遮陽棚 | 遮雨棚 | 雨棚)"
+        out: shade
+      - in: "(窗簾 | 百葉窗 | 羅馬簾 | 捲簾)"
+        out: shutter
+      - in: "(窗戶 | 落地窗 | 鋁窗)"
+        out: window
+expansion_rules:
+  name: "{name} [的]"
+  area: "{area} [的]"
+  let: "[把 | 將]"
+  all: "(全部 | 所有) [的]"
+  what_is: "是什麼"
+  how_many_is: "(是多少 | 有多少 | 有幾個)"
+  brightness: "[百分之]  {brightness}[% | 趴]"
+  to: "(為 | 到 | 成 | 至)"
+  set_to: "(設 | 設定 | 設置 | 調 | 調整 | 變更 ) (為 | 到 | 成 | 至)"
+  turn_on: "(打開 | 開 | 開啟)"
+  turn_off: "(關 | 關掉 | 關閉 | 關上)"
+  open: "(打開 | 開啟 | 開)"
+  close: "(關 | 關閉 | 關上)"
+  light: "(燈 | 照明 | 桌燈 | 檯燈 | 床頭燈 | 壁燈 | 吸頂燈 | 崁燈) [的]"
+  fan: "(電扇 | 電風扇 | 風扇 | 循環扇 | 吊扇)"
+  temp: "溫度"
+  temperature: "{temperature} [{temperature_unit}]"
+  turn: "(設 | 設定 | 設置 | 調 | 調整 | 變更 ) (為 | 到 | 成 | 至)"
+  window: "(窗戶 | 窗簾 | 捲簾 | 羅馬簾  | 百葉窗)"
+  which: "[有 | 有沒有] 哪 [一] (個 | 些 | 扇 | 盞 | 道)"
+  set: "(設 | 設定 | 設置 | 調 | 調整 | 變更 )"
+  how_many: "(是多少 | 有多少 | 有幾個)"
+skip_words:
+  - "請"
+  - "請問"
+  - "謝謝"
+  - "幫我"
+  - "告訴我"
+  - "？"

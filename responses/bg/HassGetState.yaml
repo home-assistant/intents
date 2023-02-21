@@ -1,0 +1,65 @@
+language: bg
+responses:
+  intents:
+    HassGetState:
+      # Броят на върнатите имена е ограничен до 4. В случай, че има повече, се връщат първите 3 и броя на останалите.
+      # С 4 имена или по-малко, имената са свързани със запетая, а последното име е свързано с " и"
+      one: |
+        {{ slots.name | capitalize }} е {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched %}
+          Да
+        {% else %}
+          Не, {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Да, {{ match[:3] | join(", ") }} и още {{ (match | length - 3) }} други
+          {%- else -%}
+            Да,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Не
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Да
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Не, {{ no_match[:3] | join(", ") }} и още {{ (no_match | length - 3) }} не са
+          {%- else -%}
+            Не,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}
+              {{ name }}
+            {%- endfor %} не е
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Никои
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} и още {{ (match | length - 3) }} други
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

@@ -33,6 +33,20 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  on_off_states:
+    values:
+      - in: "(zapnut(ý|á|é|ých)|zasvieten(ý|á|é|ých)|otvoren(ý|á|é|ých))"
+        out: "on"
+      - in: "(vypnut(ý|á|é|ých)|zhasnut(ý|á|é|ých)|zatvoren(ý|á|é|ých))"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: svet(lo|lá|iel)
+        out: light
+      - in: ventilátor[y|ov]
+        out: fan
+      - in: vypínač[e|ov]
+        out: switch
   temperature:
     range:
       type: "temperature"
@@ -49,11 +63,16 @@ lists:
 expansion_rules:
   name: "{name}"
   area: "{area}"
-  what_is: "ak(á|é|ý|o) [je]"
-  how_many: "koľko [je]"
+  what_is: "((ak(á|é|ý|o)[ je])|je)"
+  is: "(je|sú)"
+  any: "nejak(ý|á|é)"
+  all: "(všetk(y)|každ(ý|á|é))"
+  which: "ktor(ý|í|á|é|ú)"
+  in: "(v|vo)"
+  how_many: "koľko[ je]"
   brightness: "{brightness}[%| percent]"
   temp: "teplot(a|u)"
-  temperature: "{temperature}[°| stupňov][{temperature_unit}]"
+  temperature: "{temperature}[°| stupňov ][{temperature_unit}]"
   turn_on: "(zapni|zapnúť)"
   turn_off: "(vypni|vypnúť)"
   turn_on_light: "(zasvieť|zažni|rozžni|rozsvieť)"

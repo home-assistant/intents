@@ -11,13 +11,16 @@ from hassil.intents import Intents
 from hassil.recognize import recognize
 from hassil.util import merge_dict, normalize_whitespace
 
-from .const import LANGUAGES, SENTENCE_DIR, TESTS_DIR
-from .util import (
-    get_base_arg_parser,
+from shared import (
+    get_areas,
+    get_matched_states,
     get_slot_lists,
-    load_merged_responses,
+    get_states,
     render_response,
 )
+
+from .const import LANGUAGES, SENTENCE_DIR, TESTS_DIR
+from .util import get_base_arg_parser, load_merged_responses
 
 
 def get_arguments() -> argparse.Namespace:
@@ -47,8 +50,10 @@ def run() -> int:
     tests_dir = TESTS_DIR / args.language
 
     # Load test areas and entities for language
-    test_names = yaml.safe_load((tests_dir / "_fixtures.yaml").read_text())
-    slot_lists = get_slot_lists(test_names)
+    fixtures = yaml.safe_load((tests_dir / "_fixtures.yaml").read_text())
+    slot_lists = get_slot_lists(fixtures)
+    states = get_states(fixtures)
+    areas = get_areas(fixtures)
 
     # Load intents
     intents_dict: Dict[str, Any] = {}
@@ -72,14 +77,16 @@ def run() -> int:
             output_dict["slots"] = {
                 entity.name: entity.value for entity in result.entities_list
             }
+            output_dict["context"] = result.context
 
             # Response
+            matched, unmatched = get_matched_states(states, areas, result)
             output_dict["response_key"] = result.response
             response_template = responses.get(result.intent.name, {}).get(
                 result.response
             )
             output_dict["response"] = normalize_whitespace(
-                render_response(response_template, result)
+                render_response(response_template, result, matched, unmatched)
             ).strip()
 
         json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)

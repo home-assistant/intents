@@ -1,12 +1,12 @@
 language: vi
 responses:
   errors:
-    no_intent: "Xin lỗi, tôi chưa hiểu yêu cầu này"
+    no_intent: "Xin lỗi, tôi chưa hiểu hành động này"
     no_area: "Không có khu vực nào tên là {{ area }}"
     no_domain: "{{ area }} không chứa {{ domain }}"
-    no_device_class: "{{ area }} không chứa {{ device_class }}"
-    no_entity: "Không có thiết bị hoặc thực thể nào có tên {{ entity }}"
-    handle_error: "Đã xảy ra lỗi khi phân tích câu"  
+    no_device_class: "{{ area }} không có {{ device_class }} nào"
+    no_entity: "Không có thiết bị hoặc thực thể nào tên là {{ entity }}"
+    handle_error: "Đã xảy ra lỗi khi phân tích câu"
 lists:
   color:
     values:
@@ -46,18 +46,68 @@ lists:
         out: "celsius"
       - in: "độ F"
         out: "fahrenheit"
-
+  brightness_level:
+    values:
+      - in: (max | maximum | highest)
+        out: 100
+      - in: ( minimum | lowest)
+        out: 1
+  on_off_states:
+    values:
+      - in: "bật"
+        out: "on"
+      - in: "tắt"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: đèn
+        out: light
+      - in: quạt
+        out: fan
+      - in: công tắc
+        out: switch
+  cover_states:
+    values:
+      - in: "mở"
+        out: "open"
+      - in: "đóng"
+        out: "closed"
+      - in: "đang mở"
+        out: "opening"
+      - in: "đang đóng"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: mái che
+        out: awning
+      - in: rèm cầu vồng
+        out: blind
+      - in: rèm
+        out: curtain
+      - in: cửa
+        out: door
+      - in: cửa cuốn
+        out: garage
+      - in: cổng
+        out: gate
+      - in: rèm cuộn
+        out: shade
+      - in: rèm sáo
+        out: shutter
+      - in: cửa sổ
+        out: window
 expansion_rules:
   name: "[cái] {name}"
   area: "[ trong | ở trong | ngoài | ở ngoài | bên trong] {area}"
   what_is: "(cái gì | gì | những gì)"
-  brightness: "{brightness} [phần trăm]"
-  turn: "(bật)"
+  brightness: "{brightness}[%| phần trăm]"
+  turn: "(bật | chuyển | thay đổi)"
   turn_off: "(tắt)"
-  temp: "(nhiệt độ)"
+  temp: "(nhiệt độ | độ)"
+  temperature: "{temperature}[°| độ] [{temperature_unit}]"
+  open: "(mở | kéo)"
   close: "(đóng | kéo | thu gọn)"
-  open: "mở"
-  temperature: "{temperature} [độ] [{temperature_unit}]"
+  window: "(rèm cuốn | rèm sáo | rèm | rèm cầu vồng | rèm vải)"
   percentage: "phần trăm"
 skip_words:
   - "xin"

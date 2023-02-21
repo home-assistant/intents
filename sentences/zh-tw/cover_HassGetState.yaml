@@ -1,0 +1,35 @@
+language: zh-tw
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "[<area>] <name> [(是 | 是不是)] {cover_states:state} [的] [嗎]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>] [(有 | 有沒有 | 有任何)] {cover_classes:device_class} 是 {cover_states:state} [的] [嗎]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>] [<all>] {cover_classes:device_class} [(都是 | 是 | 是不是)] {cover_states:state} [的] [嗎]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>] [<which>] {cover_classes:device_class} [是] {cover_states:state} [的] [嗎]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>] <how_many> [扇] {cover_classes:device_class} 是 {cover_states:state}"
+        response: how_many
+        slots:
+          domain: cover

@@ -1,6 +1,14 @@
 language: ro
 tests:
   - sentences:
+      - "stinge plafoniera neagra"
+    intent:
+      name: HassTurnOff
+      slots:
+        name: plafoniera neagra
+        domain: light
+    response: "Am stins plafoniera neagra"
+  - sentences:
       - "stinge lumina din garaj"
       - "oprește lumina din garaj"
       - "stop lumina din garaj"
@@ -8,8 +16,9 @@ tests:
     intent:
       name: HassTurnOff
       slots:
-        area: garage
+        area: "Garaj"
         domain: light
+    response: "Am stins luminile de la garaj"
   - sentences:
       - "stinge lumina din sufragerie"
       - "oprește lumina din sufragerie"
@@ -18,5 +27,16 @@ tests:
     intent:
       name: HassTurnOff
       slots:
-        area: living_room
+        area:
+          - "Sufragerie"
+          - "Camera de zi"
         domain: light
+    response: "Am stins luminile de la sufragerie"
+  - sentences:
+      - "opreste lumina"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+      context:
+        area: bedroom

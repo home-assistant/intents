@@ -1,8 +1,8 @@
 language: ro
 areas:
-  - name: "Buc(ă|a)t(ă|a)rie"
+  - name: "Bucatarie"
     id: kitchen
-  - name: "(Sufragerie | Camera de zi)"
+  - name: "Sufragerie"
     id: living_room
   - name: "Dormitor"
     id: bedroom
@@ -15,24 +15,99 @@ areas:
   - name: "Curte"
     id: frontyard
 entities:
-  - name: "lumina din camera"
+  # Lights
+  - name: "lustra"
     id: light.bedroom_lamp
     area: bedroom
-  - name: "lumina din hol"
+    state:
+      in: "oprit"
+      out: "off"
+  - name: "plafoniera neagra"
     id: light.hall_lamp
     area: hall
+    state:
+      in: "pornit"
+      out: "on"
+  - name: "Spot 1"
+    id: light.spot_1
+    area: living_room
+    state:
+      in: "pornit"
+      out: "on"
+  - name: "Spot 2"
+    id: light.spot_2
+    area: living_room
+    state:
+      in: "pornit"
+      out: "on"
+  - name: "Spot 3"
+    id: light.spot_3
+    area: living_room
+    state:
+      in: "oprit"
+      out: "off"
+  - name: "Spot 4"
+    id: light.spot_4
+    area: living_room
+    state:
+      in: "pornit"
+      out: "on"
+  - name: "Spot 5"
+    id: light.spot_5
+    area: living_room
+    state:
+      in: "pornit"
+      out: "on"
+
+  # Covers
   - name: "usa principala"
     id: cover.entrance_door
-    device_class: door
+    attributes:
+      device_class: door
     area: entrance
+    state:
+      in: "închis"
+      out: "closed"
   - name: "poarta auto"
     id: cover.front_gate
-    device_class: gate
+    attributes:
+      device_class: gate
     area: frontyard
+    state:
+      in: "deschis"
+      out: "open"
   - name: "fereastra din stanga"
     id: cover.bedroom_window_left
-    device_class: window
+    attributes:
+      device_class: window
     area: bedroom
+    state:
+      in: "deschis"
+      out: "open"
+  - name: "fereastra din dreapta"
+    id: cover.bedroom_window_right
+    attributes:
+      device_class: window
+    area: bedroom
+    state:
+      in: "deschis"
+      out: "open"
+
+  # Fans
   - name: "hota"
     id: fan.kitchen_extractor
     area: kitchen
+
+  # Sensors
+  - name: "temperatura exterioara"
+    id: sensor.outside_temperature
+    area: frontyard
+    state: "21"
+    attributes:
+      unit_of_measurement: "°C"
+  - name: "senzorul de temperatura de langa pat"
+    id: sensor.bedroom_temperature
+    area: bedroom
+    state: "22"
+    attributes:
+      unit_of_measurement: "°C"

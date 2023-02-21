@@ -1,0 +1,35 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "is <name> {cover_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(is|are) any {cover_classes:device_class} {cover_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "are all [the] {cover_classes:device_class} {cover_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(which|what) {cover_classes:device_class} (is|are) {cover_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "how many {cover_classes:device_class} (is|are) {cover_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: cover

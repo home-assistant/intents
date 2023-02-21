@@ -1,0 +1,35 @@
+language: hu
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - redőny <name> fel
+          - <name> redőny fel
+        response: cover_device_class
+        slots: &id001
+          device_class: shutter
+          domain: cover
+      - sentences:
+          - redőny <area> fel
+          - <area> redőny fel
+          - redőny <area> <name> fel
+          - <area> <name> redőny fel
+        response: cover_area
+        slots: *id001
+      - sentences:
+          - árnyékoló[k] <name> nyit
+          - <name> árnyékoló[k] nyit
+        response: cover_device_class
+        slots: &id002
+          device_class:
+            - blind
+            - curtain
+            - shade
+          domain: cover
+      - sentences:
+          - árnyékoló[k] <area> nyit
+          - <area> árnyékoló[k] nyit
+          - árnyékoló[k] <area> <name> nyit
+          - <area> <name> árnyékoló[k] nyit
+        response: cover_area
+        slots: *id002

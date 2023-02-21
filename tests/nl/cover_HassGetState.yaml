@@ -1,0 +1,110 @@
+language: nl
+tests:
+  - sentences:
+      - "is gordijn links dicht"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Gordijn Links"
+        state: "closed"
+    response: "Nee, die is open"
+
+  - sentences:
+      - "Is in de woonkamer gordijn links dicht"
+      - "Is gordijn links in de woonkamer dicht"
+      - "Staat gordijn links dicht in de woonkamer"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: Woonkamer
+        name: "Gordijn Links"
+        state: "closed"
+    response: "Nee, die is open"
+
+  - sentences:
+      - "Staan er ergens gordijnen open?"
+      - "Staat er nog een gordijn open?"
+      - "Staan ergens gordijnen open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "open"
+    response: "Ja, Gordijn Links"
+
+  - sentences:
+      - "Zijn er gordijnen open in de woonkamer?"
+      - "Staan er in de woonkamer gordijnen open?"
+      - "Staat er een gordijn in de woonkamer open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Woonkamer"
+        device_class: curtain
+        state: "open"
+    response: "Ja, Gordijn Links"
+
+  - sentences:
+      - "Zijn alle gordijnen dicht in de woonkamer?"
+      - "Zijn alle gordijnen in de woonkamer dicht?"
+      - "Zijn in de woonkamer alle gordijnen dicht?"
+      - "Zijn in de woonkamer de gordijnen dicht?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Woonkamer"
+        device_class: curtain
+        state: "closed"
+    response: "Nee, Gordijn Links niet"
+
+  - sentences:
+      - "Welke gordijnen zijn dicht?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Gordijn Rechts en Gordijn Slaapkamer"
+
+  - sentences:
+      - "Welke gordijnen zijn dicht in de woonkamer?"
+      - "Welke gordijnen in de woonkamer zijn dicht"
+      - "Welk gordijn in de woonkamer is dicht"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: Woonkamer
+        device_class: curtain
+        state: "closed"
+    response: "Gordijn Rechts"
+
+  - sentences:
+      - "Hoeveel gordijnen zijn dicht?"
+      - "Hoe veel gordijnen zijn er dicht?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"
+
+  - sentences:
+      - "Hoeveel gordijnen in de woonkamer zijn er dicht?"
+      - "Hoe veel gordijnen zijn dicht in de woonkamer?"
+      - "Hoeveel gordijnen zijn er in de woonkamer dicht"
+    intent:
+      name: HassGetState
+      slots:
+        area: Woonkamer
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "1"
