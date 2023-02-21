@@ -52,6 +52,24 @@ class AreaEntry:
     name: str
 
 
+def entity_device_class(states: List[State], result: RecognizeResult) -> str:
+
+    entity_name: Optional[str] = None
+    name_entity = result.entities.get("name")
+    if name_entity is not None:
+        entity_name = _normalize_name(name_entity.value)
+
+    for state in states:
+
+        if (entity_name is not None) and (_normalize_name(state.name) != entity_name):
+            # Filter by entity name
+            continue
+
+        return state.attributes.get("device_class")
+
+    return
+
+
 def get_matched_states(
     states: List[State], areas: List[AreaEntry], result: RecognizeResult
 ) -> Tuple[List[State], List[State]]:
@@ -136,6 +154,7 @@ def render_response(
     result: RecognizeResult,
     matched: List[State],
     unmatched: Optional[List[State]] = None,
+    _entity_device_class: Optional[str] = None,
     env: Optional[Environment] = None,
 ) -> str:
     """Renders a response template using Jinja2."""
@@ -161,6 +180,7 @@ def render_response(
             },
             "state": state1,
             "query": {"matched": matched, "unmatched": unmatched},
+            "entity_device_class": _entity_device_class
         }
     )
 

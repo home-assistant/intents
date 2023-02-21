@@ -17,6 +17,7 @@ from shared import (
     get_slot_lists,
     get_states,
     render_response,
+    entity_device_class,
 )
 
 from .const import LANGUAGES, SENTENCE_DIR, TESTS_DIR
@@ -80,13 +81,17 @@ def run() -> int:
             output_dict["context"] = result.context
 
             # Response
+            
+            _entity_device_class = entity_device_class(states, result)
+            output_dict["entity_device_class"] = _entity_device_class
+
             matched, unmatched = get_matched_states(states, areas, result)
             output_dict["response_key"] = result.response
             response_template = responses.get(result.intent.name, {}).get(
                 result.response
             )
             output_dict["response"] = normalize_whitespace(
-                render_response(response_template, result, matched, unmatched)
+                render_response(response_template, result, matched, unmatched, _entity_device_class)
             ).strip()
 
         json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)
