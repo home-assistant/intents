@@ -216,7 +216,7 @@ TESTS_FIXTURES = vol.Schema(
             {
                 vol.Required("name"): str,
                 vol.Required("id"): str,
-                vol.Required("area"): str,
+                vol.Optional("area"): str,
                 vol.Optional("device_class"): str,
                 vol.Optional("state"): vol.Any(
                     str, {vol.Required("in"): str, vol.Required("out"): str}
@@ -427,7 +427,8 @@ def validate_language(
         if test_file.name == "_fixtures.yaml":
             area_ids = set(area["id"] for area in content.get("areas", []))
             for entity in content.get("entities", []):
-                if entity["area"] not in area_ids:
+                area = entity.get("area")
+                if (area is not None) and (area not in area_ids):
                     errors.append(
                         f"{path}: Entity {entity['name']} references unknown area {entity['id']}"
                     )
