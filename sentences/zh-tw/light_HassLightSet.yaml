@@ -4,43 +4,44 @@ intents:
     data:
       # brightness
       - sentences:
-          - "[<let>] <name> [(燈|燈光)] [亮度] <set_to> <brightness>"
-          - "(調整|設定)<name>[亮度]<to><brightness>"
+          - "[<let>]<name>[(燈|燈光)][亮度]<set_to><brightness>"
+          - "<set><name>[(燈|燈光)][亮度]<to><brightness>"
         response: "brightness"
         requires_context:
           domain: light
+
       - sentences:
           - "<let><area>[(照明|燈光)][亮度]<set_to><brightness>"
-          - "(調整|設定)<area>[(照明|燈光)][亮度][<to>]<brightness>"
+          - "<set><area>[(照明|燈光)][亮度][<to>]<brightness>"
         slots:
           name: "all"
-        response: "brightness_area"
+        response: "brightness"
 
       # Max/Min brightness
       - sentences:
           - "<let><name>[(燈|燈光)][亮度]<set_to>{brightness_level:brightness}"
-          - "(調整|設定)<name>[(燈|燈光)][亮度][<to>]{brightness_level:brightness}"
+          - "<set><name>[(燈|燈光)][亮度][<to>]{brightness_level:brightness}"
         requires_context:
           domain: light
         response: "brightness"
 
       - sentences:
           - "<let><area>[(照明|燈光)][亮度]<set_to>{brightness_level:brightness}"
-          - "(調整|設定)<area>[(照明|燈光)][亮度][<to>]{brightness_level:brightness}"
+          - "<set><area>[(照明|燈光)][亮度][<to>]{brightness_level:brightness}"
         slots:
           name: "all"
-        response: "brightness_area"
+        response: "brightness"
 
       # color
       - sentences:
           - "<let><name>[(照明|燈光)][(顏色|色溫)][<set_to>]{color}"
-          - "(調整|設定)<name>[(照明|燈光)][(顏色|色溫)]<to>{color}"
+          - "<set><name>[(照明|燈光)][(顏色|色溫)]<to>{color}"
         requires_context:
           domain: light
         response: "color"
       - sentences:
           - "<let><area>[(照明|燈光)][(顏色|色溫)][<set_to>]{color}"
-          - "(調整|設定)<area>[(照明|燈光)][(顏色|色溫)]<to>{color}"
+          - "<set><area>[(照明|燈光)][(顏色|色溫)]<to>{color}"
         slots:
           name: "all"
-        response: "color_area"
+        response: "color"
