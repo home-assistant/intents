@@ -1,0 +1,54 @@
+language: de
+tests:
+  - sentences:
+      - "Ist die Haustür geschlossen?"
+      - "Ist die Haustür abgeschlossen?"
+      - "Ist die Haustür zugeschlossen?"
+      - "Ist die Haustür verschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Haustür"
+        state: "locked"
+    response: "Ja"
+
+  - sentences:
+      - "Sind irgendwelche Türen nicht geschlossen?"
+      - "Sind irgendwelche Türen nicht abgeschlossen?"
+      - "Sind irgendwelche Türen nicht zugeschlossen?"
+      - "Sind irgendwelche Türen nicht verschlossen?"
+      - "Sind irgendwelche Türen entriegelt?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Ja, Hintertür"
+
+  - sentences:
+      - "Sind alle Türen verschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Nein, Hintertür ist es nicht"
+
+  - sentences:
+      - "Welche Türen sind verschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Haustür"
+
+  - sentences:
+      - "Wie viele Türen sind verschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "1"
