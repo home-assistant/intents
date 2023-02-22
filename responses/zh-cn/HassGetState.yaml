@@ -7,7 +7,7 @@ responses:
         {% if query.matched: %}
         是的
         {% else: %}
-        不，{{ slots.name }}{{ '开着' if state.state in ['on', 'open'] else '关着' }}
+        不，{{ slots.name }}是{{ state.state }}的
         {% endif %}
 
       any: |
@@ -32,8 +32,4 @@ responses:
         {% endif %}
 
       how_many: |
-        {% if not query.matched: %}
-        0
-        {% else: %}
         {{ query.matched | length }}
-        {% endif %}
