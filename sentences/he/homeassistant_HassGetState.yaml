@@ -1,4 +1,30 @@
 language: he
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - מהו [הססטוס של] <name> [ב<area>]
+        response: one
+
+      - sentences:
+          - האם [הססטוס של] [ה]<name> {on_off_states:state} [ב<area>]
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - האם כל ה{on_off_domains:domain} {on_off_states:state} [ב<area>]
+        response: all
+
+      - sentences:
+          - האם ה{on_off_domains:domain} {on_off_states:state} [ב<area>]
+        response: any
+
+      - sentences:
+          - איזה {on_off_domains:domain} {on_off_states:state} [ב<area>]
+        response: which
+
+      - sentences:
+          - כמה {on_off_domains:domain} {on_off_states:state} [ב<area>]
+        response: how_many
