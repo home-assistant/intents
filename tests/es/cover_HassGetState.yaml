@@ -2,14 +2,24 @@ language: es
 tests:
   - sentences:
       - "está la cortina izquierda cerrada?"
-      - "está la cortina izquierda del salón cerrada?"
     intent:
       name: HassGetState
       slots:
         domain: cover
         name: "Cortina izquierda"
         state: "closed"
-    response: "No, está abierta"
+    response: "No, su estado es abierta"
+
+  - sentences:
+      - "está la cortina izquierda del salón cerrada?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Cortina izquierda"
+        area: Salón
+        state: "closed"
+    response: "No, su estado es abierta"
 
   - sentences:
       - "hay alguna cortina abierta en el salón?"
@@ -22,7 +32,7 @@ tests:
         area: "Salón"
         device_class: curtain
         state: "open"
-    response: "Sí, cortina izquierda"
+    response: "Sí, el dispositivo Cortina izquierda"
 
   - sentences:
       - "están todas las cortinas abiertas en el salón?"
@@ -34,18 +44,28 @@ tests:
         area: "Salón"
         device_class: curtain
         state: "open"
-    response: "No, la cortina derecha no"
+    response: "No, el dispositivo Cortina derecha no"
 
   - sentences:
-      - "qué cortinas están cerradas?"
-      - "qué cortinas del salón están cerradas?"
+      - "qué cortina está cerrada?"
     intent:
       name: HassGetState
       slots:
         domain: cover
         device_class: curtain
         state: "closed"
-    response: "Cortina de dormitorio y Cortina derecha"
+    response: "Cortina derecha y Cortina dormitorio"
+
+  - sentences:
+      - "qué cortinas del salón están cerradas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area: Salón
+        state: "closed"
+    response: "Cortina derecha"
 
   - sentences:
       - "cuántas cortinas hay cerradas?"

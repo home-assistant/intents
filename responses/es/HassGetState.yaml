@@ -11,7 +11,7 @@ responses:
         {% if query.matched %}
           Sí
         {% else %}
-          No, {{ state.state_with_unit }}
+          No, su estado es {{ state.state_with_unit }}
         {% endif %}
 
       any: |
@@ -20,11 +20,15 @@ responses:
           {% if match | length > 4 %}
             Sí, {{ match[:3] | join(", ") }} y otros {{ (match | length - 3) }} dispositivos más
           {%- else -%}
-            Sí,
-            {% for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} y {% endif -%}
-              {{ name }}
-            {%- endfor -%}
+            {% if match | length == 1 %}
+              Sí, el dispositivo {{ match|first }}
+            {% else %}
+              Sí,
+              {% for name in match -%}
+                {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} y {% endif -%}
+                {{ name }}
+              {%- endfor -%}
+            {% endif %}
           {% endif %}
         {% else %}
           No
@@ -36,13 +40,18 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            No, ni {{ no_match[:3] | join(", ni ") }} ni otras {{ (no_match | length - 3) }} más
-          {%- else -%}
-            No,
-            {% for name in no_match -%}
-              ni {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ni {% endif -%}
-              {{ name }}
-            {%- endfor %}
+            No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} dispositivos lo están
+          {% else %}
+            {% if no_match | length == 1 %}
+              No, el dispositivo {{ no_match|first }} no
+            {%- else -%}
+              No, ni
+              {% for name in no_match -%}
+                {% if not loop.first and not loop.last %}, ni {% elif loop.last and not loop.first %} ni {% endif -%}
+                {{ name }}
+              {%- endfor %}
+              lo están
+            {% endif %}
           {% endif %}
         {% endif %}
 
