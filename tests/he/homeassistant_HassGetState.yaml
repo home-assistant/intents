@@ -1,2 +1,74 @@
 language: he
-tests: []
+tests:
+  - sentences:
+      - "מה הטמפרטורה בחוץ?"
+      - "כמה מעלות בחוץ?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Outside Temperature"
+    response: "Outside temperature is 42 °F"
+
+  - sentences:
+      - "המנורה בחדר השינה דולקת?"
+      - "האם המנורה בחדר השינה דולקת?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Bedroom Lamp"
+        state: "on"
+    response: "לא, כבויה"
+
+  - sentences:
+      - "יש מתגים דולקים במטבח?"
+      - "יש מתג דולק במטבח?"
+      - "יש מתגים שדולקים במטבח?"
+      - "יש מתג שדולק במטבח?"
+      - "יש מתגים במטבח דולקים?"
+      - "יש מתג במטבח דולק?"
+      - "יש מתגים במטבח שדולקים?"
+      - "יש מתג במטבח שדולק?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Kitchen"
+        domain: "switch"
+        state: "on"
+    response: "כן, Kitchen Switch"
+
+  - sentences:
+      - "כל המתגים דולקים?"
+      - "האם כל המתגים דולקים?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "לא, Bedroom Switch לא"
+
+  - sentences:
+      - "כל האורות כבויים?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "לא, Garage Light, Kitchen cabinets, Kitchen ceiling וגם לא עוד 2"
+
+  - sentences:
+      - אילו אורות דולקים?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Garage Light, Kitchen cabinets, Kitchen ceiling ועוד 2"
+
+  - sentences:
+      - "כמה אורות דולקים?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"
