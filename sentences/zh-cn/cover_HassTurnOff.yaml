@@ -3,6 +3,12 @@ intents:
   HassTurnOff:
     data:
       - sentences:
+          - "<close> [<area>] {name}"
+          - "<let> [<area>] {name} <close>"
+        requires_context:
+          domain: cover
+
+      - sentences:
           - "<close> <area> (窗帘 | 卷帘 | 百叶窗)"
           - "[<let>] <area> (窗帘 | 卷帘 | 百叶窗) <close>"
         slots:
@@ -12,13 +18,15 @@ intents:
             - curtain
             - shutter
         response: cover_area
+
       - sentences:
-          - "<close> <area> (门)"
-          - "[<let>] <area> (门) <close>"
+          - "<close> <area> ([卷闸]门)"
+          - "[<let>] <area> ([卷闸]门) <close>"
         slots:
           domain: cover
           device_class: garage
         response: cover_door
+
       - sentences:
           - "<close> <area> (窗户)"
           - "[<let>] <area> (窗户) <close>"
