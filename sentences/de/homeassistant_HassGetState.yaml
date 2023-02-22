@@ -1,4 +1,43 @@
 language: de
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "wie ist [der Zustand (von|vom|des)] <name> [<area>]"
+        response: einzeln
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - "ist <name> {on_off_states:state} [<area>]"
+          - "ist [<area>] <name> {on_off_states:state}"
+        response: einzeln_janein
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "sind [irgendwelche | einige] {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "sind [irgendwelche | einige] {on_off_domains:domain} [<area>] {on_off_states:state}"
+          - "sind [<area>] [irgendwelche | einige] {on_off_domains:domain} {on_off_states:state}"
+        response: irgendeins
+
+      - sentences:
+          - "(sind alle | ist jede[(r|s)]) [irgendwelche] {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "(sind alle | ist jede[(r|s)]) [irgendwelche] {on_off_domains:domain} [<area>] {on_off_states:state}"
+          - "(sind alle | ist jede[(r|s)]) [<area>] [irgendwelche] {on_off_domains:domain} {on_off_states:state}"
+        response: alle
+
+      - sentences:
+          - "welche[(r|s)] {on_off_domains:domain} (ist|sind) {on_off_states:state} [<area>]"
+          - "welche[(r|s)] {on_off_domains:domain} (ist|sind) [<area>] {on_off_states:state}"
+          - "welche[(r|s)] {on_off_domains:domain} [<area>] (ist|sind) {on_off_states:state}"
+        response: welches
+
+      - sentences:
+          - "wie viele {on_off_domains:domain} (ist|sind) {on_off_states:state} [<area>]"
+          - "wie viele {on_off_domains:domain} (ist|sind) [<area>] {on_off_states:state}"
+          - "wie viele {on_off_domains:domain} [<area>] (ist|sind) {on_off_states:state}"
+        response: wie_viele

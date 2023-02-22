@@ -1,2 +1,69 @@
 language: de
-tests: []
+tests:
+  - sentences:
+      - "wie ist die Außentemperatur?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Außentemperatur"
+    response: "Außentemperatur ist 21 °C"
+
+  - sentences:
+      - "ist die Schlafzimmerlampe aus?"
+      - "ist die Schlafzimmerlampe aus geschaltet?"
+      - "ist die Schlafzimmerlampe ab geschaltet?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Schlafzimmerlampe"
+        state: "off"
+    response: "Nein"
+
+  - sentences:
+      - "sind irgendwelche Schalter in der Küche an?"
+      - "sind in der Küche irgendwelche Schalter an geschaltet?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Küche"
+        domain: "switch"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "sind alle Schalter aus?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "off"
+    response: "Nein, Flurschalter ist es nicht"
+
+  - sentences:
+      - "sind alle Lampen an?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "welche Lampen sind an?"
+      - "welche Lampen sind an geschaltet?"
+      - "welche Lampe ist an?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Schlafzimmerlampe"
+
+  - sentences:
+      - "wie viele Lampen sind an?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "1"
