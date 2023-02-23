@@ -454,7 +454,9 @@ def validate_language(
             )
 
             if sentence_count > test_count:
-                errors.append(f"{path}: not all sentences have tests")
+                errors.append(
+                    f"{path}: not all sentences have tests ({test_count}/{sentence_count})"
+                )
 
         missing_response_checks = 0
         for test_data in content["tests"]:
