@@ -222,7 +222,7 @@ def _entity_context(entity: dict[str, Any]) -> dict[str, Any]:
     """Extract matching context from test fixture entity."""
     entity_id = entity["id"]
     domain = entity_id.split(".", maxsplit=1)[0]
-    return {"domain": domain}
+    return {"domain": domain, **entity.get("attributes", {})}
 
 
 def get_states(fixtures: dict[str, Any]) -> List[State]:
