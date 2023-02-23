@@ -9,36 +9,36 @@ responses:
 
       one_yesno: |
         {% if query.matched %}
-          Yes
+          Sim
         {% else %}
-          No, {{ state.state_with_unit }}
+          Não, {{ state.state_with_unit }}
         {% endif %}
 
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Yes, {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+            Sim, {{ match[:3] | join(", ") }} e {{ (match | length - 3) }} mais
           {%- else -%}
-            Yes,
+            Sim,
             {% for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
         {% else %}
-          No
+          Não
         {% endif %}
 
       all: |
         {% if not query.unmatched: %}
-          Yes
+          Sim
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            No, {{ no_match[:3] | join(", ") }} and {{ (no_match | length - 3) }} more not
+            Não, {{ no_match[:3] | join(", ") }} e {{ (no_match | length - 3) }} mais não
           {%- else -%}
-            No,
+            Não,
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
               {{ name }}
@@ -48,11 +48,11 @@ responses:
 
       which: |
         {% if not query.matched %}
-          Not any
+          (Nenhuma|Nenhum)
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+            {{ match[:3] | join(", ") }} e {{ (match | length - 3) }} mais
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
