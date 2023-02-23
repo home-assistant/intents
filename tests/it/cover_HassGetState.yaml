@@ -1,2 +1,54 @@
 language: it
-tests: []
+tests:
+  - sentences:
+      - "La tenda sinistra è chiusa?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Tenda sinistra"
+        state: "closed"
+    response: "No, è aperta"
+
+  - sentences:
+      - "Ci sono delle tende aperte in salotto?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Salotto"
+        device_class: curtain
+        state: "open"
+    response: "Sì, tenda sinistra"
+
+  - sentences:
+      - "Tutte le tende in salotto sono aperte?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Salotto"
+        device_class: curtain
+        state: "open"
+    response: "Sì"
+
+  - sentences:
+      - "Che tende sono chiuse?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Nessuno"
+
+  - sentences:
+      - "Quante tende sono chiuse?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "0"
+
