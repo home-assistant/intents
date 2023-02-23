@@ -1,11 +1,11 @@
-language: pt-br
+language: pt-BR
 responses:
   errors:
     no_intent: "Desculpe, não consegui entender seu pedido"
-    no_area: "Não existe nenhuma área chamada {{ area }}"
-    no_domain: "{{ area }} não contem {{ domain }}"
+    no_area: "Não existe a área {{ area }}"
+    no_domain: "{{ area }} não contém {{ domain }}"
     no_device_class: "{{ area }} não contém {{ device_class }}"
-    no_entity: "Não existe nenhum dispositivo ou entidade com o nome {{ entity }}"
+    no_entity: "Não existe dispositivo ou entidade com o nome {{ entity }}"
     handle_error: "Um erro inesperado ocorreu ao processar o pedido"
 lists:
   color:
@@ -36,10 +36,8 @@ lists:
         out: "purple"
       - in: "roxa"
         out: "purple"
-      - in: "castanho"
-        out: "brown"
-      - in: "castanha"
-        out: "brown"
+      - in: "violeta"
+        out: "purple"
       - in: "marrom"
         out: "brown"
   brightness:
@@ -47,6 +45,14 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: (máxim(o|a)|forte|alt(o|a))
+        out: 100
+      - in: (metade|meia luz)
+        out: 50
+      - in: (mínim(o|a)|frac(o|a)| baix(o|a))
+        out: 1
   temperature:
     range:
       type: "temperature"
@@ -59,13 +65,27 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
-  brightness_level:
-    values:
-      - in: (maxim(o|a) | forte | alt(o|a))
-        out: 100
-      - in: (mínim(o|a) | frac(o|a) | baix(o|a))
-        out: 1
+
 expansion_rules:
-  name: "([o]|[a]) {nome}"
+  NOME: "[[(d|n)](o|a)] {name}"
+  AREA: "[([(d|n)](o|a)|em)] {area}"
+  QUAL: "qual [é]"
+  QUAIS: "quais [são]"
+  ABRIR: "abr(a|e|ir)"
+  LEVANTAR: "levant(e|a|ar)"
+  FECHAR: "fech(e|a|ar)"
+  BAIXAR: "[a]baix(e|a|ar)"
+  VIRAR: "(vir(e|a[r])|tro(que|ca[r])|mud(e|a[r]))"
+  MUDAR: "(p(õe|onha|ôr)|colo(que|ca|car)|(ajust|regul|mud)(e|a|ar))"
+  LIGAR: "(lig(ue|a|ar)|acend(e|a|er))"
+  DESLIGAR: "(deslig(ue|a|ar)|apag(ue|a|ar))"
+  TEMPERATURA: "{temperature}[°| graus] [{temperature_unit}]"
+  BRILHO: "{brightness}[%| porcento]|{brightness_level:brightness_level}"
+  EXISTE: "(existe|tem|há)"
+  JANELA: "(janela|cortina|veneziana|blecaute)[s]"
+
 skip_words:
-  - "porfavor"
+  - "por favor"
+  - "por obséquio"
+  - "você pode[ria]"
+  - "será que d(á|aria) [(para|pra)] [você]"
