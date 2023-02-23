@@ -1,4 +1,41 @@
 language: fr
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "<name> (est|est-il) {cover_states:state} [dans <area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[Y a-t-il][il y a] (des|certains) {cover_classes:device_class} {cover_states:state} [dans <area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "certains des {cover_classes:device_class} [dans|du] [<area>] [sont-ils] {cover_states:state}"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "tous [les] {cover_classes:device_class} [sont|sont-ils] {cover_states:state} [dans <area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(quel|quels) {cover_classes:device_class} (sont) {cover_states:state} [dans <area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "combien [Y a-t-il][il y a] de {cover_classes:device_class} [(sont|sont-ils|de)] {cover_states:state} [dans <area>]"
+        response: how_many
+        slots:
+          domain: cover
