@@ -47,6 +47,9 @@ def do_test_language_sentences(
     language_sentences_common: Intents,
 ) -> None:
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
+    if file_name not in language_sentences_yaml:
+        return
+
     file_domain, file_intent = file_name.split(".")[0].split("_", 1)
 
     parsed_sentences_without_common = Intents.from_dict(

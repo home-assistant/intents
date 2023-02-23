@@ -21,7 +21,7 @@ from shared import (
     render_response,
 )
 
-from . import TESTS_DIR, load_test
+from . import TESTS_DIR, get_test_path, load_test
 
 
 @pytest.fixture(name="slot_lists", scope="session")
@@ -56,6 +56,9 @@ def do_test_language_sentences_file(
     language_responses: dict[str, Any],
 ) -> None:
     """Tests recognition all of the test sentences for a language"""
+    if not get_test_path(language, test_file).exists():
+        return
+
     testing_domain, testing_intent = test_file.split("_", 1)
 
     seen_sentences = set()

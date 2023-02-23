@@ -57,6 +57,63 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: (max | maximum | highest)
+        out: 100
+      - in: ( minimum | lowest)
+        out: 1
+  on_off_states:
+    values:
+      - in: "(ligado|ligada|ligados|ligadas)"
+        out: "on"
+      - in: "(desligado|desligada|desligado|desligadas)"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: (luz|luzes)
+        out: light
+      - in: (ventoinha|ventoinhas)
+        out: fan
+      - in: (interruptor|interruptores)
+        out: switch
+  cover_states:
+    values:
+      - in: "(aberto|aberta|abertas)"
+        out: "open"
+      - in: "(fechado|fechada|fechadas)"
+        out: "closed"
+      - in: "a abrir"
+        out: "opening"
+      - in: "a fechar"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: awning[s]
+        out: awning
+      - in: blind[s]
+        out: blind
+      - in: (cortina|cortinas)
+        out: curtain
+      - in: door[s]
+        out: door
+      - in: garage door[s]
+        out: garage
+      - in: gate[s]
+        out: gate
+      - in: shade[s]
+        out: shade
+      - in: shutter[s]
+        out: shutter
+      - in: window[s]
+        out: window
+  lock_states:
+    values:
+      - in: "locked"
+        out: "locked"
+      - in: "unlocked"
+        out: "unlocked"
+
 expansion_rules:
   nome: "[(o | a)] {name}"
   zona: "[(o | a)] {area}"
@@ -64,6 +121,19 @@ expansion_rules:
   qual: "(qual | qual é)"
   brilho: "{brightness}[%| porcento]"
   temperatura: "{temperature}[°| graus] [{temperature_unit}]"
+
+  # dont translate
+  name: "[the] {name}"
+  area: "[the] {area}"
+  what_is: "(what's | whats | what is)"
+  brightness: "{brightness}[%| percent]"
+  turn: "(turn | switch | change)"
+  temp: "(temp | temperature)"
+  temperature: "{temperature}[°| degrees] [{temperature_unit}]"
+  open: "(open | raise)"
+  close: "(close | shut | lower)"
+  set: "(set|change)"
+
 skip_words:
   - "por favor"
   - "se faz favor"

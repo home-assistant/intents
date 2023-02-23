@@ -1,4 +1,33 @@
 language: ur
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "<name> [کا] [حال|حالت|سٹاٹس|اسٹیٹ] کیا [ہے] [حال|حالت|سٹاٹس|اسٹیٹ]"
+          - "کیا [حال|حالت|سٹاٹس|اسٹیٹ] [ہے] <name> [کا]"
+        response: one
+
+      - sentences:
+          - "[کیا] <name> {on_off_states:state} [ھوا وا] [ہوی] [وی] [ہے] [<area>]"
+          - "<name> [کیا] {on_off_states:state} [ھوا وا] [ہوی] [وی] [ہے] [<area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "[کیا] کوئی [بھی] {on_off_domains:domain} {on_off_states:state} [ھوا وا] [ہوی] [وی] [ہے] [<area>]"
+          - "[کیا] کوئی [بھی] {on_off_domains:domain} [<area>] {on_off_states:state} [ھوا وا] [ہوی] [وی] [ہے] "
+        response: any
+
+      - sentences:
+          - "[کیا] <all> {on_off_domains:domain} {on_off_states:state} [ھوا وا] [ہوی] [وی] [ہے] [<area>]"
+        response: all
+
+      - sentences:
+          - "(کونسی|کونسا) {on_off_domains:domain} {on_off_states:state} [ھوا وا] [ہوی] [وی] [ہے] [<area>]"
+        response: which
+
+      - sentences:
+          - "(کتنے|کتنی) {on_off_domains:domain} {on_off_states:state} [ھوا وا] [ہوی] [وی] [ہے] [<area>]"
+        response: how_many
