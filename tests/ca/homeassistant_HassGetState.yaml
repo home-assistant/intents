@@ -18,7 +18,7 @@ tests:
       slots:
         name: Interruptor Cuina
         state: on
-    response: "Si"
+    response: "No, és encés"
 
   - sentences:
       - m'he deixat el interruptor de la cuina engegat?
@@ -26,9 +26,9 @@ tests:
       name: HassGetState
       slots:
         domain: switch
-        area: cuina
+        area: Cuina
         state: on
-    response: "Si"
+    response: "No, és encés"
 
   - sentences:
       - hi ha cap llum encesa al dormitori?
@@ -36,6 +36,7 @@ tests:
       name: HassGetState
       slots:
         area: Dormitori
+        domain: light
         state: on
     response: "No"
 
@@ -46,22 +47,22 @@ tests:
       slots:
         domain: light
         state: on
-    response: "No"
+    response: "No, el dispositiu Llum Dormitori no"
 
   - sentences:
-      - quines llums hi ha apagades?
-    intent:
-      name: HassGetState
-      slots:
-        domain: light
-        state: off
-    response: "No"
-
-  - sentences:
-      - quantes llums hi ha enceses?
+      - quines llums hi ha enceses?
     intent:
       name: HassGetState
       slots:
         domain: light
         state: on
-    response: "No"
+    response: "Cap dispositiu"
+
+  - sentences:
+      - quantes llums hi ha apagades?
+    intent:
+      name: HassGetState
+      slots:
+        domain: light
+        state: off
+    response: "1"
