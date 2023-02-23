@@ -391,7 +391,7 @@ def validate_language(
         if content is None:
             continue
 
-        _domain, intent = sentence_file.stem.split("_")
+        _domain, intent = sentence_file.stem.rsplit("_", maxsplit=1)
 
         if intent not in intent_schemas:
             errors.append(f"{path}: Filename references unknown intent {intent}.yaml")
@@ -439,7 +439,7 @@ def validate_language(
             continue
 
         sentence_content = sentence_files.pop(test_file.name)
-        _domain, intent = test_file.stem.split("_")
+        _domain, intent = test_file.stem.rsplit("_", maxsplit=1)
 
         test_count = sum(len(test["sentences"]) for test in content["tests"])
 
