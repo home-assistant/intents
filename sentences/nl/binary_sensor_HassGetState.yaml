@@ -295,32 +295,38 @@ intents:
           domain: binary_sensor
           device_class: tamper
 
-      # - sentences:
-      #     - "(is|are) <name> {bs_update_states:state} [in <area>]"
-      #   response: bs_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: update
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: update
+      - sentences:
+          - "(is|zijn) [[in|op] <area>][ ]<name> [[in|op|van] [<area>]] {bs_update_states:state} [[in|op|van] <area>]"
+          - "(is|zijn|staat|staan) [er] [[in|op] <area>] [een] {bs_update_states:state} [klaar] voor [[in|op] <area>][ ]<name> [[in|op] <area>]"
+          - "(is|zijn|staat|staan) [er] voor [[in|op] <area>][ ]<name> [[in|op] <area>] [een] {bs_update_states:state} [klaar] [[in|op] <area>]"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
 
-      # - sentences:
-      #     - "(is|are) <name> {bs_vibration_states:state} [in <area>]"
-      #   response: bs_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: vibration
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: vibration
+      - sentences:
+          - "(is|detecteert|registreert) [er] [in|op|van|bij|door|met] [<area>][ ]<name> [[in|op|van] <area>] {bs_vibration_states:state} [[in|op|van] <area>]"
+          - "neemt [[in|op] <area>][ ]<name> [[in|op|van] <area>] {bs_vibration_states:state} (waar [[in|op|van] <area>]|[[in|op|van] <area>] waar)"
+          - "(is|wordt|worden) [er] [[in|op|van|bij|met] [<area>]] {bs_vibration_states:state} (gedetecteerd|geregistreerd|waar[ ]genomen) (bij|door) [[in|op] <area>][ ]<name> [[in|op|van] <area>]"
+          - "(is|wordt|worden) [er] [[in|op|van|bij|met] [<area>]] {bs_vibration_states:state} (bij|door) [[in|op] <area>][ ]<name> (gedetecteerd|geregistreerd|waar[ ]genomen) [[in|op|van] <area>]"
+          - "(is|wordt|worden) [er] [in|op|van|bij|door|met] [<area>][ ]<name> [[in|op|van] <area>] {bs_vibration_states:state} (gedetecteerd|geregistreerd|waar[ ]genomen) [[in|op|van] <area>]"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
 
-      # - sentences:
-      #     - "(is|are) <name> {bs_window_states:state} [in <area>]"
-      #   response: bs_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: window
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: window
+      - sentences:
+          - "(is|zijn|staat|staan) [[in|op] <area>][ ]<name> [[in|op|van] <area>] {bs_window_states:state} [[in|op|van] <area>]"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
