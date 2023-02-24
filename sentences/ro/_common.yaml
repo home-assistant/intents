@@ -8,6 +8,7 @@ responses:
     no_entity: "Îmi pare rău, nu am găsit niciun dispozitiv sau entitate cu numele {{ entity }}"
     handle_error: "Îmi pare rău, a intervenit o eroare în timpul procesării cererii"
 lists:
+  # Attributes
   color:
     values:
       - in: "alb"
@@ -54,6 +55,8 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+
+  # Generic domain
   on_off_states_singular:
     values:
       - in: "<pornit>"
@@ -82,6 +85,8 @@ lists:
         out: "fan"
       - in: "<intrerupatoarele>"
         out: "switch"
+
+  # Cover domain
   cover_states_singular:
     values:
       - in: "<deschis>"
@@ -142,6 +147,239 @@ lists:
         out: "shutter"
       - in: "<ferestrele>"
         out: "window"
+
+  # Binary sensor domain
+
+  bs_detection_states_singular:
+    values:
+      - in: "<detectat>"
+        out: "on"
+      - in: "<nedetectat>"
+        out: "off"
+  bs_detection_states_plural:
+    values:
+      - in: "<detectate>"
+        out: "on"
+      - in: "<nedetectate>"
+        out: "off"
+  bs_detection_states_active:
+    values:
+      - in: "(detecteaz(ă|a) | simte)"
+        out: "on"
+      - in: "a (detectat | sim(ț|t)it)"
+        out: "on"
+      - in: "nu (detecteaz(ă|a) | simte)"
+        out: "off"
+      - in: "nu a (detectat | sim(ț|t)it)"
+        out: "off"
+
+  bs_battery_states_singular:
+    values:
+      - in: "descarcat(ă|a)"
+        out: "on"
+      - in: "(normal(ă|a) | (î|i)nc(ă|a)rcat(ă|a))"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "(î|i)n curs de (î|i)nc(ă|a)rcare"
+        out: "on"
+      - in: "la (î|i)nc(ă|a)rca(re|t)"
+        out: "on"
+      - in: "(î|i)n curs de desc(ă|a)rcare"
+        out: "off"
+  bs_battery_charging_states_passive:
+    values:
+      - in: "se (î|i)ncarc(ă|a)"
+        out: "on"
+      - in: "e[ste] la (î|i)nc(ă|a)rcat"
+        out: "on"
+      - in: "se descarc(ă|a)"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "<frig>"
+        out: "on"
+      - in: "normal"
+        out: "off"
+  bs_cold_states_singular:
+    values:
+      - in: "(rece | (î|i)nghe(ț|t)at[(ă|a)])"
+        out: "on"
+      - in: "normal[(ă|a)]"
+        out: "off"
+  bs_cold_states_plural:
+    values:
+      - in: "(reci | (î|i)nghe(ț|t)a((ț|t)i|te))"
+        out: "on"
+      - in: "normal(i|e)"
+        out: "off"
+
+  bs_connectivity_states_singular:
+    values:
+      - in: "conectat[(ă|a)]"
+        out: "on"
+      - in: "deconectat[(ă|a)]"
+        out: "off"
+  bs_connectivity_states_plural:
+    values:
+      - in: "conecta((ț|t)i|te)"
+        out: "on"
+      - in: "deconecta((ț|t)i|te)"
+        out: "off"
+
+  bs_door_states_singular:
+    values:
+      - in: "<deschis>"
+        out: "on"
+      - in: "<inchis>"
+        out: "off"
+  bs_door_states_plural:
+    values:
+      - in: "<deschise>"
+        out: "on"
+      - in: "<inchise>"
+        out: "off"
+  bs_door_states_passive:
+    values:
+      - in: "s-a[u] deschis"
+        out: "on"
+      - in: "s-a[u] (î|i)nchis"
+        out: "off"
+  bs_door_states_active:
+    values:
+      - in: "am deschis"
+        out: "on"
+      - in: "a deschis cineva"
+        out: "on"
+      - in: "am (î|i)nchis"
+        out: "off"
+      - in: "a (î|i)nchis cineva"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "<cald>"
+        out: "on"
+      - in: "normal"
+        out: "off"
+  bs_heat_states_singular:
+    values:
+      - in: "(cald[(ă|a)] | fierbinte | (î|i)ncins)"
+        out: "on"
+      - in: "normal[(ă|a)]"
+        out: "off"
+  bs_heat_states_plural:
+    values:
+      - in: "(cal(zi|de) | fierbin(ț|t)i | (î|i)ncin((ș|s)i|se))"
+        out: "on"
+      - in: "normal(i|e)"
+        out: "off"
+
+  bs_lock_states_singular:
+    values:
+      - in: "descuiat[(ă|a)]"
+        out: "on"
+      - in: "(î|i)ncuiat[(ă|a)]"
+        out: "off"
+  bs_lock_states_plural:
+    values:
+      - in: "descuia((ț|t)i|te)"
+        out: "on"
+      - in: "(î|i)ncuia((ț|t)i|te)"
+        out: "off"
+  bs_lock_states_passive:
+    values:
+      - in: "s-a[u] descuiat"
+        out: "on"
+      - in: "s-a[u] (î|i)ncuiat"
+        out: "off"
+  bs_lock_states_active:
+    values:
+      - in: "am descuiat"
+        out: "on"
+      - in: "a descuiat cineva"
+        out: "on"
+      - in: "am (î|i)ncuiat"
+        out: "off"
+      - in: "a (î|i)ncuiat cineva"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "u[me]d[(ă|a)]"
+        out: "on"
+      - in: "uscat[(ă|a)]"
+        out: "off"
+
+  bs_plug_states_singular:
+    values:
+      - in: "conectat[(ă|a)]"
+        out: "on"
+      - in: "deconectat[(ă|a)]"
+        out: "off"
+  bs_plug_states_plural:
+    values:
+      - in: "conecta((ț|t)i|te)"
+        out: "on"
+      - in: "deconecta((ț|t)i|te)"
+        out: "off"
+
+  bs_power_states_singular:
+    values:
+      - in: "(alimentat[(ă|a)] | sub tensiune | [(b(ă|a)gat[(ă|a)] | introdus[(ă|a)]) ]<in> priz(ă|a))"
+        out: "on"
+      - in: "(nealimentat[(ă|a)] | (b(ă|a)gat[(ă|a)] <in> | (scos | scoas(ă|a)) din) priz(ă|a))"
+        out: "off"
+  bs_power_states_plural:
+    values:
+      - in: "(alimenta((ț|t)i|te) | sub tensiune | [(b(ă|a)ga((ț|t)i|te) | introdu((ș|s)i|se)) ]<in> priz(ă|a))"
+        out: "on"
+      - in: "(nealimentat((ț|t)i|te) | (sco(ș|s)i | scoase) din priz(ă|a))"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(acas(ă|a) | prezent[(ă|a)])"
+        out: "on"
+      - in: "(plecat[(ă|a)] | absent[(ă|a)])"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(pornit[(ă|a)] | (î|i)n [curs de] (rulare | desf(ă|a)(ș|s)urare))"
+        out: "on"
+      - in: "((î|i)n repaus | oprit[(ă|a)])"
+        out: "off"
+  bs_running_states_active:
+    values:
+      - in: "ruleaz(ă|a)"
+        out: "on"
+      - in: "s-a oprit"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "nesigur"
+        out: "on"
+      - in: "sigur"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "vandalizat"
+        out: "on"
+      - in: "(normal | nevandalizat)"
+        out: "off"
+
+  bs_vibration_states_active:
+    values:
+      - in: "vibreaz(ă|a)"
+        out: "on"
+      - in: "nu vibreaz(ă|a)"
+        out: "off"
+
 expansion_rules:
   # Placeholders
   area: "[(zona | regiunea | spa(ț|t)iul)] {area}"
@@ -182,7 +420,13 @@ expansion_rules:
   deschise: "(deschise | ridicate)"
   inchis: "((î|i)nchis[(ă|a)] | coboar(â|a)t[(ă|a)])"
   inchise: "((î|i)nchise | coboar(â|a)te)"
-  cald_frig: "(cald | frig | rece | r(ă|a)coare)"
+  detectat: "(detectat[(ă|a)] | prezent[(ă|a)] | observabil[(ă|a)])"
+  detectate: "(detecta((ț|t)i|te) | prezen((ț|t)i|te) | observabil(i|e))"
+  nedetectat: "(nedetectat[(ă|a)] | absent[(ă|a)] | neobservabil[(ă|a)] | liber[(ă|a)])"
+  nedetectate: "(nedetecta((ț|t)i|te) | absen((ț|t)i|te) | neobservabil(i|e) | liber(i|e))"
+  cald: "(cald | fierbinte | (î|i)ncins)"
+  frig: "(frig | rece | r(ă|a)coare)"
+  cald_frig: "(<cald> | <frig>)"
 
   # Domains
   lumina: "(lumin(ă|a) | bec[ul])"
