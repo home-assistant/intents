@@ -1,6 +1,5 @@
-import itertools
 from dataclasses import dataclass, field
-from typing import Any, Dict, Optional, List, Tuple
+from typing import Any, Dict, Optional, List, Set, Tuple
 
 from hassil import parse_sentence
 from hassil.intents import SlotList, TextSlotList, is_template
@@ -19,6 +18,7 @@ class State:
     attributes: Dict[str, Any] = field(default_factory=dict)
     area_id: Optional[str] = None
     human_state: Optional[str] = None
+    aliases: Set[str] = field(default_factory=set)
     _domain: Optional[str] = None
 
     @property
@@ -50,13 +50,13 @@ class AreaEntry:
 
     id: str
     name: str
+    aliases: Set[str] = field(default_factory=set)
 
 
 def get_matched_states(
     states: List[State], areas: List[AreaEntry], result: RecognizeResult
 ) -> Tuple[List[State], List[State]]:
     """Split states into matched/unmatched."""
-
     if result.intent.name in ("HassClimateGetTemperature", "HassClimateSetTemperature"):
         # Match climate entities only
         states = [state for state in states if state.domain == "climate"]
@@ -87,18 +87,35 @@ def get_matched_states(
     if state_entity is not None:
         state_name = state_entity.value
 
-    area_ids = {_normalize_name(area.name): area.id for area in areas}
+    # name -> id
+    area_ids: Dict[str, str] = {}
+    for area in areas:
+        area_ids[_normalize_name(area.name)] = area.id
+        for area_alias in area.aliases:
+            area_ids[_normalize_name(area_alias)] = area.id
+
     matched: List[State] = []
     unmatched: List[State] = []
 
     for state in states:
-        if (entity_name is not None) and (_normalize_name(state.name) != entity_name):
-            # Filter by entity name
-            continue
+        if entity_name is not None:
+            name_match = _normalize_name(state.name) == entity_name
+
+            if not name_match:
+                # Check aliases
+                for state_alias in state.aliases:
+                    if _normalize_name(state_alias) == entity_name:
+                        name_match = True
+                        break
+
+            if not name_match:
+                # Filter by entity name
+                continue
 
         if (area_name is not None) and (state.area_id != area_ids.get(area_name)):
             # Filter by area
             continue
+
         if (domain_name is not None) and (domain_name != state.domain):
             # Filter by domain
             continue
@@ -205,7 +222,7 @@ def _entity_context(entity: dict[str, Any]) -> dict[str, Any]:
     """Extract matching context from test fixture entity."""
     entity_id = entity["id"]
     domain = entity_id.split(".", maxsplit=1)[0]
-    return {"domain": domain}
+    return {"domain": domain, **entity.get("attributes", {})}
 
 
 def get_states(fixtures: dict[str, Any]) -> List[State]:
@@ -222,10 +239,21 @@ def get_states(fixtures: dict[str, Any]) -> List[State]:
             human_state = entity_state["in"]
             hass_state = entity_state["out"]
 
+        entity_names: List[str] = []
+        entity_name = entity["name"]
+        if is_template(entity_name):
+            entity_names.extend(
+                entity_name.strip()
+                for entity_name in sample_expression(parse_sentence(entity_name))
+            )
+        else:
+            entity_names.append(entity_name.strip())
+
         states.append(
             State(
                 entity_id=entity["id"],
-                name=entity["name"],
+                name=entity_names[0],
+                aliases=set(entity_names[1:]),
                 hass_state=hass_state,
                 human_state=human_state,
                 area_id=entity.get("area"),
@@ -239,10 +267,17 @@ def get_areas(fixtures: dict[str, Any]) -> List[AreaEntry]:
     """Load areas from test fixtures."""
     areas: List[AreaEntry] = []
     for area in fixtures.get("areas", []):
-        areas.append(
-            AreaEntry(
-                id=area["id"],
-                name=area["name"],
+        area_names: List[str] = []
+        area_name = area["name"]
+        if is_template(area_name):
+            area_names.extend(
+                area_name.strip()
+                for area_name in sample_expression(parse_sentence(area_name))
             )
+        else:
+            area_names.append(area_name.strip())
+
+        areas.append(
+            AreaEntry(id=area["id"], name=area_names[0], aliases=set(area_names[1:]))
         )
     return areas

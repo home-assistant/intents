@@ -7,6 +7,7 @@ responses:
     no_device_class: "{{ area }} heeft geen {{ device_class }}"
     no_entity: "Kan {{ entity }} niet vinden"
     handle_error: "Er is iets misgegaan"
+
 lists:
   brightness:
     range:
@@ -15,9 +16,9 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: (max|maximum|maximaal|hoogst[e])
+      - in: (max|maximum|maximaal|maximale|[z'n|zijn] hoogst[e])
         out: 100
-      - in: (min|minimum|minimaal|laagst[e])
+      - in: (min|minimum|minimaal|minimale|[z'n|zijn] laagst[e])
         out: 1
   color:
     values:
@@ -98,6 +99,19 @@ lists:
         out: shutter
       - in: "<window>"
         out: window
+  lock_states:
+    values:
+      - in: "(dicht|[op] gesloten|op slot)"
+        out: "locked"
+      - in: "(open|geopend|niet (dicht|[op] gesloten|op slot))"
+        out: "unlocked"
+  door_lock_states:
+    values:
+      - in: "op slot"
+        out: "locked"
+      - in: "niet op slot"
+        out: "unlocked"
+
 expansion_rules:
   lamp: "[de|het|een] (lamp[en]|licht[en]|verlichting)"
   ventilator: "[de|een] (ventilator[s|en]|fan[s])"
@@ -112,6 +126,7 @@ expansion_rules:
   shutter: "(rolluik[en]|shutter[s])"
   window: "(raam|ramen)"
   afdekking: "[de|het] (<awning>|<blind>|<curtain>|<door>|<garage>|<gate>|<shade>|<shutter>|<window>)"
+  slot: "[de|het|een] ([deur]slot[en])"
   type: (<lamp>|<ventilator>|<afdekking>|<schakelaar>)
   name: "[de|het] {name}"
   area: "[de|het] {area}"
