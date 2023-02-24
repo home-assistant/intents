@@ -3,12 +3,14 @@ responses:
   intents:
     HassGetState:
       one: "{{ slots.name | capitalize }} este {{ state.state_with_unit }}"
+
       one_yesno: |
         {% if query.matched: %}
         Da
         {% else: %}
-        Nu, {{ slots.name }} este {{ state.state_with_unit }}
+        Nu, este {{ state.state_with_unit }}
         {% endif %}
+
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
