@@ -1,0 +1,493 @@
+language: ro
+tests:
+  - sentences:
+      - "bateria de la Samsung S23 este descarcata?"
+      - "este descarcata bateria Samsung S23?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        name: "Samsung S23"
+        state: "on"
+    response: "Nu, este normal"
+
+  - sentences:
+      - "bateria pentru Samsung S23 e in curs de incarcare?"
+      - "este la incarcat Samsung S23?"
+      - "se incarca Samsung S23?"
+      - "bateria din Samsung S23 este la incarcat?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        name: "Samsung S23"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "este detectat monoxid de carbon de catre Senzor CO?"
+      - "Senzor CO detecteaza monoxid de carbon?"
+      - "simte Senzor CO monoxid de carbon?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        name: "Senzor CO"
+        state: "on"
+    response: "Nu, este liber"
+
+  - sentences:
+      - "sunt reci tevile de apa?"
+      - "tevile de apa sunt inghetate?"
+      - "este frig la tevile de apa?"
+      # singular verb and plural noun, but all sentences must be tested
+      - "este rece tevile de apa?"
+      - "tevile de apa este inghetata?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        name: "Tevile de apa"
+        state: "on"
+    response: "Nu, este normal"
+  - sentences:
+      - "au inghetat tevile de apa?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        name: "Tevile de apa"
+        state: "on"
+    response: "Nu, este normal"
+
+  - sentences:
+      - "este conectat Samsung S23?"
+      - "Samsung S23 este conectat?"
+      - "are conexiune Samsung S23?"
+      - "Samsung S23 are conexiune?"
+      # plural verb and singular noun, but all sentences must be tested
+      - "Samsung S23 sunt conectati?"
+      - "sunt conectati Samsung S23?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        name: "Samsung S23"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "este deschisa usa pisicii?"
+      - "usa pisicii este deschisa?"
+      - "s-a deschis usa pisicii?"
+      - "am deschis usa pisicii?"
+      - "a deschis cineva usa pisicii?"
+      # plural verb and singular noun, but all sentences must be tested
+      - "sunt deschise usa pisicii?"
+      - "usa pisicii sunt deschise?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        name: "Usa pisicii"
+        state: "on"
+      context:
+        domain: binary_sensor
+        device_class: door
+    response: "Nu, este inchis"
+
+  - sentences:
+      - "este inchisa usa secundara garaj?"
+      - "usa secundara garaj este inchisa?"
+      - "s-a inchis usa secundara garaj?"
+      - "am inchis usa secundara garaj?"
+      - "a inchis cineva usa secundara garaj?"
+      # plural verb and singular noun, but all sentences must be tested
+      - "sunt inchise usa secundara garaj?"
+      - "usa secundara garaj sunt inchise?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        name: "Usa secundara garaj"
+        state: "off"
+      context:
+        domain: binary_sensor
+        device_class: garage_door
+    response: "Da"
+
+  - sentences:
+      - "este detectat gaz de catre senzorul de gaz?"
+      - "senzorul de gaz a simtit gaze?"
+      - "detecteaza gaze senzorul de gaz?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        name: "Senzorul de gaz"
+        state: "on"
+    response: "Nu, este nedetectat"
+  - sentences:
+      - "detecteaza senzorul de gaz din bucatarie gaze?"
+      - "detecteaza senzorul de gaz gaze in bucatarie?"
+      - "senzorul de gaz din bucatarie a simtit gaze?"
+      - "senzorul de gaz a simtit gaze in bucatarie?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Bucatarie"
+        domain: binary_sensor
+        device_class: gas
+        name: "Senzorul de gaz"
+        state: "on"
+    response: "Nu, este nedetectat"
+
+  - sentences:
+      - "este fierbinte calculatorul?"
+      - "calculatorul e incins?"
+      - "este cald calculatorul?"
+      # plural verb and singular noun, but all sentences must be tested
+      - "sunt fierbinti calculatorul?"
+      - "calculatorul sunt fierbinti?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        name: "Calculatorul"
+        state: "on"
+    response: "Da"
+  - sentences:
+      - "s-a incins calculatorul?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        name: "Calculatorul"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "este detectata lumina de catre senzorul de lumina?"
+      - "senzorul de lumina detecteaza lumina?"
+      - "simte senzorul de lumina lumina?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        name: "Senzorul de lumina"
+        state: "on"
+    response: "Nu, este nedetectat"
+  - sentences:
+      - "senzorul de lumina  din sufragerie detecteaza lumina?"
+      - "senzorul de lumina detecteaza lumina in sufragerie?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Sufragerie"
+        domain: binary_sensor
+        device_class: light
+        name: "Senzorul de lumina"
+        state: "on"
+    response: "Nu, este nedetectat"
+
+  - sentences:
+      - "este incuiata usa cainelui?"
+      - "usa cainelui este incuiata?"
+      - "s-a incuiat usa cainelui?"
+      - "am incuiat usa cainelui?"
+      - "a incuiat cineva usa cainelui?"
+      # plural verb and singular noun, but all sentences must be tested
+      - "sunt incuiate usa cainelui?"
+      - "usa cainelui sunt incuiate?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        name: "Usa cainelui"
+        state: "off"
+      context:
+        domain: binary_sensor
+        device_class: lock
+    response: "Nu, este descuiat"
+
+  - sentences:
+      - "este ud senzorul de inundatie?"
+      - "senzorul de inundatie e umed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        name: "Senzorul de inundatie"
+        state: "on"
+    response: "Nu, este uscat"
+
+  - sentences:
+      - "este detectata miscare de catre senzorul de miscare?"
+      - "senzorul de miscare detecteaza miscare?"
+      - "simte senzorul de miscare miscare?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        name: "Senzorul de miscare"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "este detectata ocupare de catre senzorul de ocupare?"
+      - "senzorul de ocupare detecteaza ocupare?"
+      - "simte senzorul de ocupare ocupare?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        name: "Senzorul de ocupare"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "este deschisa usa magaziei?"
+      - "usa magaziei este deschisa?"
+      - "s-a deschis usa magaziei?"
+      - "am deschis usa magaziei?"
+      - "a deschis cineva usa magaziei?"
+      # plural verb and singular noun, but all sentences must be tested
+      - "sunt deschise usa magaziei?"
+      - "usa magaziei sunt deschise?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        name: "Usa magaziei"
+        state: "on"
+      context:
+        domain: binary_sensor
+        device_class: opening
+    response: "Nu, este inchis"
+
+  - sentences:
+      - "este deconectat incarcatorul telefonului?"
+      - "incarcatorul telefonului este deconectat?"
+      # plural verb and singular noun, but all sentences must be tested
+      - "sunt deconectati incarcatorul telefonului?"
+      - "incarcatorul telefonului sunt deconectate?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        name: "Incarcatorul telefonului"
+        state: "off"
+    response: "Nu, este conectat"
+
+  - sentences:
+      - "este bagat in priza distribuitorul central?"
+      - "distribuitorul central este sub tensiune?"
+      # plural verb and singular noun, but all sentences must be tested
+      - "sunt in priza distribuitorul central?"
+      - "distribuitorul central sunt alimentate?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        name: "Distribuitorul central"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "este acasa Samsung S23?"
+      - "Samsung S23 este prezent?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        name: "Samsung S23"
+        state: "on"
+    response: "Nu, este plecat"
+
+  - sentences:
+      - "sunt probleme cu frigiderul?"
+      - "este vreo problema detectata la frigider?"
+      - "are vreo problema frigiderul?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: problem
+        name:
+          - "Frigiderul"
+          - "Frigider"
+        state: "on"
+    response: "Nu, este ok"
+
+  - sentences:
+      - "este pornita masina de spalat?"
+      - "ruleaza masina de spalat?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        name: "Masina de spalat"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "este sigur drumul?"
+      - "drumul este sigur?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: safety
+        name: "Drumul"
+        state: "off"
+    response: "Da"
+
+  - sentences:
+      - "este detectat fum de catre detectorul de fum?"
+      - "detectorul de fum detecteaza fum?"
+      - "simte detectorul de fum fum?"
+      - "detectorul de fum simte fum?"
+      - "simte fum detectorul de fum?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        name: "Detectorul de fum"
+        state: "on"
+    response: "Nu, este nedetectat"
+  - sentences:
+      - "simte detectorul de fum din bucatarie fum?"
+      - "simte detectorul de fum fum in bucatarie?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        name: "Detectorul de fum"
+        state: "on"
+        area: "Bucatarie"
+    response: "Nu, este nedetectat"
+
+  - sentences:
+      - "este fum in bucatarie?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Bucatarie"
+        domain: binary_sensor
+        device_class: smoke
+        state: "on"
+    response: "Nu"
+
+  - sentences:
+      - "este detectat zgomot de catre detectorul de zgomot?"
+      - "detectorul de zgomot detecteaza sunet?"
+      - "simte detectorul de zgomot sunete?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        name: "Detectorul de zgomot"
+        state: "on"
+    response: "Da"
+  - sentences:
+      - "simte detectorul de zgomot din curte sunete?"
+      - "simte detectorul de zgomot sunete in curte?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Curte"
+        domain: binary_sensor
+        device_class: sound
+        name: "Detectorul de zgomot"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "a fost vandalizat seiful?"
+      - "seiful este vandalizat"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: tamper
+        name: "Seiful"
+        state: "on"
+    response: "Nu, este ok"
+
+  - sentences:
+      - "exista vreun update pentru Samsung S23?"
+      - "sunt update-uri disponibile pentru Samsung S23?"
+      - "Samsung S23 are vreun update disponibil?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: update
+        name: "Samsung S23"
+        state: "on"
+    response: "Da"
+  - sentences:
+      - "este actualizat Samsung S23?"
+      - "Samsung S23 este la zi?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: update
+        name: "Samsung S23"
+        state: "off"
+    response: "Nu, este update disponibil"
+
+  - sentences:
+      - "sunt detectate vibratii de catre Samsung S23?"
+      - "Samsung S23 detecteaza vibratii?"
+      - "simte Samsung S23 vibratii?"
+      - "Vibreaza Samsung S23?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: vibration
+        name: "Samsung S23"
+        state: "on"
+    response: "Nu, este nu vibreaza"
+
+  - sentences:
+      - "este deschisa fereastra rotunda?"
+      - "fereastra rotunda este deschisa?"
+      - "s-a deschis fereastra rotunda?"
+      - "am deschis fereastra rotunda?"
+      - "a deschis cineva fereastra rotunda?"
+      # plural verb and singular noun, but all sentences must be tested
+      - "sunt deschise fereastra rotunda?"
+      - "fereastra rotunda sunt deschise?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        name: "Fereastra rotunda"
+        state: "on"
+      context:
+        domain: binary_sensor
+        device_class: window
+    response: "Da"
