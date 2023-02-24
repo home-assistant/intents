@@ -1,4 +1,34 @@
 language: pt
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - <qual> [o estado do] <nome> [<na_zona>]
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - <nome> está {on_off_states:state} [<na_zona>]
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - (está|estão) (algum|alguns) {on_off_domains:domain} {on_off_states:state} [<na_zona>]
+        response: any
+
+      - sentences:
+          - (todos|todas) [os|as] {on_off_domains:domain} estão {on_off_states:state} [<na_zona>]
+        response: all
+
+      - sentences:
+          - (quais|qual) {on_off_domains:domain} (está|estão) {on_off_states:state} [<na_zona>]
+        response: which
+
+      - sentences:
+          - (quantos|quantas) {on_off_domains:domain} (está|estão) {on_off_states:state} [<na_zona>]
+        response: how_many

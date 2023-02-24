@@ -54,13 +54,19 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
-  on_off_states:
+  on_off_states_singular:
     values:
       - in: "<pornit>"
         out: "on"
       - in: "<oprit>"
         out: "off"
-  on_off_domains:
+  on_off_states_plural:
+    values:
+      - in: "<pornite>"
+        out: "on"
+      - in: "<oprite>"
+        out: "off"
+  on_off_domains_singular:
     values:
       - in: "<lumina>"
         out: "light"
@@ -68,70 +74,139 @@ lists:
         out: "fan"
       - in: "<intrerupatorul>"
         out: "switch"
-  cover_states:
+  on_off_domains_plural:
+    values:
+      - in: "<luminile>"
+        out: "light"
+      - in: "<ventilatoarele>"
+        out: "fan"
+      - in: "<intrerupatoarele>"
+        out: "switch"
+  cover_states_singular:
     values:
       - in: "<deschis>"
         out: "open"
       - in: "<inchis>"
         out: "closed"
-      - in: "(î|i)n curs de <deschide>re"
+      - in: "(î|i)n curs de (deschidere | ridicare)"
         out: "opening"
-      - in: "(î|i)n curs de <inchide>re"
+      - in: "(î|i)n curs de (inchidere | coborâre)"
         out: "closing"
-  cover_classes:
+  cover_states_plural:
     values:
-      - in: "copertin(ă|a|e)"
+      - in: "<deschise>"
+        out: "open"
+      - in: "<inchise>"
+        out: "closed"
+      - in: "(î|i)n curs de (deschidere | ridicare)"
+        out: "opening"
+      - in: "(î|i)n curs de (inchidere | coborâre)"
+        out: "closing"
+  cover_classes_singular:
+    values:
+      - in: "copertin(ă|a)"
         out: "awning"
-      - in: "jaluze(a[ua]|le[le])"
+      - in: "jaluzea[ua]"
         out: "blind"
-      - in: "perde(a[ua]|le[le])"
+      - in: "perdea[ua]"
         out: "curtain"
       - in: "<usa>"
         out: "door"
-      - in: "<usa> (de la garaj | garajului)"
+      - in: "u(ș|s)a (de la garaj | garajului)"
         out: "garage"
       - in: "<poarta>"
         out: "gate"
-      - in: "(jaluzea[ua] | jaluzele[le] | draperi(e|a) | draperii[le])"
+      - in: "draperi(e|a)"
         out: "shade"
-      - in: "(rulou[l] | rulouri[le] | oblon[ul] | obloane[le])"
+      - in: "(rulou[l] | oblon[ul])"
         out: "shutter"
       - in: "<fereastra>"
         out: "window"
+  cover_classes_plural:
+    values:
+      - in: "copertine[le]"
+        out: "awning"
+      - in: "jaluzele[le]"
+        out: "blind"
+      - in: "perdele[le]"
+        out: "curtain"
+      - in: "<usile>"
+        out: "door"
+      - in: "u(ș|s)ile (de la garaj | garajului)"
+        out: "garage"
+      - in: "<portile>"
+        out: "gate"
+      - in: "draperii[le]"
+        out: "shade"
+      - in: "(rulouri[le] | obloane[le])"
+        out: "shutter"
+      - in: "<ferestrele>"
+        out: "window"
 expansion_rules:
-  area: "[(zona | regiunea )] {area}"
-  brightness: "{brightness} [(la sut(ă|a) | % | [de] procente)]"
-  brightness_percent: "{brightness} (la sut(ă|a) | % | [de] procente)"
-  temperature: "{temperature} [[de] grad[e]] [{temperature_unit}]"
-  name: "({name}[(ul|a)])"
+  # Placeholders
+  area: "[(zona | regiunea | spa(ț|t)iul)] {area}"
+  brightness: "{brightness}[ ][(% | la sut(ă|a) | [de ]procente)]"
+  brightness_percent: "{brightness}[ ](% | la sut(ă|a) | [de] procente)"
+  temperature: "{temperature}[ ][[de ]grad[e]][[ ]{temperature_unit}]"
+  name: "({name})"
+
+  # Quantities
   maximum: "(maxim[(ă|a|um)] [posibil[(ă|a)]])"
   jumatate: "(jum(ă|a)tate | jumate)"
   minimum: "(minim[(ă|a|um)] [posibil[(ă|a)]])"
+
+  # Verbs
   este: "(e | este | sunt)"
-  cate: "(c(â|a|î|i)te | c(â|a|î|i)(ț|t)i)"
-  cat: "(c(â|a|î|i)t[e] | cum)"
-  in: "((î|i)n)"
-  din: "(din | (î|i)n | pentru | [de] la | [de] pe | de)"
-  vreun: "(vre(o|un))"
   porneste: "(start | porne(ș|s)te | deschide | aprinde | activeaz(ă|a))"
-  pornit: "(pornit[(ă|a|e)] | deschis[(ă|a|e)]) | aprins[(ă|a|e)] | activat[(ă|a|e)]"
   opreste: "(stop | opre(ș|s)te | (î|i)nchide | stinge | dezactiveaz(ă|a))"
-  oprit: "(oprit[(ă|a|e)] | (î|i)nchis[(ă|a|e)] | stins[(ă|a|e)] | dezactivat[(ă|a|e)])"
   seteaza: "(seteaz(ă|a) | pune | a[d]justeaz(ă|a) | schimb(ă|a) | modific(ă|a))"
-  lumina: "(lumini[le] | lumin(ă|a) | bec[ul] | becuri[le])"
+  deschide: "(deschide | ridic(ă|a))"
+  inchide: "((î|i)nchide | coboar(ă|a))"
+
+  # Questions
+  cate: "(c(â|a)te | c(â|a)(ț|t)i)"
+  cat_quant: "(c(â|a)t)"
+  cat: "(<cat_quant> | cum)"
+  care: "(care | ce)"
+
+  # Prepositions
+  in: "((î|i)n)"
+  din: "(din | (î|i)n | pentru | [de] la | [de] pe | de)" # used particularly for areas
+
+  # Adjectives
+  pornit: "(pornit[(ă|a)] | deschis[(ă|a)]) | aprins[(ă|a)] | activat[(ă|a)]"
+  pornite: "(pornite | deschise | aprinse | activate)"
+  oprit: "(oprit[(ă|a)] | (î|i)nchis[(ă|a)] | stins[(ă|a)] | dezactivat[(ă|a)])"
+  oprite: "(oprite | (î|i)nchise | stinse | dezactivate)"
+  deschis: "(deschis[(ă|a)] | ridicat[(ă|a)])"
+  deschise: "(deschise | ridicate)"
+  inchis: "((î|i)nchis[(ă|a)] | coboar(â|a)t[(ă|a)])"
+  inchise: "((î|i)nchise | coboar(â|a)te)"
+  cald_frig: "(cald | frig | rece | r(ă|a)coare)"
+
+  # Domains
+  lumina: "(lumin(ă|a) | bec[ul])"
+  luminile: "(lumini[le] | becuri[le])"
+  ventilatorul: "(ventilator[ul] | aerisire[a])"
+  ventilatoarele: "(ventilatoare[le] | aerisiri[le])"
+  intrerupatorul: "((î|i)ntrerup(ă|a)tor[ul] | comutator[ul])"
+  intrerupatoarele: "((î|i)ntrerup(ă|a)toare[le] | comutatoare[le])"
+
+  # Attributes
   luminozitatea: "(luminozitate[a])"
   culoarea: "(culoare[a])"
   temperatura: "(temperatur(ă|a))"
-  deschide: "(deschide | ridic(ă|a))"
-  deschis: "(deschis[(ă|a|e)] | ridicat[(ă|a|e)])"
-  inchide: "((î|i)nchide | coboar(ă|a))"
-  inchis: "((î|i)nchis[(ă|a|e)] | coboar(â|a)t[(ă|a|e)])"
-  fereastra: "(fereastr(ă|a) | ferestre[le] | geam[ul] | geamuri[le])"
-  usa: "(u(ș|s)(ă|a) | u(ș|s)i[le])"
-  jaluzelele: "(jaluzea[ua] | jaluzele[le] | draperi(e|a) | draperii[le] | perdea[ua] | perdele[le] | rulou[l] | rulouri[le] | oblon[ul] | obloane[le])"
-  poarta: "(poart(ă|a) | por(ț|t)i[le] | gard[ul])"
-  ventilatorul: "(ventilator[ul] | ventilatoare[le] | aerisire[a] | aerisiri[le])"
-  intrerupatorul: "((î|i)ntrerup(ă|a)tor[ul] | (î|i)ntrerup(ă|a)toare[le] | comutator[ul] | comutatoare[le])"
+
+  # Device classes
+  fereastra: "(fereastr(ă|a) | geam[ul])"
+  ferestrele: "(ferestre[le] | geamuri[le])"
+  usa: "u(ș|s)(ă|a)"
+  usile: "u(ș|s)i[le]"
+  poarta: "poart(ă|a)"
+  portile: "por(ț|t)i[le]"
+
+  # Other
+  vreun: "(vre(o|un))"
 skip_words:
   - "mulțumesc"
   - "multumesc"

@@ -3,32 +3,35 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "<cat> <este> <name> [<din> <area>]"
-          - "(ce stare are|(î|i)n ce stare <este>) <name> [<din> <area>]"
+          - "<cat> e[ste] <name> [<din> <area>]"
+          - "(ce stare are|(î|i)n ce stare e[ste]) <name> [<din> <area>]"
         response: one
 
       - sentences:
-          - "<name> [<din> <area>] <este> {on_off_states:state}"
-          - "<este> {on_off_states:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] e[ste] {on_off_states_singular:state}"
+          - "e[ste] {on_off_states_singular:state} <name> [<din> <area>]"
         response: one_yesno
         excludes_context:
           domain:
             - cover
 
       - sentences:
-          - "(<este> | exist(ă|a)) [<vreun>] {on_off_domains:domain} {on_off_states:state} [<in> <area>]"
+          - "(e[ste] | exist(ă|a)) [<vreun>] {on_off_domains_singular:domain} {on_off_states_singular:state} [<in> <area>]"
+          - "(sunt | exist(ă|a)) {on_off_domains_plural:domain} {on_off_states_plural:state} [<in> <area>]"
         response: any
 
       - sentences:
-          - "sunt (to(ț|t)i | toate) {on_off_domains:domain} {on_off_states:state} [<in> <area>]"
-          - "sunt {on_off_states:state} (to(ț|t)i | toate) {on_off_domains:domain} [<in> <area>]"
-          - "(to(ț|t)i | toate) {on_off_domains:domain} sunt {on_off_states:state} [<in> <area>]"
+          # every on/off domain is either feminine or neutral, so "toate" is the only option for plural
+          - "sunt toate {on_off_domains_plural:domain} {on_off_states_plural:state} [<in> <area>]"
+          - "sunt {on_off_states_plural:state} toate {on_off_domains_plural:domain} [<in> <area>]"
+          - "toate {on_off_domains_plural:domain} sunt {on_off_states_plural:state} [<in> <area>]"
         response: all
 
       - sentences:
-          - "(care | ce) {on_off_domains:domain} <este> {on_off_states:state} [<in> <area>]"
+          - "<care> {on_off_domains_singular:domain} e[ste] {on_off_states_singular:state} [<in> <area>]"
+          - "<care> {on_off_domains_plural:domain} sunt {on_off_states_plural:state} [<in> <area>]"
         response: which
 
       - sentences:
-          - "<cate> {on_off_domains:domain} <este> {on_off_states:state} [<in> <area>]"
+          - "<cate> {on_off_domains_plural:domain} sunt {on_off_states_plural:state} [<in> <area>]"
         response: how_many
