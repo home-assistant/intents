@@ -59,7 +59,7 @@ def do_test_language_sentences_file(
     if not get_test_path(language, test_file).exists():
         return
 
-    testing_domain, testing_intent = test_file.split("_", 1)
+    testing_domain, testing_intent = test_file.rsplit("_", maxsplit=1)
 
     seen_sentences = set()
     template_env = Environment(loader=BaseLoader())
@@ -158,7 +158,9 @@ def do_test_language_sentences_file(
             actual_context = intent.get("context", {})
             if actual_context:
                 matched_context = result.context
-                assert matched_context == actual_context
+                assert (
+                    matched_context == actual_context
+                ), f"Expected context {actual_context}, got {matched_context} for intent {result.intent.name}: {sentence}"
 
             # Verify response
             if expected_response_texts:
