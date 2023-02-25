@@ -1,2 +1,56 @@
 language: he
-tests: []
+tests:
+  - sentences:
+      - "מה הטמפרטורה בחוץ?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "טמפרטורה בחוץ"
+    response: "טמפרטורה בחוץ כרגע 42 °C"
+
+  - sentences:
+      - "יש מתגים דולקים במטבח?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "מטבח"
+        domain: "switch"
+        state: "on"
+    response: "לא נמצאו"
+
+  - sentences:
+      - "כל המתגים דולקים?"
+      - "האם כל המתגים דולקים?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "לא, מנורה וגםמתג לא"
+
+  - sentences:
+      - "כל האורות כבויים?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "לא, Garage Light לא"
+
+  - sentences:
+      - אילו אורות דולקים?
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Garage Light"
+
+  - sentences:
+      - "כמה אורות דולקים?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "1"
