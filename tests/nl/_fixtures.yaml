@@ -12,8 +12,17 @@ areas:
   - name: Garage
     id: garage
 
+  - name: Hal
+    id: hal
+
+  - name: Bijkeuken
+    id: bijkeuken
+
+  - name: Zolder
+    id: zolder
+
 entities:
-  - name: Slaapkamerlamp
+  - name: Slaapkamerlampje
     id: light.slaapkamer_lamp
     area: slaapkamer
     state:
@@ -33,6 +42,13 @@ entities:
     state:
       in: "aan"
       out: "on"
+
+  - name: Waterkoker
+    id: switch.waterkoker
+    area: keuken
+    state:
+      in: "uit"
+      out: "off"
 
   - name: Keukenschakelaar
     id: switch.keuken_schakelaar
@@ -133,3 +149,254 @@ entities:
     state: "15"
     attributes:
       unit_of_measurement: "°C"
+
+  - name: "Feestmodus"
+    id: "scene.party_mode"
+
+  - name: "Stealthmodus"
+    id: "script.stealth_mode"
+
+  - name: "Voordeur"
+    id: "lock.front_door"
+    area: "hal"
+    state:
+      in: "op slot"
+      out: "locked"
+
+  - name: "Keukendeur"
+    id: "lock.keukendeur"
+    area: "keuken"
+    state:
+      in: "niet op slot"
+      out: "unlocked"
+
+  - name: "Achterdeur"
+    id: "lock.achterdeur"
+    area: "bijkeuken"
+    state:
+      in: "op slot"
+      out: "locked"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "Telefoon"
+    id: "binary_sensor.phone_battery"
+    state:
+      in: "normaal"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "Telefoon"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "aan het laden"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "CO-melder"
+    id: "binary_sensor.co2"
+    state:
+      in: "veilig"
+      out: "off"
+    area: zolder
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "Waterkoeling"
+    id: "binary_sensor.computer_cold"
+    state:
+      in: "normaal"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "Telefoon"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "connected"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "Kattenluik"
+    id: "binary_sensor.pet_door"
+    area: keuken
+    state:
+      in: "gesloten"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "Tweede garagedeur"
+    id: "binary_sensor.tweede_garagedeur"
+    state:
+      in: "gesloten"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "Gassensor"
+    id: "binary_sensor.gas"
+    state:
+      in: "veilig"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "Computer"
+    id: "binary_sensor.computer_heat"
+    area: zolder
+    state:
+      in: "heet"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "Lichtsensor"
+    id: "binary_sensor.licht_zolder"
+    area: zolder
+    state:
+      in: "weinig licht"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "Kattenluik"
+    id: "binary_sensor.pet_door_lock"
+    state:
+      in: "open"
+      out: "on"
+    attributes:
+      device_class: lock
+
+  - name: "Watersensor"
+    id: "binary_sensor.water_sensor"
+    state:
+      in: "droog"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "Bewegingsensor"
+    id: "binary_sensor.garage_motion"
+    area: "garage"
+    state:
+      in: "gedetecteerd"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "Aanwezigheidsensor"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "keuken"
+    state:
+      in: "gedetecteerd"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "Zolderluik"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "gesloten"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "Telefoon"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "ingeplugd"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "Meterkast"
+    id: "binary_sensor.power"
+    state:
+      in: "powered"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "Telefoon"
+    id: "binary_sensor.presence"
+    state:
+      in: "weg"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "Kattenvoer"
+    id: "binary_sensor.problem"
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "Vaatwasser"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "draait"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "Weeralarm"
+    id: "binary_sensor.road_safety"
+    state:
+      in: "veilig"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "Rookmelder"
+    id: "binary_sensor.kitchen_smoke"
+    area: "keuken"
+    state:
+      in: "veilig"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "Geluidsensor"
+    id: "binary_sensor.sound"
+    state:
+      in: "gedetecteerd"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "Koektrommel"
+    id: "binary_sensor.cookie_stash_tamper"
+    state:
+      in: "veilig"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "Telefoon"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "update beschikbaar"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "Telefoon"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "niet aan het trillen"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "Dakraam"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "open"
+      out: "on"
+    attributes:
+      device_class: window

@@ -1,2 +1,53 @@
 language: he
-tests: []
+tests:
+  - sentences:
+      - האם וילון שמאל סגור?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "וילון שמאל"
+        state: "closed"
+    response: "לא, open"
+
+  - sentences:
+      - יש וילונות פתוחים בסלון?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "סלון"
+        device_class: curtain
+        state: "open"
+    response: "כן, וילון ימני ווילון שמאל"
+
+  - sentences:
+      - כל הוילונות בסלון פתוחים?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "סלון"
+        device_class: curtain
+        state: "open"
+    response: "לא, תריס שמאלי לא"
+
+  - sentences:
+      - אילו וילונות סגורים?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "תריס בחדר הורים ותריס שמאלי"
+
+  - sentences:
+      - "כמה וילונות סגורים?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"

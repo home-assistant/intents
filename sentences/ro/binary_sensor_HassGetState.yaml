@@ -1,0 +1,384 @@
+language: ro
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      - sentences:
+          - "[bateria [<din>]] <name> [<din> <area>] e[ste] {bs_battery_states_singular:state}"
+          - "e[ste] {bs_battery_states_singular:state} [bateria [<din>]] <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "[bateria [<din>]] <name> [<din> <area>] e[ste] {bs_battery_charging_states:state}"
+          - "e[ste] {bs_battery_charging_states:state} [bateria [<din>]] <name> [<din> <area>]"
+          - "{bs_battery_charging_states_passive:state} [bateria [<din>]] <name> [<din> <area>]"
+          - "[bateria [<din>]] <name> [<din> <area>] {bs_battery_charging_states_passive:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "e[ste] {bs_detection_states_singular:state} monoxid[ul] de carbon [(<in> | de [c(ă|a)tre])] <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_detection_states_active:state} monoxid[ul] de carbon"
+          - "{bs_detection_states_active:state} <name> [<din> <area>] monoxid[ul] de carbon"
+          - "<name> {bs_detection_states_active:state} monoxid[ul] de carbon [<din> <area>]"
+          - "{bs_detection_states_active:state} <name> monoxid[ul] de carbon [<din> <area>]"
+          - "{bs_detection_states_active:state} monoxid[ul] de carbon <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "e[ste] {bs_cold_states:state} [<din>] <name> [<din> <area>]"
+          - "e[ste] {bs_cold_states_singular:state} [<din>] <name> [<din> <area>]"
+          - "<name> [<din> <area>] e[ste] {bs_cold_states_singular:state}"
+          - "sunt {bs_cold_states_plural:state} [<din>] <name> [<din> <area>]"
+          - "<name> [<din> <area>] sunt {bs_cold_states_plural:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+      - sentences:
+          - "(s-a[u] r(ă|a)cit | a[u] (î|i)nghe(ț|t)at) <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "e[ste] {bs_connectivity_states_singular:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] e[ste] {bs_connectivity_states_singular:state}"
+          - "sunt {bs_connectivity_states_plural:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] sunt {bs_connectivity_states_plural:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+      - sentences:
+          - "are conexiune <name> [<din> <area>]"
+          - "<name> [<din> <area>] are conexiune"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+          state: "on"
+
+      - sentences:
+          - "e[ste] {bs_door_states_singular:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] e[ste] {bs_door_states_singular:state}"
+          - "sunt {bs_door_states_plural:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] sunt {bs_door_states_plural:state}"
+          - "{bs_door_states_passive:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_door_states_passive:state}"
+          - "{bs_door_states_active:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_door_states_active:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class:
+            - door
+            - garage_door
+            - opening
+            - window
+        slots:
+          domain: binary_sensor
+
+      - sentences:
+          - "(e[ste] {bs_detection_states_singular:state} gaz | sunt {bs_detection_states_plural:state} gaze) [(<in> | de [c(ă|a)tre])] <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_detection_states_active:state} gaz[e]"
+          - "{bs_detection_states_active:state} <name> [<din> <area>] gaz[e]"
+          - "<name> {bs_detection_states_active:state} gaz[e] [<din> <area>]"
+          - "{bs_detection_states_active:state} gaz[e] <name> [<din> <area>]"
+          - "{bs_detection_states_active:state} <name> gaz[e] [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "e[ste] {bs_heat_states:state} [<din>] <name> [<din> <area>]"
+          - "e[ste] {bs_heat_states_singular:state} [<din>] <name> [<din> <area>]"
+          - "<name> [<din> <area>] e[ste] {bs_heat_states_singular:state}"
+          - "sunt {bs_heat_states_plural:state} [<din>] <name> [<din> <area>]"
+          - "<name> [<din> <area>] sunt {bs_heat_states_plural:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+      - sentences:
+          - "s-a[u] ((î|i)nc(ă|a)lzit | (î|i)ncins) <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "e[ste] {bs_detection_states_singular:state} lumin(ă|a) [(<in> | de [c(ă|a)tre])] <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_detection_states_active:state} lumin(ă|a)"
+          - "{bs_detection_states_active:state} <name> [<din> <area>] lumin(ă|a)"
+          - "<name> {bs_detection_states_active:state} lumin(ă|a) [<din> <area>]"
+          - "{bs_detection_states_active:state} <name> lumin(ă|a) [<din> <area>]"
+          - "{bs_detection_states_active:state} lumin(ă|a) <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "e[ste] {bs_lock_states_singular:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] e[ste] {bs_lock_states_singular:state}"
+          - "sunt {bs_lock_states_plural:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] sunt {bs_lock_states_plural:state}"
+          - "{bs_lock_states_passive:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_lock_states_passive:state}"
+          - "{bs_lock_states_active:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_lock_states_active:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+
+      - sentences:
+          - "e[ste] {bs_moisture_states:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] e[ste] {bs_moisture_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "e[ste] {bs_detection_states_singular:state} mi(ș|s)care [(<in> | de [c(ă|a)tre])] <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_detection_states_active:state} mi(ș|s)care"
+          - "{bs_detection_states_active:state} <name> [<din> <area>] mi(ș|s)care"
+          - "<name> {bs_detection_states_active:state} mi(ș|s)care [<din> <area>]"
+          - "{bs_detection_states_active:state} <name> mi(ș|s)care [<din> <area>]"
+          - "{bs_detection_states_active:state} mi(ș|s)care <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "e[ste] {bs_detection_states_singular:state} ocupare [(<in> | de [c(ă|a)tre])] <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_detection_states_active:state} ocupare"
+          - "{bs_detection_states_active:state} <name> [<din> <area>] ocupare"
+          - "<name> {bs_detection_states_active:state} ocupare [<din> <area>]"
+          - "{bs_detection_states_active:state} <name> ocupare [<din> <area>]"
+          - "{bs_detection_states_active:state} ocupare <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "e[ste] {bs_plug_states_singular:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] e[ste] {bs_plug_states_singular:state}"
+          - "sunt {bs_plug_states_plural:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] sunt {bs_plug_states_plural:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "e[ste] {bs_power_states_singular:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] e[ste] {bs_power_states_singular:state}"
+          - "sunt {bs_power_states_plural:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] sunt {bs_power_states_plural:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "<name> [<din> <area>] e[ste] {bs_presence_states:state}"
+          - "e[ste] {bs_presence_states:state} <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "(sunt probleme | (e[ste] | exist(ă|a)) [[vre]o] problem(ă|a)) [<detectat>] ([<in> leg(ă|a)tur(ă|a)] cu | la) <name> [<din> <area>]"
+          - "are (probleme | vreo problema) <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      - sentences:
+          - "<name> [<din> <area>] e[ste] {bs_running_states:state}"
+          - "e[ste] {bs_running_states:state} <name> [<din> <area>]"
+          - "{bs_running_states_active:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_running_states_active:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "<name> [<din> <area>] e[ste] {bs_safety_states:state}"
+          - "e[ste] {bs_safety_states:state} <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      - sentences:
+          - "e[ste] {bs_detection_states_singular:state} fum[ul] [(<in> | de [c(ă|a)tre])] <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_detection_states_active:state} fum[ul]"
+          - "{bs_detection_states_active:state} <name> [<din> <area>] fum[ul]"
+          - "<name> {bs_detection_states_active:state} fum[ul] [<din> <area>]"
+          - "{bs_detection_states_active:state} <name> fum[ul] [<din> <area>]"
+          - "{bs_detection_states_active:state} fum[ul] <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: smoke
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+      - sentences:
+          - "e[ste] [<detectat>] [vreun pic de] fum[ul] <in> <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
+
+      - sentences:
+          - "e[ste] {bs_detection_states_singular:state} (zgomot|sunet)[(ul|e)] [(<in> | de [c(ă|a)tre])] <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_detection_states_active:state} (zgomot|sunet)[(ul|e)]"
+          - "{bs_detection_states_active:state} <name> [<din> <area>] (zgomot|sunet)[(ul|e)]"
+          - "<name> {bs_detection_states_active:state} (zgomot|sunet)[(ul|e)] [<din> <area>]"
+          - "{bs_detection_states_active:state} <name> (zgomot|sunet)[(ul|e)] [<din> <area>]"
+          - "{bs_detection_states_active:state} (zgomot|sunet)[(ul|e)] <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: sound
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "<name> [<din> <area>] (e[ste] | a fost) {bs_tamper_states:state}"
+          - "(e[ste] | a fost) {bs_tamper_states:state} <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: tamper
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      - sentences:
+          - "(e[ste] | exist(ă|a)) [<vreun>] update [disponibil] (pentru | la) <name> [<din> <area>]"
+          - "sunt update[[-]uri] [disponibile] (pentru | la) <name> [<din> <area>]"
+          - "<name> [<din> <area>] are ([<vreun>] update [disponibil] | update[-]uri [disponibile])"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+      - sentences:
+          - "e[ste] (actualizat | la zi) <name> [<din> <area>]"
+          - "<name> [<din> <area>] este (actualizat | la zi)"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "off"
+
+      - sentences:
+          - "sunt {bs_detection_states_plural:state} vibra(ț|t)ii [(<in> | de [c(ă|a)tre])] <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_detection_states_active:state} vibra(ț|t)ii"
+          - "{bs_detection_states_active:state} <name> [<din> <area>] vibra(ț|t)ii"
+          - "<name> {bs_detection_states_active:state} vibra(ț|t)ii [<din> <area>]"
+          - "{bs_detection_states_active:state} <name> vibra(ț|t)ii [<din> <area>]"
+          - "{bs_detection_states_active:state} vibra(ț|t)ii <name> [<din> <area>]"
+          - "{bs_vibration_states_active:state} <name> [<din> <area>]"
+          - "<name> [<din> <area>] {bs_vibration_states_active:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration

@@ -8,11 +8,11 @@ areas:
     id: office
   - name: "radn(а|ој|u) sob(а|i|u)"
     id: study
-  - name: "balkon(u) | teras(a|i|u)"
+  - name: "balkon(u)|teras(a|i|u)"
     id: balcony
   - name: "ormar(u)"
     id: closet
-  - name: "ulaz(u) | predvorj(e|u)"
+  - name: "ulaz(u)|predvorj(e|u)"
     id: entrance
   - name: "hodnik(u)"
     id: hallway
@@ -20,50 +20,98 @@ areas:
     id: pantry
   - name: "ormar(u)"
     id: wardrobe
-  - name: "zahod(u|ske) | (v|w)c[u]"
+  - name: "zahod(u|ske)|(v|w)c[u]"
     id: wc
-  - name: "stubišt(e|u|ne) | stub(e|ama) | stepenic(e|ama)"
+  - name: "stubišt(e|u|ne)|stub(e|ama)|stepenic(e|ama)"
     id: staircase
   - name: "kuhinj(a|i|u|e|sku|ska|ske|ski)"
     id: kitchen
-  - name: "dnevna soba | dnevnoj sobi | dnevne sobe | dnevni boravak | dnevnom boravku | dnevnog boravka "
+  - name: "dnevna soba|dnevnoj sobi|dnevne sobe|dnevni boravak|dnevnom boravku|dnevnog boravka "
     id: living_room
   - name: "garaž(а|i|u)"
     id: garage
+
 entities:
-  - name: "noćn(a|u|e|oj|o|og) (svjetilj(ka|ci|ku) | svjetl(o|a) | rasvjet(a|i|u) | lamp(a|i|u|e))"
+  - name: "noćn(a|u|e|oj|o|og) (svjetilj(ka|ci|ku)|svjetl(o|a)|rasvjet(a|i|u)|lamp(a|i|u|e))"
     id: light.bedroom_lamp
     area: bedroom
-  - name: "kuhinjs(ka|oj|ku|i) sklop(ka|ci|ku) | prekidač(u)"
+    state: "on"
+
+  - name: "kuhinjs(ka|oj|ku|i) sklop(ka|ci|ku)|prekidač(u)"
     id: switch.kitchen
     area: kitchen
+    state: "on"
+
   - name: "(stropni) ventilator (na stropu)"
     id: fan.ceiling
     area: living_room
+    state: "on"
+
   - name: "lijev(a|oj|u) zavjes(a|i|u)"
-    id: curtain.curtain_left
+    id: cover.curtain_left
     area: living_room
+    state: "closed"
+    attributes:
+      device_class: curtain
+
   - name: "kapij(a|u)"
-    id: gate.main_gate
+    id: cover.main_gate
     area: "entrance"
-  - name: "garaž(a|u) | garažna vrata"
-    id: garage.garage_doors
+    state: "closed"
+    attributes:
+      device_class: gate
+
+  - name: "garaž(a|u)"
+    id: cover.garage_doors
     area: "garage"
+    state: "closed"
+    attributes:
+      device_class: garage
+
   - name: "balkonsk(a|e|u) rolet(e|a|u)"
-    id: blinds.balcony_blinds
+    id: cover.balcony_blinds
     area: "living_room"
+    state: "closed"
+    attributes:
+      device_class: blinds
+
   - name: "mali prozor"
-    id: window.bathroom_window
+    id: cover.bathroom_window
     area: "bathroom"
+    state: "closed"
+    attributes:
+      device_class: window
+
   - name: "stropni prozor"
-    id: window.ceiling_window
+    id: cover.ceiling_window
     area: "kitchen"
-  - name: "ulazna kuhinjska vrata"
-    id: door.kitchen_door
-    area: "kitchen"
-  - name: "automatska vrata"
-    id: door.living_room_door
+    state: "closed"
+    attributes:
+      device_class: window
+
+  #door
+  - name: "ulazna vrata"
+    id: cover.entrance_door
+    area: "entrance"
+    state: "closed"
+    attributes:
+      device_class: door
+
+  - name: "kuhinjska vrata"
+    id: cover.kitchen_door
+    area: "entrance"
+    state: "opened"
+    attributes:
+      device_class: door
+
+  - name: "klizna vrata"
+    id: cover.living_room_door
     area: "living_room"
+    state: "opened"
+    attributes:
+      device_class: door
+
   - name: "odvlaživač (zraka)"
     id: "humidifier.dehumidifier"
     area: "living_room"
+    state: "off"

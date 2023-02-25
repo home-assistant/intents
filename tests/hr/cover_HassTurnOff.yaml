@@ -1,0 +1,102 @@
+language: hr
+tests:
+  #common for covers
+  - sentences:
+      - "zatvori sve prozore u kuhinji"
+      - "zatvori prozore u kuhinji"
+      - "zatvori kuhinjske prozore"
+      - "zatvorite sve prozore u kupaonici"
+    intent:
+      name: HassTurnOff
+      slots:
+        area:
+          - kuhinji
+          - kuhinjske
+          - kupaonici
+        domain: cover
+        device_class: window
+    response: "Zatvaram prozore"
+
+  - sentences:
+      - "zatvori sva vrata u hodniku"
+      - "zatvori vrata dnevne sobe"
+      - "zatvori vrata u dnevnom boravku"
+    intent:
+      name: HassTurnOff
+      slots:
+        area:
+          - "hodniku"
+          - "dnevne sobe"
+          - "dnevnom boravku"
+        domain: cover
+        device_class: door
+    response: "Zatvaram vrata"
+
+  - sentences:
+      - "zatvori garažna vrata"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        device_class: garage
+    response: "Zatvaram garažna vrata"
+
+  - sentences:
+      - "navuci zastore u dnevnoj sobi"
+    intent:
+      name: HassTurnOff
+      slots:
+        area:
+          - "dnevnoj sobi"
+        domain: cover
+        device_class: curtain
+    response: "Zatvaram zastore"
+
+    #different resonse for synonyms
+  - sentences:
+      - "zatvori sve zavjese"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        device_class: curtain
+    response: "Zatvaram zavjese"
+
+  #window
+  - sentences:
+      - "zatvori stropni prozor"
+    intent:
+      name: HassTurnOff
+      slots:
+        name: "stropni prozor"
+        device_class: window
+      context:
+        domain: cover
+        device_class: window
+    response: "Zatvaram stropni prozor"
+
+  - sentences:
+      - "zatvori mali prozor u kuhinji"
+    intent:
+      name: HassTurnOff
+      slots:
+        name: "mali prozor"
+        area: kuhinji
+        device_class: window
+      context:
+        domain: cover
+        device_class: window
+    response: "Zatvaram mali prozor"
+
+  - sentences:
+      - "zatvori ulazna vrata u hodniku"
+    intent:
+      name: HassTurnOff
+      slots:
+        name: "ulazna vrata"
+        area: hodniku
+        device_class: door
+      context:
+        domain: cover
+        device_class: door
+    response: "Zatvaram ulazna vrata"

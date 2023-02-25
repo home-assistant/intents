@@ -1,31 +1,105 @@
 language: fr
 areas:
-  - name: cuisine
-    id: kitchen
-  - name: salon
-    id: living_room
-  - name: chambre
-    id: bedroom
-  - name: garage
-    id: garage
-  - name: entrée
-    id: hall
+  - name: "cuisine"
+    id: "kitchen"
+  - name: "salon"
+    id: "living_room"
+  - name: "chambre"
+    id: "bedroom"
+  - name: "garage"
+    id: "garage"
+  - name: "entrée"
+    id: "hall"
 entities:
-  - name: lumière du plafond
-    id: light.bedroom_lamp
-    area: bedroom
-  - name: lampe de chevet
-    id: light.bedside_lamp
-    area: bedroom
-  - name: interrupteur de la cuisine
-    id: switch.kitchen
-    area: kitchen
-  - name: ventilateur de plafond
-    id: fan.ceiling
-    area: living_room
-  - name: rideau gauche
-    id: cover.curtain_left
-    area: living_room
-  - name: thermostat du salon
-    id: climate.living_room
-    area: living_room
+  - name: "lumière du plafond"
+    id: "light.bedroom_lamp"
+    area: "bedroom"
+    state:
+      in: "allumé"
+      out: "on"
+
+  - name: "lampe de l'entrée"
+    id: "light.bedside_lamp"
+    area: "hall"
+    state:
+      in: "allumée"
+      out: "on"
+
+  - name: "lampe de chevet"
+    id: "light.bedside_lamp"
+    area: "bedroom"
+    state:
+      in: "éteinte"
+      out: "off"
+
+  - name: "interrupteur de la cuisine"
+    id: "switch.kitchen"
+    area: "kitchen"
+    state:
+      in: "allumé"
+      out: "on"
+
+  - name: "interrupteur"
+    id: "switch.hall"
+    area: "hall"
+    state:
+      in: "allumé"
+      out: "on"
+
+  - name: "ventilateur de plafond"
+    id: "fan.ceiling"
+    area: "living_room"
+
+  - name: "rideau gauche"
+    id: "cover.curtain_left"
+    area: "living_room"
+    state:
+      in: "fermé"
+      out: "closed"
+    attributes:
+      device_class: "curtain"
+
+  - name: "rideau droit"
+    id: "cover.curtain_right"
+    area: "living_room"
+    state:
+      in: "ouvert"
+      out: "open"
+    attributes:
+      device_class: "curtain"
+
+  - name: "rideau de la chambre"
+    id: "cover.bedroom"
+    area: "bedroom"
+    state: "closed"
+    attributes:
+      device_class: "curtain"
+
+  - name: "thermostat du salon"
+    id: "climate.living_room"
+    area: "living_room"
+
+  - name: "température extérieure"
+    id: "sensor.temperature_exterieure"
+    area: "garage"
+    state: "21"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: "porte d'entrée"
+    id: "lock.hall"
+    area: "hall"
+    state:
+      in: "déverrouillé"
+      out: "unlocked"
+  #    attributes:
+  #      device_class: "lock"
+
+  - name: "porte de garage"
+    id: "lock.garage"
+    area: "garage"
+    state:
+      in: "verrouillé"
+      out: "locked"
+#    attributes:
+#      device_class: "lock"

@@ -6,21 +6,38 @@ tests:
     intent:
       name: HassGetState
       slots:
-        domain: cover
         name: "fereastra din stanga"
         state: "closed"
-    response: "Nu, fereastra din stanga este open"
-
+      context:
+        domain: cover
+        device_class: window
+    response: "Nu, ci deschis"
   - sentences:
-      - "este vreo fereastra deschisa in dormitor?"
+      - "fereastra din stanga de la dormitor este inchisa?"
+      - "este inchisa fereastra din stanga din dormitor?"
     intent:
       name: HassGetState
       slots:
+        name: "fereastra din stanga"
+        state: "closed"
+        area: "Dormitor"
+      context:
         domain: cover
+        device_class: window
+    response: "Nu, ci deschis"
+
+  - sentences:
+      - "este vreo fereastra deschisa in dormitor?"
+      - "sunt ferestre deschise in dormitor?"
+    intent:
+      name: HassGetState
+      slots:
         area: "Dormitor"
         device_class: window
         state: "open"
-    response: "Da, fereastra din stanga"
+      context:
+        domain: cover
+    response: "Da, fereastra din dreapta și fereastra din stanga"
 
   - sentences:
       - "sunt toate ferestrele inchise in dormitor?"
@@ -28,28 +45,32 @@ tests:
     intent:
       name: HassGetState
       slots:
-        domain: cover
         area: "Dormitor"
         device_class: window
         state: "closed"
-    response: "Nu, fereastra din stanga nu este inchise"
+      context:
+        domain: cover
+    response: "Nu, fereastra din dreapta și fereastra din stanga nu sunt"
 
   - sentences:
       - "care ferestre sunt deschise?"
+      - "care fereastra este deschisa?"
     intent:
       name: HassGetState
       slots:
-        domain: cover
         device_class: window
         state: "open"
-    response: "fereastra din stanga"
+      context:
+        domain: cover
+    response: "fereastra din dreapta și fereastra din stanga"
 
   - sentences:
       - "cate ferestre sunt deschise?"
     intent:
       name: HassGetState
       slots:
-        domain: cover
         device_class: window
         state: "open"
-    response: "1"
+      context:
+        domain: cover
+    response: "2"
