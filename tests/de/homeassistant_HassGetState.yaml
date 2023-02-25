@@ -10,8 +10,8 @@ tests:
 
   - sentences:
       - "ist die Schlafzimmerlampe aus?"
-      - "ist die Schlafzimmerlampe aus geschaltet?"
-      - "ist die Schlafzimmerlampe ab geschaltet?"
+      - "ist die Schlafzimmerlampe ausgeschaltet?"
+      - "ist die Schlafzimmerlampe abgeschaltet?"
     intent:
       name: HassGetState
       slots:
@@ -20,8 +20,21 @@ tests:
     response: "Nein"
 
   - sentences:
+      - "ist die Schlafzimmerlampe aus im Schlafzimmer?"
+      - "ist die Schlafzimmerlampe im Schlafzimmer aus?"
+      - "ist im Schlafzimmer die Schlafzimmerlampe aus?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Schlafzimmer"
+        name: "Schlafzimmerlampe"
+        state: "off"
+    response: "Nein"
+
+  - sentences:
       - "sind irgendwelche Schalter in der Küche an?"
-      - "sind in der Küche irgendwelche Schalter an geschaltet?"
+      - "sind irgendwelche Schalter an in der Küche?"
+      - "sind in der Küche irgendwelche Schalter angeschaltet?"
     intent:
       name: HassGetState
       slots:
@@ -32,9 +45,20 @@ tests:
 
   - sentences:
       - "sind alle Schalter aus?"
+      - "ist jeder Schalter aus?"
     intent:
       name: HassGetState
       slots:
+        domain: "switch"
+        state: "off"
+    response: "Nein, Flurschalter ist es nicht"
+
+  - sentences:
+      - "sind alle Schalter im Flur aus?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Flur"
         domain: "switch"
         state: "off"
     response: "Nein, Flurschalter ist es nicht"
@@ -50,7 +74,7 @@ tests:
 
   - sentences:
       - "welche Lampen sind an?"
-      - "welche Lampen sind an geschaltet?"
+      - "welche Lampen sind angeschaltet?"
       - "welche Lampe ist an?"
     intent:
       name: HassGetState
@@ -64,6 +88,17 @@ tests:
     intent:
       name: HassGetState
       slots:
+        domain: "light"
+        state: "on"
+    response: "1"
+
+  - sentences:
+      - "wie viele Lampen sind an im Schlafzimmer?"
+      - "wie viele Lampen im Schlafzimmer sind an?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Schlafzimmer"
         domain: "light"
         state: "on"
     response: "1"
