@@ -1,0 +1,76 @@
+language: ro
+tests:
+  - sentences:
+      - "fereastra din stanga este inchisa?"
+      - "este inchisa fereastra din stanga?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "fereastra din stanga"
+        state: "closed"
+      context:
+        domain: cover
+        device_class: window
+    response: "Nu, ci deschis"
+  - sentences:
+      - "fereastra din stanga de la dormitor este inchisa?"
+      - "este inchisa fereastra din stanga din dormitor?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "fereastra din stanga"
+        state: "closed"
+        area: "Dormitor"
+      context:
+        domain: cover
+        device_class: window
+    response: "Nu, ci deschis"
+
+  - sentences:
+      - "este vreo fereastra deschisa in dormitor?"
+      - "sunt ferestre deschise in dormitor?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Dormitor"
+        device_class: window
+        state: "open"
+      context:
+        domain: cover
+    response: "Da, fereastra din dreapta și fereastra din stanga"
+
+  - sentences:
+      - "sunt toate ferestrele inchise in dormitor?"
+      - "toate ferestrele sunt inchise in dormitor?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Dormitor"
+        device_class: window
+        state: "closed"
+      context:
+        domain: cover
+    response: "Nu, fereastra din dreapta și fereastra din stanga nu sunt"
+
+  - sentences:
+      - "care ferestre sunt deschise?"
+      - "care fereastra este deschisa?"
+    intent:
+      name: HassGetState
+      slots:
+        device_class: window
+        state: "open"
+      context:
+        domain: cover
+    response: "fereastra din dreapta și fereastra din stanga"
+
+  - sentences:
+      - "cate ferestre sunt deschise?"
+    intent:
+      name: HassGetState
+      slots:
+        device_class: window
+        state: "open"
+      context:
+        domain: cover
+    response: "2"

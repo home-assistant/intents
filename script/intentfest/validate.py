@@ -12,6 +12,8 @@ import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
+from shared import get_jinja2_environment
+
 from .const import (
     INTENTS_FILE,
     LANGUAGES,
@@ -21,7 +23,7 @@ from .const import (
     SENTENCE_DIR,
     TESTS_DIR,
 )
-from .util import get_base_arg_parser, get_jinja2_environment
+from .util import get_base_arg_parser
 
 
 def match_anything(value):
@@ -191,6 +193,9 @@ TESTS_SCHEMA = vol.Schema(
                         # this will allow us to add more keys in the future.
                         str: match_anything_but_dict,
                     },
+                    vol.Optional("context"): {
+                        str: match_anything_but_dict,
+                    },
                 },
                 vol.Optional("response"): vol.Any(str, [str]),
             }
@@ -211,8 +216,12 @@ TESTS_FIXTURES = vol.Schema(
             {
                 vol.Required("name"): str,
                 vol.Required("id"): str,
-                vol.Required("area"): str,
+                vol.Optional("area"): str,
                 vol.Optional("device_class"): str,
+                vol.Optional("state"): vol.Any(
+                    str, {vol.Required("in"): str, vol.Required("out"): str}
+                ),
+                vol.Optional("attributes"): {str: match_anything},
             }
         ],
     }
@@ -382,7 +391,7 @@ def validate_language(
         if content is None:
             continue
 
-        _domain, intent = sentence_file.stem.split("_")
+        _domain, intent = sentence_file.stem.rsplit("_", maxsplit=1)
 
         if intent not in intent_schemas:
             errors.append(f"{path}: Filename references unknown intent {intent}.yaml")
@@ -418,7 +427,8 @@ def validate_language(
         if test_file.name == "_fixtures.yaml":
             area_ids = set(area["id"] for area in content.get("areas", []))
             for entity in content.get("entities", []):
-                if entity["area"] not in area_ids:
+                area = entity.get("area")
+                if (area is not None) and (area not in area_ids):
                     errors.append(
                         f"{path}: Entity {entity['name']} references unknown area {entity['id']}"
                     )
@@ -429,7 +439,7 @@ def validate_language(
             continue
 
         sentence_content = sentence_files.pop(test_file.name)
-        _domain, intent = test_file.stem.split("_")
+        _domain, intent = test_file.stem.rsplit("_", maxsplit=1)
 
         test_count = sum(len(test["sentences"]) for test in content["tests"])
 
@@ -444,7 +454,9 @@ def validate_language(
             )
 
             if sentence_count > test_count:
-                errors.append(f"{path}: not all sentences have tests")
+                errors.append(
+                    f"{path}: not all sentences have tests ({test_count}/{sentence_count})"
+                )
 
         missing_response_checks = 0
         for test_data in content["tests"]:
@@ -504,7 +516,17 @@ def validate_language(
                 if response_template:
                     try:
                         jinja2_env.from_string(response_template).render(
-                            {"state": {"name": "<name>", "state": 0}, "slots": slots}
+                            {
+                                "state": {
+                                    "name": "<name>",
+                                    "state": 0,
+                                    "domain": "<domain>",
+                                    "state_with_unit": "",
+                                    "attributes": {},
+                                },
+                                "slots": slots,
+                                "query": {"matched": [], "unmatched": []},
+                            }
                         )
                     except jinja2.exceptions.TemplateError as err:
                         errors.append(

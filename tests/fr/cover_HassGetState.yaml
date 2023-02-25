@@ -1,0 +1,69 @@
+language: fr
+tests:
+  - sentences:
+      - "le rideau droit est-il fermé ?"
+    intent:
+      name: "HassGetState"
+      slots:
+        domain: "cover"
+        name: "rideau droit"
+        state: "closed"
+    response: "Non, ouvert"
+
+  - sentences:
+      - "le rideau gauche est-il fermé ?"
+    intent:
+      name: "HassGetState"
+      slots:
+        domain: "cover"
+        name: "rideau gauche"
+        state: "closed"
+    response: "Oui"
+
+  - sentences:
+      - "y a-t-il des rideaux ouverts dans le salon ?"
+      - "Certains des rideaux du salon sont-ils ouverts ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "salon"
+        device_class: curtain
+        state: "open"
+    response: "Oui, l'appareil rideau droit est ouvert"
+
+  - sentences:
+      - "tous les rideaux sont ouverts dans le salon ?"
+      - "tous les rideaux sont-ils ouverts dans le salon ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "salon"
+        device_class: curtain
+        state: "open"
+    response: "Non, l'appareil rideau gauche n'est pas ouvert"
+
+  - sentences:
+      - "quels rideaux sont fermés ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Les appareils rideau de la chambre et rideau gauche sont fermés"
+
+  - sentences:
+      - "combien de rideaux sont fermés ?"
+      - "combien de rideaux sont-ils fermés ?"
+      - "combien y a-t-il de rideaux fermés ?"
+      - "combien il y a de rideaux fermés ?"
+      - "combien il y a de rideaux de fermés ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"

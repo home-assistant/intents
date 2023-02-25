@@ -3,10 +3,21 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn> off [all] [the] (light | lights) in <area>"
-          - "<turn> off [all] <area> (light | lights)"
-          - "<turn> [all] [the] <area> (light | lights) off"
-          - "<turn> [all] [the] (light | lights) in <area> off"
+          - "<turn> off [all] <light> in <area>"
+          - "<turn> off [all] <area> <light>"
+          - "[<turn>] [all] <area> <light> off"
+          - "[<turn>] [all] <light> [in] <area> off"
+          - "deactivate [all] <light> [in] <area>"
+          - "deactivate [all] <area> <light>"
         slots:
           domain: "light"
         response: "lights_area"
+
+      - sentences:
+          - "[<turn>] (all <light> off|<light> off everywhere)"
+          - "deactivate (all <light>|<light> everywhere)"
+        response: "light_all"
+        slots:
+          domain: "light"
+          area: "all"
+          name: "all"

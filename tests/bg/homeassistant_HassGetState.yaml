@@ -1,0 +1,66 @@
+language: bg
+tests:
+  - sentences:
+      - "Каква е температурата отвън?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Температурата отвън"
+    response: "Температурата отвън е 42 °C"
+
+  - sentences:
+      - "включена ли е лампата в спалнята?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Лампата в спалнята"
+        state: "on"
+    response: "Не, изключена"
+
+  - sentences:
+      - "има ли включени ключове в кухнята?"
+      - "има ли ключове включени в кухнята?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "кухнята"
+        domain: "switch"
+        state: "on"
+    response: "Да, Ключът в кухнята"
+
+  - sentences:
+      - "Всички ключове ли са включени?"
+      - "Включени ли са всички ключове?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Не, Ключът в спалнята не е"
+
+  - sentences:
+      - "всички лампи ли са изключени?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Не, Лампата в гаража, лампата в хола, Плота в кухнята и още 2 не са"
+
+  - sentences:
+      - "Кои лампи са включени?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Лампата в гаража, лампата в хола, Плота в кухнята и още 2 други"
+
+  - sentences:
+      - "колко лампи са включени?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"

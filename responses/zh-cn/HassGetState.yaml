@@ -1,0 +1,35 @@
+language: zh-cn
+responses:
+  intents:
+    HassGetState:
+      one: "{{ slots.name }}现在是 {{ state.state_with_unit }}"
+      one_yesno: |
+        {% if query.matched: %}
+        是的
+        {% else: %}
+        不，{{ slots.name }}是{{ state.state }}的
+        {% endif %}
+
+      any: |
+        {% if query.matched: %}
+        是的，{{ query.matched | map(attribute="name") | sort | join("、") }}{{ slots.state }}
+        {% else: %}
+        没有
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+        是的
+        {% else: %}
+        不，{{ query.unmatched | map(attribute="name") | sort | join("、") }}没有{{ slots.state }}
+        {% endif %}
+
+      which: |
+        {% if not query.matched: %}
+        没有
+        {% else: %}
+        {{ query.matched | map(attribute="name") | sort | join("、") }}{{ slots.state }}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

@@ -1,0 +1,36 @@
+language: zh-cn
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<open> [<area>] {name}"
+          - "<let> [<area>] {name} <open>"
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "<open> <area> (窗帘 | 卷帘 | 百叶窗)"
+          - "[<let>] <area> (窗帘 | 卷帘 | 百叶窗) <open>"
+        slots:
+          domain: cover
+          device_class:
+            - blind
+            - curtain
+            - shutter
+        response: cover_area
+
+      - sentences:
+          - "<open> <area> ([卷闸]门)"
+          - "[<let>] <area> ([卷闸]门) <open>"
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover_door
+
+      - sentences:
+          - "<open> <area> (窗户)"
+          - "[<let>] <area> (窗户) <open>"
+        slots:
+          domain: cover
+          device_class: window
+        response: cover_window

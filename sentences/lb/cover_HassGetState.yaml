@@ -1,0 +1,35 @@
+language: lb
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "ass [di] <name> {cover_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - (ass|sinn) (iergendeng|iergendeen) {cover_classes:device_class} {cover_states:state} [<area>]
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - Sinn all [d']{cover_classes:device_class} {cover_states:state} [<area>]
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - (wéieen|wéieng) {cover_classes:device_class} (ass|sinn) {cover_states:state} [<area>]
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - wéi vill {cover_classes:device_class} sinn {cover_states:state} [<area>]
+        response: how_many
+        slots:
+          domain: cover

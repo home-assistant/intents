@@ -1,0 +1,35 @@
+language: he
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "[האם] [ה]<name> {cover_states:state} [ב<area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[האם] [יש] [ה]{cover_classes:device_class} [ב<area>] [ש]{cover_states:state}[ים] [ב<area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "כל ה{cover_classes:device_class} [[ש]ב<area>] [הם] [הן] {cover_states:state}[ים] [ב<area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(איזה|אילו) {cover_classes:device_class} [יש] [[ש]ב<area>] [ש][הם][הן] [ש]{cover_states:state}[ים] [ב<area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "כמה {cover_classes:device_class} [ש]{cover_states:state}[ים] [ב<area>]"
+        response: how_many
+        slots:
+          domain: cover

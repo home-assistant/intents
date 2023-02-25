@@ -1,0 +1,38 @@
+language: ro
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<name> [<din> <area>] e[ste] {cover_states_singular:state}"
+          - "e[ste] {cover_states_singular:state} <name> [<din> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "(e[ste] | exist(ă|a)) [<vreun>] {cover_classes_singular:device_class} {cover_states_singular:state} [<in> <area>]"
+          - "(sunt | exist(ă|a)) {cover_classes_plural:device_class} {cover_states_plural:state} [<in> <area>]"
+        response: any
+        requires_context:
+          domain: cover
+
+      - sentences:
+          # every cover class is either feminine or neutral, so "toate" is the only option for plural
+          - "sunt toate {cover_classes_plural:device_class} {cover_states_plural:state} [<in> <area>]"
+          - "toate {cover_classes_plural:device_class} sunt {cover_states_plural:state} [<in> <area>]"
+        response: all
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "<care> {cover_classes_singular:device_class} e[ste] {cover_states_singular:state} [<in> <area>]"
+          - "<care> {cover_classes_plural:device_class} sunt {cover_states_plural:state} [<in> <area>]"
+        response: which
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "<cate> {cover_classes_plural:device_class} sunt {cover_states_plural:state} [<in> <area>]"
+        response: how_many
+        requires_context:
+          domain: cover

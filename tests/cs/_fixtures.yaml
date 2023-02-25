@@ -8,16 +8,79 @@ areas:
     id: bedroom
   - name: Garáž(i)
     id: garage
+  - name: Předsíň
+    id: entrance
+
 entities:
-  - name: (Lamp(a|y|u)|lampičk(a|y|u)|světl(o|a)) v ložnici
+  - name: "(Lamp(a|y|u)|lampičk(a|y|u)|světl(o|a)) v ložnici"
     id: light.bedroom_lamp
     area: bedroom
+    attributes:
+      device_class: light
+    state:
+      in: "zapnutá"
+      out: "on"
+
+  - name: "lam(pa|pička|pičku) v obývacím pokoji"
+    id: light.small_light
+    area: living_room
+    attributes:
+      device_class: light
+    state:
+      in: "rozsvíceno"
+      out: "on"
+
+  - name: "předsíň"
+    id: light.entrance
+    area: entrance
+    attributes:
+      device_class: light
+    state:
+      in: "zhasnuté"
+      out: "off"
+
   - name: Kuchyňský vypínač
     id: switch.kitchen
     area: kitchen
+    state:
+      in: "zapnut"
+      out: "on"
+    attributes:
+      device_class: switch
+
   - name: Stropní ventilátor
     id: fan.ceiling
     area: living_room
+    state:
+      in: "zapnutý"
+      out: "on"
+    attributes:
+      device_class: fan
+
   - name: Přední rolet(a|u|y)
     id: cover.blind_front
     area: bedroom
+    state:
+      in: "otevřená"
+      out: open
+    attributes:
+      device_class: blind
+
+  - name: "Žaluzie ložnice"
+    id: cover.blind_bedroom
+    area: bedroom
+    state:
+      in: zatažená
+      out: closed
+    attributes:
+      device_class: blind
+
+  - name: "Garáž"
+    id: cover.garage_door
+    area: garage
+    state:
+      in: otevírá
+      out: opening
+    attributes:
+      device_class: garage
+      domain: cover

@@ -1,12 +1,12 @@
 language: "de-CH"
 responses:
   errors:
-    no_intent: "Tschuldigung, das hani nid verstande"
-    no_area: "S'gid kei Bereich {{ area }}"
-    no_domain: "{{ area }} gids nid im Bereich {{ domain }}"
-    no_device_class: "{{ area }} hed kei Liächt {{ device_class }}"
-    no_entity: "{{ entity }} gids nid"
-    handle_error: "Es isch en unerwartete Fähler ufträte bim de Verarbeitig vom Intent."
+    no_intent: "Tschuldigung, das han i nid verstande"
+    no_area: "S'git ke Bereich {{area}}"
+    no_domain: "Im Bereich {{area}} git's kes Grät vor Kategorie {{domain}}"
+    no_device_class: "Im Bereich {{area}} het's kes Grät vor Klass {{device_class}}"
+    no_entity: "Ds Grät {{entity}} gids nid"
+    handle_error: "Es isch en unerwartete Fähler ufträte bi de Verarbeitig vom Befäu."
 lists:
   color:
     values:
@@ -20,13 +20,19 @@ lists:
         out: "orange"
       - in: "gelb"
         out: "yellow"
+      - in: "gälb"
+        out: "yellow"
+      - in: "gäub"
+        out: "yellow"
       - in: "grüen"
         out: "green"
       - in: "blau"
         out: "blue"
       - in: "violett"
         out: "purple"
-      - in: "Brun"
+      - in: "brun"
+        out: "brown"
+      - in: "bruun"
         out: "brown"
   brightness:
     range:
@@ -44,18 +50,82 @@ lists:
         out: "Celsius"
       - in: "(f|fahrenheit)"
         out: "Fahrenheit"
+  on_off_states:
+    values:
+      - in: "a"
+        out: "on"
+      - in: "an"
+        out: "on"
+      - in: "anne"
+        out: "on"
+      - in: "ab"
+        out: "off"
+      - in: "us"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "Lamp(e|ä)"
+        out: light
+      - in: "Liecht[er]"
+        out: light
+      - in: "Venti[lator[e]]"
+        out: fan
+      - in: "Scha(u|l)ter"
+        out: switch
+  cover_states:
+    values:
+      - in: "offe"
+        out: "open"
+      - in: "zue"
+        out: "closed"
+      - in: "am uftue"
+        out: "opening"
+      - in: "am zuetue"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "Sunnes[ch]tore"
+        out: awning
+      - in: "S[ch]tore"
+        out: blind
+      - in: "Vorh(a|ä)ng"
+        out: curtain
+      - in: "Tür[e]"
+        out: door
+      - in: "Garagetor"
+        out: garage
+      - in: "Tor"
+        out: gate
+      - in: "shade[s]"
+        out: shade
+      - in: "Fänschterlade"
+        out: shutter
+      - in: "Fänschter"
+        out: window
+  lock_states:
+    values:
+      - in: "[(ab|zue)](gschlosse|bschlosse)"
+        out: "locked"
+      - in: "((uf|und|nid )(gschlosse|bschlosse)|offe)"
+        out: "unlocked"
 expansion_rules:
-  name: "([( de | der | die | ds | s )] {name} | [( dr | ds | s | d )] {name})"
-  area: "[( idr | im | ir | ide | idä | i dä | i de )] {area}"
-  a_y: "( a | y | ih )"
-  ab_us: "( ab | us | uus | uis )"
-  what_is: "( was isch | wasch )"
-  brightness: "{brightness} [Prozent]"
+  name: "[(d'[ ]|d |de |dr |der |die |ds |s )]{name}"
+  area: "[(idr|i dr|im|ir|ide|idä|i dä|i de|i dr|i der)] {area}"
+  a_y: "(a|y|ii|ih)"
+  ab_us: "(ab|us|uus|uis)"
+  cover: "[(d'[' ']|d |alli |aui )]([Sunne]s[ch]tore|Vorhang|Vorhäng|Tür[e]|Tor|Abdeckig[e]|Fänschter[l(a|ä)de])"
+  what_is: "(was isch|wasch)"
+  brightness: "{brightness}[(%| %| Prozent)]"
   temp: "{temperature} [Grad] [{temperature_unit}]"
-  schliessen: "(tue {name} (zue | abe) | mach {name} (zue | abe) | schliess {name})"
-  mach: "(mach | tue)"
-  Liechter: "( [ (d' | alli) ] Liechter | [(d' | alli)] Lampä | [(d' | alli)] Lampäne ) "
-  Liecht: "([( ds | s )] Liecht | [ d] Lampe | [ d] Lampä )"
+  schliessen: "(tue {name} (zue|abe)|mach {name} (zue|abe)|schliess {name})"
+  mach: "(mach|tue|la[s])"
+  Liechter: "([(d'[ ]|d |alli |aui )]Liechter|[(d'[ ]|d |alli |aui )]Lampä|[(d'[ ]|d |alli |aui )]Lampe|[(d'[ ]|d |alli |aui )]Lampäne)"
+  Liecht: "([(ds|s)] Liecht|[(d |d'[ ])]Lampe|[(d |d'[ ])]Lampä)"
+  Geräte: "([(d'[ ]|d |alli |aui )](Grät|Entitäte|Entitätä))"
 
 skip_words:
   - "bitte"
+  - "chönntisch"
+  - "chasch"
+  - "würdsch"
+  - "würdisch"

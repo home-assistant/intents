@@ -1,0 +1,33 @@
+language: uk
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "що з <name> [<area>]"
+          - "який стан <name> [<area>]"
+          - "в якому стані <name> [<area>]"
+        response: one
+
+      - sentences:
+          - "чи {on_off_states:state} <name> [<area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "чи є {on_off_states:state} {on_off_domains:domain} [<area>]"
+        response: any
+
+      - sentences:
+          - "чи вс[і|е] {on_off_domains:domain} {on_off_states:state} [<area>]"
+        response: all
+
+      - sentences:
+          - "(які|котрі) {on_off_domains:domain} {on_off_states:state} [<area>]"
+        response: which
+
+      - sentences:
+          - "(скільки|яка кількість) {on_off_domains:domain} [<area>] {on_off_states:state}"
+          - "(скільки [є]|яка кількість) {on_off_states:state} {on_off_domains:domain} [<area>]"
+        response: how_many

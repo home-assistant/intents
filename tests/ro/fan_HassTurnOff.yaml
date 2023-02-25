@@ -1,18 +1,32 @@
 language: ro
 tests:
   - sentences:
-      - "oprește ventilatorul din sufragerie"
+      - "oprește toate ventilatoarele din sufragerie"
+    intent:
+      name: HassTurnOff
+      slots:
+        area:
+          - "Sufragerie"
+          - "Camera de zi"
+        domain: fan
+    response: "Am oprit ventilatoarele"
+  - sentences:
       - "dezactiveaza aerisirea de la sufragerie"
     intent:
       name: HassTurnOff
       slots:
-        area: living_room
+        area:
+          - "Sufragerie"
+          - "Camera de zi"
         domain: fan
+    response: "Am oprit ventilatoarele"
   - sentences:
-      - "oprește in bucatarie aerisirea"
-      - "dezactiveaza in bucatarie ventilatorul"
+      - "oprește aerisirea"
+      - "dezactiveaza ventilatorul"
     intent:
       name: HassTurnOff
       slots:
-        area: kitchen
         domain: fan
+      context:
+        area: kitchen
+    response: "Am oprit ventilatoarele"

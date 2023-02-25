@@ -1,29 +1,95 @@
 language: uk
 areas:
-- name: Кухн(я|і)
-  id: kitchen
-- name: Вітальн(я|і)
-  id: living_room
-- name: Спальн(я|і)
-  id: bedroom
-- name: Гараж[і]
-  id: garage
+  - name: Кухн(я|і)
+    id: kitchen
+  - name: Вітальн(я|і)
+    id: living_room
+  - name: Спальн(я|і)
+    id: bedroom
+  - name: Гараж[і]
+    id: garage
+
 entities:
-- name: Ламп(а|у|и)
-  id: light.bedroom_lamp
-  area: bedroom
-- name: Kitchen Switch
-  id: switch.kitchen
-  area: kitchen
-- name: Ceiling Fan
-  id: fan.ceiling
-  area: living_room
-- name: Настільн(а|у) ламп(а|у)
-  id: light.table_light
-  area: garage
-- name: Кондиціонер
-  id: climate.ac
-  area: living_room
-- name: Лів(а|у) штор(а|у)
-  id: cover.curtain_left
-  area: living_room
+  # Lights
+  - name: Ламп(а|у|и)
+    id: light.bedroom_lamp
+    area: bedroom
+    state: "off"
+  - name: Настільн(а|у) ламп(а|у)
+    id: light.table_light
+    state: "off"
+    area: garage
+  - name: "Кухонний світильник"
+    id: "light.kitchen_countertop"
+    area: "kitchen"
+    state: "on"
+  - name: "Світло кухні"
+    id: "light.kitchen_ceiling"
+    area: "kitchen"
+    state: "on"
+  - name: "Світло Витяжки"
+    id: "light.kitchen_cabinets"
+    area: "kitchen"
+    state: "on"
+  - name: "Лампа вітальні"
+    id: "light.living_room_lamp"
+    area: "living_room"
+    state: "on"
+  - name: "Світло в гаражі"
+    id: "light.garage"
+    area: "garage"
+    state: "on"
+
+  # Fans
+  - name: Вентилятор вітальні
+    id: fan.ceiling
+    area: living_room
+    state: "on"
+  - name: Витяжка
+    id: fan.kitchen_fan
+    area: kitchen
+    state: "off"
+
+  # Other
+  - name: Кондиціонер
+    id: climate.ac
+    area: living_room
+    state: "22"
+    attributes:
+      unit_of_measurement: "°С"
+  - name: "Температур(а|ою) надворі"
+    id: "sensor.outside_temperature"
+    area: "garage"
+    state: "12"
+    attributes:
+      unit_of_measurement: "°C"
+
+  # Switches
+  - name: "Вимикач в спальні"
+    id: "switch.bedroom"
+    area: "bedroom"
+    state: "off"
+  - name: "Кухонний Вимикач"
+    id: "switch.kitchen"
+    area: "kitchen"
+    state: "on"
+
+  # Covers
+  - name: Лів(а|у) штор(а|у)
+    id: "cover.curtain_left"
+    area: "living_room"
+    state: "open"
+    attributes:
+      device_class: curtain
+  - name: Прав(а|у) штор(а|у)
+    id: "cover.curtain_right"
+    area: "living_room"
+    state: "closed"
+    attributes:
+      device_class: curtain
+  - name: "Штори спальні"
+    id: "cover.bedroom"
+    area: "bedroom"
+    state: "closed"
+    attributes:
+      device_class: curtain

@@ -1,0 +1,64 @@
+language: pt
+tests:
+  - sentences:
+      - "Qual é a Temperatura exterior?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Temperatura exterior"
+    response: "Temperatura exterior é 25 °C"
+
+  - sentences:
+      - "a Luz do Quarto está ligada?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Luz do Quarto"
+        state: "on"
+    response: "Não, off"
+
+  - sentences:
+      - "está algum interruptor ligado na Cozinha?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Cozinha"
+        domain: "switch"
+        state: "on"
+    response: "Sim, Forno"
+
+  - sentences:
+      - "todos interruptores estão ligados?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Não, Aquecedor and Maquina do Cafe not" # to fix
+
+  - sentences:
+      - "todas as luzes estão desligadas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Não, Luz Cozinha and Luz da Garagem not"
+
+  - sentences:
+      - "Quais luzes estão ligadas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Luz Cozinha and Luz da Garagem"
+
+  - sentences:
+      - "Quantas luzes estão ligadas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "2"

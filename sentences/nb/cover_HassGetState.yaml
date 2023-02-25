@@ -1,0 +1,36 @@
+language: nb
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - er <navn> {cover_states:state} [<i_på> <område>]
+          - er <navn> [<i_på> <område>] {cover_states:state}
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - er noen {cover_classes:device_class} {cover_states:state} [<i_på> <område>]
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - er alle {cover_classes:device_class} {cover_states:state} [<i_på> <område>]
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - <hva> {cover_classes:device_class} er {cover_states:state} [<i_på> <område>]
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - hvor mange {cover_classes:device_class} er {cover_states:state} [<i_på> <område>]
+        response: how_many
+        slots:
+          domain: cover
