@@ -3,19 +3,19 @@ intents:
   HassTurnOn:
     data:
       - sentences:
+          - "<åpne> <navn> [<i_på> <område>]"
+        requires_context:
+          domain: cover
+        response: cover
+      - sentences:
           - "<åpne> <garasje>"
         slots:
           domain: cover
           device_class: garage
         response: cover_device_class
       - sentences:
-          - "<åpne> [<vindu>|<gardin>|<rullegardin>|<skodde>] <i_på> <område>"
-          - "<åpne> <område>[s][ ][<vindu>|<gardin>|<rullegardin>|<skodde>]"
+          - "<åpne> [the] {cover_classes:device_class} <i_på> <område>"
+          - "<åpne> <område>[s][ ]{cover_classes:device_class}"
         slots:
           domain: cover
-          device_class:
-            - window
-            - blind
-            - curtain
-            - shutter
-        response: cover_area
+        response: cover_device_class

@@ -1,0 +1,49 @@
+language: nb
+tests:
+  - sentences:
+      - "Er inngangsdøren låst?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Inngangsdør"
+        state: "locked"
+    response: "Ja"
+
+  - sentences:
+      - "Er noen dører ulåst?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Ja, Bakdør"
+
+  - sentences:
+      - "Er alle dørene låst?"
+      - "er samtlige dører låst?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Nei, ikke Bakdør"
+
+  - sentences:
+      - "Hvilke dører er låst?"
+      - "Hva dør er låst?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Inngangsdør og Sidedør"
+
+  - sentences:
+      - "Hvor mange dører er låst?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "2"
