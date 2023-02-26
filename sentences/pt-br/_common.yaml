@@ -61,11 +61,71 @@ lists:
         out: "fahrenheit"
   brightness_level:
     values:
-      - in: (maxim(o|a) | forte | alt(o|a))
+      - in: (máxim(o|a) | forte | alt(o|a))
         out: 100
       - in: (mínim(o|a) | frac(o|a) | baix(o|a))
         out: 1
+  on_off_states:
+    values:
+      - in: "(ligado[s]|ligada[s]|acesa[s]|aceso[s])"
+        out: "on"
+      - in: "(desligado[s]|desligada[s]|apagada[s])"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: luz[es]
+        out: light
+      - in: ventilador[es]
+        out: fan
+      - in: interruptor[es]
+        out: switch
+  cover_states:
+    values:
+      - in: "(aberto[s]|aberta[s])"
+        out: "open"
+      - in: "(fechado[s]|fechada[s])"
+        out: "closed"
+      - in: "abrindo"
+        out: "opening"
+      - in: "fechando"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: awning[s]
+        out: awning
+      - in: persiana[s]
+        out: blind
+      - in: cortina[s]
+        out: curtain
+      - in: porta[s]
+        out: door
+      - in: (porta[s]|portão|portões) da garagem
+        out: garage
+      - in: (portão|portões|porteira[s])
+        out: gate
+      - in: shade[s]
+        out: shade
+      - in: shutter[s]
+        out: shutter
+      - in: janela[s]
+        out: window
+  lock_states:
+    values:
+      - in: "trancada"
+        out: "locked"
+      - in: "destrancada"
+        out: "unlocked"
 expansion_rules:
-  name: "([o]|[a]) {nome}"
+  nome: "[(o[s]|a[s])] {name}"
+  zona: "[(o[s]|a[s])] {area}"
+  na_zona: "(n[o|a]|d[a|o]) {area}"
+  ligar: "(liga[r]|ligue|acende[r]|acenda)"
+  desligar: "(desliga[r]|desligue|apaga[r]|apague)"
+  abrir: "(abr[a|e]|abrir)"
+  fechar: "(fecha[r]|feche)"
+  mudar: "(pôr|põe|ponha|muda[r]|altera[r]|coloca[r]|deixa[r])"
+  brilho: "{brightness}[%| porcento]"
+  temperatura: "{temperature}[°| graus] [{temperature_unit}]"
 skip_words:
-  - "porfavor"
+  - "por favor"
+  - "pode"
