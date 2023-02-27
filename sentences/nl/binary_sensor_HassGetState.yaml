@@ -308,15 +308,42 @@ intents:
           device_class: update
 
       - sentences:
-          - "(is|detecteert|registreert) [er] [in|op|van|bij|door|met] [<area>][ ]<name> [[in|op|van] <area>] {bs_vibration_states:state} [[in|op|van] <area>]"
+          - "{bs_vibration_states:state} [[in|op|van] <area>][ ]<name> [[in|op|van] <area>]"
+          - "(is|<detecteer>) [er] [in|op|van|bij|door|met] [<area>][ ]<name> [[in|op|van] <area>] {bs_vibration_states:state} [[in|op|van] <area>]"
           - "neemt [<area>][ ]<name> [[in|op|van] <area>] {bs_vibration_states:state} (waar [[in|op|van] <area>]|[[in|op|van] <area>] waar)"
-          - "(is|zijn|word[t|en]) [er] [[in|op|van] <area>] {bs_vibration_states:state} (gedetecteerd|geregistreerd|waar[ ]genomen) (bij|door) [[in|op] <area>][ ]<name> [[in|op|van] <area>]"
-          - "(is|zijn|word[t|en]) [er] [[in|op|van] <area>]{bs_vibration_states:state} (bij|door) [[in|op] <area>][ ]<name> (gedetecteerd|geregistreerd|waar[ ]genomen) [[in|op|van] <area>]"
-          - "(is|zijn|word[t|en]) [er] [in|op|van|bij] [<area>][ |door |met |bij ]<name> [[in|op|van] <area>] {bs_vibration_states:state} (gedetecteerd|geregistreerd|waar[ ]genomen) [[in|op|van] <area>]"
+          - "<is> [er] [[in|op|van] <area>] {bs_vibration_states:state} <detecteer> (bij|door) [[in|op] <area>][ ]<name> [[in|op|van] <area>]"
+          - "<is> [er] [[in|op|van] <area>]{bs_vibration_states:state} (bij|door) [[in|op] <area>][ ]<name> <detecteer> [[in|op|van] <area>]"
+          - "<is> [er] [in|op|van|bij] [<area>][ |door |met |bij ]<name> [[in|op|van] <area>] {bs_vibration_states:state} <detecteer> [[in|op|van] <area>]"
         response: bs_yesno
         requires_context:
           domain: binary_sensor
           device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "is [er] [ergens] [[in|op|van] <area>] iets [[in|op|van] <area>] {bs_vibration_states:state} [[in|op|van] <area>]"
+          - "word(t|en) [er] [[in|op|van] <area>] [ergens] [[in|op|van] <area>] {bs_vibration_states:state} <detecteer> [[in|op|van] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - <is> [in <area>] [alle] <sensor> [in <area>] {bs_vibration_states:state} [[in|op|van] <area>]
+          - <detecteer> [alle]  [[in|op|van] <area>][ ]<sensor> [[in|op|van] <area>] {bs_vibration_states:state} [[in|op|van] <area>]
+          - word(t|en) door (alle|elke) [[in|op|van] <area>][ ]<sensor> {bs_vibration_states:state} [[in|op|van] <area>] <detecteer> [[in|op|van] <area>]
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - Welk[e] [<area>]<sensor> [[in|op|van] <area>] [is|zijn] {bs_vibration_states:state}
+          - Welk[e] [<area>]<sensor> [[in|op|van] <area>] (nemen|neemt) {bs_vibration_states:state} waar [[in|op|van] <area>]
+          - Welk[e] [<area>]<sensor> [[in|op|van] <area>] <detecteer> {bs_vibration_states:state} [[in|op|van] <area>]
+        response: which
         slots:
           domain: binary_sensor
           device_class: vibration
