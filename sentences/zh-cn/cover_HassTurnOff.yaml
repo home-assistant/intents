@@ -4,33 +4,20 @@ intents:
     data:
       - sentences:
           - "<close>[<area>]{name}"
-          - "<let>[<area>]{name}<close>"
+          - "[<let>][<area>]{name}<close>"
         requires_context:
           domain: cover
 
       - sentences:
-          - "<close><area>(窗帘|卷帘|百叶窗)"
-          - "[<let>]<area>(窗帘|卷帘|百叶窗)<close>"
-        slots:
-          domain: cover
-          device_class:
-            - blind
-            - curtain
-            - shutter
-        response: cover_area
-
-      - sentences:
-          - "<close><area>([卷闸]门)"
-          - "[<let>]<area>([卷闸]门)<close>"
+          - "<close>车库的[大|卷闸]门"
+          - "[<let>]车库的[大|卷闸]门<close>"
         slots:
           domain: cover
           device_class: garage
-        response: cover_door
 
       - sentences:
-          - "<close><area>(窗户)"
-          - "[<let>]<area>(窗户)<close>"
+          - "<close>[<area>]{cover_classes:device_class}"
+          - "[<let>][<area>]{cover_classes:device_class}<close>"
         slots:
           domain: cover
-          device_class: window
-        response: cover_window
+        response: cover_device_class
