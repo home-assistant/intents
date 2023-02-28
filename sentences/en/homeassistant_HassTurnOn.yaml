@@ -3,26 +3,14 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <turn> on [the] {name}
-          - <turn> [the] {name} [to] on
-      - sentences:
-          - <open> <name>
-          - <open> <name> in <area>
-        response: cover
-      - sentences:
-          - <open> [the] garage door
-        slots:
-          domain: cover
-          device_class: garage
-        response: cover
-      - sentences:
-          - <open> [the] <window> in <area>
-          - <open> <area> <window>
-        slots:
-          domain: cover
-          device_class:
-            - window
-            - blind
-            - curtain
-            - shutter
-        response: cover_area
+          - "<turn> on <name> [light[s]|switch[es]]"
+          - "[<turn>] <name> [light[s]|switch[es]] [to] on"
+          - "activate <name> [light[s]|switch[es]]"
+        excludes_context:
+          domain:
+            - binary_sensor
+            - cover
+            - lock
+            - scene
+            - script
+            - sensor

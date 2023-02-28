@@ -77,6 +77,7 @@ def run() -> int:
             output_dict["slots"] = {
                 entity.name: entity.value for entity in result.entities_list
             }
+            output_dict["context"] = result.context
 
             # Response
             matched, unmatched = get_matched_states(states, areas, result)

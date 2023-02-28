@@ -2,27 +2,16 @@ language: "nb"
 intents:
   HassTurnOff:
     data:
-    - sentences:
-      - "<skru_av> <navn>"
-      - "(skru|slå) <navn> av"
-    - sentences:
-        - "<lukk> <navn>"
-        - "<lukk> <navn> <i_på> <område>"
-      response: cover
-    - sentences:
-        - "<lukk> <garasje>"
-      slots:
-        domain: cover
-        device_class: garage
-      response: cover
-    - sentences:
-        - "<lukk> [<vindu>|<gardin>|<rullegardin>|<skodde>] <i_på> <område>"
-        - "<lukk> <område>[s][ ][<vindu>|<gardin>|<rullegardin>|<skodde>]"
-      slots:
-        domain: cover
-        device_class:
-          - window
-          - blind
-          - curtain
-          - shutter
-      response: cover_area
+      - sentences:
+          - "<skru_av> <navn>"
+          - "(skru|slå) <navn> av"
+      - sentences:
+          - "<lukk> <navn>"
+          - "<lukk> <navn> <i_på> <område>"
+        excludes_context:
+          domain:
+            - cover
+            - scene
+            - sensor
+            - script
+            - lock

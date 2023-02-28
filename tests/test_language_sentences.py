@@ -21,7 +21,7 @@ from shared import (
     render_response,
 )
 
-from . import TESTS_DIR, load_test
+from . import TESTS_DIR, get_test_path, load_test
 
 
 @pytest.fixture(name="slot_lists", scope="session")
@@ -56,7 +56,10 @@ def do_test_language_sentences_file(
     language_responses: dict[str, Any],
 ) -> None:
     """Tests recognition all of the test sentences for a language"""
-    testing_domain, testing_intent = test_file.split("_", 1)
+    if not get_test_path(language, test_file).exists():
+        return
+
+    testing_domain, testing_intent = test_file.rsplit("_", maxsplit=1)
 
     seen_sentences = set()
     template_env = Environment(loader=BaseLoader())
@@ -74,12 +77,12 @@ def do_test_language_sentences_file(
             # Domain specific files (ie light_HassTurnOn.yaml) should only test
             # sentences for the light domain.
             if intent_schemas[testing_intent]["domain"] == testing_domain:
-                assert "domain" not in intent.get(
-                    "slots", {}
+                assert ("domain" not in intent.get("slots", {})) and (
+                    "domain" not in intent.get("context", {})
                 ), f"File {test_file}: tests should not have a domain slot"
             else:
-                assert (
-                    intent.get("slots", {}).get("domain") == testing_domain
+                assert (intent.get("slots", {}).get("domain") == testing_domain) or (
+                    intent.get("context", {}).get("domain") == testing_domain
                 ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
 
         intent_context = intent.get("context", {})
@@ -146,6 +149,18 @@ def do_test_language_sentences_file(
                 assert (
                     actual_name in matched_slots
                 ), f"Slot {actual_name} was not expected for: {sentence}"
+
+            # Verify context if it's used in the test.
+            #
+            # This result "context" is acquired during matching; a hassil slot
+            # list item may have a "context" which is added to the result
+            # context if that item is matched.
+            actual_context = intent.get("context", {})
+            if actual_context:
+                matched_context = result.context
+                assert (
+                    matched_context == actual_context
+                ), f"Expected context {actual_context}, got {matched_context} for intent {result.intent.name}: {sentence}"
 
             # Verify response
             if expected_response_texts:
