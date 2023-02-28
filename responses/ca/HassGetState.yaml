@@ -1,0 +1,67 @@
+language: ca
+responses:
+  intents:
+    HassGetState:
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      one: |
+        L'estat del dispositiu {{ slots.name | capitalize }} és {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched %}
+          Si
+        {% else %}
+          No, és {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Si, {{ match[:3] | join(", ") }} i uns altres {{ (match | length - 3) }} dispositius més
+          {%- else -%}
+            Si,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          No
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Si
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            No, ni {{ no_match[:3] | join(", ") }} ni els altres {{ (no_match | length - 3) }} dispositius ho són
+          {% elif no_match | length == 1 %}
+            No, el dispositiu {{ no_match|first }} no
+          {%- else -%}
+            No, ni
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ni {% endif -%}
+              {{ name }}
+            {%- endfor %}
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Cap dispositiu
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} i uns altres {{ (match | length - 3) }} més
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

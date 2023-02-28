@@ -1,0 +1,86 @@
+language: uk
+tests:
+  - sentences:
+      - "що з температурою надворі?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Температурою надворі"
+    response: "Температурою надворі 12 °C"
+
+  - sentences:
+      - "який стан лампи"
+      - "в якому стані лампа"
+    intent:
+      name: HassGetState
+      slots:
+        name:
+          - "Лампи"
+          - "Лампа"
+    response:
+      - "Лампи off"
+      - "Лампа off"
+
+  - sentences:
+      - "чи ввімкнено лампу?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Лампу"
+        state: "on"
+    response: "Ні, off"
+
+  - sentences:
+      - "чи є ввімкнені вмикачі на кухні?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Кухні"
+        domain: "switch"
+        state: "on"
+    response: "Так, Кухонний Вимикач"
+
+  - sentences:
+      - "чи всі вмикачі увімкнено?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Ні, Вимикач в спальні ні"
+
+  - sentences:
+      - "чи все світло вимкнено?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Ні, Кухонний світильник, Лампа вітальні, Світло в гаражі і ще 2 ні"
+
+  - sentences:
+      - "які лампи ввімкнені?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Кухонний світильник, Лампа вітальні, Світло в гаражі і ще 2"
+
+  - sentences:
+      - "яка кількість світильників ввімкнені?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"
+
+  - sentences:
+      - "скільки є ввімкнених вентиляторів?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "fan"
+        state: "on"
+    response: "1"

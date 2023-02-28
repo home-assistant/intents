@@ -1,0 +1,32 @@
+language: bg
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "как(ъв|ва|во|ви) (е|са) [състоянието на] <name> [<area>]"
+        response: one
+
+      - sentences:
+          - "{on_off_states:state} ли е [състоянието на] <name> [<area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "има ли {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "има ли {on_off_states:state} {on_off_domains:domain} [<area>]"
+        response: any
+
+      - sentences:
+          - "{on_off_states:state} ли са всички[те] {on_off_domains:domain} [<area>]"
+          - "всички {on_off_domains:domain} ли са {on_off_states:state} [<area>]"
+        response: all
+
+      - sentences:
+          - "(ко(и|я|е|й)|как(ъв|ва|во|ви)) {on_off_domains:domain} (е|са) {on_off_states:state} [<area>]"
+        response: which
+
+      - sentences:
+          - "колко {on_off_domains:domain} са {on_off_states:state} [<area>]"
+        response: how_many

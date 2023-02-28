@@ -1,0 +1,45 @@
+language: "zh-tw"
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "[<area>] [(目前 | 現在)] [的] <name> [(目前 | 現在)] [狀態]"
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - "[<area>] [(目前 | 現在)] <name> [(目前 | 現在)] [狀態] (<what_is> | <how_many_is>)"
+        response: one
+
+      - sentences:
+          - "[<area>] <name> [是] {on_off_states:state} [嗎]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "[<area>] <name> [(是 | 是不是)] {on_off_states:state}"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "[<area>] [(有 | 有沒有)] [任何] [的] {on_off_domains:domain} [(是 | 是不是)] {on_off_states:state} [著] [的] [嗎]"
+        response: any
+
+      - sentences:
+          - "[<area>] [<all>] {on_off_domains:domain} [(是 | 是不是)] [都是] {on_off_states:state} [著] [的] [嗎]"
+        response: all
+
+      - sentences:
+          - "[<area>] <which> [<area>] {on_off_domains:domain} [是] {on_off_states:state} [著] [的] [嗎]"
+        response: which
+
+      - sentences:
+          - "[<area>] <how_many> [(盞 | 扇 | 個)] [<area>] {on_off_domains:domain} [是] {on_off_states:state} [著] [的] [嗎]"
+        response: how_many

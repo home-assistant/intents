@@ -1,0 +1,30 @@
+language: fr
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - (ferme|baisse) [la] porte (du|de) garage
+          - ferme [le] garage
+        response: cover_device_class
+        slots:
+          device_class: garage
+          domain: cover
+      - sentences:
+          - (ferme|baisse) [tous] [les|le] (store|stores|volet|volets) <dans> <area>
+        response: cover_area
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover
+      - sentences:
+          - (ferme|baisse) tous [les] (stores|volets)
+        response: cover_device_class
+        slots:
+          name: all
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover

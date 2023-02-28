@@ -1,0 +1,36 @@
+language: uk
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "чи {cover_states:state} <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "чи є {cover_states:state} {cover_classes:device_class} [<area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "чи всі {cover_classes:device_class} {cover_states:state} [<area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(які|котрі) {cover_classes:device_class} {cover_states:state} [<area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(скільки|яка кількість) {cover_classes:device_class} {cover_states:state} [<area>]"
+          - "(скільки [є]|яка кількість) {cover_states:state} {cover_classes:device_class} [<area>]"
+        response: how_many
+        slots:
+          domain: cover

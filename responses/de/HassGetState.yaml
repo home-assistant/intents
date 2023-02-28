@@ -1,0 +1,63 @@
+language: de
+responses:
+  intents:
+    HassGetState:
+      einzeln: |
+        {{ slots.name | capitalize }} ist {{ state.state_with_unit }}
+
+      einzeln_janein: |
+        {% if query.matched %}
+          Ja
+        {% else %}
+          Nein
+        {% endif %}
+
+      irgendeins: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Ja, {{ match[:3] | join(", ") }} und {{ (match | length - 3) }} weitere
+          {%- else -%}
+            Ja,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} und {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Nein
+        {% endif %}
+
+      alle: |
+        {% if not query.unmatched: %}
+          Ja
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nein, {{ no_match[:3] | join(", ") }} und {{ (no_match | length - 3) }} weitere sind es nicht
+          {%- else -%}
+            Nein,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} und {% endif -%}
+              {{ name }}
+            {%- endfor %} {% if no_match | length == 1 %}ist{% else %}sind{% endif %} es nicht
+          {% endif %}
+        {% endif %}
+
+      welches: |
+        {% if not query.matched %}
+          Keins
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} und {{ (match | length - 3) }} weitere
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} und {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      wie_viele: |
+        {{ query.matched | length }}

@@ -7,12 +7,20 @@ responses:
     no_device_class: "{{ area }} heeft geen {{ device_class }}"
     no_entity: "Kan {{ entity }} niet vinden"
     handle_error: "Er is iets misgegaan"
+
 lists:
   brightness:
     range:
       type: "percentage"
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: (max|maximum|maximaal|maximale|[z'n|zijn] hoogst[e])
+        out: 100
+      - in: (min|minimum|minimaal|minimale|[z'n|zijn] laagst[e])
+        out: 1
+
   color:
     values:
       - in: "wit"
@@ -35,6 +43,7 @@ lists:
         out: "brown"
       - in: "roze"
         out: "pink"
+
   temperature:
     range:
       type: "temperature"
@@ -48,23 +57,298 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+
+  on_off_states:
+    values:
+      - in: "aan"
+        out: "on"
+      - in: "uit"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: <lamp>
+        out: light
+      - in: <ventilator>
+        out: fan
+      - in: <schakelaar>
+        out: switch
+
+  cover_states:
+    values:
+      - in: "(open|geopend)"
+        out: "open"
+      - in: "(dicht|gesloten)"
+        out: "closed"
+      - in: "(open aan het gaan|aan het (openen|open gaan))"
+        out: "opening"
+      - in: "(dicht aan het gaan|aan het (dicht gaan|sluiten))"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "<awning>"
+        out: awning
+      - in: "<blind>"
+        out: blind
+      - in: "<curtain>"
+        out: curtain
+      - in: "<door>"
+        out: door
+      - in: "<garage>"
+        out: garage
+      - in: "<gate>"
+        out: gate
+      - in: "<shade>"
+        out: shade
+      - in: "<shutter>"
+        out: shutter
+      - in: "<window>"
+        out: window
+
+  lock_states:
+    values:
+      - in: "(dicht|[op] gesloten|op slot)"
+        out: "locked"
+      - in: "(open|geopend|niet (dicht|[op] gesloten|op slot))"
+        out: "unlocked"
+  door_lock_states:
+    values:
+      - in: "op slot"
+        out: "locked"
+      - in: "niet op slot"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "(laag|[bijna] leeg)"
+        out: "on"
+      - in: "(normaal|niet (laag|[bijna] leeg))"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "(aan (het laden|de lader)|opgeladen)"
+        out: "on"
+      - in: "niet aan (het laden|de lader)"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(CO|koolstof[ ]monoxide)"
+        out: "on"
+      - in: "geen (CO|koolstof[ ]monoxide)"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "(koud[e]|koel[te])"
+        out: "on"
+      - in: "(normaal|niet (koud|koel)|geen (koude|koelte))"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "verbonden"
+        out: "on"
+      - in: "niet verbonden"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "open"
+        out: "on"
+      - in: "(dicht|gesloten)"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "open"
+        out: "on"
+      - in: "(dicht|gesloten)"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "gas"
+        out: "on"
+      - in: "geen gas"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "(warm[te]|heet|hitte)"
+        out: "on"
+      - in: "(normaal|niet(warm|heet)|geen (warmte|hitte))"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "[veel] licht"
+        out: "on"
+      - in: "(geen|weinig) licht"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "open"
+        out: "on"
+      - in: "op slot"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "(nat[tigheid]|water|vocht[ig[heid]])"
+        out: "on"
+      - in: "(droog|niet (nat|vochtig)|geen (nattigheid|water|vocht[igheid]))"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "beweging"
+        out: "on"
+      - in: "geen beweging"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(aanwezigheid|[een] (persoon|personen|mensen))"
+        out: "on"
+      - in: "(geen (aanwezigheid|personen))"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "open"
+        out: "on"
+      - in: "gesloten"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "(ingeplugd|ingestoken)"
+        out: "on"
+      - in: "niet (ingeplugd|ingestoken)"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(stroom|power|vermogen)"
+        out: "on"
+      - in: "geen (stroom|power|vermogen)"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(thuis|aanwezig)"
+        out: "on"
+      - in: "(weg|niet (thuis|aanwezig))"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "gedetecteerd"
+        out: "on"
+      - in: "(ok|niet gedetecteerd)"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(actief|bezig|draait|werkt|aan het (draaien|werk[en]))"
+        out: "on"
+      - in: "niet (actief|bezig|aan het (draaien|werk[en]))"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "(onveilig|niet veilig)"
+        out: "on"
+      - in: "veilig"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "rook"
+        out: "on"
+      - in: "geen geluid"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(geluid[en]|lawaai|herrie)"
+        out: "on"
+      - in: "geen (geluid[en]|lawaai|herrie)"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(geknoei[d]|gerommel[d]|sabotage|gesaboteerd)"
+        out: "on"
+      - in: "(niet (geknoeid|gerommeld|gesaboteerd)| geen (geknoei|gerommel|sabotage))"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "(niet (actueel|up to date|up-to-date|ge(u|ü)pdate[t])|geen update[s])"
+        out: "on"
+      - in: "(actueel|up to date|up-to-date|ge(u|ü)pdate[t]|update[s])"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(trilt|vibreert|[aan het|te] (trillen|vibreren)|trilling[en]|vibratie[s])"
+        out: "on"
+      - in: "(niet aan het (trillen|vibreren)|(trilt|vibreert|trillen|vibreren) niet|geen (trilling[en]|vibratie[s]))"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "open"
+        out: "on"
+      - in: "(gesloten|dicht)"
+        out: "closed"
+
 expansion_rules:
-  lamp: "[de|het] (lamp[en]|licht[en]|verlichting)"
-  ventilator: "[de] (ventilator[s|en])"
-  afdekking: "[de|het] (gordijn[en]|vitrage[s]|jaloezie[ën]|rolluik[en]|screen[s]|luxaflex|scherm[en])"
+  # generic expansion rules for sentences
   name: "[de|het] {name}"
   area: "[de|het] {area}"
-  doe: "(zet|mag|mogen|doe|verander|maak|schakel)"
+  doe: "(zet[ten]|mag|mogen|doe[n]|verander[en]|maak|maken|schakel[en])"
+  zou: "(kan|kun[t]|zal|zou) [je|jij|u]"
   naar: "(naar|op)"
-  helderheid: "[de] (helderheid|felheid|intensiteit)"
+  detecteer: "(detecteert|registreert|detecteren|registereren|gedetecteerd|geregistreerd|waar[ ]genomen)"
+  sensor: "(apparaat|apparaten|sensor[s|en])"
+  is: "(zijn|is|staa(n|t)|zit[ten]|word[t|en]|lig(t|gen))"
+  in: "[in|op|van|bij]"
+  alle: "(alle|elk[e]|ieder[e])"
+  # cover deivce classes
+  awning: "(luifel[s]|[zonne]scherm[en])"
+  blind: "(jaloezie[ën]|luxaflex)"
+  curtain: "(gordijn[en]|vitrage[s])"
+  door: "deur[en]"
+  garage: "garage[ ]deur[en]"
+  gate: "(hek[ken]|poort[en])"
+  shade: "(screen[s]|rolgordijn[en])"
+  shutter: "(rolluik[en]|shutter[s])"
+  window: "(raam|ramen)"
+  # device/entity types
+  lamp: "[de|het|een] (lamp[en]|licht[en]|verlichting)"
+  ventilator: "[de|een] (ventilator[s|en]|fan[s])"
+  schakelaar: "[de|een] (schakelaar[s]|switch[es]|plug[gen])"
+  afdekking: "[de|het] (<awning>|<blind>|<curtain>|<door>|<garage>|<gate>|<shade>|<shutter>|<window>)"
+  slot: "[de|het|een] ([deur]slot[en])"
+  # combination of device/entity types
+  type: (<lamp>|<ventilator>|<afdekking>|<schakelaar>)
+  # light brightness
+  helderheid: "[de] (helderheid|felheid|intensiteit|lichtsterkte)"
   brightness: "{brightness}[%|procent]"
+  # temperature/climate states
   temperature: "{temperature}[°|graden] [{temperature_unit}]"
   warm: "(warm|heet|koud|koel)"
-  open: "(open|omhoog|naar boven)"
-  dicht: "(dicht|omlaag|naar beneden)"
+  # cover states
+  open: "(open[en]|omhoog|naar boven|opwaarts)"
+  dicht: "(dicht|omlaag|naar beneden|sluiten|neerwaarts)"
 skip_words:
   - "alstublieft"
   - "alsjeblieft"
   - "aub"
+  - "ajb"
   - "graag"
-

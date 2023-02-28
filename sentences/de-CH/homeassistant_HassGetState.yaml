@@ -1,0 +1,55 @@
+language: de-CH
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "Was isch der Status vo[(m|r)] <name> [<area>]"
+        response: one
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "Isch [der Status] <name> {on_off_states:state} [<area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+            - lock
+
+      - sentences:
+          - "Isch (e|ei) {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "Isch <area> (e|ei) {on_off_domains:domain} {on_off_states:state}"
+        response: any
+        excludes_context:
+          domain:
+            - cover
+            - lock
+
+      - sentences:
+          - "Sy [d'[' ']|d |aui |alli ]{on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "Sy [d'[' ']|d |aui |alli ]{on_off_domains:domain} [<area>] {on_off_states:state}"
+          - "Sy <area> [d'[' ']|d |aui |alli ]{on_off_domains:domain} {on_off_states:state}"
+        response: all
+        excludes_context:
+          domain:
+            - cover
+            - lock
+
+      - sentences:
+          - "(Wele|Weli) {on_off_domains:domain} (isch|sy|si) {on_off_states:state} [<area>]"
+          - "(Wele|Weli) {on_off_domains:domain} <area> (isch|sy|si) {on_off_states:state}"
+        response: which
+        excludes_context:
+          domain:
+            - cover
+            - lock
+
+      - sentences:
+          - "Wie mäng[s|e|i] {on_off_domains:domain} (isch|sy|si) {on_off_states:state} [<area>]"
+          - "Wie mäng[s|e|i] {on_off_domains:domain} <area> (isch|sy|si) {on_off_states:state}"
+        response: how_many
+        excludes_context:
+          domain:
+            - cover
+            - lock

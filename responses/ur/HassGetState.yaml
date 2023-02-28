@@ -1,0 +1,65 @@
+language: ur
+responses:
+  intents:
+    HassGetState:
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      one: |
+        {{ slots.name | capitalize }} {{ state.state_with_unit }} ہے
+
+      one_yesno: |
+        {% if query.matched %}
+          جی ہاں
+        {% else %}
+          نہیں، {{ state.state_with_unit }} ہے
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            جی، {{ match[:3] | join(", ") }} اور {{ (match | length - 3) }} اور دوسری چیزیں بھی
+          {%- else -%}
+            جی،
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} اور {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          نہیں
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          جی ہاں
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            نہیں، {{ no_match[:3] | join(", ") }} اور {{ (no_match | length - 3) }} اور نہیں ھیں
+          {%- else -%}
+            نہیں،
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} اور {% endif -%}
+              {{ name }}
+            {%- endfor %} نہیں ھیں
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          کوئی بھی نہیں
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} اور {{ (match | length - 3) }} اور
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} اور {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

@@ -8,6 +8,7 @@ responses:
     no_entity: "Îmi pare rău, nu am găsit niciun dispozitiv sau entitate cu numele {{ entity }}"
     handle_error: "Îmi pare rău, a intervenit o eroare în timpul procesării cererii"
 lists:
+  # Attributes
   color:
     values:
       - in: "alb"
@@ -54,33 +55,421 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+
+  # Generic domain
+  on_off_states_singular:
+    values:
+      - in: "<pornit>"
+        out: "on"
+      - in: "<oprit>"
+        out: "off"
+  on_off_states_plural:
+    values:
+      - in: "<pornite>"
+        out: "on"
+      - in: "<oprite>"
+        out: "off"
+  on_off_domains_singular:
+    values:
+      - in: "<lumina>"
+        out: "light"
+      - in: "<ventilatorul>"
+        out: "fan"
+      - in: "<intrerupatorul>"
+        out: "switch"
+  on_off_domains_plural:
+    values:
+      - in: "<luminile>"
+        out: "light"
+      - in: "<ventilatoarele>"
+        out: "fan"
+      - in: "<intrerupatoarele>"
+        out: "switch"
+
+  # Cover domain
+  cover_states_singular:
+    values:
+      - in: "<deschis>"
+        out: "open"
+      - in: "<inchis>"
+        out: "closed"
+      - in: "(î|i)n curs de (deschidere | ridicare)"
+        out: "opening"
+      - in: "(î|i)n curs de (inchidere | coborâre)"
+        out: "closing"
+  cover_states_plural:
+    values:
+      - in: "<deschise>"
+        out: "open"
+      - in: "<inchise>"
+        out: "closed"
+      - in: "(î|i)n curs de (deschidere | ridicare)"
+        out: "opening"
+      - in: "(î|i)n curs de (inchidere | coborâre)"
+        out: "closing"
+  cover_classes_singular:
+    values:
+      - in: "copertin(ă|a)"
+        out: "awning"
+      - in: "jaluzea[ua]"
+        out: "blind"
+      - in: "perdea[ua]"
+        out: "curtain"
+      - in: "<usa>"
+        out: "door"
+      - in: "u(ș|s)a (de la garaj | garajului)"
+        out: "garage"
+      - in: "<poarta>"
+        out: "gate"
+      - in: "draperi(e|a)"
+        out: "shade"
+      - in: "(rulou[l] | oblon[ul])"
+        out: "shutter"
+      - in: "<fereastra>"
+        out: "window"
+  cover_classes_plural:
+    values:
+      - in: "copertine[le]"
+        out: "awning"
+      - in: "jaluzele[le]"
+        out: "blind"
+      - in: "perdele[le]"
+        out: "curtain"
+      - in: "<usile>"
+        out: "door"
+      - in: "u(ș|s)ile (de la garaj | garajului)"
+        out: "garage"
+      - in: "<portile>"
+        out: "gate"
+      - in: "draperii[le]"
+        out: "shade"
+      - in: "(rulouri[le] | obloane[le])"
+        out: "shutter"
+      - in: "<ferestrele>"
+        out: "window"
+
+  # Lock domain
+  lock_states_singular:
+    values:
+      - in: "<incuiat>"
+        out: "locked"
+      - in: "<descuiat>"
+        out: "unlocked"
+  lock_states_plural:
+    values:
+      - in: "<incuiate>"
+        out: "locked"
+      - in: "<descuiate>"
+        out: "unlocked"
+
+  # Binary sensor domain
+
+  bs_detection_states_singular:
+    values:
+      - in: "<detectat>"
+        out: "on"
+      - in: "<nedetectat>"
+        out: "off"
+  bs_detection_states_plural:
+    values:
+      - in: "<detectate>"
+        out: "on"
+      - in: "<nedetectate>"
+        out: "off"
+  bs_detection_states_active:
+    values:
+      - in: "(detecteaz(ă|a) | simte)"
+        out: "on"
+      - in: "a (detectat | sim(ț|t)it)"
+        out: "on"
+      - in: "nu (detecteaz(ă|a) | simte)"
+        out: "off"
+      - in: "nu a (detectat | sim(ț|t)it)"
+        out: "off"
+
+  bs_battery_states_singular:
+    values:
+      - in: "descarcat(ă|a)"
+        out: "on"
+      - in: "(normal(ă|a) | (î|i)nc(ă|a)rcat(ă|a))"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "(î|i)n curs de (î|i)nc(ă|a)rcare"
+        out: "on"
+      - in: "la (î|i)nc(ă|a)rca(re|t)"
+        out: "on"
+      - in: "(î|i)n curs de desc(ă|a)rcare"
+        out: "off"
+  bs_battery_charging_states_passive:
+    values:
+      - in: "se (î|i)ncarc(ă|a)"
+        out: "on"
+      - in: "e[ste] la (î|i)nc(ă|a)rcat"
+        out: "on"
+      - in: "se descarc(ă|a)"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "<frig>"
+        out: "on"
+      - in: "normal"
+        out: "off"
+  bs_cold_states_singular:
+    values:
+      - in: "(rece | (î|i)nghe(ț|t)at[(ă|a)])"
+        out: "on"
+      - in: "normal[(ă|a)]"
+        out: "off"
+  bs_cold_states_plural:
+    values:
+      - in: "(reci | (î|i)nghe(ț|t)a((ț|t)i|te))"
+        out: "on"
+      - in: "normal(i|e)"
+        out: "off"
+
+  bs_connectivity_states_singular:
+    values:
+      - in: "conectat[(ă|a)]"
+        out: "on"
+      - in: "deconectat[(ă|a)]"
+        out: "off"
+  bs_connectivity_states_plural:
+    values:
+      - in: "conecta((ț|t)i|te)"
+        out: "on"
+      - in: "deconecta((ț|t)i|te)"
+        out: "off"
+
+  bs_door_states_singular:
+    values:
+      - in: "<deschis>"
+        out: "on"
+      - in: "<inchis>"
+        out: "off"
+  bs_door_states_plural:
+    values:
+      - in: "<deschise>"
+        out: "on"
+      - in: "<inchise>"
+        out: "off"
+  bs_door_states_passive:
+    values:
+      - in: "s-a[u] deschis"
+        out: "on"
+      - in: "s-a[u] (î|i)nchis"
+        out: "off"
+  bs_door_states_active:
+    values:
+      - in: "am deschis"
+        out: "on"
+      - in: "a deschis cineva"
+        out: "on"
+      - in: "am (î|i)nchis"
+        out: "off"
+      - in: "a (î|i)nchis cineva"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "<cald>"
+        out: "on"
+      - in: "normal"
+        out: "off"
+  bs_heat_states_singular:
+    values:
+      - in: "(cald[(ă|a)] | fierbinte | (î|i)ncins)"
+        out: "on"
+      - in: "normal[(ă|a)]"
+        out: "off"
+  bs_heat_states_plural:
+    values:
+      - in: "(cal(zi|de) | fierbin(ț|t)i | (î|i)ncin((ș|s)i|se))"
+        out: "on"
+      - in: "normal(i|e)"
+        out: "off"
+
+  bs_lock_states_singular:
+    values:
+      - in: "<descuiat>"
+        out: "on"
+      - in: "<incuiat>"
+        out: "off"
+  bs_lock_states_plural:
+    values:
+      - in: "<descuiate>"
+        out: "on"
+      - in: "<incuiate>"
+        out: "off"
+  bs_lock_states_passive:
+    values:
+      - in: "s-a[u] descuiat"
+        out: "on"
+      - in: "s-a[u] (î|i)ncuiat"
+        out: "off"
+  bs_lock_states_active:
+    values:
+      - in: "am descuiat"
+        out: "on"
+      - in: "a descuiat cineva"
+        out: "on"
+      - in: "am (î|i)ncuiat"
+        out: "off"
+      - in: "a (î|i)ncuiat cineva"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "u[me]d[(ă|a)]"
+        out: "on"
+      - in: "uscat[(ă|a)]"
+        out: "off"
+
+  bs_plug_states_singular:
+    values:
+      - in: "conectat[(ă|a)]"
+        out: "on"
+      - in: "deconectat[(ă|a)]"
+        out: "off"
+  bs_plug_states_plural:
+    values:
+      - in: "conecta((ț|t)i|te)"
+        out: "on"
+      - in: "deconecta((ț|t)i|te)"
+        out: "off"
+
+  bs_power_states_singular:
+    values:
+      - in: "(alimentat[(ă|a)] | sub tensiune | [(b(ă|a)gat[(ă|a)] | introdus[(ă|a)]) ]<in> priz(ă|a))"
+        out: "on"
+      - in: "(nealimentat[(ă|a)] | (b(ă|a)gat[(ă|a)] <in> | (scos | scoas(ă|a)) din) priz(ă|a))"
+        out: "off"
+  bs_power_states_plural:
+    values:
+      - in: "(alimenta((ț|t)i|te) | sub tensiune | [(b(ă|a)ga((ț|t)i|te) | introdu((ș|s)i|se)) ]<in> priz(ă|a))"
+        out: "on"
+      - in: "(nealimentat((ț|t)i|te) | (sco(ș|s)i | scoase) din priz(ă|a))"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(acas(ă|a) | prezent[(ă|a)])"
+        out: "on"
+      - in: "(plecat[(ă|a)] | absent[(ă|a)])"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(pornit[(ă|a)] | (î|i)n [curs de] (rulare | desf(ă|a)(ș|s)urare))"
+        out: "on"
+      - in: "((î|i)n repaus | oprit[(ă|a)])"
+        out: "off"
+  bs_running_states_active:
+    values:
+      - in: "ruleaz(ă|a)"
+        out: "on"
+      - in: "s-a oprit"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "nesigur"
+        out: "on"
+      - in: "sigur"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "vandalizat"
+        out: "on"
+      - in: "(normal | nevandalizat)"
+        out: "off"
+
+  bs_vibration_states_active:
+    values:
+      - in: "vibreaz(ă|a)"
+        out: "on"
+      - in: "nu vibreaz(ă|a)"
+        out: "off"
+
 expansion_rules:
-  area: "[(zona | regiunea )] {area}"
-  brightness: "{brightness} [(la sut(ă|a) | % | [de] procente)]"
-  brightness_percent: "{brightness} (la sut(ă|a) | % | [de] procente)"
-  temperature: "{temperature} [[de] grad[e]] [{temperature_unit}]"
-  name: "({name}[(ul|a)])"
+  # Placeholders
+  area: "[(zona | regiunea | spa(ț|t)iul)] {area}"
+  brightness: "{brightness}[ ][(% | la sut(ă|a) | [de ]procente)]"
+  brightness_percent: "{brightness}[ ](% | la sut(ă|a) | [de] procente)"
+  temperature: "{temperature}[ ][[de ]grad[e]][[ ]{temperature_unit}]"
+  name: "({name})"
+
+  # Quantities
   maximum: "(maxim[(ă|a|um)] [posibil[(ă|a)]])"
   jumatate: "(jum(ă|a)tate | jumate)"
   minimum: "(minim[(ă|a|um)] [posibil[(ă|a)]])"
-  este: "(e | este)"
-  cat: "(c(â|a|î|i)t[e])"
-  in: "((î|i)n)"
-  din: "(din | (î|i)n | pentru | [de] la | [de] pe | de)"
+
+  # Verbs
+  este: "(e | este | sunt)"
   porneste: "(start | porne(ș|s)te | deschide | aprinde | activeaz(ă|a))"
   opreste: "(stop | opre(ș|s)te | (î|i)nchide | stinge | dezactiveaz(ă|a))"
   seteaza: "(seteaz(ă|a) | pune | a[d]justeaz(ă|a) | schimb(ă|a) | modific(ă|a))"
-  lumina: "(luminile | lumina | becul | becurile)"
+  deschide: "(deschide | ridic(ă|a))"
+  inchide: "((î|i)nchide | coboar(ă|a))"
+  ruleaza: "(ruleaz(ă|a) | start | porne(ș|s)te | activeaz(ă|a))"
+
+  # Questions
+  cate: "(c(â|a)te | c(â|a)(ț|t)i)"
+  cat_quant: "(c(â|a)t)"
+  cat: "(<cat_quant> | cum)"
+  care: "(care | ce)"
+
+  # Prepositions
+  in: "((î|i)n)"
+  din: "(din | (î|i)n | pentru | [de] la | [de] pe | de)" # used particularly for areas
+
+  # Adjectives
+  pornit: "(pornit[(ă|a)] | deschis[(ă|a)]) | aprins[(ă|a)] | activat[(ă|a)]"
+  pornite: "(pornite | deschise | aprinse | activate)"
+  oprit: "(oprit[(ă|a)] | (î|i)nchis[(ă|a)] | stins[(ă|a)] | dezactivat[(ă|a)])"
+  oprite: "(oprite | (î|i)nchise | stinse | dezactivate)"
+  deschis: "(deschis[(ă|a)] | ridicat[(ă|a)])"
+  deschise: "(deschise | ridicate)"
+  inchis: "((î|i)nchis[(ă|a)] | coboar(â|a)t[(ă|a)])"
+  inchise: "((î|i)nchise | coboar(â|a)te)"
+  detectat: "(detectat[(ă|a)] | prezent[(ă|a)] | observabil[(ă|a)])"
+  detectate: "(detecta((ț|t)i|te) | prezen((ț|t)i|te) | observabil(i|e))"
+  nedetectat: "(nedetectat[(ă|a)] | absent[(ă|a)] | neobservabil[(ă|a)] | liber[(ă|a)])"
+  nedetectate: "(nedetecta((ț|t)i|te) | absen((ț|t)i|te) | neobservabil(i|e) | liber(i|e))"
+  descuiat: "descuiat[(ă|a)]"
+  descuiate: "descuia((ț|t)i|te)"
+  incuiat: "(î|i)ncuiat[(ă|a)]"
+  incuiate: "(î|i)ncuia((ț|t)i|te)"
+  cald: "(cald | fierbinte | (î|i)ncins)"
+  frig: "(frig | rece | r(ă|a)coare)"
+  cald_frig: "(<cald> | <frig>)"
+
+  # Domains
+  lumina: "(lumin(ă|a) | bec[ul])"
+  luminile: "(lumini[le] | becuri[le])"
+  ventilatorul: "(ventilator[ul] | aerisire[a])"
+  ventilatoarele: "(ventilatoare[le] | aerisiri[le])"
+  intrerupatorul: "((î|i)ntrerup(ă|a)tor[ul] | comutator[ul])"
+  intrerupatoarele: "((î|i)ntrerup(ă|a)toare[le] | comutatoare[le])"
+
+  # Attributes
   luminozitatea: "(luminozitate[a])"
   culoarea: "(culoare[a])"
   temperatura: "(temperatur(ă|a))"
-  deschide: "(deschide | ridic(ă|a))"
-  inchide: "((î|i)nchide | coboar(ă|a))"
-  fereastra: "(fereastra | ferestrele | geamul | geamurile)"
-  usa: "(u(ș|s)a | u(ș|s)ile)"
-  jaluzelele: "(jaluzeaua | jaluzelele | draperia | draperiile | perdeaua | perdelele | ruloul | rulourile)"
-  poarta: "(poarta | porțile | gardul)"
-  ventilatorul: "(ventilatorul | ventilatoarele | aerisirea | aerisirile)"
+
+  # Device classes
+  fereastra: "(fereastr(ă|a) | geam[ul])"
+  ferestrele: "(ferestre[le] | geamuri[le])"
+  usa: "u(ș|s)(ă|a)"
+  usile: "u(ș|s)i[le]"
+  poarta: "poart(ă|a)"
+  portile: "por(ț|t)i[le]"
+
+  # Other
+  vreun: "(vre(o|un))"
 skip_words:
   - "mulțumesc"
   - "multumesc"

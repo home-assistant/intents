@@ -1,0 +1,30 @@
+language: he
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - מה[ו] [הססטוס של] [ה]<name> [ב<area>]
+        response: one
+
+      - sentences:
+          - "[האם] [הססטוס של] [ה]<name> [[ש]ב<area>] [הוא] [היא] {on_off_states:state}[ים] [ב<area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "[האם] [כל] ה{on_off_domains:domain}[ים] [[ש]ב<area>] [הם] [הן] {on_off_states:state}[ים] [ב<area>]"
+        response: all
+
+      - sentences:
+          - "[האם] ה{on_off_domains:domain}[ים] [[ש]ב<area>] [הוא] [היא] {on_off_states:state}[ים] [ב<area>]"
+        response: any
+
+      - sentences:
+          - "(איזה|אילו|יש) [מה]{on_off_domains:domain}[ים] [[ש]ב<area>] [הם] [הן] {on_off_states:state}[ים] [ב<area>]"
+        response: which
+
+      - sentences:
+          - "כמה {on_off_domains:domain}[ים] [[ש]ב<area>] [הם] [הן] {on_off_states:state}[ים] [ב<area>]"
+        response: how_many

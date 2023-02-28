@@ -3,6 +3,7 @@
 # -----------------------------------------------------------------------------
 
 HassTurnOn:
+  supported: true
   domain: homeassistant
   description: "Turns on a device or entity"
   slots:
@@ -37,6 +38,7 @@ HassTurnOn:
       - "device_class"
 
 HassTurnOff:
+  supported: true
   domain: homeassistant
   description: "Turns off a device or entity"
   slots:
@@ -53,11 +55,40 @@ HassTurnOff:
       description: "Device class of devices/entities in an area"
       required: false
 
+HassGetState:
+  supported: true
+  domain: homeassistant
+  description: "Gets or checks the state of an entity"
+  slots:
+    name:
+      description: "Name of a device or entity"
+      required: false
+    area:
+      description: "Name of an area"
+      required: false
+    domain:
+      description: "Domain of devices/entities in an area"
+      required: false
+    device_class:
+      description: "Device class of devices/entities in an area"
+      required: false
+    state:
+      description: "Device class of devices/entities in an area"
+      required: false
+  response_variables:
+    state:
+      description: "State of the first entity matched"
+    query.matched:
+      description: "List of states that matched the query and state name"
+    query.unmatched:
+      description: "List of states that matched everything except state name"
+
 # -----------------------------------------------------------------------------
 # light
 # -----------------------------------------------------------------------------
 
 HassLightSet:
+  supported: true
   domain: light
   description: "Sets the brightness or color of a light"
   slots:

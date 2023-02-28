@@ -9,7 +9,7 @@ responses:
     handle_error: "Et ass en onerwaarte Feeler opgetratt"
 lists:
   color:
-     values:
+    values:
       - in: "wäiss"
         out: "white"
       - in: "schwaarz"
@@ -41,18 +41,77 @@ lists:
         out: "Celsius"
       - in: "(f|fahrenheit)"
         out: "Fahrenheit"
-
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  on_off_states:
+    values:
+      - in: "un"
+        out: "on"
+      - in: "aus"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: <light>
+        out: light
+      - in: <ventilator>
+        out: fan
+      - in: <switch>
+        out: switch
+  cover_states:
+    values:
+      - in: "(op | erop)"
+        out: "open"
+      - in: "(zou | erof)"
+        out: "closed"
+      - in: "(geet | ginn | fiert | fueren (op|erop))"
+        out: "opening"
+      - in: "(geet | ginn | fiert | fueren (zou|erof))"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "<awning>"
+        out: awning
+      - in: "<blind>"
+        out: blind
+      - in: "<curtain>"
+        out: curtain
+      - in: "<door>"
+        out: door
+      - in: "<garage>"
+        out: garage
+      - in: "<gate>"
+        out: gate
+      - in: "<shade>"
+        out: shade
+      - in: "<shutter>"
+        out: shutter
+      - in: "<window>"
+        out: window
 expansion_rules:
   name: "([den | de | d']){name}"
-  area: "([an (der | dem)] | de | am | d'){area}"
-  window: "([d']Fënster[en] | [d']Rollued[en] | [d']Jalousie[en] | [d']Kuppel[en])"
-  all_window: "(all[eguer] [d']Fënsteren | all[eguer] [d']Rollueden | all[eguer] [d']Jalousien | all[eguer] [d']Kuppelen)"
+  area: "[([an (der | dem)] | de | am | d')]{area}"
+  window: "([d']Fënster[en] | [d']Rollued[en] | [d']Jalousi[(e|ë|en)] | [d']Kuppel[en])"
+  awning: "([d']Kuppel[en] | [d']Daachkuppel[en])"
+  blind: "[d']Rollued[en]"
+  curtain: "[(de|d')] Rideau[(e|en)]"
+  door: "[d']Dier[(en|e)]"
   garage: "([d']Garage | [d']Garagëpaart)"
+  gate: "[d']Paart[en]"
+  shade: "[d']Markis[(e|en)]"
+  shutter: "[d']Jalousi[(e|ë|en)]"
+  all_window: "(all[eguer] [d']Fënsteren | all[eguer] [d']Rollueden | all[eguer] [d']Jalousien | all[eguer] [d']Kuppelen)"
+  ventilator: "([de |d']Ventilator[(ë|en)] | [d']Belëftung[(e|en)])"
   temp: "[d']Temperatur"
-  maach: "(maach | fuer)"
+  maach: "(maach | fuer | schalt | setz | änner | knips)"
   zou: "(zou | erof)"
   op: "(op | erop)"
   temperature: "{temperature} [Grad] [{temperature_unit}]"
+  brightness: "{brightness}[%| Prozent]"
+  light: "([d']Luut[en] | [d']Luucht[en] | [d']Beliichtung)"
+  switch: "([d']Schalteren | [d']Steckdous[en] | [de] Schalter)"
 skip_words:
   - "wannechgelift"
   - "merci"

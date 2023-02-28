@@ -1,0 +1,58 @@
+language: "zh-tw"
+responses:
+  intents:
+    HassGetState:
+      # 由於目前限制顯示為 4 個項目，因此跟隨英文以額外顯示。即顯示前三個名稱、剩下以數字表示。
+      # 名稱以 "、" 連接、最後一個以 "及" 表示。
+      one: |
+        {{ slots.name | capitalize }}為 {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched: %}
+          是的
+        {% else: %}
+          沒有、{{ slots.name }}是{{ state.state_with_unit }}的
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match|length > 4 %}
+            是的、{{ match[:3]|join("、") }}及另外{{ (match|length - 3) }}個
+          {%- else -%}
+            是的、{% for name in match -%}{% if not loop.first and not loop.last %}、{% elif loop.last and not loop.first %}及{% endif -%}{{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          沒有
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          是的
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            沒有、{{ no_match[:3]|join("、") }}及另外{{ (no_match|length - 3) }}個不是
+          {%- else -%}
+            沒有、{% for name in no_match -%}{% if not loop.first and not loop.last %}、{% elif loop.last and not loop.first %}及{% endif -%}{{ name }}{%- endfor %}不是
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          沒有任何
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3]|join("、") }}及另外{{ (match | length - 3) }}個
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}、{% elif loop.last and not loop.first %}及{% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

@@ -1,0 +1,59 @@
+language: zh-cn
+tests:
+  - sentences:
+      - "室外温度有多少？"
+    intent:
+      name: HassGetState
+      slots:
+        name: "室外温度"
+    response: "室外温度现在是 18 °C"
+
+  - sentences:
+      - "卧室灯是不是开着？"
+      - "卧室灯开着不？"
+    intent:
+      name: HassGetState
+      slots:
+        name: "卧室灯"
+        state: "on"
+    response: "不，卧室灯是关闭的"
+
+  - sentences:
+      - "厨房有开关开着吗？"
+      - "厨房有没有开关开着？"
+    intent:
+      name: HassGetState
+      slots:
+        area: "厨房"
+        domain: "switch"
+        state: "on"
+    response: "是的，厨房开关开着"
+
+  - sentences:
+      - "所有的开关都开着吗？"
+      - "所有的开关是不是都开着？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "不，卧室开关除外"
+
+  - sentences:
+      - "哪个灯开着？"
+      - "哪些灯是开着？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "厨房灯、客厅灯、车库灯开着"
+
+  - sentences:
+      - "有几个灯开着？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "3"

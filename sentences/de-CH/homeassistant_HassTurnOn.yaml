@@ -3,8 +3,40 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - schalt <name> y
-          - mach <name> a
+          - "(Schalt|Schaut|Schteu|Stell|Mach) <name> <a_y>"
+        excludes_context:
+          domain:
+            - light
+            - fan
+            - cover
+            - scene
+            - script
+
       - sentences:
-          - schalt <name> <area> y
-          - mach <name> <area> a
+          - "(Schalt|Schaut|Schteu|Stell|Mach) <Geräte> <area> <a_y>"
+        excludes_context:
+          domain:
+            - light
+            - fan
+            - cover
+            - scene
+            - script
+        response: default_area
+
+      - sentences:
+          - "(Aktivier|Schalt|Schaut|Schteu|Stell|Mach) <name> [Szene] [<a_y>]"
+          - "(Aktivier|Schalt|Schaut|Schteu|Stell|Mach) [d[' '] Szene] <name> [<a_y>]"
+        requires_context:
+          domain: scene
+        slots:
+          domain: scene
+        response: scene
+
+      - sentences:
+          - "(Aktivier|Start|Schtart) <name> [Script]"
+          - "(Aktivier|Start|Schtart) [(ds Script|dr Code)] <name>"
+        requires_context:
+          domain: script
+        slots:
+          domain: script
+        response: script

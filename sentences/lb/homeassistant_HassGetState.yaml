@@ -1,0 +1,30 @@
+language: lb
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - Wat [ass] [de Status vun] <name> [<area>]
+        response: one
+
+      - sentences:
+          - Ass [de Status vun] <name> {on_off_states:state} [<area>]
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - (ass|sinn) (iergendeng|iergendeen) {on_off_domains:domain} {on_off_states:state} [<area>]
+        response: any
+
+      - sentences:
+          - Sinn all [d'] {on_off_domains:domain} {on_off_states:state} [<area>]
+        response: all
+
+      - sentences:
+          - Wéi eng {on_off_domains:domain} (ass|sinn) {on_off_states:state} [<area>]
+        response: which
+
+      - sentences:
+          - Wéi vill {on_off_domains:domain} (ass|sinn) {on_off_states:state} [<area>]
+        response: how_many
