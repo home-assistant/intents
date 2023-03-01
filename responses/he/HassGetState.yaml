@@ -5,13 +5,13 @@ responses:
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
-        {{ slots.name }} הוא {{ state.state_with_unit }}
+        {{ slots.name | capitalize }} כרגע {{ state.state_with_unit }}
 
       one_yesno: |
         {% if query.matched %}
           כן
         {% else %}
-          לא, הוא {{ state.state_with_unit }}
+          לא, הוא כרגע {{ state.state_with_unit }}
         {% endif %}
 
       any: |
@@ -22,7 +22,7 @@ responses:
           {%- else -%}
             כן,
             {% for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ו {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ו{% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
@@ -38,24 +38,24 @@ responses:
           {% if no_match | length > 4 %}
             לא, {{ no_match[:3] | join(", ") }} ועוד {{ (no_match | length - 3) }} גם לא
           {%- else -%}
-            No,
+            לא,
             {% for name in no_match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ו {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} וגם{% endif -%}
               {{ name }}
-            {%- endfor %} not
+            {%- endfor %} לא
           {% endif %}
         {% endif %}
 
       which: |
         {% if not query.matched %}
-          אין
+          לא נמצאו
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
             {{ match[:3] | join(", ") }} ועוד {{ (match | length - 3) }}
           {% else %}
             {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ו {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ו{% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}

@@ -12,7 +12,7 @@ lists:
     values:
       - in: "(blanc|blanche)"
         out: "white"
-      - in: "(noir | noire)"
+      - in: "(noir|noire)"
         out: "black"
       - in: "rouge"
         out: "red"
@@ -20,11 +20,11 @@ lists:
         out: "orange"
       - in: "jaune"
         out: "yellow"
-      - in: "(vert | verte)"
+      - in: "(vert|verte)"
         out: "green"
-      - in: "(bleu | bleue)"
+      - in: "(bleu|bleue)"
         out: "blue"
-      - in: "(violet | violette)"
+      - in: "(violet|violette)"
         out: "purple"
       - in: "marron"
         out: "brown"
@@ -48,19 +48,75 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+  on_off_states:
+    values:
+      - in: "allumé[e][s]"
+        out: "on"
+      - in: "éteint[e][s]"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: lampe[s]|lumière[s]
+        out: light
+      - in: ventilateur[s]
+        out: fan
+      - in: interrupteur[s]
+        out: switch
+  cover_states:
+    values:
+      - in: "ouvert[e][s]"
+        out: "open"
+      - in: "fermé[e][s]"
+        out: "closed"
+      - in: "ouverture"
+        out: "opening"
+      - in: "fermeture"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "store[s]"
+        out: "awning"
+      - in: "store[s]"
+        out: "blind"
+      - in: "rideau[x]"
+        out: "curtain"
+      - in: "porte[s]"
+        out: "door"
+      - in: "portes[s] de garage[s]"
+        out: "garage door"
+      - in: "portail[s]"
+        out: "gate"
+      - in: "store[s]"
+        out: "shade"
+      - in: "volet[s]"
+        out: "shutter"
+      - in: "fenêtre[s]"
+        out: "window"
+  lock_states:
+    values:
+      - in: "verrouill[e][er][é][ée][s]"
+        out: "locked"
+      - in: "ferm[e][er][é][ée][s]"
+        out: "locked"
+      - in: "déverrouill[e][er][é][ée][s]"
+        out: "unlocked"
+      - in: "ouvert[e][s]"
+        out: "unlocked"
+      - in: "ouvr[e][s]"
+        out: "unlocked"
 expansion_rules:
-  name: "([le | la | les] {name} | [l']{name})"
-  area: "([le | la ] {area} | [l']{area})"
+  name: "([le|la|les] {name}|[l']{name})"
+  area: "([le|la] {area}|[l']{area})"
   brightness: "{brightness:brightness}[%| pourcent]"
   temperature: "{temperature}[°| degrés] [{temperature_unit}]"
-  regle: "(règle | met | ajuste)"
-  allume: "(allume | active | démarre)"
-  eteins: "(éteint | éteins | désactive | stoppe | arrête | coupe)"
-  lumiere: "(la lumière | la lampe | l'ampoule)"
-  lumieres: "[les] (lumières | lampes | ampoules)"
-  ventilateur: "(le ventilateur | le brasseur d'air)"
-  ventilateurs: "(les ventilateurs | les brasseurs d'air)"
-  dans: "(dans | du | de)"
+  regle: "(règle|met|ajuste)"
+  allume: "(allume|active|démarre)"
+  eteins: "(éteint|éteins|désactive|stoppe|arrête|coupe)"
+  lumiere: "(la lumière|la lampe|l'ampoule)"
+  lumieres: "[les] (lumières|lampes|ampoules)"
+  ventilateur: "(le ventilateur|le brasseur d'air)"
+  ventilateurs: "(les ventilateurs|les brasseurs d'air)"
+  dans: "(dans|du|de)"
 skip_words:
   - "s'il te plaît"
   - "merci"

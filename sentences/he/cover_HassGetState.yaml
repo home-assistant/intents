@@ -3,7 +3,7 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - האם [החלון | התריס | הוילון] <name> {cover_states:state} [ב<area>]
+          - האם [ה][חלון | תריס | וילון]<name> {cover_states:state} [ב<area>]
         response: one_yesno
         requires_context:
           domain: cover
@@ -12,24 +12,28 @@ intents:
 
       - sentences:
           - האם [יש | ישנם | ישנן] {cover_classes:device_class} (כלשהי | כלשהיא | כלשהוא | כלשהו) [ש]{cover_states:state} [ב<area>]
+          - האם [יש | ישנם | ישנן] {cover_classes:device_class} (כלשהי | כלשהיא | כלשהוא | כלשהו) [ב<area>] [ש]{cover_states:state}
         response: any
         slots:
           domain: cover
 
       - sentences:
-          - האם כל ה{cover_classes:device_class} {cover_states:state} [ב<area>]
+          - [האם] כל ה{cover_classes:device_class} [הם | הן] {cover_states:state} [ב<area>]
+          - [האם] כל ה{cover_classes:device_class} [[ש]ב<area>] [הם | הן] {cover_states:state}
         response: all
         slots:
           domain: cover
 
       - sentences:
-          - (איזה | אילו) {cover_classes:device_class} [במצב | נמצאים במצב | הם] {cover_states:state} [ב<area>]
+          - (איזה | אילו) {cover_classes:device_class} [במצב | נמצאים במצב | הם | הן] [ש]{cover_states:state} [ב<area>]
+          - (איזה | אילו) {cover_classes:device_class} [[ש]ב<area>] [במצב | נמצאים במצב | הם | הן] [ש]{cover_states:state}
         response: which
         slots:
           domain: cover
 
       - sentences:
-          - כמה {cover_classes:device_class} [במצב | נמצאים במצב | הם] {cover_states:state} [ב<area>]
+          - כמה {cover_classes:device_class} [במצב | נמצאים במצב | הם | הן] [ש]{cover_states:state} [ב<area>]
+          - כמה {cover_classes:device_class} [[ש]ב<area>] [במצב | נמצאים במצב | הם | הן] [ש]{cover_states:state}
         response: how_many
         slots:
           domain: cover

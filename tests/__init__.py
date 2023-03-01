@@ -31,6 +31,11 @@ def load_sentences(language: str) -> dict[str, Any]:
     return files
 
 
+def get_test_path(language: str, test_name: str) -> Path:
+    """Get path to test YAML file."""
+    return TESTS_DIR / language / f"{test_name}.yaml"
+
+
 def load_test(language: str, test_name: str) -> dict[str, Any]:
     """Load test sentences from tests/ for a language"""
-    return yaml.safe_load((TESTS_DIR / language / f"{test_name}.yaml").read_text())
+    return yaml.safe_load(get_test_path(language, test_name).read_text())

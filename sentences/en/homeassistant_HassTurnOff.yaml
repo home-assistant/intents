@@ -3,9 +3,14 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - <turn> off <name>
-          - <turn> <name> off
-      - sentences:
-          - <close> <name>
-          - <close> <name> in <area>
-        response: cover
+          - "<turn> off <name> [light[s]|switch[es]]"
+          - "[<turn>] <name> [light[s]|switch[es]] [to] off"
+          - "deactivate <name> [light[s]|switch[es]]"
+        excludes_context:
+          domain:
+            - binary_sensor
+            - cover
+            - lock
+            - scene
+            - script
+            - sensor

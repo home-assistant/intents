@@ -66,7 +66,7 @@ def run() -> int:
         if english_filename.name == "_common.yaml":
             continue
 
-        domain, intent = english_filename.stem.split("_")
+        domain, intent = english_filename.stem.rsplit("_", maxsplit=1)
 
         sentence_info: dict = {
             "sentences": [],
@@ -98,12 +98,12 @@ def run() -> int:
                 "language": language,
                 "responses": {
                     "errors": {
-                        "no_intent": "Sorry, I couldn't understand that",
-                        "no_area": "No area named {{ area }}",
-                        "no_domain": "{{ area }} does not contain a {{ domain }}",
-                        "no_device_class": "{{ area }} does not contain a {{ device_class }}",
-                        "no_entity": "No device or entity named {{ entity }}",
-                        "handle_error": "An unexpected error occurred while handling the intent",
+                        "no_intent": "TODO: Sorry, I couldn't understand that",
+                        "no_area": "TODO: No area named {{ area }}",
+                        "no_domain": "TODO: {{ area }} does not contain a {{ domain }}",
+                        "no_device_class": "TODO: {{ area }} does not contain a {{ device_class }}",
+                        "no_entity": "TODO: No device or entity named {{ entity }}",
+                        "handle_error": "TODO: An unexpected error occurred while handling the intent",
                     },
                 },
                 "lists": {},
@@ -120,7 +120,7 @@ def run() -> int:
         if english_filename.name == "_fixtures.yaml":
             continue
 
-        domain, intent = english_filename.stem.split("_")
+        domain, intent = english_filename.stem.rsplit("_", maxsplit=1)
 
         slots = {}
 
@@ -182,6 +182,11 @@ def run() -> int:
         intent = english_filename.stem
         with open(english_filename, "r", encoding="utf-8") as english_file:
             responses = yaml.safe_load(english_file)["responses"]
+
+        # Mark responses as needing translation
+        for intent_responses in responses["intents"].values():
+            for response_key, response_text in intent_responses.items():
+                intent_responses[response_key] = f"TODO: {response_text}"
 
         (response_dir / english_filename.name).write_text(
             yaml_dump(

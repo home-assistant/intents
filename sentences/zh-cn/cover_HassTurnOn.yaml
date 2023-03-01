@@ -3,27 +3,21 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<open> <area> (窗帘 | 卷帘 | 百叶窗)"
-          - "[<let>] <area> (窗帘 | 卷帘 | 百叶窗) <open>"
-        slots:
+          - "<open>[<area>]{name}"
+          - "[<let>][<area>]{name}<open>"
+        requires_context:
           domain: cover
-          device_class:
-            - blind
-            - curtain
-            - shutter
-        response: cover_area
+
       - sentences:
-          - "<open> <name>"
-          - "<open> <area> (门)"
-          - "[<let>] <area> (门) <open>"
+          - "<open>车库[的][大|卷闸]门"
+          - "[<let>]车库[的][大|卷闸]门<open>"
         slots:
           domain: cover
           device_class: garage
-        response: cover_door
+
       - sentences:
-          - "<open> <area> (窗户)"
-          - "[<let>] <area> (窗户) <open>"
+          - "<open>[<area>]{cover_classes:device_class}"
+          - "[<let>][<area>]{cover_classes:device_class}<open>"
         slots:
           domain: cover
-          device_class: window
-        response: cover_window
+        response: cover_device_class
