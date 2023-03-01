@@ -1,4 +1,35 @@
 language: he
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - האם [החלון | התריס | הוילון] <name> {cover_states:state} [ב<area>]
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - האם [יש | ישנם | ישנן] {cover_classes:device_class} (כלשהי | כלשהיא | כלשהוא | כלשהו) [ש]{cover_states:state} [ב<area>]
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - האם כל ה{cover_classes:device_class} {cover_states:state} [ב<area>]
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - (איזה | אילו) {cover_classes:device_class} [במצב | נמצאים במצב | הם] {cover_states:state} [ב<area>]
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - כמה {cover_classes:device_class} [במצב | נמצאים במצב | הם] {cover_states:state} [ב<area>]
+        response: how_many
+        slots:
+          domain: cover
