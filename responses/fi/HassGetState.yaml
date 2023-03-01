@@ -18,7 +18,7 @@ responses:
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Kyllä, {{ match[:3] | join(", ") }} ja {{ (match | length - 3) }} lisää
+            Kyllä, {{ match[:3] | join(", ") }} ja {{ (match | length - 3) }} muuta on
           {%- else -%}
             Kyllä,
             {% for name in match -%}
@@ -36,7 +36,7 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Ei, {{ no_match[:3] | join(", ") }} ja {{ (no_match | length - 3) }} lisää ei
+            Ei, {{ no_match[:3] | join(", ") }} ja {{ (no_match | length - 3) }} muuta ei ole
           {%- else -%}
             Ei,
             {% for name in no_match -%}
@@ -52,7 +52,7 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} ja {{ (match | length - 3) }} lisää
+            {{ match[:3] | join(", ") }} ja {{ (match | length - 3) }} muuta
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ja {% endif -%}

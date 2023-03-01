@@ -1,2 +1,64 @@
-language: fi
-tests: []
+language: "fi"
+tests:
+  - sentences:
+      - "Paljonko Ulkolämpömittari on?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Ulkolämpömittari"
+    response: "Ulkolämpömittari on 5 °C"
+
+  - sentences:
+      - "Onko Makuuhuoneen valo päällä?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Makuuhuoneen valo"
+        state: "on"
+    response: "Ei, off"
+
+  - sentences:
+      - "Onko alueessa keittiö kytkimiä päällä?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Keittiö"
+        domain: "switch"
+        state: "on"
+    response: "Kyllä, Keittiön kytkin"
+
+  - sentences:
+      - "Onko kaikki kytkimet päällä?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Ei, Makuuhuoneen kytkin ei ole"
+
+  - sentences:
+      - "onko kaikki valot pois päältä?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Ei, Autotallin valo, Keittiön kaapit, Keittiön katto ja 2 muuta ei ole"
+
+  - sentences:
+      - "mitkä valot ovat päällä?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Autotallin valo, Keittiön kaapit, Keittiön katto ja 2 muuta"
+
+  - sentences:
+      - "Montako valoa on päällä?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"
