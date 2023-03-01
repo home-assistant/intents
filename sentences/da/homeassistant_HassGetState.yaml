@@ -1,4 +1,34 @@
 language: da
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - hvad er [(status|tilstand) (på|for|i)] <name> [<i_på> <area>]
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - er [(tilstand|tilstanden|status) (på|for|i)] <name> {on_off_states:state} [<i_på> <area>]
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - er [nogen] {on_off_domains:domain} {on_off_states:state} [<i_på> <area>]
+        response: any
+
+      - sentences:
+          - er all {on_off_domains:domain} {on_off_states:state} [<i_på> <area>]
+        response: all
+
+      - sentences:
+          - (hvilken|hvilke) {on_off_domains:domain} er {on_off_states:state} [<i_på> <area>]
+        response: which
+
+      - sentences:
+          - hvor mange {on_off_domains:domain} er {on_off_states:state} [<i_på> <area>]
+        response: how_many

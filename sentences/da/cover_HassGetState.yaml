@@ -1,4 +1,35 @@
 language: da
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "er <name> {cover_states:state} [<i_på> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "er nogen {cover_classes:device_class} {cover_states:state} [<i_på> <area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "er alle {cover_classes:device_class} {cover_states:state} [<i_på> <area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(hvilken|hvilke) {cover_classes:device_class} er {cover_states:state} [<i_på> <area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "hvor mange {cover_classes:device_class} er {cover_states:state} [<i_på> <area>]"
+        response: how_many
+        slots:
+          domain: cover
