@@ -106,15 +106,15 @@ lists:
 
   lock_states:
     values:
-      - in: "(dicht|[op] gesloten|op slot)"
+      - in: "(dicht|[op] gesloten|op slot|vergrendeld)"
         out: "locked"
-      - in: "(open|geopend|niet (dicht|[op] gesloten|op slot))"
+      - in: "(open|geopend|niet (dicht|[op] gesloten|op slot|vergrendeld)|ontgrendeld)"
         out: "unlocked"
   door_lock_states:
     values:
-      - in: "op slot"
+      - in: "(op slot|vergrendeld)"
         out: "locked"
-      - in: "niet op slot"
+      - in: "(niet (op slot|vergrendeld)|ontgrendeld)"
         out: "unlocked"
 
   # binary_sensor
@@ -315,10 +315,11 @@ expansion_rules:
   zou: "(kan|kun[t]|zal|zou) [je|jij|u]"
   naar: "(naar|op)"
   detecteer: "(detecteert|registreert|detecteren|registereren|gedetecteerd|geregistreerd|waar[ ]genomen)"
-  sensor: "(apparaat|apparaten|sensor[s|en])"
+  sensor: "[een|de] (apparaat|apparaten|sensor[s|en])"
   is: "(zijn|is|staa(n|t)|zit[ten]|word[t|en]|lig(t|gen))"
   in: "[in|op|van|bij]"
-  alle: "(alle|elk[e]|ieder[e])"
+  alle: "(alle|elk[e]|ieder[e]|overal)"
+  staat: "(status|staat|stand)"
   # cover deivce classes
   awning: "(luifel[s]|[zonne]scherm[en])"
   blind: "(jaloezie[ën]|luxaflex)"
