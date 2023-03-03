@@ -317,6 +317,30 @@ intents:
           domain: binary_sensor
           device_class: update
 
+      - sentences:
+          - <is> <alle> <sensor_area> {bs_update_states:state} [<in> <area>]
+          - <is> [er] voor <alle> <sensor_area> {bs_update_states:state} (klaar|beschikbaar) [<in> <area>]
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: update
+
+      - sentences:
+          - Welk[e] <sensor_area> [is|zijn] {bs_update_states:state}
+          - Voor welk[e] <sensor_area> <is> {bs_update_states:state} (klaar|beschikbaar) [<in> <area>]
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+
+      - sentences:
+          - hoe[ ]veel <sensor_area> [is|zijn] [er] [<in> <area>] {bs_update_states:state} [<in> <area>]
+          - voor hoe[ ]veel <sensor_area> (staat|staan) [er] [<in> <area>] {bs_update_states:state} [<in> <area>] (klaar|beschikbaar) [<in> <area>]
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+
       # vibration
       - sentences:
           - "{bs_vibration_states:state} <name_area>"
@@ -343,7 +367,7 @@ intents:
           device_class: vibration
 
       - sentences:
-          - <is> <alle> <sensor_area> [<in> <area>] {bs_vibration_states:state} [<in> <area>]
+          - <is> <alle> <sensor_area> {bs_vibration_states:state} [<in> <area>]
           - <detecteer> <alle>  <sensor_area> {bs_vibration_states:state} [<in> <area>]
           - <is> [<met>] <alle> [<in> <area>][ ]<sensor> {bs_vibration_states:state} [<in> <area>] <detecteer> [<in> <area>]
         response: all
