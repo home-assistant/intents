@@ -298,8 +298,8 @@ intents:
       # update
       - sentences:
           - "<is> [<in> <area>][ ]<name> [[in|op|van] [<area>]] {bs_update_states:state} [<in> <area>]"
-          - "<is> [er] [<in> <area>] [een] {bs_update_states:state} [klaar] voor <name_area>"
-          - "<is> [er] voor <name_area> [een] {bs_update_states:state} [klaar] [<in> <area>]"
+          - "<is> [er] [<in> <area>] [een] {bs_update_states:state} [klaar|beschikbaar] voor <name_area>"
+          - "<is> [er] voor <name_area> [een] {bs_update_states:state} [klaar|beschikbaar] [<in> <area>]"
         response: bs_yesno
         requires_context:
           domain: binary_sensor
@@ -309,8 +309,9 @@ intents:
           device_class: update
 
       - sentences:
-          - "<is> [er] [ergens] [<in> <area>] (iets|<sensor>) [<in> <area>] {bs_update_states:state} [<in> <area>]"
-          - "<is> [er] [<in> <area>] [ergens] [<in> <area>] {bs_update_states:state} [klaar] [<in> <area>]"
+          - "<is> [er] [ergens] <sensor_area> {bs_update_states:state} [<in> <area>]"
+          - "<is> [er] [ergens] [<in> <area>] iets [<in> <area>] {bs_update_states:state} [<in> <area>]"
+          - "<is> [er] [<in> <area>] [ergens] [<in> <area>] {bs_update_states:state} [voor] (klaar|beschikbaar) [<in> <area>]"
         response: any
         slots:
           domain: binary_sensor

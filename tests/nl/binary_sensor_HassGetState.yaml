@@ -353,8 +353,8 @@ tests:
   - sentences:
       - "is de telefoon up to date?"
       - "is de telefoon geüpdatet"
-      - "zijn er updates voor telefoon"
-      - "staat er voor de telefoon een update klaar"
+      - "zijn er geen updates voor telefoon"
+      - "is er voor de telefoon geen update beschikbaar"
     intent:
       name: HassGetState
       slots:
@@ -363,6 +363,18 @@ tests:
         name: "Telefoon"
         state: "off"
     response: "Nee"
+
+  - sentences:
+      - "zijn er ergens apparaten niet up to date"
+      - "staat er ergens een update voor klaar"
+      - "zijn er ergens updates voor beschikbaar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "update"
+        state: "on"
+    response: "Ja, Telefoon"
 
   - sentences:
       - "Trilt de telefoon"
