@@ -1,2 +1,104 @@
 language: de
-tests: []
+tests:
+  - sentences:
+      - "wie ist die Außentemperatur?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Außentemperatur"
+    response: "Aussentemperatur ist 21 °C"
+
+  - sentences:
+      - "ist die Schlafzimmerlampe aus?"
+      - "ist die Schlafzimmerlampe ausgeschaltet?"
+      - "ist die Schlafzimmerlampe abgeschaltet?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Schlafzimmerlampe"
+        state: "off"
+    response: "Nein"
+
+  - sentences:
+      - "ist die Schlafzimmerlampe aus im Schlafzimmer?"
+      - "ist die Schlafzimmerlampe im Schlafzimmer aus?"
+      - "ist im Schlafzimmer die Schlafzimmerlampe aus?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Schlafzimmer"
+        name: "Schlafzimmerlampe"
+        state: "off"
+    response: "Nein"
+
+  - sentences:
+      - "sind irgendwelche Schalter in der Küche an?"
+      - "sind irgendwelche Schalter an in der Küche?"
+      - "sind in der Küche irgendwelche Schalter angeschaltet?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Küche"
+        domain: "switch"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "sind alle Schalter aus?"
+      - "ist jeder Schalter aus?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "off"
+    response: "Nein, Flurschalter ist es nicht"
+
+  - sentences:
+      - "sind alle Schalter im Flur aus?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Flur"
+        domain: "switch"
+        state: "off"
+    response: "Nein, Flurschalter ist es nicht"
+
+  - sentences:
+      - "sind alle Lampen an?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "welche Lampen sind an?"
+      - "welche Lampen sind angeschaltet?"
+      - "welche Lampe ist an?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Schlafzimmerlampe"
+
+  - sentences:
+      - "wie viele Lampen sind an?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "1"
+
+  - sentences:
+      - "wie viele Lampen sind an im Schlafzimmer?"
+      - "wie viele Lampen im Schlafzimmer sind an?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Schlafzimmer"
+        domain: "light"
+        state: "on"
+    response: "1"
