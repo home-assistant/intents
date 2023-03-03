@@ -1,0 +1,35 @@
+language: nb
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "er <navn> {lock_states:state} [<i_på> <område>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "er noen <dør> {lock_states:state} [<i_på> <område>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "er <alle> <dør> {lock_states:state} [<i_på> <område>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<hva> <dør> er {lock_states:state} [<i_på> <område>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "hvor mange <dør> er {lock_states:state} [<i_på> <område>]"
+        response: how_many
+        slots:
+          domain: lock

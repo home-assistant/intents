@@ -10,7 +10,7 @@ responses:
 lists:
   color:
     values:
-      - in: "weiß"
+      - in: "wei(ß|ss)"
         out: "white"
       - in: "schwarz"
         out: "black"
@@ -33,6 +33,60 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  cover_states:
+    values:
+      - in: "(offen|auf|oben)"
+        out: "open"
+      - in: "(geschlossen|zu|unten)"
+        out: "closed"
+      - in: "([am] öffnen|öffnet)"
+        out: "opening"
+      - in: "([am] schlie(ß|ss)en|schlie(ß|ss)t)"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: Markise[n]
+        out: awning
+      - in: "(Jalousie[n]|Rollo[s])"
+        out: blind
+      - in: "(Gardine[n]|Vorhang|Vorhänge)"
+        out: curtain
+      - in: Tür[e|en]
+        out: door
+      - in: "(Garagentür[e|en]|Garagentor[e])"
+        out: garage
+      - in: Tor[e]
+        out: gate
+      - in: Schirm[e]
+        out: shade
+      - in: "(Rollladen|Rollläden)"
+        out: shutter
+      - in: Fenster
+        out: window
+  lock_domains:
+    values:
+      - in: "(Schloss|Schlösser|Tür[e|en]|Tor[e])"
+        out: "lock"
+  lock_states:
+    values:
+      - in: "(([ab|zu]ge|ver)schlossen|verriegelt)"
+        out: "locked"
+      - in: "(nicht ([ab|zu]ge|ver)schlossen|entriegelt)"
+        out: "unlocked"
+  on_off_domains:
+    values:
+      - in: (Lampe[n]|Licht[er]|Leuchte[n]|Beleuchtung[en])
+        out: light
+      - in: (Ventilator[en]|Lüfter)
+        out: fan
+      - in: Schalter
+        out: switch
+  on_off_states:
+    values:
+      - in: "((an|ein)[geschaltet]|auf)"
+        out: "on"
+      - in: "((aus|ab)[geschaltet]|zu)"
+        out: "off"
   temperature:
     range:
       type: "temperature"
@@ -45,28 +99,28 @@ lists:
       - in: "(f|fahrenheit)"
         out: "Fahrenheit"
 expansion_rules:
-  name: "[(der | den | die | das)] {name}"
-  area: "(in (der | dem) | im) {area}"
+  name: "[(der|den|dem|die|das)] {name}"
+  area: "((in|an|auf) (der|dem)|im|am) {area}"
   an: "(an|ein|auf)"
   aus: "(aus|ab|zu)"
-  auf: "(auf | hoch | rauf | nach oben)"
-  zu: "(zu | [her]runter | nach unten)"
-  schliessen: "(schließ | schließe | zumachen)"
+  auf: "(auf|hoch|rauf|nach oben)"
+  zu: "(zu|[he]runter|nach unten)"
+  schliessen: "(schlie(ß|ss)|schlie(ß|ss)e|zumachen|zu machen)"
   machen: "(mach[e|en])"
-  setzen: "(setz[e|en] | stell[e|en] | einstellen | änder[e|n]| veränder[e|n])"
-  abdeckung: "(das Rollo | die Rollos | die (Abdeckung | Abdeckungen) | den Rollladen | die Rollläden | die (Jalousie | Jalousien) | den Raffstore | die Raffstores | die (Markise | Markisen))"
-  alle_abdeckungen: "alle (Rollos | Abdeckungen | Rollläden | Jalousien | Raffstores | Markisen)"
-  garage: "(die Garage | die Garagen | das Garagentor | die Garagentore)"
-  alle_garagen: "(alle Garagen | alle Garagentore)"
-  tor: "(das Tor | die Tore)"
-  alle_tore: "alle (Tore | Garagentore)"
-  luefter: "(den Ventilator | die Ventilatoren | (den | die) Lüfter)"
-  alle_luefter: "alle (Ventilatoren | Lüfter)"
-  brightness: "{brightness} [Prozent | %]"
+  setzen: "(setz[e|en]|stell[e|en]|einstellen|änder[e|n]|veränder[e|n])"
+  abdeckung: "(das Rollo|die Rollos|die (Abdeckung|Abdeckungen)|(den|die) Rolll(a|ä)den|die (Jalousie|Jalousien)|(den|die) Raffstore[s]|die (Markise|Markisen))"
+  alle_abdeckungen: "alle (Rollos|Abdeckungen|Rolll(a|ä)den|Jalousien|Raffstores|Markisen)"
+  garage: "(die Garage|die Garagen|das Garagentor|die Garagentore)"
+  alle_garagen: "(alle Garagen|alle Garagentore)"
+  tor: "(das Tor|die Tore)"
+  alle_tore: "alle (Tore|Garagentore)"
+  luefter: "(den Ventilator|die Ventilatoren|(den|die) Lüfter)"
+  alle_luefter: "alle (Ventilatoren|Lüfter)"
+  brightness: "{brightness} [Prozent|%]"
   temperature: "{temperature} [Grad] [{temperature_unit}]"
-  licht: "([das] Licht | [die] Lampe | [die] Beleuchtung)"
-  lichter: "[die | der | von den] (Lichter|Lampen|Leuchten|Beleuchtungen)"
-  alle_lichter: "(alle[r] <lichter> | von allen [Lichtern|Lampen|Leuchten|Beleuchtungen] | [die] ganze Beleuchtung)"
+  licht: "([das] Licht|[die] Lampe|[die] Beleuchtung)"
+  lichter: "[die|der|von den] (Lichter|Lichtern|Lampen|Leuchten|Beleuchtungen)"
+  alle_lichter: "(alle[r] <lichter>|von allen [Lichtern|Lampen|Leuchten|Beleuchtungen]|[die] ganze Beleuchtung)"
 skip_words:
   - "bitte"
   - "danke"

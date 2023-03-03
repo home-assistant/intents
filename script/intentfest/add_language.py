@@ -66,7 +66,7 @@ def run() -> int:
         if english_filename.name == "_common.yaml":
             continue
 
-        domain, intent = english_filename.stem.split("_")
+        domain, intent = english_filename.stem.rsplit("_", maxsplit=1)
 
         sentence_info: dict = {
             "sentences": [],
@@ -120,7 +120,7 @@ def run() -> int:
         if english_filename.name == "_fixtures.yaml":
             continue
 
-        domain, intent = english_filename.stem.split("_")
+        domain, intent = english_filename.stem.rsplit("_", maxsplit=1)
 
         slots = {}
 
