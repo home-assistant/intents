@@ -322,8 +322,6 @@ expansion_rules:
   doe: "(zet[ten]|mag|mogen|doe[n]|verander[en]|maak|maken|schakel[en])"
   zou: "(kan|kun[t]|zal|zou|wil[t]) [je|jij|u]"
   naar: "(naar|op)"
-  detecteer: "(detecteert|registreert|detecteren|registereren|gedetecteerd|geregistreerd|waar[ ]genomen)"
-  sensor: "[een|de] (apparaat|apparaten|sensor[s|en])"
   is: "(zijn|is|staa(n|t)|zit[ten]|word[t|en]|lig(t|gen))"
   alle: "(alle|elk[e]|ieder[e]|overal)"
   staat: "(status|staat|stand)"
@@ -342,6 +340,7 @@ expansion_rules:
   ventilator: "[de|een] (ventilator[s|en]|fan[s])"
   schakelaar: "[de|een] (schakelaar[s]|switch[es]|plug[gen])"
   afdekking: "[de|het] (<awning>|<blind>|<curtain>|<door>|<garage>|<gate>|<shade>|<shutter>|<window>)"
+  # lock specific
   slot: "[de|het|een] ([deur]slot[en]|vergrendeling[en])"
   op_slot: "<naar> (slot|vergrendeld)"
   van_slot: "[<naar>] (van [het] slot|ontgrendeld)"
@@ -357,6 +356,15 @@ expansion_rules:
   # cover states
   open: "(open[en]|omhoog|naar boven|opwaarts)"
   dicht: "(dicht|omlaag|naar beneden|sluiten|neerwaarts)"
+  # binary_sensor specific
+  detecteer: "(detecteert|registreert|detecteren|registereren|gedetecteerd|geregistreerd|waar[ ]genomen)"
+  sensor: "[een|de] (apparaat|apparaten|sensor[s|en])"
+  sensor_area: >
+    (
+      [[de|een] {area}][ ](apparaat|apparaten|sensor[s|en])
+      |[<in> [de|het] {area}] <sensor>
+      |[een|de] (apparaat|apparaten|sensor[s|en]) [[in|op|van|bij] <area>]
+    )
 skip_words:
   - "alstublieft"
   - "alsjeblieft"
