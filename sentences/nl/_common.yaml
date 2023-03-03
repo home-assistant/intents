@@ -311,13 +311,20 @@ expansion_rules:
   # generic expansion rules for sentences
   name: "[de|het] {name}"
   area: "[de|het] {area}"
+  in: "[in|op|van|bij]"
+  met: "(door|met|bij)"
+  name_area: >
+    (
+      [[door|met|bij] [de|het] {area}][ ]{name}
+      |[<in> [de|het] {area}] [door|met|bij] <name>
+      |[<met>] [de|het] {name} [[in|op|van|bij] <area>]
+    )
   doe: "(zet[ten]|mag|mogen|doe[n]|verander[en]|maak|maken|schakel[en])"
-  zou: "(kan|kun[t]|zal|zou) [je|jij|u]"
+  zou: "(kan|kun[t]|zal|zou|wil[t]) [je|jij|u]"
   naar: "(naar|op)"
   detecteer: "(detecteert|registreert|detecteren|registereren|gedetecteerd|geregistreerd|waar[ ]genomen)"
   sensor: "[een|de] (apparaat|apparaten|sensor[s|en])"
   is: "(zijn|is|staa(n|t)|zit[ten]|word[t|en]|lig(t|gen))"
-  in: "[in|op|van|bij]"
   alle: "(alle|elk[e]|ieder[e]|overal)"
   staat: "(status|staat|stand)"
   # cover deivce classes
@@ -335,7 +342,10 @@ expansion_rules:
   ventilator: "[de|een] (ventilator[s|en]|fan[s])"
   schakelaar: "[de|een] (schakelaar[s]|switch[es]|plug[gen])"
   afdekking: "[de|het] (<awning>|<blind>|<curtain>|<door>|<garage>|<gate>|<shade>|<shutter>|<window>)"
-  slot: "[de|het|een] ([deur]slot[en])"
+  slot: "[de|het|een] ([deur]slot[en]|vergrendeling[en])"
+  op_slot: "<naar> (slot|vergrendeld)"
+  van_slot: "[<naar>] (van [het] slot|ontgrendeld)"
+  slot_name_area: "[<in> <area>] (<slot> [van] [{area}[ ]]<name>|[de|het] {name}[ ]([deur]slot[en]|vergrendeling[en])) [[in|op|van|bij] [de|het] {area}]"
   # combination of device/entity types
   type: (<lamp>|<ventilator>|<afdekking>|<schakelaar>)
   # light brightness
