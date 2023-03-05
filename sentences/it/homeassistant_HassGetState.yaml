@@ -1,0 +1,30 @@
+language: it
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<what_is> [lo stato <of>|stato ha[nno]] [<the>] <name> [(<in>|of) <area>]"
+        response: one
+
+      - sentences:
+          - "[Lo stato <of>] [<the>] <name> è {on_off_states:state} [<in> <area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "(C'è una|Ci sono delle) {on_off_domains:domain} [<of> <area>] {on_off_states:state} [<in> <area>]"
+        response: any
+
+      - sentences:
+          - "[tutte] <the> {on_off_domains:domain} [<of> <area>] sono [tutt(i|e)] {on_off_states:state} [<in> <area>]"
+        response: all
+
+      - sentences:
+          - "(Qual(i|e)|Che) {on_off_domains:domain} [<of> <area>] (è|sono) {on_off_states:state} [<in> <area>]"
+        response: which
+
+      - sentences:
+          - "Quant(i|e) {on_off_domains:domain} [<of> <area>] (è|sono) {on_off_states:state} [<in> <area>]"
+        response: how_many

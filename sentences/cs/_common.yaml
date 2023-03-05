@@ -6,7 +6,7 @@ responses:
     no_domain: "{{ area }} neobsahuje {{ domain }}"
     no_device_class: "{{ area }} neobsahuje {{ device_class }}"
     no_entity: "Žádné zařízení ani entita se nejmenuje {{ entity }}"
-    handle_error: "Při zpracování došlo k neočekávané chybě."
+    handle_error: "Při zpracování došlo k neočekávané chybě"
 lists:
   color:
     values:
@@ -29,13 +29,257 @@ lists:
       - in: "hněd(á|ý|é|ou)"
         out: "brown"
 
+  on_off_states:
+    values:
+      - in: "(zapnut[(o|é|o|ý|á)]|rozsvícen(o|é|á))"
+        out: "on"
+      - in: "(vypnut[(o|é|ý|á)]|zhasnut(o|é|á))"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "světl(o|a)"
+        out: light
+      - in: "větrák[y]"
+        out: fan
+      - in: "vypínač[e]"
+        out: switch
+  cover_states:
+    values:
+      - in: "(otevřen(o|ý|é|á|ých)|roztažen(á|é|o|ých))"
+        out: "open"
+      - in: "(zavřen(o|ý|é|á|ých)|zatažen(é|o|á|ých))"
+        out: "closed"
+      - in: "[se] otevír(á|ají) [se]"
+        out: "opening"
+      - in: "[se] zavír(á|ají) [se]"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "markýz(a|y)"
+        out: awning
+      - in: "(žaluzi(e|í)|rolet[(a|y)])"
+        out: blind
+      - in: "závěs[y]"
+        out: curtain
+      - in: "dveře"
+        out: door
+      - in: "((garážov(é|á) (dveře|vrata))|garáž)"
+        out: garage
+      - in: "brán(a|y)"
+        out: gate
+      - in: "clon(a|y)"
+        out: shade
+      - in: "okenice"
+        out: shutter
+      - in: "okn(o|a)"
+        out: window
+
+  lock_states:
+    values:
+      - in: "zamčeno"
+        out: "locked"
+      - in: "odemčeno"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "nízké"
+        out: "on"
+      - in: "normalní"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "nabíjí"
+        out: "on"
+      - in: "nenabíjí"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "detekován"
+        out: "on"
+      - in: "čisto"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "studené"
+        out: "on"
+      - in: "normální"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "připojeno"
+        out: "on"
+      - in: "odpojeno"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "otevřené"
+        out: "on"
+      - in: "zavřené"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "otevřené"
+        out: "on"
+      - in: "zavřené"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "detekován"
+        out: "on"
+      - in: "nezjištěn"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "horké"
+        out: "on"
+      - in: "normalní"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "detekován"
+        out: "on"
+      - in: "tma"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "odemčeno"
+        out: "on"
+      - in: "zamčeno"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "vlhké"
+        out: "on"
+      - in: "suché"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "detekován"
+        out: "on"
+      - in: "bez pohybu"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "přítomný"
+        out: "on"
+      - in: "nepřítomný"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "otevřený"
+        out: "on"
+      - in: "zavřený"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "připojen"
+        out: "on"
+      - in: "odpojen"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(zapojen|připojen)"
+        out: "on"
+      - in: "nepřipojen"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(doma|přítomný)"
+        out: "on"
+      - in: "(pryč|nepřítomný)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "detekován"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "běží"
+        out: "on"
+      - in: "neběží"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "nebezpečné"
+        out: "on"
+      - in: "bezpečné"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "detekován"
+        out: "on"
+      - in: "nedetekován"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "hraje"
+        out: "on"
+      - in: "nehraje"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(detekován|ovlivňován)"
+        out: "on"
+      - in: "čistý"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "update k dispozici"
+        out: "on"
+      - in: "nejnovější verze"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(detekován|vibruje)"
+        out: "on"
+      - in: "(v klidu|nevibruje)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "otevřené"
+        out: "on"
+      - in: "zavřené"
+        out: "closed"
+
   # might be used for all MIN/MAX sentences,
   # so intended to leave just min_max rather then brightness_level
   # in need to change declaration - change also light_HassLightSet
-  min_max:
+  max:
     values:
       - in: "(max|maxi(mum|mální)|[co] nej(víc|vyšší|větší))"
         out: 100
+  min:
+    values:
       - in: "(min|mini(mum|mální)|[co] nej(míň|menší|nižší))"
         out: 1
   brightness:
@@ -60,7 +304,7 @@ expansion_rules:
   area: "[(na|v|ve)] {area}"
   zapnout: "(zapni|zapnout)"
   vypnout: "(vypni|vypnout|zastavit|zastav)"
-  rozsvitit: "(rozsviť|rozsvítit|rožn[i|out])" #some dialect to be served for users :)
+  rozsvitit: "(rozsviť|rozsvítit|rožn(i|out))" #some dialect to be served for users :)
   zhasnout: "(zhasni|zhasnout)"
   nastavit: "(nastav|nastavit)"
   zmenit: "(změň|změnit)"
@@ -72,6 +316,7 @@ expansion_rules:
   otevrit: "(otevři|otevřít)"
   roztahnout: "(roz|vy|od)táhn(out|i)"
   zatahnout: "zatáhn(out|i)"
+  ktere: "(kter(á|é)|jak(é|á))"
 
 skip_words:
   - "prosím"

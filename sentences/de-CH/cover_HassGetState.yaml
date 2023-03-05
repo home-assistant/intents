@@ -1,0 +1,49 @@
+language: de-CH
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "Was isch der Status vo[(m|r)] <name> [<area>]"
+        response: one
+        slots:
+          domain: cover
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "Isch [der Status] <name> {cover_states:state} [<area>]"
+        response: one_yesno
+        slots:
+          domain: cover
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "Isch (e|ei|es) {cover_classes:device_class} {cover_states:state} [<area>]"
+          - "Isch (e|ei|es) {cover_classes:device_class} <area> {cover_states:state} "
+          - "Isch <area> (e|ei|es) {cover_classes:device_class} {cover_states:state}"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "Sy [(d'[' ']|d |alli |aui )]{cover_classes:device_class} {cover_states:state} [<area>]"
+          - "Sy [(d'[' ']|d |alli |aui )]{cover_classes:device_class} <area> {cover_states:state}"
+          - "Sy <area> [(d'[' ']|d |alli |aui )]{cover_classes:device_class} {cover_states:state}"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(Wele|weli) {cover_classes:device_class} (isch|sy|si) {cover_states:state} [<area>]"
+          - "(Wele|weli) {cover_classes:device_class} <area> (isch|sy|si) {cover_states:state}"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "Wie mäng[s|e|i] {cover_classes:device_class} (isch|sy|si) {cover_states:state} [<area>]"
+          - "Wie mäng[s|e|i] {cover_classes:device_class} <area> (isch|sy|si) {cover_states:state}"
+        response: how_many
+        slots:
+          domain: cover

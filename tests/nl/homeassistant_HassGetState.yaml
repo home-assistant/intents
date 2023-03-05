@@ -1,0 +1,151 @@
+language: nl
+tests:
+  - sentences:
+      - "Wat is de buitentemperatuur"
+      - "Wat is buitentemperatuurstatus"
+      - "Wat is de staat van de buitentemperatuur"
+      - "Status buitentemperatuur"
+      - "Buitentemperatuur status"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Buitentemperatuur"
+    response: "Buitentemperatuur is 15 °C"
+
+  - sentences:
+      - "Wat is de status van speelhoekventilator in woonkamer"
+      - "Wat is in de woonkamer de huidige stand van speelhoek ventilator"
+      - "Wat is de speelhoekventilatorstatus in woonkamer"
+      - "Status speelhoekventilator in woonkamer"
+      - "woonkamerspeelhoekventilatorstatus"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Speelhoek"
+        area: "Woonkamer"
+    response: "Speelhoek is uit"
+
+  - sentences:
+      - "Staat het slaapkamerlampje aan?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Slaapkamerlampje"
+        state: "on"
+    response: "Nee, die is uit"
+
+  - sentences:
+      - "Staat de werkbank in de garage aan?"
+      - "Staat in de garage de werkbankverlichting aan?"
+      - "Staat in garage de huidige stand van werkbank lamp op aan?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Werkbank"
+        area: "Garage"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "Staan er lampen aan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Ja, Keukenlamp aanrecht, Keukenlamp kastjes, Keukenlamp plafond en nog 2"
+
+  - sentences:
+      - "Staan er schakelaars aan in de keuken?"
+      - "Staan er in de keuken schakelaars aan?"
+      - "Staan er schakelaars in de keuken aan?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Keuken"
+        domain: "switch"
+        state: "on"
+    response: "Ja, Keukenschakelaar"
+
+  - sentences:
+      - "Zijn alle schakelaars aan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Nee, Slaapkamerschakelaar en Waterkoker niet"
+
+  - sentences:
+      - "Zijn alle lampen uit?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Nee, Keukenlamp aanrecht, Keukenlamp kastjes, Keukenlamp plafond en nog 2 niet"
+
+  - sentences:
+      - "Zijn alle schakelaars uit in de keuken?"
+      - "Is de schakelaar in keuken uit?"
+      - "Staan in de keuken alle schakelaars uit?"
+      - "Staat in de keuken de schakelaar uit?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "off"
+        area: "Keuken"
+    response: "Nee, Keukenschakelaar niet"
+
+  - sentences:
+      - "Welke lampen staan aan?"
+      - "Welke verlichting staat aan?"
+      - "Welke lamp staat aan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Keukenlamp aanrecht, Keukenlamp kastjes, Keukenlamp plafond en nog 2"
+
+  - sentences:
+      - "Welke verlichting staat aan in de keuken?"
+      - "Welke lampen in de keuken staan aan?"
+      - "Welke lamp is in de keuken aan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+        area: "Keuken"
+    response: "Keukenlamp aanrecht, Keukenlamp kastjes en Keukenlamp plafond"
+
+  - sentences:
+      - "Welke lampen staan uit?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Slaapkamerlampje en Staande lamp"
+
+  - sentences:
+      - "Hoeveel lampen staan aan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"
+
+  - sentences:
+      - "Hoeveel lampen staan aan in de keuken?"
+      - "Hoe veel licht staat er in de keuken aan"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+        area: "Keuken"
+    response: "3"

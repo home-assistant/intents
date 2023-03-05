@@ -1,0 +1,65 @@
+language: fr
+tests:
+  - sentences:
+      - "quel est la température extérieure ?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "température extérieure"
+    response: "L'etat de l'appareil Température extérieure est 21 °C"
+
+  - sentences:
+      - "La lampe de chevet de la chambre est allumée ?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "lampe de chevet"
+        state: "on"
+        area: "chambre"
+    response: "Non, éteinte"
+
+  - sentences:
+      - "Quel est le statut de l'interrupteur de l'entrée ?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "interrupteur"
+        area: "entrée"
+    response: "L'etat de l'appareil Interrupteur est allumé"
+
+  - sentences:
+      - "tous les interrupteurs sont allumés ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Oui"
+
+  - sentences:
+      - "certaines lumières sont-elles éteintes ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Oui, l'appareil lampe de chevet est éteinte"
+
+  - sentences:
+      - "quelles sont les lumières allumées ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Les appareils lampe de l'entrée et lumière du plafond sont allumés"
+
+  - sentences:
+      - "combien de lumières sont allumées ?"
+      - "combien y a-t-il de lumières d'allumées ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "2"

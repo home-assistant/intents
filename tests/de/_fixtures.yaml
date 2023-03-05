@@ -2,6 +2,8 @@ language: de
 areas:
   - name: Küche
     id: kitchen
+  - name: Flur
+    id: corridor
   - name: Wohnzimmer
     id: living_room
   - name: Schlafzimmer
@@ -10,16 +12,65 @@ areas:
     id: garage
   - name: Garten
     id: garden
+  - name: Eingang
+    id: entrance
 entities:
   - name: Schlafzimmerlampe
     id: light.bedroom_lamp
+    state: "on"
     area: bedroom
   - name: Küchenschalter
     id: switch.kitchen
+    state: "off"
     area: kitchen
+  - name: Flurschalter
+    id: switch.corridor
+    state: "on"
+    area: corridor
   - name: Deckenventilator
     id: fan.ceiling
     area: living_room
-  - name: Wohnzimmerthermostat
+  - name: Wohnzimmertemperatur
     id: temperature.living_room
     area: living_room
+    state: "23"
+    attributes:
+      unit_of_measurement: "°C"
+  - name: Wohnzimmerthermostat
+    id: climate.living_room
+    area: living_room
+    state: "22"
+    attributes:
+      unit_of_measurement: "°C"
+  - name: "Rollo links"
+    id: "cover.wohnzimmer_rollo_links"
+    area: living_room
+    state: open
+    attributes:
+      device_class: blind
+  - name: "Rollo rechts"
+    id: "cover.wohnzimmer_rollo_rechts"
+    area: living_room
+    state: closed
+    attributes:
+      device_class: blind
+  - name: "Rollo vorn"
+    id: "cover.kueche_rollo_vorn"
+    area: kitchen
+    state: closed
+    attributes:
+      device_class: blind
+  - name: "Außentemperatur"
+    id: "sensor.outside_temperature"
+    area: "garage"
+    state: "21"
+    attributes:
+      unit_of_measurement: "°C"
+  - name: "Haustür"
+    id: "lock.front_door"
+    area: "entrance"
+    state: "locked"
+
+  - name: "Hintertür"
+    id: "lock.back_door"
+    state: "unlocked"

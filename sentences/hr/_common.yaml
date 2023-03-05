@@ -37,9 +37,9 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: (maksimum | najjače | maksimalnu | maksimalno)
+      - in: (maksimum|najjače|maksimalnu|maksimalno)
         out: 100
-      - in: (minimum | minimalnu | minimalno | najslabije | najmanje)
+      - in: (minimum|minimalnu|minimalno|najslabije|najmanje)
         out: 1
   temperature:
     range:
@@ -49,24 +49,69 @@ lists:
   temperature_unit:
     values:
       - "celsius"
-      - in: "c | celzijus | celzijusa | celzija | celzijev | celzijevih | celczijeva"
+      - in: "c|celzijus|celzijusa|celzija|celzijev|celzijevih|celczijeva"
         out: "celsius"
       - "fahrenheit"
       - in: "f | faranhajd | faranhajda"
         out: "fahrenheit"
+  on_off_states:
+    values:
+      - in: "uključen[a|e|i|o|ih]|upaljen[a|e|i|o|ih]"
+        out: "on"
+      - in: "isključen[a|e|i|o|ih]|ugašen[a|e|i|o|ih]"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "svjetl(o|a)|svjetala"
+        out: "light"
+      - in: "ventilator(i|a)"
+        out: "fan"
+      - in: "prekidač[a|i]|sklopk[a|e|i]"
+        out: "switch"
+  cover_states:
+    values:
+      - in: "otvoren[a|o|i|ih]|podignut(a)"
+        out: "open"
+      - in: "zatvoren[a|o|i|ih]|spušten(a)|navučen(a)"
+        out: "closed"
+      - in: "otvaram"
+        out: "opening"
+      - in: "zatvaram"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: cerad(a|e|u)|tend(a|e|u)|nadstrešnic(a|e|u)
+        out: awning
+      - in: rolet(a|e|u)|sjenil(o|a)|zasun[e]
+        out: blind
+      - in: zavjes(a|e|u)|zastor[e]
+        out: curtain
+      - in: vrata
+        out: door
+      - in: garažna vrata
+        out: garage
+      - in: kapij(a|e|u)
+        out: gate
+      - in: žaluzin(a|e|u)|škura(a|e)
+        out: shade
+      - in: zasun[e]|kapak|kapke
+        out: shutter
+      - in: prozor[a|e|i]
+        out: window
 expansion_rules:
   name: "{name}"
   area: "[prostorij[i|a]] {area}"
   brightness: "{brightness}[%| posto]"
   temperature: "{temperature}[°| <stupanj>] [{temperature_unit}]"
-  stupanj: "[stupanj | stupnjeva]"
-  temp: "temperatura | temperaturu"
-  uključi: "uključi[te|mo] | upali[te|mo]"
-  isključi: "isključi[te|mo] | ugasi[te|mo]"
-  promijeni: "podesi[te|mo] | namjesti[te|mo] | postavi[te|mo] | stavi | promijeni[te|mo] | smanji | povećaj "
-  otvori: "otvori[te|mo] | podigni[te|mo]"
-  zatvori: "zatvori[te|mo] | spusti[te|mo]"
-  koja_je: "koja je | kolika je | kakva je | reci [mi]"
+  stupanj: "[stupanj|stupnjeva]"
+  temp: "temperatura|temperaturu"
+  uključi: "uključi[te|mo]|upali[te|mo]"
+  isključi: "isključi[te|mo]|ugasi[te|mo]"
+  promijeni: "podesi[te|mo]|namjesti[te|mo]|postavi[te|mo]|stavi|promijeni[te|mo]|smanji|povećaj"
+  otvori: "otvori[te|mo]|podigni[te|mo]"
+  zatvori: "zatvori[te|mo]|spusti[te|mo]|navuci"
+  koja_je: "koja je|kolika je|kakva je|reci [mi]"
+  sve: "[sve|sva|svi]"
 skip_words:
   - "molim [te|vas] [da]"
   - "može(š|te) [li] [da]"

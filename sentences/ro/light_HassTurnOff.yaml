@@ -3,13 +3,20 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<opreste> [toate] <lumina> [<din>] <area>"
-          - "<opreste> [<din>] <area> [toate] <lumina>"
+          - "<opreste> <name>"
+        slots:
+          domain: light
+        requires_context:
+          domain: light
+        response: light
+      - sentences:
+          - "<opreste> (<lumina> | [toate] <luminile>) [<din>] <area>"
+          - "<opreste> [<din>] <area> (<lumina> | [toate] <luminile>)"
         slots:
           domain: light
         response: lights_area
       - sentences:
-          - "<opreste> [toate] <lumina>"
+          - "<opreste> (<lumina> | [toate] <luminile>)"
         slots:
           domain: light
         requires_context:

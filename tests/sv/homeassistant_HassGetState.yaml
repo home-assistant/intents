@@ -1,0 +1,84 @@
+language: sv
+tests:
+  - sentences:
+      - "vad är det för status på sänglampan?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Sänglampan"
+    response: "Sänglampan är av"
+
+  - sentences:
+      - "är sänglampan på?"
+      - "är sänglampan tänd?"
+      - "är sänglampan igång?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Sänglampan"
+        state: "on"
+    response: "Nej, den är av"
+
+  - sentences:
+      - "är köksskåp på?"
+      - "är köksskåp tänd?"
+      - "är köksskåp igång?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Köksskåp"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "är någon brytare på i köket?"
+      - "är någon strömbrytare på i köket?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Kök"
+        domain: "switch"
+        state: "on"
+    response: "Ja, Köksbrytaren"
+
+  - sentences:
+      - "är alla brytare på?"
+      - "är alla strömbrytare på?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Nej, inte Sovrumsbrytaren"
+
+  - sentences:
+      - "är alla ljus av?"
+      - "är alla ljus avstängda?"
+      - "är alla ljus släckta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Nej, inte Bänkbelysning, Köks taklampa, Köksskåp och 3 fler"
+
+  - sentences:
+      - "vilka lampor är på"
+      - "vilka lampor är igång"
+      - "vilka ljus är påslagna?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Bänkbelysning, Köks taklampa, Köksskåp och 3 fler"
+
+  - sentences:
+      - "hur många lampor är på?"
+      - "hur många lampor är tända?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "6"

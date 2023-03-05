@@ -1,0 +1,58 @@
+language: zh-cn
+tests:
+  - sentences:
+      - "左侧窗帘是关着吗？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "左侧窗帘"
+        state: "closed"
+    response: "不，左侧窗帘是打开的"
+
+  - sentences:
+      - "客厅有没有窗帘开着？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "客厅"
+        device_class: curtain
+        state: "open"
+    response: "是的，左侧窗帘开着"
+
+  - sentences:
+      - "客厅所有的窗帘都开着吗？"
+      - "所有的客厅窗帘都开着吗？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "客厅"
+        device_class: curtain
+        state: "open"
+    response: "不，右侧窗帘除外"
+
+  - sentences:
+      - "哪些窗帘关了？"
+      - "哪个窗帘是关着的？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response:
+      - "卧室窗帘、右侧窗帘关了"
+      - "卧室窗帘、右侧窗帘关着的"
+
+  - sentences:
+      - "有多少窗帘关了？"
+      - "有几个窗帘是关着的？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"

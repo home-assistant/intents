@@ -1,0 +1,38 @@
+language: zh-cn
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "[<area>]{name}(是|是不是){cover_states:state}[吗|不]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[{area}][有|有没有]{cover_classes:device_class}[是|是不是]{cover_states:state}[吗|不]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>][<all>]{cover_classes:device_class}[是|是不是]都[是]{cover_states:state}[吗|不]"
+          - "<all><area>{cover_classes:device_class}[是|是不是]都[是]{cover_states:state}[吗|不]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>]<which>{cover_classes:device_class}[是]{cover_states:state}"
+          - "<which>[<area>]{cover_classes:device_class}[是]{cover_states:state}"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[{area}]<how_many_is>{cover_classes:device_class}[是]{cover_states:state}"
+          - "<how_many_is>[<area>]{cover_classes:device_class}[是]{cover_states:state}"
+        response: how_many
+        slots:
+          domain: cover

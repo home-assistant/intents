@@ -1,0 +1,63 @@
+language: pl
+responses:
+  intents:
+    HassGetState:
+      one: |
+        {{ slots.name | capitalize }} jest {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched: %}
+        Tak
+        {% else: %}
+        Nie, {{ slots.name }} jest {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Tak, {{ match[:3] | join(", ") }} oraz {{ (match | length - 3) }} więcej
+          {%- else -%}
+            Tak,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Nie
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Tak
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nie, {{ no_match[:3] | join(", ") }} oraz {{ (no_match | length - 3) }} nie ma już więcej
+          {%- else -%}
+            Nie,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor %} nie
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Żaden
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} oraz {{ (match | length - 3) }} inne
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

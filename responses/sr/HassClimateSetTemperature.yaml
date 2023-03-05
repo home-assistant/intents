@@ -2,4 +2,7 @@ language: sr
 responses:
   intents:
     HassClimateSetTemperature:
-      default: Temperature set to {{ slots.temperature }} degrees
+      default: >
+        {% set value = state.state | round | int | abs %}
+        {% set variant = 0 if (value % 10 == 1 and value != 11) else 1 if (value % 10 in [2, 3, 4] and (value < 10 or value > 20)) else 2 %}
+        Температура је постављена на {{ slots.temperature }} {{ ['степен', 'степена', 'степени'][variant] }}

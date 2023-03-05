@@ -1,0 +1,30 @@
+language: lt
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - (koks|kokia) [yra] <name> [statusas] [<area>]
+        response: one
+
+      - sentences:
+          - ar <name> {on_off_states:state} [<area>]
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - ar {on_off_domains:domain} {on_off_states:state} [<area>]
+        response: any
+
+      - sentences:
+          - ar (visa|visos) {on_off_domains:domain} {on_off_states:state} [<area>]
+        response: all
+
+      - sentences:
+          - (kurios|kurie) {on_off_domains:domain} [yra] {on_off_states:state} [<area>]
+        response: which
+
+      - sentences:
+          - kiek {on_off_domains:domain} [yra] {on_off_states:state} [<area>]
+        response: how_many

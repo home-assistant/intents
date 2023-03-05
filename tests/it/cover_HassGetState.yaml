@@ -1,0 +1,56 @@
+language: it
+tests:
+  - sentences:
+      - "La tenda sinistra è chiusa?"
+      - "tenda sinistra è chiusa?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Tenda Sinistra"
+        state: "closed"
+    response: "No, è aperta"
+
+  - sentences:
+      - "Ci sono delle tende aperta in soggiorno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Soggiorno"
+        device_class: curtain
+        state: "open"
+    response: "No"
+
+  - sentences:
+      - "Tutte le tende in soggiorno sono aperta?"
+      - "Tutte tende in soggiorno sono aperte?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Soggiorno"
+        device_class: curtain
+        state: "open"
+    response: "No, Tenda Destra e Tenda Sinistra no"
+
+  - sentences:
+      - "Che tende sono chiuse?"
+      - "Quale tende sono chiuse?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Tapparella e Tenda Destra"
+
+  - sentences:
+      - "Quante tende sono chiuse?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"

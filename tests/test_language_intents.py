@@ -47,7 +47,10 @@ def do_test_language_sentences(
     language_sentences_common: Intents,
 ) -> None:
     """Ensure all language sentences contain valid slots, lists, rules, etc."""
-    file_domain, file_intent = file_name.split(".")[0].split("_", 1)
+    if file_name not in language_sentences_yaml:
+        return
+
+    file_domain, file_intent = Path(file_name).stem.rsplit("_", maxsplit=1)
 
     parsed_sentences_without_common = Intents.from_dict(
         language_sentences_yaml[file_name]
@@ -84,9 +87,9 @@ def do_test_language_sentences(
                         "domain" not in data.slots
                     ), f"File {file_name} should only have sentences without a domain slot"
                 else:
-                    assert (
-                        data.slots.get("domain") == file_domain
-                    ), f"File {file_name} should only have sentences with a domain slot set to {file_domain}"
+                    assert (data.slots.get("domain") == file_domain) or (
+                        data.requires_context.get("domain") == file_domain
+                    ), f"File {file_name} should only have sentences with a domain slot or context key set to {file_domain}"
 
             for sentence in data.sentences:
                 found_slots: set[str] = set()

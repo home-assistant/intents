@@ -1,0 +1,94 @@
+language: fr
+responses:
+  intents:
+    HassGetState:
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      one: |
+        L'etat de l'appareil {{ slots.name | capitalize }} est {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched %}
+          Oui
+        {% else %}
+          Non, {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% set count_match = no_match | length | int %}
+          {% if match | length > 4 %}
+            Oui, {{ match[:3] | join(", ") }} et {{ (match | length - 3) }} autres
+          {% elif no_match | length == 0 %}
+            Oui, l'appareil
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {% endfor %}
+            est {{ state.state_with_unit }}
+          {%- else -%}
+            Oui, les appareils
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {% endfor %}
+            sont {{ state.state_with_unit }}s
+          {% endif %}
+        {% else %}
+          Non
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Oui
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% set count_match = no_match | length | int %}
+          {% if no_match | length > 4 %}
+            Non, {{ no_match[:3] | join(", ") }} et {{ (no_match | length - 3) }} autres, ne sont pas {{ state.state_with_unit }}
+          {% elif no_match | length == 1 %}
+            Non, l'appareil
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {%- endfor %}
+            n'est pas {{ state.state_with_unit }}
+          {%- else -%}
+            Non, les appareils 
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {%- endfor %}
+            ne sont pas {{ state.state_with_unit }}s
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Aucun appareil
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% set count_match = match | length | int %}
+          {% if match | length > 4 %}
+            Les appareils 
+            {{ match[:3] | join(", ") }} et {{ (match | length - 3) }} autres
+          {% elif match | length == 1 %}
+            L'appareil 
+            {% for name in match %}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {% endfor %}
+            est {{ state.state_with_unit }}
+          {% else %}
+            Les appareils 
+            {% for name in match %}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {% endfor %}
+            sont {{ state.state_with_unit }}s
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

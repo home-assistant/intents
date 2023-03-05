@@ -1,0 +1,37 @@
+language: it
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "[<the>] <name> è {cover_states:state} [<in> <area>]"
+          - "è {cover_states:state} <name> [<in> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(C'è una|Ci sono delle) {cover_classes:device_class} {cover_states:state} [<in> <area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<the> {cover_classes:device_class} [<of> <area>] sono [tutt(i|e)] {cover_states:state} [<in> <area>]"
+          - "[tutt(i|e)] [<the>] {cover_classes:device_class} [(<of>|<in>) <area>] sono {cover_states:state} [<in> <area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(Qual(i|e)|Che) {cover_classes:device_class} [<of> <area>] (è|sono) {cover_states:state} [<in> <area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "Quant(i|e) {cover_classes:device_class} [<of> <area>] (è|sono) {cover_states:state} [<in> <area>]"
+        response: how_many
+        slots:
+          domain: cover

@@ -1,0 +1,40 @@
+language: es
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "está <name> {cover_states:state} [<area>]"
+          - "está <name> [<area>] {cover_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "hay [(algún|alguna|algunos|algunas)] {cover_classes:device_class} {cover_states:state}[ <area>]"
+          - "está (algún|alguna) {cover_classes:device_class} ({cover_states:state}[ <area>]|[<area> ]{cover_states:state})"
+          - "están (algúnos|algunas) {cover_classes:device_class} ({cover_states:state}[ <area>]|[<area> ]{cover_states:state})"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "están (todos|todas) [las|los] {cover_classes:device_class} {cover_states:state}[ <area>]"
+          - "están (todos|todas) [las|los] {cover_classes:device_class} [<area> ]{cover_states:state}"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(qué|cuál|cuáles) {cover_classes:device_class} (está|están|hay) {cover_states:state}[ <area>]"
+          - "(qué|cuál|cuáles) {cover_classes:device_class} [<area> ](está|están|hay) {cover_states:state}"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(cuántos|cuántas) {cover_classes:device_class} (están|hay) {cover_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: cover

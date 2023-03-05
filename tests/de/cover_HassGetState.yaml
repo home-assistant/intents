@@ -1,0 +1,107 @@
+language: de
+tests:
+  # response einzeln_janein
+  - sentences:
+      - "ist das Rollo links im Wohnzimmer offen?"
+      - "ist im Wohnzimmer das Rollo links offen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        name: "Rollo links"
+        state: "open"
+    response: "Ja"
+  - sentences:
+      - "öffnet das Rollo links im Wohnzimmer?"
+      - "öffnet sich das Rollo links im Wohnzimmer?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        name: "Rollo links"
+        state: "opening"
+    response: "Nein"
+
+  # response irgendeins
+  - sentences:
+      - "sind irgendwelche Rollos offen im Wohnzimmer?"
+      - "sind irgendwelche Rollos im Wohnzimmer offen?"
+      - "sind im Wohnzimmer irgendwelche Rollos offen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: blind
+        state: "open"
+    response: "Ja, Rollo links"
+  - sentences:
+      - "sind irgendwelche Rollos geschlossen im Wohnzimmer?"
+      - "sind irgendwelche Rollos im Wohnzimmer geschlossen?"
+      - "sind im Wohnzimmer irgendwelche Rollos geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: blind
+        state: "closed"
+    response: "Ja, Rollo rechts"
+
+  # response alle
+  - sentences:
+      - "sind alle Rollos im Wohnzimmer oben?"
+      - "ist jedes Rollo im Wohnzimmer oben?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: blind
+        state: "open"
+    response: "Nein, Rollo rechts ist es nicht"
+
+  # response welches
+  - sentences:
+      - "welche Rollos im Wohnzimmer sind offen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: blind
+        state: "open"
+    response: "Rollo links"
+  - sentences:
+      - "welche Rollos im Wohnzimmer sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: blind
+        state: "closed"
+    response: "Rollo rechts"
+
+  # response wie_viele
+  - sentences:
+      - "Wie viele Rollos im Wohnzimmer sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: blind
+        state: "closed"
+    response: "1"
+  - sentences:
+      - "Wie viele Rollos sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        state: "closed"
+    response: "2"

@@ -1,0 +1,36 @@
+language: ca
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - (quin és|com es troba) [l'estat|l'estat de] <name> [<area>]
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - (el|la) [dispositiu] <name> es troba {on_off_states:state} [<area>]
+          - m'he deixat [el|la] <name> {on_off_states:state}
+          - m'he deixat [el|la] {on_off_domains:domain} [<area>] {on_off_states:state}
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - hi ha [cap] {on_off_domains:domain} {on_off_states:state} [<area>]
+        response: any
+
+      - sentences:
+          - (tots els|totes les) {on_off_domains:domain} (hi son|es troben) {on_off_states:state} [<area>]
+        response: all
+
+      - sentences:
+          - quin[e]s {on_off_domains:domain} hi ha {on_off_states:state} [<area>]
+        response: which
+
+      - sentences:
+          - quant[e]s {on_off_domains:domain} hi ha {on_off_states:state} [<area>]
+        response: how_many

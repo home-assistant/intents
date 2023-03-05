@@ -1,0 +1,32 @@
+language: nl
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - Wat is [<in> <area>] [[de] [huidige] <staat> [van]] [<area>][ ]<name>[ ][<type>][ ][<staat>] [<in> <area>]
+          - "[<in> <area>] [de] [huidige] <staat> [van] [<area>][ ]<name>[ ][<type>]  [<in> <area>]"
+          - "[<in> <area>][ ]<name>[ ][<type>][ ][<staat>]  [<in> <area>]"
+        response: one
+
+      - sentences:
+          - <is> [<in> <area>] [[de] [huidige] <staat> [van]] <name>[ ][<type>][ ][<staat>] [<in> <area>] [op] {on_off_states:state} [<in> <area>]
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - <is> er [<in> <area>] {on_off_domains:domain} [<in> <area>] {on_off_states:state} [<in> <area>]
+        response: any
+
+      - sentences:
+          - <is> [<in> <area>] [<alle>] [de] {on_off_domains:domain} [<in> <area>] {on_off_states:state} [<in> <area>]
+        response: all
+
+      - sentences:
+          - Welk[e] {on_off_domains:domain} [<in> <area>] <is> [<in> <area>] {on_off_states:state} [<in> <area>]
+        response: which
+
+      - sentences:
+          - Hoe[ ]veel {on_off_domains:domain} <is> [er] [<in> <area>] {on_off_states:state} [<in> <area>]
+        response: how_many

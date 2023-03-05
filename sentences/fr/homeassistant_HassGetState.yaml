@@ -1,0 +1,34 @@
+language: fr
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - quel est [l'etat de|le statut de ] <name> [(dans|de) <area>]
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - <name> [(dans|de) <area>] (est|est-elle) {on_off_states:state}
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - (certains|certaines) {on_off_domains:domain} [sont|sont-ils|sont-elles] {on_off_states:state} [dans <area>]
+        response: any
+
+      - sentences:
+          - (tous|toutes) les {on_off_domains:domain} [sont|sont-ils|sont-elles] {on_off_states:state} [dans <area>]
+        response: all
+
+      - sentences:
+          - (quelle[s]|quel[s]) sont les {on_off_domains:domain} {on_off_states:state} [dans <area>]
+        response: which
+
+      - sentences:
+          - combien [(il y a|y a-t-il)] de {on_off_domains:domain} [sont] [d']{on_off_states:state} [dans <area>]
+        response: how_many

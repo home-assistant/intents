@@ -1,0 +1,25 @@
+language: zh-tw
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<open> [<area>] <name>"
+          - "<let> [<area>] <name> <open>"
+        requires_context:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<let> 車庫門 <open>"
+          - "<open> 車庫門"
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover_device_class
+
+      - sentences:
+          - "<open> <area> {cover_classes:device_class}"
+          - "<let> <area> {cover_classes:device_class} <open>"
+        slots:
+          domain: cover
+        response: cover_device_class

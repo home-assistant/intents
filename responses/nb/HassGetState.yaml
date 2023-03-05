@@ -1,0 +1,62 @@
+language: nb
+responses:
+  intents:
+    HassGetState:
+      one: |
+        {{ slots.name }} er {{ state.state_with_unit }}
+      one_yesno: |
+        {% if query.matched %}
+        Ja
+        {% else: %}
+        Nei, {{ state.state_with_unit }}
+        {% endif %}
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Ja, {{ match[:3] | join(", ") }} og {{ (match | length - 3) }} til
+          {%- else -%}
+            Ja,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} og {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else: %}
+        Nei
+        {% endif %}
+      all: |
+        {% if not query.unmatched %}
+        Ja
+        {% else: %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nei, ikke {{ no_match[:3] | join(", ") }} og {{ (no_match | length - 3) }} til
+          {%- else -%}
+            Nei, ikke
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} og {% endif -%}
+              {{ name }}
+            {%- endfor %}
+          {% endif %}
+        {% endif %}
+      which: |
+        {% if not query.matched %}
+        Ingen
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} og {{ (match | length - 3) }} til
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} og {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+      how_many: |
+        {% if not query.matched: %}
+        0
+        {% else: %}
+        {{ query.matched | length }}
+        {% endif %}

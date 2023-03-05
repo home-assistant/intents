@@ -1,0 +1,31 @@
+language: sv
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - (vad|hur) är [det för] [status på] <name> [<i_på> <area>]
+        response: one
+
+      - sentences:
+          - är <name> {on_off_states:state} [<i_på> <area>]
+          - är <name> [<i_på> <area>] {on_off_states:state}
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - är (någon|något|några) {on_off_domains:domain} {on_off_states:state} [<i_på> <area>]
+        response: any
+
+      - sentences:
+          - är alla {on_off_domains:domain} {on_off_states:state} [<i_på> <area>]
+        response: all
+
+      - sentences:
+          - (vilka|vilken) {on_off_domains:domain} är {on_off_states:state} [<i_på> <area>]
+        response: which
+
+      - sentences:
+          - hur många {on_off_domains:domain} är {on_off_states:state} [<i_på> <area>]
+        response: how_many
