@@ -1,0 +1,27 @@
+language: zh-tw
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "(關上|關閉|上鎖|鎖上)[<area>]<name>"
+        requires_context:
+          domain: lock
+        response: lock
+      - sentences:
+          - "[<let>][<area>]<name>(關上|關閉|上鎖|鎖上)"
+        requires_context:
+          domain: lock
+        response: lock
+
+      - sentences:
+          - "(關上|關閉|上鎖|鎖上)[<area>]<all>(<name>|門鎖|鎖)"
+        slots:
+          domain: "lock"
+          name: "all"
+        response: lock
+      - sentences:
+          - "[<let>][<area>]<all>(<name>|門鎖|鎖|門)(關上|關閉|上鎖|鎖上)"
+        slots:
+          domain: "lock"
+          name: "all"
+        response: lock
