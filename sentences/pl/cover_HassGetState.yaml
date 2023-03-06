@@ -1,4 +1,39 @@
 language: pl
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - czy <name> {cover_states:state} [<area>]
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+        response: one_yesno
+
+      - sentences:
+          - "czy są [jakieś|któreś|jaiekolwiek|którekowliek] rolety {lock_states:state} [<area>]"
+          - "czy są [jakieś|któreś|jaiekolwiek|którekowliek] {lock_states:state} rolety [<area>]"
+        slots:
+          domain: cover
+        response: any
+
+      - sentences:
+          - czy <all> rolety są {cover_states:state} [<area>]
+          - czy <all> {cover_classes:device_class} są {cover_states:state} [<area>]
+        slots:
+          domain: cover
+        response: all
+
+      - sentences:
+          - "(które|jakie) rolety są {lock_states:state} [<area>]"
+          - "(które|jakie) {cover_classes:device_class} są {lock_states:state} [<area>]"
+        slots:
+          domain: cover
+        response: which
+
+      - sentences:
+          - ile rolet jest {cover_states:state} [<area>]
+          - ile {cover_classes:device_class} jest {cover_states:state} [<area>]
+        slots:
+          domain: cover
+        response: how_many
