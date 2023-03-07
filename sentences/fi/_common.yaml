@@ -2,12 +2,32 @@ language: "fi"
 responses:
   errors:
     no_intent: "Olen pahoillani, en ymmärrä mitä tarkoitat"
-    no_area: "En löydä tilaa nimellä {{ area }}"
+    no_area: "Ei ole aluetta nimellä {{ area }}"
     no_domain: "{{ area }} ei sisällä {{ domain }}"
     no_device_class: "{{ area }} ei sisällä {{ device_class }}"
     no_entity: "Ei laitetta tai kohdetta nimellä {{ entity }}"
-    handle_error: "Asian käsittelyssä odottamaton ongelma"
+    handle_error: "Asian käsittelyssä tapahtui odottamaton ongelma"
 lists:
+  color:
+    values:
+      - in: "(valkoinen|valkois(en|ta|ena|eksi|essa|esta|een|ella|elta|elle|etta|ina|ineen)|valkois(et|ten|ia|iksi|issa|ista|iin|illa|ilta|ille|itta|in))"
+        out: "white"
+      - in: "(musta|must(an|aa|ana|aksi|assa|asta|aan|alla|alta|alle|atta|ina|ineen)|mustat|musti(en|a|ksi|ssa|sta|in|lla|lta|lle|tta|n))"
+        out: "black"
+      - in: "punainen|punais(en|ta|ena|eksi|essa|esta|een|ella|elta|elle|etta|ina|ineen)|punais(et|ten|ia|ina|iksi|issa|ista|iin|illa|ilta|ille|itta|in|ineen)"
+        out: "red"
+      - in: "(oranss(i|in|ia|ina|iksi|issa|ista|iin|illa|ilta|ille|itta|ineen)|oranss(it|ien|eja|eina|eiksi|eissa|eista|eihin|eilla|eilta|eille|eitta|ein|eineen))"
+        out: "orange"
+      - in: "keltainen|keltais(en|ta|ena|eksi|essa|esta|een|ella|elta|elle|etta|ina|ineen)|keltais(et|ten|ia|ina|iksi|issa|ista|iin|illa|ilta|ille|itta|in|ineen)"
+        out: "yellow"
+      - in: "vihreä|vihre(än|ää|änä|äksi|ässä|ästä|ään|ällä|ältä|älle|ättä|inä|ineen)|vihre(ät|iden|itä|inä|iksi|issä|istä|isiin|illä|iltä|ille|ittä|in)"
+        out: "green"
+      - in: "sininen|sinis(en|tä|enä|eksi|essä|estä|een|ellä|eltä|elle|etta|inä|ineen)|sinis(et|ten|iä|iksi|issä|istä|iin|illä|iltä|ille|itta|in)"
+        out: "blue"
+      - in: "violetti|violet(in|tia|tina|iksi|issa|ista|tiin|illa|ilta|ille|itta|tineen)|violet(it|tien|teja|teina|eiksi|eissa|eista|teihin|eilla|eilta|eille|teitta|ein)"
+        out: "purple"
+      - in: "ruskea|ruskea(n|a|na|ksi|ssa|sta|an|lla|lta|lle|tta)|ruskeat|ruskei(den|ta|ksi|ssa|sta|siin|lla|lta|lle|tta)"
+        out: "brown"
   brightness:
     range:
       type: "percentage"
@@ -26,43 +46,239 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
-  color:
+  brightness_level:
     values:
-      - in: "valkoinen"
-        out: "white"
-      - in: "musta"
-        out: "black"
-      - in: "punainen"
-        out: "red"
-      - in: "keltainen"
-        out: "yellow"
-      - in: "sininen"
-        out: "blue"
-      - in: "vihreä"
-        out: "green"
+      - in: "(max|maksimi|maksimiin|maksimi tasolle|korkein|korkeimmalle tasolle)"
+        out: 100
+      - in: "(min|minimi|minimiin|alin|matalin|matalimmalle tasolle)"
+        out: 1
+  on_off_states:
+    values:
+      - in: "(<päälle>|päällä)"
+        out: "on"
+      - in: "<päältä>"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "(<valo>|<valot>|<valaistus>|<valaistukset>|valoa)"
+        out: "light"
+      - in: "(<tuuletin>|<tuulettimet>)"
+        out: "fan"
+      - in: "(<kytkin>|<kytkimet>|kytkimiä)"
+        out: "switch"
+  cover_states:
+    values:
+      - in: "(auki|avoinna|avattu)"
+        out: "open"
+      - in: "open"
+        out: "avoinna"
+      - in: "(kiinni|suljettu)"
+        out: "closed"
+      - in: "avautuu"
+        out: "opening"
+      - in: "sulkeutuu"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "markiisi[t]"
+        out: "awning"
+      - in: "(kaihdin|kaihtimet|sälekaihdin|sälekaihtimet)"
+        out: "blind"
+      - in: "verho[t]"
+        out: "curtain"
+      - in: "(ovi|ovet)"
+        out: "door"
+      - in: "autotallin (ovi|ovet)"
+        out: "garage"
+      - in: "(portti|portit)"
+        out: "gate"
+      - in: "varjo[t]"
+        out: "shade"
+      - in: "(luukku|luukut)"
+        out: "shutter"
+      - in: "ikkuna[t]"
+        out: "window"
+  lock_states:
+    values:
+      - in: "(lukittu|lukossa|lukittuna)"
+        out: "locked"
+      - in: "(auki|avoinna|lukitsematta)"
+        out: "unlocked"
 expansion_rules:
-  laita: "(kytke|käynnistä|aseta)"
-  mikä: "(mikä|mikä on)"
-  temp: "(lämpö|lämpötila)"
-  area: "{area}"
-  brightness: "{brightness} [Prosenttia]"
-  name: "{name}"
-  turn: "(käännä|kytke)"
-  turn_on: "(laita|laita päälle)"
-  turn_off: "(poista|laita pois)"
+  # On off states
+  päälle: "päälle" # on
+  päältä: "(päältä|pois|pois päältä)" # off
 
-  kerro: "(kerro|näytä|sano)"
-  kuinka: "(kuinka|miten)"
-  paljonko: "(paljonko|mikä)"
-  lämpötila: "(lämpötila|lämpö|sisälämpötila|ulkolämpötila|asteet)"
-  lämpötilaltaan: "(lämpötilaltaan|lämmöltään|sisälämpötilaltaan|ulkolämpötilaltaan|asteiltaan)"
-  nyt: "(nyt|juuri nyt|just nyt|tällä hetkellä)"
+  # On off domains - Lights
+  valo: "(valo|valaisin|lamppu|polttimo|ledi)" # light, singular
+  valot: "(valot|valaisimet|lamput|polttimot|ledit)" # lights, plural
+  valaistus: "(valaistus|valaisu)" # illumination, passive
+  valaistukset: "(valaistukset|valaisut)" # illuminations, plural
 
+  # On off domains - Fans
+  tuuletin: "(tuuletin|tuuletus|puhallin|puhallus|ilmastointi|ilmanvaihto)" # fan, singular
+  tuulettimet: "(tuulettimet|tuuletukset|puhaltimet|puhallukset|ilmastoinnit|ilmanvaihdot)" # fans, plural
+
+  # On off domains - Switches
+  kytkin: "(kytkin|vipu)" # switch, singular
+  kytkimet: "(kytkimet|vivut)" # switches, plural
+
+  # Actions / Verbs
+  kerro: "(kerro|näytä|sano)" # tell|show|say
+  kytke: "(kytke|laita|aseta)" # toggle|put|set
+  käynnistä: "(käynnistä|starttaa)" # run|start
+  pysäytä: "(pysäytä|sammuta|stoppaa)" # stop|turn off|stop
+  avaa: "(avaa|aukaise|nosta)" # open|open|raise
+  sulje: "(sulje|laske)" # close|lower
+  laita: "(kytke|aseta|käännä|säädä|pistä|muuta|laita)" # toggle|set|turn|adjust|put|change (for brightness)
+
+  kuinka: "(kuinka|miten)" # how..
+  onko: "(onko|onhan|onkohan|oliko)" # are singular
+  ovatko: "(ovatko|olivatko)" # are plural
+  paljonko: "(paljonko|mikä|<kuinka> paljon)" # how much|what
+  montako: "(montako|moniko|kuinka moni|kuinka monet|kuinka monta|miten moni|miten monta)" # how many
+  nyt: "(nyt|juuri nyt|just nyt|tällä hetkellä)" # Now
+
+  lämpötila: "(lämpötila|lämpö|sisälämpötila|ulkolämpötila|asteet)" # temperature|warmth|indoor temperature|outdoo temperature|degrees
+  # lämpötilaltaan: "(lämpötilaltaan|lämmöltään|sisälämpötilaltaan|ulkolämpötilaltaan|asteiltaan)"
+  asteeseen: "{temperature}[ ]([°|asteeseen|astetta][ ][{temperature_unit}]|{temperature_unit}[ ][°|asteeseen|astetta])"
+
+  # Brightness percentage singular forms
+  k_prosentti: "{brightness}[ ][%|prosentti]" # nominatiivi = mikä, kuka
+  # k_prosentin: "{brightness}[ ]prosentin" # genetiivi = minkä, kenen
+  k_prosenttia: "{brightness}[ ]prosenttia" # partitiivi = mitä, ketä
+  # k_prosenttina: "{brightness}[ ]prosenttina" # essiivi = minä, kenä
+  k_prosentiksi: "{brightness}[ ]prosentiksi" # translatiivi = miksi, keneksi
+  # k_prosentissa: "{brightness}[ ]prosentissa" # inessiivi = missä, kenessä
+  # k_prosentista: "{brightness}[ ]prosentista" # elatiivi = mistä, kenestä
+  k_prosenttiin: "{brightness}[ ]prosenttiin" # illatiivi = mihin, keneen
+  # k_prosentilla: "{brightness}[ ]prosentilla" # adessiivi = millä, kenellä
+  # k_prosentilta: "{brightness}[ ]prosentilta" # ablatiivi = miltä, keneltä
+  k_prosentille: "{brightness}[ ]prosentille" # allatiivi = mille, kenelle
+  # k_prosentitta: "{brightness}[ ]prosentitta" # abessiivi = ilman mitä, ketä
+  # Brightness percentage plural forms
+  # k_prosentit: "{brightness}[ ][%|prosentit]" # monikon nominatiivi
+  # k_prosenttien: "{brightness}[ ]prosenttien" # monikon genetiivi
+  # k_prosentteja: "{brightness}[ ]prosentteja" # monikon partitiivi
+  # k_prosentteina: "{brightness}[ ]prosentteina" # monikon essiivi
+  # k_prosenteiksi: "{brightness}[ ]prosenteiksi" # monikon translatiivi
+  # k_prosenteissa: "{brightness}[ ]prosenteissa" # monikon inessiivi
+  # k_prosenteista: "{brightness}[ ]prosenteista" # monikon elatiivi
+  # k_prosentteihin: "{brightness}[ ]prosentteihin" # monikon illatiivi
+  # k_prosenteilla: "{brightness}[ ]prosenteilla" # monikon adessiivi
+  # k_prosenteilta: "{brightness}[ ]prosenteilta" # monikon ablatiivi
+  # k_prosenteille: "{brightness}[ ]prosenteille" # monikon allatiivi
+  # k_prosenteitta: "{brightness}[ ]prosenteitta" # monikon abessiivi
+
+  # Brightness, singular forms
+  kirkkaus: "(kirkkaus|valoteho|loiste|intensiteetti)"
+  # kirkkauden: "(kirkkauden|valotehon|loisteen|intensiteetin)"
+  # kirkkautta: "(kirkkautta|valotehoa|loistetta|intensiteettiä)"
+  # kirkkautena: "(kirkkautena|valotehona|loisteena|intensiteettinä)"
+  kirkkaudeksi: "(kirkkaudeksi|valotehoksi|loisteeksi|intensiteetiksi)"
+  # kirkkaudessa: "(kirkkaudessa|valotehossa|loisteessa|intensiteetissä)"
+  # kirkkaudesta: "(kirkkaudesta|valotehosta|loisteesta|intensiteetistä)"
+  kirkkauteen: "(kirkkauteen|valotehoon|loisteeseen|intensiteettiin)"
+  # kirkkaudella: "(kirkkaudella|valoteholla|loisteella|intensiteetillä)"
+  # kirkkaudelta: "(kirkkaudelta|valoteholta|loisteelta|intensiteetiltä)"
+  kirkkaudelle: "(kirkkaudelle|valoteholle|loisteelle|intensiteetille)"
+  # kirkkaudetta: "(kirkkaudetta|valotehotta|loisteetta|intensiteetittä)"
+  # Brightness, plural forms
+  # kirkkaudet: "(kirkkaudet|valotehot|loisteet|intensiteetit)"
+  # kirkkauksien: "(kirkkauksien|valotehojen|loisteiden|intensiteettien)"
+  # kirkkauksia: "(kirkkauksia|valotehoja|loisteita|intensiteettejä)"
+  # kirkkauksina: "(kirkkauksina|valotehoina|loisteina|intensiteetteinä)"
+  # kirkkauksiksi: "(kirkkauksiksi|valotehoiksi|loisteiksi|intensiteeteiksi)"
+  # kirkkauksissa: "(kirkkauksissa|valotehoissa|loisteissa|intensiteeteissä)"
+  # kirkkauksista: "(kirkkauksista|valotehoista|loisteista|intensiteeteistä)"
+  # kirkkauksiin: "(kirkkauksiin|valotehoihin|loisteisiin|intensiteetteihin)"
+  # kirkkauksilla: "(kirkkauksilla|valotehoilla|loisteilla|intensiteeteillä)"
+  # kirkkauksilta: "(kirkkauksilta|valotehoilta|loisteilta|intensiteeteiltä)"
+  # kirkkauksille: "(kirkkauksille|valotehoille|loisteille|intensiteeteille)"
+  # kirkkauksitta: "(kirkkauksitta|valotehoitta|loisteitta|intensiteeteittä)"
+
+  # Color, singular forms
+  väri: "(väri|[väri]sävy|värivivahde)"
+  # värin: "(värin|[väri]sävyn|värivivahteen)"
+  # väriä: "(väriä|[väri]sävyä|värivivahdetta)"
+  # värinä: "(värinä|[väri]sävynä|värivivahteena)"
+  väriksi: "(väriksi|[väri]sävyksi|värivivahteeksi)"
+  # värissä: "(värissä|[väri]sävyssä|värivivahteessa)"
+  # väristä: "(väristä|[väri]sävystä|värivivahteesta)"
+  väriin: "(väriin|[väri]sävyyn|värivivahteeksi)"
+  # värillä: "(värillä|[väri]sävyllä|värivivahteella)"
+  # väriltä: "(väriltä|[väri]sävyltä|värivivahteelta)"
+  värille: "(värille|[väri]sävylle|värivivahteelle)"
+  # värittä: "(värittä|[väri]sävyttä|värivivahteetta)"
+  # Color, plural forms
+  värit: "(värit|[väri]sävyt|värivivahdteet)"
+  # värien: "(värien|[väri]sävyjen|värivivahteiden)"
+  # värejä: "(värejä|[väri]sävyjä|värivivahteita)"
+  # väreinä: "(väreinä|[väri]sävyinä|värivivahteina)"
+  väreiksi: "(väreiksi|[väri]sävyiksi|värivivahteiksi)"
+  # väreissä: "(väreissä|[väri]sävyissä|värivivahteissa)"
+  # väreistä: "(väreistä|[väri]sävyistä|värivivahteista)"
+  väreihin: "(väreihin|[väri]sävyihin|värivivahteisiin)"
+  # väreillä: "(väreillä|[väri]sävyillä|värivivahteilla)"
+  # väreiltä: "(väreiltä|[väri]sävyiltä|värivivahteilta)"
+  väreille: "(väreille|[väri]sävyille|värivivahteille)"
+  # väreittä: "(väreittä|[väri]sävyittä|värivivahteitta)"
+
+  huone: "{area}" # Room, this Finnish version helps when reading sentences
+
+  jokin: "(jokin|mikään|joku|ainutkaan|yksikään)" # any - singular
+  jotkut: "(jotkut|mitkään|yhdetkään)" # any - plural
+  kaikki: "(kaikki|jokainen|jokikinen)" # all
+
+  # Device prefix to avoid congjugating devices if possible, singular form
+  laite: "[äly]laite"
+  laitteen: "[äly]laitteen"
+  # laitetta: "[äly]laitetta"
+  # laitteena: "[äly]laitteena"
+  # laitteeksi: "[äly]laitteeksi"
+  laitteessa: "[äly]laitteessa"
+  laitteesta: "[äly]laitteesta"
+  laitteeseen: "[äly]laitteeseen"
+  # laitteella: "[äly]laitteella"
+  laitteelta: "[äly]laitteelta"
+  laitteelle: "[äly]laitteelle"
+  # laitteetta: "[äly]laitteetta"
+  # Plural form
+  # laitteet: "[äly]laitteet"
+  # laitteiden: "[äly]laitteiden"
+  # laitteita: "[äly]laitteita"
+  # laitteina: "[äly]laitteina"
+  # laitteiksi: "[äly]laitteiksi"
+  # laitteissa: "[äly]laitteissa"
+  # laitteista: "[äly]laitteista"
+  # laitteisiin: "[äly]laitteisiin"
+  # laitteilla: "[äly]laitteilla"
+  # laitteilta: "[äly]laitteilta"
+  # laitteille: "[äly]laitteille"
+  # laitteitta: "[äly]laitteitta"
+
+  # Area prefix to avoid congjugating areas if possible
+  alue: "(alue|paikka|huone|tila)" # nominatiivi = mikä, kuka
+  alueen: "(alueen|paikan|huoneen|tilan)" # genetiivi = minkä, kenen
+  # aluetta: "(aluetta|paikkaa|huonetta|tilaa)" # partitiivi = mitä, ketä
+  # alueena: "(alueena|paikkana|huoneena|tilana)" # essiivi = minä, kenä
+  # alueeksi: "(alueeksi|paikaksi|huoneeksi|tilaksi)" # translatiivi = miksi, keneksi
+  alueessa: "(alueessa|paikassa|huoneessa|tilassa)" # inessiivi = missä, kenessä
+  alueesta: "(alueesta|paikasta|huoneesta|tilasta)" # elatiivi = mistä, kenestä
+  alueeseen: "(alueeseen|paikkaan|huoneeseen|tilaan)" # illatiivi = mihin, keneen
+  alueella: "(alueella|paikalla|huoneella|tilalla)" # adessiivi = millä, kenellä
+  alueelta: "(alueelta|paikalta|huoneelta|tilalta)" # ablatiivi = miltä, keneltä
+  alueelle: "(alueelle|paikalle|huoneelle|tilalle)" # allatiivi = mille, kenelle
+  # alueetta: "(alueetta|paikatta|huoneetta|tilatta)" # abessiivi = ilman mitä, ketä
+  # aluein: "(aluein|paikoin|huonein|tiloin)" # instruktiivi = miten
+  # alueineen: "(alueineen|paikkoineen|huoneineen|tiloineen)" # komitatiivi = minkä, kenen kanssa
+
+  # Hot | Warm conjugations
   kuuma: "(kuuma|lämmin|lämpöinen)" # nominatiivi = mikä, kuka
   kuuman: "(kuuman|lämpimän|lämpöisen)" # genetiivi = minkä, kenen
   kuumaa: "(kuumaa|lämmintä|lämpöistä)" # partitiivi = mitä, ketä
   kuumana: "(kuumana|lämpimänä|lämpöisenä)" # essiivi = minä, kenä
-  # kuumaksi: "(kuumaksi|lämpimäksi|lämpöiseksi)" # translatiivi = miksi, keneksi
+  kuumaksi: "(kuumaksi|lämpimäksi|lämpöiseksi)" # translatiivi = miksi, keneksi
   # kuumassa: "(kuumassa|lämpimässä|lämpöisessä)" # inessiivi = missä, kenessä
   # kuumasta: "(kuumasta|lämpimästä|lämpöisestä)" # elatiivi = mistä, kenestä
   # kuumaan: "(kuumaan|lämpimään|lämpöiseen)" # illatiivi = mihin, keneen
@@ -73,18 +289,22 @@ expansion_rules:
   # kuumine: "(kuumine|lämpimä|lämpöise)" # instruktiivi = miten
   # kuumineen: "(kuumineen|lämpimä|lämpöise)" # komitatiivi = minkä, kenen kanssa
 
+  # Cold | Cool conjugations
   kylmä: "(kylmä|viileä|vilpoinen)" # nominatiivi = mikä, kuka
   kylmän: "(kylmän|viileän|vilpoisen)" # genetiivi = minkä, kenen
   kylmää: "(kylmää|viileää|vilpoista)" # partitiivi = mitä, ketä
   kylmänä: "(kylmänä|viileänä|vilpoisena)" # essiivi = minä, kenä
-  # kylmäksi: "kylmäksi" # translatiivi = miksi, keneksi
-  # kylmässä: "kylmässä" # inessiivi = missä, kenessä
-  # kylmästä: "kylmästä" # elatiivi = mistä, kenestä
-  # kylmään: "kylmään" # illatiivi = mihin, keneen
-  # kylmällä: "kylmällä" # adessiivi = millä, kenellä
+  kylmäksi: "(kylmäksi|viileäksi|vilpoiseksi)" # translatiivi = miksi, keneksi
+  # kylmässä: "(kylmässä|viileässä|vilpoisessa)" # inessiivi = missä, kenessä
+  # kylmästä: "(kylmästä|viileästä|vilpoisesta)" # elatiivi = mistä, kenestä
+  # kylmään: "(kylmään|viileään|vilpoiseen)" # illatiivi = mihin, keneen
+  # kylmällä: "(kylmällä|viileällä|vilpoisella)" # adessiivi = millä, kenellä
   # kylmältä: "(kylmältä|viileältä|vilpoiselta)" # ablatiivi = miltä, keneltä
   # kylmälle: "(kylmälle|viileälle|vilpoiselle)" # allatiivi = mille, kenelle
-  # kylmättä: "kylmättä" # abessiivi = ilman mitä, ketä
-  # kylmine: "kylmine" # instruktiivi = miten
-  # kylmineen: "kylmineen" # komitatiivi = minkä, kenen kanssa
-skip_words: []
+  # kylmättä: "(kylmättä|viileättä|vilpoisetta)" # abessiivi = ilman mitä, ketä
+  # kylmine: "(kylmine|viileine|vilpoisine)" # instruktiivi = miten
+  # kylmineen: "(kylmineen|viileineen|vilpoisineen)" # komitatiivi = minkä, kenen kanssa
+
+skip_words:
+  - "voitko" # Can you
+  - "voisitko" # Could you
