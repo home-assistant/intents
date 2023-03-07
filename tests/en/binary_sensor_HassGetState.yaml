@@ -470,6 +470,8 @@ tests:
 
   - sentences:
       - "are any water sensors wet?"
+      - "is the floor wet?"
+      - "is the water wensor wet"
       - "is there any leak?"
     intent:
       name: HassGetState
@@ -477,6 +479,17 @@ tests:
         domain: binary_sensor
         device_class: moisture
         state: "on"
+    response: "No"
+
+  - sentences:
+      - "is the kitchen flooded?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+        area: "Kitchen"
     response: "No"
 
   - sentences:
@@ -524,7 +537,8 @@ tests:
 
   - sentences:
       - "are any motion sensors triggered?"
-      - "is there any motion detected?"
+      - "is motion detected?"
+      - "is there any motion?"
     intent:
       name: HassGetState
       slots:
