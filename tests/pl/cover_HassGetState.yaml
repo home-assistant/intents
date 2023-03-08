@@ -2,6 +2,7 @@ language: pl
 tests:
   - sentences:
       - "czy lewa zasłona jest zamknięta?"
+      - "czy jest zamknięta lewa zasłona?"
     intent:
       name: HassGetState
       slots:
@@ -11,23 +12,24 @@ tests:
     response: "Nie, lewa zasłona jest otwarta"
 
   - sentences:
-      - "czy jest jakaś otwarta zasłona w salonie?"
-      - "czy w salonie jest jakaś otwarta zasłona?"
-      - "czy w salonie jest otwarta jakaś zasłona?"
+      - "czy w salonie lewa zasłona jest zamknięta?"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        device_class: curtain
+        name: "Lewa zasłona"
+        state: "closed"
         area:
           - Salonie
           - Salonu
-        state: "open"
-    response: "Tak, Lewa zasłona"
+    response: "Nie, lewa zasłona jest otwarta"
 
   - sentences:
       - "czy jest jakaś otwarta roleta w salonie?"
       - "czy w salonie jest jakaś otwarta roleta?"
+      - "czy w salonie jest otwarta jakaś roleta?"
+      - "czy są jakieś rolety otwarte w salonie?"
+      - "czy są jakieś otwarte rolety w salonie?"
     intent:
       name: HassGetState
       slots:
@@ -40,20 +42,25 @@ tests:
     response: "Nie"
 
   - sentences:
-      - "czy wszystkie zasłony w salonie są otwarte?"
+      - "czy jest jakaś otwarta zasłona w salonie?"
+      - "czy w salonie jest jakaś otwarta zasłona?"
+      - "czy w salonie jest otwarta jakaś zasłona?"
+      - "czy są jakieś zasłony otwarte w salonie?"
+      - "czy są jakieś otwarte zasłony w salonie?"
     intent:
       name: HassGetState
       slots:
         domain: cover
+        device_class: curtain
         area:
           - Salonie
           - Salonu
-        device_class: curtain
         state: "open"
-    response: "Nie, Prawa zasłona nie jest"
+    response: "Tak, Lewa zasłona"
 
   - sentences:
       - "czy wszystkie rolety w salonie są otwarte?"
+      - "czy wszystkie rolety są otwarte w salonie?"
     intent:
       name: HassGetState
       slots:
@@ -66,7 +73,22 @@ tests:
     response: "Tak"
 
   - sentences:
+      - "czy wszystkie zasłony w salonie są otwarte?"
+      - "czy wszystkie zasłony są otwarte w salonie?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area:
+          - Salonie
+          - Salonu
+        device_class: curtain
+        state: "open"
+    response: "Nie, Prawa zasłona nie jest"
+
+  - sentences:
       - które zasłony są odsłonięte?
+      - jakie zasłony są odsłonięte?
     intent:
       name: HassGetState
       slots:
