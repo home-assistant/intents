@@ -42,9 +42,9 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - in: "c|攝氏|度|℃"
+      - in: "c|攝氏|度|°C|℃"
         out: "celsius"
-      - in: "f|華氏|度|℉"
+      - in: "f|華氏|度|°F|℉"
         out: "fahrenheit"
   brightness_level:
     values:
@@ -54,9 +54,9 @@ lists:
         out: 1
   on_off_states:
     values:
-      - in: "(打開|開著|開了|開咗)[的]"
+      - in: "(打開|開著|開了|開咗|開)[的]"
         out: "on"
-      - in: "(關閉|關著|關了|關咗|閂咗)[的]"
+      - in: "(關閉|關著|關了|關咗|閂咗|閂)[的]"
         out: "off"
   on_off_domains:
     values:
@@ -66,6 +66,43 @@ lists:
         out: fan
       - in: "(開關|開關制|電源|插座|通斷器)"
         out: switch
+  cover_states:
+    values:
+      - in: "(打開|開著|開了|開咗|打開)[的|咗]"
+        out: open
+      - in: "(關閉|關著|關了|關咗|閂咗)[的|咗]"
+        out: closed
+      - in: "打開緊"
+        out: opening
+      - in: "關閉緊"
+        out: closing
+  cover_classes:
+    values:
+      - in: "(遮陽|雨)(蓬|棚)"
+        out: awning
+      - in: "(百葉窗|百葉簾|捲簾)"
+        out: blind
+      - in: "窗簾"
+        out: curtain
+      - in: "(門|房門|捲閘門)"
+        out: door
+      - in: "車房門"
+        out: garage
+      - in: "(大門|院子門|鐵門)"
+        out: gate
+      - in: "遮陽簾"
+        out: shade
+      - in: "百葉窗戶"
+        out: shutter
+      - in: "窗戶"
+        out: window
+  lock_states:
+    values:
+      - in: "(已上鎖|鎖著|鎖上|鎖了|鎖咗)[的|嘅]"
+        out: locked
+      - in: "(已解鎖|沒[有][上]鎖|無[上]鎖)[的|嘅]"
+        out: unlocked
+
 expansion_rules:
   name: "{name}[的|嘅]"
   area: "{area}[的|嘅]"
