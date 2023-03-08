@@ -52,13 +52,28 @@ lists:
         out: 100
       - in: (最小|最暗|最低|最黑)
         out: 1
+  on_off_states:
+    values:
+      - in: "(打開|開著|開了|開咗)[的]"
+        out: "on"
+      - in: "(關閉|關著|關了|關咗|閂咗)[的]"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "(燈|天花燈|筒燈|射燈|檯燈|床頭燈|燈光)"
+        out: light
+      - in: "(風扇|電風扇|塔扇|吊扇)"
+        out: fan
+      - in: "(開關|開關制|電源|插座|通斷器)"
+        out: switch
 expansion_rules:
   name: "{name}[的|嘅]"
   area: "{area}[的|嘅]"
   let: "[請|把|给|讓]"
-  all: "(全部|所有)[的]"
+  all: "(全部|所有)[的|嘅]"
   what_is: "是什麼"
-  how_many_is: "(是|有)多少"
+  how_many_is: "(是|有)(多少|幾|幾個)"
+  which: "[有|有没有|有無]哪[一](個|些)"
   brightness: "[百分之]{brightness}[%]"
   to: "(為|到|至)"
   set_to: "(設置|設定|調節|調)(為|到|至)"

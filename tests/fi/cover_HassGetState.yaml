@@ -1,2 +1,53 @@
 language: fi
-tests: []
+tests:
+  - sentences:
+      - "onko verho vasen suljettu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Verho vasen"
+        state: "closed"
+    response: "Ei, open"
+
+  - sentences:
+      - "onko yhdetkään verhot auki alueessa olohuone?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Olohuone"
+        device_class: curtain
+        state: "open"
+    response: "Kyllä, Verho vasen"
+
+  - sentences:
+      - "onko kaikki verhot auki tilassa olohuone?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Olohuone"
+        device_class: curtain
+        state: "open"
+    response: "Ei, Verho oikea ei ole"
+
+  - sentences:
+      - "mitkä verhot on suljettu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Makuuhuoneen verho ja Verho oikea"
+
+  - sentences:
+      - "kuinka monet verhot on suljettu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"

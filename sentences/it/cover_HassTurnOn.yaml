@@ -3,27 +3,25 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<open> [<the>]<name>"
+          - "<open> [<the>] <name> [[<of>|<in>] <area>]"
         response: "cover"
         requires_context:
           domain: cover
       - sentences:
-          - "<open> [<the>]<name> [(<in> | <of>)] <area>"
-          - "<open> [<in>] <area> [<the>]<name>"
+          - "<open> [<the>] <cover> [[<in> | <of>] <area>]"
+          - "<open> [[<in>] <area>] [<the>] <cover>"
         response: "cover_area"
         requires_context:
           domain: cover
       - sentences:
-          - "<open> [la] (serranda | porta | [porta] basculante | saracinesca) [(in |\
-            \ del)] garage"
-          - "<open> [<in>] garage [la] (serranda | porta | [porta] basculante | saracinesca)"
+          - "<open> <the> (serranda | [porta [del garage]] [basculante] | saracinesca) [[(in | del)] garage]"
+          - "<open> [[<in>] garage] <the> (serranda | [porta [del garage]] [basculante] | saracinesca)"
         response: cover_device_class
         slots:
           device_class: garage
           domain: cover
       - sentences:
-          - "<open> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e)) [(<in> | <of>)]\
-            \ <area>"
+          - "<open> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e)) [(<in> | <of>)] <area>"
           - "<open> [<in>] <area> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e))"
         response: "cover_area"
         slots:
