@@ -3,16 +3,25 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<turn_on> wentylator <area>"
-          - "<turn_on> <area> wentylator"
+          - "<turn_on> (wentylator|wiatrak) <area>"
+          - "<turn_on> <area> (wentylator|wiatrak)"
         slots:
           domain: fan
           name: all
         response: fan_area
+
       - sentences:
-          - "<turn_on> [<all>] wentylatory <area>"
-          - "<turn_on> <area> [<all>] wentylatory"
+          - "<turn_on> [<all>] (wentylatory|wiatraki) <area>"
+          - "<turn_on> <area> [<all>] (wentylatory|wiatraki)"
         slots:
           domain: fan
           name: all
         response: fans_area
+
+      - sentences:
+          - "<turn_on> <all> (wentylatory|wiatraki)"
+        slots:
+          domain: fan
+          name: all
+          area: all
+        response: fans_all

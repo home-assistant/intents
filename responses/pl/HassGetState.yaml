@@ -5,11 +5,27 @@ responses:
       one: |
         {{ slots.name | capitalize }} jest {{ state.state_with_unit }}
 
+      one_state: |
+        Stan {{ slots.name | capitalize }} to {{ state.state_with_unit }}
+
+      one_status: |
+        Status {{ slots.name | capitalize }} to {{ state.state_with_unit }}
+
+      one_value: |
+        Wartość {{ slots.name | capitalize }} to {{ state.state_with_unit }}
+
       one_yesno: |
         {% if query.matched: %}
         Tak
         {% else: %}
         Nie, {{ slots.name }} jest {{ state.state_with_unit }}
+        {% endif %}
+
+      one_yesno_cover: |
+        {% if query.matched: %}
+        Tak
+        {% else: %}
+        Nie, {{ slots.name }} jest {{ 'otwarta' if state.state_with_unit == 'open' else 'zamknięta' }}
         {% endif %}
 
       any: |
@@ -28,6 +44,17 @@ responses:
           Nie
         {% endif %}
 
+      # Explanation and Examples:
+      # 1 drzwi nie są, 1 zasłona nie jest
+      # 2 drzwi, zasłony nie są
+      # 3 drzwi, zasłony nie są
+      # 4 drzwi, zasłony nie są
+      # 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 drzwi, zasłon nie jest
+      # 22,23,24 zasłony drzwi nie są
+      # 25,26,27,28,29,30,31 drzwi, zasłon nie jest
+      # 32,33,34 drzwi, zasłony nie są
+      # 35,36,37,38,39,40,41 drzwi, zasłon nie jest
+      # 42,43,44 drzwi, zasłony nie są
       all: |
         {% if not query.unmatched: %}
           Tak
@@ -40,7 +67,26 @@ responses:
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
               {{ name }}
-            {%- endfor %} nie
+            {%- endfor %} nie {% if state.attributes.device_class == "curtain" and no_match|length|int|abs == 1 -%}jest
+              {%- elif state.attributes.device_class == "lock" and no_match|length|int|abs == 1 -%}jest
+              {%- elif state.attributes.device_class == "door" and no_match|length|int|abs == 1 -%}są
+              {%- else -%}{{ 'są' if no_match|length|int|abs == 1 else 'są' if no_match|length|int | abs in [2,3,4] else 'są' if (no_match|length|string)[-1] | int | abs in [2,3,4] else 'jest' }}
+              {%- endif -%}
+          {% endif %}
+        {% endif %}
+
+      which_cover: |
+        {% if not query.matched %}
+          Żadne
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} oraz {{ (match | length - 3) }} inne
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor -%}
           {% endif %}
         {% endif %}
 

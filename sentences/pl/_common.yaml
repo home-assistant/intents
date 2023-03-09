@@ -52,23 +52,23 @@ lists:
         out: 1
   on_off_states:
     values:
-      - in: "włącz"
+      - in: "włącz[ony|one|ona|onych]"
         out: "on"
-      - in: "wyłącz"
+      - in: "wyłącz[ony|one|ona|onych]"
         out: "off"
   on_off_domains:
     values:
-      - in: światł(o|a) | lamp(a|y)
+      - in: świat(ło|ła|eł)|lamp(a|y)
         out: light
-      - in: wentylator[y]
+      - in: wentylator[y|ów]|wiatrak[i|ów]
         out: fan
-      - in: przełącznik[i]
+      - in: przełącznik[i|ów]|kontakt[y|ów]
         out: switch
   cover_states:
     values:
-      - in: "otwórz"
+      - in: "(otw(órz|arta|arte|artych)|odsunięt(e|ych)|odsłonięt(e|ych))"
         out: "open"
-      - in: "zamknij"
+      - in: "(zamkni(j|ęta|ęte|ętych)|zasunięt(e|ych)|zasłonięt(e|ych))"
         out: "closed"
       - in: "otwieranie"
         out: "opening"
@@ -76,24 +76,28 @@ lists:
         out: "closing"
   cover_classes:
     values:
+      - in: (drzwi garażowe|drzwi w garażu)
+        out: garage
+      - in: bram(a|y)
+        out: gate
+      - in: zasłon(a|y)
+        out: curtain
       - in: markiz(a|y)
         out: awning
       - in: rolet(a|y)
         out: blind
-      - in: zasłon(a|y)
-        out: curtain
-      - in: drzwi
-        out: door
-      - in: drzwi garażowe
-        out: garage
-      - in: bram(a|y)
-        out: gate
-      # - in: rolet(a|y)
-      #   out: shade
+      - in: rolet(a|y)
+        out: shade
       - in: żaluzj(a|e)
         out: shutter
-      - in: okn(o|a)
-        out: window
+      # - in: okn(o|a)
+      #   out: window
+  lock_states:
+    values:
+      - in: "zablokowan(e|y|ych)|zamknięt(y|e|ych)"
+        out: "locked"
+      - in: "odblokowan(e|y|ych)|otwart(e|y|ych)"
+        out: "unlocked"
 expansion_rules:
   name: "{name}"
   set: "(ustaw|zmień|przestaw|nastaw)"
@@ -102,14 +106,18 @@ expansion_rules:
   all: "(wszystkie|każde)"
   how_many_is: "Ile jest"
   activate: "aktywuj"
+  lock: "zablokuj"
+  unlock: "odblokuj"
   turn_on: "(włącz|uruchom)"
   turn_off: "(wyłącz|zatrzymaj)"
   turn_on_light: "(zapal|oświeć|zaświeć)"
   turn_off_light: "zgaś"
   open: "otwórz"
   open_blind: "(odsłoń|podnieś)"
+  open_curtain: "(odsunięte|odsłonięte)"
   close: "(zamknij|przymknij)"
   close_blind: "(zasłoń|opuść)"
+  close_curtain: "(zasunięte|zasłonięte)"
   brightness: "{brightness}[%| procent]"
   temp: "temperatur(a|ę|y)|stopni|zimno|gorąco"
   temperature: "{temperature}[°| stopni] [{temperature_unit}]"

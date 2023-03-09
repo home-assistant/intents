@@ -44,9 +44,9 @@ areas:
     id: driveway
 entities:
   - name: "Oglądanie telewizji"
-    id: "scene.watching_tv"
+    id: scene.watching_tv
   - name: "Pozycjonowanie rolet"
-    id: "script.roller_shutter_positioning"
+    id: script.roller_shutter_positioning
   - name: Lamp(ę nocną|ka nocna|kę nocną|ki nocnej)
     id: light.bedroom_lamp
     area: bedroom
@@ -74,7 +74,13 @@ entities:
   - name: Rolet(a|ę)
     id: cover.roleta
     area: living_room
-    state: "closed"
+    state: "open"
+    attributes:
+      device_class: shutter
+  - name: Rolet(a|ę) drzwi
+    id: cover.roleta_door
+    area: living_room
+    state: "open"
     attributes:
       device_class: shutter
   - name: Ekspres [do kawy]
@@ -83,9 +89,22 @@ entities:
     state: "off"
     attributes:
       device_class: switch
-  - name: Zasłon(a|y)
-    id: curtain.main
-    area: living_room
+  - name: "Lewa zasłona"
+    id: "cover.curtain_left"
+    area: "living_room"
+    state: "open"
+    attributes:
+      device_class: curtain
+  - name: "Prawa zasłona"
+    id: "cover.curtain_right"
+    area: "living_room"
+    state: "closed"
+    attributes:
+      device_class: curtain
+  - name: "Zasłona w sypialni"
+    id: "cover.bedroom"
+    area: "bedroom"
+    state: "closed"
     attributes:
       device_class: curtain
   - name: Bram(a|ę)
@@ -102,6 +121,16 @@ entities:
     id: light.extra_lamp
     area: hallway
     state: "off"
+  - name: Główne drzwi
+    id: lock.main_door
+    area: entrance
+    state: locked
+  - name: Tylne drzwi
+    id: lock.back_door
+    state: unlocked
+  - name: Boczne drzwi
+    id: lock.side_door
+    state: locked
   # - name: Garaż|(Drzwi|Bramę) [do] garaż(u|owe|ową)
   #   id: garage.garage_doors
   #   area: garage
@@ -112,9 +141,15 @@ entities:
     area: living_room
     attributes:
       device_class: curtain
-  - name: "Temperatura na "
+  - name: "Termometr"
     id: "sensor.outside_temperature"
     area: "garden"
+    state: "32"
+    attributes:
+      unit_of_measurement: "°C"
+  - name: "Termostat[u]"
+    id: "climate.thermostat"
+    area: "living_room"
     state: "21"
     attributes:
       unit_of_measurement: "°C"
