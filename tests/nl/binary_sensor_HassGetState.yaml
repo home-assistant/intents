@@ -261,11 +261,15 @@ tests:
         state: "on"
     response: "Nee"
 
+  # problem
   - sentences:
       - "is er een probleem met kattenvoer"
       - "zijn er problemen met kattenvoer"
       - "heeft kattenvoer een probleem"
-      - "heeft kattenvoer problemen"
+      - "heeft kattenvoer complicaties"
+      - "neemt kattenvoer een issue waar"
+      - "detecteert kattenvoer een probleem"
+      - "is door kattenvoer een probleem waar genomen"
     intent:
       name: HassGetState
       slots:
@@ -274,6 +278,54 @@ tests:
         name: "Kattenvoer"
         state: "on"
     response: "Nee"
+
+  - sentences:
+      - "is er ergens een probleem"
+      - "zijn er problemen"
+      - "detecteert er een apparaat issues"
+      - "wordt er ergens een complicatie geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "zijn er overal problemen"
+      - "detecteren alle sensoren issues"
+      - "wordt door elke sensor een probleem geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        state: "on"
+    response: "Nee, Kattenvoer niet"
+
+  - sentences:
+      - "welke sensoren detecteren geen issues"
+      - "welk apparaat neemt geen probleem waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        state: "off"
+    response: "Kattenvoer"
+
+  - sentences:
+      - "hoeveel sensoren detecteren problemen"
+      - "hoeveel apparaten nemen issues waar"
+      - "met hoe veel sensoren worden complicaties waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        state: "on"
+    response: "0"
 
   # running
   - sentences:
