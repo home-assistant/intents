@@ -301,6 +301,7 @@ tests:
         state: "off"
     response: "Ja"
 
+  # smoke
   - sentences:
       - "detecteert de rookmelder in de keuken rook"
       - "registreert de keukenrookmelder rook"
@@ -318,6 +319,53 @@ tests:
         state: "on"
     response: "Nee"
 
+  - sentences:
+      - "is er ergens bij een sensor rook"
+      - "detecteert er een apparaat rook"
+      - "wordt er ergens rook geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "detecteren alle sensoren rook"
+      - "wordt door elke sensor rook geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        state: "on"
+    response: "Nee, Rookmelder niet"
+
+  - sentences:
+      - "welke sensoren detecteren geen rook"
+      - "welk apparaat neemt geen rook waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        state: "off"
+    response: "Rookmelder"
+
+  - sentences:
+      - "hoeveel sensoren detecteren rook"
+      - "hoeveel apparaten nemen rook waar"
+      - "met hoe veel sensoren worden rook waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        state: "on"
+    response: "0"
+
+  # sound
   - sentences:
       - "maakt geluidsensor herrie"
       - "is er bij geluidsensor geluid"
@@ -456,6 +504,7 @@ tests:
         state: "on"
     response: "0"
 
+  # update
   - sentences:
       - "is de telefoon up to date?"
       - "is de telefoon geüpdatet"
@@ -515,6 +564,7 @@ tests:
         state: "on"
     response: "1"
 
+  # vibration
   - sentences:
       - "Trilt de telefoon"
       - "is de telefoon aan het trillen"
@@ -586,6 +636,7 @@ tests:
         state: "on"
     response: "0"
 
+  # window | no any/all/which/how_many sentences because of conflicts with domain: cover / device_class: window
   - sentences:
       - "Staat het dakraam open?"
       - "Is het dakraam open"
