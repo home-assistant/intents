@@ -275,11 +275,17 @@ tests:
         state: "on"
     response: "Nee"
 
+  # running
   - sentences:
-      - "Is de vaatwasser actief?"
       - "Draait de vaatwasser"
-      - "Is de vaatwasser aan het werk"
+      - "Is de vaatwasser actief?"
+      - "Is de vaatwasser aan 't werk"
       - "Is de vaatwasser bezig"
+      - "detecteert de vaatwasser activiteit"
+      - "neemt de vaatwasser activiteit waar"
+      - "is er activiteit geregistreerd door vaatwasser"
+      - "is er door vaatwasser activiteit gedetecteerd"
+      - "is er activiteit door vaatwasser gedetecteerd"
     intent:
       name: HassGetState
       slots:
@@ -290,8 +296,70 @@ tests:
     response: "Ja"
 
   - sentences:
+      - "draait er ergens iets"
+      - "is er ergens een apparaat aan het draaien"
+      - "staat er iets te werken"
+      - "is er ergens aan het werk"
+      - "detecteert er een apparaat activiteit"
+      - "wordt er ergens activiteit geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        state: "on"
+    response: "Ja, Vaatwasser"
+
+  - sentences:
+      - "draaien alle sensoren"
+      - "is er overal activiteit"
+      - "staan alle sensoren op actief"
+      - "detecteren alle sensoren activiteit"
+      - "wordt door elke sensor activiteit geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "welke sensoren detecteren geen activiteit"
+      - "welk apparaat neemt geen activiteit waar"
+      - "welke sensoren draaien niet"
+      - "welke apparaten zijn niet aan 't draaien"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        state: "off"
+    response: "Geen"
+
+  - sentences:
+      - "hoeveel sensoren draaien"
+      - "hoeveel apparaten zijn aan 't werk"
+      - "hoeveel sensoren detecteren activiteit"
+      - "hoeveel apparaten nemen activiteit waar"
+      - "met hoe veel sensoren worden activiteit waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        state: "on"
+    response: "1"
+
+  # safety
+  - sentences:
       - "is het weeralarm veilig?"
       - "staat het weeralarm op veilig"
+      - "detecteert weeralarm geen gevaar"
+      - "neemt weeralarm geen gevaar waar"
+      - "is er geen gevaar gedetecteerd door weeralarm"
+      - "is er door weeralarm geen gevaar gedetecteerd"
+      - "is er geen gevaar door weeralarm gedetecteerd"
     intent:
       name: HassGetState
       slots:
