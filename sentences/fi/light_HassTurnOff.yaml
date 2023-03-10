@@ -1,8 +1,83 @@
-language: fi
+language: "fi"
 intents:
   HassTurnOff:
     data:
-      - sentences: []
+      - sentences:
+          # Singular light, with unprefixed and unconjugated area.
+          # Grammatically incorrect, but people might be used to this limitation.
+          - "(<kytke> <päältä>|sammuta) <valo> <huone>"
+          - "(<kytke> <päältä>|sammuta) <huone> <valo>"
+          - "<kytke> <valo> <päältä> <huone>"
+          - "<kytke> <valo> <huone> <päältä>"
+          - "<kytke> <huone> <päältä> <valo>"
+          - "<kytke> <huone> <valo> <päältä>"
+
+          # Singular light, with prefixed and unconjugated area.
+          # Grammatically correct, but cumbersome to say or know about the prefix.
+          - "(<kytke> <päältä>|sammuta) <valo> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
+          - "(<kytke> <päältä>|sammuta) (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <valo>"
+          - "<kytke> <valo> <päältä> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
+          - "<kytke> <valo> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä>"
+          - "<kytke> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä> <valo>"
+          - "<kytke> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <valo> <päältä>"
         slots:
-          domain: light
-          name: all
+          domain: "light"
+        response: lights_area_singular
+      - sentences:
+          # Plural lights, with unprefixed and unconjugated area.
+          # Grammatically incorrect, but people might be used to this limitation.
+          - "(<kytke> <päältä>|sammuta) [kaikki] <valot> <huone>"
+          - "(<kytke> <päältä>|sammuta) <huone> [kaikki] <valot>"
+          - "<kytke> [kaikki] <valot> <päältä> <huone>"
+          - "<kytke> [kaikki] <valot> <huone> <päältä>"
+          - "<kytke> <huone> <päältä> [kaikki] <valot>"
+          - "<kytke> <huone> [kaikki] <valot> <päältä>"
+          # Same as above, but singular light turned plural with extra word
+          - "(<kytke> <päältä>|sammuta) jokainen <valo> <huone>"
+          - "(<kytke> <päältä>|sammuta) <huone> jokainen <valo>"
+          - "<kytke> jokainen <valo> <päältä> <huone>"
+          - "<kytke> jokainen <valo> <huone> <päältä>"
+          - "<kytke> <huone> <päältä> jokainen <valo>"
+          - "<kytke> <huone> jokainen <valo> <päältä>"
+
+          # Plural lights, with prefixed and unconjugated area.
+          # Grammatically correct, but cumbersome to say or know about the prefix.
+          - "(<kytke> <päältä>|sammuta) [kaikki] <valot> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
+          - "(<kytke> <päältä>|sammuta) (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> [kaikki] <valot>"
+          - "<kytke> [kaikki] <valot> <päältä> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
+          - "<kytke> [kaikki] <valot> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä>"
+          - "<kytke> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä> [kaikki] <valot>"
+          - "<kytke> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> [kaikki] <valot> <päältä>"
+          # Same as above, but singular light turned plural with extra word
+          - "(<kytke> <päältä>|sammuta) jokainen <valo> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
+          - "(<kytke> <päältä>|sammuta) (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> jokainen <valo>"
+          - "<kytke> jokainen <valo> <päältä> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
+          - "<kytke> jokainen <valo> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä>"
+          - "<kytke> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä> jokainen <valo>"
+          - "<kytke> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> jokainen <valo> <päältä>"
+        slots:
+          domain: "light"
+        response: lights_area_plural
+      - sentences:
+          # General "darken room" where amount of lights is unknown
+          - "pimennä <huone>"
+          # Uncountable lights, with unprefixed and unconjugated area.
+          # Grammatically incorrect, but people might be used to this limitation.
+          - "(<kytke> <päältä>|sammuta) <valaistus> <huone>"
+          - "(<kytke> <päältä>|sammuta) <huone> <valaistus>"
+          - "<kytke> <valaistus> <päältä> <huone>"
+          - "<kytke> <valaistus> <huone> <päältä>"
+          - "<kytke> <huone> <päältä> <valaistus>"
+          - "<kytke> <huone> <valaistus> <päältä>"
+
+          # Uncountable lights, with prefixed and unconjugated area.
+          # Grammatically correct, but cumbersome to say or know about the prefix.
+          - "(<kytke> <päältä>|sammuta) <valaistus> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
+          - "(<kytke> <päältä>|sammuta) (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <valaistus>"
+          - "<kytke> <valaistus> <päältä> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
+          - "<kytke> <valaistus> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä>"
+          - "<kytke> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä> <valaistus>"
+          - "<kytke> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <valaistus> <päältä>"
+        slots:
+          domain: "light"
+        response: lights_area_uncountable

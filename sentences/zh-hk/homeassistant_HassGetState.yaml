@@ -1,4 +1,33 @@
 language: zh-hk
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "[<area>]<name>[狀態](<what_is>|<how_many_is>)"
+          - "[<area>]<name>[<what_is>]狀態"
+        response: one
+      - sentences:
+          - "[<area>]{name}係唔係{on_off_states:state}"
+          - "[<area>]{name}[是]{on_off_states:state}[嗎|咗|咗嗎]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "[{area}][有|有没有|有冇|有無]{on_off_domains:domain}[是|是不是|係唔係]{on_off_states:state}[嗎|不|咗嗎]"
+        response: any
+
+      - sentences:
+          - "[<area>][<all>]{on_off_domains:domain}[是|是不是|係唔係]都[是|係]{on_off_states:state}[嗎|不]"
+        response: all
+
+      - sentences:
+          - "[<area>]<which>{on_off_domains:domain}[是|係]{on_off_states:state}"
+          - "<which>[<area>]{on_off_domains:domain}[是]{on_off_states:state}"
+        response: which
+
+      - sentences:
+          - "[{area}]<how_many_is>{on_off_domains:domain}[是|係]{on_off_states:state}"
+          - "<how_many_is>[<area>]{on_off_domains:domain}[是|係]{on_off_states:state}"
+        response: how_many

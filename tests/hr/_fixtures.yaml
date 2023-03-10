@@ -26,7 +26,7 @@ areas:
     id: staircase
   - name: "kuhinj(a|i|u|e|sku|ska|ske|ski)"
     id: kitchen
-  - name: "dnevna soba|dnevnoj sobi|dnevne sobe|dnevni boravak|dnevnom boravku|dnevnog boravka "
+  - name: "dnevna soba|dnevnoj sobi|dnevne sobe|dnevni boravak|dnevnom boravku|dnevnog boravka"
     id: living_room
   - name: "garaž(а|i|u)"
     id: garage
@@ -62,15 +62,20 @@ entities:
     area: kitchen
     state: "on"
 
-  - name: "(stropni) ventilator (na stropu)"
+  - name: "[stropni] ventilator [na stropu]"
     id: fan.ceiling
     area: living_room
+    state: "on"
+
+  - name: "[kuhinjsk(a|u)] (napa|napu)"
+    id: fan.kitchen_hood
+    area: kitchen
     state: "on"
 
   - name: "lijev(a|oj|u) zavjes(a|i|u)"
     id: cover.curtain_left
     area: living_room
-    state: "closed"
+    state: "open"
     attributes:
       device_class: curtain
 
@@ -98,14 +103,14 @@ entities:
   - name: "mali prozor"
     id: cover.bathroom_window
     area: "bathroom"
-    state: "closed"
+    state: "open"
     attributes:
       device_class: window
 
   - name: "stropni prozor"
     id: cover.ceiling_window
     area: "kitchen"
-    state: "closed"
+    state: "open"
     attributes:
       device_class: window
 
@@ -120,14 +125,14 @@ entities:
   - name: "kuhinjska vrata"
     id: cover.kitchen_door
     area: "entrance"
-    state: "opened"
+    state: "open"
     attributes:
       device_class: door
 
   - name: "klizna vrata"
     id: cover.living_room_door
     area: "living_room"
-    state: "opened"
+    state: "open"
     attributes:
       device_class: door
 
@@ -136,9 +141,23 @@ entities:
     area: "living_room"
     state: "off"
 
-  - name: "vanjska temperatura|temperatura vani"
+  - name: "Radijator"
+    id: "climate.trv_living_room"
+    area: "living_room"
+    state: "21"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: "Radijator"
+    id: "climate.trv_kitchen"
+    area: "kitchen"
+    state: "22"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: "vanjska temperatura|[temperatura] vani"
     id: "sensor.outside_temperature"
-    area: "balcony"
     state: "17"
+    area: "balcony"
     attributes:
       unit_of_measurement: "°C"

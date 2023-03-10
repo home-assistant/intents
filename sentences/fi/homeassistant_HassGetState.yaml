@@ -1,4 +1,30 @@
-language: fi
+language: "fi"
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "Paljonko {name} [[<alueessa>|<alueella>] <huone>] on"
+        response: one
+
+      - sentences:
+          - "Onko {name} {on_off_states:state} [[<alueessa>|<alueella>] <huone>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "Onko [[<alueessa>|<alueella>] <huone>] {on_off_domains:domain} {on_off_states:state}"
+        response: any
+
+      - sentences:
+          - "Onko <kaikki> {on_off_domains:domain} {on_off_states:state} [[<alueessa>|<alueella>] <huone>]"
+        response: all
+
+      - sentences:
+          - "mitkä {on_off_domains:domain} (on|ovat) {on_off_states:state} [[<alueessa>|<alueella>] <huone>]"
+        response: which
+
+      - sentences:
+          - "Montako {on_off_domains:domain} on {on_off_states:state} [[<alueessa>|<alueella>] <huone>]"
+        response: how_many
