@@ -36,7 +36,7 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Нет, {{ no_match[:3] | join(", ") }} и ещё {{ (no_match | length - 3) }}
+            {{ no_match[:3] | join(", ") }} и ещё {{ (no_match | length - 3) }} — нет
           {%- else -%}
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}

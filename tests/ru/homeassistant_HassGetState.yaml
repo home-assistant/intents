@@ -1,2 +1,80 @@
 language: ru
-tests: []
+tests:
+  - sentences:
+      - Какая температура на улице?
+    intent:
+      name: HassGetState
+      slots:
+        name: "Температура на улице"
+    response: "Температура на улице 15 °C"
+
+  - sentences:
+      - Что с лампа в гостиной?
+    intent:
+      name: HassGetState
+      slots:
+        name: "Лампа в гостиной"
+    response: "Лампа в гостиной включен"
+
+  - sentences:
+      - "Лампа в спальне включена?"
+      - "Включена ли лампа в спальне?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Лампа в спальне"
+        state: "включен"
+    response: "Нет, выключен"
+
+  - sentences:
+      - "Есть ли включенные выключатели на кухне?"
+      - "Есть ли на кухне какие-нибудь включенные выключатели?"
+    intent:
+      name: HassGetState
+      slots:
+        area:
+          - Кухня
+          - Кухне
+          - Кухонный
+        domain: "switch"
+        state: "включен"
+    response: "Да, Кухонный выключатель"
+
+  - sentences:
+      - "Все ли выключатели включены?"
+      - "Включены ли все выключатели?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "включен"
+    response: "Выключатель в спальне — нет"
+
+  - sentences:
+      - "Весь ли свет выключен?"
+      - "Выключен ли весь свет?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "выключен"
+    response: "Верхний свет в кухне, Игровой уголок, Кухонные шкафчики и ещё 3 — нет"
+
+  - sentences:
+      - "Какие лампы включены?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "включен"
+    response: "Верхний свет в кухне, Игровой уголок, Кухонные шкафчики и ещё 3"
+
+  - sentences:
+      - "Сколько ламп включено?"
+      - "Сколько включено ламп?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "включен"
+    response: "6"
