@@ -1,4 +1,43 @@
 language: ru
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "Что с[о] <name> [<area>]"
+          - "Как(ое|ово|ая|ой) [состояние] [у] <name> [<area>]"
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - "<name> [<area>] {on_off_states:state}"
+          - "{on_off_states:state} [ли] <name> [<area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "[Есть] [ли] [как(ой|ое|ие)-нибудь] {on_off_states:state} {on_off_domains:domain} [<area>]"
+          - "[Есть] [ли] [<area>] [как(ой|ое|ие)-нибудь] {on_off_states:state} {on_off_domains:domain}"
+        response: any
+
+      - sentences:
+          - "(Все|весь) [ли] {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "{on_off_states:state} [ли] (все|весь) {on_off_domains:domain} [<area>]"
+        response: all
+
+      - sentences:
+          - "(Какие|которые) {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "(Какие|которые) {on_off_domains:domain} [<area>] {on_off_states:state}"
+        response: which
+
+      - sentences:
+          - "Сколько {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "Сколько {on_off_domains:domain} [<area>] {on_off_states:state}"
+          # - "Сколько [<area>] {on_off_domains:domain} {on_off_states:state}"
+          # - "Сколько [<area>] {on_off_states:state} {on_off_domains:domain}"
+          - "Сколько {on_off_states:state} {on_off_domains:domain} [<area>]"
+        response: how_many
