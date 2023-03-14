@@ -1,2 +1,54 @@
 language: ur
-tests: []
+tests:
+  - sentences:
+      - "کیا curtain left بند ہے"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Curtain Left"
+        state: "closed"
+    response: "نہیں، کھلاوا ہے"
+
+  - sentences:
+      - "کیا کوئی بھی پردے کھلی ہوی living room میں"
+      - کوئی پردے living room میں کھلی وی ہے
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Living Room"
+        device_class: curtain
+        state: "open"
+    response: "جی، Curtain Left"
+
+  - sentences:
+      - "سارے پردے کھلاوا ہے living room میں"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Living Room"
+        device_class: curtain
+        state: "open"
+    response: "نہیں، Curtain Right نہیں ھیں"
+
+  - sentences:
+      - "کونسی پردے بند وی ہے"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Bedroom Curtain اور Curtain Right"
+
+  - sentences:
+      - "کتنے پردے بند ہوئی ہے"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"
