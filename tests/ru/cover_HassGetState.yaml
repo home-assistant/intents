@@ -1,2 +1,53 @@
 language: ru
-tests: []
+tests:
+  - sentences:
+      - "Задернута ли левая штора?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Левая штора"
+        state: "закрыта"
+    response: "Нет, открыта"
+
+  - sentences:
+      - "Есть ли закрытая штора в гостиная?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Гостиная"
+        device_class: curtain
+        state: "закрыта"
+    response: "Да, Правая штора"
+
+  - sentences:
+      - "Все ли шторы в гостиная закрыты?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Гостиная"
+        device_class: curtain
+        state: "закрыта"
+    response: "Левая штора — нет"
+
+  - sentences:
+      - "Какие шторы задернуты?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "закрыта"
+    response: "Правая штора и Штора в спальне"
+
+  - sentences:
+      - "Сколько штор задернуто?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "закрыта"
+    response: "2"
