@@ -196,7 +196,6 @@ intents:
           domain: binary_sensor
           device_class: plug
 
-      # power
       - sentences:
           - "(<is>|<detecteer>) [er] [<in>|<met>] [<area>][ ]<name> [<in> <area>] {bs_power_states:state} [<in> <area>]"
           - "neemt <name_area> {bs_power_states:state} (waar [<in> <area>]|[<in> <area>] waar)"
@@ -211,7 +210,6 @@ intents:
           domain: binary_sensor
           device_class: power
 
-      # presense
       - sentences:
           - "<is> <name_area> {bs_presence_states:state} [<in> <area>]"
         response: bs_yesno
@@ -222,14 +220,9 @@ intents:
           domain: binary_sensor
           device_class: presence
 
-      # problem
       - sentences:
-          - "<is> er [<in> <area>] {bs_problem_states:state} <name_area>"
-          - "(heeft|<detecteer>) <name_area> {bs_problem_states:state} [<in> <area>]"
-          - "neemt <name_area> {bs_problem_states:state} (waar [<in> <area>]|[<in> <area>] waar)"
-          - "<is> [er] [<in> <area>] {bs_problem_states:state} <detecteer> <name_area>"
-          - "<is> [er] [<in> <area>] {bs_problem_states:state} <met> [<area>][ ]<name> <detecteer> [<in> <area>]"
-          - "<is> [er] <name_area> {bs_problem_states:state} <detecteer> [<in> <area>]"
+          - "<is> er [<in> <area>] [een] proble[e]m[en] met <name_area>"
+          - "heeft <name_area> [een] proble[e]m[en] [<in> <area>]"
         response: bs_yesno
         requires_context:
           domain: binary_sensor
@@ -237,49 +230,11 @@ intents:
         slots:
           domain: binary_sensor
           device_class: problem
+          state: "on"
 
       - sentences:
-          - (<detecteer>|<is>) [er] [ergens] [[<met>] <sensor_area>] {bs_problem_states:state} [<in> <area>]
-          - "<is> [er] [<in> <area>] [ergens] [<in> <area>] {bs_problem_states:state} [<in> <area>] <detecteer> [<in> <area>]"
-        response: any
-        slots:
-          domain: binary_sensor
-          device_class: problem
-
-      - sentences:
-          - "(is|zijn) er [<in> <area>] <alle> [<in> <area>] {bs_problem_states:state} [<in> <area>]"
-          - <detecteer> <alle> <sensor_area> {bs_problem_states:state} [<in> <area>]
-          - <is> [<met>] <alle> [<in> <area>][ ]<sensor> {bs_problem_states:state} [<in> <area>] <detecteer> [<in> <area>]
-        response: all
-        slots:
-          domain: binary_sensor
-          device_class: problem
-
-      - sentences:
-          - Welk[e] <sensor_area> (nemen|neemt) {bs_problem_states:state} waar [<in> <area>]
-          - Welk[e] <sensor_area> <detecteer> {bs_problem_states:state} [<in> <area>]
-        response: which
-        slots:
-          domain: binary_sensor
-          device_class: problem
-
-      - sentences:
-          - hoe[ ]veel <sensor_area> <detecteer> [er] [<in> <area>] {bs_problem_states:state} [<in> <area>]
-          - hoe[ ]veel <sensor_area> nemen [er] [<in> <area>] {bs_problem_states:state} [<in> <area>] waar [<in> <area>]
-          - <met> hoe[ ]veel <sensor_area> word(t|en) [er] [<in> <area>] {bs_problem_states:state} [<in> <area>] <detecteer> [<in> <area>]
-        response: how_many
-        slots:
-          domain: binary_sensor
-          device_class: problem
-
-      # running
-      - sentences:
-          - "{bs_running_states:state} <name_area>"
-          - "(<is>|<detecteer>) [er] [<in>|<met>] [<area>][ ]<name> [<in> <area>] {bs_running_states:state} [<in> <area>]"
-          - "neemt <name_area> {bs_running_states:state} (waar [<in> <area>]|[<in> <area>] waar)"
-          - "<is> [er] [<in> <area>] {bs_running_states:state} <detecteer> <name_area>"
-          - "<is> [er] [<in> <area>] {bs_running_states:state} <met> [<area>][ ]<name> <detecteer> [<in> <area>]"
-          - "<is> [er] <name_area> {bs_running_states:state} <detecteer> [<in> <area>]"
+          - "<is> <name_area> {bs_running_states:state} [<in> <area>]"
+          - "{bs_running_states:state} <name_area> [<in> <area>]"
         response: bs_yesno
         requires_context:
           domain: binary_sensor
@@ -289,48 +244,7 @@ intents:
           device_class: running
 
       - sentences:
-          - "{bs_running_states:state} [er] [ergens] <sensor_area>"
-          - (<detecteer>|<is>) [er] [ergens] [[<met>] <sensor_area>] {bs_running_states:state} [<in> <area>]
-          - "<is> [er] [<in> <area>] [ergens] [<in> <area>] {bs_running_states:state} [<in> <area>] <detecteer> [<in> <area>]"
-        response: any
-        slots:
-          domain: binary_sensor
-          device_class: running
-
-      - sentences:
-          - "{bs_running_states:state} <alle> <sensor_area>"
-          - "is er [<in> <area>] <alle> [<in> <area>] {bs_running_states:state} [<in> <area>]"
-          - (<detecteer>|<is>) <alle> <sensor_area> {bs_running_states:state} [<in> <area>]
-          - <is> [<met>] <alle> [<in> <area>][ ]<sensor> {bs_running_states:state} [<in> <area>] <detecteer> [<in> <area>]
-        response: all
-        slots:
-          domain: binary_sensor
-          device_class: running
-
-      - sentences:
-          - Welk[e] <sensor_area> (nemen|neemt) {bs_running_states:state} waar [<in> <area>]
-          - Welk[e] <sensor_area> [<detecteer>|<is>] {bs_running_states:state} [<in> <area>]
-        response: which
-        slots:
-          domain: binary_sensor
-          device_class: running
-
-      - sentences:
-          - hoe[ ]veel <sensor_area> [<detecteer>|<is>] [er] [<in> <area>] {bs_running_states:state} [<in> <area>]
-          - hoe[ ]veel <sensor_area> nemen [er] [<in> <area>] {bs_running_states:state} [<in> <area>] waar [<in> <area>]
-          - <met> hoe[ ]veel <sensor_area> word(t|en) [er] [<in> <area>] {bs_running_states:state} [<in> <area>] <detecteer> [<in> <area>]
-        response: how_many
-        slots:
-          domain: binary_sensor
-          device_class: running
-
-      # safety
-      - sentences:
-          - "(<is>|<detecteer>) [er] [<in>|<met>] [<area>][ ]<name> [<in> <area>] {bs_safety_states:state} [<in> <area>]"
-          - "neemt <name_area> {bs_safety_states:state} (waar [<in> <area>]|[<in> <area>] waar)"
-          - "<is> [er] [<in> <area>] {bs_safety_states:state} <detecteer> <name_area>"
-          - "<is> [er] [<in> <area>] {bs_safety_states:state} <met> [<area>][ ]<name> <detecteer> [<in> <area>]"
-          - "<is> [er] <name_area> {bs_safety_states:state} <detecteer> [<in> <area>]"
+          - "<is> [<in> <area>][ ]<name> [[in|op|van] [<area>]] {bs_safety_states:state} [<in> <area>]"
         response: bs_yesno
         requires_context:
           domain: binary_sensor
@@ -339,41 +253,6 @@ intents:
           domain: binary_sensor
           device_class: safety
 
-      - sentences:
-          - (<detecteer>|<is>) [er] [ergens] [[<met>] <sensor_area>] {bs_safety_states:state} [<in> <area>]
-          - "<is> [er] [<in> <area>] [ergens] [<in> <area>] {bs_safety_states:state} [<in> <area>] <detecteer> [<in> <area>]"
-        response: any
-        slots:
-          domain: binary_sensor
-          device_class: safety
-
-      - sentences:
-          - "is het [<in> <area>] <alle> [<in> <area>] {bs_safety_states:state} [<in> <area>]"
-          - (<detecteer>|<is>) <alle> <sensor_area> {bs_safety_states:state} [<in> <area>]
-          - <is> [<met>] <alle> [<in> <area>][ ]<sensor> {bs_safety_states:state} [<in> <area>] <detecteer> [<in> <area>]
-        response: all
-        slots:
-          domain: binary_sensor
-          device_class: safety
-
-      - sentences:
-          - Welk[e] <sensor_area> (nemen|neemt) {bs_safety_states:state} waar [<in> <area>]
-          - Welk[e] <sensor_area> <detecteer> {bs_safety_states:state} [<in> <area>]
-        response: which
-        slots:
-          domain: binary_sensor
-          device_class: safety
-
-      - sentences:
-          - hoe[ ]veel <sensor_area> <detecteer> [er] [<in> <area>] {bs_safety_states:state} [<in> <area>]
-          - hoe[ ]veel <sensor_area> nemen [er] [<in> <area>] {bs_safety_states:state} [<in> <area>] waar [<in> <area>]
-          - <met> hoe[ ]veel <sensor_area> word(t|en) [er] [<in> <area>] {bs_safety_states:state} [<in> <area>] <detecteer> [<in> <area>]
-        response: how_many
-        slots:
-          domain: binary_sensor
-          device_class: safety
-
-      # smoke
       - sentences:
           - "(<is>|<detecteer>) [er] [<in>|<met>] [<area>][ ]<name> [<in> <area>] {bs_smoke_states:state} [<in> <area>]"
           - "neemt <name_area> {bs_smoke_states:state} (waar [<in> <area>]|[<in> <area>] waar)"
@@ -384,39 +263,6 @@ intents:
         requires_context:
           domain: binary_sensor
           device_class: smoke
-        slots:
-          domain: binary_sensor
-          device_class: smoke
-
-      - sentences:
-          - (<detecteer>|<is>) [er] [ergens] [[<met>] <sensor_area>] {bs_smoke_states:state} [<in> <area>]
-          - "<is> [er] [<in> <area>] [ergens] [<in> <area>] {bs_smoke_states:state} [<in> <area>] <detecteer> [<in> <area>]"
-        response: any
-        slots:
-          domain: binary_sensor
-          device_class: smoke
-
-      - sentences:
-          - <detecteer> <alle> <sensor_area> {bs_smoke_states:state} [<in> <area>]
-          - <is> [<met>] <alle> [<in> <area>][ ]<sensor> {bs_smoke_states:state} [<in> <area>] <detecteer> [<in> <area>]
-        response: all
-        slots:
-          domain: binary_sensor
-          device_class: smoke
-
-      - sentences:
-          - Welk[e] <sensor_area> (nemen|neemt) {bs_smoke_states:state} waar [<in> <area>]
-          - Welk[e] <sensor_area> <detecteer> {bs_smoke_states:state} [<in> <area>]
-        response: which
-        slots:
-          domain: binary_sensor
-          device_class: smoke
-
-      - sentences:
-          - hoe[ ]veel <sensor_area> <detecteer> [er] [<in> <area>] {bs_smoke_states:state} [<in> <area>]
-          - hoe[ ]veel <sensor_area> nemen [er] [<in> <area>] {bs_smoke_states:state} [<in> <area>] waar [<in> <area>]
-          - <met> hoe[ ]veel <sensor_area> word(t|en) [er] [<in> <area>] {bs_smoke_states:state} [<in> <area>] <detecteer> [<in> <area>]
-        response: how_many
         slots:
           domain: binary_sensor
           device_class: smoke
