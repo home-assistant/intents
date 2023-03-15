@@ -11,7 +11,7 @@ responses:
         {% if query.matched %}
           כן
         {% else %}
-          לא, {{ state.state_with_unit }}
+          לא, הוא כרגע {{ state.state_with_unit }}
         {% endif %}
 
       any: |
@@ -36,11 +36,11 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            לא, {{ no_match[:3] | join(", ") }} וגם לא עוד {{ (no_match | length - 3) }}
+            לא, {{ no_match[:3] | join(", ") }} ועוד {{ (no_match | length - 3) }} גם לא
           {%- else -%}
             לא,
             {% for name in no_match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} וגם{% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} וגם {% endif -%}
               {{ name }}
             {%- endfor %} לא
           {% endif %}
