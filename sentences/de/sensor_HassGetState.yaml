@@ -1,0 +1,38 @@
+language: de
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/sensor/
+      # temperature
+      - sentences:
+          - "Wie (heiß|warm|kalt|kühl) ist <name>"
+        response: hat
+        slots:
+          domain: sensor
+          device_class: temperature
+        requires_context:
+          domain: sensor
+          device_class: temperature
+
+      # power
+      - sentences:
+          - "(Wie viel|Welche) (Watt|Leistung|Energie|Strom) ([ver]braucht|[be]nutzt|verschwendet) <name>"
+        response: verbraucht
+        slots:
+          domain: sensor
+          device_class: power
+        requires_context:
+          domain: sensor
+          device_class: power
+
+      # humidity
+      - sentences:
+          - "Wie (feucht|trocken) ist <name>"
+          - "Wie [(hoch|niedrig)] ist die [Luft]feuchtigkeit [<von_dem>] <name>"
+        response: luftfeuchtigkeit
+        slots:
+          domain: sensor
+          device_class: humidity
+        requires_context:
+          domain: sensor
+          device_class: humidity
