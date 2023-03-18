@@ -13,6 +13,12 @@ lists:
       type: percentage
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: (max|maksimale|højeste)
+        out: 100
+      - in: (minimum|mindste|laveste)
+        out: 1
   color:
     values:
       - in: hvid
@@ -33,6 +39,60 @@ lists:
         out: purple
       - in: brun
         out: brown
+      - in: lyserød
+        out: pink
+      - in: turkis
+        out: turquoise
+  cover_classes:
+    values:
+      - in: markise[rne]
+        out: awning
+      - in: persienne[rne]
+        out: blind
+      - in: gardin[erne]
+        out: curtain
+      - in: dør[ene]
+        out: door
+      - in: garageport[ene]
+        out: garage
+      - in: låge[rne]
+        out: gate
+      - in: skærm[ene]
+        out: shade
+      - in: skodde[rne]
+        out: shutter
+      - in: vindue[rne]
+        out: window
+  cover_states:
+    values:
+      - in: "åben"
+        out: "open"
+      - in: "lukket"
+        out: "closed"
+      - in: "åbner"
+        out: "opening"
+      - in: "lukker"
+        out: "closing"
+  lock_states:
+    values:
+      - in: "låst"
+        out: "locked"
+      - in: "ulåst"
+        out: "unlocked"
+  on_off_states:
+    values:
+      - in: "tændt"
+        out: "on"
+      - in: "slukket"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: lys[ene]
+        out: light
+      - in: ventilator[ene]
+        out: fan
+      - in: afbryder[ene]
+        out: switch
   temperature:
     range:
       type: "temperature"
@@ -46,10 +106,176 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "lav"
+        out: "on"
+      - in: "normal"
+        out: "off"
+  bs_battery_charging_states:
+    values:
+      - in: "lader"
+        out: "on"
+      - in: "lader ikke"
+        out: "off"
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(detekteret|påvist|tilstedeværende)"
+        out: "on"
+      - in: "(ikke detekteret|ikke påvist|fraværende)"
+        out: "off"
+  bs_cold_states:
+    values:
+      - in: "koldt"
+        out: "on"
+      - in: "normalt"
+        out: "off"
+  bs_connectivity_states:
+    values:
+      - in: "forbundet"
+        out: "on"
+      - in: "afbrudt"
+        out: "off"
+  bs_door_states:
+    values:
+      - in: "åben"
+        out: "on"
+      - in: "lukket"
+        out: "off"
+  bs_garage_door_states:
+    values:
+      - in: "åben"
+        out: "on"
+      - in: "lukket"
+        out: "off"
+  bs_gas_states:
+    values:
+      - in: "(detekteret|påvist|tilstedeværende)"
+        out: "on"
+      - in: "(ikke detekteret|ikke påvist|fraværende)"
+        out: "off"
+  bs_heat_states:
+    values:
+      - in: "varmt"
+        out: "on"
+      - in: "normalt"
+        out: "off"
+  bs_light_states:
+    values:
+      - in: "detekteret"
+        out: "on"
+      - in: "ikke detekteret"
+        out: "off"
+  bs_lock_states:
+    values:
+      - in: "ulåst"
+        out: "on"
+      - in: "låst"
+        out: "off"
+  bs_moisture_states:
+    values:
+      - in: "vådt"
+        out: "on"
+      - in: "tørt"
+        out: "off"
+  bs_motion_states:
+    values:
+      - in: "(detekteret|påvist)"
+        out: "on"
+      - in: "(ikke detekteret|ikke påvist)"
+        out: "off"
+  bs_occupancy_states:
+    values:
+      - in: "(detekteret|påvist|tilstedeværende)"
+        out: "on"
+      - in: "(ikke detekteret|ikke påvist|fraværende)"
+        out: "off"
+  bs_opening_states:
+    values:
+      - in: "åben"
+        out: "on"
+      - in: "lukket"
+        out: "off"
+  bs_plug_states:
+    values:
+      - in: "tilkoblet"
+        out: "on"
+      - in: "frakoblet"
+        out: "off"
+  bs_power_states:
+    values:
+      - in: "tændt"
+        out: "on"
+      - in: "slukket"
+        out: "off"
+  bs_presence_states:
+    values:
+      - in: "(hjemme|tilstedeværende)"
+        out: "on"
+      - in: "(væk|fraværende)"
+        out: "off"
+  bs_problem_states:
+    values:
+      - in: "fundet"
+        out: "on"
+      - in: "intet fundet"
+        out: "off"
+  bs_running_states:
+    values:
+      - in: "(kører|aktiveret)"
+        out: "on"
+      - in: "(stoppet|deaktiveret)"
+        out: "off"
+  bs_safety_states:
+    values:
+      - in: "farlig"
+        out: "on"
+      - in: "sikker"
+        out: "off"
+  bs_smoke_states:
+    values:
+      - in: "(detekteret|påvist|tilstedeværende)"
+        out: "on"
+      - in: "(ikke detekteret|ikke påvist|fraværende)"
+        out: "off"
+  bs_sound_states:
+    values:
+      - in: "(detekteret|påvist|tilstedeværende)"
+        out: "on"
+      - in: "(ikke detekteret|ikke påvist|fraværende)"
+        out: "off"
+  bs_tamper_states:
+    values:
+      - in: "(detekteret|pillet ved)"
+        out: "on"
+      - in: "(ikke detekteret|urørt)"
+        out: "off"
+  bs_update_states:
+    values:
+      - in: "opdatering tilgængelig"
+        out: "on"
+      - in: "opdateret"
+        out: "off"
+  bs_vibration_states:
+    values:
+      - in: "(detekteret|vibrerer)"
+        out: "on"
+      - in: "(ikke detekteret|vibrerer ikke)"
+        out: "off"
+  bs_window_states:
+    values:
+      - in: "åben"
+        out: "on"
+      - in: "lukket"
+        out: "closed"
+
 expansion_rules:
   al: "(alle | alt)"
   blæser: "blæser[(e|en|ne)]"
   garagedør: "garagedør[(en|e|ene)]"
+  garageport: "garageport[(en|e|ene)]"
   gardin: "gardin[(et|er|erne)]"
   i_på: "(i | på)"
   koldt_varmt: "(kold[t] | varm[t])"
@@ -65,4 +291,7 @@ expansion_rules:
   temperatur: "{temperature}[°| grader] [{temperature_unit}]"
   tænd: "tænd [for]"
   åbn: "åbn [for]"
-skip_words: []
+
+skip_words:
+  - "vær så venlig"
+  - "vil du"
