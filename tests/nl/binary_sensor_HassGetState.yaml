@@ -250,8 +250,10 @@ tests:
         state: "on"
     response: "Ja"
 
+  # presence
   - sentences:
-      - "Is de telefoon thuis?"
+      - "Is er iemand bij de telefoon in de buurt"
+      - "Is bij de telefoon aanwezigheid"
     intent:
       name: HassGetState
       slots:
@@ -260,6 +262,55 @@ tests:
         name: "Telefoon"
         state: "on"
     response: "Nee"
+
+  - sentences:
+      - "is er iemand"
+      - "zijn er mensen in huis"
+      - "detecteert er een sensor aanwezigheid"
+      - "wordt er ergens mensen geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "zijn er overal mensen"
+      - "is er overal iemand"
+      - "detecteren alle sensoren aanwezigheid"
+      - "wordt door elke sensor een mens geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        state: "on"
+    response: "Nee, Telefoon niet"
+
+  - sentences:
+      - "welke sensoren detecteren niemand"
+      - "welk apparaat neemt geen mensen waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        state: "off"
+    response: "Telefoon"
+
+  - sentences:
+      - "hoeveel sensoren detecteren iemand"
+      - "hoeveel apparaten nemen mensen waar"
+      - "met hoe veel sensoren worden personen waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        state: "on"
+    response: "0"
 
   # problem
   - sentences:
