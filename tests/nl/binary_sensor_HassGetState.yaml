@@ -234,6 +234,7 @@ tests:
         state: "off"
     response: "Nee"
 
+  # power
   - sentences:
       - "is er in de meterkast stroom?"
       - "registreert de meterkast vermogen"
@@ -249,6 +250,52 @@ tests:
         name: "Meterkast"
         state: "on"
     response: "Ja"
+
+  - sentences:
+      - "is er ergens bij een sensor stroomverbruik"
+      - "krijgt er een apparaat power"
+      - "wordt er ergens vermogen geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        state: "on"
+    response: "Ja, Meterkast"
+
+  - sentences:
+      - "krijgen alle apparaten stroom"
+      - "wordt door elke sensor stroom geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "welke sensoren krijgen geen power"
+      - "welk apparaat neemt geen spanning waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        state: "off"
+    response: "Geen"
+
+  - sentences:
+      - "hoeveel sensoren krijgen stroom"
+      - "hoeveel apparaten nemen spanning waar"
+      - "met hoe veel sensoren worden power waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        state: "on"
+    response: "1"
 
   # presence
   - sentences:

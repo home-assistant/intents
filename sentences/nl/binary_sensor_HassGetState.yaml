@@ -198,7 +198,7 @@ intents:
 
       # power
       - sentences:
-          - "(<is>|<detecteer>) [er] [<in>|<met>] [<area>][ ]<name> [<in> <area>] {bs_power_states:state} [<in> <area>]"
+          - "(<is>|<detecteer>|krijg(t|en)) [er] [<in>|<met>] [<area>][ ]<name> [<in> <area>] {bs_power_states:state} [<in> <area>]"
           - "neemt <name_area> {bs_power_states:state} (waar [<in> <area>]|[<in> <area>] waar)"
           - "<is> [er] [<in> <area>] {bs_power_states:state} <detecteer> <name_area>"
           - "<is> [er] [<in> <area>] {bs_power_states:state} <met> [<area>][ ]<name> <detecteer> [<in> <area>]"
@@ -207,6 +207,39 @@ intents:
         requires_context:
           domain: binary_sensor
           device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - (<detecteer>|<is>|krijg(t|en)) [er] [ergens] [[<met>] <sensor_area>] {bs_power_states:state} [<in> <area>]
+          - "<is> [er] [<in> <area>] [ergens] [<in> <area>] {bs_power_states:state} [<in> <area>] <detecteer> [<in> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - (<detecteer>|krijgen) <alle> <sensor_area> {bs_power_states:state} [<in> <area>]
+          - <is> [<met>] <alle> [<in> <area>][ ]<sensor> {bs_power_states:state} [<in> <area>] <detecteer> [<in> <area>]
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - Welk[e] <sensor_area> (nemen|neemt) {bs_power_states:state} waar [<in> <area>]
+          - Welk[e] <sensor_area> (<detecteer>|krijg(t|en)) {bs_power_states:state} [<in> <area>]
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - hoe[ ]veel <sensor_area> (<detecteer>|krijgen) [er] [<in> <area>] {bs_power_states:state} [<in> <area>]
+          - hoe[ ]veel <sensor_area> nemen [er] [<in> <area>] {bs_power_states:state} [<in> <area>] waar [<in> <area>]
+          - <met> hoe[ ]veel <sensor_area> word(t|en) [er] [<in> <area>] {bs_power_states:state} [<in> <area>] <detecteer> [<in> <area>]
+        response: how_many
         slots:
           domain: binary_sensor
           device_class: power
