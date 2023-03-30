@@ -15,9 +15,9 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: (max|maksimale|højeste)
+      - in: (højest[e]|maksimal[e]|maksimum|max)
         out: 100
-      - in: (minimum|mindste|laveste)
+      - in: (lavest[e]|mindst[e]|minimal[e]|minimum)
         out: 1
   color:
     values:
@@ -45,27 +45,27 @@ lists:
         out: turquoise
   cover_classes:
     values:
-      - in: markise[rne]
+      - in: markise[(n|r|rne)]
         out: awning
-      - in: persienne[rne]
+      - in: persienne[(n|r|rne)]
         out: blind
-      - in: gardin[erne]
+      - in: gardin[(et|er|erne)]
         out: curtain
-      - in: dør[ene]
+      - in: dør[(en|e|ene)]
         out: door
-      - in: garageport[ene]
+      - in: garage(dør|port)[(en|e|ene)]
         out: garage
-      - in: låge[rne]
+      - in: låge[(en|r|rne)]
         out: gate
-      - in: skærm[ene]
+      - in: (persienne[(en|r|rne)]|rullegardin[(et|er|erne)])
         out: shade
-      - in: skodde[rne]
+      - in: skodde[(n|r|rne)]
         out: shutter
-      - in: vindue[rne]
+      - in: vindue[(t|r|rne)]
         out: window
   cover_states:
     values:
-      - in: "åben"
+      - in: "(åben[t]|åbne[t])"
         out: "open"
       - in: "lukket"
         out: "closed"
@@ -87,11 +87,11 @@ lists:
         out: "off"
   on_off_domains:
     values:
-      - in: lys[ene]
+      - in: lys[(et|ene)]
         out: light
-      - in: ventilator[ene]
+      - in: ventilator([en|erne])
         out: fan
-      - in: afbryder[ene]
+      - in: (afbryder[(en|ne)]|kontakt[(en|erne)])
         out: switch
   temperature:
     range:
@@ -122,15 +122,15 @@ lists:
         out: "off"
   bs_carbon_monoxide_states:
     values:
-      - in: "(detekteret|påvist|tilstedeværende)"
+      - in: "(detekteret|fundet|registreret)"
         out: "on"
-      - in: "(ikke detekteret|ikke påvist|fraværende)"
+      - in: "(ikke detekteret|ikke fundet|ikke registreret)"
         out: "off"
   bs_cold_states:
     values:
-      - in: "koldt"
+      - in: "kold[t]"
         out: "on"
-      - in: "normalt"
+      - in: "normal[t]"
         out: "off"
   bs_connectivity_states:
     values:
@@ -140,69 +140,69 @@ lists:
         out: "off"
   bs_door_states:
     values:
-      - in: "åben"
+      - in: "(åben[t]|åbne[t])"
         out: "on"
       - in: "lukket"
         out: "off"
   bs_garage_door_states:
     values:
-      - in: "åben"
+      - in: "(åben[t]|åbne[t])"
         out: "on"
       - in: "lukket"
         out: "off"
   bs_gas_states:
     values:
-      - in: "(detekteret|påvist|tilstedeværende)"
+      - in: "(detekteret|fundet|registreret)"
         out: "on"
-      - in: "(ikke detekteret|ikke påvist|fraværende)"
+      - in: "(ikke detekteret|ikke fundet|ikke registreret)"
         out: "off"
   bs_heat_states:
     values:
-      - in: "varmt"
+      - in: "varm[t]"
         out: "on"
-      - in: "normalt"
+      - in: "normal[t]"
         out: "off"
   bs_light_states:
     values:
-      - in: "detekteret"
+      - in: "(detekteret|registreret)"
         out: "on"
-      - in: "ikke detekteret"
+      - in: "(ikke detekteret|ikke registreret)"
         out: "off"
   bs_lock_states:
     values:
-      - in: "ulåst"
+      - in: "(låst op|ulåst)"
         out: "on"
       - in: "låst"
         out: "off"
   bs_moisture_states:
     values:
-      - in: "vådt"
+      - in: "våd[t]"
         out: "on"
-      - in: "tørt"
+      - in: "tør[t]"
         out: "off"
   bs_motion_states:
     values:
-      - in: "(detekteret|påvist)"
+      - in: "(detekteret|registreret)"
         out: "on"
-      - in: "(ikke detekteret|ikke påvist)"
+      - in: "(ikke detekteret|ikke registreret)"
         out: "off"
   bs_occupancy_states:
     values:
-      - in: "(detekteret|påvist|tilstedeværende)"
+      - in: "(detekteret|registreret)"
         out: "on"
-      - in: "(ikke detekteret|ikke påvist|fraværende)"
+      - in: "(ikke detekteret|ikke registreret)"
         out: "off"
   bs_opening_states:
     values:
-      - in: "åben"
+      - in: "(åben[t]|åbne[t])"
         out: "on"
       - in: "lukket"
         out: "off"
   bs_plug_states:
     values:
-      - in: "tilkoblet"
+      - in: "(koblet til|sat i)"
         out: "on"
-      - in: "frakoblet"
+      - in: "(ikke koblet til|ikke sat i)"
         out: "off"
   bs_power_states:
     values:
@@ -214,43 +214,43 @@ lists:
     values:
       - in: "(hjemme|tilstedeværende)"
         out: "on"
-      - in: "(væk|fraværende)"
+      - in: "(fraværende|ikke hjemme|ude)"
         out: "off"
   bs_problem_states:
     values:
-      - in: "fundet"
+      - in: "(detekteret|fundet|registreret)"
         out: "on"
-      - in: "intet fundet"
+      - in: "(ikke detekteret|ikke fundet|ikke registreret)"
         out: "off"
   bs_running_states:
     values:
-      - in: "(kører|aktiveret)"
+      - in: "kører"
         out: "on"
-      - in: "(stoppet|deaktiveret)"
+      - in: "kører ikke"
         out: "off"
   bs_safety_states:
     values:
-      - in: "farlig"
+      - in: "(farlig|usikker)"
         out: "on"
-      - in: "sikker"
+      - in: "(sikker|ufarlig)"
         out: "off"
   bs_smoke_states:
     values:
-      - in: "(detekteret|påvist|tilstedeværende)"
+      - in: "(detekteret|fundet|registreret)"
         out: "on"
-      - in: "(ikke detekteret|ikke påvist|fraværende)"
+      - in: "(ikke detekteret|ikke fundet|ikke registreret)"
         out: "off"
   bs_sound_states:
     values:
-      - in: "(detekteret|påvist|tilstedeværende)"
+      - in: "(detekteret|registreret)"
         out: "on"
-      - in: "(ikke detekteret|ikke påvist|fraværende)"
+      - in: "(ikke detekteret|ikke registreret)"
         out: "off"
   bs_tamper_states:
     values:
-      - in: "(detekteret|pillet ved)"
+      - in: "(detekteret|pillet ved|registreret)"
         out: "on"
-      - in: "(ikke detekteret|urørt)"
+      - in: "(ikke detekteret|ikke pillet ved|ikke registreret)"
         out: "off"
   bs_update_states:
     values:
@@ -260,13 +260,13 @@ lists:
         out: "off"
   bs_vibration_states:
     values:
-      - in: "(detekteret|vibrerer)"
+      - in: "(detekteret|registreret|vibrerer)"
         out: "on"
-      - in: "(ikke detekteret|vibrerer ikke)"
+      - in: "(ikke detekteret|ikke registreret|vibrerer ikke)"
         out: "off"
   bs_window_states:
     values:
-      - in: "åben"
+      - in: "(åben[t]|åbne[t])"
         out: "on"
       - in: "lukket"
         out: "closed"
@@ -274,8 +274,7 @@ lists:
 expansion_rules:
   al: "(alle | alt)"
   blæser: "blæser[(e|en|ne)]"
-  garagedør: "garagedør[(en|e|ene)]"
-  garageport: "garageport[(en|e|ene)]"
+  garagedør: "garage(dør|port)[(en|e|ene)]"
   gardin: "gardin[(et|er|erne)]"
   i_på: "(i | på)"
   koldt_varmt: "(kold[t] | varm[t])"
@@ -293,5 +292,6 @@ expansion_rules:
   åbn: "åbn [for]"
 
 skip_words:
-  - "vær så venlig"
+  - "venligst"
   - "vil du"
+  - "vær så venlig"
