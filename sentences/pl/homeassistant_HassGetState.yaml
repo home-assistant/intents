@@ -1,4 +1,63 @@
 language: pl
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - jak(i|a|e) jest <name> [<area>]
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - jak(i|a|e) jest stan <name> [<area>]
+        response: one_state
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - jak(i|a|e) jest status <name> [<area>]
+        response: one_status
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - jak(i|a|e) jest wartość <name> [<area>]
+        response: one_value
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - czy [stan|status|wartość] <name> jest {on_off_states:state} [<area>]
+          - czy [stan|status|wartość] <name> [<area>] jest {on_off_states:state}
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - (czy jest|czy są) [jakiś|jakieś] {on_off_domains:domain} {on_off_states:state} [<area>]
+          - (czy jest|czy są) [<area>] [jakiś|jakieś] {on_off_domains:domain} {on_off_states:state}
+          - czy [<area>] (jest|są) [jakiś|jakieś] {on_off_states:state} {on_off_domains:domain}
+        response: any
+
+      - sentences:
+          - czy <all> {on_off_domains:domain} (jest|są) {on_off_states:state} [<area>]
+          - czy [<area>] <all> {on_off_domains:domain} (jest|są) {on_off_states:state}
+        response: all
+
+      - sentences:
+          - któr(y|e|a) {on_off_domains:domain} (jest|są) {on_off_states:state} [<area>]
+        response: which
+
+      - sentences:
+          - ile {on_off_domains:domain} (jest|są) {on_off_states:state} [<area>]
+          - <how_many_is> {on_off_states:state} {on_off_domains:domain} [<area>]
+        response: how_many

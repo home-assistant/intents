@@ -1,0 +1,52 @@
+language: nl
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - "sluit <name>"
+          - "[<doe>|<zou>] <name> <dicht> [[willen|kunnen] <doe>]"
+        response: "cover"
+        slots:
+          domain: cover
+
+      - sentences:
+          - "sluit [de] garage[ ][deur]"
+          - "[<doe>|<zou>] [de] garage[ ][deur] dicht [[willen|kunnen] <doe>]"
+        response: "cover_device_class"
+        slots:
+          device_class: "garage"
+          domain: "cover"
+
+      - sentences:
+          - sluit <name> <in> <area>
+          - "[<doe>|<zou>] <name> (<dicht> <in> <area>|<in> <area> <dicht>) [[willen|kunnen] <doe>]"
+          - "<zou> <name> <in> <area> (willen|kunnen) [<dicht>]"
+        response: "cover"
+        slots:
+          device_class:
+            - "blind"
+            - "curtain"
+            - "shutter"
+            - "shade"
+          domain: "cover"
+
+      - sentences:
+          - "sluit [de|het] <curtain> <in> <area>"
+          - "[<doe>|<zou>] [de|het] <curtain> (<dicht> <in> <area>|<in> <area> <dicht>) [[willen|kunnen] <doe>]"
+          - "<zou> [de|het] <curtain> <in> <area> [willen|kunnen] <dicht>"
+        response: "cover"
+        slots:
+          device_class: "curtain"
+          domain: "cover"
+
+      - sentences:
+          - "sluit [de|het] (<blind>|<shutter>|<shade>) <in> <area>"
+          - "[<doe>|<zou>] [de|het] (<blind>|<shutter>|<shade>) (<dicht> <in> <area>|<in> <area> <dicht>) [[willen|kunnen] <doe>]"
+          - "<zou> [de|het] (<blind>|<shutter>|<shade>) <in> <area> [willen|kunnen] <dicht>"
+        response: "cover"
+        slots:
+          device_class:
+            - "blind"
+            - "shutter"
+            - "shade"
+          domain: "cover"

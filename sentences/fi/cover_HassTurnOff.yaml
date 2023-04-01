@@ -1,0 +1,23 @@
+language: fi
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - "<sulje> {name} [[<alueessa>|<alueesta>|<alueella>|<alueelta>] <huone>]"
+        requires_context:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<sulje> autotallin ovi"
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover_device_class
+
+      - sentences:
+          - "<sulje> {cover_classes:device_class} [<alueessa>|<alueesta>|<alueella>|<alueelta>] <huone>"
+          - "<sulje> [<alueen>|<alueessa>|<alueesta>|<alueella>|<alueelta>] <huone> {cover_classes:device_class}"
+        slots:
+          domain: cover
+        response: cover_device_class

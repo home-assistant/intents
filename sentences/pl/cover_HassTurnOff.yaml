@@ -1,0 +1,42 @@
+language: pl
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - "(<close>|<close_blind>) <name>"
+        requires_context:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "(<close>|<close_blind>) <name> <area>"
+        requires_context:
+          domain: cover
+        response: cover_area_blind
+
+      - sentences:
+          - <close> garaż
+          - <close> (drzwi|bramę) (garażowe|garażową| od garażu)
+          - (drzwi|bramę) (garażowe|garażową|od garażu) <close>
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover_garage
+
+      - sentences:
+          - "(<close>|<close_blind>) [<all>] rolety"
+        slots:
+          domain: cover
+          # device_class: curtain
+          device_class:
+            - curtain
+            - shutter
+            - curtain
+        response: cover_blind
+
+      - sentences:
+          - "(<close>|<close_blind>) [<all>] rolety <area>"
+          - "(<close>|<close_blind>) <area> [<all>] rolety"
+        slots:
+          domain: cover
+        response: cover_area_blinds

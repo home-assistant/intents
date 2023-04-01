@@ -1,0 +1,21 @@
+language: nb
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<åpne> <navn> [<i_på> <område>]"
+        requires_context:
+          domain: cover
+        response: cover
+      - sentences:
+          - "<åpne> <garasje>"
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover_device_class
+      - sentences:
+          - "<åpne> {cover_classes:device_class} <i_på> <område>"
+          - "<åpne> <område>[s][ ]{cover_classes:device_class}"
+        slots:
+          domain: cover
+        response: cover_device_class

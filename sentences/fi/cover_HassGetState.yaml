@@ -1,4 +1,35 @@
-language: fi
+language: "fi"
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "<onko> {name} {cover_states:state} [[<alueessa>|<alueella>] <huone>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<onko>|<ovatko>) (<jokin>|<jotkut>) {cover_classes:device_class} {cover_states:state} [[<alueessa>|<alueella>] <huone>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<onko>|<ovatko>) <kaikki> {cover_classes:device_class} {cover_states:state} [[<alueessa>|<alueella>] <huone>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(mikä|mitkä) {cover_classes:device_class} (on|ovat) {cover_states:state} [[<alueessa>|<alueella>] <huone>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<montako> {cover_classes:device_class} on {cover_states:state} [[<alueessa>|<alueella>] <huone>]"
+        response: how_many
+        slots:
+          domain: cover

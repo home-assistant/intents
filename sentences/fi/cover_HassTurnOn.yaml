@@ -1,0 +1,23 @@
+language: fi
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<avaa> {name} [[<alueessa>|<alueesta>|<alueella>|<alueelta>] <huone>]"
+        requires_context:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<avaa> autotallin ovi"
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover_device_class
+
+      - sentences:
+          - "<avaa> {cover_classes:device_class} [<alueessa>|<alueesta>|<alueella>|<alueelta>] <huone>"
+          - "<avaa> [<alueen>|<alueessa>|<alueesta>|<alueella>|<alueelta>] <huone> {cover_classes:device_class}"
+        slots:
+          domain: cover
+        response: cover_device_class

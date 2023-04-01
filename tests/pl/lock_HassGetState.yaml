@@ -1,0 +1,49 @@
+language: pl
+tests:
+  - sentences:
+      - "czy główne drzwi są zamknięte?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Główne drzwi"
+        state: "locked"
+    response: "Tak"
+
+  - sentences:
+      - "czy są jakieś drzwi otwarte"
+      - "czy są jakieś otwarte drzwi"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Tak, Tylne drzwi"
+
+  - sentences:
+      - "czy wszystkie drzwi są zamknięte?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Nie, Tylne drzwi nie są"
+
+  - sentences:
+      - "które drzwi są zamknięte?"
+      - "który zamek jest zamknięty?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Boczne drzwi i Główne drzwi"
+
+  - sentences:
+      - "ile drzwi jest zamkniętych?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "2"

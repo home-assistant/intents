@@ -1,0 +1,23 @@
+language: zh-hk
+intents:
+  HassTurnOff:
+    data:
+      #      - sentences: []
+      - sentences:
+          - "<close>[<area>]{name}"
+          - "[<let>][<area>]{name}<close>"
+        requires_context:
+          domain: cover
+      - sentences:
+          - "<close>車房[的][大|捲閘]門"
+          - "[<let>]車房[的][大|捲閘]門<close>"
+        slots:
+          domain: cover
+          device_class: garage
+
+      - sentences:
+          - "<close>[<area>]{cover_classes:device_class}"
+          - "[<let>][<area>]{cover_classes:device_class}<close>"
+        slots:
+          domain: cover
+        response: cover_device_class
