@@ -1,12 +1,12 @@
 language: "he"
 responses:
   errors:
-    no_intent: "סליחה, לא הבנתי את הפקודה"
+    no_intent: "סליחה, לא הבנתי את זה"
     no_area: "אין שטח בשם {{ area }}"
     no_domain: "אין {{ domain }} ב{{ area }}"
     no_device_class: "אין {{ device_class }} ב{{ area }}"
     no_entity: "אין התקן או יישות בשם {{ entity }}"
-    handle_error: "שגיאה בלתי צפויה התקבלה"
+    handle_error: "שגיאה בלתי צפויה בעת עיבוד הבקשה"
 lists:
   color:
     values:
@@ -46,60 +46,132 @@ lists:
         out: "celsius"
   brightness_level:
     values:
-      - in: ( מקסימלי | הכי גבוה | עד הסוף | מרבי | מירבי | למקסימום)
+      - in: (מקס | מקסימום | הגבוה | הגבוה ביותר | הגבוהה ביותר | מקסימלי | הכי גבוה | עד הסוף | מרבי | מירבי | למקסימום)
         out: 100
-      - in: ( מינימלי | הכי נמוך | למינימום)
+      - in: (מינ | מינימום | הנמוך | הנמוך ביותר | הנמוכה ביותר | מינימלי | הכי נמוך | למינימום)
         out: 1
   on_off_states:
     values:
-      - in: פועלים|פועל|דולקת|דולק
+      - in: "דולק"
         out: "on"
-      - in: כבוי|כבויים
+      - in: "דולקים"
+        out: "on"
+      - in: "פועלים"
+        out: "on"
+      - in: "מופעלים"
+        out: "on"
+      - in: "דולקות"
+        out: "on"
+      - in: "פועלות"
+        out: "on"
+      - in: "מופעלות"
+        out: "on"
+      - in: "כבוי"
+        out: "off"
+      - in: "כבוים"
+        out: "off"
+      - in: "כבויים"
+        out: "off"
+      - in: "מכובים"
+        out: "off"
+      - in: "כבויות"
+        out: "off"
+      - in: "מכובות"
         out: "off"
   on_off_domains:
     values:
-      - in: אור|אורות
+      - in: אור[ות]
         out: light
-      - in: מאוורר|מאווררים
+      - in: מאוורר[ים]
         out: fan
-      - in: מתג|מתגים
+      - in: מתג[ים]
         out: switch
   cover_states:
     values:
       - in: "פתוח"
         out: "open"
+      - in: "פתוחה"
+        out: "open"
+      - in: "פתוחים"
+        out: "open"
+      - in: "פתוחות"
+        out: "open"
       - in: "סגור"
+        out: "closed"
+      - in: "סגורה"
+        out: "closed"
+      - in: "סגורים"
+        out: "closed"
+      - in: "סגורות"
         out: "closed"
       - in: "פותח"
         out: "opening"
+      - in: "נפתח"
+        out: "opening"
+      - in: "נפתחת"
+        out: "opening"
       - in: "סוגר"
+        out: "closing"
+      - in: "נסגר"
+        out: "closing"
+      - in: "נסגרת"
         out: "closing"
   cover_classes:
     values:
-      - in: סככה|סככות
+      - in: סוכך
         out: awning
-      - in: וילון|וילונות
+      - in: סככה
+        out: awning
+      - in: סוככים
+        out: awning
+      - in: סככות
+        out: awning
+      - in: תריס
+        out: blind
+      - in: תריסים
+        out: blind
+      - in: וילון
         out: curtain
-      - in: דלת[ות]
+      - in: וילונות
+        out: curtain
+      - in: דלתות
         out: door
+      - in: דלת
+        out: door
+      - in: דלת חניה
+        out: garage
+      - in: דלתות [ה]חניה
+        out: garage
       - in: שער[ים]
         out: gate
-      - in: תריס[ים]
+      - in: צילייה
+        out: shade
+      - in: ציליה
+        out: shade
+      - in: תריס הצללה
         out: shutter
-      - in: חלון|חלונות
+      - in: תריסי [ה]הצללה
+        out: shutter
+      - in: חלון
+        out: window
+      - in: חלונות
         out: window
 expansion_rules:
   name: "[ה]{name}"
   area: "[ה][ב]{area}"
-  what_is: "(מה|מהו|מהי|מהם|מהן|כמה)"
-  brightness: "{brightness} [אחוז][ים]"
-  open: "(פתח | תפתח | תעלה | העלה | הרם | תרים)"
-  close: "(סגור | תסגור | הנמך | תנמיך | תוריד | הורד)"
+  what_is: "(מה|מהו|מהי|מהם|מהן)"
+  brightness: "{brightness}[%| אחוז | אחוזים]"
+  open: "(פתח | לפתוח | תפתח | תעלה | העלה | הרם | להרים | תרים)"
+  close: "(סגור | לסגור | תסגור | הנמך | תנמיך | הורד | להוריד | תוריד)"
   #turn: "(הפעל | הדלק)"
   temp: "(מעלות|טמפרטורה|טמפרטורת)"
-  temperature: "{temperature} [{temperature_unit}] [מעלות]"
+  temperature: "{temperature} [{temperature_unit}] [°| מעלות]"
   set: "(כוון|שנה|קבע)"
+  window: "(חלון | חלונות | תריס | תריסים | וילון | וילונות | סוכך | סוכחים)"
 skip_words:
   - "אנא"
   - "נא"
   - "בבקשה"
+  - "אתה יכול"
+  - "תוכל"
+  - "אפשר"

@@ -70,9 +70,9 @@ lists:
         out: "switch"
   cover_states:
     values:
-      - in: "otvoren(o|i)"
+      - in: "otvoren[a|o|i|ih]|podignut(a)"
         out: "open"
-      - in: "zatvoren(o|i)"
+      - in: "zatvoren[a|o|i|ih]|spušten(a)|navučen(a)"
         out: "closed"
       - in: "otvaram"
         out: "opening"
@@ -96,8 +96,14 @@ lists:
         out: shade
       - in: zasun[e]|kapak|kapke
         out: shutter
-      - in: prozor[e]
+      - in: prozor[a|e|i]
         out: window
+  lock_states:
+    values:
+      - in: "zaključan[a|i|o|ih]|zaključaj"
+        out: "locked"
+      - in: "otključan[a|i|o|ih]|otključaj"
+        out: "unlocked"
 expansion_rules:
   name: "{name}"
   area: "[prostorij[i|a]] {area}"
@@ -112,6 +118,7 @@ expansion_rules:
   zatvori: "zatvori[te|mo]|spusti[te|mo]|navuci"
   koja_je: "koja je|kolika je|kakva je|reci [mi]"
   sve: "[sve|sva|svi]"
+  lock: "vrata|brav[a|u|e]"
 skip_words:
   - "molim [te|vas] [da]"
   - "može(š|te) [li] [da]"
