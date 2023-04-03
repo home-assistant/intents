@@ -2,4 +2,73 @@ language: ar
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      # Brightness
+      # Brightness value individual light
+      - sentences:
+          - "[<turn>] <intensity> <name> [الى] <brightness>"
+        requires_context:
+          domain: light
+        response: "brightness"
+
+      # Brightness value specific area
+      - sentences:
+          - "[<turn>] <intensity> <all> <light> [الى] <brightness> [<in>] <area>"
+          - "[<turn>] <intensity> <all> <light> [<in>] <area> [الى] <brightness>"
+        slots:
+          name: all
+        response: brightness
+
+      # Brightness value all lights
+      - sentences:
+          - "[<turn>] <intensity> <all> <light> [الى] <brightness>"
+        slots:
+          area: all
+          name: all
+        response: "brightness"
+
+      # Min/Max brightness individual light
+      - sentences:
+          - "[<turn>] <intensity> <name> [الى] {brightness_level:brightness}"
+        requires_context:
+          domain: light
+        response: "brightness"
+
+      # Min/Max brightness specific area
+      - sentences:
+          - "[<turn>] <intensity> <all> <light> [الى] {brightness_level:brightness} [<in>] <area>"
+          - "[<turn>] <intensity> <all> <light> [<in>] <area> [الى] {brightness_level:brightness}"
+        slots:
+          name: all
+        response: "brightness"
+
+      # Min/Max brightness all lights
+      - sentences:
+          - "[<turn>] <intensity> <all> <light> [الى] {brightness_level:brightness}"
+        slots:
+          name: all
+          area: all
+        response: "brightness"
+
+      # Color
+      # color individual light
+      - sentences:
+          - "[<turn>] <color> <name> [الى] {color}"
+        requires_context:
+          domain: light
+        response: "color"
+
+      # color specific area
+      - sentences:
+          - "[<turn>] <color> <all> <light> [الى] {color} [<in>] <area>"
+          - "[<turn>] <color> <all> <light> [<in>] <area> [الى] {color}"
+        slots:
+          name: all
+        response: "color"
+
+      # color all lights
+      - sentences:
+          - "[<turn>] <color> <all> <light> [الى] {color}"
+        slots:
+          area: all
+          name: all
+        response: "color"
