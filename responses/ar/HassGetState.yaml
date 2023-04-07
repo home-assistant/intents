@@ -5,57 +5,57 @@ responses:
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
-        {{ slots.name | capitalize }} is {{ state.state_with_unit }}
+        {{ slots.name | capitalize }} هو {{ state.state_with_unit }}
 
       one_yesno: |
         {% if query.matched %}
-          Yes
+          اجل
         {% else %}
-          No, {{ state.state_with_unit }}
+          لا, {{ state.state_with_unit }}
         {% endif %}
 
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Yes, {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+            اجل, {{ match[:3] | join(", ") }} و {{ (match | length - 3) }} ايضا
           {%- else -%}
-            Yes,
+            اجل,
             {% for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} و {% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
         {% else %}
-          No
+          لا
         {% endif %}
 
       all: |
         {% if not query.unmatched: %}
-          Yes
+          اجل
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            No, {{ no_match[:3] | join(", ") }} and {{ (no_match | length - 3) }} more not
+            لا, {{ no_match[:3] | join(", ") }} و {{ (no_match | length - 3) }} ايضا
           {%- else -%}
-            No,
+            لا,
             {% for name in no_match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} و {% endif -%}
               {{ name }}
-            {%- endfor %} not
+            {%- endfor %} لا
           {% endif %}
         {% endif %}
 
       which: |
         {% if not query.matched %}
-          Not any
+          لا يوجد
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+            {{ match[:3] | join(", ") }} و {{ (match | length - 3) }} ايضا
           {% else %}
             {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} و {% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
