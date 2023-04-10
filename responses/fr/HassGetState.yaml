@@ -20,7 +20,7 @@ responses:
           {% set count_match = no_match | length | int %}
           {% if match | length > 4 %}
             Oui, {{ match[:3] | join(", ") }} et {{ (match | length - 3) }} autres
-          {% elif no_match | length == 0 %}
+          {% elif match | length == 1 %}
             Oui, l'appareil
             {% for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
@@ -33,7 +33,7 @@ responses:
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
               {{ name }}
             {% endfor %}
-            sont {{ state.state_with_unit }}s
+            sont {{ state.state_with_unit }}
           {% endif %}
         {% else %}
           Non
@@ -46,21 +46,19 @@ responses:
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% set count_match = no_match | length | int %}
           {% if no_match | length > 4 %}
-            Non, {{ no_match[:3] | join(", ") }} et {{ (no_match | length - 3) }} autres, ne sont pas {{ state.state_with_unit }}
+            Non,pas  {{ no_match[:3] | join(", ") }} et {{ (no_match | length - 3) }} autres
           {% elif no_match | length == 1 %}
-            Non, l'appareil
+            Non, pas l'appareil
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
               {{ name }}
             {%- endfor %}
-            n'est pas {{ state.state_with_unit }}
           {%- else -%}
-            Non, les appareils 
+            Non, pas les appareils 
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
               {{ name }}
             {%- endfor %}
-            ne sont pas {{ state.state_with_unit }}s
           {% endif %}
         {% endif %}
 
@@ -70,10 +68,10 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% set count_match = match | length | int %}
-          {% if match | length > 4 %}
+          {% if match | count > 4 %}
             Les appareils 
             {{ match[:3] | join(", ") }} et {{ (match | length - 3) }} autres
-          {% elif match | length == 1 %}
+          {% elif match | count == 1 %}
             L'appareil 
             {% for name in match %}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
