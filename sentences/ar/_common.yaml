@@ -29,11 +29,7 @@ lists:
         out: "purple"
       - in: "بني"
         out: "brown"
-  brightness:
-    range:
-      type: "percentage"
-      from: 0
-      to: 100
+
   temperature:
     range:
       type: "temperature"
@@ -47,12 +43,19 @@ lists:
       - "فهرنهايت"
       - in: "f"
         out: "fahrenheit"
+
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   brightness_level:
     values:
-      - in: ( عالي| قصوى )
+      - in: (عالي|قصوى)
         out: 100
       - in: منخفض
         out: 1
+
   on_off_states:
     values:
       - in: "شغل"
@@ -61,17 +64,18 @@ lists:
         out: "off"
   on_off_domains:
     values:
-      - in: ( نور | لمبة | لمبات | أنوار )
+      - in: <light>
         out: light
-      - in: ( مروحة | مراوح )
+      - in: <fan>
         out: fan
-      - in: ( مفتاح | مفاتيح )
+      - in: <switch>
         out: switch
+
   cover_states:
     values:
       - in: "مفتوح"
         out: "open"
-      - in: "( مغلق | مقفول )"
+      - in: "(مغلق|مقفول)"
         out: "closed"
       - in: "يفتح"
         out: "opening"
@@ -79,38 +83,54 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: "[ال](مظلات|مظلة)"
+      - in: <awning>
         out: awning
-      - in: "[ال](ستائر|ستارة)"
+      - in: <curtain>
         out: curtain
-      - in: "[ال](باب|ابواب)"
+      - in: <door>
         out: door
-      - in: "[ال](باب|ابواب) [ال]جراج"
+      - in: <garage>
         out: garage
-      - in: "[ال](بوابة|بوابات)"
+      - in: <gate>
         out: gate
-      - in: "[ال](شباك|شبابيك|نافذة|نوافذ)"
+      - in: <window>
         out: window
+
 expansion_rules:
-  name: "[ال] {name}"
-  area: "[ال] {area}"
-  what_is: "(ما هو | ما هى | ماذا يكون | ماذا تكون)"
+  name: "[ال]{name}"
+  area: "[ال]{area}"
+  colors: "[ال]{color}"
+
+  what_is: "(ما هو|ما هى|ماذا يكون|ماذا تكون)"
+
   brightness: "{brightness}[% | بالمائة]"
-  light: "[ال](اضواء|اضاءة|ضوء|مصابيح|مصباح|انوار)"
-  switch: "[ال](مفتاح|مفاتيح)"
-  turn: "(غير | اضبط)"
-  turn_on: "(افتح | شغل | اشعل)"
-  turn_off: "(اغلق | اطفئ | طفي)"
-  fan: "[ال](مروحة|مراوح)"
-  intensity: "[ال](درجة [ال]سطوع|[شدة] [ال]سطوع|قوة|شدة)"
-  in: "(في | داخل)"
-  color: "[ال](لون|الوان)"
-  temp: "درجة [ال]حرارة"
   temperature: "{temperature}[°| درجة] [{temperature_unit}]"
-  open: "(افتح | ارفع)"
-  all: "(كل | جميع)"
-  close: "(اغلق | اقفل | اخفض)"
-  window: "(نافذة | نوافذ | مظلة | مظلات | ستارة | ستائر)"
+
+  light: "[ال](اضواء|اضاءة|ضوء|مصابيح|مصباح|انوار|نور|لمبة|لمبات|أنوار)"
+  switch: "[ال](مفتاح|مفاتيح)"
+  fan: "[ال](مروحة|مراوح|مروحات)"
+
+  turn: "(غير|اضبط|ضبط)"
+  turn_on: "(افتح|شغل|اشعل)"
+  turn_off: "(اغلق|اطفئ|طفي)"
+
+  temp: "درجة [ال]حرارة"
+  intensity: "[ال](درجة [ال]سطوع|[شدة] [ال]سطوع|قوة|شدة)"
+  color: "[ال](لون|الوان)"
+
+  in: "(في|داخل)"
+  all: "(كل|جميع)"
+
+  open: "(افتح|ارفع)"
+  close: "(اغلق|اقفل|اخفض|انزل|نزل)"
+
+  awning: "[ال](مظلة|مظلات)"
+  curtain: "[ال](ستائر|ستارة|ستارات)"
+  door: "[ال](باب|ابواب)"
+  garage: "[ال](باب|ابواب|بوابة|بوابات) [ال]جراج"
+  gate: "[ال](بوابة|بوابات)"
+  window: "[ال](نافذة|نوافذ|نافذات|شباك|شبابيك)"
+
 skip_words:
-  - "(من فضلك | لو سمحت)"
-  - "(هل يمكنك | تقدر)"
+  - "(من فضلك|لو سمحت)"
+  - "(هل يمكنك|تقدر)"
