@@ -47,7 +47,7 @@ intents:
           device_class: battery_charging
 
       - sentences:
-          - "[(Y a t'il|Il y a)] (des|plusieurs) (appareil[s]|batterie[s]) [(qui|en)] {bs_battery_charging_states:state} [<dans> <area>]"
+          - "[<yatil>] (des|plusieurs) (appareil[s]|batterie[s]) [(qui|en)] {bs_battery_charging_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -61,66 +61,67 @@ intents:
           device_class: battery_charging
 
       - sentences:
-          - "(quelle[s]|liste) [sont] [les] (appareil[s]|batterie[s]) [sont] {bs_battery_charging_states:state} [<dans> <area>]"
+          - "(quel[le][s]|liste) [sont] [les] (appareil[s]|batterie[s]) [qui] [sont] {bs_battery_charging_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: battery_charging
 
-      # - sentences:
-      #     - "how many batter(y|ies) (is|are) {bs_battery_charging_states:state} [in <area>]"
-      #   response: how_many
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: battery_charging
+      - sentences:
+          - "(combien|compte) [<dans>] [les] (appareil[s]|batterie[s]) [qui] [ne] [sont] {bs_battery_charging_states:state} [<dans> <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
 
-      # # Carbon monoxide
-      # - sentences:
-      #     - "(is|are) <name> {bs_carbon_monoxide_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: carbon_monoxide
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: carbon_monoxide
+      # Carbon monoxide
+      - sentences:
+          - "[<dans>] <name> [(a t|est)] [il] [(est|été)] [au statut] {bs_carbon_monoxide_states:state} [<dans> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
 
-      # - sentences:
-      #     - "(is|are) any carbon monoxide sensor[s] {bs_carbon_monoxide_states:state} [in <area>]"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: carbon_monoxide
+      # Carbon monoxide
+      - sentences:
+          - "[<dans>] (CO2|monoxyde [de carbone]) [(a t|est)] [il] [(est|été)] {bs_carbon_monoxide_states:state} [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
 
-      # - sentences:
-      #     - "is there [any] carbon monoxide in <area>"
-      #     - "is [there] [any] carbon monoxide detected in <area>"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: carbon_monoxide
-      #     state: "on"
+      - sentences:
+          - "[<yatil>] [(un|le) capteur de] [une alerte] (monoxyde de carbone|CO2) [(est-il|est il|de)] [{bs_carbon_monoxide_states:state}] [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
 
-      # - sentences:
-      #     - "are all [the] carbon monoxide sensors {bs_carbon_monoxide_states:state} [in <area>]"
-      #   response: all
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: carbon_monoxide
+      - sentences:
+          - "Tou(t|s) [les] capteurs [de] (CO2|monoxyde[ de carbone]) sont [ils] {bs_carbon_monoxide_states:state} [<dans> <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
 
-      # - sentences:
-      #     - "(which|what) carbon monoxide sensor[s] (is|are) {bs_carbon_monoxide_states:state} [in <area>]"
-      #   response: which
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: carbon_monoxide
+      - sentences:
+          - "quel[s][le][s] capteur[s] [de] (CO2|monoxyde[de carbone]) (est|sont) [il][s] {bs_carbon_monoxide_states:state} [<dans> <area>]"
+          - "Où du (CO2|monoxyde[ de carbone]) est [il] {bs_carbon_monoxide_states:state} "
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
 
-      # - sentences:
-      #     - "how many carbon monoxide sensors (is|are) {bs_carbon_monoxide_states:state} [in <area>]"
-      #   response: how_many
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: carbon_monoxide
+      - sentences:
+          - "(combien|compte) (de|le[s]) capteur[s] [de] (CO2|monoxyde[de carbone]) [qui] [sont] [ils] {bs_carbon_monoxide_states:state} [dans <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
 
       # # Cold
       # - sentences:
