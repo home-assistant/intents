@@ -1,6 +1,6 @@
 # Codespaces Workflow
 
-A complete development environment can be accessed through [Github codespaces](https://docs.github.com/en/codespaces/overview).
+A complete development environment can be accessed through [GitHub Codespaces](https://docs.github.com/codespaces/overview).
 
 To get started, click the green "Code" button on the repository's main page, and then click "Create codespace on main":
 
