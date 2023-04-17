@@ -1,8 +1,9 @@
 import json
 import os
 import typing
+from collections import defaultdict
 from pathlib import Path
-from typing import Any, Callable, Dict, IO, Optional
+from typing import Any, Callable, Dict, IO, List, Optional
 
 import importlib.resources
 
@@ -23,3 +24,19 @@ def get_intents(
             return json_load(intents_file)
 
     return None
+
+
+def get_domains_and_languages() -> Dict[str, List[str]]:
+    """Return a dict of available domains and languages."""
+    domains_and_languages: Dict[str, List[str]] = defaultdict(list)
+
+    # data/<domain>/<language>.json
+    for domain_dir in sorted(_DATA_DIR.iterdir()):
+        if not domain_dir.is_dir():
+            continue
+
+        domains_and_languages[domain_dir.name] = sorted(
+            (language_file.stem for language_file in domain_dir.glob("*.json"))
+        )
+
+    return domains_and_languages
