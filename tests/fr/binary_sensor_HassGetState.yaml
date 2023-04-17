@@ -19,7 +19,7 @@ tests:
       slots:
         domain: binary_sensor
         device_class: battery
-        area: cuisine
+        area: "cuisine"
         state: "off"
     response: "Non, pas l'appareil téléphone"
 
@@ -61,7 +61,7 @@ tests:
         domain: binary_sensor
         device_class: battery
         state: "on"
-        area: garage
+        area: "garage"
     response: "0"
 
   # # Battery charging
@@ -79,7 +79,7 @@ tests:
     response: "Oui"
 
   - sentences:
-      - "Y a t'il des batteries en charge ?"
+      - "Y a-t-il des batteries en charge ?"
     intent:
       name: HassGetState
       slots:
@@ -89,14 +89,14 @@ tests:
     response: "Oui, les appareils portable et téléphone sont en charge"
 
   - sentences:
-      - "Y a t'il des batteries en charge dans la cuisine?"
+      - "Y a-t-il des batteries en charge dans la cuisine?"
     intent:
       name: HassGetState
       slots:
         domain: binary_sensor
         device_class: battery_charging
         state: "on"
-        area: cuisine
+        area: "cuisine"
     response: "Oui, l'appareil téléphone est en charge"
 
   - sentences:
@@ -110,7 +110,7 @@ tests:
     response: "Oui"
 
   - sentences:
-      - "Quelles appareils sont en charge ?"
+      - "Quels appareils sont en charge ?"
       - "Quelles batteries sont en cours de chargement ?"
       - "Liste les appareils en charge"
     intent:
@@ -121,79 +121,138 @@ tests:
         state: "on"
     response: "Les appareils portable et téléphone sont en charges"
 
-  # - sentences:
-  #     - "how many batteries are charging?"
-  #   intent:
-  #     name: HassGetState
-  #     slots:
-  #       domain: binary_sensor
-  #       device_class: battery_charging
-  #       state: "on"
-  #   response: "1"
+  - sentences:
+      - "Combien de batteries sont en charge ?"
+      - "Compte les appareils en cours de chargement"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "2"
 
-  # # Carbon monoxide
-  # - sentences:
-  #     - "is CO2 detected?"
-  #   intent:
-  #     name: HassGetState
-  #     slots:
-  #       domain: "binary_sensor"
-  #       device_class: "carbon_monoxide"
-  #       name: "CO2"
-  #       state: "on"
-  #   response: "No, clear"
+  - sentences:
+      - "Combien de batteries sont en charge dans la cuisine ?"
+      - "Compte les appareils en cours de chargement dans la cuisine"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+        area: "cuisine"
+    response: "1"
 
-  # - sentences:
-  #     - "are any carbon monoxide sensors on?"
-  #   intent:
-  #     name: HassGetState
-  #     slots:
-  #       domain: binary_sensor
-  #       device_class: carbon_monoxide
-  #       state: "on"
-  #   response: "No"
+  # Carbon monoxide
+  - sentences:
+      - "Est ce que le capteur monoxyde est déclenché ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "carbon_monoxide"
+        name: "capteur monoxyde"
+        state: "on"
+    response: "Non, sécurisé"
 
-  # - sentences:
-  #     - "is there any carbon monoxide in the kitchen?"
-  #     - "is there any carbon monoxide detected in the kitchen?"
-  #   intent:
-  #     name: HassGetState
-  #     slots:
-  #       area: "Kitchen"
-  #       domain: binary_sensor
-  #       device_class: carbon_monoxide
-  #       state: "on"
-  #   response: "No"
+  - sentences:
+      - "Est ce que le capteur monoxyde est déclenché dans la cuisine ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "carbon_monoxide"
+        name: "capteur monoxyde"
+        area: "cuisine"
+        state: "on"
+    response: "Non, sécurisé"
 
-  # - sentences:
-  #     - "are all carbon monoxide sensors on?"
-  #   intent:
-  #     name: HassGetState
-  #     slots:
-  #       domain: binary_sensor
-  #       device_class: carbon_monoxide
-  #       state: "on"
-  #   response: "No, CO2 not"
+  - sentences:
+      - "Est ce que du monoxyde de carbone est détecté dans la chambre ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "carbon_monoxide"
+        area: chambre
+        state: "on"
+    response: "Oui, l'appareil capteur CO2 chambre est déclenché"
 
-  # - sentences:
-  #     - "which carbon monoxide sensors are on?"
-  #   intent:
-  #     name: HassGetState
-  #     slots:
-  #       domain: binary_sensor
-  #       device_class: carbon_monoxide
-  #       state: "on"
-  #   response: "Not any"
+  - sentences:
+      - "Il y a un capteur de CO2 déclenché ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "Oui, l'appareil capteur CO2 chambre est déclenché"
 
-  # - sentences:
-  #     - "how many carbon monoxide sensors are on?"
-  #   intent:
-  #     name: HassGetState
-  #     slots:
-  #       domain: binary_sensor
-  #       device_class: carbon_monoxide
-  #       state: "on"
-  #   response: "0"
+  - sentences:
+      - "Y a-t-il un capteur de CO2 déclenché dans la cuisine ?"
+      - "du monoxyde de carbone est il détecté dans la cuisine ?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "cuisine"
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "Non"
+
+  - sentences:
+      - "Tous les capteurs de CO2 sont ils déclenchés ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "Non, pas l'appareil capteur monoxyde"
+
+  - sentences:
+      - "Tous les capteurs de CO2 sont ils sécurisés ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "off"
+    response: "Non, pas l'appareil capteur CO2 chambre"
+
+  - sentences:
+      - "Quel capteur de CO2 est détecté ?"
+      - "Où du monoxyde de carbone est détecté ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "L'appareil capteur CO2 chambre est déclenché"
+
+  - sentences:
+      - "Quel capteur de CO2 est détecté dans la chambre?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "chambre"
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "L'appareil capteur CO2 chambre est déclenché"
+
+  - sentences:
+      - "Combien de capteurs de monoxyde sont en alarme ?"
+      - "Compte les capteurs de CO2 déclenchés"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "1"
 
   # # Cold
   # - sentences:
