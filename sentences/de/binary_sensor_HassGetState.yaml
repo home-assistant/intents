@@ -42,3 +42,45 @@ intents:
         slots:
           domain: binary_sensor
           device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "wird <name> [<batterie>] [<area>] {bs_battery_charging_states:state}"
+          - "{bs_battery_charging_states:state} <name> [<batterie>] [<area>] [auf]"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "(wird|werden) <irgend> <batterie> [<area>] {bs_battery_charging_states:state}"
+          - "{bs_battery_charging_states:state} <irgend> <batterie> [<area>] [auf]"
+        response: irgendeins
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "werden alle <batterie> [<area>] {bs_battery_charging_states:state}"
+          - "{bs_battery_charging_states:state} alle <batterie> [<area>] [auf]"
+        response: alle
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "(welche[r]) <batterie> [<area>] [wird|werden] {bs_battery_charging_states:state}"
+        response: welches
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "wie viele <batterie> [<area>] [wird|werden] {bs_battery_charging_states:state}"
+        response: wie_viele
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
