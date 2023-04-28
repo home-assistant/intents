@@ -2,14 +2,41 @@ language: fr
 intents:
   HassLightSet:
     data:
+      # brightness (name)
       - sentences:
-          - <regle> [toutes] <lumieres> <dans> <area> à <brightness>
+          - "<regle> [la] luminosité [<de>] <name> [à] <brightness>"
+          - "<regle> <name> [à] <brightness> [de] luminosité"
+          - "<allume> <name> [à] <brightness>"
+          - "luminosité [<de>] <name> [à] <brightness>"
+          - "<name> <brightness>"
+          - "<name> <brightness> luminosité"
+          - "<name> luminosité <brightness>"
+        response: brightness
+
+      # brightness (area)
+      - sentences:
+          - "<regle> [la] luminosité [<dans>] <area> [à] <brightness>"
+          - "<regle> <area> [à] <brightness> [de] luminosité"
+          - "luminosité <dans> <area> [à] <brightness>"
+          - "luminosité <area> <brightness>"
+          - "<area> luminosité <brightness>"
+          - "<area> <brightness> luminosité"
+        response: brightness
         slots:
           name: all
-        response: brightness_area
+
+      # brightness (name + area)
       - sentences:
-          - <regle> <name> <dans> <area> à <brightness>
-        response: brightness_area
+          - "<regle> [la] luminosité [<de>] <name> [<dans>] <area> [à] <brightness>"
+          - "<regle> <name> [<dans>] <area> [à] <brightness> [de] luminosité"
+          - "<allume> <name> [<dans>] <area> [à] <brightness>"
+          - "luminosité [<de>] <name> [<dans>] <area> [à] <brightness>"
+          - "<name> [<dans>] <area> <brightness>"
+          - "<name> [<dans>] <area> <brightness> luminosité"
+          - "<name> [<dans>] <area> luminosité <brightness>"
+        response: brightness
+
+      # color
       - sentences:
           - <regle> [la couleur] [de | des] [toutes] <lumieres> <dans> <area> [avec la
             couleur | de couleur | en] {color}
