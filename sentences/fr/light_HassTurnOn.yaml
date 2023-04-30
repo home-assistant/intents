@@ -3,6 +3,19 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<allume> [toutes] (<lumiere> | <lumieres>) <dans> <area>"
+          - <allume> [<tous>] (<lumiere> | <lumieres>) [<dans>] <area>
+          - (lumières|lumière) [<dans>] <area>
+          - <eclaire> <area>
         slots:
-          domain: "light"
+          domain: light
+          name: all
+        response: lights
+
+      - sentences:
+          - <allume> (<lumiere> | <lumieres>) partout
+          - <allume> <tous> <lumieres>
+        slots:
+          domain: light
+          area: all
+          name: all
+        response: lights

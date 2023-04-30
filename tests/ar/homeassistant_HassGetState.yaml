@@ -6,24 +6,107 @@ tests:
       name: HassGetState
       slots:
         name: "درجة الحرارة الخارجية"
-    response: "درجة الحرارة الخارجية هو 18 °C"
+    response: "حالة درجة الحرارة الخارجية هي 30 °C"
 
   - sentences:
-      - "ما هي حالة منظم الحراره"
+      - "ما هي درجة حرارة غرفة الأطفال"
+    intent:
+      name: HassGetState
+      slots:
+        name: "درجة حرارة غرفة الأطفال"
+    response: "حالة درجة حرارة غرفة الأطفال هي 24 °C"
+
+  - sentences:
+      - "ما هي حالة منظم حرارة غرفة المعيشة"
+    intent:
+      name: HassGetState
+      slots:
+        name: "منظم حرارة غرفة المعيشة"
+    response: "حالة منظم حرارة غرفة المعيشة هي 22 °C"
+
+  - sentences:
+      - "ما هي حالة منظم الحراره في غرفة استقبال الضيوف"
     intent:
       name: HassGetState
       slots:
         name: "منظم الحراره"
-    response: "منظم الحراره هو 22 °C"
+        area: "غرفة استقبال الضيوف"
+    response: "حالة منظم الحراره هي 22 °C"
 
   - sentences:
-      - "ما هي حالة منظم الحراره في غرفة المعيشة"
+      - "ما هي حالة ستارة غرفة النوم"
     intent:
       name: HassGetState
       slots:
-        name: "منظم الحراره"
+        name: "ستارة غرفة النوم"
+    response: "حالة ستارة غرفة النوم هي مغلق"
+
+  - sentences:
+      - "ما هي حالة الستارة اليسرى في غرفة المعيشة"
+    intent:
+      name: HassGetState
+      slots:
+        name: "الستارة اليسرى"
         area: "غرفة المعيشة"
-    response: "منظم الحراره هو 22 °C"
+    response: "حالة الستارة اليسرى هي مفتوح"
+
+  - sentences:
+      - "ما هي حالة تليفون احمد"
+    intent:
+      name: HassGetState
+      slots:
+        name: "تليفون احمد"
+    response: "حالة تليفون احمد هي يشحن"
+
+  - sentences:
+      - "ما هي حالة حساس الغاز"
+    intent:
+      name: HassGetState
+      slots:
+        name: "حساس الغاز"
+    response: "حالة حساس الغاز هي لا يوجد"
+
+  - sentences:
+      - "ما هي حالة حساس الضوء"
+    intent:
+      name: HassGetState
+      slots:
+        name: "حساس الضوء"
+    response: "حالة حساس الضوء هي يوجد"
+
+  - sentences:
+      - "ما هي حالة حساس تسريب المياه في حمام الضيوف"
+    intent:
+      name: HassGetState
+      slots:
+        name: "حساس تسريب المياه"
+        area: "حمام الضيوف"
+    response: "حالة حساس تسريب المياه هي لا تسريب"
+
+  - sentences:
+      - "ما هي حالة حساس الحركة في الحمام"
+    intent:
+      name: HassGetState
+      slots:
+        name: "حساس الحركة"
+        area: "الحمام"
+    response: "حالة حساس الحركة هي يوجد"
+
+  - sentences:
+      - "ما هي حالة قاطع التيار الرئيسي"
+    intent:
+      name: HassGetState
+      slots:
+        name: "قاطع التيار الرئيسي"
+    response: "حالة قاطع التيار الرئيسي هي يعمل"
+
+  - sentences:
+      - "ما هي حالة السارينة"
+    intent:
+      name: HassGetState
+      slots:
+        name: "السارينة"
+    response: "حالة السارينة هي لا تعمل"
 
   - sentences:
       - "هل ضوء السقف في المطبخ يعمل"
@@ -51,7 +134,7 @@ tests:
       slots:
         domain: "light"
         state: "on"
-    response: "اجل, ضوء المطبخ الرئيسي و ضوء غرفة النوم"
+    response: "اجل, اضاءة الحديقة, شريط الليد, ضوء البار و 7 ايضا"
 
   - sentences:
       - "هل هناك أي مصابيح تعمل في غرفة النوم"
@@ -70,6 +153,16 @@ tests:
       slots:
         domain: "fan"
         state: "on"
+    response: "لا, مروحة سقف غرفة النوم ليست"
+
+  - sentences:
+      - "هل كل المراوح تعمل في غرفة المعيشة"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "fan"
+        state: "on"
+        area: "غرفة المعيشة"
     response: "اجل"
 
   - sentences:
@@ -79,7 +172,7 @@ tests:
       slots:
         domain: "light"
         state: "on"
-    response: "لا, ضوء السقف ليست"
+    response: "لا, ضوء السرير, ضوء السقف, ضوء الشرفة و 2 ايضا"
 
   - sentences:
       - "هل كل اللمبات تعمل في غرفة المعيشة"
@@ -98,7 +191,7 @@ tests:
       slots:
         domain: "light"
         state: "on"
-    response: "ضوء المطبخ الرئيسي و ضوء غرفة النوم"
+    response: "اضاءة الحديقة, شريط الليد, ضوء البار و 7 ايضا"
 
   - sentences:
       - "ما هي اللمبات التي تعمل في غرفة النوم"
@@ -117,7 +210,7 @@ tests:
       slots:
         domain: "light"
         state: "on"
-    response: "2"
+    response: "10"
 
   - sentences:
       - "كم عدد اللمبات التي تعمل في غرفة النوم"
