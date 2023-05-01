@@ -124,14 +124,14 @@ lists:
     values:
       - in: "(déclenché[e][s]|détecté[e][s]|en alarme)"
         out: "on"
-      - in: "(non détecté[e][s]|sécurisé[e][s])"
+      - in: "(non détecté[e][s]|sécurisé[e][s]|ok)"
         out: "off"
 
   bs_cold_states:
     values:
       - in: "froid[e][s]"
         out: "on"
-      - in: "normal[e][s]"
+      - in: "norma[l][e][(s|aux)]"
         out: "off"
 
   bs_connectivity_states:
@@ -141,40 +141,47 @@ lists:
       - in: "(déconnecté[e][s]|hors ligne)"
         out: "off"
 
-  bs_garage_door_states:
+  bs_door_states:
     values:
-      - in: "ouvert[e]"
+      - in: "ouvert[e][s]"
         out: "on"
-      - in: "fermé[e]"
+      - in: "fermé[e][s]"
         out: "off"
 
-  # bs_gas_states:
-  #   values:
-  #     - in: "(detected|triggered|on)"
-  #       out: "on"
-  #     - in: "clear"
-  #       out: "off"
+  bs_garage_door_states:
+    values:
+      - in: "ouvert[e][s]"
+        out: "on"
+      - in: "fermé[e][s]"
+        out: "off"
 
-  # bs_heat_states:
-  #   values:
-  #     - in: "hot"
-  #       out: "on"
-  #     - in: "normal"
-  #       out: "off"
+  bs_gas_states:
+    values:
+      - in: "(déclenché[e][s]|détecté[e][s]|en alarme)"
+        out: "on"
+      - in: "(non détecté[e][s]|sécurisé[e][s]|ok)"
+        out: "off"
 
-  # bs_light_states:
-  #   values:
-  #     - in: "detected"
-  #       out: "on"
-  #     - in: "no light"
-  #       out: "off"
+  bs_heat_states:
+    values:
+      - in: "(chaud[e][s]|chauffe[nt])"
+        out: "on"
+      - in: "norma[l][e][(s|aux)]"
+        out: "off"
 
-  # bs_lock_states:
-  #   values:
-  #     - in: "unlocked"
-  #       out: "on"
-  #     - in: "locked"
-  #       out: "off"
+  bs_light_states:
+    values:
+      - in: "détecté[e][s]|déclenché[e][s]|activé[e][s]"
+        out: "on"
+      - in: "pas de lumière"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "déverrouillé[e][s]"
+        out: "on"
+      - in: "verrouillé[e][s]"
+        out: "off"
 
   # bs_moisture_states:
   #   values:
@@ -307,8 +314,8 @@ expansion_rules:
   garage: "([la ]porte (du |de )garage)|([le ]garage)"
   dans: "(dans|du|de)"
   de: "(du|de)"
-  yatil: "(y a-t-il|il y a|y a t il|y a t'il|y a-t'il)"
-  sontils: "(a t|est|sont)[-][ ][(il[s]|elle[s])]"
+  yatil: "(y a-t-il|il y a|y a t il|y a t'il|y a-t'il|y a t-il)"
+  sontils: "(ont|a t|est|sont)[-][ ][(il[s]|elle[s])]"
   tous: "(tous|toutes)"
   eclaire: (éclaire|éclairer|illumine|illuminer)
 skip_words:
