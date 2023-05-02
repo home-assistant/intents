@@ -171,7 +171,7 @@ lists:
 
   bs_light_states:
     values:
-      - in: "détecté[e][s]|déclenché[e][s]|activé[e][s]"
+      - in: "(détecté[e][s]|déclenché[e][s]|activé[e][s])"
         out: "on"
       - in: "pas de lumière"
         out: "off"
@@ -183,25 +183,25 @@ lists:
       - in: "verrouillé[e][s]"
         out: "off"
 
-  # bs_moisture_states:
-  #   values:
-  #     - in: "wet"
-  #       out: "on"
-  #     - in: "dry"
-  #       out: "off"
+  bs_moisture_states:
+    values:
+      - in: "(humide[s]|innondation[s]|fuite[s]|déclenché[e][s])"
+        out: "on"
+      - in: "(sec[che][s]|non détecté[e][s]|désactivé[e][s])"
+        out: "off"
 
-  # bs_motion_states:
-  #   values:
-  #     - in: "(detected|triggered|on)"
-  #       out: "on"
-  #     - in: "clear"
-  #       out: "off"
+  bs_motion_states:
+    values:
+      - in: "(mouvement[s]|déclenché[e][s]|acti(f|ve)[s]|détecté[e][s])"
+        out: "on"
+      - in: "(désactivé[e][s]|non détecté[e][s]|inacti(f|ve)[s])"
+        out: "off"
 
   # bs_occupancy_states:
   #   values:
-  #     - in: "(detected|triggered|on)"
+  #     - in: "(occupé[e][s]|déclenché[e][s])"
   #       out: "on"
-  #     - in: "clear"
+  #     - in: "(désactivé[e][s]|non détecté[e][s])"
   #       out: "off"
 
   # bs_opening_states:
@@ -314,8 +314,9 @@ expansion_rules:
   garage: "([la ]porte (du |de )garage)|([le ]garage)"
   dans: "(dans|du|de)"
   de: "(du|de)"
-  yatil: "(y a-t-il|il y a|y a t il|y a t'il|y a-t'il|y a t-il)"
-  sontils: "(ont|a t|est|sont)[-][ ][(il[s]|elle[s])]"
+  yatil: "(y a[-][ ]t[-][']il|il y a)"
+  estil: "(est|sont)[-][ ][(il[s]|elle[s])]"
+  atil: "(ont|a)[-][ ][t][ ][-][(il[s]|elle[s])]"
   tous: "(tous|toutes)"
   eclaire: (éclaire|éclairer|illumine|illuminer)
 skip_words:
