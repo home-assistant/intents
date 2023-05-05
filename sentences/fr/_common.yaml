@@ -92,6 +92,7 @@ lists:
         out: "shutter"
       - in: "fenêtre[s]"
         out: "window"
+
   lock_states:
     values:
       - in: "verrouill[e][er][é][ée][s]"
@@ -197,19 +198,19 @@ lists:
       - in: "(désactivé[e][s]|non détecté[e][s]|inacti(f|ve)[s])"
         out: "off"
 
-  # bs_occupancy_states:
-  #   values:
-  #     - in: "(occupé[e][s]|déclenché[e][s])"
-  #       out: "on"
-  #     - in: "(désactivé[e][s]|non détecté[e][s])"
-  #       out: "off"
+  bs_occupancy_states:
+    values:
+      - in: "(présent[e][s]|occupé[e][s]|déclenché[e][s]|détecté[e][s]|acti(f|ve)[s])"
+        out: "on"
+      - in: "(désactivé[e][s]|non détecté[e][s]|inacti(f|ve)[s])"
+        out: "off"
 
-  # bs_opening_states:
-  #   values:
-  #     - in: "open"
-  #       out: "on"
-  #     - in: "closed"
-  #       out: "off"
+  bs_opening_states:
+    values:
+      - in: "ouvert[e][s]"
+        out: "on"
+      - in: "fermé[e][s]|clos[e][s]"
+        out: "off"
 
   # bs_plug_states:
   #   values:
@@ -288,12 +289,12 @@ lists:
   #     - in: "(clear|not vibrating)"
   #       out: "off"
 
-  # bs_window_states:
-  #   values:
-  #     - in: "open"
-  #       out: "on"
-  #     - in: "clear"
-  #       out: "closed"
+  bs_window_states:
+    values:
+      - in: "ouvert[e][s]"
+        out: "on"
+      - in: "fermé[e][s]|clos[e][s]"
+        out: "off"
 
 expansion_rules:
   name: "[le |la |les |[l']]{name}"
@@ -302,7 +303,7 @@ expansion_rules:
   temperature: "{temperature}[°| degrés] [{temperature_unit}]"
   regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer)"
   allume: "(allume|allumer|active|activer|démarre|démarrer)"
-  eteins: "(éteint|éteins|éteindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper)"
+  eteins: "((é|e)teint|(é|e)teins|(é|e)teindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper)"
   ferme: "(ferme|fermer|baisse|baisser)"
   ouvre: "(ouvre|ouvrir|monte|monter)"
   lumiere: "([la ](lumière|lampe)|[l']ampoule)"
@@ -312,6 +313,7 @@ expansion_rules:
   volet: "([le ](volet|store))"
   volets: "[les ](volets|stores)"
   garage: "([la ]porte (du |de )garage)|([le ]garage)"
+  fenetre: "(fen(e|ê)tre[s]|baie[s]|v(e|é)lux|lucarne[s])"
   dans: "(dans|du|de)"
   de: "(du|de)"
   yatil: "(y a[-][ ]t[-][']il|il y a)"
