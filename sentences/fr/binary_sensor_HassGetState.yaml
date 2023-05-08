@@ -5,7 +5,8 @@ intents:
       # https://www.home-assistant.io/integrations/binary_sensor/
       # Battery
       - sentences:
-          - "[la|les] [batteri(e|es)] <dans> <name> [<dans> <area>] <estil> {bs_battery_states:state} [<dans> <area>]"
+          - "[la|les] [batterie] [<de>] <name> [<dans> <area>] <estil> {bs_battery_states:state}"
+          - "[la|les] [batterie] [<de>] <name> <estil> {bs_battery_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -15,21 +16,24 @@ intents:
           device_class: battery
 
       - sentences:
-          - "Toute[s] [les] batterie[s] <estil> {bs_battery_states:state} [<dans> <area>]"
+          - "Toute[s] [les] (<capteur>|batterie[s]) <estil> {bs_battery_states:state} [<dans> <area>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: battery
 
       - sentences:
-          - "(quel[le][s]|liste) [sont] [les] (appareil|batterie)[s] <estil> {bs_battery_states:state} [<dans> <area>]"
+          - "<quel> sont les (<capteur>||batterie[s]) [qui sont] {bs_battery_states:state} [<dans> <area>]"
+          - "<quel> (<capteur>||batterie[s]) <estil> {bs_battery_states:state} [<dans> <area>]"
+          - "liste les (<capteur>||batterie[s]) [qui sont] {bs_battery_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: battery
 
       - sentences:
-          - "Combien [de] batterie[s] [<estil>] {bs_battery_states:state} [<dans> <area>]"
+          - "Combien de (<capteur>||batterie[s]) [<estil>] {bs_battery_states:state} [<dans> <area>]"
+          - "Compte (les|le nombre de) (<capteur>|batterie[s]) [qui sont] {bs_battery_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -37,7 +41,8 @@ intents:
 
       # Battery charging
       - sentences:
-          - "[la batterie] [<dans>] <name>  [<dans> <area>] <estil> {bs_battery_charging_states:state} [<dans> <area>]"
+          - "[(la|le)] [(<capteur>|batterie)] [<de>] <name> [<dans> <area>] <estil> {bs_battery_charging_states:state}"
+          - "[(la|le)] [(<capteur>|batterie)] [<de>] <name> <estil> {bs_battery_charging_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -47,29 +52,32 @@ intents:
           device_class: battery_charging
 
       - sentences:
-          - "[<yatil>] (des|plusieurs) (appareil|batterie)[s] [(qui|en|<estil>)] {bs_battery_charging_states:state} [<dans> <area>]"
+          - "[<yatil>] des (<capteur>||batterie[s]) [(qui|en)] {bs_battery_charging_states:state} [<dans> <area>]"
+          - "[<yatil>] plusieurs (<capteur>||batterie[s]) [(qui|en|<estil>)] {bs_battery_charging_states:state} [<dans> <area>]"
+          - "Plusieurs (<capteur>||batterie[s]) [<estil>] {bs_battery_charging_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: battery_charging
 
       - sentences:
-          - "Toute[s] [les] batterie[s] <estil> {bs_battery_charging_states:state} [<dans> <area>]"
+          - "<tous> [les] (<capteur>||batterie[s]) <estil> {bs_battery_charging_states:state} [<dans> <area>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: battery_charging
 
       - sentences:
-          - "(quel[le][s]|liste) [sont] [les] (appareil|batterie)[s] [qui] [sont] {bs_battery_charging_states:state} [<dans> <area>]"
+          - "<quel> [sont] [les] (<capteur>||batterie[s]) [qui] [sont] {bs_battery_charging_states:state} [<dans> <area>]"
+          - "liste les (<capteur>||batterie[s]) [qui sont] [en] {bs_battery_charging_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: battery_charging
 
       - sentences:
-          - "combien (de |d')(appareil|batterie)[s] [ne] [sont] {bs_battery_charging_states:state} [<dans> <area>]"
-          - "compte les (appareil|batterie)[s] [qui] [ne] [sont] {bs_battery_charging_states:state} [<dans> <area>]"
+          - "combien (de |d')(<capteur>||batterie[s]) [sont] {bs_battery_charging_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d('|e ))(<capteur>||batterie[s]) [qui] [sont] {bs_battery_charging_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -77,7 +85,8 @@ intents:
 
       # Carbon monoxide
       - sentences:
-          - "[<yatil>] [<dans>] <name> <estil> [(est|été)] [au statut] {bs_carbon_monoxide_states:state} [<dans> <area>]"
+          - "[<yatil>] [<de>] <name> <estil> [au statut] {bs_carbon_monoxide_states:state} [<dans> <area>]"
+          - "[du] <name> <atil> été [au statut] {bs_carbon_monoxide_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -87,14 +96,17 @@ intents:
           device_class: carbon_monoxide
 
       - sentences:
-          - "[<dans>] (CO2|monoxyde [de carbone]) <estil> [(est|été)] {bs_carbon_monoxide_states:state} [<dans> <area>]"
+          - "[du] (CO2|monoxyde [de carbone]) <estil> {bs_carbon_monoxide_states:state} [<dans> <area>]"
+          - "[du] (CO2|monoxyde [de carbone]) <atil> été {bs_carbon_monoxide_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: carbon_monoxide
 
       - sentences:
-          - "[<yatil>] [(un|le) capteur de] [une alerte] (monoxyde de carbone|CO2) [(<estil>|de)] [{bs_carbon_monoxide_states:state}] [<dans> <area>]"
+          - "[<yatil>] [(un|le) capteur de] (monoxyde de carbone|CO2) [de] [{bs_carbon_monoxide_states:state}] [<dans> <area>]"
+          - "[<yatil>] [une alerte] [(de|au)] (monoxyde de carbone|CO2) [de] [{bs_carbon_monoxide_states:state}] [<dans> <area>]"
+          - "[Une] alerte [(de|au)] (monoxyde de carbone|CO2) [<atil> été {bs_carbon_monoxide_states:state}] [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -102,15 +114,17 @@ intents:
           state: "on"
 
       - sentences:
-          - "Tou(t|s) [les] capteurs [de] (CO2|monoxyde[ de carbone]) <estil> {bs_carbon_monoxide_states:state} [<dans> <area>]"
+          - "<tous> [les] capteurs [de] (CO2|monoxyde[ de carbone]) <estil> {bs_carbon_monoxide_states:state} [<dans> <area>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: carbon_monoxide
 
       - sentences:
-          - "(quel[le][s] |liste) [les] capteur[s] [de] (CO2|monoxyde[de carbone]) <estil> {bs_carbon_monoxide_states:state} [<dans> <area>]"
-          - "Où du (CO2|monoxyde[ de carbone]) <estil> {bs_carbon_monoxide_states:state} "
+          - "<quel> capteur[s] [de] (CO2|monoxyde[de carbone]) <estil> {bs_carbon_monoxide_states:state} [<dans> <area>]"
+          - "Liste les capteur[s] [de] (CO2|monoxyde[de carbone]) [qui sont] {bs_carbon_monoxide_states:state} [<dans> <area>]"
+          - "Où du (CO2|monoxyde[ de carbone]) <estil> {bs_carbon_monoxide_states:state}"
+          - "Où du (CO2|monoxyde[ de carbone]) <atil> été {bs_carbon_monoxide_states:state}"
         response: which
         slots:
           domain: binary_sensor
@@ -118,7 +132,7 @@ intents:
 
       - sentences:
           - "combien de capteur[s] [de] (CO2|monoxyde[de carbone]) [qui] [<estil>] {bs_carbon_monoxide_states:state} [<dans> <area>]"
-          - "compte les capteur[s] [de] (CO2|monoxyde[de carbone]) [qui] [<estil>] {bs_carbon_monoxide_states:state} [<dans> <area>]"
+          - "compte (les |le nombre de) capteur[s] [de] (CO2|monoxyde[de carbone]) [qui] [<estil>] {bs_carbon_monoxide_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -126,7 +140,8 @@ intents:
 
       # # Cold
       - sentences:
-          - "<name> [<dans> <area>] [<estil>] {bs_cold_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] [<estil>] {bs_cold_states:state}"
+          - "<name> [<estil>] {bs_cold_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -136,7 +151,8 @@ intents:
           device_class: cold
 
       - sentences:
-          - "[<yatil>] [(certain[e][s]|des)] (appareil|chose|capteur)[s] [<estil>] {bs_cold_states:state} [<dans> <area>]"
+          - "[<yatil>] [(certain[e][s]|des)] <capteur> [qui sont] {bs_cold_states:state} [<dans> <area>]"
+          - "[(certain[e][s]|des)] <capteur> [<estil>] {bs_cold_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -144,7 +160,9 @@ intents:
           state: "on"
 
       - sentences:
-          - "quel[le][s] [sont] [les] (appareil|chose|capteur)[s] [qui] [<estil>] {bs_cold_states:state} [<dans> <area>]"
+          - "<quel> [sont] [les] <capteur> [qui sont] {bs_cold_states:state} [<dans> <area>]"
+          - "<quel> <capteur> [<estil>] {bs_cold_states:state} [<dans> <area>]"
+          - "Liste les <capteur> [qui sont] {bs_cold_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
@@ -152,8 +170,8 @@ intents:
           state: "on"
 
       - sentences:
-          - "combien (de |d')(appareil|chose|capteur)[s] [qui] [<estil>] {bs_cold_states:state} [<dans> <area>]"
-          - "compte le (appareil|chose|capteur)[s] [qui] [<estil>] {bs_cold_states:state} [<dans> <area>]"
+          - "combien (de |d')<capteur> [<estil>] {bs_cold_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d('|e ))<capteur> [qui sont] {bs_cold_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -162,7 +180,8 @@ intents:
 
       # # Connectivity
       - sentences:
-          - "<name> [<dans> <area>] [<estil>] {bs_connectivity_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] [<estil>] {bs_connectivity_states:state}"
+          - "<name> [<estil>] {bs_connectivity_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -172,29 +191,32 @@ intents:
           device_class: connectivity
 
       - sentences:
-          - "[<yatil>] [(certain[e][s]|des)] (appareil|chose|capteur)[s] [<estil>] {bs_connectivity_states:state} [<dans> <area>]"
+          - "[(certain[e][s]|des)] <capteur> [<estil>] {bs_connectivity_states:state} [<dans> <area>]"
+          - "[<yatil>] [(certain[e][s]|des)] <capteur> [qui sont] {bs_connectivity_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: connectivity
 
       - sentences:
-          - "Tou(t|s)[e][s] les (appareil|capteur|machine)[s] [<estil>] {bs_connectivity_states:state} [in <area>]"
+          - "<tous> les <capteur> [<estil>] {bs_connectivity_states:state} [in <area>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: connectivity
 
       - sentences:
-          - "quel[le][s] [sont] [les] (appareil|capteurs|machines) [qui] [<estil>] {bs_connectivity_states:state} [<dans> <area>]"
+          - "<quel> <capteur> [<estil>] {bs_connectivity_states:state} [<dans> <area>]"
+          - "<quel> [sont les] <capteur> [qui sont] {bs_connectivity_states:state} [<dans> <area>]"
+          - "liste les <capteur> [qui sont] {bs_connectivity_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: connectivity
 
       - sentences:
-          - "combien (de |d')(appareil|chose|capteur)[s] [<estil>] {bs_connectivity_states:state} [<dans> <area>]"
-          - "compte les (appareil|chose|capteur)[s] [<estil>] {bs_connectivity_states:state} [<dans> <area>]"
+          - "combien (de |d')<capteur> [<estil>] {bs_connectivity_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d('|e ))<capteur> [qui sont] {bs_connectivity_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -213,7 +235,8 @@ intents:
 
       # # Garage door
       - sentences:
-          - "<name> [<de>] [garage] [<dans> <area>] <estil> {bs_garage_door_states:state} [<dans> <area>]"
+          - "<name> [<de>] [garage] [<dans> <area>] <estil> {bs_garage_door_states:state}"
+          - "<name> [<de>] [garage] <estil> {bs_garage_door_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -230,14 +253,17 @@ intents:
           device_class: garage_door
 
       - sentences:
-          - "[<yatil>] [(certain[e][s]|des)] porte[s] <de> garage [qui] [<estil>] {bs_garage_door_states:state} [<dans> <area>]"
+          - "[(certain[e][s]|des)] porte[s] <de> garage [<estil>] {bs_garage_door_states:state} [<dans> <area>]"
+          - "[<yatil>] [(certain[e][s]|des)] porte[s] <de> garage [qui sont] {bs_garage_door_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: garage_door
 
       - sentences:
-          - "quel[le][s] [sont] [les] porte[s] <de> garage [qui] [<estil>] {bs_garage_door_states:state} [<dans> <area>]"
+          - "<quel> [sont] [les] porte[s] <de> garage [<estil>] {bs_garage_door_states:state} [<dans> <area>]"
+          - "<quel> [sont] [les] porte[s] <de> garage [qui sont] {bs_garage_door_states:state} [<dans> <area>]"
+          - "liste [les] porte[s] <de> garage [qui sont] {bs_garage_door_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
@@ -245,7 +271,7 @@ intents:
 
       - sentences:
           - "combien de porte[s] <de> garage [<estil>] {bs_garage_door_states:state} [<dans> <area>]"
-          - "compte les porte[s] <de> garage [qui] [<estil>] {bs_garage_door_states:state} [<dans> <area>]"
+          - "compte (les |le nombre de) porte[s] <de> garage [qui] [<estil>] {bs_garage_door_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -253,7 +279,9 @@ intents:
 
       # # Gas
       - sentences:
-          - "[<yatil>] [<dans>] <name> <estil> {bs_gas_states:state} [<dans> <area>]"
+          - "<name> <estil> {bs_gas_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] <estil> {bs_gas_states:state}"
+
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -263,14 +291,18 @@ intents:
           device_class: gas
 
       - sentences:
-          - "[<dans>] gaz <estil> [(est|été)] {bs_gas_states:state} [<dans> <area>]"
+          - "Du gaz <estil> {bs_gas_states:state} [<dans> <area>]"
+          - "Du gaz <atil> [été] {bs_gas_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: gas
 
       - sentences:
-          - "[<yatil>] [(un|le) capteur de] [une alerte] [(de|au)] gaz [(<estil>|de)] [{bs_gas_states:state}] [<dans> <area>]"
+          - "[<yatil>] [(un|le) capteur de] gaz [(<estil>|de)] [{bs_gas_states:state}] [<dans> <area>]"
+          - "une alerte [(de|au)] gaz <atil> été [{bs_gas_states:state}] [<dans> <area>]"
+          - "[<yatil>] [une alerte] [(<de>|au)] gaz [de] [{bs_gas_states:state}] [<dans> <area>]"
+          - "une alerte [(de|au)] gaz <estil> [{bs_gas_states:state}] [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -285,7 +317,10 @@ intents:
           device_class: gas
 
       - sentences:
-          - "(quel[le][s]|liste) [les] capteur[s] [de] gaz <estil> {bs_gas_states:state} [<dans> <area>]"
+          - "<quel> [sont les] capteur[s] [de] gaz [au statut] {bs_gas_states:state} [<dans> <area>]"
+          - "<quel> [sont les] capteur[s] [de] gaz [qui] [sont] {bs_gas_states:state} [<dans> <area>]"
+          - "<quel> capteur[s] [de] gaz <estil> {bs_gas_states:state} [<dans> <area>]"
+          - "liste les capteur[s] [de] gaz [qui sont] {bs_gas_states:state} [<dans> <area>]"
           - "Où du gaz <estil> {bs_gas_states:state} "
         response: which
         slots:
@@ -293,8 +328,8 @@ intents:
           device_class: gas
 
       - sentences:
-          - "combien de capteur[s] [de] gaz [qui] [<estil>] {bs_gas_states:state} [<dans> <area>]"
-          - "compte les capteur[s] [de] gaz [qui] [<estil>] {bs_gas_states:state} [<dans> <area>]"
+          - "combien de capteur[s] [de] gaz [<estil>] {bs_gas_states:state} [<dans> <area>]"
+          - "compte (les |le nombre de) capteur[s] [de] gaz [qui sont] {bs_gas_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -302,7 +337,8 @@ intents:
 
       # # Heat
       - sentences:
-          - "<name> [<dans> <area>] (<estil>|<atil>) [une température] {bs_heat_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] (<estil>|<atil> une température) {bs_heat_states:state}"
+          - "<name> (<estil>|<atil> une température) {bs_heat_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -312,7 +348,9 @@ intents:
           device_class: heat
 
       - sentences:
-          - "[<yatil>] [(certain[e][s]|des)] (appareil|chose|capteur)[s] [<estil>] {bs_heat_states:state}[( |-il[s]|-elle[s])] [<dans> <area>]"
+          - "[<yatil>] [(certain[e][s]|des)] <capteur> [qui] {bs_heat_states:state} [<dans> <area>]"
+          - "[(certain[e][s]|des)] <capteur> [<estil>] {bs_heat_states:state} [<dans> <area>]"
+          - "[(certain[e][s]|des)] <capteur> {bs_heat_states:state}[(-il[s]|-elle[s])] [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -320,14 +358,16 @@ intents:
           state: "on"
 
       - sentences:
-          - "[<tous>] [les] (appareil|chose|capteur)[s] <atil> une température {bs_heat_states:state} [<dans> <area>]"
+          - "[<tous>] [les] <capteur> <atil> une température {bs_heat_states:state} [<dans> <area>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: heat
 
       - sentences:
-          - "(quel[le][s]|liste) [sont] [les] (appareil|chose|capteur)[s] [qui] [<estil>] {bs_heat_states:state} [<dans> <area>]"
+          - "<quel> <capteur> [<estil>] {bs_heat_states:state} [<dans> <area>]"
+          - "<quel> sont les <capteur> [qui] [sont] {bs_heat_states:state} [<dans> <area>]"
+          - "liste les <capteur> [qui] [sont] {bs_heat_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
@@ -335,8 +375,8 @@ intents:
           state: "on"
 
       - sentences:
-          - "combien (de |d')(appareil|chose|capteur)[s] [qui] [<estil>] {bs_heat_states:state} [<dans> <area>]"
-          - "compte les (appareil|chose|capteur)[s] [de] [qui] [<estil>] {bs_heat_states:state} [<dans> <area>]"
+          - "combien (de |d')<capteur> [<estil>] {bs_heat_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d('|e ))<capteur> [de] [qui sont] {bs_heat_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -355,7 +395,8 @@ intents:
           device_class: light
 
       - sentences:
-          - "[<yatil>] (de la|des) lumière[s] [<estil>] {bs_light_states:state} [<dans> <area>]"
+          - "[<yatil>] (une |des) lumière[s] {bs_light_states:state} [<dans> <area>]"
+          - "(une|des|de la) lumière[s] [<estil>] {bs_light_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -369,7 +410,9 @@ intents:
           device_class: light
 
       - sentences:
-          - "(quel[le][s]|liste) [sont] [les] lumières [qui] [<estil>] {bs_light_states:state} [<dans> <area>]"
+          - "<quel> [sont] [les] lumières [qui] [sont] {bs_light_states:state} [<dans> <area>]"
+          - "<quel> lumières [<estil>] {bs_light_states:state} [<dans> <area>]"
+          - "liste les lumières [qui sont] {bs_light_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
@@ -377,7 +420,7 @@ intents:
 
       - sentences:
           - "combien de lumières [<estil>] {bs_light_states:state} [<dans> <area>]"
-          - "compte les lumières [qui] [sont] {bs_light_states:state} [<dans> <area>]"
+          - "compte (les |le nombre de) lumières [qui] [sont] {bs_light_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -385,7 +428,8 @@ intents:
 
       # # Lock
       - sentences:
-          - "<name> [<dans> <area>] <estil> {bs_lock_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] <estil> {bs_lock_states:state}"
+          - "<name> <estil> {bs_lock_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -396,7 +440,8 @@ intents:
 
       # # Moisture
       - sentences:
-          - "<name> [<dans> <area>] <estil> {bs_moisture_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] <estil> {bs_moisture_states:state}"
+          - "<name> <estil> {bs_moisture_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -406,7 +451,8 @@ intents:
           device_class: moisture
 
       - sentences:
-          - "[<yatil>] (des|un[e]) (capteur|sonde)[s] [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [<estil>] [de] {bs_moisture_states:state} [<dans> <area>]"
+          - "(des|un[e]) <capteur> [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [<estil>] {bs_moisture_states:state} [<dans> <area>]"
+          - "[<yatil>] (des|un[e]) <capteur> [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [qui sont|de] {bs_moisture_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -420,22 +466,24 @@ intents:
           device_class: moisture
 
       - sentences:
-          - "<tous> les (capteur|sonde)[s] [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] <estil> {bs_moisture_states:state} [<dans> <area>]"
+          - "<tous> les <capteur> [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] <estil> {bs_moisture_states:state} [<dans> <area>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: moisture
 
       - sentences:
-          - "(quel[le][s]|liste) [sont] [les] (capteur|sonde)[s] [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [qui] [<estil>] {bs_moisture_states:state} [<dans> <area>]"
+          - "<quel> <capteur> [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [<estil>] {bs_moisture_states:state} [<dans> <area>]"
+          - "<quel> [sont] [les] <capteur> [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [qui sont] {bs_moisture_states:state} [<dans> <area>]"
+          - "liste les <capteur> [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [qui sont] {bs_moisture_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: moisture
 
       - sentences:
-          - "combien de (capteur|sonde)[s] [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [<estil>] {bs_moisture_states:state} [<dans> <area>]"
-          - "compte les (capteur|sonde)[s] [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [qui] [sont] {bs_moisture_states:state} [<dans> <area>]"
+          - "combien de <capteur> [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [<estil>] {bs_moisture_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d('|e ))<capteur> [de détection] [(d'|de )][(eau|innondation|fuite[s]|humidité)] [qui] [sont] {bs_moisture_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -443,7 +491,8 @@ intents:
 
       # # Motion
       - sentences:
-          - "<name> [<dans> <area>] <estil> {bs_motion_states:state} [<dans> <area>]"
+          - "<name> <estil> {bs_motion_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] <estil> {bs_motion_states:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -460,7 +509,8 @@ intents:
           device_class: motion
 
       - sentences:
-          - "[<yatil>] (des|un|du) {bs_motion_states:state} [<estil>] [détectés] [<dans> <area>]"
+          - "(des|un|du) {bs_motion_states:state} [<estil>] [détecté[s]] [<dans> <area>]"
+          - "[<yatil>] (des|un|du) {bs_motion_states:state} [détecté[s]] [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -474,7 +524,10 @@ intents:
           device_class: motion
 
       - sentences:
-          - "(quel[le][s]|liste) [sont] [les] (capteur|détecteur)[s] de mouvement [qui] [<estil>] {bs_motion_states:state} [<dans> <area>]"
+          - "<quel> (capteur|détecteur)[s] de mouvement [<estil>] {bs_motion_states:state} [<dans> <area>]"
+          - "<quel> [sont] [les] (capteur|détecteur)[s] de mouvement [qui sont] {bs_motion_states:state} [<dans> <area>]"
+          - "liste [sont] [les] (capteur|détecteur)[s] de mouvement [qui] [<estil>] {bs_motion_states:state} [<dans> <area>]"
+          - "Où du mouvement [<estil>] {bs_motion_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
@@ -482,7 +535,7 @@ intents:
 
       - sentences:
           - "combien de (capteur|détecteur)[s] de mouvement [<estil>] {bs_motion_states:state} [<dans> <area>]"
-          - "compte les (capteur|détecteur)[s] de mouvement [qui] [sont] {bs_motion_states:state} [<dans> <area>]"
+          - "compte (les |le nombre de) (capteur|détecteur)[s] de mouvement [qui] [sont] {bs_motion_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -509,7 +562,8 @@ intents:
           device_class: occupancy
 
       - sentences:
-          - "[<yatil>] (quelqu'un|(une|des) personne[s]) [<estil>] [de] [détecté[e]s] [<dans> <area>]"
+          - "[<yatil>] (quelqu'un|(une|des) personne[s]) [de] [détecté[e]s] [<dans> <area>]"
+          - "(quelqu'un|(une|des) personne[s]) [<estil>] [détecté[e]s] [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -524,7 +578,9 @@ intents:
           device_class: occupancy
 
       - sentences:
-          - "(quel[le][s]|liste) [sont] [les] (capteur|détecteur)[s] de présence [qui] [<estil>] {bs_occupancy_states:state} [<dans> <area>]"
+          - "<quel> (capteur|détecteur)[s] de présence [<estil>] {bs_occupancy_states:state} [<dans> <area>]"
+          - "<quel> sont les (capteur|détecteur)[s] de présence [qui] [sont] {bs_occupancy_states:state} [<dans> <area>]"
+          - "liste les (capteur|détecteur)[s] de présence [qui] [<estil>] {bs_occupancy_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
@@ -532,7 +588,7 @@ intents:
 
       - sentences:
           - "combien de (capteur|détecteur)[s] de présence [<estil>] {bs_occupancy_states:state} [<dans> <area>]"
-          - "compte les (capteur|détecteur)[s] de présence [qui] [sont] {bs_occupancy_states:state} [<dans> <area>]"
+          - "compte (les |le nombre de) (capteur|détecteur)[s] de présence [qui] [sont] {bs_occupancy_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -550,21 +606,25 @@ intents:
           device_class: opening
 
       - sentences:
-          - "[<yatil>] (des|un[e]) ouverture[s] [<estil>] {bs_opening_states:state} [<dans> <area>]"
+          - "[<yatil>] (des|un[e]) ouverture[s] [qui est] {bs_opening_states:state} [<dans> <area>]"
+          - "(des|un[e]) ouverture[s] [<estil>] {bs_opening_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: opening
 
       - sentences:
-          - "<tous> les ouverture[s] [<dans> <area>] <estil> {bs_opening_states:state} [<dans> <area>]"
+          - "<tous> les ouverture[s] [<dans> <area>] <estil> {bs_opening_states:state}"
+          - "<tous> les ouverture[s] <estil> {bs_opening_states:state} [<dans> <area>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: opening
 
       - sentences:
-          - "(quel[le][s]|liste) [sont] [les] ouverture[s] [qui] [<estil>] {bs_opening_states:state} [<dans> <area>]"
+          - "<quel> sont [les] ouverture[s] [qui sont] {bs_opening_states:state} [<dans> <area>]"
+          - "<quel> ouverture[s] [<estil>] {bs_opening_states:state} [<dans> <area>]"
+          - "liste les ouverture[s] [qui] [<estil>] {bs_opening_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor
@@ -572,7 +632,7 @@ intents:
 
       - sentences:
           - "combien d'ouverture[s] [<estil>] {bs_opening_states:state} [<dans> <area>]"
-          - "compte les ouverture[s] [qui] [sont] {bs_opening_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d')ouverture[s] [qui] [sont] {bs_opening_states:state} [<dans> <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -931,21 +991,25 @@ intents:
           device_class: window
 
       - sentences:
-          - "[<yatil>] (des|un[e]) <fenetre> [<estil>] {bs_window_states:state} [<dans> <area>]"
+          - "[<yatil>] (des|un[e]) <fenetre> [qui sont] {bs_window_states:state} [<dans> <area>]"
+          - "(des|un[e]) <fenetre> [<estil>] {bs_window_states:state} [<dans> <area>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: window
 
       - sentences:
-          - "<tous> les <fenetre> [<dans> <area>] <estil> {bs_window_states:state} [<dans> <area>]"
+          - "<tous> les <fenetre> <estil> {bs_window_states:state} [<dans> <area>]"
+          - "<tous> les <fenetre> [<dans> <area>] <estil> {bs_window_states:state}"
         response: all
         slots:
           domain: binary_sensor
           device_class: window
 
       - sentences:
-          - "(quel[le][s]|liste) [sont] [les] <fenetre> [qui] [<estil>] {bs_window_states:state} [<dans> <area>]"
+          - "<quel> [sont] [les] <fenetre> [qui sont] {bs_window_states:state} [<dans> <area>]"
+          - "<quel> <fenetre> [<estil>] {bs_window_states:state} [<dans> <area>]"
+          - "liste les <fenetre> [qui sont] {bs_window_states:state} [<dans> <area>]"
         response: which
         slots:
           domain: binary_sensor

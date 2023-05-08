@@ -2,7 +2,7 @@ language: fr
 tests:
   # Battery
   - sentences:
-      - "la batterie du téléphone est elle faible ?"
+      - "la batterie du téléphone est-elle faible ?"
     intent:
       name: HassGetState
       slots:
@@ -35,6 +35,8 @@ tests:
 
   - sentences:
       - "Quelles batteries sont faibles ?"
+      - "Quelles sont les batteries qui sont faibles ?"
+      - "Liste les batteries faibles"
     intent:
       name: HassGetState
       slots:
@@ -45,6 +47,7 @@ tests:
 
   - sentences:
       - "Combien de batteries sont elles faibles ?"
+      - "Compte le nombre de batteries faibles"
     intent:
       name: HassGetState
       slots:
@@ -80,6 +83,8 @@ tests:
 
   - sentences:
       - "Y a-t-il des batteries en charge ?"
+      - "Y a-t-il plusieurs batteries en charge ?"
+      - "Plusieurs batteries sont-elles en cours de chargement ?"
     intent:
       name: HassGetState
       slots:
@@ -158,6 +163,7 @@ tests:
 
   - sentences:
       - "Est ce que le capteur monoxyde est déclenché dans la cuisine ?"
+      - "Le capteur monoxyde a-t-il été déclenché dans la cuisine ?"
     intent:
       name: HassGetState
       slots:
@@ -192,6 +198,7 @@ tests:
   - sentences:
       - "Y a-t-il un capteur de CO2 déclenché dans la cuisine ?"
       - "du monoxyde de carbone est il détecté dans la cuisine ?"
+      - "Une alerte au CO2 a-t-elle été déclenchée dans la cuisine ?"
     intent:
       name: HassGetState
       slots:
@@ -224,6 +231,7 @@ tests:
   - sentences:
       - "Quel capteur de CO2 est détecté ?"
       - "Où du monoxyde de carbone est détecté ?"
+      - "Où du CO2 a-t-il été détecté ?"
     intent:
       name: HassGetState
       slots:
@@ -256,15 +264,17 @@ tests:
 
   # # Cold
   - sentences:
-      - "Les canalisations d'eau sont elles froides ?"
+      - "Les canalisations d'eau sont elles froides dans la cuisine ?"
+      - "Les canalisations d'eau dans la cuisine sont-elles froides ?"
     intent:
       name: HassGetState
       slots:
+        area: "cuisine"
         domain: "binary_sensor"
         device_class: "cold"
         name: "canalisations d'eau"
         state: "on"
-    response: "Non, normales"
+    response: "Non,"
 
   - sentences:
       - "y a-t-il des capteurs froids dans le garage ?"
@@ -291,6 +301,7 @@ tests:
 
   - sentences:
       - "Combien de choses sont froides?"
+      - "Compte les capteurs froids"
     intent:
       name: HassGetState
       slots:
@@ -312,7 +323,20 @@ tests:
     response: "Oui"
 
   - sentences:
+      - "Le téléphone est-il connecté dans la cuisine ?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "cuisine"
+        domain: "binary_sensor"
+        device_class: "connectivity"
+        name: "Téléphone"
+        state: "on"
+    response: "Oui"
+
+  - sentences:
       - "y a-t-il des appareils connectés ?"
+      - "Des capteurs sont-ils connectés ?"
     intent:
       name: HassGetState
       slots:
@@ -332,7 +356,9 @@ tests:
     response: "Oui"
 
   - sentences:
-      - "quelles machines sont en ligne ?"
+      - "Quelles machines sont en ligne ?"
+      - "Quels sont les appareils qui sont connectés ?"
+      - "Liste les appareils connectés"
     intent:
       name: HassGetState
       slots:
@@ -379,6 +405,17 @@ tests:
     response: "Oui"
 
   - sentences:
+      - "Y a-t-il des portes de garage ouvertes ?"
+      - "Certaines portes de garage sont-elles ouvertes ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+    response: "Oui, Porte du garage 1 est ouverte"
+
+  - sentences:
       - "Toutes les portes du garage sont-elles fermées ?"
     intent:
       name: HassGetState
@@ -390,6 +427,7 @@ tests:
 
   - sentences:
       - "Combien de portes de garage sont ouvertes ?"
+      - "Compte le nombre de portes de garage qui sont ouvertes"
     intent:
       name: HassGetState
       slots:
@@ -401,6 +439,7 @@ tests:
   - sentences:
       - "Quelle porte de garage est ouverte ?"
       - "Quelles sont les portes de garage ouverte ?"
+      - "Liste les portes de garage ouvertes"
     intent:
       name: HassGetState
       slots:
@@ -413,6 +452,9 @@ tests:
   - sentences:
       - "Est ce que du gaz est détecté ?"
       - "Du gaz est-il détecté ?"
+      - "Une alerte au gaz est-elle déclenchée ?"
+      - "Y a-t-il une alerte au gaz ?"
+      - "Il y a un capteur de gaz déclenché ?"
     intent:
       name: HassGetState
       slots:
@@ -423,6 +465,7 @@ tests:
 
   - sentences:
       - "Est ce que le capteur de gaz est déclenché dans la cuisine ?"
+      - "Du gaz est-il détecté dans la cuisine ?"
     intent:
       name: HassGetState
       slots:
@@ -444,18 +487,9 @@ tests:
     response: "Oui, capteur gaz chambre est déclenché"
 
   - sentences:
-      - "Il y a un capteur de gaz déclenché ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: gas
-        state: "on"
-    response: "Oui, capteur gaz chambre est déclenché"
-
-  - sentences:
       - "Y a-t-il un capteur de gaz déclenché dans la cuisine ?"
       - "du gaz est il détecté dans la cuisine ?"
+      - "du gaz a t-il été détecté dans la cuisine ?"
     intent:
       name: HassGetState
       slots:
@@ -498,6 +532,7 @@ tests:
   - sentences:
       - "Quel capteur de gaz est déclenché ?"
       - "Où du gaz est détecté ?"
+      - "Liste les capteurs de gaz déclenchés"
     intent:
       name: HassGetState
       slots:
@@ -632,6 +667,8 @@ tests:
 
   - sentences:
       - "Quelles sont les lumières détectées ?"
+      - "Quelles lumières sont-elles détectées ?"
+      - "Liste les lumières détectées ?"
     intent:
       name: HassGetState
       slots:
@@ -642,6 +679,7 @@ tests:
 
   - sentences:
       - "Combien de lumières sont détectées ?"
+      - "Compte les lumières détectées ?"
     intent:
       name: HassGetState
       slots:
@@ -715,6 +753,7 @@ tests:
   - sentences:
       - "Liste les capteurs de fuite humides"
       - "Liste les sondes d'humidité déclenchées"
+      - "Quelles sont les sondes d'innondation humides ?"
     intent:
       name: HassGetState
       slots:
@@ -837,6 +876,8 @@ tests:
 
   - sentences:
       - "Liste les capteurs de présence déclenchés"
+      - "Quels capteurs de présence sont déclenchés ?"
+      - "Quels sont les capteurs de présence déclenchés ?"
     intent:
       name: HassGetState
       slots:
@@ -847,6 +888,7 @@ tests:
 
   - sentences:
       - "Compte les capteurs de présence actifs"
+      - "Combien de capteurs de présence sont actifs ?"
     intent:
       name: HassGetState
       slots:
@@ -890,7 +932,9 @@ tests:
     response: "Oui"
 
   - sentences:
-      - "Liste les ouvertures ouvertes ?"
+      - "Liste les ouvertures ouvertes"
+      - "Quelles ouvertures sont ouvertes ?"
+      - "Quelles sont les ouvertures ouvertes ?"
     intent:
       name: HassGetState
       slots:
@@ -901,6 +945,7 @@ tests:
 
   - sentences:
       - "Compte les ouvertures ouvertes"
+      - "Combien d'ouvertures sont ouvertes ?"
     intent:
       name: HassGetState
       slots:
@@ -1381,7 +1426,9 @@ tests:
     response: "Non, pas Baie"
 
   - sentences:
-      - "Liste les fenêtres ouvertes ?"
+      - "Liste les fenêtres ouvertes"
+      - "Quelles fenêtres sont ouvertes ?"
+      - "Quelles sont les fenêtres ouvertes ?"
     intent:
       name: HassGetState
       slots:
@@ -1392,6 +1439,7 @@ tests:
 
   - sentences:
       - "Compte les fenêtres ouvertes"
+      - "Combien de fenêtres sont-elles ouvertes ?"
     intent:
       name: HassGetState
       slots:
