@@ -16,7 +16,7 @@ intents:
           device_class: battery
 
       - sentences:
-          - "(ist|sind) [<irgend>] <batterie> [<area>] {bs_battery_states:state}"
+          - "(ist|sind) <irgend> <batterie> [<area>] {bs_battery_states:state}"
         response: irgendeins
         slots:
           domain: binary_sensor
@@ -56,8 +56,8 @@ intents:
           device_class: battery_charging
 
       - sentences:
-          - "(wird|werden) [<irgend>] <batterie> [<area>] {bs_battery_charging_states:state}"
-          - "{bs_battery_charging_states:state} [<irgend>] <batterie> [<area>] [auf]"
+          - "(wird|werden) <irgend> <batterie> [<area>] {bs_battery_charging_states:state}"
+          - "{bs_battery_charging_states:state} <irgend> <batterie> [<area>] [auf]"
         response: irgendeins
         slots:
           domain: binary_sensor
@@ -135,7 +135,8 @@ intents:
 
       # Cold
       - sentences:
-          - "(ist|sind) <name> [<area>] {bs_cold_states:state}"
+          - "ist <name> [<area>] {bs_cold_states:state}"
+          - "ist <area> <name> {bs_cold_states:state}"
         response: einzeln_janein
         requires_context:
           domain: binary_sensor
@@ -148,6 +149,9 @@ intents:
           - "(ist|sind) [<irgend>] <ding> [<area>] kalt"
           - "(ist|sind) [<irgend>] <ding> kalt <area>"
           - "(ist|sind) <area> [<irgend>] <ding> kalt"
+          - "ist <etwas> [<area>] kalt"
+          - "ist <etwas> kalt <area>"
+          - "ist <area> <etwas> kalt"
         response: irgendeins
         slots:
           domain: binary_sensor
