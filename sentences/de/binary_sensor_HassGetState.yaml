@@ -132,3 +132,59 @@ intents:
         slots:
           domain: binary_sensor
           device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "ist <name> [<area>] {bs_cold_states:state}"
+          - "ist <area> <name> {bs_cold_states:state}"
+          - "ist <name> {bs_cold_states:state} <area>"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "(ist|sind) [<irgend>] <ding> [<area>] kalt"
+          - "(ist|sind) [<irgend>] <ding> kalt <area>"
+          - "(ist|sind) <area> [<irgend>] <ding> kalt"
+          - "ist <etwas> [<area>] kalt"
+          - "ist <etwas> kalt <area>"
+          - "ist <area> <etwas> kalt"
+        response: irgendeins
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "sind <alle> <ding> [<area>] kalt"
+          - "sind <alle> <ding> kalt <area>"
+          - "sind <area> <alle> <ding> kalt"
+        response: alle
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "<welche> <ding> (ist|sind) [<area>] kalt"
+          - "<welche> <ding> (ist|sind) kalt <area>"
+          - "<welche> <ding> <area> (ist|sind) kalt"
+        response: welches
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "wie viele <ding> sind [<area>] kalt"
+          - "wie viele <ding> sind kalt <area>"
+          - "wie viele <ding> <area> sind kalt"
+        response: wie_viele
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
