@@ -36,19 +36,19 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Όχι, {{ no_match[:3] | join(", ") }} και ούτε {{ (no_match | length - 3) }}
+            Όχι, δεν ισχύει για {{ no_match[:3] | join(", ") }} και {{ (no_match | length - 3) }} ακόμα
           {%- else -%}
-            Όχι,
+            Όχι, δεν ισχύει για
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} και {% endif -%}
               {{ name }}
-            {%- endfor %} δεν είναι
+            {%- endfor %}
           {% endif %}
         {% endif %}
 
       which: |
         {% if not query.matched %}
-          Δεν βρέθηκε αποτέλεσμα
+          Κανένα αποτέλεσμα
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
