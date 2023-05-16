@@ -281,7 +281,6 @@ intents:
       - sentences:
           - "<name> <estil> {bs_gas_states:state} [<dans> <area>]"
           - "<name> [<dans> <area>] <estil> {bs_gas_states:state}"
-
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -596,7 +595,7 @@ intents:
 
       # # Opening
       - sentences:
-          - "<name> <estil> {bs_opening_states:state} [in <area>]"
+          - "<name> <estil> {bs_opening_states:state} [<dans> <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -639,345 +638,410 @@ intents:
           device_class: opening
 
       # # Plug
-      # - sentences:
-      #     - "(is|are) <name> {bs_plug_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: plug
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: plug
+      - sentences:
+          - "<name> <estil> {bs_plug_states:state} [<dans> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
 
-      # - sentences:
-      #     - "(is|are) any (thing[s]|device[s]) {bs_plug_states:state} [in <area>]"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: plug
+      - sentences:
+          - "[<yatil>] (des|un[e]) (<capteur>|<appareil>) [qui est] {bs_plug_states:state} [<dans> <area>]"
+          - "(des|un[e]) (<capteur>|<appareil>) [<estil>] {bs_plug_states:state} [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: plug
 
-      # - sentences:
-      #     - "are all [the] (thing[s]|device[s]) {bs_plug_states:state} [in <area>]"
-      #   response: all
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: plug
+      - sentences:
+          - "<tous> les (<capteur>|<appareil>) [<dans> <area>] <estil> {bs_plug_states:state}"
+          - "<tous> les (<capteur>|<appareil>) <estil> {bs_plug_states:state} [<dans> <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: plug
 
-      # - sentences:
-      #     - "(which|what) (thing[s]|device[s]) (is|are) {bs_plug_states:state} [in <area>]"
-      #   response: which
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: plug
+      - sentences:
+          - "<quel> sont [les] (<capteur>|<appareil>) [qui sont] {bs_plug_states:state} [<dans> <area>]"
+          - "<quel> (<capteur>|<appareil>) [<estil>] {bs_plug_states:state} [<dans> <area>]"
+          - "liste les (<capteur>|<appareil>) [qui] [<estil>] {bs_plug_states:state} [<dans> <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: plug
 
-      # - sentences:
-      #     - "how many (thing[s]|device[s]) (is|are) {bs_plug_states:state} [in <area>]"
-      #   response: how_many
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: plug
+      - sentences:
+          - "combien (d'|de )(<capteur>|<appareil>) [<estil>] {bs_plug_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d')(<capteur>|<appareil>) [qui] [sont] {bs_plug_states:state} [<dans> <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: plug
 
       # # Power
-      # - sentences:
-      #     - "(is|are) <name> {bs_power_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: power
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: power
+      - sentences:
+          - "<name> <estil> {bs_power_states:state} [<dans> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
 
-      # - sentences:
-      #     - "(is|are) any (thing[s]|device[s]) {bs_power_states:state} [in <area>]"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: power
+      - sentences:
+          - "[<yatil>] (des|un[e]) (<capteur>|<appareil>) [qui est] {bs_power_states:state}[<dans> <area>]"
+          - "(des|un[e]) (<capteur>|<appareil>) [<estil>] {bs_power_states:state} [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
 
-      # - sentences:
-      #     - "are all [the] (thing[s]|device[s]) {bs_power_states:state} [in <area>]"
-      #   response: all
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: power
+      - sentences:
+          - "<tous> les (<capteur>|<appareil>) [<dans> <area>] <estil> {bs_power_states:state}"
+          - "<tous> les (<capteur>|<appareil>) <estil> {bs_power_states:state} [<dans> <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: power
 
-      # - sentences:
-      #     - "(which|what) (thing[s]|device[s]) (is|are) {bs_power_states:state} [in <area>]"
-      #   response: which
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: power
+      - sentences:
+          - "<quel> sont [les] (<capteur>|<appareil>) [qui sont] {bs_power_states:state} [<dans> <area>]"
+          - "<quel> (<capteur>|<appareil>) [<estil>] {bs_power_states:state} [<dans> <area>]"
+          - "liste les (<capteur>|<appareil>) [qui] [<estil>] {bs_power_states:state} [<dans> <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
 
-      # - sentences:
-      #     - "how many (thing[s]|device[s]) (is|are) {bs_power_states:state} [in <area>]"
-      #   response: how_many
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: power
+      - sentences:
+          - "combien (d'|de )(<capteur>|<appareil>) [<estil>] {bs_power_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d')(<capteur>|<appareil>) [qui] [sont] {bs_power_states:state} [<dans> <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: power
 
       # # Presence
-      # - sentences:
-      #     - "(is|are) <name> {bs_presence_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: presence
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: presence
+      - sentences:
+          - "<name> <estil> {bs_presence_states:state} [<dans> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
 
-      # - sentences:
-      #     - "(is|are) any (thing[s]|device[s]) {bs_presence_states:state} [in <area>]"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: presence
+      - sentences:
+          - "[<yatil>] (des|un[e]) (<capteur>|<appareil>) [qui est] {bs_presence_states:state} [<dans> <area>]"
+          - "(des|un[e]) (<capteur>|<appareil>) [<estil>] {bs_presence_states:state} [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: presence
 
-      # - sentences:
-      #     - "are all [the] (thing[s]|device[s]) {bs_presence_states:state} [in <area>]"
-      #   response: all
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: presence
+      - sentences:
+          - "<tous> les (<capteur>|<appareil>) [<dans> <area>] <estil> {bs_presence_states:state}"
+          - "<tous> les (<capteur>|<appareil>) <estil> {bs_presence_states:state} [<dans> <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: presence
 
-      # - sentences:
-      #     - "(which|what) (thing[s]|device[s]) (is|are) {bs_presence_states:state} [in <area>]"
-      #   response: which
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: presence
+      - sentences:
+          - "<quel> sont [les] (<capteur>|<appareil>) [qui sont] {bs_presence_states:state} [<dans> <area>]"
+          - "<quel> (<capteur>|<appareil>) [<estil>] {bs_presence_states:state} [<dans> <area>]"
+          - "liste les (<capteur>|<appareil>) [qui] [<estil>] {bs_presence_states:state} [<dans> <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: presence
 
-      # - sentences:
-      #     - "how many (thing[s]|device[s]) (is|are) {bs_presence_states:state} [in <area>]"
-      #   response: how_many
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: presence
+      - sentences:
+          - "combien (d'|de )(<capteur>|<appareil>) [<estil>] {bs_presence_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d')(<capteur>|<appareil>) [qui] [sont] {bs_presence_states:state} [<dans> <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: presence
 
       # # Problem
-      # - sentences:
-      #     - "are there [any] problems with <name> [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: problem
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: problem
-      #     state: "on"
+      - sentences:
+          - "<name> <atil> un problème [<dans> <area>]"
+          - "<yatil> un problème avec <name> [<dans> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      - sentences:
+          - "<quel> sont [les] (<capteur>|<appareil>) [qui ont] un problème [<dans> <area>]"
+          - "<quel> (<capteur>|<appareil>) [<atil>] un problème [<dans> <area>]"
+          - "liste les (<capteur>|<appareil>) [qui ont] un problème [<dans> <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
 
       # # Running
-      # - sentences:
-      #     - "(is|are) <name> {bs_running_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: running
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: running
+      - sentences:
+          - "<name> <estil> {bs_running_states:state} [<dans> <area>]"
+          - "<name> {bs_running_states:state}-t-(il|elle) [<dans> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
 
-      # - sentences:
-      #     - "(is|are) any (thing[s]|device[s]) {bs_running_states:state} [in <area>]"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: running
+      - sentences:
+          - "[<yatil>] (des|un[e]) (<capteur>|<appareil>) [qui est] {bs_running_states:state} [<dans> <area>]"
+          - "(des|un[e]) (<capteur>|<appareil>) [<estil>] {bs_running_states:state} [<dans> <area>]"
+          - "(des|un[e]) (<capteur>|<appareil>) {bs_running_states:state}-(il[s]|elle[s]) [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: running
 
-      # - sentences:
-      #     - "are all [the] (thing[s]|device[s]) {bs_running_states:state} [in <area>]"
-      #   response: all
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: running
+      - sentences:
+          - "<tous> les (<capteur>|<appareil>) [<dans> <area>] <estil> {bs_running_states:state}"
+          - "<tous> les (<capteur>|<appareil>) <estil> {bs_running_states:state} [<dans> <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: running
 
-      # - sentences:
-      #     - "(which|what) (thing[s]|device[s]) (is|are) {bs_running_states:state} [in <area>]"
-      #   response: which
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: running
+      - sentences:
+          - "<quel> sont [les] (<capteur>|<appareil>) [qui sont] {bs_running_states:state} [<dans> <area>]"
+          - "<quel> (<capteur>|<appareil>) [<estil>] {bs_running_states:state} [<dans> <area>]"
+          - "<quel> (<capteur>|<appareil>) {bs_running_states:state}-(il[s]|elle[s]) [<dans> <area>]"
+          - "liste les (<capteur>|<appareil>) [qui] [<estil>] {bs_running_states:state} [<dans> <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: running
 
-      # - sentences:
-      #     - "how many (thing[s]|device[s]) (is|are) {bs_running_states:state} [in <area>]"
-      #   response: how_many
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: running
+      - sentences:
+          - "combien (d'|de )(<capteur>|<appareil>) [<estil>] {bs_running_states:state} [<dans> <area>]"
+          - "compte (les |le nombre d')(<capteur>|<appareil>) [qui] [sont] {bs_running_states:state} [<dans> <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: running
 
       # # Safety
-      # - sentences:
-      #     - "(is|are) <name> {bs_safety_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: safety
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: safety
+      - sentences:
+          - "<name> <estil> {bs_safety_states:state} [<dans> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety
 
       # # Smoke
-      # - sentences:
-      #     - "(is|are) <name> {bs_smoke_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: smoke
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: smoke
+      - sentences:
+          - "<name> <estil> {bs_smoke_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] <estil> {bs_smoke_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: smoke
+        slots:
+          domain: binary_sensor
+          device_class: smoke
 
-      # - sentences:
-      #     - "(is|are) any smoke sensor[s] {bs_smoke_states:state} [in <area>]"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: smoke
+      - sentences:
+          - "De la fumée <estil> {bs_smoke_states:state} [<dans> <area>]"
+          - "De la fumée <atil> [été] {bs_smoke_states:state} [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
 
-      # - sentences:
-      #     - "is [there] [any] smoke in <area>"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: smoke
-      #     state: "on"
+      - sentences:
+          - "[<yatil>] [(un|le) capteur de] fumée [(<estil>|de)] [{bs_smoke_states:state}] [<dans> <area>]"
+          - "une alerte incendie <atil> été [{bs_smoke_states:state}] [<dans> <area>]"
+          - "[<yatil>] <de> la fumée [de] [{bs_smoke_states:state}] [<dans> <area>]"
+          - "[<yatil>] une alerte incendie [{bs_smoke_states:state}] [<dans> <area>]"
+          - "une alerte incendie <estil> [{bs_smoke_states:state}] [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
 
-      # - sentences:
-      #     - "are all [the] smoke sensor[s] {bs_smoke_states:state} [in <area>]"
-      #   response: all
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: smoke
+      - sentences:
+          - "[<tous>] [les] capteurs [de] fumée <estil> {bs_smoke_states:state} [<dans> <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: smoke
 
-      # - sentences:
-      #     - "(which|what) smoke sensor[s] (is|are) {bs_smoke_states:state} [in <area>]"
-      #   response: which
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: smoke
+      - sentences:
+          - "<quel> [sont les] capteur[s] [de] fumée [au statut] {bs_smoke_states:state} [<dans> <area>]"
+          - "<quel> [sont les] capteur[s] [de] fumée [qui] [sont] {bs_smoke_states:state} [<dans> <area>]"
+          - "<quel> capteur[s] [de] fumée <estil> {bs_smoke_states:state} [<dans> <area>]"
+          - "liste les capteur[s] [de] fumée [qui sont] {bs_smoke_states:state} [<dans> <area>]"
+          - "Où de la fumée <estil> {bs_smoke_states:state} "
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: smoke
 
-      # - sentences:
-      #     - "how many smoke sensor[s] (is|are) {bs_smoke_states:state} [in <area>]"
-      #   response: how_many
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: smoke
+      - sentences:
+          - "combien de capteur[s] [de] fumée [<estil>] {bs_smoke_states:state} [<dans> <area>]"
+          - "compte (les |le nombre de) capteur[s] [de] fumée [qui sont] {bs_smoke_states:state} [<dans> <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: smoke
 
       # # Sound
-      # - sentences:
-      #     - "(is|are) <name> {bs_sound_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: sound
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: sound
+      - sentences:
+          - "<name> <estil> {bs_sound_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] <estil> {bs_sound_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: sound
+        slots:
+          domain: binary_sensor
+          device_class: sound
 
-      # - sentences:
-      #     - "(is|are) any (noise|sound) sensor[s] {bs_sound_states:state} [in <area>]"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: sound
+      - sentences:
+          - "(Du bruit|Un son) <estil> {bs_sound_states:state} [<dans> <area>]"
+          - "(Du bruit|Un son) <atil> [été] {bs_sound_states:state} [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
 
-      # - sentences:
-      #     - "is [there] [any] noise in <area>"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: sound
-      #     state: "on"
+      - sentences:
+          - "[<yatil>] [(un|le) capteur de] (son|bruit) [(<estil>|de)] [{bs_sound_states:state}] [<dans> <area>]"
+          - "une sirène <atil> été [{bs_sound_states:state}] [<dans> <area>]"
+          - "[<yatil>] du (son|bruit) [de] [{bs_sound_states:state}] [<dans> <area>]"
+          - "[<yatil>] une sirène [{bs_sound_states:state}] [<dans> <area>]"
+          - "une sirène <estil> [{bs_sound_states:state}] [<dans> <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+          state: "on"
 
-      # - sentences:
-      #     - "are all [the] (noise|sound) sensor[s] {bs_sound_states:state} [in <area>]"
-      #   response: all
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: sound
+      - sentences:
+          - "[<tous>] [les] capteurs [de] (son|bruit) <estil> {bs_sound_states:state} [<dans> <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: sound
 
-      # - sentences:
-      #     - "(which|what) (noise|sound) sensor[s] (is|are) {bs_sound_states:state} [in <area>]"
-      #   response: which
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: sound
+      - sentences:
+          - "<quel> [sont les] capteur[s] de (son|bruit) [au statut] {bs_sound_states:state} [<dans> <area>]"
+          - "<quel> [sont les] capteur[s] de (son|bruit) [qui] [sont] {bs_sound_states:state} [<dans> <area>]"
+          - "<quel> capteur[s] de (son|bruit) <estil> {bs_sound_states:state} [<dans> <area>]"
+          - "liste les capteur[s] de (son|bruit)[qui sont] {bs_sound_states:state} [<dans> <area>]"
+          - "Où du (son|bruit) <estil> {bs_sound_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: sound
 
-      # - sentences:
-      #     - "how many (noise|sound) sensor[s] (is|are) {bs_sound_states:state} [in <area>]"
-      #   response: how_many
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: sound
+      - sentences:
+          - "combien de capteur[s] de (son|bruit) [<estil>] {bs_sound_states:state} [<dans> <area>]"
+          - "compte (les |le nombre de) capteur[s] de (son|bruit) [qui sont] {bs_sound_states:state} [<dans> <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: sound
 
       # # Tamper
-      # - sentences:
-      #     - "(is|are) <name> {bs_tamper_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: tamper
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: tamper
+      - sentences:
+          - "<name> <estil> {bs_tamper_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] <estil> {bs_tamper_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: tamper
+        slots:
+          domain: binary_sensor
+          device_class: tamper
 
       # # Update
-      # - sentences:
-      #     - "(is|are) <name> {bs_update_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: update
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: update
+      - sentences:
+          - "<name> <estil> {bs_update_states:state} [<dans> <area>]"
+          - "<name> [<dans> <area>] <estil> {bs_update_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
 
-      # - sentences:
-      #     - "are [there] any [(firmware|software)] updates [available] [in <area>]"
-      #   response: any
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: update
-      #     state: "on"
+      - sentences:
+          - "[<yatil>] (une|des) mise[s] à jour [de (firmware|driver|pilote|logiciel)[s]] [de] {bs_update_states:state} [<dans> <area>]"
+          - "(une|des) mise[s] à jour [de (firmware|driver|pilote|logiciel)[s]] <estil> {bs_update_states:state} [<dans> <area>]"
+          - "[<yatil> une] {bs_update_states:state} [<dans> <area>]"
 
-      # - sentences:
-      #     - "(which|what) [(firmware|software)] updates are (there|available) [in <area>]"
-      #   response: which
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: update
-      #     state: "on"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
 
-      # - sentences:
-      #     - "how many [(firmware|software)] updates are (there|available) [in <area>]"
-      #   response: how_many
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: update
-      #     state: "on"
+      - sentences:
+          - "<quel> [sont les] mise[s] à jour [de (firmware|logiciel)] {bs_update_states:state} [<dans> <area>]"
+          - "<quel> mise[s] à jour [de (firmware[s]|logiciel[le][s])] <estil> {bs_update_states:state} [<dans> <area>]"
+          - "liste les mises à jour [de (firmware[s]|logiciel[le][s])] [qui sont] {bs_update_states:state} [<dans> <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "combien de mises à jour [de (firmware[s]|logiciel[le][s])] [<estil>] {bs_update_states:state} [<dans> <area>]"
+          - "compte (les |le nombre de) mises à jour [de (firmware[s]|logiciel[le][s])] [qui sont] {bs_update_states:state} [<dans> <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
 
       # # Vibration
-      # - sentences:
-      #     - "(is|are) <name> {bs_vibration_states:state} [in <area>]"
-      #   response: one_yesno
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: vibration
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: vibration
+      - sentences:
+          - "<name> {bs_vibration_states:state}[-t-(il|elle)] [<dans> <area>]"
+          - "<name> [<dans> <area>] <estil> [entrain de] {bs_vibration_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
 
-      # - sentences:
-      #     - "is anything vibrating [in <area>]"
-      #   response: any
-      #   requires_context:
-      #     domain: binary_sensor
-      #     device_class: vibration
-      #   slots:
-      #     domain: binary_sensor
-      #     device_class: vibration
-      #     state: "on"
+      - sentences:
+          - "(un[e]|du|de[s]|quelque chose) [(<capteur>|<appareil>)] vibre[nt][-t][-(il|elle)] [<dans> <area>]"
+        response: any
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+          state: "on"
 
       # # Window
       - sentences:
