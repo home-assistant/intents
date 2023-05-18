@@ -1,0 +1,929 @@
+language: el
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "είναι η μπαταρί(α|ες) <name> {bs_battery_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "<exist> μπαταρί(α|ες) {bs_battery_states:state} [<area>]"
+          - "<exist> {bs_battery_states:state} μπαταρί(α|ες) [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "είναι όλες οι μπαταρίες {bs_battery_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "ποι(α|ες) μπαταρί(α|ες) είναι {bs_battery_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "πόσες μπαταρίες είναι {bs_battery_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "[η μπαταρία] <name> {bs_battery_charging_states:state} [<area>]"
+          - "{bs_battery_charging_states:state} [η μπαταρία] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "<exist> μπαταρίες που {bs_battery_charging_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "{bs_battery_charging_states:state} όλες οι μπαταρίες [<area>]"
+          - "όλες οι μπαταρίες {bs_battery_charging_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "ποι(α|ες) μπαταρί(α|ες) {bs_battery_charging_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "πόσες μπαταρίες {bs_battery_charging_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # Carbon monoxide
+      - sentences:
+          - "<name> {bs_carbon_monoxide_states:state} [<area>]"
+          - "{bs_carbon_monoxide_states:state} <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "<exist> αισθητήρ(ας|ες) μονοξειδίου του άνθρακα που {bs_carbon_monoxide_states:state} [<area>]"
+          - "{bs_carbon_monoxide_states:state} [κάποι(ος|οι)] αισθητήρ(ας|ες) μονοξειδίου του άνθρακα [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "(υπάρχει|εντοπίστηκε|ανιχνεύτηκε) μονοξείδιο του άνθρακα <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+
+      - sentences:
+          - "{bs_carbon_monoxide_states:state} μονοξείδιο του άνθρακα σε όλους τους αισθητήρες [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "σε ποιους αισθητήρες {bs_carbon_monoxide_states:state} μονοξείδιο του άνθρακα [<area>]"
+          - "ποιοι αισθητήρες μονοξειδίου του άνθρακα {bs_carbon_monoxide_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "σε πόσους αισθητήρες {bs_carbon_monoxide_states:state} μονοξείδιο του άνθρακα [<area>]"
+          - "πόσοι αισθητήρες μονοξειδίου του άνθρακα {bs_carbon_monoxide_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "είναι <name> {bs_cold_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "<exist> κάτι κρύο [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "τι είναι κρύο [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "πόσα πράγματα είναι κρύα [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Connectivity
+      - sentences:
+          - "<name> {bs_connectivity_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<exist> συσκευές που {bs_connectivity_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "όλες οι συσκευές {bs_connectivity_states:state} [<area>]"
+          - "{bs_connectivity_states:state} όλες οι συσκευές [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "ποι(α|ες) συσκευ(ή|ές) {bs_connectivity_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "πόσες συσκευές {bs_connectivity_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "είναι <name> {bs_door_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "είναι <name> {bs_garage_door_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "<name> {bs_gas_states:state} [<area>]"
+          - "{bs_gas_states:state} <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "<exist> αισθητήρ(ας|ες) αερίου που {bs_gas_states:state} [<area>]"
+          - "{bs_gas_states:state} [κάποι(ος|οι)] αισθητήρ(ας|ες) αερίου [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "(υπάρχει|εντοπίστηκε|ανιχνεύτηκε) αέριο <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "{bs_gas_states:state} αέριο σε όλους τους αισθητήρες [<area>]"
+          - "{bs_gas_states:state} όλοι οι αισθητήρες αερίου [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "σε ποιους αισθητήρες {bs_gas_states:state} αέριο [<area>]"
+          - "ποιοι αισθητήρες αερίου {bs_gas_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "σε πόσους αισθητήρες {bs_gas_states:state} αέριο [<area>]"
+          - "πόσοι αισθητήρες αερίου {bs_gas_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Heat
+      - sentences:
+          - "είναι <name> {bs_heat_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "<exist> κάτι (ζεστό|θερμό) [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "τι είναι (ζεστό|θερμό) [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "πόσα πράγματα είναι (ζεστά|θερμά) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Light
+      - sentences:
+          - "{bs_light_states:state} <name> [<area>]"
+          - "<name> {bs_light_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "<exist> αισθητήρ(ας|ες) φωτός που {bs_light_states:state} [<area>]"
+          - "{bs_light_states:state} [κάποι(ος|οι)] αισθητήρ(ας|ες) φωτός [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "{bs_light_states:state} σε όλους τους αισθητήρες [<area>]"
+          - "{bs_light_states:state} όλοι οι αισθητήρες φωτός [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "σε ποιους αισθητήρες {bs_light_states:state} [<area>]"
+          - "ποιοι αισθητήρες φωτός {bs_light_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "σε πόσους αισθητήρες {bs_light_states:state} [<area>]"
+          - "πόσοι αισθητήρες φωτός {bs_light_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      # Lock
+      - sentences:
+          - "είναι <name> {bs_lock_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+          device_class: lock
+
+      # Moisture
+      - sentences:
+          - "είναι <name> {bs_moisture_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "<exist> αισθητήρ(ας|ες) (νερού|διαρροής) {bs_moisture_states:state} [<area>]"
+          - "<exist> {bs_moisture_states:state} αισθητήρ(ας|ες) (νερού|διαρροής) [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "<exist> διαρροή (νερού) [<area>]"
+          - "έχει πλυμηρρήσει <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+          state: "on"
+
+      - sentences:
+          - "είναι όλοι οι αισθητήρες (νερού|διαρροής) {bs_moisture_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "ποι(ος|οι) αισθητήρ(ας|ες) (διαρροής|νερού) είναι {bs_moisture_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "πόσοι αισθητήρες (διαρροής|νερού) είναι {bs_moisture_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      # Motion
+      - sentences:
+          - "είναι <name> {bs_motion_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "<exist> αισθητήρ(ας|ες) κίνησης {bs_motion_states:state} [<area>]"
+          - "<exist> {bs_motion_states:state} αισθητήρ(ας|ες) κίνησης [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "(<exist>|έχει (εντοπιστεί|ανιχνευτεί)) κίνηση [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+          state: "on"
+
+      - sentences:
+          - "είναι όλοι οι αισθητήρες κίνησης {bs_motion_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "ποι(ος|οι) αισθητήρ(ας|ες) κίνησης είναι {bs_motion_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "πόσοι αισθητήρες κίνησης είναι {bs_motion_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      # Occupancy
+      - sentences:
+          - "είναι <name> {bs_occupancy_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "<exist> αισθητήρ(ας|ες) παρουσίας {bs_occupancy_states:state} [<area>]"
+          - "<exist> {bs_occupancy_states:state} αισθητήρ(ας|ες) παρουσίας [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "(<exist>|έχει (εντοπιστεί|ανιχνευτεί)) παρουσία [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+          state: "on"
+
+      - sentences:
+          - "είναι όλοι οι αισθητήρες παρουσίας {bs_occupancy_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "ποι(ος|οι) αισθητήρ(ας|ες) παρουσίας είναι {bs_occupancy_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "πόσοι αισθητήρες παρουσίας είναι {bs_occupancy_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      # Opening
+      - sentences:
+          - "είναι <name> {bs_opening_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: opening
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "<exist> άνοιγμα {bs_opening_states:state} [<area>]"
+          - "<exist> {bs_opening_states:state} άνοιγμα [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "είναι όλα τα ανοίγματα {bs_opening_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "ποι(ο|α) (άνοιγμα|ανοίγματα) είναι {bs_opening_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "πόσα ανοίγματα είναι {bs_opening_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      # Plug
+      - sentences:
+          - "είναι <name> {bs_plug_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "<exist> συσκευ(ή|ές) {bs_plug_states:state} [<area>]"
+          - "<exist> {bs_plug_states:state} συσκευ(ή|ές) [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "είναι όλες οι συσκευές {bs_plug_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "ποι(α|ες) συσκευ(ή|ές) είναι {bs_plug_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "πόσες συσκευές είναι {bs_plug_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      # Power
+      - sentences:
+          - "είναι <name> {bs_power_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "<exist> συσκευ(ή|ές) {bs_power_states:state} [<area>]"
+          - "<exist> {bs_power_states:state} συσκευ(ή|ές) [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "είναι όλες οι συσκευές {bs_power_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "ποι(α|ες) συσκευ(ή|ές) είναι {bs_power_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "πόσες συσκευές είναι {bs_power_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      # Presence
+      - sentences:
+          - "είναι <name> {bs_presence_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "<exist> συσκευ(ή|ές) {bs_presence_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "είναι όλες οι συσκευές {bs_presence_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "ποι(α|ες) συσκευ(ή|ές) είναι {bs_presence_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "πόσες συσκευές είναι {bs_presence_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      # Problem
+      - sentences:
+          - "υπάρχει πρόβλημα [με] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      # Running
+      - sentences:
+          - "<name> {bs_running_states:state} [<area>]"
+          - "{bs_running_states:state} <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "<exist> συσκευ(ή|ές) που {bs_running_states:state} [<area>]"
+          - "{bs_running_states:state} κάποι(α|ες) συσκευ(ή|ές) [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "όλες οι συσκευές {bs_running_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "ποι(α|ες) συσκευ(ή|ές) {bs_running_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "πόσες συσκευές {bs_running_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      # Safety
+      - sentences:
+          - "είναι <name> {bs_safety_states:state} [<area>]"
+          - "είναι {bs_safety_states:state} <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      # Smoke
+      - sentences:
+          - "<name> {bs_smoke_states:state} [<area>]"
+          - "{bs_smoke_states:state} <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: smoke
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "<exist> αισθητήρ(ας|ες) καπνού που {bs_smoke_states:state} [<area>]"
+          - "{bs_smoke_states:state} [κάποι(ος|οι)] αισθητήρ(ας|ες) καπνού [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "(υπάρχει|εντοπίστηκε|ανιχνεύτηκε) καπνός <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
+
+      - sentences:
+          - "{bs_smoke_states:state} καπνός σε όλους τους αισθητήρες [<area>]"
+          - "{bs_smoke_states:state} όλοι οι αισθητήρες καπνού [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "σε ποιους αισθητήρες {bs_smoke_states:state} καπνός [<area>]"
+          - "ποιοι αισθητήρες καπνού {bs_smoke_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "σε πόσους αισθητήρες {bs_smoke_states:state} καπνός [<area>]"
+          - "πόσοι αισθητήρες καπνού {bs_smoke_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      # Sound
+      - sentences:
+          - "<name> {bs_sound_states:state} [<area>]"
+          - "{bs_sound_states:state} <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: sound
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "<exist> αισθητήρ(ας|ες) (ήχου|θορύβου) που {bs_sound_states:state} [<area>]"
+          - "{bs_sound_states:state} [κάποι(ος|οι)] αισθητήρ(ας|ες) (ήχου|θορύβου) [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "(υπάρχει|εντοπίστηκε|ανιχνεύτηκε) (ήχος|θόρυβος) <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+          state: "on"
+
+      - sentences:
+          - "{bs_sound_states:state} (ήχος|θόρυβος) σε όλους τους αισθητήρες [<area>]"
+          - "{bs_sound_states:state} όλοι οι αισθητήρες (ήχου|θορύβου) [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "σε ποιους αισθητήρες {bs_sound_states:state} (ήχος|θόρυβος) [<area>]"
+          - "ποιοι αισθητήρες (ήχου|θορύβου) {bs_sound_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "σε πόσους αισθητήρες {bs_sound_states:state} (ήχους|θόρυβος) [<area>]"
+          - "πόσοι αισθητήρες (ήχου|θορύβου) {bs_sound_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      # Tamper
+      - sentences:
+          - "{bs_tamper_states:state} παραβίαση <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: tamper
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      # Update
+      - sentences:
+          - "είναι <name> {bs_update_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+
+      - sentences:
+          - "<exist> [διαθέσιμ(η|ες)] ενημ(έρωση|ερώσεις) [λογισμικού] [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "ποι(α|ες) ενημ(έρωση|ερώσεις) [λογισμικού] [υπάρχ(ει|ουν) | είναι διαθέσιμ(η|ες)] [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "πόσες ενημερώσεις [λογισμικού] [υπάρχουν | είναι διαθέσιμες] [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      # Vibration
+      - sentences:
+          - "<name> {bs_vibration_states:state} [<area>]"
+          - "{bs_vibration_states:state} <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "<exist> συσκευ(ή|ές) (σε δόνηση | που δον(είται|ούνται)) [<area>]"
+          - "δον(είται|ούνται) [κάποι(α|ες)] συσκευ(ή|ές) [<area>]"
+        response: any
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+          state: "on"
+
+      # Window
+      - sentences:
+          - "είναι <name> {bs_window_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
