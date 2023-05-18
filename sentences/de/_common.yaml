@@ -77,7 +77,7 @@ lists:
     values:
       - in: "(([ab|zu]ge|ver)(schlossen|sperrt)|verriegelt)"
         out: "locked"
-      - in: "(nicht (([ab|zu]ge|ver)(schlossen|sperrt)|verriegelt)|ent(riegelt|sperrt))"
+      - in: "(nicht (([ab|zu]ge|ver)(schlossen|sperrt)|verriegelt)|ent(riegelt|sperrt)|aufge(sperrt|schlossen))"
         out: "unlocked"
   on_off_domains:
     values:
@@ -104,6 +104,31 @@ lists:
         out: "Celsius"
       - in: "(f|fahrenheit)"
         out: "Fahrenheit"
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "(niedrig|gering|schwach)"
+        out: "on"
+      - in: "normal"
+        out: "off"
+  bs_battery_charging_states:
+    values:
+      - in: "(lädt|[auf][ge]laden) [auf]"
+        out: "on"
+      - in: "(lädt nicht|nicht [auf][ge]laden|laden nicht) [auf]"
+        out: "off"
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(entdeckt|ausgelöst|erkannt|an)"
+        out: "on"
+      - in: "(klar|rein|sauber|sicher)"
+        out: "off"
+  bs_cold_states:
+    values:
+      - in: "kalt"
+        out: "on"
+      - in: "normal"
+        out: "off"
 expansion_rules:
   name: "[(der|den|dem|die|das)] {name}"
   area: "((in|an|auf) (der|dem)|im|am) {area}"
@@ -112,7 +137,10 @@ expansion_rules:
   auf: "(auf|hoch|rauf|nach oben)"
   zu: "(zu|[he]runter|nach unten)"
   von_dem: "(von [dem]|vom)"
-  schliessen: "(schlie(ß|ss)|schlie(ß|ss)e|zumachen|zu machen)"
+  alle: "(alle|sämtliche)"
+  schliessen: "(schlie(ß|ss)[e|en]|zumachen|zu machen)"
+  öffnen: "(öffne[n]|aufmachen|auf machen)"
+  schalten: "(schalt[e|en])"
   machen: "(mach[e|en])"
   setzen: "(setz[e|en]|stell[e|en]|einstellen|änder[e|n]|veränder[e|n])"
   abdeckung: "(das Rollo|die Rollos|die (Abdeckung|Abdeckungen)|(den|die) Rolll(a|ä)den|die (Jalousie|Jalousien)|(den|die) Raffstore[s]|die (Markise|Markisen))"
@@ -128,6 +156,8 @@ expansion_rules:
   licht: "([das] Licht|[die] Lampe|[die] Beleuchtung)"
   lichter: "[die|der|von den] (Lichter|Lichtern|Lampen|Leuchten|Beleuchtungen)"
   alle_lichter: "(alle[r] <lichter>|von allen [Lichtern|Lampen|Leuchten|Beleuchtungen]|[die] ganze Beleuchtung)"
+  tuer: "[die] Tür[e|en]"
+  schloss: "[das|die] (Schloss|Schlösser)"
   sperren: "(sperr|schlie(ss|ß))[e|en]"
   entsperren: "((ent|auf)<sperren>|öffne|entrieg(el|le))[n]"
   absperren: "(zu|ab)<sperren>|verrieg(el|le)[n]"
@@ -136,6 +166,14 @@ expansion_rules:
   ausfuehren: "(start[e|en]|ausführen)"
   szene: "[die] Szene"
   skript: "[das] Skript"
+  batterie: "[die|der|des] (Batterie[n]|Akku[s])"
+  irgend: "(irgend(ein[e][s|r]|welche[s])|einige[s]) [der]"
+  etwas: "[irgend][et]was"
+  welche: "(welche[r|s]|was für [ein[e][r|s]])"
+  ladestand: "[der] [Lade][zu]Stand"
+  co: "Kohlen[stoff]monoxid"
+  co-sensor: "<co>[-]Sensor[en]"
+  ding: "((Ding|Gerät)[e]|Sensor[en]|Gegenstand|Gegenstände)"
 skip_words:
   - "bitte"
   - "danke"
@@ -143,6 +181,9 @@ skip_words:
   - "jetzt"
   - "sofort"
   - "gleich"
+  - "gerade"
+  - "momentan"
+  - "im Moment"
   - "mal"
   - "eben"
   - "kannst du"

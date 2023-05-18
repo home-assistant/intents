@@ -6,14 +6,17 @@ intents:
       # Brightness value individual light
       - sentences:
           - "[<turn>] <intensity> <name> [الى] <brightness>"
+          - "[<turn>] <name> [الى] <intensity> <brightness>"
         requires_context:
           domain: light
-        response: "brightness"
+        response: brightness
 
       # Brightness value specific area
       - sentences:
           - "[<turn>] <intensity> <all> <light> [الى] <brightness> [<in>] <area>"
           - "[<turn>] <intensity> <all> <light> [<in>] <area> [الى] <brightness>"
+          - "[<turn>] <all> <light> [الى] <intensity> <brightness> [<in>] <area>"
+          - "[<turn>] <all> <light> [<in>] <area> [الى] <intensity> <brightness>"
         slots:
           name: all
         response: brightness
@@ -21,54 +24,63 @@ intents:
       # Brightness value all lights
       - sentences:
           - "[<turn>] <intensity> <all> <light> [الى] <brightness>"
+          - "[<turn>] <all> <light> [الى] <intensity> <brightness>"
         slots:
           area: all
           name: all
-        response: "brightness"
+        response: brightness
 
       # Min/Max brightness individual light
       - sentences:
           - "[<turn>] <intensity> <name> [الى] {brightness_level:brightness}"
+          - "[<turn>] <name> [الى] <intensity> {brightness_level:brightness}"
         requires_context:
           domain: light
-        response: "brightness"
+        response: brightness
 
       # Min/Max brightness specific area
       - sentences:
           - "[<turn>] <intensity> <all> <light> [الى] {brightness_level:brightness} [<in>] <area>"
           - "[<turn>] <intensity> <all> <light> [<in>] <area> [الى] {brightness_level:brightness}"
+          - "[<turn>] <all> <light> [الى] <intensity> {brightness_level:brightness} [<in>] <area>"
+          - "[<turn>] <all> <light> [<in>] <area> [الى] <intensity> {brightness_level:brightness}"
         slots:
           name: all
-        response: "brightness"
+        response: brightness
 
       # Min/Max brightness all lights
       - sentences:
           - "[<turn>] <intensity> <all> <light> [الى] {brightness_level:brightness}"
+          - "[<turn>] <all> <light> [الى] <intensity> {brightness_level:brightness}"
         slots:
           name: all
           area: all
-        response: "brightness"
+        response: brightness
 
       # Color
       # color individual light
       - sentences:
-          - "[<turn>] <color> <name> [الى] {color}"
+          - "[<turn>] <color> <name> [الى] <colors>"
+          - "[<turn>] <name> [الى] <color> <colors>"
         requires_context:
           domain: light
-        response: "color"
+        response: color
 
       # color specific area
       - sentences:
-          - "[<turn>] <color> <all> <light> [الى] {color} [<in>] <area>"
-          - "[<turn>] <color> <all> <light> [<in>] <area> [الى] {color}"
+          - "[<turn>] <color> <all> <light> [الى] <colors> [<in>] <area>"
+          - "[<turn>] <color> <all> <light> [<in>] <area> [الى] <colors>"
+          - "[<turn>] <all> <light> [الى] <color> <colors> [<in>] <area>"
+          - "[<turn>] <all> <light> [<in>] <area> [الى] <color> <colors>"
         slots:
           name: all
-        response: "color"
+        response: color
 
       # color all lights
       - sentences:
-          - "[<turn>] <color> <all> <light> [الى] {color}"
+          - "[<turn>] <color> <all> <light> [الى] <colors>"
+          - "[<turn>] <all> <light> [الى] <color> <colors>"
         slots:
           area: all
           name: all
-        response: "color"
+        response: color
