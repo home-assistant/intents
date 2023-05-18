@@ -208,9 +208,22 @@ tests:
     response: "Ja"
 
   - sentences:
-      - "sind irgendwelche Geräte verbunden?"
+      - "ist das Bürotelefon im Büro verbunden?"
+      - "ist im Büro das Bürotelefon verbunden?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: "binary_sensor"
+        device_class: "connectivity"
+        name: "Bürotelefon"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
       - "ist irgendein Sensor verbunden?"
       - "ist irgendeiner der Gegenstände verbunden?"
+      - "sind irgendwelche Geräte verbunden?"
       - "sind Dinge verbunden?"
     intent:
       name: HassGetState
@@ -221,6 +234,22 @@ tests:
     response: "Ja, Handy"
 
   - sentences:
+      - "ist irgendein Sensor im Büro getrennt?"
+      - "ist irgendein Sensor getrennt im Büro?"
+      - "ist im Büro irgendeiner der Sensoren getrennt?"
+      - "sind irgendwelche Geräte im Büro getrennt?"
+      - "sind irgendwelche der Geräte getrennt im Büro?"
+      - "sind im Büro irgendwelche Geräte getrennt?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Büro
+        domain: binary_sensor
+        device_class: connectivity
+        state: "off"
+    response: "Ja, Bürotelefon"
+
+  - sentences:
       - "sind alle Geräte verbunden?"
     intent:
       name: HassGetState
@@ -228,11 +257,25 @@ tests:
         domain: binary_sensor
         device_class: connectivity
         state: "on"
-    response: "Ja"
+    response: "Nein, Bürotelefon ist es nicht"
+
+  - sentences:
+      - "sind alle Geräte im Büro verbunden?"
+      - "sind alle Sensoren verbunden im Büro?"
+      - "sind im Büro alle Geräte verbunden?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Büro
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "Nein, Bürotelefon ist es nicht"
 
   - sentences:
       - "welche Geräte sind verbunden?"
       - "was für Sensoren sind verbunden?"
+      - "welcher Sensor ist verbunden?"
     intent:
       name: HassGetState
       slots:
@@ -240,6 +283,22 @@ tests:
         device_class: connectivity
         state: "on"
     response: "Handy"
+
+  - sentences:
+      - "welcher Sensor ist im Büro verbunden?"
+      - "welcher Sensor im Büro ist verbunden?"
+      - "welcher Sensor ist verbunden im Büro?"
+      - "welche Geräte sind im Büro verbunden?"
+      - "welche Geräte im Büro sind verbunden?"
+      - "was für Sensoren sind verbunden im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Büro
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "Keins"
 
   - sentences:
       - "Wie viele Geräte sind verbunden?"
@@ -250,6 +309,19 @@ tests:
         device_class: connectivity
         state: "on"
     response: "1"
+
+  - sentences:
+      - "Wie viele Geräte im Büro sind verbunden?"
+      - "Wie viele Geräte sind im Büro verbunden?"
+      - "Wie viele Geräte sind verbunden im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Büro
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "0"
 
   # Cold
   - sentences:

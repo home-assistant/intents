@@ -135,7 +135,8 @@ intents:
 
       # Connectivity
       - sentences:
-          - "(ist|sind) <name> [<area>] {bs_connectivity_states:state}"
+          - "ist <name> [<area>] {bs_connectivity_states:state}"
+          - "ist <area> <name>  {bs_connectivity_states:state}"
         response: einzeln_janein
         requires_context:
           domain: binary_sensor
@@ -145,7 +146,12 @@ intents:
           device_class: connectivity
 
       - sentences:
-          - "(ist|sind) [<irgend> [der]] <ding> [<area>] {bs_connectivity_states:state}"
+          - "ist <irgend> <ding> [<area>] {bs_connectivity_states:state}"
+          - "ist <irgend> <ding> {bs_connectivity_states:state} <area>"
+          - "ist <area> <irgend> <ding> {bs_connectivity_states:state}"
+          - "sind [<irgend> [der]] <ding> [<area>] {bs_connectivity_states:state}"
+          - "sind [<irgend> [der]] <ding> {bs_connectivity_states:state} <area>"
+          - "sind <area> <irgend> [der] <ding> {bs_connectivity_states:state}"
         response: irgendeins
         slots:
           domain: binary_sensor
@@ -153,6 +159,8 @@ intents:
 
       - sentences:
           - "sind alle <ding> [<area>] {bs_connectivity_states:state}"
+          - "sind alle <ding> {bs_connectivity_states:state} <area>"
+          - "sind <area> alle <ding> {bs_connectivity_states:state}"
         response: alle
         slots:
           domain: binary_sensor
@@ -160,17 +168,22 @@ intents:
 
       - sentences:
           - "<welche> <ding> [<area>] (ist|sind) {bs_connectivity_states:state}"
+          - "<welche> <ding> (ist|sind) <area> {bs_connectivity_states:state}"
+          - "<welche> <ding> (ist|sind) {bs_connectivity_states:state} <area>"
         response: welches
         slots:
           domain: binary_sensor
           device_class: connectivity
 
       - sentences:
-          - "wie viele <ding> [<area>] (ist|sind) {bs_connectivity_states:state}"
+          - "wie viele <ding> [<area>] sind {bs_connectivity_states:state}"
+          - "wie viele <ding> sind <area> {bs_connectivity_states:state}"
+          - "wie viele <ding> sind {bs_connectivity_states:state} <area>"
         response: wie_viele
         slots:
           domain: binary_sensor
           device_class: connectivity
+
       - sentences:
           - "ist <name> [<area>] {bs_cold_states:state}"
           - "ist <area> <name> {bs_cold_states:state}"
