@@ -99,7 +99,7 @@ def do_test_language_sentences(
                         language_sentences,
                         intent_name,
                         slot_schema,
-                        visited_rules=set(),
+                        initial_rule="",
                         found_slots=found_slots,
                     )
 
@@ -133,7 +133,7 @@ def _verify(
     intents: Intents,
     intent_name: str,
     slot_schema: dict[str, Any],
-    visited_rules: set[str],
+    initial_rule: str,
     found_slots: set[str],
 ) -> None:
     if isinstance(expression, ListReference):
@@ -158,11 +158,12 @@ def _verify(
         ), f"Missing expansion rule: <{rule_ref.rule_name}>. Are you missing an 'expansion_rules' entry in _common.yaml?"
 
         # Check for recursive rules (not supported)
-        assert (
-            rule_ref.rule_name not in visited_rules
-        ), f"Recursive rule detected: <{rule_ref.rule_name}>"
-
-        visited_rules.add(rule_ref.rule_name)
+        if not initial_rule:
+            initial_rule = rule_ref.rule_name
+        else:
+            assert (
+                rule_ref.rule_name != initial_rule
+            ), f"Recursive rule detected: <{rule_ref.rule_name}>"
 
         # Verify rule body
         for body_expression in _flatten(intents.expansion_rules[rule_ref.rule_name]):
@@ -171,7 +172,7 @@ def _verify(
                 intents,
                 intent_name,
                 slot_schema,
-                visited_rules,
+                initial_rule,
                 found_slots,
             )
 
