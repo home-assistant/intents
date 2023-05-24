@@ -2,7 +2,16 @@ language: ko
 intents:
   HassTurnOff:
     data:
-      - sentences: []
-        slots:
+      - sentences:
+          - "[<area>] <name> 열어"
+        requires_context:
           domain: lock
-          name: all
+        response: lock
+
+      - sentences:
+          - "<area>[의] [모든] [잠금장치|자물쇠|문] 열어"
+          - "[모든] <area> [잠금장치|자물쇠|문] 열어"
+        slots:
+          domain: "lock"
+          name: "all"
+        response: lock
