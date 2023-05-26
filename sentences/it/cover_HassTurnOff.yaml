@@ -3,35 +3,36 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<close> [<the>] <name> [[<of>|<in>] <area>]"
+          - "<close> [<the>] {name} [[<in> | <of>] {area}]"
         response: "cover"
         requires_context:
           domain: cover
       - sentences:
-          - "<close> [<the>] <cover> [[<in> | <of>] <area>]"
-          - "<close> [[<in>] <area>] [<the>] <cover>"
-        response: "cover_area"
+          - "<close> [<all>][<the>] {device_class} [[<in> | <of>] {area}]"
+          - "<close> [[<in>] {area}] [<all>] [<the>] {device_class}"
+        response: "cover_device_class_area"
         requires_context:
           domain: cover
       - sentences:
           - "<close> <the> (serranda | [porta [del garage]] [basculante] | saracinesca) [[(in | del)] garage]"
           - "<close> [[<in>] garage] <the> (serranda | [porta [del garage]] [basculante] | saracinesca)"
-        response: cover_device_class
+        response: cover_garage
         slots:
           device_class: garage
           domain: cover
       - sentences:
-          - "<close> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e)) [(<in> | <of>)] <area>"
-          - "<close> [<in>] <area> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e))"
-        response: "cover_area"
-        slots:
-          device_class:
-            - blind
-            - curtain
-            - shutter
-          domain: cover
-      - sentences:
-          - "<close> <all> [[<the>] <cover>]"
+          - "<close> <all>"
         slots:
           domain: "cover"
         response: "cover_all"
+      - sentences:
+          - "<close> <all> [<the>] {device_class}"
+        response: "cover_device_class"
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<close> <all> [<in>|<the>] {area}"
+        slots:
+          domain: "cover"
+        response: "cover_area"

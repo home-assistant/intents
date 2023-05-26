@@ -9,17 +9,17 @@ tests:
       context:
         domain: cover
         device_class: curtain
+    response: "Chiudo tapparella"
   - sentences:
-      - "abbassa la tapparella del soggiorno"
+      - "chiudi le tapparelle nel bagno"
     intent:
       name: HassTurnOff
       slots:
-        area: "Soggiorno"
-        name: "Tapparella"
+        area: "Bagno"
+        device_class: "shutter"
       context:
         domain: cover
-        device_class: curtain
-    response: "Ho chiuso tapparella"
+    response: "Chiudo tutte le tapparelle in bagno"
   - sentences:
       - "chiudi la porta del garage"
       - "chiudi la serranda del garage"
@@ -29,26 +29,29 @@ tests:
       slots:
         device_class: garage
         domain: cover
-    response: "Ho chiuso garage"
-  - sentences:
-      - "chiudi le tapparelle in cucina"
-      - "abbassa le tende in cucina"
-      - "chiudi cucina tapparelle"
-    intent:
-      name: HassTurnOff
-      slots:
-        area: "Cucina"
-        device_class:
-          - blind
-          - curtain
-          - shutter
-        domain: cover
-    response: "Chiuse in cucina"
+    response: "Chiudo il garage"
   - sentences:
       - "chiudi tutto"
-      - "abbassa tutte le tapparelle"
     intent:
       name: HassTurnOff
       slots:
         domain: cover
-    response: "Ho chiuso tutte le tapparelle"
+    response: "Chiudo tutto"
+
+  - sentences:
+      - "chiudi tutte le tende"
+    intent:
+      name: HassTurnOff
+      slots:
+        device_class: "curtain"
+        domain: "cover"
+    response: "Chiudo tutte le tende"
+
+  - sentences:
+      - "chiudi tutto soggiorno"
+    intent:
+      name: HassTurnOff
+      slots:
+        area: "Soggiorno"
+        domain: "cover"
+    response: "Chiudo tutto in soggiorno"

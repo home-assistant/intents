@@ -38,6 +38,11 @@ lists:
       type: "temperature"
       from: 0
       to: 100
+  position:
+    range:
+      type: percentage
+      from: 0
+      to: 100
   temperature_unit:
     values:
       - "(celsius | centigradi)"
@@ -70,7 +75,7 @@ lists:
         out: "opening"
       - in: "in chiusura"
         out: "closing"
-  cover_classes:
+  cover_classes: ## consider migration to device_class
     values:
       - in: "tend(a|e) da sole"
         out: awning
@@ -96,6 +101,26 @@ lists:
         out: "locked"
       - in: "aperta"
         out: "aperto"
+  device_class: ## needed to bind device_class to integrated intents
+    values:
+      - in: "tend(a|e) da sole"
+        out: awning
+      - in: "persian(a|e)"
+        out: blind
+      - in: "tend(a|e)"
+        out: curtain
+      - in: "port(a|e)"
+        out: door
+      - in: "(serrand(a|e) | port(a|e) [basculant(e|i)|de(l|i) garage] | saracinesc(a|he))"
+        out: garage
+      - in: "cancell(o|i)"
+        out: gate
+      - in: "venezian(a|e)"
+        out: shade
+      - in: "tapparell(a|e)"
+        out: shutter
+      - in: "finestr(a|e)"
+        out: window
 
 expansion_rules:
   the: "(l(o|a|e) | i[l] | gli | l')"
@@ -114,7 +139,10 @@ expansion_rules:
   temp: "[la] (temperatura)"
   temperature: "{temperature}[°| gradi] [{temperature_unit}]"
   cover: (tend(a|e)[ da sole]|serrand(a|e)|tapparell(a|e)|persian(a|e)|port(a|e)|saracinesc(a|he)|venezian(a|e)|cancell(o|i)|finestr(a|e))
-  fan: "(ventol(a|e) | ventilator(e|i) | ventilazione | climatizzator(e|i) | condizionator(e|i))"
+  climate: "(clima|climatizzator(e|i)|condizionator(e|i)|aria condizionata)"
+  fan: "(ventol(a|e) | ventilator(e|i) | ventilazione )"
+  percent: "[%| percento]"
+  stop: "(ferm(a|are)|arrest(a|are))"
   all: "tutt(o|i|a|e)"
 skip_words:
   - "per favore"
