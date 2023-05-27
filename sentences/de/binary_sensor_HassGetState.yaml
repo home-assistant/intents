@@ -188,3 +188,29 @@ intents:
           domain: binary_sensor
           device_class: cold
           state: "on"
+
+      # Door
+      - sentences:
+          - "(ist|steht) <name> [<area>] {bs_door_states:state}"
+          - "(ist|steht) <name> {bs_door_states:state} <area>"
+          - "(ist|steht) <area> <name> {bs_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "(ist|steht) <name> [<area>] {bs_garage_door_states:state}"
+          - "(ist|steht) <name> {bs_garage_door_states:state} <area>"
+          - "(ist|steht) <area> <name> {bs_garage_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door

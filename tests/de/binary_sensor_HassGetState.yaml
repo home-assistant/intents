@@ -327,3 +327,45 @@ tests:
         device_class: cold
         state: "on"
     response: "0"
+
+  # Door
+  - sentences:
+      - "ist die Wohnungstür offen?"
+      - "ist die Wohnungstür auf?"
+      - "ist die Wohnungstür geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Wohnungstür"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist die Wohnungstür im Eingang offen?"
+      - "ist im Eingang die Wohnungstür offen?"
+      - "ist die Wohnungstür offen im Eingang?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Eingang"
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Wohnungstür"
+        state: "on"
+    response: "Nein"
+
+  # Garage door
+  - sentences:
+      - "ist das Garagentor geschlossen?"
+      - "ist das Garagentor zu?"
+      - "ist das Garagentor unten?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garagentor"
+        state: "off"
+    response: "Ja"
