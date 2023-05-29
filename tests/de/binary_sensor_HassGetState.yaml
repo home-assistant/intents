@@ -456,3 +456,33 @@ tests:
         device_class: connectivity
         state: "on"
     response: "0"
+
+  # Problem
+  - sentences:
+      - "Gibt es Probleme mit dem Futterspender"
+      - "Gibt es ein Problem mit dem Futterspender"
+      - "Gibt es irgendwelche Probleme mit dem Futterspender"
+      - "Hat der Futterspender irgendein Problem"
+      - "Hat der Futterspender Probleme"
+      - "Hat der Futterspender irgendwelche Probleme"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        name: "Futterspender"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "Gibt es ein Problem mit dem Futterspender in der Küche"
+      - "Hat der Futterspender in der Küche Probleme"
+    intent:
+      name: HassGetState
+      slots:
+        area: Küche
+        domain: "binary_sensor"
+        device_class: "problem"
+        name: "Futterspender"
+        state: "on"
+    response: "Nein"
