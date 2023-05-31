@@ -234,6 +234,7 @@ tests:
         state: "off"
     response: "Nee"
 
+  # power
   - sentences:
       - "is er in de meterkast stroom?"
       - "registreert de meterkast vermogen"
@@ -251,7 +252,55 @@ tests:
     response: "Ja"
 
   - sentences:
-      - "Is de telefoon thuis?"
+      - "is er ergens bij een sensor stroomverbruik"
+      - "krijgt er een apparaat power"
+      - "wordt er ergens vermogen geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        state: "on"
+    response: "Ja, Meterkast"
+
+  - sentences:
+      - "krijgen alle apparaten stroom"
+      - "wordt door elke sensor stroom geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "welke sensoren krijgen geen power"
+      - "welk apparaat neemt geen spanning waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        state: "off"
+    response: "Geen"
+
+  - sentences:
+      - "hoeveel sensoren krijgen stroom"
+      - "hoeveel apparaten nemen spanning waar"
+      - "met hoe veel sensoren worden power waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        state: "on"
+    response: "1"
+
+  # presence
+  - sentences:
+      - "Is er iemand bij de telefoon in de buurt"
+      - "Is bij de telefoon aanwezigheid"
     intent:
       name: HassGetState
       slots:
@@ -260,6 +309,55 @@ tests:
         name: "Telefoon"
         state: "on"
     response: "Nee"
+
+  - sentences:
+      - "is er iemand"
+      - "zijn er mensen in huis"
+      - "detecteert er een sensor aanwezigheid"
+      - "wordt er ergens mensen geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "zijn er overal mensen"
+      - "is er overal iemand"
+      - "detecteren alle sensoren aanwezigheid"
+      - "wordt door elke sensor een mens geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        state: "on"
+    response: "Nee, Telefoon niet"
+
+  - sentences:
+      - "welke sensoren detecteren niemand"
+      - "welk apparaat neemt geen mensen waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        state: "off"
+    response: "Telefoon"
+
+  - sentences:
+      - "hoeveel sensoren detecteren iemand"
+      - "hoeveel apparaten nemen mensen waar"
+      - "met hoe veel sensoren worden personen waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        state: "on"
+    response: "0"
 
   # problem
   - sentences:
