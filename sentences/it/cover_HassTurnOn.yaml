@@ -1,4 +1,4 @@
-language: it
+language: "it"
 intents:
   HassTurnOn:
     data:
@@ -6,23 +6,27 @@ intents:
           - "<open> [<the>] {name} [[<in> | <of>] {area}]"
         response: "cover"
         requires_context:
-          domain: cover
+          domain: "cover"
+      - sentences:
+          - "<open> [<all>] [<in> | <the>] {area}"
+        response: "cover_area"
+        slots:
+          domain: "cover"
+      - sentences:
+          - "<open> <all> [<the>] {device_class}"
+        response: "cover_device_class"
+        slots:
+          domain: "cover"
       - sentences:
           - "<open> [<all>][<the>] {device_class} [[<in> | <of>] {area}]"
           - "<open> [[<in>] {area}] [<all>] [<the>] {device_class}"
         response: "cover_device_class_area"
         requires_context:
-          domain: cover
+          domain: "cover"
       - sentences:
           - "<open> <the> (serranda | [porta [del garage]] [basculante] | saracinesca) [[(in | del)] garage]"
           - "<open> [[<in>] garage] <the> (serranda | [porta [del garage]] [basculante] | saracinesca)"
-        response: cover_garage
+        response: "cover_garage"
         slots:
-          device_class: garage
-          domain: cover
-
-      - sentences:
-          - "<open> <all> [<the>] {device_class}"
-        response: "cover_device_class"
-        slots:
-          domain: cover
+          device_class: "garage"
+          domain: "cover"
