@@ -15,10 +15,15 @@ if [ -d "${venv}" ]; then
     source "${venv}/bin/activate"
 fi
 
-output_dir="${base_dir}/package/home_assistant_intents/data"
-rm -rf "${output_dir}"
+package_dir="${base_dir}/package"
+intents_dir="${package_dir}/home_assistant_intents"
+data_dir="${intents_dir}/data"
+rm -rf "${data_dir}"
+rm -rf "${base_dir}/package/dist"
 
-python3 -m script.intentfest merged_output "${output_dir}"
+python3 -m script.intentfest merged_output "${data_dir}"
+python3 "${package_dir}/script/write_languages.py" "${data_dir}" > "${intents_dir}/domains.py"
+black "${intents_dir}/domains.py"
 cd "${base_dir}/package" && python3 -m build
 
 echo "See: ${base_dir}/package/dist"

@@ -458,18 +458,20 @@ tests:
 
   # Moisture
   - sentences:
-      - "is the water sensor wet?"
+      - "is the kitchen leak sensor wet?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "moisture"
-        name: "Water Sensor"
+        name: "Kitchen leak sensor"
         state: "on"
     response: "No, dry"
 
   - sentences:
       - "are any water sensors wet?"
+      - "is the floor wet?"
+      - "is the water sensor wet"
       - "is there any leak?"
     intent:
       name: HassGetState
@@ -480,6 +482,17 @@ tests:
     response: "No"
 
   - sentences:
+      - "is the kitchen flooded?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+        area: "Kitchen"
+    response: "No"
+
+  - sentences:
       - "are all water sensors wet?"
     intent:
       name: HassGetState
@@ -487,7 +500,7 @@ tests:
         domain: binary_sensor
         device_class: moisture
         state: "on"
-    response: "No, Water Sensor not"
+    response: "No, Kitchen leak sensor not"
 
   - sentences:
       - "which water sensors are wet?"
@@ -511,27 +524,28 @@ tests:
 
   # Motion
   - sentences:
-      - "is motion detected in the garage?"
+      - "is motion sensor on in the garage?"
     intent:
       name: HassGetState
       slots:
         area: "Garage"
         domain: "binary_sensor"
         device_class: "motion"
-        name: "Motion"
+        name: "Motion sensor"
         state: "on"
     response: "Yes"
 
   - sentences:
       - "are any motion sensors triggered?"
-      - "is there any motion detected?"
+      - "is motion detected?"
+      - "is there any motion?"
     intent:
       name: HassGetState
       slots:
         domain: binary_sensor
         device_class: motion
         state: "on"
-    response: "Yes, Motion"
+    response: "Yes, Motion sensor"
 
   - sentences:
       - "are all motion sensors triggered?"
@@ -551,7 +565,7 @@ tests:
         domain: binary_sensor
         device_class: motion
         state: "on"
-    response: "Motion"
+    response: "Motion sensor"
 
   - sentences:
       - "how many motion sensors are triggered?"

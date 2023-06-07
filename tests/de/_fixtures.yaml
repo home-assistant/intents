@@ -14,10 +14,16 @@ areas:
     id: garden
   - name: Eingang
     id: entrance
+  - name: Büro
+    id: office
 entities:
   - name: Schlafzimmerlampe
     id: light.bedroom_lamp
     state: "on"
+    area: bedroom
+  - name: Schreibtischlampe
+    id: light.bedroom_desk_lamp
+    state: "off"
     area: bedroom
   - name: Küchenschalter
     id: switch.kitchen
@@ -70,7 +76,45 @@ entities:
     id: "lock.front_door"
     area: "entrance"
     state: "locked"
-
   - name: "Hintertür"
     id: "lock.back_door"
     state: "unlocked"
+  - name: "Partymodus"
+    id: "scene.party_mode"
+  - name: "Batteriewarnung"
+    id: "script.battery_warning"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "Handy"
+    id: "binary_sensor.phone_battery"
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "Handy"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "lädt"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "CO"
+    id: "binary_sensor.co"
+    area: kitchen
+    state:
+      in: "sicher"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "Wasserleitung"
+    id: "binary_sensor.computer_cold"
+    area: office
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: cold
