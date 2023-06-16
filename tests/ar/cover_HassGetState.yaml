@@ -1,2 +1,58 @@
 language: ar
-tests: []
+tests:
+  - sentences:
+      # - "هل الستارة اليسرى مغلقة"
+      - "هل الستارة اليسرى مغلق"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: الستارة اليسرى
+        state: closed
+    response: "لا, مفتوح"
+
+  - sentences:
+      # - "هل هناك ستارات مفتوحة في غرفة المعيشة"
+      - "هل هناك ستائر مفتوح في غرفة المعيشة"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: غرفة المعيشة
+        device_class: curtain
+        state: open
+    response: "اجل, الستارة اليسرى"
+
+  - sentences:
+      # - "هل جميع الستارات مفتوحة في غرفة المعيشة"
+      - "هل جميع ستائر مفتوح في غرفة المعيشة"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: غرفة المعيشة
+        device_class: curtain
+        state: open
+    response: "لا, الستارة اليمنى ليست"
+
+  - sentences:
+      # - "اي الستارات مغلقة"
+      - "اي ستائر مغلق"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: closed
+    response: "الستارة اليمنى و ستارة غرفة النوم"
+
+  - sentences:
+      # - "كم عدد الستارات المغلقة"
+      - "كم عدد ستائر مغلق"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: closed
+    response: "2"

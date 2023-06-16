@@ -1,58 +1,134 @@
 language: fr
 tests:
+  # brightness (name)
   - sentences:
-      - règle la lumière du plafond de la chambre à 50 pourcent
-      - met la lumière du plafond de la chambre à 50%
+      - "règle la luminosité de la lampe de chevet à 50%"
+      - "règle la luminosité de la lampe de chevet à 50 pourcent"
+      - "changer luminosité lampe de chevet à 50%"
+      - "met la lampe de chevet à 50% de luminosité"
+      - "allume la lampe de chevet à 50%"
+      - "luminosité de la lampe de chevet à 50%"
+      - "luminosité lampe de chevet 50%"
+      - "lampe de chevet 50%"
+      - "lampe de chevet 50% luminosité"
+      - "lampe de chevet luminosité 50%"
+      - "Baisse la lumière de lampe de chevet à 50%"
     intent:
       name: HassLightSet
       slots:
         brightness: 50
-        name: lumière du plafond
-        area: chambre
+        name: lampe de chevet
+    response: Luminosité réglée
+
+  # brightness (area)
   - sentences:
-      - règle la lampe de chevet de la chambre à 50 pourcent
-      - met la lampe de chevet de la chambre à 50 pourcent
+      - "règle la luminosité de la cuisine à 50%"
+      - "règle la luminosité de la cuisine à 50 pourcent"
+      - "règle la luminosité dans la cuisine à 50%"
+      - "changer luminosité cuisine à 50%"
+      - "met la cuisine à 50% de luminosité"
+      - "luminosité de la cuisine à 50%"
+      - "luminosité cuisine 50%"
+      - "cuisine 50% luminosité"
+      - "cuisine luminosité 50%"
+      - "Augmente la lumière de la cuisine à 50%"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 50
+        area: cuisine
+        name: all
+    response: Luminosité réglée
+
+  # brightness (name + area)
+  - sentences:
+      - "règle la luminosité de la lampe de chevet de la chambre à 50%"
+      - "règle la luminosité de la lampe de chevet de la chambre à 50 pourcent"
+      - "changer luminosité lampe de chevet de la chambre à 50%"
+      - "met la lampe de chevet de la chambre à 50% de luminosité"
+      - "allume la lampe de chevet de la chambre à 50%"
+      - "luminosité de la lampe de chevet de la chambre à 50%"
+      - "luminosité lampe de chevet chambre 50%"
+      - "lampe de chevet chambre 50%"
+      - "lampe de chevet chambre 50% luminosité"
+      - "lampe de chevet chambre luminosité 50%"
+      - "Augmente la luminosité de la lampe de chevet dans la chambre à 50%"
     intent:
       name: HassLightSet
       slots:
         brightness: 50
         name: lampe de chevet
         area: chambre
+    response: Luminosité réglée
+
+  # color (name)
+  - sentences:
+      - "règle la lampe de chevet en rouge"
+      - "règle la couleur de la lampe de chevet en rouge"
+      - "allume la lampe de chevet en rouge"
+      - "régler la lampe de chevet en rouge"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        name: lampe de chevet
+    response: Couleur réglée
+
+  # color (area)
+  - sentences:
+      - "règle la cuisine en rouge"
+      - "allume la cuisine en rouge"
+      - "régler la cuisine en rouge"
+      - "règle les lumières de la cuisine en rouge"
+      - "allume les lumières de la cuisine en rouge"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        area: cuisine
+        name: all
+    response: Couleur réglée
+
+  # color (name + area)
   - sentences:
       - met la lumière du plafond de la chambre en rouge
-      - met la lumière du plafond de la chambre de couleur rouge
-      - règle la lumière du plafond de la chambre avec la couleur rouge
+      - mettre la lumière du plafond de la chambre de couleur rouge
+      - régler la lumière du plafond de la chambre avec la couleur rouge
     intent:
       name: HassLightSet
       slots:
         area: chambre
         color: red
         name: lumière du plafond
+    response: Couleur réglée
   - sentences:
       - met la lumière du plafond de la chambre en blanc
-      - met la lumière du plafond de la chambre de couleur blanche
+      - mettre la lumière du plafond de la chambre de couleur blanche
     intent:
       name: HassLightSet
       slots:
         area: chambre
         color: white
         name: lumière du plafond
+    response: Couleur réglée
   - sentences:
       - met la couleur de la lampe de chevet de la chambre en rouge
-      - règle la couleur de la lampe de chevet de la chambre en rouge
+      - régler la couleur de la lampe de chevet de la chambre en rouge
     intent:
       name: HassLightSet
       slots:
         area: chambre
         color: red
         name: lampe de chevet
+    response: Couleur réglée
 
   - sentences:
       - met la couleur des lampes de la chambre en rouge
-      - ajuste les lampes de la chambre avec la couleur rouge
+      - ajuster les lampes de la chambre avec la couleur rouge
     intent:
       name: HassLightSet
       slots:
         area: chambre
         color: red
         name: all
+    response: Couleur réglée

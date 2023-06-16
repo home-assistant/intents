@@ -3,7 +3,10 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - quel est [l'etat de|le statut de ] <name> [(dans|de) <area>]
+          - <quel> est [(l'(e|é)tat|le statut|la valeur) de] <name> [<dans> <area>]
+          - dans <quel> (e|é)tat est <name> [<dans> <area>]
+          - comment (va|est) <name> [<dans> <area>]
+          - donne(-| )moi [(l'(e|é)tat|le statut|la valeur) de] <name> [<dans> <area>]
         response: one
         excludes_context:
           domain:
@@ -11,24 +14,25 @@ intents:
             - script
 
       - sentences:
-          - <name> [(dans|de) <area>] (est|est-elle) {on_off_states:state}
+          - <name> [<dans> <area>] <estil> {on_off_states:state}
         response: one_yesno
         excludes_context:
           domain:
             - cover
 
       - sentences:
-          - (certains|certaines) {on_off_domains:domain} [sont|sont-ils|sont-elles] {on_off_states:state} [dans <area>]
+          - certain[e]s {on_off_domains:domain} [<estil>] {on_off_states:state} [<dans> <area>]
         response: any
 
       - sentences:
-          - (tous|toutes) les {on_off_domains:domain} [sont|sont-ils|sont-elles] {on_off_states:state} [dans <area>]
+          - <tous> les {on_off_domains:domain} <estil> {on_off_states:state} [<dans> <area>]
         response: all
 
       - sentences:
-          - (quelle[s]|quel[s]) sont les {on_off_domains:domain} {on_off_states:state} [dans <area>]
+          - <quel> sont les {on_off_domains:domain} {on_off_states:state} [<dans> <area>]
         response: which
 
       - sentences:
-          - combien [(il y a|y a-t-il)] de {on_off_domains:domain} [sont] [d']{on_off_states:state} [dans <area>]
+          - combien <yatil> de {on_off_domains:domain} [d']{on_off_states:state} [<dans> <area>]
+          - combien de {on_off_domains:domain} [<estil>] [d']{on_off_states:state} [<dans> <area>]
         response: how_many
