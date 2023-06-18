@@ -2,36 +2,76 @@ language: eu
 responses:
   intents:
     HassGetState:
-      one: "TODO: {{ slots.name | capitalize }} is {{ state.state_with_unit }}
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      default: |
+        {{ state.state_with_unit }}
 
-        "
-      one_yesno:
-        "TODO: {% if query.matched %}\n  Yes\n{% else %}\n  No, {{ state.state_with_unit\
-        \ }}\n{% endif %}\n"
-      any:
-        "TODO: {% if query.matched %}\n  {% set match = query.matched | map(attribute=\"\
-        name\") | sort | list %}\n  {% if match | length > 4 %}\n    Yes, {{ match[:3]\
-        \ | join(\", \") }} and {{ (match | length - 3) }} more\n  {%- else -%}\n\
-        \    Yes,\n    {% for name in match -%}\n      {% if not loop.first and not\
-        \ loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}\n\
-        \      {{ name }}\n    {%- endfor -%}\n  {% endif %}\n{% else %}\n  No\n{%\
-        \ endif %}\n"
-      all:
-        "TODO: {% if not query.unmatched: %}\n  Yes\n{% else %}\n  {% set no_match\
-        \ = query.unmatched | map(attribute=\"name\") | sort | list %}\n  {% if no_match\
-        \ | length > 4 %}\n    No, {{ no_match[:3] | join(\", \") }} and {{ (no_match\
-        \ | length - 3) }} more not\n  {%- else -%}\n    No,\n    {% for name in no_match\
-        \ -%}\n      {% if not loop.first and not loop.last %}, {% elif loop.last\
-        \ and not loop.first %} and {% endif -%}\n      {{ name }}\n    {%- endfor\
-        \ %} not\n  {% endif %}\n{% endif %}\n"
-      which:
-        "TODO: {% if not query.matched %}\n  Not any\n{% else: %}\n  {% set match\
-        \ = query.matched | map(attribute=\"name\") | sort | list %}\n  {% if match\
-        \ | length > 4 %}\n    {{ match[:3] | join(\", \") }} and {{ (match | length\
-        \ - 3) }} more\n  {% else %}\n    {%- for name in match -%}\n      {% if not\
-        \ loop.first and not loop.last %}, {% elif loop.last and not loop.first %}\
-        \ and {% endif -%}\n      {{ name }}\n    {%- endfor -%}\n  {% endif %}\n\
-        {% endif %}\n"
-      how_many: "TODO: {{ query.matched | length }}
+      one: |
+        {{ slots.name | capitalize }} gailuaren egoera {{ state.state_with_unit }} da
 
-        "
+      one_yesno: |
+        {% if query.matched %}
+          Bai
+        {% else %}
+          Ez, {{ state.state_with_unit }} dago
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Bai, {{ match[:3] | join(", ") }} eta beste {{ (match | length - 3) }} gehiago
+          {%- else -%}
+            {% if match | length == 1 %}
+              Bai, {{ match|first }}
+            {% else %}
+              Bai,
+              {% for name in match -%}
+                {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} eta {% endif -%}
+                {{ name }}
+              {%- endfor -%}
+            {% endif %}
+          {% endif %}
+        {% else %}
+          Ez
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Bai
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Ez, {{ no_match[:3] | join(", ") }} eta beste {{ (no_match | length - 3) }} ere ez
+          {% else %}
+            {% if no_match | length == 1 %}
+              Ez, {{ no_match|first }} ez
+            {%- else -%}
+              Ez,
+              {% for name in no_match -%}
+                {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} eta {% endif -%}
+                {{ name }}
+              {%- endfor %}
+              ez daude
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Gailu bat bera ere ez
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} eta beste {{ (match | length - 3) }} gehiago
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} eta {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}
