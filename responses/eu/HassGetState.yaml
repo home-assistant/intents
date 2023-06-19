@@ -18,10 +18,10 @@ responses:
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Bai, {{ match[:3] | join(", ") }} eta beste {{ (match | length - 3) }} gailu gehiago
+            Bai, {{ match[:3] | join(", ") }} eta beste {{ (match | length - 3) }} gehiago
           {%- else -%}
             {% if match | length == 1 %}
-              Bai, {{ match|first }} gailua
+              Bai, {{ match|first }}
             {% else %}
               Bai,
               {% for name in match -%}
@@ -40,14 +40,14 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Ez, {{ no_match[:3] | join(", ") }} ez eta beste {{ (no_match | length - 3) }} gailu ere ez
+            Ez, {{ no_match[:3] | join(", ") }} eta beste {{ (no_match | length - 3) }} ere ez
           {% else %}
             {% if no_match | length == 1 %}
-              Ez, {{ no_match|first }} gailua ez
+              Ez, {{ no_match|first }} ez
             {%- else -%}
               Ez,
               {% for name in no_match -%}
-                {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} ez eta {% endif -%}
+                {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} eta {% endif -%}
                 {{ name }}
               {%- endfor %}
               ez daude
@@ -61,7 +61,7 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} eta beste {{ (match | length - 3) }} gailu gehiago
+            {{ match[:3] | join(", ") }} eta beste {{ (match | length - 3) }} gehiago
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} eta {% endif -%}
