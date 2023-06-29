@@ -7,12 +7,14 @@ responses:
     no_device_class: "{{ area }} har ingen {{ device_class }}"
     no_entity: "Finner ingen enhet som heter {{ entity }}"
     handle_error: "Det oppsto en uventet feil"
+
 lists:
   brightness:
     range:
       type: percentage
       from: 0
       to: 100
+
   brightness_level:
     values:
       - in: (maks[imum]|[det] høyest[e])
@@ -21,6 +23,7 @@ lists:
         out: 50
       - in: (minimum|[det] lavest[e])
         out: 1
+
   color:
     values:
       - in: "blå"
@@ -41,11 +44,13 @@ lists:
         out: "red"
       - in: "svart"
         out: "black"
+
   temperature:
     range:
       type: "temperature"
       from: 0
       to: 100
+
   temperature_unit:
     values:
       - "celsius"
@@ -54,12 +59,14 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+
   on_off_states:
     values:
       - in: "på"
         out: "on"
       - in: "av"
         out: "off"
+
   on_off_domains:
     values:
       - in: <lys>
@@ -68,6 +75,7 @@ lists:
         out: fan
       - in: <bryter>
         out: switch
+
   cover_states:
     values:
       - in: <åpen>
@@ -78,6 +86,7 @@ lists:
         out: "opening"
       - in: "lukker"
         out: "closing"
+
   cover_classes:
     values:
       - in: <markise>
@@ -98,12 +107,203 @@ lists:
         out: shutter
       - in: <vindu>
         out: window
+
   lock_states:
     values:
       - in: låst
         out: locked
       - in: ulåst
         out: unlocked
+
+  bs_battery_states:
+    values:
+      - in: "lavt"
+        out: "on"
+      - in: "normalt"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "lader"
+        out: "on"
+      - in: "lader ikke"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(detektert|på)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "kaldt"
+        out: "on"
+      - in: "normalt"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "tilkoblet"
+        out: "on"
+      - in: "koblet fra"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "åpen"
+        out: "on"
+      - in: "lukket"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "åpen"
+        out: "on"
+      - in: "lukket"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(detektert|på)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "varmt"
+        out: "on"
+      - in: "normalt"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "detektert"
+        out: "on"
+      - in: "ingen lys"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "låst opp"
+        out: "on"
+      - in: "låst"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "våt"
+        out: "on"
+      - in: "tørr"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(detektert|on)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(detektert|on)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "åpen"
+        out: "on"
+      - in: "lukket"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "plugget inn"
+        out: "on"
+      - in: "koblet fra"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(slått på|strøm detektert)"
+        out: "on"
+      - in: "slått av" # todo: review
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(hjemme|tilstede)"
+        out: "on"
+      - in: "(borte|ikke tilstede)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "detektert"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "kjører"
+        out: "on"
+      - in: "kjører ikke"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "utrygt"
+        out: "on"
+      - in: "trygt"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(detektert|på)"
+        out: "on"
+      - in: "klar" # todo: review
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(detektert|på)"
+        out: "on"
+      - in: "klar" # todo: review
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(detektert|tuklet med)"
+        out: "on"
+      - in: "klar" # todo: review
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "oppdatering tilgjengelig"
+        out: "on"
+      - in: "oppdatert"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(detektert|vibrerer)"
+        out: "on"
+      - in: "(klar|ingen vibrasjon)" # todo: review
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "åpen"
+        out: "on"
+      - in: "klar"
+        out: "closed"
+
 expansion_rules:
   navn: "{name}[(en|et|n[s])]"
   område: "{area}[(n[s]|en|et[s]|met[s])]"
@@ -144,6 +344,7 @@ expansion_rules:
   skodde: "([rulle]skodde[(n|r|ene)]|solskjerm[(en|er|ene)])"
   markise: "(markise[(r|n[e])])"
   dør: "(dør[(a|er|en[e])])"
+  lås: "(lås[(e[r|n[e]])])"
   port: "([hage]port[(er|en[e])])"
 
 skip_words:
