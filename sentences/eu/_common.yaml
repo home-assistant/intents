@@ -1,0 +1,78 @@
+language: eu
+responses:
+  errors:
+    no_intent: "Barkatu, ez dizut ulertu"
+    no_area: "Ez dago {{ area }} izeneko gunerik"
+    no_domain: "{{ area }} guneak ez dauka {{ domain }} moduko elementurik"
+    no_device_class: "Ez dago {{ device_class }} motako elementurik {{ area }} gunean"
+    no_entity: "Ez da {{ entity }} izeneko gailu edo entitaterik existitzen"
+    handle_error: "Espero ez zen errore bat gertatu da agindua prozesatzean"
+lists:
+  color:
+    values:
+      - in: "zuria"
+        out: "white"
+      - in: "beltza"
+        out: "black"
+      - in: "gorria"
+        out: "red"
+      - in: "laranja"
+        out: "orange"
+      - in: "horia"
+        out: "yellow"
+      - in: "berdea"
+        out: "green"
+      - in: "urdina"
+        out: "blue"
+      - in: "morea"
+        out: "purple"
+      - in: "marroia"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c"
+        out: "celsius"
+      - in: "zentigrado"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: (maximoa|altuena|gorena)
+        out: 100
+      - in: (minimoa|baxuena|txikiena)
+        out: 1
+  on_off_states:
+    values:
+      - in: "piztu"
+        out: "on"
+      - in: "itzali"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: argi(a)[k]|lanpara[k]
+        out: light
+      - in: haizegailu(a)[k]
+        out: fan
+      - in: etengailu(a)[k]
+        out: switch
+expansion_rules:
+  name: "{name}[n]"
+  area: "{area}[n]"
+  piztu: "(piztu|aktibatu|gaitu)"
+  itzali: "(itzali|desaktibatu|ezgaitu)"
+skip_words:
+  - "mesedez"
+  - "eskerrik asko"

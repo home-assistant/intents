@@ -12,33 +12,176 @@ areas:
   - name: الجراج
     id: garage
 
+  - name: الحمام
+    id: bathroom
+
+  - name: غرفة النوم 2
+    id: bedroom_2
+
+  - name: غرفة نوم الأطفال
+    id: kids_bedroom
+
+  - name: غرفة نوم الضيوف
+    id: guest_bedroom
+
+  - name: غرفة استقبال الضيوف
+    id: reception
+
+  - name: حمام الضيوف
+    id: guest_bathroom
+
+  - name: الحديقة
+    id: garden
+
+  - name: الشرفة
+    id: balacony
+
 entities:
-  - name: Bedroom Lamp
+  # LIGHTS
+  - name: "ضوء غرفة النوم"
     id: light.bedroom_lamp
     area: bedroom
+    state: "on"
 
-  - name: ضوء المطبخ الرئيسي
+  - name: "ضوء السرير"
+    id: light.bedroom_bed_side_lamp
+    area: bedroom
+    state:
+      in: "مطفي"
+      out: "off"
+
+  - name: "ضوء غرفة تغيير الملابس"
+    id: light.dressing_room_lamp
+    area: bedroom
+    state:
+      in: "مطفي"
+      out: "off"
+
+  - name: "ضوء المطبخ الرئيسي"
     id: light.kitchen_main_light
     area: kitchen
     state:
-      in: "مشغل"
+      in: "شغال"
       out: "on"
 
-  - name: Kitchen Countertop Lamps
-    id: light.kitchen_Countertop_lamp
-    area: kitchen
+  - name: "ضوء السقف"
+    id: light.kitchen_ceiling
+    area: "kitchen"
     state:
-      in: "مطفئ"
+      in: "لا يعمل"
       out: "off"
 
-  - name: Kitchen Switch
-    id: switch.kitchen
-    area: kitchen
+  - name: "ضوء المنضدة"
+    id: light.kitchen_over_table_lamp
+    area: "kitchen"
+    state:
+      in: "يعمل"
+      out: "on"
 
+  - name: "ضوء السقف"
+    id: light.bathroom_ceiling
+    area: "bathroom"
+    state:
+      in: "يعمل"
+      out: "on"
+
+  - name: "ضوء مراية الحمام"
+    id: light.bathroom_vanity_mirror
+    area: "bathroom"
+    state:
+      in: "لا يعمل"
+      out: "off"
+
+  - name: "ضوء الحمام الخافت"
+    id: light.bathroom_indirect_led
+    area: "bathroom"
+    state:
+      in: "يعمل"
+      out: "on"
+
+  - name: "شريط الليد"
+    id: light.led_strip
+    area: "living_room"
+    state:
+      in: "يعمل"
+      out: "on"
+
+  - name: "ضوء التليفزيون"
+    id: light.tv_background
+    area: "living_room"
+    state:
+      in: "يعمل"
+      out: "on"
+    attributes:
+      brightness: "30%"
+
+  - name: "ضوء البار"
+    id: light.bar_lamp
+    area: "living_room"
+    state:
+      in: "يعمل"
+      out: "on"
+
+  - name: "ضوء غرفة استقبال الضيوف"
+    id: light.guest_rgb
+    area: "reception"
+    state:
+      in: "يعمل"
+      out: "on"
+    attributes:
+      effect: "Christmas"
+      brightness: "80%"
+
+  - name: "ضوء الشرفة"
+    id: light.balacony_lamp
+    area: "balacony"
+    state:
+      in: "لا يعمل"
+      out: "off"
+
+  - name: "اضاءة الحديقة"
+    id: light.garden_lighting
+    area: "garden"
+    state:
+      in: "تعمل"
+      out: "on"
+
+  # SWITCHES
+  - name: "سخان المياه"
+    id: switch.kitchen_water_heater
+    area: kitchen
+    state:
+      in: "لا يعمل"
+      out: "off"
+
+  - name: "نظام الري"
+    id: switch.garden_irrigation_system
+    area: garden
+    state:
+      in: "يعمل"
+      out: "on"
+
+  - name: "غسالة الملابس"
+    id: switch.bathroom_washing_machine
+    area: bathroom
+    state:
+      in: "لا تعمل"
+      out: "off"
+
+  # FAN
   - name: مروحة السقف
     id: fan.ceiling
     area: living_room
+    state: "on"
 
+  - name: مروحة سقف غرفة النوم
+    id: fan.ceiling
+    area: bedroom
+    state:
+      in: "لا تعمل"
+      out: "off"
+
+  # COVERS
   - name: الستارة اليسرى
     id: cover.left_curtain
     area: living_room
@@ -66,19 +209,104 @@ entities:
     attributes:
       device_class: curtain
 
+  # CLIMATE
   - name: منظم الحراره
-    id: "climate.thermostat"
+    id: "climate.reception_thermostat"
+    area: "reception"
+    state: "22"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: منظم حرارة غرفة المعيشة
+    id: "climate.living_room_thermostat"
     area: "living_room"
     state: "22"
     attributes:
       unit_of_measurement: "°C"
 
-  - name: منظم الحراره الخارجي
+  # SENSORS
+  - name: درجة الحرارة الخارجية
     id: "sensor.outside_temperature"
     area: "garage"
-    state: "18"
+    state: "30"
     attributes:
       unit_of_measurement: "°C"
 
+  - name: درجة حرارة غرفة الأطفال
+    id: "sensor.kids_bedroom_temperature"
+    area: "kids_bedroom"
+    state: "24"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: "تليفون احمد"
+    id: "binary_sensor.ahmed_phone_battery_charging"
+    state:
+      in: "يشحن"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "حساس الغاز"
+    id: "binary_sensor.gas_sensor"
+    area: "kitchen"
+    state:
+      in: "لا يوجد"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "حساس الضوء"
+    id: "binary_sensor.light_sensor"
+    area: "bedroom"
+    state:
+      in: "يوجد"
+      out: "on"
+    attributes:
+      device_class: light
+
+  - name: "حساس تسريب المياه"
+    id: "binary_sensor.water_sensor"
+    area: "guest_bathroom"
+    state:
+      in: "لا تسريب"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "حساس الحركة"
+    id: "binary_sensor.motion_sensor"
+    area: "bathroom"
+    state:
+      in: "يوجد"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "قاطع التيار الرئيسي"
+    id: "binary_sensor.power"
+    state:
+      in: "يعمل"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "السارينة"
+    id: "binary_sensor.siren"
+    state:
+      in: "لا تعمل"
+      out: "off"
+    attributes:
+      device_class: sound
+
+  # SCRIPTS
   - name: "وضع التخفي"
     id: "script.stealth_mode"
+
+  # LOCKS
+  - name: "الباب الأمامي"
+    id: lock.front_door
+
+  # SCENES
+  - name: "وقت الفيلم"
+    id: scene.movie_time

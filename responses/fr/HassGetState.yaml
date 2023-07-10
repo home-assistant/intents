@@ -5,7 +5,7 @@ responses:
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
-        L'etat de l'appareil {{ slots.name | capitalize }} est {{ state.state_with_unit }}
+        {{ slots.name | capitalize }} est {{ state.state_with_unit }}
 
       one_yesno: |
         {% if query.matched %}
@@ -21,14 +21,14 @@ responses:
           {% if match | length > 4 %}
             Oui, {{ match[:3] | join(", ") }} et {{ (match | length - 3) }} autres
           {% elif match | length == 1 %}
-            Oui, l'appareil
+            Oui,
             {% for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
               {{ name }}
             {% endfor %}
             est {{ state.state_with_unit }}
           {%- else -%}
-            Oui, les appareils
+            Oui,
             {% for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
               {{ name }}
@@ -48,13 +48,13 @@ responses:
           {% if no_match | length > 4 %}
             Non,pas  {{ no_match[:3] | join(", ") }} et {{ (no_match | length - 3) }} autres
           {% elif no_match | length == 1 %}
-            Non, pas l'appareil
+            Non, pas
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
               {{ name }}
             {%- endfor %}
           {%- else -%}
-            Non, pas les appareils 
+            Non, pas
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
               {{ name }}
@@ -69,17 +69,14 @@ responses:
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% set count_match = match | length | int %}
           {% if match | count > 4 %}
-            Les appareils 
             {{ match[:3] | join(", ") }} et {{ (match | length - 3) }} autres
           {% elif match | count == 1 %}
-            L'appareil 
             {% for name in match %}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
               {{ name }}
             {% endfor %}
             est {{ state.state_with_unit }}
           {% else %}
-            Les appareils 
             {% for name in match %}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
               {{ name }}

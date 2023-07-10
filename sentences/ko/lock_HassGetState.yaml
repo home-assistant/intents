@@ -1,0 +1,35 @@
+language: ko
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "[<area>] <name> {lock_states:state}있어"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "[<area>] {lock_states:state}있는 문이 있어"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "[<area>] 모든 문 {lock_states:state}있어"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(어떤|어디) [<area>] 문이 {lock_states:state}있어"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(얼마나 많은) [<area>] 문이 {lock_states:state}있어"
+        response: how_many
+        slots:
+          domain: lock
