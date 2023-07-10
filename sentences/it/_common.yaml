@@ -1,4 +1,4 @@
-language: it
+bs_battery_stateslanguage: it
 responses:
   errors:
     no_intent: "Mi dispiace, non ho capito"
@@ -58,9 +58,9 @@ lists:
         out: 1
   on_off_states:
     values:
-      - in: "(acces(o|i|a|e)|attiv(o|i|a|e))"
+      - in: "(acces|attiv)(o|i|a|e)"
         out: "on"
-      - in: "(spent(o|i|a|e)|disattiv(o|i|a|e))"
+      - in: "(spent|disattiv)(o|i|a|e)"
         out: "off"
   on_off_domains:
     values:
@@ -110,21 +110,21 @@ lists:
   # binary_sensor
   bs_battery_states:
     values:
-      - in: "bass(o|a|e|i)"
+      - in: "(bass(o|a|e|i)|(([quasi ]scaric)(o|a|he|hi))"
         out: "on"
-      - in: "normale"
+      - in: "(normal(e|i)|(caric(o|a|he|hi)))"
         out: "off"
 
   bs_battery_charging_states:
     values:
-      - in: "[in] carica"
+      - in: "([in ]carica|caricando)"
         out: "on"
-      - in: "non in carica"
+      - in: "(non in carica|non caricando)"
         out: "off"
 
   bs_carbon_monoxide_states:
     values:
-      - in: "(rilevat(o|a|e|i)|attivat(o|a|e|i)|attiv(o|a|e|i))"
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
         out: "on"
       - in: "non rilevat(o|a|e|i)"
         out: "off"
@@ -133,7 +133,7 @@ lists:
     values:
       - in: "freddo"
         out: "on"
-      - in: "normale"
+      - in: "(normale|non freddo)"
         out: "off"
 
   bs_connectivity_states:
@@ -159,7 +159,7 @@ lists:
 
   bs_gas_states:
     values:
-      - in: "(rilevat(o|a|e|i)|attivat(o|a|e|i)|attiv(o|a|e|i))"
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
         out: "on"
       - in: "non rilevat(o|a|e|i)"
         out: "off"
@@ -173,7 +173,7 @@ lists:
 
   bs_light_states:
     values:
-      - in: "(rilevat(o|a|e|i)|attivat(o|a|e|i)|attiv(o|a|e|i)|acces(o|a|e|i))"
+      - in: "(rilevat|attiv[at]|acces)(o|a|e|i)"
         out: "on"
       - in: "no luce"
         out: "off"
@@ -194,16 +194,16 @@ lists:
 
   bs_motion_states:
     values:
-      - in: "(rilevat(o|a|e|i)|attivat(o|a|e|i)|attiv(o|a|e|i))"
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
         out: "on"
       - in: "liber(o|a|e|i)"
         out: "off"
 
   bs_occupancy_states:
     values:
-      - in: "(rilevat(o|a|e|i)|attivat(o|a|e|i)|attiv(o|a|e|i))"
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
         out: "on"
-      - in: "(liber(o|a|e|i)|sgombr(o|a|e|i))"
+      - in: "(liber|sgombr)(o|a|e|i)"
         out: "off"
 
   bs_opening_states:
@@ -317,8 +317,8 @@ expansion_rules:
   fan: "(ventol(a|e) | ventilator(e|i) | ventilazione | climatizzator(e|i) | condizionator(e|i))"
 skip_words:
   - "per favore"
-  - "[mi ]potresti"
-  - "[mi ]puoi"
-  - "puoi dirmi"
+  - "[mi ]potresti[ dire]"
+  - "[mi ]puoi[ dire]"
+  - "(puoi|potresti) dirmi"
   - "dimmi"
   - "grazie"
