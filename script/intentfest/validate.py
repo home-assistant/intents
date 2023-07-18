@@ -128,6 +128,7 @@ SENTENCE_SCHEMA = vol.Schema(
             str: {
                 vol.Required("data"): [
                     {
+                        vol.Optional("expansion_rules"): {str: str},
                         vol.Required("sentences"): [SENTENCE_MATCHER],
                         vol.Optional("slots"): {
                             str: match_anything,

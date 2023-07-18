@@ -7,8 +7,14 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from hassil import Intents
-from hassil.expression import Expression, ListReference, RuleReference, Sequence
-from hassil.intents import SlotList, TextSlotList
+from hassil.expression import (
+    Expression,
+    ListReference,
+    RuleReference,
+    Sentence,
+    Sequence,
+)
+from hassil.intents import TextSlotList
 
 from . import SENTENCES_DIR
 
@@ -138,7 +144,7 @@ def _verify(
     slot_schema: dict[str, Any],
     visited_rules: set[str],
     found_slots: set[str],
-    expansion_rules: dict[str, SlotList],
+    expansion_rules: dict[str, Sentence],
 ) -> None:
     if isinstance(expression, ListReference):
         list_ref: ListReference = expression
@@ -177,7 +183,7 @@ def _verify(
                 slot_schema,
                 visited_rules,
                 found_slots,
-                expansion_rules
+                expansion_rules,
             )
 
 
