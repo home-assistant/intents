@@ -1,0 +1,109 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/sensor/
+      # Apparent power
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: apparent_power
+        slots:
+          domain: sensor
+          device_class: apparent_power
+        expansion_rules:
+          class: "apparent power"
+
+      # AQI
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: aqi
+        slots:
+          domain: sensor
+          device_class: aqi
+        expansion_rules:
+          class: "(AQI|air quality [index])"
+
+      # Atmospheric pressure
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: atmospheric_pressure
+        slots:
+          domain: sensor
+          device_class: atmospheric_pressure
+        expansion_rules:
+          class: "(atmospheric|air) pressure"
+
+      # Battery
+      - sentences:
+          - "<what_is_the_class_of_name>"
+          - "how much battery (does <name> have [left]|has <name> got [left]|is left in <name>)"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: battery
+        slots:
+          domain: sensor
+          device_class: battery
+        expansion_rules:
+          class: "[remaining] battery [level]"
+
+      # CO2
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: carbon_dioxide
+        slots:
+          domain: sensor
+          device_class: carbon_dioxide
+        expansion_rules:
+          class: "(carbon dioxide|CO2) (level|concentration)"
+
+      # CO
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: sensor
+          device_class: carbon_monoxide
+        expansion_rules:
+          class: "(carbon monoxide|CO) (level|concentration)"
+
+      # Current
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: current
+        slots:
+          domain: sensor
+          device_class: current
+        expansion_rules:
+          class: "[amount of] [electric[al]] current"
+
+      # Data rate
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: data_rate
+        slots:
+          domain: sensor
+          device_class: data_rate
+        expansion_rules:
+          class: "[(download|upload|data)] (rate|speed)"
