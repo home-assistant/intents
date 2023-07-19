@@ -172,10 +172,9 @@ def _verify(
             rule_ref.rule_name not in visited_rules
         ), f"Recursive rule detected: <{rule_ref.rule_name}>"
 
-        visited_rules.add(rule_ref.rule_name)
-
         # Verify rule body
         for body_expression in _flatten(expansion_rules[rule_ref.rule_name]):
+            visited_rules.add(rule_ref.rule_name)
             _verify(
                 body_expression,
                 intents,
@@ -185,6 +184,7 @@ def _verify(
                 found_slots,
                 expansion_rules,
             )
+            visited_rules.remove(rule_ref.rule_name)
 
 
 def _flatten(expression: Expression) -> Iterable[Expression]:
