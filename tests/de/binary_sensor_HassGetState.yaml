@@ -360,6 +360,19 @@ tests:
         state: "on"
     response: "Nein"
 
+  - sentences:
+      - "ist die Wohnungstür zu?"
+      - "steht die Wohnungstür zu?"
+      - "ist die Wohnungstür geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Wohnungstür"
+        state: "off"
+    response: "Ja"
+
   # Garage door
   - sentences:
       - "ist das Garagentor geschlossen?"
@@ -373,3 +386,35 @@ tests:
         name: "Garagentor"
         state: "off"
     response: "Ja"
+
+  - sentences:
+      - "ist das Garagentor in der Auffahrt geschlossen?"
+      - "ist in der Auffahrt das Garagentor geschlossen?"
+      - "ist das Garagentor geschlossen in der Auffahrt?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Auffahrt"
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garagentor"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "ist das Garagentor auf?"
+      - "ist das Garagentor offen?"
+      - "ist das Garagentor geöffnet?"
+      - "ist das Garagentor oben?"
+      - "steht das Garagentor auf?"
+      - "steht das Garagentor offen?"
+      - "steht das Garagentor geöffnet?"
+      - "steht das Garagentor oben?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garagentor"
+        state: "on"
+    response: "Nein"
