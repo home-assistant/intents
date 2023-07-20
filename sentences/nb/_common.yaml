@@ -7,12 +7,14 @@ responses:
     no_device_class: "{{ area }} har ingen {{ device_class }}"
     no_entity: "Finner ingen enhet som heter {{ entity }}"
     handle_error: "Det oppsto en uventet feil"
+
 lists:
   brightness:
     range:
       type: percentage
       from: 0
       to: 100
+
   brightness_level:
     values:
       - in: (maks[imum]|[det] høyest[e])
@@ -21,6 +23,7 @@ lists:
         out: 50
       - in: (minimum|[det] lavest[e])
         out: 1
+
   color:
     values:
       - in: "blå"
@@ -41,11 +44,13 @@ lists:
         out: "red"
       - in: "svart"
         out: "black"
+
   temperature:
     range:
       type: "temperature"
       from: 0
       to: 100
+
   temperature_unit:
     values:
       - "celsius"
@@ -54,12 +59,14 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+
   on_off_states:
     values:
       - in: "på"
         out: "on"
       - in: "av"
         out: "off"
+
   on_off_domains:
     values:
       - in: <lys>
@@ -68,16 +75,18 @@ lists:
         out: fan
       - in: <bryter>
         out: switch
+
   cover_states:
     values:
-      - in: <åpen>
+      - in: "<åpen>"
         out: "open"
-      - in: <lukket>
+      - in: "<lukket>"
         out: "closed"
       - in: "åpner"
         out: "opening"
       - in: "lukker"
         out: "closing"
+
   cover_classes:
     values:
       - in: <markise>
@@ -98,27 +107,222 @@ lists:
         out: shutter
       - in: <vindu>
         out: window
+
   lock_states:
     values:
-      - in: låst
-        out: locked
-      - in: ulåst
-        out: unlocked
+      - in: "låst"
+        out: "locked"
+      - in: "ulåst"
+        out: "unlocked"
+
+  bs_battery_states:
+    values:
+      - in: "lav[e|t]"
+        out: "on"
+      - in: "normal[t]"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "([som ]lader|[til ]lading|lades)"
+        out: "on"
+      - in: "lader ikke"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(detektert|trigget|på)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "<kald>"
+        out: "on"
+      - in: "normal[t]"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "(koblet til|tilkoblet)"
+        out: "on"
+      - in: "(koblet fra|frakoblet)"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "åpen"
+        out: "on"
+      - in: "lukket"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "åpen"
+        out: "on"
+      - in: "lukket"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(detektert|trigget|på)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "<varm>"
+        out: "on"
+      - in: "normal[t]"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "(detektert|trigget)"
+        out: "on"
+      - in: "ingen lys"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "låst opp"
+        out: "on"
+      - in: "låst"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "våt[e|t]"
+        out: "on"
+      - in: "tør(t|r)"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(detektert|trigget|på)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(detektert|trigget|på)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "(åpen|åpne|oppe)"
+        out: "on"
+      - in: "lukket"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "(plugget inn|koblet (til|inn))"
+        out: "on"
+      - in: "(koblet fra|frakoblet)"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "([(slått|skrudd) ]på|[strøm ]detektert|påslått)"
+        out: "on"
+      - in: "[(slått|skrudd) ] av"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(hjemme|tilstede)"
+        out: "on"
+      - in: "(borte|ikke tilstede)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "detektert"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(kjører|på)"
+        out: "on"
+      - in: "(kjører ikke|av)"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "utrygt"
+        out: "on"
+      - in: "tryg(g|t)"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(detektert|[blitt ](trigget|aktivert)|på)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(detektert|[blitt ] (trigget|aktivert)|på)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(detektert|tuklet med)"
+        out: "on"
+      - in: "klar"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "oppdatering tilgjengelig"
+        out: "on"
+      - in: "oppdatert"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "vibrerer"
+        out: "on"
+      - in: "(klar|ingen vibrasjon[er])"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "(åpen[t]|åpne|oppe)"
+        out: "on"
+      - in: "lukket"
+        out: "closed"
+
 expansion_rules:
-  navn: "{name}[(en|et|n[s])]"
+  navn: "{name}[(en[e]|et|n[s])]"
   område: "{area}[(n[s]|en|et[s]|met[s])]"
+  sensor: "(sensor[er|en[e]])"
 
   #determinatives
   alle: "(alle|alt|samtlige)"
   i_på: "(i|på|ved [siden av])"
   hvilke: "(hvilke[n])"
+  noe: "noe[n]"
 
   #states
   temperatur: "({temperature}[°| grader] [{temperature_unit}])"
   tilstand: "((tilstand|status|instilling)[en] [til])"
   lysstyrke: "{brightness}[%| prosent]"
   farge: "({color}[t[t]])"
-  kaldt_varmt: "(kald|kaldt|varm|varmt)"
+  kald: "(kald[t|e])"
+  varm: "(varm[t|e])"
+  kaldt_varmt: "(<kald>|<varm>)"
   åpen: "(åpen|åpnet [opp]|rullet opp|lukket opp)"
   lukket: "(lukket [igjen]|stengt|senket|rullet ned)"
 
@@ -134,6 +338,8 @@ expansion_rules:
   lys: "(lys[(ene|et)]|lyskilde[r|n|ene]|[gløde|led|diode]lamp[e|en|er|ene]|lysrør[et|ene]|belysning[en])"
   bryter: "(bryter[(e|[e]n[e])]|uttak[ene]|kontakt[(er|en[e])])"
   vifte: "(vifte[(r|n[e])])"
+  programvare: "(firmware|software|programvare)"
+  røykvarsler: "(røyk|brann)(varsler[e|en[e]]|<sensor>)"
 
   #covers
   vindu: "([tak]vindu[et|er|ene]|[tak]luke[en|er|ene])"
@@ -145,6 +351,7 @@ expansion_rules:
   markise: "(markise[(r|n[e])])"
   dør: "(dør[(a|er|en[e])])"
   port: "([hage]port[(er|en[e])])"
+  lås: "(lås[(e[r|n[e]])])"
 
 skip_words:
   - "vær så snill"
