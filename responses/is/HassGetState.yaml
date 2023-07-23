@@ -11,7 +11,7 @@ responses:
         {% if query.matched %}
           Já
         {% else %}
-          Nei, {{ state.state_with_unit }}
+          Nei
         {% endif %}
 
       any: |
@@ -36,7 +36,7 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Nei, {{ no_match[:3] | join(", ") }} og {{ (no_match | length - 3) }} í viðbót
+            Nei, {{ no_match[:3] | join(", ") }} og {{ (no_match | length - 3) }} í viðbót eru það ekki
           {%- else -%}
             Nei,
             {% for name in no_match -%}
