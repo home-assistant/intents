@@ -41,6 +41,20 @@ lists:
         out: 100
       - in: (lægst(u|a)|minnst(u|a)|lágmargk[s]|litla)
         out: 1
+  on_off_states:
+    values:
+      - in: "kveikt[ir|ar]|á|í gangi"
+        out: "on"
+      - in: "slökkt"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: <light>
+        out: light
+      - in: vifta|viftur
+        out: fan
+      - in: rofi|rofa|rofar|rofum
+        out: switch
   cover_states:
     values:
       - in: "opin|opnar"
@@ -66,12 +80,14 @@ lists:
 expansion_rules:
   turn-on: "(kveikja|kveiktu[ á]|kveikt þú á|kveikt á|kveikja [á])"
   turn-off: "(slökkva|slökktu[ á]|slökkt þú á|slökkt á|slökkva [á])"
-  light: "(ljósinu|ljósunum|ljósin|ljós)"
+  light: "(ljósinu|ljósunum|ljósin|ljós[um]|lampi[nn]|lampa[nn|num]|lampar[nir]|lampa[na]|lömpum|lömpunum|ljósi[ð])"
   area: "{area}[(inu|nu|ið|ð|inni|nni|nu|num)]"
   name: "{name}[(inu|nu|ið|ð|inni|nni|nu|num)]"
   all: "(allur|öll|allt|allan|alla|allt|öllum|allri|öllu|alls|allrar|alls|allir|allar|öll|alla|allar|öll|öllum|öllum|öllum|allra|allra|allra)"
+  any: "[einhver|einhver|eitthvert|eitthvað|einhvern|einhverja|eitthvert|eitthvað|einhverjum|einhverri|einhverju|einhvers|einhverrar|einhvers|einhverjir|einhverjar|einhver|einhverja|einhverjar|einhver|einhverjum|einhverjum|einhverjum|einhverra|einhverra|einhverra]"
   set: "(gera|setja|stilla|skipta|breyta|hækka|lækka|minnka|gerðu|settu|stilltu|skiptu|breyttu|hækkaðu|lækkaðu|minnkaðu|gerð þú|hækkað þú|lækkað þú|minnkað þú|láttu|sett þú|skipt þú|stillt þú|látt þú| breytt þú)"
   activate: "(virkja[ðu]|virkjað þú|keyra|keyrðu|keyrð þú)"
+  deactivate: "(slökkva|slökktu|slökkt þú)"
   open: "opna[(ðu|ð þú)]|<open-curtains>"
   open-curtains: "drag(ðu|a|ð þú) (frá|upp)"
   close: "loka[(ðu|ð þú)]|<close-curtains>"
@@ -79,9 +95,12 @@ expansion_rules:
   brightness: "{brightness}[ ][%|prósent][ (birtu|bjarma)[stillingu|stig]]"
   bright: "(birt[a|u|an|una|unni]|bjarm[an[n]|inn|anum|i|a|ans])[stillingu]"
   script: "(skrifta[n]|skriftu[na|nni]|forrit[ið|i|inu])"
-  the: "[a|u|s|ð|n|an|una|unni|ur|um|urnar|unum|nni|nn|num|nn|nu|na|ar]"
+  the: "[a|u|s|ð|n|an|una|unni|ur|um|urnar|unum|nni|nn|num|nn|nu|na|ar|inu]"
 skip_words:
   - "geturðu"
   - "getur þú"
   - "viltu"
   - "vilt þú"
+  - "veist þú"
+  - "segðu mér"
+  - "sagt mér"
