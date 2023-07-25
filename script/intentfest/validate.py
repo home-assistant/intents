@@ -172,6 +172,7 @@ SENTENCE_COMMON_SCHEMA = vol.Schema(
                         vol.Required("to"): int,
                         vol.Optional("step", default=1): int,
                     },
+                    "wildcard": bool,
                 }
             )
         },
