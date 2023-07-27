@@ -5,8 +5,12 @@ intents:
       # https://www.home-assistant.io/integrations/binary_sensor/
       # Battery
       - sentences:
-          - "[bateria [<din>]] <name> [<din_zona>] <este> {bs_battery_states_singular:state}"
-          - "<este> {bs_battery_states_singular:state} [bateria [<din>]] <name> [<din_zona>]"
+          - "<name_class_dinZona_este_state>"
+        expansion_rules:
+          class_singular: "bateri(e|a)"
+          class_plural: "baterii[le]"
+          state_singular: "{bs_battery_states_singular:state}"
+          state_plural: "{bs_battery_states_plural:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -17,10 +21,14 @@ intents:
 
       # Battery charging
       - sentences:
-          - "[bateria [<din>]] <name> [<din_zona>] <este> {bs_battery_charging_states:state}"
-          - "<este> {bs_battery_charging_states:state} [bateria [<din>]] <name> [<din_zona>]"
-          - "{bs_battery_charging_states_passive:state} [bateria [<din>]] <name> [<din_zona>]"
-          - "[bateria [<din>]] <name> [<din_zona>] {bs_battery_charging_states_passive:state}"
+          - "<name_class_dinZona_este_state>"
+          - "<name_class_dinZona_verbState>"
+        expansion_rules:
+          class_singular: "bateri(e|a)"
+          class_plural: "baterii[le]"
+          class: "bateri(e|a|i[le])"
+          state: "{bs_battery_charging_states:state}"
+          verb_state: "{bs_battery_charging_states_passive:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -31,12 +39,10 @@ intents:
 
       # Carbon monoxide
       - sentences:
-          - "<este> {bs_detection_states_singular:state} monoxid[ul] de carbon [(<in> | de [c(ă|a)tre])] <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_detection_states_active:state} monoxid[ul] de carbon"
-          - "{bs_detection_states_active:state} <name> [<din_zona>] monoxid[ul] de carbon"
-          - "<name> {bs_detection_states_active:state} monoxid[ul] de carbon [<din_zona>]"
-          - "{bs_detection_states_active:state} <name> monoxid[ul] de carbon [<din_zona>]"
-          - "{bs_detection_states_active:state} monoxid[ul] de carbon <name> [<din_zona>]"
+          - "<name_detecteaza_object_in_zona>"
+          - "<name_detecteaza_object_in_zona_passive>"
+        expansion_rules:
+          object: monoxid[ul] de carbon
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -47,11 +53,11 @@ intents:
 
       # Cold
       - sentences:
-          - "<este> {bs_cold_states:state} [<din>] <name> [<din_zona>]"
-          - "<este> {bs_cold_states_singular:state} [<din>] <name> [<din_zona>]"
-          - "<name> [<din_zona>] <este> {bs_cold_states_singular:state}"
-          - "sunt {bs_cold_states_plural:state} [<din>] <name> [<din_zona>]"
-          - "<name> [<din_zona>] sunt {bs_cold_states_plural:state}"
+          - "<name_dinZona_este_state>"
+          - "(<exista> {bs_cold_states:state}; [<din>] <name>) [<din_zona>]"
+        expansion_rules:
+          state_singular: "{bs_cold_states_singular:state}"
+          state_plural: "{bs_cold_states_plural:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -72,10 +78,10 @@ intents:
 
       # Connectivity
       - sentences:
-          - "<este> {bs_connectivity_states_singular:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] <este> {bs_connectivity_states_singular:state}"
-          - "sunt {bs_connectivity_states_plural:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] sunt {bs_connectivity_states_plural:state}"
+          - "<name_dinZona_este_state>"
+        expansion_rules:
+          state_singular: "{bs_connectivity_states_singular:state}"
+          state_plural: "{bs_connectivity_states_plural:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -84,8 +90,7 @@ intents:
           domain: binary_sensor
           device_class: connectivity
       - sentences:
-          - "are conexiune <name> [<din_zona>]"
-          - "<name> [<din_zona>] are conexiune"
+          - "(are conexiune; <name> [<din_zona>])"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -97,33 +102,32 @@ intents:
 
       # Door
       - sentences:
-          - "<este> {bs_door_states_singular:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] <este> {bs_door_states_singular:state}"
-          - "sunt {bs_door_states_plural:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] sunt {bs_door_states_plural:state}"
-          - "{bs_door_states_passive:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_door_states_passive:state}"
-          - "{bs_door_states_active:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_door_states_active:state}"
+          - "<name_class_dinZona_este_state>"
+          - "<name_class_dinZona_verbState>"
+        expansion_rules:
+          class_singular: "(<usa>|<poarta>) [(de la garaj|garajului)]"
+          class_plural: "(<usile>|<portile>) [(de la garaj|garajului)]"
+          class: "(<class_singular>|<class_plural>)"
+          state_singular: "{bs_door_states_singular:state}"
+          state_plural: "{bs_door_states_plural:state}"
+          verb_state: "({bs_door_states_passive:state}|{bs_door_states_active:state})"
         response: one_yesno
         requires_context:
           domain: binary_sensor
           device_class:
             - door
             - garage_door
-            - opening
-            - window
         slots:
           domain: binary_sensor
 
       # Gas
       - sentences:
-          - "(<este> {bs_detection_states_singular:state} gaz | sunt {bs_detection_states_plural:state} gaze) [(<in> | de [c(ă|a)tre])] <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_detection_states_active:state} gaz[e]"
-          - "{bs_detection_states_active:state} <name> [<din_zona>] gaz[e]"
-          - "<name> {bs_detection_states_active:state} gaz[e] [<din_zona>]"
-          - "{bs_detection_states_active:state} gaz[e] <name> [<din_zona>]"
-          - "{bs_detection_states_active:state} <name> gaz[e] [<din_zona>]"
+          - "<name_detecteaza_object_in_zona>"
+          - "<name_detecteaza_object_in_zona_passive>"
+        expansion_rules:
+          object_singular: "gaz"
+          object_plural: "gaze"
+          object: "gaz[e]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -134,11 +138,11 @@ intents:
 
       # Heat
       - sentences:
-          - "<este> {bs_heat_states:state} [<din>] <name> [<din_zona>]"
-          - "<este> {bs_heat_states_singular:state} [<din>] <name> [<din_zona>]"
-          - "<name> [<din_zona>] <este> {bs_heat_states_singular:state}"
-          - "sunt {bs_heat_states_plural:state} [<din>] <name> [<din_zona>]"
-          - "<name> [<din_zona>] sunt {bs_heat_states_plural:state}"
+          - "<name_dinZona_este_state>"
+          - "(<exista> {bs_heat_states:state}; [<din>] <name>) [<din_zona>]"
+        expansion_rules:
+          state_singular: "{bs_heat_states_singular:state}"
+          state_plural: "{bs_heat_states_plural:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -159,12 +163,10 @@ intents:
 
       # Light
       - sentences:
-          - "<este> {bs_detection_states_singular:state} lumin(ă|a) [(<in> | de [c(ă|a)tre])] <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_detection_states_active:state} lumin(ă|a)"
-          - "{bs_detection_states_active:state} <name> [<din_zona>] lumin(ă|a)"
-          - "<name> {bs_detection_states_active:state} lumin(ă|a) [<din_zona>]"
-          - "{bs_detection_states_active:state} <name> lumin(ă|a) [<din_zona>]"
-          - "{bs_detection_states_active:state} lumin(ă|a) <name> [<din_zona>]"
+          - "<name_detecteaza_object_in_zona>"
+          - "<name_detecteaza_object_in_zona_passive>"
+        expansion_rules:
+          object: "lumin(ă|a)"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -175,14 +177,15 @@ intents:
 
       # Lock
       - sentences:
-          - "<este> {bs_lock_states_singular:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] <este> {bs_lock_states_singular:state}"
-          - "sunt {bs_lock_states_plural:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] sunt {bs_lock_states_plural:state}"
-          - "{bs_lock_states_passive:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_lock_states_passive:state}"
-          - "{bs_lock_states_active:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_lock_states_active:state}"
+          - "<name_class_dinZona_este_state>"
+          - "<name_class_dinZona_verbState>"
+        expansion_rules:
+          class_singular: "<incuietoarea>"
+          class_plural: "<incuietorile>"
+          class: "<class_singular>|<class_plural>"
+          state_singular: "{bs_lock_states_singular:state}"
+          state_plural: "{bs_lock_states_plural:state}"
+          verb_state: "({bs_lock_states_passive:state}|{bs_lock_states_active:state})"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -204,12 +207,12 @@ intents:
 
       # Motion
       - sentences:
-          - "<este> {bs_detection_states_singular:state} mi(ș|s)care [(<in> | de [c(ă|a)tre])] <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_detection_states_active:state} mi(ș|s)care"
-          - "{bs_detection_states_active:state} <name> [<din_zona>] mi(ș|s)care"
-          - "<name> {bs_detection_states_active:state} mi(ș|s)care [<din_zona>]"
-          - "{bs_detection_states_active:state} <name> mi(ș|s)care [<din_zona>]"
-          - "{bs_detection_states_active:state} mi(ș|s)care <name> [<din_zona>]"
+          - "<name_detecteaza_object_in_zona>"
+          - "<name_detecteaza_object_in_zona_passive>"
+        expansion_rules:
+          object_singular: "mi(ș|s)care"
+          object_plural: "mi(ș|s)c(ă|a)ri"
+          object: "mi(ș|s)c(are|(ă|a)ri)"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -220,12 +223,10 @@ intents:
 
       # Occupancy
       - sentences:
-          - "<este> {bs_detection_states_singular:state} ocupare [(<in> | de [c(ă|a)tre])] <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_detection_states_active:state} ocupare"
-          - "{bs_detection_states_active:state} <name> [<din_zona>] ocupare"
-          - "<name> {bs_detection_states_active:state} ocupare [<din_zona>]"
-          - "{bs_detection_states_active:state} <name> ocupare [<din_zona>]"
-          - "{bs_detection_states_active:state} ocupare <name> [<din_zona>]"
+          - "<name_detecteaza_object_in_zona>"
+          - "<name_detecteaza_object_in_zona_passive>"
+        expansion_rules:
+          object: "ocupare"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -234,12 +235,29 @@ intents:
           domain: binary_sensor
           device_class: occupancy
 
+      # Opening
+      - sentences:
+          - "<name_dinZona_este_state>"
+          - "<name_dinZona_verbState>"
+        expansion_rules:
+          state_singular: "{bs_door_states_singular:state}"
+          state_plural: "{bs_door_states_plural:state}"
+          verb_state: "({bs_door_states_passive:state}|{bs_door_states_active:state})"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: opening
+        slots:
+          domain: binary_sensor
+
       # Plug
       - sentences:
-          - "<este> {bs_plug_states_singular:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] <este> {bs_plug_states_singular:state}"
-          - "sunt {bs_plug_states_plural:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] sunt {bs_plug_states_plural:state}"
+          - "<name_class_dinZona_este_state>"
+        expansion_rules:
+          class_singular: "(priza | (ș|s)techerul | cablul)"
+          class_plural: "(prizele | (ș|s)techerele | cablurile)"
+          state_singular: "{bs_plug_states_singular:state}"
+          state_plural: "{bs_plug_states_plural:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -250,10 +268,10 @@ intents:
 
       # Power
       - sentences:
-          - "<este> {bs_power_states_singular:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] <este> {bs_power_states_singular:state}"
-          - "sunt {bs_power_states_plural:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] sunt {bs_power_states_plural:state}"
+          - "<name_dinZona_este_state>"
+        expansion_rules:
+          state_singular: "{bs_power_states_singular:state}"
+          state_plural: "{bs_power_states_plural:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -264,8 +282,9 @@ intents:
 
       # Presence
       - sentences:
-          - "<name> [<din_zona>] <este> {bs_presence_states:state}"
-          - "<este> {bs_presence_states:state} <name> [<din_zona>]"
+          - "<name_dinZona_este_state>"
+        expansion_rules:
+          state: "{bs_presence_states:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -289,10 +308,12 @@ intents:
 
       # Running
       - sentences:
-          - "<name> [<din_zona>] <este> {bs_running_states:state}"
-          - "<este> {bs_running_states:state} <name> [<din_zona>]"
-          - "{bs_running_states_active:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_running_states_active:state}"
+          - "<name_dinZona_este_state>"
+          - "<name_dinZona_verbState>"
+        expansion_rules:
+          state_singular: "{bs_running_states_singular:state}"
+          state_plural: "{bs_running_states_plural:state}"
+          verb_state: "{bs_running_states_active:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -303,8 +324,9 @@ intents:
 
       # Safety
       - sentences:
-          - "<name> [<din_zona>] <este> {bs_safety_states:state}"
-          - "<este> {bs_safety_states:state} <name> [<din_zona>]"
+          - "<name_dinZona_este_state>"
+        expansion_rules:
+          state: "{bs_safety_states:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -315,12 +337,10 @@ intents:
 
       # Smoke
       - sentences:
-          - "<este> {bs_detection_states_singular:state} fum[ul] [(<in> | de [c(ă|a)tre])] <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_detection_states_active:state} fum[ul]"
-          - "{bs_detection_states_active:state} <name> [<din_zona>] fum[ul]"
-          - "<name> {bs_detection_states_active:state} fum[ul] [<din_zona>]"
-          - "{bs_detection_states_active:state} <name> fum[ul] [<din_zona>]"
-          - "{bs_detection_states_active:state} fum[ul] <name> [<din_zona>]"
+          - "<name_detecteaza_object_in_zona>"
+          - "<name_detecteaza_object_in_zona_passive>"
+        expansion_rules:
+          object: "fum[ul]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -338,12 +358,12 @@ intents:
 
       # Sound
       - sentences:
-          - "<este> {bs_detection_states_singular:state} (zgomot|sunet)[(ul|e)] [(<in> | de [c(ă|a)tre])] <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_detection_states_active:state} (zgomot|sunet)[(ul|e)]"
-          - "{bs_detection_states_active:state} <name> [<din_zona>] (zgomot|sunet)[(ul|e)]"
-          - "<name> {bs_detection_states_active:state} (zgomot|sunet)[(ul|e)] [<din_zona>]"
-          - "{bs_detection_states_active:state} <name> (zgomot|sunet)[(ul|e)] [<din_zona>]"
-          - "{bs_detection_states_active:state} (zgomot|sunet)[(ul|e)] <name> [<din_zona>]"
+          - "<name_detecteaza_object_in_zona>"
+          - "<name_detecteaza_object_in_zona_passive>"
+        expansion_rules:
+          object_singular: "(zgomot|sunet)[ul]"
+          object_plural: "(zgomot|sunet)e[le]"
+          object: "(zgomot|sunet)[(ul|e)]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -391,14 +411,14 @@ intents:
 
       # Vibration
       - sentences:
-          - "sunt {bs_detection_states_plural:state} vibra(ț|t)ii [(<in> | de [c(ă|a)tre])] <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_detection_states_active:state} vibra(ț|t)ii"
-          - "{bs_detection_states_active:state} <name> [<din_zona>] vibra(ț|t)ii"
-          - "<name> {bs_detection_states_active:state} vibra(ț|t)ii [<din_zona>]"
-          - "{bs_detection_states_active:state} <name> vibra(ț|t)ii [<din_zona>]"
-          - "{bs_detection_states_active:state} vibra(ț|t)ii <name> [<din_zona>]"
-          - "{bs_vibration_states_active:state} <name> [<din_zona>]"
-          - "<name> [<din_zona>] {bs_vibration_states_active:state}"
+          - "<name_detecteaza_object_in_zona>"
+          - "<name_detecteaza_object_in_zona_passive>"
+          - "<name_dinZona_verbState>"
+        expansion_rules:
+          object_singular: "vibra(ț|t)i(e|a)"
+          object_plural: "vibra(ț|t)ii[le]"
+          object: "vibra(ț|t)i(e|a|i[le])"
+          verb_state: "{bs_vibration_states_active:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -406,3 +426,25 @@ intents:
         slots:
           domain: binary_sensor
           device_class: vibration
+
+      # Window
+      - sentences:
+          - "<name_class_dinZona_este_state>"
+          - "<name_class_dinZona_verbState>"
+        expansion_rules:
+          class_singular: "<fereastra>"
+          class_plural: "<ferestrele>"
+          class: "(<fereastra>|<ferestrele>)"
+          state_singular: "{bs_door_states_singular:state}"
+          state_plural: "{bs_door_states_plural:state}"
+          verb_state: "({bs_door_states_passive:state}|{bs_door_states_active:state})"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class:
+            - door
+            - garage_door
+            - opening
+            - window
+        slots:
+          domain: binary_sensor
