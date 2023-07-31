@@ -1,0 +1,35 @@
+language: fr
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<name> (est|est-elle) {lock_states:state} [à clé|à clef] [<dans> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(y a-t-il|il y a) (des|une) porte[s] [de] {lock_states:state} [<dans> <area>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "Toutes les porte[s] (sont|sont-elles) {lock_states:state} [<dans> <area>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(quelles|quelle) porte[s] (sont|est) {lock_states:state} [<dans> <area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "combien de porte[s] sont {lock_states:state} [<dans> <area>]"
+        response: how_many
+        slots:
+          domain: lock

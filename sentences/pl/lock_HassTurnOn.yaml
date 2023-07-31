@@ -1,0 +1,47 @@
+language: pl
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<lock> <name> [<area>]"
+        requires_context:
+          domain: lock
+        response: lock_lock_door
+
+      - sentences:
+          - "<close> <name> [<area>]"
+        requires_context:
+          domain: lock
+        response: lock_close_door
+
+      - sentences:
+          - "<lock> [<all>] drzwi <area>"
+          - "<lock> <area> [<all>] drzwi"
+        slots:
+          domain: "lock"
+          name: "all"
+        response: lock_lock_door
+
+      - sentences:
+          - "<lock> [<all>] zamki <area>"
+          - "<lock> <area> [<all>] zamki"
+        slots:
+          domain: "lock"
+          name: "all"
+        response: lock_lock_lock
+
+      - sentences:
+          - "<close> [<all>] drzwi <area>"
+          - "<close> <area> [<all>] drzwi"
+        slots:
+          domain: "lock"
+          name: "all"
+        response: lock_close_door
+
+      - sentences:
+          - "<close> [<all>] zamki <area>"
+          - "<close> <area> [<all>] zamki"
+        slots:
+          domain: "lock"
+          name: "all"
+        response: lock_close_lock

@@ -1,0 +1,895 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "(is|are) <name> [battery] {bs_battery_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "(is|are) any batter(y|ies) {bs_battery_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "are all [the] batter(y|ies) {bs_battery_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "(which|what) batter(y|ies) (is|are) {bs_battery_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "how many batter(y|ies) (is|are) {bs_battery_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "(is|are) <name> [battery] {bs_battery_charging_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "(is|are) any batter(y|ies) {bs_battery_charging_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "are all [the] batter(y|ies) {bs_battery_charging_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "(which|what) batter(y|ies) (is|are) {bs_battery_charging_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "how many batter(y|ies) (is|are) {bs_battery_charging_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # Carbon monoxide
+      - sentences:
+          - "(is|are) <name> {bs_carbon_monoxide_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "(is|are) any carbon monoxide sensor[s] {bs_carbon_monoxide_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "is there [any] carbon monoxide in <area>"
+          - "is [there] [any] carbon monoxide detected in <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+
+      - sentences:
+          - "are all [the] carbon monoxide sensors {bs_carbon_monoxide_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "(which|what) carbon monoxide sensor[s] (is|are) {bs_carbon_monoxide_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "how many carbon monoxide sensors (is|are) {bs_carbon_monoxide_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "(is|are) <name> {bs_cold_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "(is|are) any[ ](thing|sensor)[s] cold [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "(which|what) (thing|sensor)[s] (is|are) cold [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "how many (thing|sensor)[s] (is|are) cold [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Connectivity
+      - sentences:
+          - "(is|are) <name> {bs_connectivity_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "(is|are) any device[s] {bs_connectivity_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "are all [the] device[s] {bs_connectivity_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "(which|what) device[s] (is|are) {bs_connectivity_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "how many device[s] (is|are) {bs_connectivity_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "(is|are) <name> {bs_door_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "(is|are) <name> {bs_garage_door_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "(is|are) <name> {bs_gas_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "(is|are) any gas sensor[s] {bs_gas_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "is there [any] gas in <area>"
+          - "is [there] [any] gas detected in <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "are all [the] gas sensor[s] {bs_gas_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "(which|what) gas sensor[s] (is|are) {bs_gas_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "how many gas sensor[s] (is|are) {bs_gas_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Heat
+      - sentences:
+          - "(is|are) <name> {bs_heat_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "(is|are) any[ ](thing|sensor)[s] hot [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "(which|what) (thing|sensor)[s] (is|are) hot [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "how many (thing|sensor)[s] (is|are) hot [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Light
+      - sentences:
+          - "(is|are) <name> {bs_light_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "(is|are) any light[s] {bs_light_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "are all [the] light[s] {bs_light_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "(which|what) light[s] (is|are) {bs_light_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "how many light[s] (is|are) {bs_light_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      # Lock
+      - sentences:
+          - "(is|are) <name> {bs_lock_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+          device_class: lock
+
+      # Moisture
+      - sentences:
+          - "(is|are) <name> {bs_moisture_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "(is|are) any water sensor[s] {bs_moisture_states:state} [in <area>]"
+          - "is (it|the (floor|[(water [leak[ing]]|leak[ing]|flood[ing])] sensor)) {bs_moisture_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "is [there] a[ny] (flood|leak) [detected] [in <area>]"
+          - "is <area> flooded"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+          state: "on"
+
+      - sentences:
+          - "are all [the] water sensor[s] {bs_moisture_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "(which|what) water sensor[s] (is|are) {bs_moisture_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "how many water sensor[s] (is|are) {bs_moisture_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      # Motion
+      - sentences:
+          - "(is|are) <name> {bs_motion_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "(is|are) (any|the) motion sensor[s] {bs_motion_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "is [there] [any] motion detected [in <area>]"
+          - "is there [any] motion [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+          state: "on"
+
+      - sentences:
+          - "are all [the] motion sensor[s] {bs_motion_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "(which|what) motion sensor[s] (is|are) {bs_motion_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "how many motion sensor[s] (is|are) {bs_motion_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      # Occupancy
+      - sentences:
+          - "(is|are) <name> {bs_occupancy_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "(is|are) any occupancy sensor[s] {bs_occupancy_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "is [there] any occupancy detected [in <area>]"
+          - "is <area> occupied"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+          state: "on"
+
+      - sentences:
+          - "are all [the] occupancy sensor[s] {bs_occupancy_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "(which|what) occupancy sensor[s] (is|are) {bs_occupancy_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "how many occupancy sensor[s] (is|are) {bs_occupancy_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      # Opening
+      - sentences:
+          - "(is|are) <name> {bs_opening_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: opening
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "(is|are) any opening[s] {bs_opening_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "are all [the] opening[s] {bs_opening_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "(which|what) opening[s] (is|are) {bs_opening_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "how many opening[s] (is|are) {bs_opening_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      # Plug
+      - sentences:
+          - "(is|are) <name> {bs_plug_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "(is|are) any (thing[s]|device[s]) {bs_plug_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "are all [the] (thing[s]|device[s]) {bs_plug_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "(which|what) (thing[s]|device[s]) (is|are) {bs_plug_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "how many (thing[s]|device[s]) (is|are) {bs_plug_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      # Power
+      - sentences:
+          - "(is|are) <name> {bs_power_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "(is|are) any (thing[s]|device[s]) {bs_power_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "are all [the] (thing[s]|device[s]) {bs_power_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "(which|what) (thing[s]|device[s]) (is|are) {bs_power_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "how many (thing[s]|device[s]) (is|are) {bs_power_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      # Presence
+      - sentences:
+          - "(is|are) <name> {bs_presence_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "(is|are) any (thing[s]|device[s]) {bs_presence_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "are all [the] (thing[s]|device[s]) {bs_presence_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "(which|what) (thing[s]|device[s]) (is|are) {bs_presence_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "how many (thing[s]|device[s]) (is|are) {bs_presence_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      # Problem
+      - sentences:
+          - "are there [any] problems with <name> [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      # Running
+      - sentences:
+          - "(is|are) <name> {bs_running_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "(is|are) any (thing[s]|device[s]) {bs_running_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "are all [the] (thing[s]|device[s]) {bs_running_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "(which|what) (thing[s]|device[s]) (is|are) {bs_running_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "how many (thing[s]|device[s]) (is|are) {bs_running_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      # Safety
+      - sentences:
+          - "(is|are) <name> {bs_safety_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      # Smoke
+      - sentences:
+          - "(is|are) <name> {bs_smoke_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: smoke
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "(is|are) any smoke sensor[s] {bs_smoke_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "is [there] [any] smoke in <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
+
+      - sentences:
+          - "are all [the] smoke sensor[s] {bs_smoke_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "(which|what) smoke sensor[s] (is|are) {bs_smoke_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "how many smoke sensor[s] (is|are) {bs_smoke_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      # Sound
+      - sentences:
+          - "(is|are) <name> {bs_sound_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: sound
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "(is|are) any (noise|sound) sensor[s] {bs_sound_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "is [there] [any] noise in <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+          state: "on"
+
+      - sentences:
+          - "are all [the] (noise|sound) sensor[s] {bs_sound_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "(which|what) (noise|sound) sensor[s] (is|are) {bs_sound_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "how many (noise|sound) sensor[s] (is|are) {bs_sound_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      # Tamper
+      - sentences:
+          - "(is|are) <name> {bs_tamper_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: tamper
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      # Update
+      - sentences:
+          - "(is|are) <name> {bs_update_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+
+      - sentences:
+          - "are [there] any [(firmware|software)] updates [available] [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "(which|what) [(firmware|software)] updates are (there|available) [in <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "how many [(firmware|software)] updates are (there|available) [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      # Vibration
+      - sentences:
+          - "(is|are) <name> {bs_vibration_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "is anything vibrating [in <area>]"
+        response: any
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+          state: "on"
+
+      # Window
+      - sentences:
+          - "(is|are) <name> {bs_window_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window

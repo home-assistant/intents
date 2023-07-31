@@ -1,0 +1,89 @@
+language: de
+tests:
+  - sentences:
+      - "Ist die Haustür geschlossen?"
+      - "Ist die Haustür abgeschlossen?"
+      - "Ist die Haustür zugeschlossen?"
+      - "Ist die Haustür verschlossen?"
+      - "Ist die Haustür abgesperrt?"
+      - "Ist die Haustür zugesperrt?"
+      - "Ist die Haustür gesperrt?"
+      - "Ist die Haustür verriegelt?"
+      - "Ist die Haustür versperrt?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Haustür"
+        state: "locked"
+    response: "Ja"
+
+  - sentences:
+      - "Sind irgendwelche Türen nicht geschlossen?"
+      - "Sind irgendwelche Türen nicht abgeschlossen?"
+      - "Sind irgendwelche Türen nicht zugeschlossen?"
+      - "Sind irgendwelche Türen nicht verschlossen?"
+      - "Sind irgendwelche Türen entriegelt?"
+      - "Sind irgendwelche Türen nicht verriegelt?"
+      - "Sind irgendwelche Türen nicht abgesperrt?"
+      - "Sind irgendwelche Türen nicht zugesperrt?"
+      - "Sind irgendwelche Türen nicht versperrt?"
+      - "Sind irgendwelche Türen entsperrt?"
+      - "Sind irgendwelche Türen aufgeschlossen?"
+      - "Sind irgendwelche Türen aufgesperrt?"
+      - "Ist irgendeine Tür entsperrt?"
+      - "Sind Türen entsperrt?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Ja, Hintertür"
+
+  - sentences:
+      - "Sind alle Türen verschlossen?"
+      - "Ist jede Tür verschlossen?"
+      - "Ist jede der Türen verschlossen?"
+      - "Sind die kompletten Türen verschlossen?"
+      - "Sind die ganzen Türen verschlossen?"
+      - "Ist jedes der Schlösser verschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Nein, Hintertür ist es nicht"
+
+  - sentences:
+      - "Sind alle Türen verschlossen am Eingang?"
+      - "Sind alle Türen am Eingang verschlossen?"
+      - "Sind am Eingang alle Türen verschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Eingang"
+        domain: lock
+        state: "locked"
+    response: "Ja"
+
+  - sentences:
+      - "Welche Türen sind verschlossen?"
+      - "Welche der Türen sind verschlossen?"
+      - "Was für eine Tür ist verschlossen?"
+      - "Was für ein Schloss ist verschlossen?"
+      - "Was für eines der Schlösser ist verschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Haustür"
+
+  - sentences:
+      - "Wie viele Türen sind verschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "1"

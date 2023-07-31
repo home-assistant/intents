@@ -3,10 +3,22 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn> off [all] [the] (fan | fans) in <area>"
-          - "<turn> off <area> (fan | fans)"
-          - "<turn> [all] <area> (fan | fans) off"
+          - "<turn> off [all] [the] fan[s] in <area>"
+          - "<turn> off <area> fan[s]"
+          - "[<turn>] [all] <area> fan[s] off"
+          - "[<turn>] [all] [the] fan[s] [in] <area> off"
+          - "deactivate [all] [the] fan[s] [in] <area>"
+          - "deactivate [all] <area> [the] fan[s]"
         slots:
           domain: "fan"
           name: "all"
         response: fans_area
+
+      - sentences:
+          - "[<turn>] (all [the] fan[s] off|[the] fan[s] off everywhere)"
+          - "deactivate (all [the] fan[s]|[the] fan[s] everywhere)"
+        response: "light_all"
+        slots:
+          domain: "fan"
+          area: "all"
+          name: "all"

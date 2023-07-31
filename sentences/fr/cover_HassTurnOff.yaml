@@ -3,15 +3,14 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - (ferme|baisse) [la] porte (du|de) garage
-          - ferme [le] garage
+          - <ferme> <garage>
         response: cover_device_class
         slots:
           device_class: garage
           domain: cover
       - sentences:
-          - (ferme|baisse) [tous] [les|le] (store|stores|volet|volets) <dans> <area>
-        response: cover_area
+          - <ferme> [tous] (<volets>|<volet>) <dans> <area>
+        response: covers
         slots:
           device_class:
             - blind
@@ -19,7 +18,7 @@ intents:
             - shutter
           domain: cover
       - sentences:
-          - (ferme|baisse) tous [les] (stores|volets)
+          - <ferme> tous (<volets>|<volet>)
         response: cover_device_class
         slots:
           name: all

@@ -1,10 +1,12 @@
+"""API for home_assistant_intents package."""
+import importlib.resources
 import json
 import os
 import typing
 from pathlib import Path
-from typing import Any, Callable, Dict, IO, Optional
+from typing import IO, Any, Callable, Dict, List, Optional
 
-import importlib.resources
+from .domains import DOMAINS_AND_LANGUAGES
 
 _PACKAGE = "home_assistant_intents"
 _DIR = Path(typing.cast(os.PathLike, importlib.resources.files(_PACKAGE)))
@@ -23,3 +25,8 @@ def get_intents(
             return json_load(intents_file)
 
     return None
+
+
+def get_domains_and_languages() -> Dict[str, List[str]]:
+    """Return a dict of available domains and languages."""
+    return DOMAINS_AND_LANGUAGES

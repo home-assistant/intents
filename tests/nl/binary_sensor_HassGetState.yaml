@@ -1,0 +1,820 @@
+language: nl
+tests:
+  - sentences:
+      - "is de batterij van de telefoon bijna leeg"
+      - "is de telefoonbatterij leeg"
+      - "is de batterijstatus van de telefoon laag"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery"
+        name: "Telefoon"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "Wordt de telefoon opgeladen?"
+      - "Is de telefoon aan het laden"
+      - "Zit de telefoon aan de lader"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery_charging"
+        name: "Telefoon"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "Wordt er door CO-melder op zolder CO waargenomen"
+      - "Is er op zolder door CO-melder CO gedetecteerd"
+      - "Is er CO waar genomen bij CO-melder op zolder"
+      - "Is op zolder CO gedetecteerd door CO-melder"
+      - "Is er koolstofmonoxide bij CO-melder gedetecteerd op zolder"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        name: "CO-melder"
+        state: "on"
+        area: Zolder
+        device_class: carbon_monoxide
+    response: "Nee"
+
+  - sentences:
+      - "Is de waterkoeling koel"
+      - "Is de waterkoeling koud"
+      - "Detecteert de waterkoeling koelte"
+      - "Neemt de waterkoeling koude waar"
+      - "Wordt er door de waterkoeling koelte waargenomen"
+      - "Wordt er koude waargenomen door de waterkoeling"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "cold"
+        name: "Waterkoeling"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "Is de telefoon verbonden?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "connectivity"
+        name: "Telefoon"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "Staat het kattenluik in de keuken open?"
+      - "Is het keukenkattenluik open"
+      - "Staat het kattenluik open in de keuken"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Kattenluik"
+        state: "on"
+        area: Keuken
+    response: "Nee"
+
+  - sentences:
+      - "is de tweede garagedeur dicht?"
+      - "staat de tweede garagedeur dicht?"
+      - "is de tweede garagedeur gesloten?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Tweede garagedeur"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "Wordt er door gassensor gas waargenomen"
+      - "Detecteert de gassensor gas"
+      - "Wordt er door de gassensor gas gedetecteerd"
+      - "Wordt er gas gedetecteerd door de gassensor"
+      - "Neemt de gassensor gas waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        name: "Gassensor"
+        state: "on"
+        device_class: gas
+    response: "Nee"
+
+  - sentences:
+      - "Is de zoldercomputer heet?"
+      - "Is de computer op zolder warm"
+      - "Is op zolder de computer heet"
+      - "Is de computer heet op zolder"
+      - "Detecteert op zolder de computer hitte"
+      - "Wordt er op zolder hitte bij de computer waargenomen"
+      - "Is er bij de computer op zolder hitte waargenomen"
+      - "Wordt er warmte gedetecteerd bij de zoldercomputer"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "heat"
+        name: "Computer"
+        state: "on"
+        area: Zolder
+    response: "Ja"
+
+  - sentences:
+      - "Is de lichtsensor op zolder licht"
+      - "Is er op zolder bij de lichtsensor licht waargenomen?"
+      - "Is er licht gedetecteerd bij zolderlichtsensor"
+      - "Detecteert lichtsensor op zolder veel licht"
+      - "neemt lichtsensor veel licht waar op zolder"
+    intent:
+      name: HassGetState
+      slots:
+        area: Zolder
+        domain: "binary_sensor"
+        device_class: "light"
+        name: "Lichtsensor"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "is het kattenluik op slot?"
+      - "zit het kattenluik op slot"
+      - "staat het kattenluik op slot"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "lock"
+        name: "Kattenluik"
+        state: "off"
+    response: "Nee"
+
+  - sentences:
+      - "is de watersensor nat?"
+      - "registreert de watersensor nattigheid"
+      - "wordt er door de watersensor vochtigheid geregistreerd"
+      - "neemt de watersensor vocht waar"
+      - "wordt er vocht door de watersensor waargenomen"
+      - "wordt er vocht geregistreerd door de watersensor"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "moisture"
+        name: "Watersensor"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "detecteert de bewegingsensor in de garage beweging?"
+      - "registreert de garagebewegingsensor beweging"
+      - "wordt er door de bewegingsensor beweging geregistreerd in de garage"
+      - "neemt in de garage de bewegingsensor beweging waar"
+      - "wordt er beweging door de garagebewegingsensor waargenomen"
+      - "wordt er beweging geregistreerd door de bewegingsensor in de garage"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Garage"
+        domain: "binary_sensor"
+        device_class: "motion"
+        name: "Bewegingsensor"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "detecteert de aanwezigheidsensor in de keuken personen"
+      - "registreert de keukenaanwezigheidsensor aanwezigheid"
+      - "wordt er door de aanwezigheidsensor een persoon geregistreerd in de keuken"
+      - "neemt in de keuken de aanwezigheidsensor aanwezigheid waar"
+      - "wordt er personen door de keukenaanwezigheidsensor waargenomen"
+      - "wordt er een persoon geregistreerd door de aanwezigheidsensor in de keuken"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Keuken"
+        domain: "binary_sensor"
+        device_class: "occupancy"
+        name: "Aanwezigheidsensor"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "Is het zolderluik open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "opening"
+        name: "Zolderluik"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "is de telefoon niet ingeplugd"
+      - "is de telefoon niet ingestoken"
+      - "zit de telefoonlader niet ingeplugd"
+      - "is de kabel van de telefoon niet ingestoken"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "plug"
+        name: "Telefoon"
+        state: "off"
+    response: "Nee"
+
+  - sentences:
+      - "is er in de meterkast stroom?"
+      - "registreert de meterkast vermogen"
+      - "wordt er door de meterkast power geregistreerd"
+      - "neemt de meterkast stroom waar"
+      - "wordt er power door de meterkast waargenomen"
+      - "wordt er vermogen geregistreerd door de meterkast"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        name: "Meterkast"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "Is de telefoon thuis?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        name: "Telefoon"
+        state: "on"
+    response: "Nee"
+
+  # problem
+  - sentences:
+      - "is er een probleem met kattenvoer"
+      - "zijn er problemen met kattenvoer"
+      - "heeft kattenvoer een probleem"
+      - "heeft kattenvoer complicaties"
+      - "neemt kattenvoer een issue waar"
+      - "detecteert kattenvoer een probleem"
+      - "is door kattenvoer een probleem waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        name: "Kattenvoer"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "is er ergens een probleem"
+      - "zijn er problemen"
+      - "detecteert er een apparaat issues"
+      - "wordt er ergens een complicatie geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "zijn er overal problemen"
+      - "detecteren alle sensoren issues"
+      - "wordt door elke sensor een probleem geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        state: "on"
+    response: "Nee, Kattenvoer niet"
+
+  - sentences:
+      - "welke sensoren detecteren geen issues"
+      - "welk apparaat neemt geen probleem waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        state: "off"
+    response: "Kattenvoer"
+
+  - sentences:
+      - "hoeveel sensoren detecteren problemen"
+      - "hoeveel apparaten nemen issues waar"
+      - "met hoe veel sensoren worden complicaties waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        state: "on"
+    response: "0"
+
+  # running
+  - sentences:
+      - "Draait de vaatwasser"
+      - "Is de vaatwasser actief?"
+      - "Is de vaatwasser aan 't werk"
+      - "Is de vaatwasser bezig"
+      - "detecteert de vaatwasser activiteit"
+      - "neemt de vaatwasser activiteit waar"
+      - "is er activiteit geregistreerd door vaatwasser"
+      - "is er door vaatwasser activiteit gedetecteerd"
+      - "is er activiteit door vaatwasser gedetecteerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        name: "Vaatwasser"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "draait er ergens iets"
+      - "is er ergens een apparaat aan het draaien"
+      - "staat er iets te werken"
+      - "is er ergens aan het werk"
+      - "detecteert er een apparaat activiteit"
+      - "wordt er ergens activiteit geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        state: "on"
+    response: "Ja, Vaatwasser"
+
+  - sentences:
+      - "draaien alle sensoren"
+      - "is er overal activiteit"
+      - "staan alle sensoren op actief"
+      - "detecteren alle sensoren activiteit"
+      - "wordt door elke sensor activiteit geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "welke sensoren detecteren geen activiteit"
+      - "welk apparaat neemt geen activiteit waar"
+      - "welke sensoren draaien niet"
+      - "welke apparaten zijn niet aan 't draaien"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        state: "off"
+    response: "Geen"
+
+  - sentences:
+      - "hoeveel sensoren draaien"
+      - "hoeveel apparaten zijn aan 't werk"
+      - "hoeveel sensoren detecteren activiteit"
+      - "hoeveel apparaten nemen activiteit waar"
+      - "met hoe veel sensoren worden activiteit waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        state: "on"
+    response: "1"
+
+  # safety
+  - sentences:
+      - "is het weeralarm veilig?"
+      - "staat het weeralarm op veilig"
+      - "detecteert weeralarm geen gevaar"
+      - "neemt weeralarm geen gevaar waar"
+      - "is er geen gevaar gedetecteerd door weeralarm"
+      - "is er door weeralarm geen gevaar gedetecteerd"
+      - "is er geen gevaar door weeralarm gedetecteerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Weeralarm"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "is er ergens gevaar"
+      - "staat er iets op onveilig"
+      - "is er ergens iets onveilig"
+      - "detecteert er een apparaat gevaar"
+      - "wordt er ergens gevaar geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "is het overal onveilig"
+      - "staan alle sensoren op onveilig"
+      - "detecteren alle sensoren gevaar"
+      - "wordt door elke sensor gevaar geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        state: "on"
+    response: "Nee, Weeralarm niet"
+
+  - sentences:
+      - "welke sensoren detecteren geen gevaar"
+      - "welk apparaat neemt geen gevaar waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        state: "off"
+    response: "Weeralarm"
+
+  - sentences:
+      - "hoeveel sensoren detecteren gevaar"
+      - "hoeveel apparaten nemen gevaar waar"
+      - "met hoe veel sensoren worden gevaar waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        state: "on"
+    response: "0"
+
+  # smoke
+  - sentences:
+      - "detecteert de rookmelder in de keuken rook"
+      - "registreert de keukenrookmelder rook"
+      - "wordt er door de rookmelder rook geregistreerd in de keuken"
+      - "neemt in de keuken de rookmelder rook waar"
+      - "wordt rook door de keukenrookmelder waargenomen"
+      - "wordt er rook geregistreerd door de rookmelder in de keuken"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        name: "Rookmelder"
+        area: Keuken
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "is er ergens bij een sensor rook"
+      - "detecteert er een apparaat rook"
+      - "wordt er ergens rook geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "detecteren alle sensoren rook"
+      - "wordt door elke sensor rook geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        state: "on"
+    response: "Nee, Rookmelder niet"
+
+  - sentences:
+      - "welke sensoren detecteren geen rook"
+      - "welk apparaat neemt geen rook waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        state: "off"
+    response: "Rookmelder"
+
+  - sentences:
+      - "hoeveel sensoren detecteren rook"
+      - "hoeveel apparaten nemen rook waar"
+      - "met hoe veel sensoren worden rook waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        state: "on"
+    response: "0"
+
+  # sound
+  - sentences:
+      - "maakt geluidsensor herrie"
+      - "is er bij geluidsensor geluid"
+      - "registreert de geluidsensor geluiden"
+      - "wordt er door de geluidsensor geluid geregistreerd"
+      - "neemt de geluidsensor herrie waar"
+      - "wordt er lawaai door de geluidsensor waargenomen"
+      - "wordt er geluid geregistreerd door de geluidsensor"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "sound"
+        name: "Geluidsensor"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "maakt er een apparaat geluid"
+      - "is er ergens bij een sensor herrie"
+      - "is er ergens iets herrie aan het maken"
+      - "detecteert er een apparaat geluid"
+      - "wordt er ergens herrie geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "sound"
+        state: "on"
+    response: "Ja, Geluidsensor"
+
+  - sentences:
+      - maakt overal iets herrie
+      - "zijn alle apparaten geluid aan het maken"
+      - "detecteren alle sensoren geluid"
+      - "wordt door elke sensor herrie geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "sound"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "welke apparaat is geen geluid aan het maken"
+      - "welke sensoren detecteren geen lawaai"
+      - "welk apparaat neemt geen herrie waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "sound"
+        state: "off"
+    response: "Geen"
+
+  - sentences:
+      - "hoeveel apparaten zijn er herrie aan het maken"
+      - "hoeveel sensoren detecteren herrie"
+      - "hoeveel apparaten nemen lawaai waar"
+      - "met hoe veel sensoren worden herrie waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "sound"
+        state: "on"
+    response: "1"
+
+  # tamper
+  - sentences:
+      - "wordt er met de koektrommel gerommeld"
+      - "registreert de koektrommel geknoei"
+      - "wordt er door de koektrommel sabotage geregistreerd"
+      - "neemt de koektrommel sabotage waar"
+      - "wordt er gerommel door de koektrommel waargenomen"
+      - "wordt er geknoei geregistreerd door de koektrommel"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "tamper"
+        name: "Koektrommel"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "wordt er ergens met iets gerommeld"
+      - "detecteert iets gerommel"
+      - "wordt er ergens geknoei geregistreerd"
+      - "wordt er gesaboteerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "tamper"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "wordt overal met een apparaat geknoeid"
+      - "worden alle apparaat gesaboteerd"
+      - "detecteren alle sensoren geknoei"
+      - "wordt door elke sensor gerommel gedetecteerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "tamper"
+        state: "on"
+    response: "Nee, Koektrommel niet"
+
+  - sentences:
+      - "welke sensor wordt niet gesaboteerd"
+      - "welke apparaten nemen geen gerommel waar"
+      - "welke sensors registreren geen sabotage"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "tamper"
+        state: "off"
+    response: "Koektrommel"
+
+  - sentences:
+      - "hoeveel apparaten worden er gesaboteerd"
+      - "met hoeveel apparaten wordt gerommeld"
+      - "hoeveel sensoren detecteren geknoei"
+      - "hoeveel apparaten nemen gerommel waar"
+      - "met hoe veel sensoren wordt sabotage waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "tamper"
+        state: "on"
+    response: "0"
+
+  # update
+  - sentences:
+      - "is de telefoon up to date?"
+      - "is de telefoon geüpdatet"
+      - "zijn er geen updates voor telefoon"
+      - "is er voor de telefoon geen update beschikbaar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "update"
+        name: "Telefoon"
+        state: "off"
+    response: "Nee"
+
+  - sentences:
+      - "zijn er ergens apparaten niet up to date"
+      - "staat er ergens een update voor klaar"
+      - "zijn er ergens updates voor beschikbaar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "update"
+        state: "on"
+    response: "Ja, Telefoon"
+
+  - sentences:
+      - "zijn alle apparaten up to date"
+      - "staat er voor alle apparaten geen update klaar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "update"
+        state: "off"
+    response: "Nee, Telefoon niet"
+
+  - sentences:
+      - "welk apparaat is niet up to date"
+      - "voor welke apparaten staan updates klaar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "update"
+        state: "on"
+    response: "Telefoon"
+
+  - sentences:
+      - "hoeveel apparaten zijn niet up to date"
+      - "voor hoeveel apparaten staan updates klaar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "update"
+        state: "on"
+    response: "1"
+
+  # vibration
+  - sentences:
+      - "Trilt de telefoon"
+      - "is de telefoon aan het trillen"
+      - "registreert de telefoon trillingen"
+      - "wordt er door de telefoon vibratie geregistreerd"
+      - "neemt de telefoon vibraties waar"
+      - "worden er trillingen door de telefoon waargenomen"
+      - "wordt er vibratie geregistreerd door de telefoon"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "vibration"
+        name: "Telefoon"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "vibreert er iets?"
+      - "is er ergens iets aan het trillen"
+      - "ligt er iets te trillen"
+      - "registreert iets trillingen"
+      - "wordt er ergens vibratie geregistreerd"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "vibration"
+        state: "on"
+    response: "Nee"
+
+  - sentences:
+      - "trillen overal de sensoren"
+      - "zijn alle apparaten aan het trillen"
+      - "detecteren alle sensoren trillingen"
+      - "wordt door elke sensor vibratie gedetecteerd"
+      - "is overal een apparaat aan het trillen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "vibration"
+        state: "on"
+    response: "Nee, Telefoon niet"
+
+  - sentences:
+      - "welke sensor trilt niet"
+      - "welke apparaten zijn niet aan het vibreren"
+      - "welke sensoren detecteren geen trillingen"
+      - "welk apparaat neemt geen vibraties waar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "vibration"
+        state: "off"
+    response: "Telefoon"
+
+  - sentences:
+      - "hoeveel apparaten zijn er aan het trillen"
+      - "hoeveel sensoren detecteren vibraties"
+      - "hoeveel apparaten nemen trillingen waar"
+      - "met hoe veel sensoren worden trillingen waar genomen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "vibration"
+        state: "on"
+    response: "0"
+
+  # window | no any/all/which/how_many sentences because of conflicts with domain: cover / device_class: window
+  - sentences:
+      - "Staat het dakraam open?"
+      - "Is het dakraam open"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "Dakraam"
+        state: "on"
+    response: "Ja"

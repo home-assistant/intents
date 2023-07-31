@@ -42,31 +42,83 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - in: "c | 摄氏度 | 度 | ℃"
+      - in: "(摄氏度|°C|℃|度)"
         out: "celsius"
-      - in: "f | 华氏度"
+      - in: "(华氏度|°F|℉)"
         out: "fahrenheit"
   brightness_level:
     values:
-      - in: (最大 | 最亮 | 最高)
+      - in: "最(亮|高|大)"
         out: 100
-      - in: (最小 | 最暗 | 最低)
+      - in: "最(暗|低|小)"
         out: 1
+  on_off_states:
+    values:
+      - in: "(打开|开着|开了)[的]"
+        out: "on"
+      - in: "(关闭|关着|关了)[的]"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "(灯|吸顶灯|筒灯|射灯|台灯|床头灯|灯光)"
+        out: light
+      - in: "(风扇|电扇|塔扇|吊扇)"
+        out: fan
+      - in: "(开关|电源|插座|通断器)"
+        out: switch
+  cover_states:
+    values:
+      - in: "(打开|开着|开了)[的]"
+        out: open
+      - in: "(关闭|关着|关了)[的]"
+        out: closed
+      - in: "打开中"
+        out: opening
+      - in: "关闭中"
+        out: closing
+  cover_classes:
+    values:
+      - in: "(遮阳|雨)(蓬|棚)"
+        out: awning
+      - in: "(百叶窗|百叶帘|卷帘)"
+        out: blind
+      - in: "窗帘"
+        out: curtain
+      - in: "(门|房门|卷闸门)"
+        out: door
+      - in: "车库门"
+        out: garage
+      - in: "(大门|院子门|铁门)"
+        out: gate
+      - in: "遮阳帘"
+        out: shade
+      - in: "百叶窗户"
+        out: shutter
+      - in: "窗户"
+        out: window
+  lock_states:
+    values:
+      - in: "(已上锁|锁着|锁上|锁了)[的]"
+        out: locked
+      - in: "(已解锁|没[有][上]锁)[的]"
+        out: unlocked
+
 expansion_rules:
-  name: "{name} [的]"
-  area: "{area} [的]"
-  let: "[把 | 给 | 让]"
-  all: "(全部 | 所有) [的]"
+  name: "{name}[的]"
+  area: "{area}[的]"
+  let: "[把|将|让|给]"
+  all: "(全部|所有)[的]"
   what_is: "是什么"
-  how_many_is: "(是 | 有)多少"
-  brightness: "[百分之] {brightness}[%]"
-  to: "(为 | 到 | 至)"
-  set_to: "(设置 | 设定 | 调节 | 调) (为 | 到 | 至)"
-  turn_on: "(打开 | 开启 | 开)"
-  turn_off: "(关闭 | 关掉 | 关了 | 关)"
-  open: "(打开 | 开)"
-  close: "(关闭 | 关掉 | 关了 | 关)"
-  light: "(灯 | 吸顶灯 | 筒灯 | 射灯 | 台灯 | 床头灯 | 灯光) [的]"
+  how_many_is: "(是多少|有多少|有几个)"
+  which: "[有|有没有|有無]哪[一](个|些)"
+  brightness: "[百分之]{brightness}[%]"
+  to: "(为|到|成|至)"
+  set_to: "(设置|设定|调节|调|设)(为|到|至)"
+  turn_on: "(打开|开启|开)"
+  turn_off: "(关闭|关掉|关了|关)"
+  open: "(打开|开)"
+  close: "(关闭|关掉|关了|关)"
+  light: "(灯|吸顶灯|筒灯|射灯|台灯|床头灯|灯光)[的]"
   temp: "温度"
-  temperature: "{temperature} [{temperature_unit}]"
+  temperature: "{temperature}[{temperature_unit}]"
 skip_words: []

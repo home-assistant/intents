@@ -1,0 +1,59 @@
+language: nl
+tests:
+  - sentences:
+      - "Is de voordeur in de hal gesloten?"
+      - "Is de voordeur in de hal vergrendeld"
+      - "Zit in de hal de voordeur op slot?"
+      - "Staat in hal de huidige stand van voordeur op gesloten?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        area: Hal
+        name: "Voordeur"
+        state: "locked"
+    response: "Ja"
+
+  - sentences:
+      - "Staan er deursloten open?"
+      - "Staat er een slot open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Ja, Keukendeur"
+
+  - sentences:
+      - "Zijn alle deur op slot?"
+      - "Staan alle sloten op slot?"
+      - "Zit overal de deur op slot"
+      - "Zijn alle deuren vergrendeld"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Nee, Keukendeur niet"
+
+  - sentences:
+      - "Welke sloten zijn geopend"
+      - "Welke sloten zijn open"
+      - "Welke deuren zijn niet op slot"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Keukendeur"
+
+  - sentences:
+      - "Hoeveel sloten zijn dicht?"
+      - "Hoeveel deuren zijn op slot?"
+      - "Hoeveel deuren zijn vergrendeld"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "2"

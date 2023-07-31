@@ -1,2 +1,79 @@
 language: zh-hk
-tests: []
+tests:
+  - sentences:
+      - "室外溫度有多少？"
+      - "室外溫度狀態？"
+    intent:
+      name: HassGetState
+      slots:
+        name: "室外溫度"
+    response: "室外溫度現在係18 °C"
+
+  - sentences:
+      - "睡房燈係唔係開咗？"
+      - "睡房燈開著咗？"
+    intent:
+      name: HassGetState
+      slots:
+        name: "睡房燈"
+        state: "on"
+    response: "唔係呀，睡房燈係閂咗"
+
+  - sentences:
+      - "廚房有開關制開著嗎？"
+      - "廚房有冇開關制開著？"
+    intent:
+      name: HassGetState
+      slots:
+        area: "廚房"
+        domain: "switch"
+        state: "on"
+    response: "係呀，廚房開關制開著"
+
+  - sentences:
+      - "所有的開關制都開咗嗎？"
+      - "所有嘅開關制係唔係都開著？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "唔係呀，睡房開關制除外"
+
+  - sentences:
+      - "哪個燈係開著?"
+      - "哪些燈係開著？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "客廳燈、廚房燈、車房燈開著"
+
+  - sentences:
+      - "哪個燈係關著?"
+      - "哪些燈係關著？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "睡房燈關著"
+
+  - sentences:
+      - "有幾個燈係開著？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "3"
+
+  - sentences:
+      - "有幾個燈係關著？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "1"

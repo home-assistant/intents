@@ -1,4 +1,36 @@
 language: ur
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "کیا <name> {cover_states:state} [area] [ہے]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[کیا] کوئی [بھی] {cover_classes:device_class} {cover_states:state} [ھوا وا] [ہوئی] [وی] [ہے] [<area>]"
+          - "[کیا] کوئی [بھی] {cover_classes:device_class} [<area>] {cover_states:state} [ھوا وا] [ہوئی] [وی] [ہے]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[کیا] <all> {cover_classes:device_class} {cover_states:state} [ھوا وا] [ہوئی] [وی] [ہے] [<area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(کونسی|کونسا) {cover_classes:device_class} {cover_states:state} [ھوا وا] [ہوئی] [وی] [ہے] [<area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(کتنے|کتنی) {cover_classes:device_class} {cover_states:state} [ھوا وا] [ہوئی] [وی] [ہے] [<area>]"
+        response: how_many
+        slots:
+          domain: cover

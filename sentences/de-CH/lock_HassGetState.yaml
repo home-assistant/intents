@@ -1,0 +1,40 @@
+language: de-CH
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "Isch <name> {lock_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "Isch (e|es|ei) (Tür[e]|Tor|Schloss) {lock_states:state} [<area>]"
+          - "Isch [<area>] (e|es|ei) (Tür[e]|Tor|Schloss) {lock_states:state}"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "Sy aui (Türe|Tor|Schlösser) {lock_states:state} [<area>]"
+          - "Sy aui (Türe|Tor|Schlösser) [<area>] {lock_states:state}"
+          - "Sy [<area>] aui (Türe|Tor|Schlösser) {lock_states:state}"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(Weles|Weli) (Tür[e]|Tor|Schloss|Schlösser) (isch|sy|si) {lock_states:state} [<area>]"
+          - "(Weles|weli) (Tür[e]|Tor|Schloss|Schlösser) [<area>] (isch|sy|si) {lock_states:state}"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "Wie mäng[s|i] (Tür[e]|Tor|Schloss|Schlösser) (isch|sy|si) {lock_states:state} [<area>]"
+          - "Wie mäng[s|i] (Tür[e]|Tor|Schloss|Schlösser) [<area>] (isch|sy|si) {lock_states:state}"
+        response: how_many
+        slots:
+          domain: lock

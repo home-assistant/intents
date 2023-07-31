@@ -17,15 +17,6 @@ def run() -> int:
     # Sort intent info by (domain, intent)
     intent_info = yaml.safe_load(INTENTS_FILE.read_text())
 
-    # Collect all English responses.
-    all_english_responses = {
-        intent_sentence
-        for intent_sentences in load_merged_responses("en")["responses"][
-            "intents"
-        ].values()
-        for intent_sentence in intent_sentences.values()
-    }
-
     for language in LANGUAGES:
         merged_sentences = load_merged_sentences(language)
         merged_responses = load_merged_responses(language)
@@ -55,8 +46,7 @@ def run() -> int:
                 intent_responses_translated[intent] = True
             else:
                 intent_responses_translated[intent] = all(
-                    response not in all_english_responses
-                    for response in intent_responses.values()
+                    "TODO" not in response for response in intent_responses.values()
                 )
 
         errors_translated = not any(

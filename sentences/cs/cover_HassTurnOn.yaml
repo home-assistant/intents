@@ -5,16 +5,38 @@ intents:
       - sentences:
           - "<otevrit> garáž"
           - "<otevrit> vrata od garáže"
-        response: garage
+          - "<otevrit> garážová vrata"
         slots:
           device_class: garage
           domain: cover
+        response: garage
+
       - sentences:
-          - "(<otevrit>|<roztahnout>) (rolety|žaluzie|závěsy) [v] {area}"
-        response: cover_area
-        slots:
+          - "<otevrit> {name} [<area>]"
+        requires_context:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<roztahnout> {name} [<area>]"
+        requires_context:
           device_class:
+            - awning
             - blind
             - curtain
+            - shade
             - shutter
           domain: cover
+        response: cover
+
+      - sentences:
+          - "(<otevrit>|<roztahnout>) (rolet(u|y)|žaluzi(i|e)|závěs[y]|markýz[u|y]|stínítk[o|a]) <area>"
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+          domain: cover
+        response: cover_area

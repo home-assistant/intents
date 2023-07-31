@@ -1,4 +1,65 @@
 language: da
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      one: |
+        {{ slots.name | capitalize }} er {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched %}
+          Ja
+        {% else %}
+          Nej, {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Ja, {{ match[:3] | join(", ") }} og {{ (match | length - 3) }} mere
+          {%- else -%}
+            Ja,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} og {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Nej
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Ja
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nej, ikke {{ no_match[:3] | join(", ") }} og {{ (no_match | length - 3) }} mere
+          {%- else -%}
+            Nej, ikke
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} og {% endif -%}
+              {{ name }}
+            {%- endfor %}
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Ikke nogen
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} og {{ (match | length - 3) }} mere
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} og {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

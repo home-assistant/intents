@@ -8,7 +8,7 @@ tests:
       slots:
         domain: cover
         device_class: garage
-    response: garage ble lukket
+    response: Lukket garage
   - sentences:
       - lukk igjen takvinduet på kjøkkenet
       - steng takvinduet i kjøkkenet
@@ -22,18 +22,45 @@ tests:
           - blind
           - curtain
           - shutter
-    response: Lukket kjøkken
+    response: Lukket takvinduet
   - sentences:
       - lukk igjen kjøkkenets takvindu
-      - steng kjøkkentakvinduet
+      - steng kjøkkentakvindu
     intent:
       name: HassTurnOff
       slots:
         area: Kjøkken
         domain: cover
-        device_class:
-          - window
-          - blind
-          - curtain
-          - shutter
-    response: Lukket kjøkken
+        device_class: window
+    response: Lukket takvindu
+  - sentences:
+      - Lukk venstre gardin
+    intent:
+      name: HassTurnOff
+      slots:
+        name: Venstre gardin
+      context:
+        domain: cover
+        device_class: curtain
+    response: Lukket
+  - sentences:
+      - Lukk venstre gardin i stuen
+    intent:
+      name: HassTurnOff
+      slots:
+        name: Venstre gardin
+        area: Stue
+      context:
+        domain: cover
+        device_class: curtain
+    response: Lukket
+  - sentences:
+      - Lukk gardin på kjøkken
+      - Lukk kjøkkengardin
+    intent:
+      name: HassTurnOff
+      slots:
+        area: Kjøkken
+        domain: cover
+        device_class: curtain
+    response: "Lukket gardin"
