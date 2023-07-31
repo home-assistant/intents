@@ -1,2 +1,64 @@
 language: da
-tests: []
+tests:
+  - sentences:
+      - "hvad er udendørs temperatur?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Udendørs Temperatur"
+    response: "Udendørs temperatur er 14 °C"
+
+  - sentences:
+      - "er soveværelseslys tændt?"
+    intent:
+      name: HassGetState
+      slots:
+        name: Soveværelseslys
+        state: "on"
+    response: Ja
+
+  - sentences:
+      - "er nogen kontakter tændt i køkkenet?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Køkken
+        domain: switch
+        state: "on"
+    response: "Ja, Køkkenkontakt"
+
+  - sentences:
+      - "er alle kontakter tændt?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: switch
+        state: "on"
+    response: "Nej, ikke Soveværelseskontakt"
+
+  - sentences:
+      - "er alle lys slukket?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: light
+        state: "off"
+    response: "Nej, ikke Soveværelseslys"
+
+  - sentences:
+      - "hvilke lys er tændt?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: light
+        state: "on"
+    response: "Soveværelseslys"
+
+  - sentences:
+      - "hvor mange lys er tændt?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: light
+        state: "on"
+    response: "1"

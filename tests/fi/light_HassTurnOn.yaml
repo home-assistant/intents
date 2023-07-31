@@ -1,9 +1,91 @@
-language: fi
+language: "fi"
 tests:
   - sentences:
-      - kytke olohuone valot päälle
+      # Singular light, with unprefixed and unconjugated area.
+      # Grammatically incorrect, but people might be used to this limitation.
+      - "kytke päälle valo olohuone"
+      - "kytke päälle olohuone valo"
+      - "kytke valo päälle olohuone"
+      - "kytke valo olohuone päälle"
+      - "kytke olohuone päälle valo"
+      - "kytke olohuone valo päälle"
+
+      # Singular light, with prefixed and unconjugated area.
+      # Grammatically correct, but cumbersome to say or know about the prefix.
+      - "kytke päälle valo alueella olohuone"
+      - "kytke päälle alueen olohuone valo"
+      - "kytke valo päälle alueella olohuone"
+      - "kytke valo alueella olohuone päälle"
+      - "kytke alueella olohuone päälle valo"
+      - "kytke alueen olohuone valo päälle"
     intent:
-      name: HassTurnOn
+      name: "HassTurnOn"
       slots:
-        area: olohuone
+        area: Olohuone
         domain: light
+    response: "Laitettiin valo päälle"
+  - sentences:
+      # Plural lights, with unprefixed and unconjugated area.
+      # Grammatically incorrect, but people might be used to this limitation.
+      - "kytke päälle kaikki valot olohuone"
+      - "kytke päälle olohuone kaikki valot"
+      - "kytke kaikki valot päälle olohuone"
+      - "kytke kaikki valot olohuone päälle"
+      - "kytke olohuone päälle kaikki valot"
+      - "kytke olohuone kaikki valot päälle"
+      # Same as above, but singular light turned plural with extra word
+      - "kytke päälle jokainen valo olohuone"
+      - "kytke päälle olohuone jokainen valo"
+      - "kytke jokainen valo päälle olohuone"
+      - "kytke jokainen valo olohuone päälle"
+      - "kytke olohuone päälle jokainen valo"
+      - "kytke olohuone jokainen valo päälle"
+
+      # Plural lights, with prefixed and unconjugated area.
+      # Grammatically correct, but cumbersome to say or know about the prefix.
+      - "kytke päälle kaikki valot alueella olohuone"
+      - "kytke päälle alueen olohuone kaikki valot"
+      - "kytke kaikki valot päälle alueella olohuone"
+      - "kytke kaikki valot alueella olohuone päälle"
+      - "kytke alueella olohuone päälle kaikki valot"
+      - "kytke alueen olohuone kaikki valot päälle"
+      # Same as above, but singular light turned plural with extra word
+      - "kytke päälle jokainen valo alueella olohuone"
+      - "kytke päälle alueen olohuone jokainen valo"
+      - "kytke jokainen valo päälle alueella olohuone"
+      - "kytke jokainen valo alueella olohuone päälle"
+      - "kytke alueella olohuone päälle jokainen valo"
+      - "kytke alueen olohuone jokainen valo päälle"
+    intent:
+      name: "HassTurnOn"
+      slots:
+        area: Olohuone
+        domain: light
+    response: "Laitettiin valot päälle"
+  - sentences:
+      # General "illuminate room" where amount of lights is unknown
+      - "valaise olohuone"
+
+      # Uncountable lights, with unprefixed and unconjugated area.
+      # Grammatically incorrect, but people might be used to this limitation.
+      - "kytke päälle valaistus olohuone"
+      - "kytke päälle olohuone valaistus"
+      - "kytke valaistus päälle olohuone"
+      - "kytke valaistus olohuone päälle"
+      - "kytke olohuone päälle valaistus"
+      - "kytke olohuone valaistus päälle"
+
+      # Uncountable lights, with prefixed and unconjugated area.
+      # Grammatically correct, but cumbersome to say or know about the prefix.
+      - "kytke päälle valaistus alueella olohuone"
+      - "kytke päälle alueen olohuone valaistus"
+      - "kytke valaistus päälle alueella olohuone"
+      - "kytke valaistus alueella olohuone päälle"
+      - "kytke alueella olohuone päälle valaistus"
+      - "kytke alueen olohuone valaistus päälle"
+    intent:
+      name: "HassTurnOn"
+      slots:
+        area: Olohuone
+        domain: light
+    response: "Valaistiin"

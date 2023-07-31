@@ -12,7 +12,7 @@ lists:
     values:
       - in: "(blanc|blanche)"
         out: "white"
-      - in: "(noir | noire)"
+      - in: "(noir|noire)"
         out: "black"
       - in: "rouge"
         out: "red"
@@ -20,11 +20,11 @@ lists:
         out: "orange"
       - in: "jaune"
         out: "yellow"
-      - in: "(vert | verte)"
+      - in: "(vert|verte)"
         out: "green"
-      - in: "(bleu | bleue)"
+      - in: "(bleu|bleue)"
         out: "blue"
-      - in: "(violet | violette)"
+      - in: "(violet|violette)"
         out: "purple"
       - in: "marron"
         out: "brown"
@@ -92,6 +92,7 @@ lists:
         out: "shutter"
       - in: "fenêtre[s]"
         out: "window"
+
   lock_states:
     values:
       - in: "verrouill[e][er][é][ée][s]"
@@ -104,19 +105,230 @@ lists:
         out: "unlocked"
       - in: "ouvr[e][s]"
         out: "unlocked"
+
+  # binary_sensors"
+  bs_battery_states:
+    values:
+      - in: "(basse[s]|faible[s]|vide[s]|déchargé[e][s])"
+        out: "on"
+      - in: "(normale[s]|chargée[s]|pleine[s])"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "([en] [cours de] charge[ment]|en[ ]train de charger)"
+        out: "on"
+      - in: "pas en charge"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(déclenché[e][s]|détecté[e][s]|en alarme)"
+        out: "on"
+      - in: "(non détecté[e][s]|sécurisé[e][s]|ok)"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "froid[e][s]"
+        out: "on"
+      - in: "norma[l][e][(s|aux)]"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "(connecté[e][s]|en ligne)"
+        out: "on"
+      - in: "(déconnecté[e][s]|hors ligne)"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "ouvert[e][s]"
+        out: "on"
+      - in: "fermé[e][s]"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "ouvert[e][s]"
+        out: "on"
+      - in: "fermé[e][s]"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(déclenché[e][s]|détecté[e][s]|en alarme)"
+        out: "on"
+      - in: "(non détecté[e][s]|sécurisé[e][s]|ok)"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "(chaud[e][s]|chauffe[nt])"
+        out: "on"
+      - in: "norma[l][e][(s|aux)]"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "(détecté[e][s]|déclenché[e][s]|activé[e][s])"
+        out: "on"
+      - in: "pas de lumière"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "déverrouillé[e][s]"
+        out: "on"
+      - in: "verrouillé[e][s]"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "(humide[s]|innondation[s]|fuite[s]|déclenché[e][s])"
+        out: "on"
+      - in: "(sec[che][s]|non détecté[e][s]|désactivé[e][s])"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(mouvement[s]|déclenché[e][s]|acti(f|ve)[s]|détecté[e][s])"
+        out: "on"
+      - in: "(désactivé[e][s]|non détecté[e][s]|inacti(f|ve)[s])"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(présent[e][s]|occupé[e][s]|déclenché[e][s]|détecté[e][s]|acti(f|ve)[s])"
+        out: "on"
+      - in: "(désactivé[e][s]|non détecté[e][s]|inacti(f|ve)[s])"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "ouvert[e][s]"
+        out: "on"
+      - in: "fermé[e][s]|clos[e][s]"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "branché[e][s]"
+        out: "on"
+      - in: "débranché[e][s]"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "alimenté[e][s]"
+        out: "on"
+      - in: "non alimenté[e][s]"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(présent[e][s]|à la maison)"
+        out: "on"
+      - in: "(non présent[e][s]|à l'extérieur[e]|en dehors de la maison)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "(détecté[e][s]|problème[s])"
+        out: "on"
+      - in: "(ok|non détecté[e][s])"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(en cours [d'exécution]|tourne[nt])"
+        out: "on"
+      - in: "(pas en cours d'exécution|arrêté[e][s])"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "(risqué[e][s]|non sécurosé[e][s]|pas sûr[e][s])"
+        out: "on"
+      - in: "(sécurisé[e][s]|sain[e][s]|sûr[e][s])"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(déclenché[e][s]|détecté[e][s]|en alarme)"
+        out: "on"
+      - in: "(non détecté[e][s]|sécurisé[e][s]|ok)"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(déclenché[e][s]|détecté[e][s])"
+        out: "on"
+      - in: "non détecté[e][s]"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(détecté[e]|altéré[e][s])"
+        out: "on"
+      - in: "(ok|non détecté[e][s])"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "[mise[s] à jour ]disponible[s]"
+        out: "on"
+      - in: "à jour"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(détecté[e][s]|vibre[s][r])"
+        out: "on"
+      - in: "(ok|ne vibre pas|non détecté)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "ouvert[e][s]"
+        out: "on"
+      - in: "fermé[e][s]|clos[e][s]"
+        out: "off"
+
+  shopping_list_item:
+    wildcard: true
+
 expansion_rules:
-  name: "([le | la | les] {name} | [l']{name})"
-  area: "([le | la ] {area} | [l']{area})"
+  name: "[le |la |les |[l']]{name}"
+  area: "[le |la |[l']]{area}"
   brightness: "{brightness:brightness}[%| pourcent]"
   temperature: "{temperature}[°| degrés] [{temperature_unit}]"
-  regle: "(règle | met | ajuste)"
-  allume: "(allume | active | démarre)"
-  eteins: "(éteint | éteins | désactive | stoppe | arrête | coupe)"
-  lumiere: "(la lumière | la lampe | l'ampoule)"
-  lumieres: "[les] (lumières | lampes | ampoules)"
-  ventilateur: "(le ventilateur | le brasseur d'air)"
-  ventilateurs: "(les ventilateurs | les brasseurs d'air)"
-  dans: "(dans | du | de)"
+  regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer)"
+  allume: "(allume|allumer|active|activer|démarre|démarrer)"
+  eteins: "((é|e)teint|(é|e)teins|(é|e)teindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper)"
+  ferme: "(ferme|fermer|baisse|baisser)"
+  ouvre: "(ouvre|ouvrir|monte|monter)"
+  lumiere: "([la ](lumière|lampe)|[l']ampoule)"
+  lumieres: "[les ](lumières|lampes|ampoules)"
+  ventilateur: "[le ](ventilateur|brasseur d'air)"
+  ventilateurs: "[les ](ventilateurs|brasseurs d'air)"
+  volet: "([le ](volet|store))"
+  volets: "[les ](volets|stores)"
+  garage: "([la ]porte (du |de )garage)|([le ]garage)"
+  fenetre: "(fen(e|ê)tre[s]|baie[s]|v(e|é)lux|lucarne[s])"
+  dans: "(dans|du|de)"
+  de: "(du|de)"
+  yatil: "(y a[-][ ]t[-][']il|il y a)"
+  estil: "(est|sont)[-][ ][(il[s]|elle[s])]"
+  atil: "(ont|a)[-][ ][t][ ][-][(il[s]|elle[s])]"
+  quel: "quel[le][s]"
+  capteur: "(capteur|sonde|détecteur)[s]"
+  appareil: "(appareil|machine|équipement)[s]"
+  tous: "(tous|toute[s])"
+  eclaire: (éclaire|éclairer|illumine|illuminer)
 skip_words:
   - "s'il te plaît"
   - "merci"
+  - "est ce que"
+  - "est-ce que"

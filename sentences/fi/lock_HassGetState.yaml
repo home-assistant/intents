@@ -1,0 +1,35 @@
+language: "fi"
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<onko> {name} {lock_states:state} [(<alueessa>|<alueesta>|<alueella>|<alueelta>|<alueelle>) <huone>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(<onko>|<ovatko>) (<jokin>|<jotkut>) (ovi|ovet|lukko|lukot) {lock_states:state} [(<alueessa>|<alueesta>|<alueella>|<alueelta>|<alueelle>) <huone>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(<onko>|<ovatko>) <kaikki> (ovi|ovet|lukko|lukot) {lock_states:state} [(<alueessa>|<alueesta>|<alueella>|<alueelta>|<alueelle>) <huone>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(mikä|mitkä) (ovi|ovet|lukko|lukot) (on|ovat) {lock_states:state} [(<alueessa>|<alueesta>|<alueella>|<alueelta>|<alueelle>) <huone>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<montako> (ovi|ovet|ovea|ovia|lukko|lukot|lukkoa|lukkoja) (on|ovat) {lock_states:state} [(<alueessa>|<alueesta>|<alueella>|<alueelta>|<alueelle>) <huone>]"
+        response: how_many
+        slots:
+          domain: lock

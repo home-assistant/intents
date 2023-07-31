@@ -1,8 +1,91 @@
-language: fi
+language: "fi"
 tests:
-  - sentences: []
+  - sentences:
+      # Singular light, with unprefixed and unconjugated area.
+      # Grammatically incorrect, but people might be used to this limitation.
+      - "kytke päältä valo olohuone"
+      - "sammuta olohuone valo"
+      - "kytke pois päältä olohuone valo"
+      - "kytke valo olohuone päältä"
+      - "kytke olohuone pois valo"
+      - "kytke olohuone pois päältä valo"
+
+      # Singular light, with prefixed and unconjugated area.
+      # Grammatically correct, but cumbersome to say or know about the prefix.
+      - "kytke päältä valo alueella olohuone"
+      - "sammuta alueen olohuone valo"
+      - "kytke pois päältä alueen olohuone valo"
+      - "kytke valo alueella olohuone päältä"
+      - "kytke alueella olohuone pois valo"
+      - "kytke alueella olohuone pois päältä valo"
     intent:
-      name: HassTurnOff
+      name: "HassTurnOff"
       slots:
+        area: Olohuone
         domain: light
-        name: all
+    response: "Sammutettiin valo"
+  - sentences:
+      # Plural lights, with unprefixed and unconjugated area.
+      # Grammatically incorrect, but people might be used to this limitation.
+      - "kytke päältä kaikki valot olohuone"
+      - "sammuta olohuone kaikki valot"
+      - "kytke pois päältä olohuone kaikki valot"
+      - "kytke kaikki valot olohuone päältä"
+      - "kytke olohuone pois kaikki valot"
+      - "kytke olohuone pois päältä kaikki valot"
+      # Same as above, but singular light turned plural with extra word
+      - "kytke päältä jokainen valo olohuone"
+      - "sammuta olohuone jokainen valo"
+      - "kytke pois päältä olohuone jokainen valo"
+      - "kytke jokainen valo olohuone päältä"
+      - "kytke olohuone pois jokainen valo"
+      - "kytke olohuone pois päältä jokainen valo"
+
+      # Plural lights, with prefixed and unconjugated area.
+      # Grammatically correct, but cumbersome to say or know about the prefix.
+      - "kytke päältä kaikki valot alueella olohuone"
+      - "sammuta alueen olohuone kaikki valot"
+      - "kytke pois päältä alueen olohuone kaikki valot"
+      - "kytke kaikki valot alueella olohuone päältä"
+      - "kytke alueella olohuone pois kaikki valot"
+      - "kytke alueella olohuone pois päältä kaikki valot"
+      # Same as above, but singular light turned plural with extra word
+      - "kytke päältä jokainen valo alueella olohuone"
+      - "sammuta alueen olohuone jokainen valo"
+      - "kytke pois päältä alueen olohuone jokainen valo"
+      - "kytke jokainen valo alueella olohuone päältä"
+      - "kytke alueella olohuone pois jokainen valo"
+      - "kytke alueella olohuone pois päältä jokainen valo"
+    intent:
+      name: "HassTurnOff"
+      slots:
+        area: Olohuone
+        domain: light
+    response: "Sammutettiin valot"
+  - sentences:
+      # General "illuminate room" where amount of lights is unknown
+      - "pimennä olohuone"
+
+      # Uncountable lights, with unprefixed and unconjugated area.
+      # Grammatically incorrect, but people might be used to this limitation.
+      - "kytke päältä valaistus olohuone"
+      - "sammuta olohuone valaistus"
+      - "kytke pois päältä olohuone valaistus"
+      - "kytke valaistus olohuone päältä"
+      - "kytke olohuone pois valaistus"
+      - "kytke olohuone pois päältä valaistus"
+
+      # Uncountable lights, with prefixed and unconjugated area.
+      # Grammatically correct, but cumbersome to say or know about the prefix.
+      - "kytke päältä valaistus alueella olohuone"
+      - "sammuta alueen olohuone valaistus"
+      - "kytke pois päältä alueen olohuone valaistus"
+      - "kytke valaistus alueella olohuone päältä"
+      - "kytke alueella olohuone pois valaistus"
+      - "kytke alueella olohuone pois päältä valaistus"
+    intent:
+      name: "HassTurnOff"
+      slots:
+        area: Olohuone
+        domain: light
+    response: "Pimennettiin"

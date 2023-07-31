@@ -26,7 +26,7 @@ areas:
     id: staircase
   - name: "kuhinj(a|i|u|e|sku|ska|ske|ski)"
     id: kitchen
-  - name: "dnevna soba|dnevnoj sobi|dnevne sobe|dnevni boravak|dnevnom boravku|dnevnog boravka "
+  - name: "dnevna soba|dnevnoj sobi|dnevne sobe|dnevni boravak|dnevnom boravku|dnevnog boravka"
     id: living_room
   - name: "garaž(а|i|u)"
     id: garage
@@ -35,6 +35,26 @@ entities:
   - name: "noćn(a|u|e|oj|o|og) (svjetilj(ka|ci|ku)|svjetl(o|a)|rasvjet(a|i|u)|lamp(a|i|u|e))"
     id: light.bedroom_lamp
     area: bedroom
+    state: "off"
+
+  - name: "led(ice)|led (svjetl[a|o])"
+    id: light.led_lights
+    area: living_room
+    state: "on"
+
+  - name: "luster"
+    id: light.chandalier
+    area: living_room
+    state: "on"
+
+  - name: "božićna svjetl(a|o)"
+    id: light.chrismas_ligths
+    area: living_room
+    state: "on"
+
+  - name: "podna lampa"
+    id: light.floor_lamp
+    area: living_room
     state: "on"
 
   - name: "kuhinjs(ka|oj|ku|i) sklop(ka|ci|ku)|prekidač(u)"
@@ -42,15 +62,20 @@ entities:
     area: kitchen
     state: "on"
 
-  - name: "(stropni) ventilator (na stropu)"
+  - name: "[stropni] ventilator [na stropu]"
     id: fan.ceiling
     area: living_room
+    state: "on"
+
+  - name: "[kuhinjsk(a|u)] (napa|napu)"
+    id: fan.kitchen_hood
+    area: kitchen
     state: "on"
 
   - name: "lijev(a|oj|u) zavjes(a|i|u)"
     id: cover.curtain_left
     area: living_room
-    state: "closed"
+    state: "open"
     attributes:
       device_class: curtain
 
@@ -78,14 +103,14 @@ entities:
   - name: "mali prozor"
     id: cover.bathroom_window
     area: "bathroom"
-    state: "closed"
+    state: "open"
     attributes:
       device_class: window
 
   - name: "stropni prozor"
     id: cover.ceiling_window
     area: "kitchen"
-    state: "closed"
+    state: "open"
     attributes:
       device_class: window
 
@@ -100,14 +125,14 @@ entities:
   - name: "kuhinjska vrata"
     id: cover.kitchen_door
     area: "entrance"
-    state: "opened"
+    state: "open"
     attributes:
       device_class: door
 
   - name: "klizna vrata"
     id: cover.living_room_door
     area: "living_room"
-    state: "opened"
+    state: "open"
     attributes:
       device_class: door
 
@@ -115,3 +140,39 @@ entities:
     id: "humidifier.dehumidifier"
     area: "living_room"
     state: "off"
+
+  - name: "Radijator"
+    id: "climate.trv_living_room"
+    area: "living_room"
+    state: "21"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: "Radijator"
+    id: "climate.trv_kitchen"
+    area: "kitchen"
+    state: "22"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: "vanjska temperatura|[temperatura] vani"
+    id: "sensor.outside_temperature"
+    state: "17"
+    area: "balcony"
+    attributes:
+      unit_of_measurement: "°C"
+
+  #locks
+  - name: "Ulazna vrata"
+    id: "lock.front_door"
+    area: "entrance"
+    state: "locked"
+
+  - name: "Stražnja vrata"
+    id: "lock.back_door"
+    area: "kitchen"
+    state: "unlocked"
+
+  - name: "Dvorišna vrata"
+    id: "lock.yard_door"
+    state: "locked"

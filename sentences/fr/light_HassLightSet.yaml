@@ -2,21 +2,61 @@ language: fr
 intents:
   HassLightSet:
     data:
+      # brightness (name)
       - sentences:
-          - <regle> [toutes] <lumieres> de <area> à <brightness>
+          - "<regle> [la] luminosité [<de>] <name> [à] <brightness>"
+          - "<regle> <name> [à] <brightness> [de] luminosité"
+          - "<allume> <name> [à] <brightness>"
+          - "luminosité [<de>] <name> [à] <brightness>"
+          - "<name> <brightness>"
+          - "<name> <brightness> luminosité"
+          - "<name> luminosité <brightness>"
+          - "(augmente|baisse) [la] (luminosité|lumière) [<de>] <name> [à] <brightness>"
+        response: brightness
+
+      # brightness (area)
+      - sentences:
+          - "<regle> [la] luminosité [<dans>] <area> [à] <brightness>"
+          - "<regle> <area> [à] <brightness> [de] luminosité"
+          - "luminosité [<dans>] <area> [à] <brightness>"
+          - "<area> luminosité <brightness>"
+          - "<area> <brightness> luminosité"
+          - "(augmente|baisse) [la] (luminosité|lumière) [<de>] <area> [à] <brightness>"
+        response: brightness
         slots:
           name: all
-        response: brightness_area
+
+      # brightness (name + area)
       - sentences:
-          - <regle> <name> [dans|du|de] <area> à <brightness>
-        response: brightness_area
+          - "<regle> [la] luminosité [<de>] <name> [<dans>] <area> [à] <brightness>"
+          - "<regle> <name> [<dans>] <area> [à] <brightness> [de] luminosité"
+          - "<allume> <name> [<dans>] <area> [à] <brightness>"
+          - "luminosité [<de>] <name> [<dans>] <area> [à] <brightness>"
+          - "<name> [<dans>] <area> <brightness>"
+          - "<name> [<dans>] <area> <brightness> luminosité"
+          - "<name> [<dans>] <area> luminosité <brightness>"
+          - "(augmente|baisse) [la] (luminosité|lumière) [<de>] <name> [dans] <area> [à] <brightness>"
+        response: brightness
+
+      # color (name)
       - sentences:
-          - <regle> [la couleur] [de | des] [toutes] <lumieres> de <area> [avec la
-            couleur | de couleur | en] {color}
+          - "<regle> [la couleur] [<de>] <name> [en] {color}"
+          - "<regle> <name> [avec la couleur | de couleur | en] {color}"
+          - "<allume> <name> [avec la couleur | de couleur | en] {color}"
+        response: color
+
+      # color (area)
+      - sentences:
+          - "<regle> [la couleur] [<de>] [toutes] [<lumieres>] [<de>] <area> [en] {color}"
+          - "<regle> [la couleur] [des] [<lumieres>] [<dans>] <area> [en] {color}"
+          - "<regle> [toutes] [<lumieres>] [<de>] <area> [avec la couleur | de couleur | en] {color}"
+          - "<allume> [toutes] [<lumieres>] [<de>] <area> [avec la couleur | de couleur | en] {color}"
         slots:
           name: all
-        response: color_area
+        response: color
+
+      # color (name + area)
       - sentences:
-          - <regle> [la couleur de] <name> [dans|du|de] <area> [avec la couleur |
+          - <regle> [la couleur de] <name> [<dans>] <area> [avec la couleur |
             de couleur | en] {color}
-        response: color_area
+        response: color

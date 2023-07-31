@@ -1,34 +1,41 @@
-language: it
+language: "it"
 intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<close> [<the>]<name>"
+          - "<close> [<the>] {name} [<in> {area}]"
         response: "cover"
         requires_context:
-          domain: cover
+          domain: "cover"
+
       - sentences:
-          - "<close> [<the>]<name> [(<in>|<of>)] <area>"
-          - "<close> [<in>] <area> [<the>]<name>"
+          - "<close> <all> [[<the>] casa]"
+        slots:
+          domain: "cover"
+        response: "cover_all"
+
+      - sentences:
+          - "<close> <all> [<in>|<the>] {area}"
+        slots:
+          domain: "cover"
         response: "cover_area"
-        requires_context:
-          domain: cover
+
       - sentences:
-          - "<close> [la] (serranda | porta | [porta] basculante | saracinesca) [(in|del)]\
-            \ garage"
-          - "<close> [<in>] garage [la] (serranda | porta | [porta] basculante | saracinesca)"
+          - "<close> <all> [<the>] {cover_classes:device_class}"
         response: "cover_device_class"
         slots:
-          device_class: garage
-          domain: cover
+          domain: "cover"
+
       - sentences:
-          - "<close> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e)) [(<in>|<of>)]\
-            \ <area>"
-          - "<close> [<in>] <area> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e))"
-        response: "cover_area"
+          - "<close> [<all>] [<the>] {cover_classes:device_class} [<in>|<of>] {area}"
+          - "<close> [<in>] {area} [<all>] [<the>] {cover_classes:device_class}"
+        response: "cover_device_class_area"
+        requires_context:
+          domain: "cover"
+      - sentences:
+          - "<close> <the> <garage> [[(in | del)] garage]"
+          - "<close> [[<in>] garage] <the> <garage>"
+        response: "cover_garage"
         slots:
-          device_class:
-            - blind
-            - curtain
-            - shutter
-          domain: cover
+          device_class: "garage"
+          domain: "cover"

@@ -1,2 +1,59 @@
 language: zh-hk
-tests: []
+#tests: []
+tests:
+  - sentences:
+      - "左邊窗簾係關著嗎？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "左邊窗簾"
+        state: "closed"
+    response: "唔係呀，左邊窗簾係打開咗"
+
+  - sentences:
+      - "客廳有無窗簾開著？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "客廳"
+        device_class: curtain
+        state: "open"
+    response: "係呀，左邊窗簾開著"
+
+  - sentences:
+      - "客廳所有的窗簾都開著嗎？"
+      - "所有的客廳窗簾都開著嗎？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "客廳"
+        device_class: curtain
+        state: "open"
+    response: "唔係呀，右邊窗簾除外"
+
+  - sentences:
+      - "哪些窗簾關了？"
+      - "哪個窗簾是關著的？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response:
+      - "右邊窗簾、睡房窗簾關了"
+      - "右邊窗簾、睡房窗簾關著的"
+
+  - sentences:
+      - "有多少窗簾關了？"
+      - "有幾個窗簾是關著的？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"

@@ -177,7 +177,7 @@ def render_response(
                 for entity in result.entities_list
             },
             "state": state1,
-            "query": {"matched": matched, "unmatched": unmatched},
+            "query": {"matched": matched, "unmatched": unmatched, "total_results": len(matched) + len(unmatched)},
         }
     )
 

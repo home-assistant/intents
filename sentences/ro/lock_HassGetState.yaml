@@ -1,0 +1,39 @@
+language: ro
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<name> [<din_zona>] <este> {lock_states_singular:state}"
+          - "<este> {lock_states_singular:state} <name> [<din_zona>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<exista> [<vreun>] <usa> {lock_states_singular:state} [<in> <area>]"
+          - "(sunt | exist(ă|a)) <usile> {lock_states_plural:state} [<in> <area>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "sunt toate <usile> {lock_states_plural:state} [<in> <area>]"
+          - "toate <usile> sunt {lock_states_plural:state} [<in> <area>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<care> <usa> <este> {lock_states_singular:state} [<in> <area>]"
+          - "<care> <usile> sunt {lock_states_plural:state} [<in> <area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<cate> <usile> sunt {lock_states_plural:state} [<in> <area>]"
+        response: how_many
+        slots:
+          domain: lock

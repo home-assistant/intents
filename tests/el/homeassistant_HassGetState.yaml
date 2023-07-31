@@ -1,2 +1,88 @@
 language: el
-tests: []
+tests:
+  - sentences:
+      - "ποια είναι η εξωτερική θερμοκρασία;"
+      - "τι κατάσταση έχει η εξωτερική θερμοκρασία;"
+      - "σε ποια κατάσταση βρίσκεται η εξωτερική θερμοκρασία;"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Εξωτερική θερμοκρασία"
+    response: "Εξωτερική θερμοκρασία έχει κατάσταση 22 °C"
+
+  - sentences:
+      - "είναι το φωτιστικό υπνοδωματίου ανοικτό;"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Φωτιστικό υπνοδωματίου"
+        state: "on"
+    response: "Όχι, κλειστό"
+
+  - sentences:
+      - "υπάρχουν ανοικτοί διακόπτες στην κουζίνα;"
+      - "υπάρχει διακόπτης αναμμένος στην κουζίνα;"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Κουζίνα"
+        domain: "switch"
+        state: "on"
+    response: "Ναι, Διακόπτης της κουζίνας"
+
+  - sentences:
+      - "είναι όλοι οι διακόπτες ανοικτοί;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Όχι, δεν ισχύει για Διακόπτης του υπνοδωματίου"
+
+  - sentences:
+      - "είναι οι διακόπτες στην κουζίνα αναμμένοι;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+        area: "Κουζίνα"
+    response: "Ναι"
+
+  - sentences:
+      - "είναι όλα τα φώτα σβηστά;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Όχι, δεν ισχύει για Κουζίνα ντουλάπια, Κουζίνα οροφή, Κουζίνα πάγκος και 2 ακόμα"
+
+  - sentences:
+      - "ποια φώτα είναι ανοικτά;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Κουζίνα ντουλάπια, Κουζίνα οροφή, Κουζίνα πάγκος και 2 ακόμα"
+
+  - sentences:
+      - "πόσα φώτα είναι ανοικτά;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"
+
+  - sentences:
+      - "είναι όλα τα φώτα ανοικτά στην κουζίνα;"
+      - "είναι τα φώτα στην κουζίνα ανοικτά;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+        area: "Κουζίνα"
+    response: "Ναι"
