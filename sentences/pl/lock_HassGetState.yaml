@@ -1,0 +1,37 @@
+language: pl
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "czy <name> są {lock_states:state} [<area>]"
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+        response: one_yesno
+
+      - sentences:
+          - "czy są [jakieś|któreś|jakiekolwiek|którekolwiek] (drzwi|zamki) {lock_states:state} [<area>]"
+          - "czy są [jakieś|któreś|jakiekolwiek|którekolwiek] {lock_states:state} (drzwi|zamki) [<area>]"
+        slots:
+          domain: lock
+        response: any
+
+      - sentences:
+          - "czy <all> (drzwi|zamki) są {lock_states:state} [<area>]"
+        slots:
+          domain: lock
+        response: all
+
+      - sentences:
+          - "które (drzwi|zamki) są {lock_states:state} [<area>]"
+          - "który zamek jest {lock_states:state} [<area>]"
+        slots:
+          domain: lock
+        response: which
+
+      - sentences:
+          - "ile (drzwi|zamków) jest {lock_states:state} [<area>]"
+        slots:
+          domain: lock
+        response: how_many

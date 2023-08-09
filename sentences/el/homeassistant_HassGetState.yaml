@@ -1,4 +1,39 @@
 language: el
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          # - (do you know|tell me|<what_is>) [the state of] <name> [in <area>]
+          - (ποι(ος|α|ο|οι|ες) είναι) [κατάσταση] <name> [<area>]
+          - τι κατάσταση έχει <name> [<area>]
+          - σε (τι|ποια) κατάσταση (είναι|βρίσκεται) <name> [<area>]
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - είναι <name> {on_off_states:state} [<area>]
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - <exist> {on_off_domains:domain} {on_off_states:state} [<area>]
+          - <exist> {on_off_states:state} {on_off_domains:domain} [<area>]
+        response: any
+
+      - sentences:
+          - είναι [όλ(οι|ες|α)] (οι|τα) {on_off_domains:domain} {on_off_states:state} [<area>]
+          - είναι [όλ(οι|ες|α)] (οι|τα) {on_off_domains:domain} <area> {on_off_states:state}
+        response: all
+
+      - sentences:
+          - ποι(ος|α|ο|οι|ες) {on_off_domains:domain} [είναι] {on_off_states:state} [<area>]
+        response: which
+
+      - sentences:
+          - πόσ(οι|ες|α) {on_off_domains:domain} [είναι] {on_off_states:state} [<area>]
+        response: how_many

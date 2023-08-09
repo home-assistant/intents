@@ -1,31 +1,395 @@
 language: fr
 areas:
-  - name: cuisine
-    id: kitchen
-  - name: salon
-    id: living_room
-  - name: chambre
-    id: bedroom
-  - name: garage
-    id: garage
-  - name: entrée
-    id: hall
+  - name: "cuisine"
+    id: "kitchen"
+  - name: "salon"
+    id: "living_room"
+  - name: "chambre"
+    id: "bedroom"
+  - name: "garage"
+    id: "garage"
+  - name: "entrée"
+    id: "hall"
 entities:
-  - name: lumière du plafond
-    id: light.bedroom_lamp
-    area: bedroom
-  - name: lampe de chevet
-    id: light.bedside_lamp
-    area: bedroom
-  - name: interrupteur de la cuisine
-    id: switch.kitchen
+  - name: "lumière du plafond"
+    id: "light.bedroom_lamp"
+    area: "bedroom"
+    state:
+      in: "allumé"
+      out: "on"
+
+  - name: "lampe de l'entrée"
+    id: "light.bedside_lamp"
+    area: "hall"
+    state:
+      in: "allumée"
+      out: "on"
+
+  - name: "lampe de chevet"
+    id: "light.bedside_lamp"
+    area: "bedroom"
+    state:
+      in: "éteinte"
+      out: "off"
+
+  - name: "interrupteur de la cuisine"
+    id: "switch.kitchen"
+    area: "kitchen"
+    state:
+      in: "allumé"
+      out: "on"
+
+  - name: "interrupteur"
+    id: "switch.hall"
+    area: "hall"
+    state:
+      in: "allumé"
+      out: "on"
+
+  - name: "ventilateur de plafond"
+    id: "fan.ceiling"
+    area: "living_room"
+    state: "off"
+
+  - name: "rideau gauche"
+    id: "cover.curtain_left"
+    area: "living_room"
+    state:
+      in: "fermé"
+      out: "closed"
+    attributes:
+      device_class: "curtain"
+
+  - name: "rideau droit"
+    id: "cover.curtain_right"
+    area: "living_room"
+    state:
+      in: "ouvert"
+      out: "open"
+    attributes:
+      device_class: "curtain"
+
+  - name: "rideau de la chambre"
+    id: "cover.bedroom"
+    area: "bedroom"
+    state: "closed"
+    attributes:
+      device_class: "curtain"
+
+  - name: "thermostat du salon"
+    id: "climate.living_room"
+    area: "living_room"
+    state: "21"
+
+  - name: "température extérieure"
+    id: "sensor.temperature_exterieure"
+    area: "garage"
+    state: "21"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: "porte d'entrée"
+    id: "lock.hall"
+    area: "hall"
+    state:
+      in: "déverrouillé"
+      out: "unlocked"
+  #    attributes:
+  #      device_class: "lock"
+
+  - name: "porte de garage"
+    id: "lock.garage"
+    area: "garage"
+    state:
+      in: "verrouillé"
+      out: "locked"
+  #    attributes:
+  #      device_class: "lock"
+
+  - name: "Mode partie"
+    id: "scene.party_mode"
+
+  - name: "Mode discret"
+    id: "script.stealth_mode"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "téléphone"
+    id: "binary_sensor.phone_battery"
+    area: "kitchen"
+    state:
+      in: "faible"
+      out: "on"
+    attributes:
+      device_class: battery
+
+  - name: "téléphone"
+    id: "binary_sensor.phone_battery_charging"
+    area: "kitchen"
+    state:
+      in: "en charge"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "portable"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "en charge"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "capteur monoxyde"
+    id: "binary_sensor.co2"
+    area: "kitchen"
+    state:
+      in: "sécurisé"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "capteur CO2 chambre"
+    id: "binary_sensor.co2"
+    area: "bedroom"
+    state:
+      in: "déclenché"
+      out: "on"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "canalisations d'eau"
+    id: "binary_sensor.computer_cold"
+    area: "garage"
+    state:
+      in: "normales"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "tuyau"
+    id: "binary_sensor.pipe_cold"
+    area: "kitchen"
+    state:
+      in: "froid"
+      out: "on"
+    attributes:
+      device_class: cold
+
+  - name: "Téléphone"
+    id: "binary_sensor.phone_connectivity"
+    area: "kitchen"
+    state:
+      in: "connecté"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "Chatière"
+    id: "binary_sensor.pet_door"
+    area: "garage"
+    state:
+      in: "fermée"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "porte de derrière"
+    id: "binary_sensor.kitchen_door_sensor"
+    area: "kitchen"
+    state:
+      in: "fermée"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "Porte du garage 1"
+    id: "binary_sensor.garage_door"
+    state:
+      in: "ouverte"
+      out: "on"
+    attributes:
+      device_class: garage_door
+
+  - name: "Porte du garage 2"
+    id: "binary_sensor.garage_door_2"
+    state:
+      in: "fermée"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "capteur gaz"
+    id: "binary_sensor.gas"
+    area: "kitchen"
+    state:
+      in: "Sécurisé"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "capteur gaz chambre"
+    id: "binary_sensor.co2"
+    area: "bedroom"
+    state:
+      in: "déclenché"
+      out: "on"
+    attributes:
+      device_class: gas
+
+  - name: "Ordinateur"
+    id: "binary_sensor.computer_heat"
+    state:
+      in: "chaud"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "Détecteur lumière"
+    id: "binary_sensor.light"
+    state:
+      in: "pas de lumière"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "Porte du lave-linge"
+    id: "binary_sensor.washing_machine_door_lock"
+    state:
+      in: "verrouillée"
+      out: "off"
+    attributes:
+      device_class: lock
+
+  - name: "Capteur d'humidité"
+    id: "binary_sensor.water_sensor"
     area: kitchen
-  - name: ventilateur de plafond
-    id: fan.ceiling
-    area: living_room
-  - name: rideau gauche
-    id: cover.curtain_left
-    area: living_room
-  - name: thermostat du salon
-    id: climate.living_room
-    area: living_room
+    state:
+      in: "sec"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "Capteur de mouvement"
+    id: "binary_sensor.garage_motion"
+    area: "garage"
+    state:
+      in: "actif"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "Présence"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "kitchen"
+    state:
+      in: "déclenchée"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "Porte du frigo"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "fermée"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "téléphone"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "branché"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "Onduleur"
+    id: "binary_sensor.power"
+    state:
+      in: "alimenté"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "téléphone"
+    id: "binary_sensor.presence"
+    state:
+      in: "à l'extérieur"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "nourriture des animaux"
+    id: "binary_sensor.problem"
+    area: "kitchen"
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "Machine à laver"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "en cours"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "Route"
+    id: "binary_sensor.road_safety"
+    state:
+      in: "sûre"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "Détecteur de fumée"
+    id: "binary_sensor.kitchen_smoke"
+    area: "kitchen"
+    state:
+      in: "sécurisé"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "Sirène"
+    id: "binary_sensor.sound"
+    area: "garage"
+    state:
+      in: "déclenchée"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "Réserve de gâteaux"
+    id: "binary_sensor.cookie_stash_tamper"
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "téléphone"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "mise à jour disponible"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "téléphone"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "ne vibre pas"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "Baie"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "ouverte"
+      out: "on"
+    attributes:
+      device_class: window

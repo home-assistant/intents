@@ -1,4 +1,38 @@
 language: fr
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - <quel> est [(l'(e|é)tat|le statut|la valeur) de] <name> [<dans> <area>]
+          - dans <quel> (e|é)tat est <name> [<dans> <area>]
+          - comment (va|est) <name> [<dans> <area>]
+          - donne(-| )moi [(l'(e|é)tat|le statut|la valeur) de] <name> [<dans> <area>]
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - <name> [<dans> <area>] <estil> {on_off_states:state}
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - certain[e]s {on_off_domains:domain} [<estil>] {on_off_states:state} [<dans> <area>]
+        response: any
+
+      - sentences:
+          - <tous> les {on_off_domains:domain} <estil> {on_off_states:state} [<dans> <area>]
+        response: all
+
+      - sentences:
+          - <quel> sont les {on_off_domains:domain} {on_off_states:state} [<dans> <area>]
+        response: which
+
+      - sentences:
+          - combien <yatil> de {on_off_domains:domain} [d']{on_off_states:state} [<dans> <area>]
+          - combien de {on_off_domains:domain} [<estil>] [d']{on_off_states:state} [<dans> <area>]
+        response: how_many

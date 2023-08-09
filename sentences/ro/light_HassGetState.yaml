@@ -1,0 +1,38 @@
+language: ro
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<name> [<din_zona>] <este> {on_off_states_singular:state}"
+          - "<este> {on_off_states_singular:state} <name> [<din_zona>]"
+        response: one_yesno
+        requires_context:
+          domain: light
+
+      - sentences:
+          - "<exista> [<vreun>] <lumina> {on_off_states_singular:state} [<in> <area>]"
+          - "(sunt | exist(ă|a)) <luminile> {on_off_states_plural:state} [<in> <area>]"
+        response: any
+        requires_context:
+          domain: light
+
+      - sentences:
+          # every light domain alias is either feminine or neutral, so "toate" is the only option for plural
+          - "sunt toate <luminile> {on_off_states_plural:state} [<in> <area>]"
+          - "toate <luminile> sunt {on_off_states_plural:state} [<in> <area>]"
+        response: all
+        requires_context:
+          domain: light
+
+      - sentences:
+          - "<care> <lumina> <este> {on_off_states_singular:state} [<in> <area>]"
+          - "<care> <luminile> sunt {on_off_states_plural:state} [<in> <area>]"
+        response: which
+        requires_context:
+          domain: light
+
+      - sentences:
+          - "<cate> <luminile> sunt {on_off_states_plural:state} [<in> <area>]"
+        response: how_many
+        requires_context:
+          domain: light

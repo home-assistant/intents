@@ -1,0 +1,319 @@
+language: ko
+responses:
+  errors:
+    no_intent: "죄송합니다, 이해하지 못했습니다"
+    no_area: "{{ area }}이라는 영역을 찾을 수 없습니다"
+    no_domain: "{{ area }}에서 {{ domain }}을 찾을 수 없습니다"
+    no_device_class: "{{ area }}에서 {{ device_class }}을 찾을 수 없습니다"
+    no_entity: "{{ entity }}이라는 구성요소나 기기를 찾을 수 없습니다"
+    handle_error: "의도를 처리하는 동안 예기치 않은 오류가 발생했습니다"
+lists:
+  color:
+    values:
+      - in: "(흰색|하얀색|백색|화이트)"
+        out: "white"
+      - in: "(검은색|검정|검정색|블랙)"
+        out: "black"
+      - in: "(빨강|빨간색|빨강색|붉은색|레드)"
+        out: "red"
+      - in: "(오렌지색|주황색|주황|오렌지)"
+        out: "orange"
+      - in: "(노란색|노랑|노란|노랑색|옐로우)"
+        out: "yellow"
+      - in: "(녹색|초록|초록색|그린)"
+        out: "green"
+      - in: "(파랑|파란색|파랑색|푸른색|청색|블루)"
+        out: "blue"
+      - in: "(보라색|보라|퍼플)"
+        out: "purple"
+      - in: "(갈색|밤색|고동색|브라운)"
+        out: "brown"
+      - in: "(분홍색|분홍|핑크)"
+        out: "pink"
+      - in: "(하늘색|청록색|청록)"
+        out: "turquoise"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "(섭씨|°C|℃|도)"
+        out: "celsius"
+      - "fahrenheit"
+      - in: "(화씨|°F|℉)"
+        out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: "(최대|가장 밝게|최대치|제일 밝게)"
+        out: 100
+      - in: "(최소|가장 어둡게|최소치|제일 어둡게)"
+        out: 1
+  on_off_states:
+    values:
+      - in: "(켜짐|켬|켜져있다|켜져)"
+        out: "on"
+      - in: "(꺼짐|끔|꺼져있다|꺼져)"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "(조명|전등|등|불)"
+        out: light
+      - in: "(선풍기|팬|환기구|환풍기|실링팬)"
+        out: fan
+      - in: "스위치"
+        out: switch
+  cover_states:
+    values:
+      - in: "(열림|걷음|열려|걷혀|열어|걷어)"
+        out: "open"
+      - in: "(닫힘|침|닫혀|닫아|쳐)"
+        out: "closed"
+      - in: "(여는 중|걷는 중)"
+        out: "opening"
+      - in: "(닫는 중|치는 중)"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "(차양막|어닝|천막|차양|가리개)"
+        out: awning
+      - in: "블라인드"
+        out: blind
+      - in: "(커튼|커텐)"
+        out: curtain
+      - in: "(문|방문)"
+        out: door
+      - in: "(차고|차고문)"
+        out: garage
+      - in: "(게이트|대문|현관문|현관)"
+        out: gate
+      - in: "(셰이드|쉐이드|버티컬)"
+        out: shade
+      - in: "(루버|루버창)"
+        out: shutter
+      - in: "(창문|유리창|창)"
+        out: window
+  lock_states:
+    values:
+      - in: "(잠금|잠김|잠금 설정|잠금 설정되어|잠겨)"
+        out: "locked"
+      - in: "(잠금 해제|잠금 해제되어)"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "(배터리 부족)"
+        out: "on"
+      - in: "(배터리 보통)"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "충전 중"
+        out: "on"
+      - in: "충전 중 아님"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(감지됨|감지|켜짐)"
+        out: "on"
+      - in: "(감지 해제됨|없음|감지해제)"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "(차가움|차가)"
+        out: "on"
+      - in: "(보통|정상)"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "(연결됨|연결)"
+        out: "on"
+      - in: "(연결 해제됨|연결해제|연결되지 않음)"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "(열림|열려)"
+        out: "on"
+      - in: "(닫힘|닫혀)"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "(열림|열려)"
+        out: "on"
+      - in: "(닫힘|닫혀)"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(감지됨|감지|켜짐)"
+        out: "on"
+      - in: "(감지 해제됨|없음|감지해제)"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "(뜨거움|뜨거)"
+        out: "on"
+      - in: "(보통|정상)"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "(켜짐|켜)"
+        out: "on"
+      - in: "(꺼짐|꺼)"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "(잠금 해제|잠금 해제되어)"
+        out: "on"
+      - in: "(잠금|잠김|잠금 설정|잠금 설정되어|잠겨)"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "(습함|축축|습|누수|감지됨|감지|켜짐)"
+        out: "on"
+      - in: "(건조|감지 해제됨|없음|감지해제)"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(감지됨|감지|켜짐)"
+        out: "on"
+      - in: "(감지 해제됨|없음|감지해제)"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(감지됨|감지|켜짐)"
+        out: "on"
+      - in: "(감지 해제됨|없음|감지해제)"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "(열림|열려)"
+        out: "on"
+      - in: "(닫힘|닫혀)"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "(플러그 꼽힘|플러그 꼽혀|플러그 연결)"
+        out: "on"
+      - in: "(플러그 뽑힘|플러그 뽑혀|플러그 연결해제)"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(켜짐|켜져)"
+        out: "on"
+      - in: "(꺼짐|꺼져)"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "재실"
+        out: "on"
+      - in: "외출"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "비정상"
+        out: "on"
+      - in: "정상"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(작동 중|작동 중이|작동 중인)"
+        out: "on"
+      - in: "(작동 중 아님|작동 중 아니|작동 중 아닌)"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "위험"
+        out: "on"
+      - in: "안전"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(감지됨|감지|켜짐)"
+        out: "on"
+      - in: "(감지 해제됨|없음|감지해제)"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(감지됨|감지|켜짐)"
+        out: "on"
+      - in: "(감지 해제됨|없음|감지해제)"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(감지됨|감지|켜짐|탬퍼 감지)"
+        out: "on"
+      - in: "(감지 해제됨|없음|탬퍼 감지해제)"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "(업데이트 가능|업데이트 있)"
+        out: "on"
+      - in: "(최신 업데이트|업데이트 없)"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(감지됨|감지|켜짐|진동 감지)"
+        out: "on"
+      - in: "(감지 해제됨|없음|감지해제|진동 감지해제)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "(열림|열려)"
+        out: "on"
+      - in: "(닫힘|닫혀)"
+        out: "closed"
+
+  shopping_list_item:
+    wildcard: true
+
+expansion_rules:
+  name: "{name}"
+  area: "{area}"
+  what_is: "(무엇인가요|뭐야)"
+  brightness: "{brightness}[ ][%|퍼센트|프로]"
+  light: "(조명|전등|등|불)"
+  turn: "(전원|스위치)"
+  temp: "온도"
+  temperature: "{temperature}[ ][°|도][ ][{temperature_unit}]"
+  open: "(열기|열어|열어줘|올리기|올려|올려줘|걷기|걷어|걷어줘)"
+  close: "(닫기|닫아|닫아줘|내리기|내려|내려줘|쳐|쳐줘)"
+  set: "(설정|맞춰|변경)"
+  numeric_value_set: "(설정|변경|올려|증가|내려|감소)"
+skip_words:
+  - "해주세요"
+  - "주세요"
+  - "해줘"

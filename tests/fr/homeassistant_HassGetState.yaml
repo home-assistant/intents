@@ -1,2 +1,80 @@
 language: fr
-tests: []
+tests:
+  - sentences:
+      - "quel est la température extérieure ?"
+      - "quelle est la température extérieure s'il te plaît?"
+      - "donne moi la température extérieure"
+    intent:
+      name: HassGetState
+      slots:
+        name: "température extérieure"
+    response: "Température extérieure est 21 °C"
+
+  - sentences:
+      - "Comment est la lampe de chevet?"
+      - "Comment va la lampe de chevet  s'il te plaît ?"
+      - "donne moi l'état de la lampe de chevet"
+      - "donne-moi l'état de la lampe de chevet"
+      - "dans quel état est la lampe de chevet ?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "lampe de chevet"
+    response: "Lampe de chevet est éteinte"
+
+  - sentences:
+      - "La lampe de chevet de la chambre est allumée ?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "lampe de chevet"
+        state: "on"
+        area: "chambre"
+    response: "Non, éteinte"
+
+  - sentences:
+      - "Quel est le statut de l'interrupteur de l'entrée ?"
+      - "Donne moi l'état de l'interrupteur de l'entrée ?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "interrupteur"
+        area: "entrée"
+    response: "Interrupteur est allumé"
+
+  - sentences:
+      - "tous les interrupteurs sont allumés ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Oui"
+
+  - sentences:
+      - "certaines lumières sont-elles éteintes ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Oui, lampe de chevet est éteinte"
+
+  - sentences:
+      - "quelles sont les lumières allumées ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "lampe de l'entrée et lumière du plafond sont allumés"
+
+  - sentences:
+      - "combien de lumières sont allumées ?"
+      - "combien y a-t-il de lumières d'allumées ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "2"

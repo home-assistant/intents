@@ -1,4 +1,38 @@
 language: ru
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "{cover_states:state} [ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "Есть [ли] {cover_states:state} {cover_classes:device_class} [<area>]"
+          # - "Есть [ли] [<area>] {cover_states:state} {cover_classes:device_class}"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          # - "Все [ли] {cover_classes:device_class} {cover_states:state} [<area>]"
+          - "Все [ли] {cover_classes:device_class} [<area>] {cover_states:state}"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(Какие|которые) {cover_classes:device_class} {cover_states:state} [<area>]"
+          # - "(Какие|которые) {cover_classes:device_class} [<area>] {cover_states:state}"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "Сколько {cover_classes:device_class} {cover_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: cover

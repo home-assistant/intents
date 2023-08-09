@@ -1,4 +1,40 @@
 language: zh-hk
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      one: "{{ slots.name }}現在係{{state.state_with_unit}}"
+
+      one_yesno: |
+        {% if query.matched: %}
+        係呀
+        {% else: %}
+        唔係呀，{{ slots.name }}係{{ state.state }}咗
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          係呀，{{ match[:4] | join("、") }}{{ '等' if match|length > 4 else '' }}
+          {{- slots.state[:-1] if slots.state[-1] == '的' else slots.state }}
+        {%- else -%}
+          無呀
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          係呀
+        {%- else -%}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          唔係呀，{{ no_match[:4] | join("、") }}{{ '等' if match|length > 4 else '' }}除外
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          無呀
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {{ match[:4] | join("、") }}{{ '等' if match|length > 4 else '' }}{{ slots.state }}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}

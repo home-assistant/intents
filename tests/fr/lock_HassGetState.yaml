@@ -1,0 +1,50 @@
+language: fr
+tests:
+  - sentences:
+      - "La porte d'entrée est fermée à clé ?"
+      - "La porte d'entrée est-elle fermée à clé ?"
+      - "La porte d'entrée est-elle verrouillé ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "porte d'entrée"
+        state: "locked"
+    response: "Non, déverrouillé"
+
+  - sentences:
+      - "Y a-t-il des portes déverrouillées ?"
+      - "Y a-t-il une porte déverrouillées ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Oui, porte d'entrée est déverrouillé"
+
+  - sentences:
+      - "Toutes les portes sont-elles fermées ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Non, pas porte d'entrée"
+
+  - sentences:
+      - "Quelles portes sont verrouillées ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "porte de garage est verrouillé"
+
+  - sentences:
+      - "combien de portes sont verrouillées ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "1"

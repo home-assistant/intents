@@ -1,4 +1,35 @@
 language: ar
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "هل <name> {cover_states:state} [<in> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "هل هناك {cover_classes:device_class} {cover_states:state} [<in> <area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "هل جميع {cover_classes:device_class} {cover_states:state} [<in> <area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "اي {cover_classes:device_class} {cover_states:state} [<in> <area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(كم|ما|ماهو|ماذا) [عدد] {cover_classes:device_class} [اللتي] {cover_states:state} [<in> <area>]"
+        response: how_many
+        slots:
+          domain: cover

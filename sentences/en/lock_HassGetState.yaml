@@ -1,0 +1,35 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "is <name> {lock_states:state} [in <area>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(is|are) any door[s] {lock_states:state} [in <area>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "are all [the] door[s] {lock_states:state} [in <area>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(which|what) door[s] (is|are) {lock_states:state} [in <area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "how many door[s] (is|are) {lock_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: lock

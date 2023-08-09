@@ -1,0 +1,70 @@
+language: ro
+tests:
+  - sentences:
+      - "plafoniera neagra este inchisa?"
+      - "este stinsa plafoniera neagra?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "plafoniera neagra"
+        state: "off"
+      context:
+        domain: light
+    response: "Nu, plafoniera neagra este aprinsă"
+  - sentences:
+      - "plafoniera neagra de la hol este stinsa?"
+      - "este inchisa plafoniera neagra din hol?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "plafoniera neagra"
+        state: "off"
+        area: "Hol"
+      context:
+        domain: light
+    response: "Nu, plafoniera neagra este aprinsă"
+
+  - sentences:
+      - "este vreo lumina aprinsa in dormitor?"
+      - "sunt becuri pornite in dormitor?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Dormitor"
+        state: "on"
+      context:
+        domain: light
+    response: "Nu"
+
+  - sentences:
+      - "sunt toate luminile stinse in hol?"
+      - "toate becurile sunt oprite in hol?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Hol"
+        state: "off"
+      context:
+        domain: light
+    response: "Nu, plafoniera neagra nu"
+
+  - sentences:
+      - "care lumini sunt aprinse?"
+      - "care lumina este pornita?"
+    intent:
+      name: HassGetState
+      slots:
+        state: "on"
+      context:
+        domain: light
+    response: "plafoniera neagra, Spot 1, Spot 2 și încă 2"
+
+  - sentences:
+      - "cate lumini sunt aprinse?"
+    intent:
+      name: HassGetState
+      slots:
+        state: "on"
+      context:
+        domain: light
+    response: "5"

@@ -1,2 +1,66 @@
 language: ur
-tests: []
+tests:
+  - sentences:
+      - "outside temperature کیا ہے"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Outside Temperature"
+    response: "Outside temperature 42 °F ہے"
+
+  - sentences:
+      - "کیا bedroom lamp کھلاوا ہے"
+      - "bedroom lamp کیا آن ھوا وا ہے"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Bedroom Lamp"
+        state: "on"
+    response: "نہیں، بند ہے"
+
+  - sentences:
+      - "کیا کوئی بھی سوئچز کھلی ہوئی kitchen میں"
+      - "کیا کوئی سوئچز kitchen میں آن ہے"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Kitchen"
+        domain: "switch"
+        state: "on"
+    response: "جی، Kitchen Switch"
+
+  - sentences:
+      - "سارے سوئچز کھلاوا ہے"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "نہیں، Bedroom Switch نہیں ھیں"
+
+  - sentences:
+      - "کیا سارے لایٹیں بند ہے"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "نہیں، Garage Light, Kitchen cabinets, Kitchen ceiling اور 2 اور نہیں ھیں"
+
+  - sentences:
+      - "کونسی لایٹ کھلی وی ہے"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Garage Light, Kitchen cabinets, Kitchen ceiling اور 2 اور"
+
+  - sentences:
+      - "کتنے لایٹیں کھلی ہوئی ہے"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"

@@ -1,0 +1,76 @@
+language: ko
+tests:
+  - sentences:
+      - "실외 기온 뭐야?"
+      - "실외 기온 알려줘?"
+      - "실외 기온은 어때?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "실외 기온"
+    response: "실외 기온의 상태는 42 °C입니다"
+
+  - sentences:
+      - "침실 무드등 켜져있어?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "침실 무드등"
+        state: "on"
+    response: "아니요, 침실 무드등의 상태는 꺼짐입니다"
+
+  - sentences:
+      - "주방에 스위치가 켜져있어?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "주방"
+        domain: "switch"
+        state: "on"
+    response: "네, 주방 스위치 기기가 그렇습니다"
+
+  - sentences:
+      - "모든 스위치가 켜져있어?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "아니요, 침실 스위치 기기는 그렇지 않습니다"
+
+  - sentences:
+      - "모든 조명이 꺼져있어?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "아니요, 거실 조명, 놀이공간 조명, 주방 조리대 조명 그리고 3개의 기기는 그렇지 않습니다"
+
+  - sentences:
+      - "어떤 조명이 켜져있는지 알려줘"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "거실 조명, 놀이공간 조명, 주방 조리대 조명 그리고 3개의 기기가 그렇습니다"
+
+  - sentences:
+      - "얼마나 많은 조명이 켜져있는지 알려줘"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "6개의 기기가 그렇습니다"
+
+  - sentences:
+      - "주방에 모든 조명이 켜져있어?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+        area: "주방"
+    response: "네"

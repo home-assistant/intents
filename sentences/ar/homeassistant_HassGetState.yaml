@@ -1,4 +1,34 @@
 language: ar
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "<what_is> [حالة] <name> [<in> <area>]"
+        excludes_context:
+          domain:
+            - scene
+            - script
+        response: one
+
+      - sentences:
+          - "<is_it> <name> [<in> <area>] {on_off_states:state}"
+        excludes_context:
+          domain:
+            - cover
+        response: one_yesno
+
+      - sentences:
+          - "<is_it> <any> {on_off_domains:domain} {on_off_states:state} [<in> <area>]"
+        response: any
+
+      - sentences:
+          - "<is_it> <all> {on_off_domains:domain} {on_off_states:state} [<in> <area>]"
+        response: all
+
+      - sentences:
+          - "<what_is> {on_off_domains:domain} [التي] {on_off_states:state} [<in> <area>]"
+        response: which
+
+      - sentences:
+          - "<how_many> {on_off_domains:domain} [التي] {on_off_states:state} [<in> <area>]"
+        response: how_many

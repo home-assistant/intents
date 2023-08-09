@@ -1,2 +1,53 @@
 language: da
-tests: []
+tests:
+  - sentences:
+      - "er stuegardin lukket?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: Stuegardin
+        state: closed
+    response: "Nej, åbent"
+
+  - sentences:
+      - "er der nogle gardiner åben i stuen?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Stue
+        device_class: curtain
+        domain: cover
+        state: open
+    response: "Ja, Stuegardin"
+
+  - sentences:
+      - "er alle gardiner åbne i stuen?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Stue
+        device_class: curtain
+        domain: cover
+        state: open
+    response: "Nej, ikke Højre Stuegardin"
+
+  - sentences:
+      - "hvilke gardiner er lukket?"
+    intent:
+      name: HassGetState
+      slots:
+        device_class: curtain
+        domain: cover
+        state: closed
+    response: "Højre Stuegardin"
+
+  - sentences:
+      - "Hvor mange gardiner er lukket?"
+    intent:
+      name: HassGetState
+      slots:
+        device_class: curtain
+        domain: cover
+        state: closed
+    response: "1"
