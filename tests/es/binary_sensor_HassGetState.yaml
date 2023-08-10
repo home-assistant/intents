@@ -448,7 +448,7 @@ tests:
 
   - sentences:
       - "¿Se detecta luz?"
-      - "¿Hay alguna luz detectada?"
+      - "¿Hay algún sensor de luz activo?"
     intent:
       name: HassGetState
       slots:
@@ -458,8 +458,19 @@ tests:
     response: "No"
 
   - sentences:
-      - "¿Están todas las luces encendidas?"
-      - "¿Están encendidas todas las luces?"
+      - "¿Hay algún sensor de luz en la cocina activo?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Cocina
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "No"
+
+  - sentences:
+      - "¿Están todos los sensores de luz encendidos?"
+      - "¿Están encendidos todos los sensores de luz?"
     intent:
       name: HassGetState
       slots:
@@ -469,8 +480,19 @@ tests:
     response: "No, el dispositivo Luz no"
 
   - sentences:
-      - "¿Qué luces hay detectadas?"
-      - "¿Qué luces encendidas hay?"
+      - "¿Están todos los sensores de luz de la cocina apagados?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Cocina
+        domain: binary_sensor
+        device_class: light
+        state: "off"
+    response: "Sí"
+
+  - sentences:
+      - "¿Qué sensores de luz hay activos?"
+      - "¿Qué sensores de luz encendidos hay?"
     intent:
       name: HassGetState
       slots:
@@ -480,8 +502,20 @@ tests:
     response: "Ningún dispositivo"
 
   - sentences:
-      - "¿Cuántas luces están encendidas?"
-      - "¿Cuántas luces encendidas hay?"
+      - "¿Qué sensores de luz en la cocina hay encendidos?"
+      - "¿Qué sensores de luz hay en la cocina encendidos?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Cocina
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Ningún dispositivo"
+
+  - sentences:
+      - "¿Cuántos sensores de luz están encendidas?"
+      - "¿Cuántos sensores de luz activos hay?"
     intent:
       name: HassGetState
       slots:
@@ -491,15 +525,15 @@ tests:
     response: "0"
 
   - sentences:
-      - "¿Cuántas luces en la cocina están encendidas?"
-      - "¿En la cocina cuántas luces encendidas hay?"
+      - "¿Cuántos sensores de luz están en la cocina activos?"
+      - "¿En la cocina cuántos sensores de luz activos hay?"
     intent:
       name: HassGetState
       slots:
+        area: Cocina
         domain: binary_sensor
         device_class: light
         state: "on"
-        area: "Cocina"
     response: "0"
 
   # Lock
@@ -601,6 +635,18 @@ tests:
     response: "Sí"
 
   - sentences:
+      - "¿Está movimiento en el garaje del garaje activado?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Garaje
+        domain: "binary_sensor"
+        device_class: "motion"
+        name: "Movimiento en el garaje"
+        state: "on"
+    response: "Sí"
+
+  - sentences:
       - "¿Hay algún sensor de movimiento activo?"
       - "¿Hay activo algún sensor de movimiento?"
       - "¿Se ha detectado movimiento?"
@@ -674,6 +720,7 @@ tests:
 
   - sentences:
       - "¿Hay presencia en la cocina?"
+      - "¿Está la cocina ocupada?"
     intent:
       name: HassGetState
       slots:
@@ -685,6 +732,7 @@ tests:
 
   - sentences:
       - "¿Están todos los sensores de presencia activos?"
+      - "¿Están activos todos los sensores de presencia?"
     intent:
       name: HassGetState
       slots:
@@ -695,6 +743,7 @@ tests:
 
   - sentences:
       - "¿Qué sensor de presencia está activo?"
+      - "¿Qué sensores de presencia activos hay?"
     intent:
       name: HassGetState
       slots:
@@ -704,7 +753,8 @@ tests:
     response: "Sensor de presencia"
 
   - sentences:
-      - "¿Cuántos sensores de presencia hay activos?"
+      - "¿Cuántos sensores de presencia están activos?"
+      - "¿Cuántos sensores de presencia activos hay?"
     intent:
       name: HassGetState
       slots:
@@ -1010,7 +1060,8 @@ tests:
     response: "No, su estado es despejado"
 
   - sentences:
-      - "¿Hay algún sensor de humo activo?"
+      - "¿Está algún sensor de humo activo?"
+      - "¿Hay activo algún sensor de humo?"
     intent:
       name: HassGetState
       slots:
@@ -1032,6 +1083,7 @@ tests:
 
   - sentences:
       - "¿Están activos todos los sensores de humo?"
+      - "¿Están todos los detectores de humo activos?"
     intent:
       name: HassGetState
       slots:
@@ -1074,6 +1126,7 @@ tests:
 
   - sentences:
       - "¿Hay algún sensor de sonido activo?"
+      - "¿Hay activo algún sensor de sonido?"
     intent:
       name: HassGetState
       slots:
@@ -1095,6 +1148,7 @@ tests:
 
   - sentences:
       - "¿Están activos todos los sensores de sonido?"
+      - "¿Están todos los sensores de sonido activos?"
     intent:
       name: HassGetState
       slots:
@@ -1149,6 +1203,7 @@ tests:
 
   - sentences:
       - "¿Hay alguna actualización disponible?"
+      - "¿Se puede actualizar algún dispositivo?"
     intent:
       name: HassGetState
       slots:
@@ -1180,6 +1235,7 @@ tests:
   # Vibration
   - sentences:
       - "¿Está el teléfono vibrando?"
+      - "¿Está vibrando el teléfono?"
     intent:
       name: HassGetState
       slots:

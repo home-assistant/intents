@@ -364,8 +364,9 @@ intents:
           device_class: light
 
       - sentences:
-          - "(está[n]|hay) alguna[s] (luz|luces) {bs_light_states:state}[ <area>]"
-          - "(está[n]|hay) alguna[s] (luz|luces)[ <area>]{bs_light_states:state}"
+          - "(está[n]|hay) alg(ún|una)[s] sensor de (luz|luces) {bs_light_states:state}[ <area>]"
+          - "(está[n]|hay) {bs_light_states:state} alg(ún|una)[s] sensor de (luz|luces)[ <area>]"
+          - "(está[n]|hay) alg(ún|una)[s] sensor de (luz|luces) <area> {bs_light_states:state}"
         response: any
         slots:
           domain: binary_sensor
@@ -380,30 +381,31 @@ intents:
           state: "on"
 
       - sentences:
-          - "están todas las luces {bs_light_states:state}[ <area>]"
-          - "están {bs_light_states:state} todas las luces[ <area>]"
-          - "están todas las luces[ <area>] {bs_light_states:state}"
+          - "están todos los sensores de luz {bs_light_states:state}[ <area>]"
+          - "están {bs_light_states:state} todos los sensores de luz[ <area>]"
+          - "están todos los sensores de luz <area> {bs_light_states:state}"
         response: all
         slots:
           domain: binary_sensor
           device_class: light
 
       - sentences:
-          - "(qué|cual[es]) luces (está[n]|hay) {bs_light_states:state}[ <area>]"
-          - "(qué|cual[es]) luces (está[n]|hay)[ <area>] {bs_light_states:state}"
-          - "(qué|cual[es]) luces {bs_light_states:state} (está[n]|hay)[ <area>]"
+          - "(qué|cual[es]) sensores de luz (está[n]|hay) {bs_light_states:state}[ <area>]"
+          - "(qué|cual[es]) sensores de luz (está[n]|hay) <area> {bs_light_states:state}"
+          - "(qué|cual[es]) sensores de luz <area> (está[n]|hay) {bs_light_states:state}"
+          - "(qué|cual[es]) sensores de luz {bs_light_states:state} (está[n]|hay)[ <area>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: light
 
       - sentences:
-          - "cuántas luces (están|hay) {bs_light_states:state}[ <area>]"
-          - "cuántas luces {bs_light_states:state} (están|hay)[ <area>]"
-          - "cuántas luces (están|hay)[ <area>] {bs_light_states:state}"
-          - "cuántas luces [ <area>](están|hay) {bs_light_states:state}"
-          - "[<area> ]cuántas luces (están|hay) {bs_light_states:state}"
-          - "[<area> ]cuántas luces {bs_light_states:state} (están|hay)"
+          - "cuántos sensores de luz (están|hay) {bs_light_states:state}[ <area>]"
+          - "cuántos sensores de luz {bs_light_states:state} (están|hay)[ <area>]"
+          - "cuántos sensores de luz (están|hay) <area> {bs_light_states:state}"
+          - "cuántos sensores de luz [ <area>](están|hay) {bs_light_states:state}"
+          - "[<area> ]cuántos sensores de luz (están|hay) {bs_light_states:state}"
+          - "[<area> ]cuántos sensores de luz {bs_light_states:state} (están|hay)"
         response: how_many
         slots:
           domain: binary_sensor
@@ -545,6 +547,7 @@ intents:
 
       - sentences:
           - "(está[n]|hay) algún[os] sensor[es] de (ocupación|presencia) {bs_occupancy_states:state}[ <area>]"
+          - "(está[n]|hay) {bs_occupancy_states:state} algún[os] sensor[es] de (ocupación|presencia)[ <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -561,13 +564,15 @@ intents:
 
       - sentences:
           - "están todos los sensores de (ocupación|presencia) {bs_occupancy_states:state}[ <area>]"
+          - "están {bs_occupancy_states:state} todos los sensores de (ocupación|presencia)[ <area>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: occupancy
 
       - sentences:
-          - "(qué|cual[es]) sensor de (ocupación|presencia) (hay|está[n]) {bs_occupancy_states:state}[ <area>]"
+          - "(qué|cual[es]) sensor[es] de (ocupación|presencia) (hay|está[n]) {bs_occupancy_states:state}[ <area>]"
+          - "(qué|cual[es]) sensor[es] de (ocupación|presencia) {bs_occupancy_states:state} (hay|está[n])[ <area>]"
         response: which
         slots:
           domain: binary_sensor
@@ -575,6 +580,7 @@ intents:
 
       - sentences:
           - "cuántos sensores de (presencia|ocupación) (están|hay) {bs_occupancy_states:state}[ <area>]"
+          - "cuántos sensores de (presencia|ocupación) {bs_occupancy_states:state} (están|hay)[ <area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -810,8 +816,8 @@ intents:
           device_class: smoke
 
       - sentences:
-          - "(hay|está[n]) [algún|algunos] sensor[es] de humo[s] {bs_smoke_states:state}[ <area>]"
-          - "(hay|está[n]) {bs_smoke_states:state} [algún|algunos] sensor[es] de humo[s][ <area>]"
+          - "(hay|está[n]) [algún|algunos] (sensor|detector)[es] de humo[s] {bs_smoke_states:state}[ <area>]"
+          - "(hay|está[n]) {bs_smoke_states:state} [algún|algunos] (sensor|detector)[es] de humo[s][ <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -826,22 +832,22 @@ intents:
           state: "on"
 
       - sentences:
-          - "están todos los sensores de humo[s] {bs_smoke_states:state}[ <area>]"
-          - "están {bs_smoke_states:state} todos los sensores de humo[s][ <area>]"
+          - "están todos los (sensor|detector)es de humo[s] {bs_smoke_states:state}[ <area>]"
+          - "están {bs_smoke_states:state} todos los (sensor|detector)es de humo[s][ <area>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: smoke
 
       - sentences:
-          - "(qué|cual[es]) sensor[es] de humo[s] (hay|está[n]) {bs_smoke_states:state}[ <area>]"
+          - "(qué|cual[es]) (detector|sensor)[es] de humo[s] (hay|está[n]) {bs_smoke_states:state}[ <area>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: smoke
 
       - sentences:
-          - "cuántos sensores de humo (hay|están) {bs_smoke_states:state}[ <area>]"
+          - "cuántos (detector|sensor)es de humo (hay|están) {bs_smoke_states:state}[ <area>]"
         response: how_many
         slots:
           domain: binary_sensor
