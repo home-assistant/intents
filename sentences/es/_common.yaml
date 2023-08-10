@@ -28,6 +28,8 @@ lists:
         out: "purple"
       - in: "marrón"
         out: "brown"
+      - in: "(rosa|rosado)"
+        out: "pink"
   brightness:
     range:
       type: "percentage"
@@ -48,19 +50,25 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: "(máxim(o|a)|más alt(a|o)|tope)"
+        out: 100
+      - in: "(mímim(o|a)|más baj(o|a))"
+        out: 1
   on_off_states:
     values:
-      - in: "encendid(o|a)[s]"
+      - in: "(encendid|prendid|conectad)(o|a)[s]"
         out: "on"
-      - in: "apagad(o|a)[s]"
+      - in: "(apagad|desconectad)(o|a)[s]"
         out: "off"
   on_off_domains:
     values:
-      - in: luz|luces
+      - in: "(luz|luces)"
         out: light
-      - in: ventilador[es]
+      - in: "(ventilador[es]|abanico[s])"
         out: fan
-      - in: interruptor[es]|llave[s]
+      - in: "(interruptor[es]|conmutador[es]|llave[s])"
         out: switch
   cover_states:
     values:
@@ -74,9 +82,9 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: awning[s]
+      - in: "toldo[s]"
         out: awning
-      - in: estor[es]
+      - in: persiana[s]
         out: blind
       - in: cortina[s]
         out: curtain
@@ -86,25 +94,230 @@ lists:
         out: garage
       - in: verja[s]|cancela[s]|portón|portones
         out: gate
-      - in: toldo[s]
+      - in: estor[es]
         out: shade
-      - in: persiana[s]
+      - in: (contraventana[s]|veneciana[s])
         out: shutter
       - in: ventana[s]
         out: window
+  lock_states:
+    values:
+      - in: "(cerrad(o|a)[s] [con (llave|pestillo|cerrojo|cerradura)]|echad(o|a)[s])"
+        out: "locked"
+      - in: "abiert(o|a)[s]"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "baj(o|a)[s]"
+        out: "on"
+      - in: "normal"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "cargando|cargándose|en carga"
+        out: "on"
+      - in: "no (cargando|cargándose|en carga)"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(detectad|activ)(o|a)[s]"
+        out: "on"
+      - in: "(despejad|no detectad)(o|a)[s]"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "frí(o|a)[s]"
+        out: "on"
+      - in: "normal"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "conectad(o|a)[s]"
+        out: "on"
+      - in: "desconectad(o|a)[s]"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "abiert(o|a)[s]"
+        out: "on"
+      - in: "cerrad(o|a)[s]"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "abiert(o|a)[s]"
+        out: "on"
+      - in: "cerrad(o|a)[s]"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(detectad|activ[ad])(o|a)[s]"
+        out: "on"
+      - in: "(despejad|no detectad|inactiv)(o|a)[s]"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "caliente"
+        out: "on"
+      - in: "normal"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "(encendid|detectad)(o|a)[s]"
+        out: "on"
+      - in: "(apagad(o|a)[s]|sin luz)"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "abiert(o|a)[s]"
+        out: "on"
+      - in: "cerrad(o|a)[s] [con (llave|cerrojo|pestillo|cerradura)]"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "(húmed|mojad|inundad|activ)(o|a)[s]"
+        out: "on"
+      - in: "sec(o|a)[s]"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(activ[ad]|detectad)(o|a)[s]"
+        out: "on"
+      - in: "(inactiv|despejad)(o|a)[s]"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(detectad|activ[ad]|ocupad)(o|a)[s]"
+        out: "on"
+      - in: "(inactiv|despejad)(o|a)[s]"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "abiert(o|a)[s]"
+        out: "on"
+      - in: "cerrad(o|a)[s]"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "enchufad(o|a)[s]"
+        out: "on"
+      - in: "desenchufad(o|a)[s]"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(alimentad|conectad|encendid|activ)(o|a)[s]"
+        out: "on"
+      - in: "(desconectad|apagad|inactiv)(o|a)[s]"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(en casa|presente)"
+        out: "on"
+      - in: "(fuera|no presente)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "detectad(o|a)[s]"
+        out: "on"
+      - in: "correcto|ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "ejecutándose|en ejecución|en marcha|funcionando"
+        out: "on"
+      - in: "no ejecutándose|parad(o|a)[s]|detenid(o|a)[s]"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "insegur(o|a)[s]"
+        out: "on"
+      - in: "segur(o|a)[s]"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(activ|detectad)(o|a)[s]"
+        out: "on"
+      - in: "(inactiv|despejad)(o|a)[s]"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(activ|detectad|disparad)(o|a)[s]"
+        out: "on"
+      - in: "(inactiv|despejad)(o|a)[s]"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(detectad|manipulad)(o|a)[s]"
+        out: "on"
+      - in: "despejad(o|a)[s]"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "actualizable[s]|con actualización disponible"
+        out: "on"
+      - in: "actualizad(o|a)[s]"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(activ|detectad)(o|a)[s]|vibrando"
+        out: "on"
+      - in: "(inactiv|despejad)(o|a)[s]"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "abiert(o|a)[s]"
+        out: "on"
+      - in: "cerrad(o|a)[s]"
+        out: "closed"
+
+  shopping_list_item:
+    wildcard: true
+
 expansion_rules:
   abre: "(abre|abra|abrir|abrí|sube|suba|subir|subí)"
+  añadir: "(añade|añada|añadir|añadí|pon|ponga|poner|poné)"
   apaga: "(apaga|apague|apagar|apagá|desconecta|desconecte|desconectar|desconectá|desactiva|desactive|desactivar|desactivá)"
   area: "[en|en el|en la|la|de la|del|de|el] {area}"
   brightness: "{brightness}[ ][%|porciento|por ciento]"
   cierra: "(cierra|cierre|cerrar|cerrá|baja|baje|bajar|bajá)"
   enciende: "(enciende|encienda|encender|encendé|conecta|conecte|conectar|conectá|activa|active|activar|activá|prende|prenda|prender|prendé)"
+  ejecuta: "(<enciende>|ejecuta|ejecute|ejecutar|ejecutá|activa|active|activar|activá|inicia|inicie|iniciar|iniciá)"
   establece: "(pon|ponga|poner|poné|establece|establezca|establecer|establecé|ajusta|ajuste|ajustar|ajustá|configura|configure|configurar|configurá)"
   establece_sube_baja: "(pon|ponga|poner|poné|establece|establezca|establecer|establecé|ajusta|ajuste|ajustar|ajustá|configura|configure|configurar|configurá|sube|suba|subir|subí|baja|baje|bajar|bajá)"
-  name: "[el|la] {name}"
+  name: "[el|la|los|las] {name}"
   puerta: "[el|la] (puerta|portón|cancela|verja|reja|compuerta|portillo)"
   temp: "[el|la] (temperatura|calor|grados)"
   temperature: "{temperature}[ ][grados][ ][{temperature_unit}]"
+  dime: "[sabes|sabé|dime|decirme|indicar]"
+  dime_si: "[(sabes|sabé|dime|decirme|indicar) si]"
+  ahora: "[ahora [mismo]|actualmente|en este momento]"
 skip_words:
   - "por favor"
   - "porfa"

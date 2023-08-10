@@ -3,23 +3,20 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <abre> <puerta> [(del|de|de la)] (garaje|cochera)
-        response: cover_device_class
-        slots:
-          device_class: garage
-          domain: cover
-      - sentences:
           - <abre> <puerta> [<area>]
-        response: cover_area
         slots:
-          device_class: gate
           domain: cover
+        response: cover
+
       - sentences:
-          - <abre> [la | las | los] (cortinas | persianas | estores) <area>
-        response: cover_area
+          - <abre> <puerta> [(del|de|de la)] (garaje|cochera)
         slots:
-          device_class:
-            - blind
-            - curtain
-            - shutter
           domain: cover
+          device_class: garage
+        response: cover_device_class
+
+      - sentences:
+          - <abre> [el | la | los | las] {cover_classes:device_class} <area>
+        slots:
+          domain: cover
+        response: cover_device_class
