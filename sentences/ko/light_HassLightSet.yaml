@@ -1,0 +1,66 @@
+language: ko
+intents:
+  HassLightSet:
+    data:
+      # brightness
+      - sentences:
+          - "<name> 밝기 <brightness>[로] [<numeric_value_set>]"
+          - "<name>의 밝기 <brightness>[로] [<numeric_value_set>]"
+          - "<name> <brightness> 밝기[로] [<numeric_value_set>]"
+        response: "brightness"
+        requires_context:
+          domain: light
+
+      - sentences:
+          - "<name> <brightness>[로] <numeric_value_set>"
+        requires_context:
+          domain: "light"
+        response: "brightness"
+      - sentences:
+          - "<area> 밝기를 <brightness>로 [<numeric_value_set>]"
+          - "<area>의 밝기를 <brightness>로 [<numeric_value_set>]"
+          - "<area>을 <brightness> 밝기로 [<numeric_value_set>]"
+          - "<area> <brightness>로 [<numeric_value_set>]"
+        slots:
+          name: "all"
+        response: "brightness"
+
+      - sentences:
+          - "<area> <brightness>로 <numeric_value_set>"
+        slots:
+          name: "all"
+        response: "brightness"
+
+      # Max/Min brightness
+      - sentences:
+          - "<name> 밝기 {brightness_level:brightness}[로] [<numeric_value_set>]"
+          - "<name>의 밝기 {brightness_level:brightness}[로] [<numeric_value_set>]"
+          - "<name> {brightness_level:brightness} 밝기[로] [<numeric_value_set>]"
+          - "<name> {brightness_level:brightness}"
+        requires_context:
+          domain: light
+        response: "brightness"
+
+      - sentences:
+          - "<area> 밝기를 [the] {brightness_level:brightness}[로] [<numeric_value_set>]"
+          - "<area>의 밝기를 [the] {brightness_level:brightness}[로] [<numeric_value_set>]"
+          - "<area> {brightness_level:brightness} 밝기[로] [<numeric_value_set>]"
+          - "<area> 밝기 {brightness_level:brightness}[로] [<numeric_value_set>]"
+          - "<area> {brightness_level:brightness}"
+        slots:
+          name: "all"
+        response: "brightness"
+
+      # color
+      - sentences:
+          - "<name> [색상] {color}[로|으로] [<set>]"
+          - "<name>의 [색상] {color}[로|으로] [<set>]"
+        requires_context:
+          domain: light
+        response: "color"
+      - sentences:
+          - "(<area> | <area> 모든 조명 | 모든 <area> 조명)의 [색상] {color}[로|으로] [<set>]"
+          - "(<area> | <area> 모든 조명 | 모든 <area> 조명) [색상]  {color}[로|으로] [<set>]"
+        slots:
+          name: "all"
+        response: "color"

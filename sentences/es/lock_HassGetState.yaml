@@ -1,0 +1,36 @@
+language: es
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "está[n] <name> {lock_states:state}[ <area>]"
+          - "está[n] {lock_states:state} <name>[ <area>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(está[n]|hay) alg(ún|una)[s] (cierre|cerradura|pestillo|puerta)[s] {lock_states:state}[ <area>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "están todas l(o|a)s (cierres|cerraduras|pestillos|puertas) {lock_states:state}[ <area>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(qué|cual[es]) puerta[s] está[n] {lock_states:state}[ <area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "cuánt(o|a)s (puertas|cierres|cerraduras|pestillos) (están|hay) {lock_states:state}[ <area>]"
+        response: how_many
+        slots:
+          domain: lock

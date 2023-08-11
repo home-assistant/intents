@@ -1,0 +1,21 @@
+language: ko
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "[<area>] <name> <open>"
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "차고문 <open>"
+        slots:
+          domain: cover
+          device_class: garage
+
+      - sentences:
+          - "<area>에 {cover_classes:device_class} <open>"
+          - "<area> {cover_classes:device_class} <open>"
+        slots:
+          domain: cover
+        response: cover_device_class
