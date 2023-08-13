@@ -3,34 +3,38 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - cuál es [el estado de] <name> [<area>]
-          - qué estado tiene <name> [<area>]
-          - cómo está <name> [<area>]
+          - <dime> cuál es [el estado [actual] de] <name> [<area>] <ahora>
+          - <dime> qué estado [actual] tiene <name> [<area>] <ahora>
+          - <dime> cómo está <name> [<area>] <ahora>
         response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
 
       - sentences:
-          - está (la|el) <name> {on_off_states:state}[ <area>]
-          - está (la|el) <name> [<area> ]{on_off_states:state}
+          - <dime_si> está <name> {on_off_states:state}[ <area>] <ahora>
+          - <dime_si> está <name> [<area> ]{on_off_states:state} <ahora>
         response: one_yesno
         excludes_context:
           domain:
             - cover
 
       - sentences:
-          - (hay|está) (algún|alguna) {on_off_domains:domain} {on_off_states:state}[ <area>]
-          - (hay|está) (algún|alguna) {on_off_domains:domain} [<area> ]{on_off_states:state}
-          - (hay|están) (algunos|algunas) {on_off_domains:domain} ({on_off_states:state}[ <area>]|[<area> ]{on_off_states:state})
+          - <dime_si> (hay|está) (algún|alguna) {on_off_domains:domain} {on_off_states:state}[ <area>] <ahora>
+          - <dime_si> (hay|está) (algún|alguna) {on_off_domains:domain} [<area> ]{on_off_states:state} <ahora>
+          - <dime_si> (hay|están) (algunos|algunas) {on_off_domains:domain} ({on_off_states:state}[ <area>]|[<area> ]{on_off_states:state}) <ahora>
         response: any
 
       - sentences:
-          - están (todos|todas) (los|las) {on_off_domains:domain} {on_off_states:state}[ <area>]
-          - están (todos|todas) (los|las) {on_off_domains:domain} [<area> ]{on_off_states:state}
+          - <dime_si> están (todos|todas) (los|las) {on_off_domains:domain} {on_off_states:state}[ <area>] <ahora>
+          - <dime_si> están (todos|todas) (los|las) {on_off_domains:domain} [<area> ]{on_off_states:state} <ahora>
         response: all
 
       - sentences:
-          - (qué|cual|cuales) {on_off_domains:domain} (está|están|hay) {on_off_states:state}[ <area>]
+          - <dime> (qué|cual|cuales) {on_off_domains:domain} (está|están|hay) {on_off_states:state}[ <area>] <ahora>
         response: which
 
       - sentences:
-          - (cuántos|cuántas) {on_off_domains:domain} (están|hay) {on_off_states:state}[ <area>]
+          - <dime> (cuántos|cuántas) {on_off_domains:domain} (están|hay) {on_off_states:state}[ <area>] <ahora>
         response: how_many
