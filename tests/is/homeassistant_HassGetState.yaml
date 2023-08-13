@@ -1,2 +1,90 @@
 language: is
-tests: []
+tests:
+  - sentences:
+      - "Hver er hitinn úti?"
+      - "Hvað er hitinn úti núna?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Hitinn úti"
+    response: "Hitinn úti er 12 °C"
+
+  - sentences:
+      - "Er kveikt á náttlampanum?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Náttlampa"
+        state: "on"
+    response: "Nei"
+
+  - sentences:
+      - "eru einhverjir rofar á í eldhúsinu?"
+      - "er kveikt á einhverjum rofum í eldhúsinu?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Eldhús"
+        domain: "switch"
+        state: "on"
+    response: "Já, Eldhúsrofi"
+
+  - sentences:
+      - "Eru allir rofar á?"
+      - "Er kveikt á öllum rofum?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Nei, Svefnherbergisrofi er það ekki"
+
+  - sentences:
+      - "er slökkt á öllum ljósum?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Nei, Aðventuljós, Bílskúrsljós, Eldhúsbekkur og 4 í viðbót eru það ekki"
+
+  - sentences:
+      - "Hvaða ljósum er kveikt á?"
+      - "Á hvaða ljósum er kveikt?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Aðventuljós, Bílskúrsljós, Eldhúsbekkur og 4 í viðbót"
+
+  - sentences:
+      - "Hversu mörg ljós eru kveikt?"
+      - "Hvað er kveikt á mörgum ljósum?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "7"
+
+  - sentences:
+      - "Er kveikt á öllum ljósunum í eldhúsinu?"
+      - "Eru öll ljósin í eldhúsinu kveikt?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+        area: "Eldhús"
+    response: "Já"
+
+  - sentences:
+      - "Er kveikt á einhverju ljósi í eldhúsinu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+        area: "Eldhús"
+    response: "Já, Eldhúsbekkur"

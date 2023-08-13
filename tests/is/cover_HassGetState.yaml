@@ -1,2 +1,87 @@
 language: is
-tests: []
+tests:
+  - sentences:
+      - "er vinstri gardínan opin?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Vinstri gardínan"
+        state: "open"
+    response: "Já"
+
+  - sentences:
+      - "er vinstri gardínan lokuð?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Vinstri gardínan"
+        state: "closed"
+    response: "Nei"
+
+  - sentences:
+      - "Er einhver gardína í stofunni opin?"
+      - "Eru einhverjar gardínur opnar í stofunni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Stofu"
+        device_class: curtain
+        state: "open"
+    response: "Já, Vinstri gardínan"
+
+  - sentences:
+      - "eru allar gardínurnar opnar í stofunni?"
+      - "eru allar gardínurnar í stofunni opnar?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Stofu"
+        device_class: curtain
+        state: "open"
+    response: "Nei, Hægri gardínan er það ekki"
+
+  - sentences:
+      - "hvaða gardínur eru lokaðar?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Hægri gardínan og Svefnherbergisgardínan"
+
+  - sentences:
+      - "Hversu margar gardínur eru lokaðar"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"
+
+  - sentences:
+      - "hvaða gardínur í stofunni eru lokaðar?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: Stofu
+        device_class: curtain
+        state: "closed"
+    response: "Hægri gardínan"
+
+  - sentences:
+      - "Hversu margar gardínur eru lokaðar í stofunni"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: Stofu
+        device_class: curtain
+        state: "closed"
+    response: "1"

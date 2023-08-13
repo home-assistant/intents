@@ -1,4 +1,39 @@
 language: is
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "er <name> [(í|á) <area>] {cover_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(er einhver|eru einhverjar) {cover_classes:device_class} {cover_states:state} [(í|á) <area>[<the>]]"
+          - "(er einhver|eru einhverjar) {cover_classes:device_class} (í|á) <area> {cover_states:state}"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "eru allar {cover_classes:device_class} {cover_states:state} [(í|á) <area>]"
+          - "eru allar {cover_classes:device_class} (í|á) <area> {cover_states:state}"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "hvaða {cover_classes:device_class} (er|eru) {cover_states:state} [(í|á) <area>]"
+          - "hvaða {cover_classes:device_class} (í|á) <area> (er|eru) {cover_states:state}"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "hversu margar {cover_classes:device_class} eru {cover_states:state} [(í|á) <area>]"
+          - "hversu margar {cover_classes:device_class} (í|á) <area> eru {cover_states:state}"
+        response: how_many
+        slots:
+          domain: cover
