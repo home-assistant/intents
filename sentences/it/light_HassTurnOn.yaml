@@ -3,7 +3,21 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<turn_on> [tutte] [l(a|e)] (luc(e|i)) [(<of>|<in>)] <area>"
-          - "<turn_on> [<in>] <area> [tutte] [l(a|e)] (luc(e|i))"
+          - "<turn_on> [<the>] [<light>] {name}"
+        requires_context:
+          domain: "light"
         slots:
-          domain: light
+          domain: "light"
+        response: "light"
+
+      - sentences:
+          - "<turn_on> [<all>] [<the>] <light> [<in>] {area}"
+        slots:
+          domain: "light"
+        response: "lights_area"
+
+      - sentences:
+          - "<turn_on> [<all>] [<the> <light>]"
+        response: "light_all"
+        slots:
+          domain: "light"
