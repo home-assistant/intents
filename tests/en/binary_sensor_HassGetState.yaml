@@ -1142,3 +1142,116 @@ tests:
         name: "Shed Window"
         state: "on"
     response: "Yes"
+
+  - sentences:
+      - "is the kitchen window open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "Kitchen Window"
+        state: "on"
+    response: "No, closed"
+  
+  - sentences:
+      - "are any windows open?"
+      - "is any window open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+    response: "Yes, Living Room Window Left and Shed Window"
+  
+  - sentences:
+      - "are any windows open in living room?"
+      - "is any window open in living room?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+        area: "Living Room"
+    response: "Yes, Living Room Window Left"
+
+
+  - sentences:
+      - "are any windows closed?"
+      - "is any window closed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+    response: "Yes, Kitchen Window and Living Room Window Right"
+
+  - sentences:
+      - "are all the windows closed?"
+      - "are all windows closed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+    response: "No, Living Room Window Left and Shed Window not"
+
+  - sentences:
+      - "are all the windows closed in kitchen?"
+      - "are all windows closed in kitchen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+        area: "Kitchen"
+    response: "Yes"
+
+  - sentences:
+      - "which windows are open?"
+      - "what window is open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+    response: "Living Room Window Left and Shed Window"
+
+  - sentences:
+      - "which windows are closed in living room?"
+      - "what window is closed in living room?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+        area: "Living Room"
+    response: "Living Room Window Right"
+
+  - sentences:
+      - "how many windows are open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+    response: "2"
+
+  - sentences:
+      - "how many windows are closed in living room?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+        area: "Living Room"
+    response: "1"
