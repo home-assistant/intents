@@ -38,13 +38,13 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            No, {{ no_match[:3] | join(", ") }} and {{ (no_match | length - 3) }} more not
+            No, {{ no_match[:3] | join(", ") }} and {{ (no_match | length - 3) }} more are not {{ slots.state }}
           {%- else -%}
             No,
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
               {{ name }}
-            {%- endfor %} not
+            {%- endfor %} {% if no_match | length > 1 %}are{% else %}is{% endif %} not {{ slots.state }}
           {% endif %}
         {% endif %}
 
