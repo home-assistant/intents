@@ -5,7 +5,7 @@ intents:
       # https://www.home-assistant.io/integrations/binary_sensor/
       # Battery
       - sentences:
-          - "<да_ли> <име> [батерија] [у <област>] {bs_battery_states:state} [у <област>]"
+          - "<да_ли> [<име>] [батерија] [у <област>] [<име>] {bs_battery_states:state} [у <област>]"
           - "<да_ли> {bs_battery_states:state} [батерија] <име> [у <област>]"
         response: one_yesno
         requires_context:
@@ -16,8 +16,8 @@ intents:
           device_class: battery
 
       - sentences:
-          - "<да_ли> било кој(а|е) батериј(а|е) [у <област>] {bs_battery_states:state} [у <област>]"
-          - "<да_ли> {bs_battery_states:state} било кој(а|е) батериј(а|е) [у <област>]"
+          - "<да_ли> [било кој(а|е)|неке] батериј(а|е) [у <област>] {bs_battery_states:state} [у <област>]"
+          - "<да_ли> {bs_battery_states:state} [било кој(а|е)|неке] батериј(а|е) [у <област>]"
         response: any
         slots:
           domain: binary_sensor
@@ -32,14 +32,14 @@ intents:
           device_class: battery
 
       - sentences:
-          - "<који_шта> батериј(а|е) {bs_battery_states:state} [у <област>]"
+          - "<који_шта> батериј(а|е) [је|се] {bs_battery_states:state} [у <област>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: battery
 
       - sentences:
-          - "колико је батерија {bs_battery_states:state} [у <област>]"
+          - "<шта_је> батериј(а|е) [је|се] {bs_battery_states:state} [у <област>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -47,8 +47,8 @@ intents:
 
       # Battery charging
       - sentences:
-          - "<да_ли> <име> [батерија] {bs_battery_charging_states:state} [у <област>]"
-          - "<да_ли> {bs_battery_charging_states:state} <име> [батерија] [у <област>]"
+          - "<да_ли> [батерија] <име> {bs_battery_charging_states:state} [у <област>]"
+          - "<да_ли> {bs_battery_charging_states:state} [батерија] <име> [у <област>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -58,9 +58,17 @@ intents:
           device_class: battery_charging
 
       - sentences:
-          - "<да_ли> било која батериј(а|е) {bs_battery_charging_states:state} [у <област>]"
-          - "<да_ли> {bs_battery_charging_states:state} било кој(а|е) батериј(а|е) [у <област>]"
+          - "<да_ли> [било кој(а|е)] [батериј(а|е)] {bs_battery_charging_states:state} [у <област>]"
+          - "<да_ли> {bs_battery_charging_states:state} [било кој(а|е)] [батериј(а|е)] [у <област>]"
+          - "<који_шта> [је|се] [батериј(а|е)] [је|се] {bs_battery_charging_states:state} [у <област>]"
         response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "<шта_је> [је|се] [батериј(а|е)] [је|се] {bs_battery_charging_states:state} [у <област>]"
+        response: how_many
         slots:
           domain: binary_sensor
           device_class: battery_charging

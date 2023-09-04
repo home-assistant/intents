@@ -3,22 +3,21 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<активирај> <име> [<област>]"
+          - "<активирај> <име> [(у|на) <област>]"
         requires_context:
           domain: cover
         response: cover
 
       - sentences:
-          - "<активирај> гаражна врата"
-          - "<активирај> врата гараже"
+          - "<активирај> {cover_classes:device_class}"
         slots:
           domain: cover
           device_class: garage
         response: cover_device_class
 
       - sentences:
-          - "<активирај> {cover_classes:device_class} <област>"
-          - "<активирај> <област> {cover_classes:device_class}"
+          - "<активирај> {cover_classes:device_class} [у|на] <област>"
+          - "<активирај> [у|на] <област> {cover_classes:device_class}"
         slots:
           domain: cover
         response: cover_device_class
