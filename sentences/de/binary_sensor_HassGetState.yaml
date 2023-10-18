@@ -16,7 +16,7 @@ intents:
           device_class: battery
 
       - sentences:
-          - "(ist|sind) <irgend> <batterie> [<area>] {bs_battery_states:state}"
+          - "(ist|sind) [<irgend>] <batterie> [<area>] {bs_battery_states:state}"
         response: irgendeins
         slots:
           domain: binary_sensor
@@ -56,8 +56,8 @@ intents:
           device_class: battery_charging
 
       - sentences:
-          - "(wird|werden) <irgend> <batterie> [<area>] {bs_battery_charging_states:state}"
-          - "{bs_battery_charging_states:state} <irgend> <batterie> [<area>] [auf]"
+          - "(wird|werden) [<irgend>] <batterie> [<area>] {bs_battery_charging_states:state}"
+          - "{bs_battery_charging_states:state} [<irgend>] <batterie> [<area>] [auf]"
         response: irgendeins
         slots:
           domain: binary_sensor
@@ -97,7 +97,7 @@ intents:
           device_class: carbon_monoxide
 
       - sentences:
-          - "(ist|sind|wurde[n]) <irgend> <co-sensor> [<area>] {bs_carbon_monoxide_states:state}"
+          - "(ist|sind|wurde[n]) [<irgend>] <co-sensor> [<area>] {bs_carbon_monoxide_states:state}"
         response: irgendeins
         slots:
           domain: binary_sensor
@@ -188,3 +188,29 @@ intents:
           domain: binary_sensor
           device_class: cold
           state: "on"
+
+      # Door
+      - sentences:
+          - "(ist|steht) <name> [<area>] {bs_door_states:state}"
+          - "(ist|steht) <name> {bs_door_states:state} <area>"
+          - "(ist|steht) <area> <name> {bs_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "(ist|steht) <name> [<area>] {bs_garage_door_states:state}"
+          - "(ist|steht) <name> {bs_garage_door_states:state} <area>"
+          - "(ist|steht) <area> <name> {bs_garage_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door

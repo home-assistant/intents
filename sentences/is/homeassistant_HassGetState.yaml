@@ -1,4 +1,39 @@
 language: is
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "(hvað|hver|hvernig) er <name><the> [(á|í) <area><the>] [núna]"
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+      - sentences:
+          - "er {on_off_states:state} (í|á) <name><the> [(á|í) <area><the>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "(er|eru|sé|séu) {on_off_states:state} [á] <any> {on_off_domains:domain} [(á|í) <area><the>]"
+          - "(er|eru|sé|séu) <any> {on_off_domains:domain} (á|í) <area><the> [á|í] {on_off_states:state}"
+          - "(er|eru|sé|séu) <any> {on_off_domains:domain} {on_off_states:state} (á|í) <area><the>"
+        response: any
+
+      - sentences:
+          - "(er|eru|sé|séu) {on_off_states:state} [á] <all> {on_off_domains:domain} [(á|í) <area><the>]"
+          - "(er|eru|sé|séu) <all> {on_off_domains:domain} [á|í] {on_off_states:state} [(á|í) <area><the>]"
+          - "(er|eru|sé|séu) <all> {on_off_domains:domain} (á|í) <area><the> [á|í] {on_off_states:state}"
+        response: all
+
+      - sentences:
+          - "[á] hvaða {on_off_domains:domain} (er|eru) {on_off_states:state} [á|í] [(á|í) <area><the>]"
+        response: which
+
+      - sentences:
+          - "hversu (margir|margar|mörg|marga|margar|mörg|mörgum|mörgum|mörgum|margra|margra|margra) {on_off_domains:domain}<the> (er|eru) {on_off_states:state} [(á|í) <area><the>]"
+          - "hvað (er|eru) (margir|margar|mörg|marga|margar|mörg|mörgum|mörgum|mörgum|margra|margra|margra) {on_off_domains:domain}<the> [er|eru] {on_off_states:state} [(á|í) <area><the>]"
+          - "hvað (er|eru) {on_off_states:state} (á|í) (margir|margar|mörg|marga|margar|mörg|mörgum|mörgum|mörgum|margra|margra|margra) {on_off_domains:domain}<the> [(á|í) <area><the>]"
+        response: how_many

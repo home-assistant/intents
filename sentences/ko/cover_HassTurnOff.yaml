@@ -2,7 +2,20 @@ language: ko
 intents:
   HassTurnOff:
     data:
-      - sentences: []
+      - sentences:
+          - "[<area>] <name> <close>"
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "차고문 <close>"
         slots:
           domain: cover
-          name: all
+          device_class: garage
+
+      - sentences:
+          - "<area>에 {cover_classes:device_class} <close>"
+          - "<area> {cover_classes:device_class} <close>"
+        slots:
+          domain: cover
+        response: cover_device_class

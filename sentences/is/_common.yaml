@@ -12,34 +12,106 @@ lists:
     values:
       - in: "hvít(t|ur|an|a|um|ri|u|s|rar)"
         out: "white"
-      - in: "(svart|svartur|svört)"
+      - in: "(svart|svartur|svört|svartan)"
         out: "black"
-      - in: "(rauður|rautt|rauð)"
+      - in: "(rauður|rautt|rauð|rauðan)"
         out: "red"
-      - in: "(appelsínugulur|appelsínugult|applesínugul)"
+      - in: "(appelsínugulur|appelsínugult|applesínugul[an])"
         out: "orange"
-      - in: "(gulur|gul|gult)"
+      - in: "(gulur|gul[an]|gult)"
         out: "yellow"
-      - in: "(grænn|grænt|græn)"
+      - in: "(grænn|grænt|græn[an])"
         out: "green"
-      - in: "(blár|blá|blátt)"
+      - in: "(blár|blá[an]|blátt)"
         out: "blue"
-      - in: "(fjólublátt|fjólublár|jólublá)"
+      - in: "(fjólublátt|fjólublár|jólublá[an])"
         out: "purple"
-      - in: "(brúnn|brún|brúnt)"
+      - in: "(brúnn|brún[an]|brúnt)"
         out: "brown"
-      - in: "(bleikur|bleikt|bleik)"
+      - in: "(bleikur|bleikt|bleik[an])"
         out: "pink"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  brightness_level:
+    values:
+      - in: (hæst(u|a)|mest(u|a)|hámark[s]|mikla)
+        out: 100
+      - in: (lægst(u|a)|minnst(u|a)|lágmargk[s]|litla)
+        out: 1
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - in: "c|selsíus|celcius|celcíus"
+        out: "celsius"
+  on_off_states:
+    values:
+      - in: "kveikt[ir|ar]|á|í gangi"
+        out: "on"
+      - in: "slökkt"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: <light>
+        out: light
+      - in: vifta|viftur
+        out: fan
+      - in: rofi|rofa|rofar|rofum
+        out: switch
+  cover_states:
+    values:
+      - in: "opin|opnar"
+        out: "open"
+      - in: "lokuð|lokaðar"
+        out: "closed"
+      - in: "að opnast"
+        out: "opening"
+      - in: "að lokast"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: gardín[a|u|an|una|unni|ur|um|urnar|unum]
+        out: curtain
+      - in: glugg[i|a|inn|an|anum|ar|um|arnir|ana|unum]
+        out: window
+      - in: (dyr[um|nar|unum]|hurð[in|ina|inni|ir|um|irnar|unum])
+        out: door
+      - in: bílskúrshurð[in|ina|inni|ir|um|irnar|unum]
+        out: garage
+      - in: hlið[i|ið|inu|in|unum]
+        out: gate
 expansion_rules:
   turn-on: "(kveikja|kveiktu[ á]|kveikt þú á|kveikt á|kveikja [á])"
   turn-off: "(slökkva|slökktu[ á]|slökkt þú á|slökkt á|slökkva [á])"
-  light: "(ljósinu|ljósunum|ljósin|ljós)"
+  light: "(ljósinu|ljósunum|ljósin|ljós[um]|lampi[nn]|lampa[nn|num]|lampar[nir]|lampa[na]|lömpum|lömpunum|ljósi[ð])"
   area: "{area}[(inu|nu|ið|ð|inni|nni|nu|num)]"
   name: "{name}[(inu|nu|ið|ð|inni|nni|nu|num)]"
-  all: "(öll|öllum|öllu|allt)"
+  all: "(allur|öll|allt|allan|alla|allt|öllum|allri|öllu|alls|allrar|alls|allir|allar|öll|alla|allar|öll|öllum|öllum|öllum|allra|allra|allra)"
+  any: "[einhver|einhver|eitthvert|eitthvað|einhvern|einhverja|eitthvert|eitthvað|einhverjum|einhverri|einhverju|einhvers|einhverrar|einhvers|einhverjir|einhverjar|einhver|einhverja|einhverjar|einhver|einhverjum|einhverjum|einhverjum|einhverra|einhverra|einhverra]"
+  set: "(gera|setja|stilla|skipta|breyta|hækka|lækka|minnka|gerðu|settu|stilltu|skiptu|breyttu|hækkaðu|lækkaðu|minnkaðu|gerð þú|hækkað þú|lækkað þú|minnkað þú|láttu|sett þú|skipt þú|stillt þú|látt þú| breytt þú)"
+  activate: "(virkja[ðu]|virkjað þú|keyra|keyrðu|keyrð þú)"
+  deactivate: "(slökkva|slökktu|slökkt þú)"
+  open: "opna[(ðu|ð þú)]|<open-curtains>"
+  open-curtains: "drag(ðu|a|ð þú) (frá|upp)"
+  close: "loka[(ðu|ð þú)]|<close-curtains>"
+  close-curtains: "drag(ðu|a|ð þú) (fyrir|niður)"
+  brightness: "{brightness}[ ][%|prósent][ (birtu|bjarma)[stillingu|stig]]"
+  bright: "(birt[a|u|an|una|unni]|bjarm[an[n]|inn|anum|i|a|ans])[stillingu]"
+  script: "(skrifta[n]|skriftu[na|nni]|forrit[ið|i|inu])"
+  temp: "(ofninn|ofnana|ofninum|ofnarnir|ofnunum|hitinn|hitann|hitanum|hitastigið|hitastiginu|heitt|kalt|kuldinn)"
+  temperature: "{temperature}[ ][°|gráður][ ][{temperature_unit}]"
+  the: "[a|u|s|ð|n|an|una|unni|ur|um|urnar|unum|nni|nn|num|nn|nu|na|ar|inu]"
 skip_words:
-  - "þú"
   - "geturðu"
   - "getur þú"
   - "viltu"
   - "vilt þú"
+  - "veist þú"
+  - "segðu mér"
+  - "sagt mér"

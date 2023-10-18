@@ -2,36 +2,75 @@ language: ko
 responses:
   intents:
     HassGetState:
-      one: "TODO: {{ slots.name | capitalize }} is {{ state.state_with_unit }}
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
 
-        "
-      one_yesno:
-        "TODO: {% if query.matched %}\n  Yes\n{% else %}\n  No, {{ state.state_with_unit\
-        \ }}\n{% endif %}\n"
-      any:
-        "TODO: {% if query.matched %}\n  {% set match = query.matched | map(attribute=\"\
-        name\") | sort | list %}\n  {% if match | length > 4 %}\n    Yes, {{ match[:3]\
-        \ | join(\", \") }} and {{ (match | length - 3) }} more\n  {%- else -%}\n\
-        \    Yes,\n    {% for name in match -%}\n      {% if not loop.first and not\
-        \ loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}\n\
-        \      {{ name }}\n    {%- endfor -%}\n  {% endif %}\n{% else %}\n  No\n{%\
-        \ endif %}\n"
-      all:
-        "TODO: {% if not query.unmatched: %}\n  Yes\n{% else %}\n  {% set no_match\
-        \ = query.unmatched | map(attribute=\"name\") | sort | list %}\n  {% if no_match\
-        \ | length > 4 %}\n    No, {{ no_match[:3] | join(\", \") }} and {{ (no_match\
-        \ | length - 3) }} more not\n  {%- else -%}\n    No,\n    {% for name in no_match\
-        \ -%}\n      {% if not loop.first and not loop.last %}, {% elif loop.last\
-        \ and not loop.first %} and {% endif -%}\n      {{ name }}\n    {%- endfor\
-        \ %} not\n  {% endif %}\n{% endif %}\n"
-      which:
-        "TODO: {% if not query.matched %}\n  Not any\n{% else: %}\n  {% set match\
-        \ = query.matched | map(attribute=\"name\") | sort | list %}\n  {% if match\
-        \ | length > 4 %}\n    {{ match[:3] | join(\", \") }} and {{ (match | length\
-        \ - 3) }} more\n  {% else %}\n    {%- for name in match -%}\n      {% if not\
-        \ loop.first and not loop.last %}, {% elif loop.last and not loop.first %}\
-        \ and {% endif -%}\n      {{ name }}\n    {%- endfor -%}\n  {% endif %}\n\
-        {% endif %}\n"
-      how_many: "TODO: {{ query.matched | length }}
+      one: "{{ slots.name }}의 상태는 {{ state.state_with_unit }}입니다"
 
-        "
+      one_yesno: |
+        {% if query.matched %}
+          네
+        {% else %}
+          아니요, {{ slots.name }}의 상태는 {{ state.state }}입니다
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            네, {{ match[:3] | join(", ") }} 그리고 {{ (match | length - 3) }}개의 기기가 그렇습니다
+          {%- else -%}
+            {% if match | length == 1 %}
+              네, {{ match|first }} 기기가 그렇습니다
+            {% else %}
+              네,
+              {% for name in match -%}
+                {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} 그리고 {% endif -%}
+                {{ name }}
+              {%- endfor -%}
+              기기가 그렇습니다
+            {% endif %}
+          {% endif %}
+        {% else %}
+          아니요
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          네
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            아니요, {{ no_match[:3] | join(", ") }} 그리고 {{ (no_match | length - 3) }}개의 기기는 그렇지 않습니다
+          {% else %}
+            {% if no_match | length == 1 %}
+              아니요, {{ no_match|first }} 기기는 그렇지 않습니다
+            {%- else -%}
+              아니요,
+              {% for name in no_match -%}
+                {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} 그리고 {% endif -%}
+                {{ name }}
+              {%- endfor %}
+              기기가 그렇습니다
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          어떤 기기도 그렇지 않습니다
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} 그리고 {{ (match | length - 3) }}개의 기기가 그렇습니다
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} 그리고 {% endif -%}
+              {{ name }}
+            {%- endfor %}
+            기기가 그렇습니다
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}개의 기기가 그렇습니다

@@ -27,6 +27,14 @@ tests:
 
   - sentences:
       - "sind irgendwelche Akkus schwach?"
+      - "sind Akkus schwach?"
+      - "ist ein Akku schwach?"
+      - "ist einer der Akkus schwach?"
+      - "ist irgendeiner der Akkus schwach?"
+      - "sind Batterien schwach?"
+      - "sind manche Batterien schwach?"
+      - "ist eine Batterie schwach?"
+      - "ist eine der Batterien schwach?"
     intent:
       name: HassGetState
       slots:
@@ -80,8 +88,12 @@ tests:
 
   - sentences:
       - "werden irgendwelche Batterien geladen?"
+      - "werden Batterien geladen?"
       - "lädt irgendein Akku?"
+      - "lädt ein Akku?"
+      - "laden Akkus im Moment auf?"
       - "laden irgendwelche Akkus im Moment auf?"
+      - "laden irgendwelche der Akkus im Moment auf?"
     intent:
       name: HassGetState
       slots:
@@ -142,6 +154,9 @@ tests:
 
   - sentences:
       - "sind irgendwelche Kohlenmonoxidsensoren an?"
+      - "sind Kohlenmonoxidsensoren an?"
+      - "ist einer der Kohlenmonoxidsensoren an?"
+      - "wurde einer der Kohlenmonoxidsensoren ausgelöst?"
     intent:
       name: HassGetState
       slots:
@@ -226,6 +241,10 @@ tests:
       - "sind Dinge kalt?"
       - "sind einige der Dinge kalt?"
       - "ist was kalt?"
+      - "ist eins der Geräte kalt?"
+      - "ist eines der Geräte kalt?"
+      - "ist irgendeins der Geräte kalt?"
+      - "ist irgendeines der Geräte kalt?"
     intent:
       name: HassGetState
       slots:
@@ -327,3 +346,94 @@ tests:
         device_class: cold
         state: "on"
     response: "0"
+
+  # Door
+  - sentences:
+      - "ist die Wohnungstür offen?"
+      - "steht die Wohnungstür offen?"
+      - "ist die Wohnungstür auf?"
+      - "ist die Wohnungstür geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Wohnungstür"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist die Wohnungstür im Eingang offen?"
+      - "ist im Eingang die Wohnungstür offen?"
+      - "ist die Wohnungstür offen im Eingang?"
+      - "steht die Wohnungstür im Eingang offen?"
+      - "steht im Eingang die Wohnungstür offen?"
+      - "steht die Wohnungstür offen im Eingang?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Eingang"
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Wohnungstür"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist die Wohnungstür zu?"
+      - "steht die Wohnungstür zu?"
+      - "ist die Wohnungstür geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Wohnungstür"
+        state: "off"
+    response: "Ja"
+
+  # Garage door
+  - sentences:
+      - "ist das Garagentor geschlossen?"
+      - "ist das Garagentor zu?"
+      - "ist das Garagentor unten?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garagentor"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "ist das Garagentor in der Auffahrt geschlossen?"
+      - "ist in der Auffahrt das Garagentor geschlossen?"
+      - "ist das Garagentor geschlossen in der Auffahrt?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Auffahrt"
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garagentor"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "ist das Garagentor auf?"
+      - "ist das Garagentor offen?"
+      - "ist das Garagentor geöffnet?"
+      - "ist das Garagentor oben?"
+      - "steht das Garagentor auf?"
+      - "steht das Garagentor offen?"
+      - "steht das Garagentor geöffnet?"
+      - "steht das Garagentor oben?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garagentor"
+        state: "on"
+    response: "Nein"

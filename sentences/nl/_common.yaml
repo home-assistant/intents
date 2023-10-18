@@ -307,6 +307,9 @@ lists:
       - in: "(gesloten|dicht)"
         out: "closed"
 
+  shopping_list_item:
+    wildcard: true
+
 expansion_rules:
   # generic expansion rules for sentences
   name: "[de|het] {name}"
@@ -315,9 +318,14 @@ expansion_rules:
   met: "(door|met|bij)"
   name_area: >
     (
-      [[door|met|bij] [de|het] {area}][ ]{name}
-      |[<in> [de|het] {area}] [door|met|bij] <name>
-      |[<met>] [de|het] {name} [[in|op|van|bij] <area>]
+      [[<in> de|het|een] {area}][ ]<name>
+      |[de|het|een] {name}[ ][<type>] [[in|op|van|bij] <area>]
+    )
+  sensor_name_area: >
+    (
+      [[door|met|bij] [de|het|een] {area}][ ]{name}
+      |[<in> [de|het|een] {area}] [door|met|bij] <name>
+      |[<met>] [de|het|een] {name} [[in|op|van|bij] <area>]
     )
   doe: "(zet[ten]|mag|mogen|doe[n]|verander[en]|maak|maken|schakel[en])"
   zou: "(kan|kun[t]|zal|zou|wil[t]) [je|jij|u]"
@@ -365,6 +373,16 @@ expansion_rules:
       |[<in> [de|het] {area}] <sensor>
       |[een|de] (apparaat|apparaten|sensor[s|en]|iets) [[in|op|van|bij] <area>]
     )
+
+  # Questions
+  what_is: (wat (is|zijn)|hoeveel (is|zijn)|hoe (hoog|laag) (is|zijn))
+  what_is_the_class_of_name: >
+    (
+      <what_is> (het|de) <class> (van|in|(aangegeven|gemeten) door) <name> [in <area>]
+      |<what_is> <name>[[']s] [gemeten] <class> [in <area>]
+      |<what_is> <area>[ ]<name>[s] [gemeten] <class>
+    )
+
 skip_words:
   - "alstublieft"
   - "alsjeblieft"
