@@ -20,7 +20,7 @@ responses:
           'windy': 'and windy',
           'windy-variant': 'and windy with an overcast'
         } %}
-        It is now {{ state.attributes.temperature }} {{ weather_condition[state.state] }}
+        It is now {{ state.attributes.get('temperature') }} {{ weather_condition.get(state.state) }}
 
       forecast: >
         {% set weather_condition = {
@@ -40,4 +40,6 @@ responses:
           'windy': 'it will be windy',
           'windy-variant': 'it will be windy with an overcast'
         } %}
-        {{ slots.timeframe | capitalize }} {{ weather_condition[state.attributes.forecast.condition] }} with a high of {{ state.attributes.forecast.temperature }} and a low of {{ state.attributes.forecast.templow }}
+        {{ slots.timeframe | capitalize }} {{ weather_condition.get(state.attributes.get('forecast', {'condition': ''}).get('condition')) }}
+        with a high of {{ state.attributes.get('forecast', {'temperature': ''}).get('temperature') }}
+        and a low of {{ state.attributes.get('forecast', {'templow': ''}).get('templow') }}
