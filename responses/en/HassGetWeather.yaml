@@ -2,6 +2,42 @@ language: en
 responses:
   intents:
     HassGetWeather:
-      default: "It is now {{ state.attributes.temperature }} and {{ state.state }}"
+      default: >
+        {% set weather_condition = {
+          'clear-night': 'with a clear night sky',
+          'cloudy':	'and cloudy',
+          'exceptional': 'and the weather is exceptional',
+          'fog': 'and foggy',
+          'hail': 'with hail falling',
+          'lightning': 'with thunderstorms',
+          'lightning-rainy': 'with thunderstorms and rain',
+          'partlycloudy': 'with a few clouds',
+          'pouring': 'and it''s pouring',
+          'rainy': 'and it''s raining',
+          'snowy': 'and snowing',
+          'snowy-rainy': 'with snow and rain',
+          'sunny': 'and sunny',
+          'windy': 'and windy',
+          'windy-variant': 'and windy with an overcast'
+        } %}
+        It is now {{ state.attributes.temperature }} {{ weather_condition[state.state] }}
 
-      forecast: "{{ slots.timeframe | capitalize }} it will be {{ state.attributes.forecast.condition }} with a high of {{ state.attributes.forecast.temperature }} and a low of {{ state.attributes.forecast.templow }}"
+      forecast: >
+        {% set weather_condition = {
+          'clear-night': 'it will be a clear night',
+          'cloudy':	'it will be cloudy',
+          'exceptional': 'the weather will be exceptional',
+          'fog': 'it will be foggy',
+          'hail': 'there will be hail',
+          'lightning': 'there will be thunderstorms',
+          'lightning-rainy': 'there will be thunderstorms and rain',
+          'partlycloudy': 'it will be slightly cloudy',
+          'pouring': 'it will be pouring',
+          'rainy': 'it will be raining',
+          'snowy': 'it will be snowing',
+          'snowy-rainy': 'it will be snowing and raining',
+          'sunny': 'it will be sunny',
+          'windy': 'it will be windy',
+          'windy-variant': 'it will be windy with an overcast'
+        } %}
+        {{ slots.timeframe | capitalize }} {{ weather_condition[state.attributes.forecast.condition] }} with a high of {{ state.attributes.forecast.temperature }} and a low of {{ state.attributes.forecast.templow }}
