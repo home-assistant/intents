@@ -1,8 +1,20 @@
+#tested
 language: sl
 intents:
   HassTurnOn:
     data:
-      - sentences: []
+      - sentences:
+          - "<vklopi> [vse|vso] (ventilator[je]|ventilacijo) [v|na] <area>"
+          - "<vklopi> <area> (ventilator[je]|ventilacijo)"
         slots:
-          domain: fan
-          name: all
+          domain: "fan"
+          name: "all"
+        response: fans_area
+
+      - sentences:
+          - "<vklopi> [vse|vso] (ventilatoreje|ventilacijo) [v (stanovanju|hiši)]"
+        response: "fans_area"
+        slots:
+          domain: "fan"
+          area: "all"
+          name: "all"
