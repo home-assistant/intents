@@ -2,7 +2,18 @@ language: sl
 intents:
   HassTurnOff:
     data:
-      - sentences: []
+      - sentences:
+          - "<izklopi> [vse] (ventilator[je]|ventilacijo|prezračevanje) [v|na] <area>"
+          - "<izklopi> <area> (ventilator[je]|ventilacijo|prezračevanje)"
         slots:
-          domain: fan
-          name: all
+          domain: "fan"
+          name: "all"
+        response: fans_area
+
+      - sentences:
+          - "<izklopi> [vse|vso] (ventilatorje|ventilacijo) [v (stanovanju|hiši)]"
+        response: "fans_area"
+        slots:
+          domain: "fan"
+          area: "all"
+          name: "all"
