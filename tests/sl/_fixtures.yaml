@@ -1,20 +1,197 @@
 language: sl
 areas:
-  - name: Kuhinja
-    id: kitchen
-  - name: Dnevna soba
-    id: living_room
-  - name: Spalnica
+  - name: "spalnic(i|a)"
     id: bedroom
-  - name: Garaža
+  - name: "garaž(a|i|o)"
     id: garage
+  - name: "pisarn(a|i|o)|kabinet(a|u)"
+    id: office
+  - name: "balkon(u)"
+    id: balcony
+  - name: "teras(a|i|o)"
+    id: terrace
+  - name: "omar(a|i|o)"
+    id: closet
+  - name: "vhod(u|om)|predverj(e|u)"
+    id: entrance
+  - name: "hodnik(u|ih)"
+    id: hallway
+  - name: "shramb(a|i|e|ah)"
+    id: pantry
+  - name: "garderob(a||i|u)"
+    id: wardrobe
+  - name: "stranišč(e|u|ih)|(v|w)c[ju]"
+    id: wc
+  - name: "stopnišč(e|u|ih)|stipnic(e|ah|i)"
+    id: staircase
+  - name: "kuhinj(a|i)"
+    id: kitchen
+  - name: "dnevna soba|dnevni sobi|dnevne sobe"
+    id: living_room
+  - name: "kopalnic(a|i|o|ah|ama)"
+    id: bathroom
+  - name: "utility"
+    id: utility
 entities:
-  - name: Luč v spalnici
+  - name: "nočn(a|e|i) (svetil(ka|ke|a|o)|razsvetljav(a|i|o)|luč[ka|i|ke|ki])"
     id: light.bedroom_lamp
     area: bedroom
-  - name: Kuhinjska luč
+    state: "off"
+
+  - name: "luč[i|ke|ki] na terasi"
+    id: light.terrace
+    area: terrace
+    state: "off"
+
+  - name: "luč[i|ke|ki] na balkonu"
+    id: light.balcony
+    area: balcony
+    state: "off"
+
+  - name: "kuhinjs(ko|ka|ki) stikal(o|la|li)|tipk(a|lo|li)"
     id: switch.kitchen
     area: kitchen
-  - name: Stropni ventilator
+    state: "on"
+
+  - name: "stropn(i|a|e|nemu) ventilator(ja|je|ju)"
     id: fan.ceiling
     area: living_room
+    state: "on"
+
+  - name: "lesten(ec|ca|ce)"
+    id: light.chandalier
+    area: living_room
+    state: "on"
+
+  - name: "božičn(a|e|i) luč[ke|i|ki|ko]|"
+    id: light.chrismas_ligths
+    area: living_room
+    state: "on"
+
+  - name: "taln(o|a|e|i) svetilk(a|e|i|o)"
+    id: light.floor_lamp
+    area: living_room
+    state: "on"
+
+  - name: "[stropni] ventilator [na stropu]"
+    id: fan.ceiling
+    area: living_room
+    state: "on"
+
+  - name: "[kuhinjsk(a|o)] (napa|napo)"
+    id: fan.kitchen_hood
+    area: kitchen
+    state: "on"
+
+  - name: "lev(a|o|i|e) zaves(a|i|o|e)"
+    id: cover.curtain_left
+    area: living_room
+    state: "open"
+    attributes:
+      device_class: curtain
+
+  - name: "dvoriščn(a|i|e) vrat(a|i|e)"
+    id: cover.main_gate
+    area: "entrance"
+    state: "closed"
+    attributes:
+      device_class: gate
+
+  - name: "garaž(a|na|ne|i|o)"
+    id: cover.garage_doors
+    area: "garage"
+    state: "closed"
+    attributes:
+      device_class: garage
+
+  - name: "balkonsk(a|e|i) rolet(e|a|i)"
+    id: cover.balcony_blinds
+    area: "living_room"
+    state: "closed"
+    attributes:
+      device_class: blinds
+
+  - name: "kopalnišk(o|a|i) okn(a|o|i)"
+    id: cover.bathroom_window
+    area: "bathroom"
+    state: "open"
+    attributes:
+      device_class: window
+
+  - name: "strešn(a|o|i) okn(o|i|a)"
+    id: cover.ceiling_window
+    area: "kitchen"
+    state: "open"
+    attributes:
+      device_class: window
+
+  #door
+  - name: "vhodn vrata"
+    id: cover.entrance_door
+    area: "entrance"
+    state: "closed"
+    attributes:
+      device_class: door
+
+  - name: "kuhinjska vrata"
+    id: cover.kitchen_door
+    area: "entrance"
+    state: "open"
+    attributes:
+      device_class: door
+
+  - name: "drsna vrata"
+    id: cover.living_room_door
+    area: "living_room"
+    state: "open"
+    attributes:
+      device_class: door
+
+  - name: "razvlaževalec|razvlažilnik (zraka)"
+    id: "humidifier.dehumidifier"
+    area: "living_room"
+    state: "off"
+
+  - name: "radiator|radiatorji"
+    id: "climate.trv_living_room"
+    area: "living_room"
+    state: "21"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: "zunanja temperatura|[temperatura] zunaj"
+    id: "sensor.outside_temperature"
+    state: "17"
+    area: "zunaj"
+    attributes:
+      unit_of_measurement: "°C"
+
+  #locks
+  - name: "vhodna vrata"
+    id: "lock.front_door"
+    area: "entrance"
+    state: "locked"
+
+  - name: "vhodna vrata"
+    id: "lock.front_door"
+    area: "predsoba"
+    state: "locked"
+
+  - name: "Zadnja vrata"
+    id: "lock.back_door"
+    area: "kitchen"
+    state: "unlocked"
+
+  - name: "Dvoriščna vrata"
+    id: "lock.yard_door"
+    state: "locked"
+
+  - name: "Dovozna vrata"
+    id: "lock.yard_gate"
+    state: "locked"
+
+  - name: "Igranje"
+    id: "scene.play_mode"
+
+  - name: "sesaj|posesaj kuhinjo"
+    id: "script.vacuum_clean_kitchen"

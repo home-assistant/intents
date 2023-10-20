@@ -1,6 +1,41 @@
 language: sl
 tests:
-  - sentences: []
+  - sentences:
+      - "Izklopi ventilator v dnevni sobi"
+      - "Izklopi vse ventilatorje v dnevni sobi"
     intent:
       name: HassTurnOff
-      slots: {}
+      slots:
+        area:
+          - "dnevni sobi"
+          - "kuhinjski"
+          - "kuhinji"
+        domain: fan
+        name: all
+    response: "Ventilatorji so izklopljeni"
+
+  - sentences:
+      - "Izklopi kuhinjsko ventilacijo"
+      - "Izklopi ventilacijo v kuhinji"
+      - "Izklopi kuhinjski ventilator"
+    intent:
+      name: HassTurnOff
+      slots:
+        area:
+          - "kuhinjsko"
+          - "kuhinji"
+          - "kuhinjski"
+        domain: fan
+        name: all
+    response: "Ventilatorji so izklopljeni"
+
+  - sentences:
+      - "Izklopi vse ventilatorje"
+      - "Izklopi ventilacijo v stanovanju"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: fan
+        area: all
+        name: all
+    response: "Ventilatorji so izklopljeni"
