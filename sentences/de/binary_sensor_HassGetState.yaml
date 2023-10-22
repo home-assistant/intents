@@ -214,3 +214,59 @@ intents:
         slots:
           domain: binary_sensor
           device_class: garage_door
+
+      # Heat
+      - sentences:
+          - "ist <name> [<area>] {bs_heat_states:state}"
+          - "ist <area> <name> {bs_heat_states:state}"
+          - "ist <name> {bs_heat_states:state} <area>"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "(ist|sind) [<irgend>] <ding> [<area>] hei(ß|ss)"
+          - "(ist|sind) [<irgend>] <ding> hei(ß|ss) <area>"
+          - "(ist|sind) <area> [<irgend>] <ding> hei(ß|ss)"
+          - "ist <etwas> [<area>] hei(ß|ss)"
+          - "ist <etwas> hei(ß|ss) <area>"
+          - "ist <area> <etwas> hei(ß|ss)"
+        response: irgendeins
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "sind <alle> <ding> [<area>] hei(ß|ss)"
+          - "sind <alle> <ding> hei(ß|ss) <area>"
+          - "sind <area> <alle> <ding> hei(ß|ss)"
+        response: alle
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "<welche> <ding> (ist|sind) [<area>] hei(ß|ss)"
+          - "<welche> <ding> (ist|sind) hei(ß|ss) <area>"
+          - "<welche> <ding> <area> (ist|sind) hei(ß|ss)"
+        response: welches
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "wie viele <ding> sind [<area>] hei(ß|ss)"
+          - "wie viele <ding> sind hei(ß|ss) <area>"
+          - "wie viele <ding> <area> sind hei(ß|ss)"
+        response: wie_viele
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
