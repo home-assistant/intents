@@ -2,39 +2,35 @@ language: sl
 intents:
   HassLightSet:
     data:
+      # brightness
       - sentences:
-          - <spremeni> <name> na <brightness>
-          - <spremeni> [jakost|svetlost] [luč] [v|na] <area> na [jaskosti] [moči|jakost[i]|svetlost[i]|odstotk[ov|a]|procent[ov|a]]
-        response: brightness
-
-      #- sentences:
-      #    - <spremeni> [moč|jakost] [luč[ke|i|k]|osvetlitve|razsvetljave]
-      #      [v|na] <area> [na] <brightness> [moči|jakosti|svetlost[i]|procent[ov|a]|odstotk[a|ov]]
-      #  response: brightness
-
-      #brightness min/max
-      - sentences:
-          - "<spremeni> <name> na {brightness_level:brightness}"
-          - "<spremeni> [osvetlitev|jakost|svetlost|svetlobo] [luč[ke|i]|svetil[ke|a]|osvetlitve|razsvetljave] [uv|na] <name> na {brightness_level:brightness} [moči|jakosti|svetlosti|osvetlitve]"
-        slots:
-          brightness: 100
-        response: brightness
+          - "<spremeni> [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [na] <brightness>"
+        response: "brightness"
 
       - sentences:
-          - "<spremeni> [jakost|moč] [luč[ke|i]|svetil[ke|a]|osvetlitve|razsvetljave] [v|na] <area> [na] {brightness_level:brightness} [moči|jakosti|svetlosti|osvetlitve]"
-          - "<spremeni> <area> [jakost|moč] ([luč[ke|i]|svetil[ke|a]|osvetlitve|razsvetljave]) [na] {brightness_level:brightness} [moči|jakosti|svetlosti|osvetlitve]"
-        slots:
-          brightness: 100
-        response: brightness
+          - "<spremeni> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <area> [na] <brightness>"
+          - "<spremeni> <area> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] na {brightness_level:brightness}"
+        response: "brightness"
 
       # color
       - sentences:
-          - <spremeni> [barvo] <name> [na|v] {color}
-          - <spremeni> <name> [na|v] {color} [barvo]
-        response: color
+          - "<spremeni> [barv[e|o|i]|odtenek] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <color>"
+          - "<spremeni> [barv[e|o|i|ni]|odtenek] [barv[e|o|i]|odtenek] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <area> [v|na] <color>"
+          - "<spremeni> <area> [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <color>"
+          - "<spremeni> <area> [v|na] <color>"
+        response: "color"
+
+      # min/max brightness
+      - sentences:
+          - "<spremeni> [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [na] {brightness_level:brightness}"
+          - "<spremeni> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [v|na] <area> na {brightness_level:brightness}"
+          - "<spremeni> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] na {brightness_level:brightness}"
+        slots:
+          brightness: 100
+        response: brightness
 
       - sentences:
-          - <spremeni> [barvo] [luč[ke|i]|svetil[ke|a]|osvetlitve|razsvetljave] [v|na] <area> [na|v] {color}
-          - <spremeni> [osvetlitev|jakost|svetlost|svetlobo] [v|na] <area> [na|v] {color}
-          - <spremeni> [u|na] <area> [osvetlitev|jakost|svetlost|svetlobo] [na|v] {color}
-        response: color
+          - "<spremeni> [nočn[e|i||o]] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [na] {brightness_level:brightness}"
+        slots:
+          brightness: 1
+        response: brightness
