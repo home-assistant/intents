@@ -7,7 +7,7 @@ responses:
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
-        {{ slots.name | capitalize }} is {{ state.state_with_unit }}
+        {{ slots.name | capitalize }} je {{ state.state_with_unit }}
 
       one_yesno: |
         {% if query.matched %}
@@ -20,11 +20,11 @@ responses:
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Da, {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+            Da, {{ match[:3] | join(", ") }} in {{ (match | length - 3) }} več
           {%- else -%}
             Da,
             {% for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
@@ -38,13 +38,13 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Ne, {{ no_match[:3] | join(", ") }} and {{ (no_match | length - 3) }} more are not {{ slots.state }}
+            No, {{ no_match[:3] | join(", ") }} and {{ (no_match | length - 3) }} več jih ni {{ slots.state }}
           {%- else -%}
-            Ne,
+            No,
             {% for name in no_match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
               {{ name }}
-            {%- endfor %} {% if no_match | length > 1 %}are{% else %}is{% endif %} not {{ slots.state }}
+            {%- endfor %} {% if no_match | length > 1 %}are{% else %}is{% endif %} ne {{ slots.state }}
           {% endif %}
         {% endif %}
 
