@@ -10,8 +10,10 @@ areas:
     id: garaje
   - name: Jardín
     id: jardin
+  - name: Entrada
+    id: entrada
 entities:
-  - name: Lámpara
+  - name: Lámpara del dormitorio
     id: light.lampara_dormitorio
     area: dormitorio
     state:
@@ -70,7 +72,7 @@ entities:
       in: "encendida"
       out: "on"
 
-  - name: Luz cocina
+  - name: Luz techo cocina
     id: light.luz_cocina
     area: cocina
     state:
@@ -91,14 +93,38 @@ entities:
       in: "encendida"
       out: "on"
 
+  - name: "Rincón de juegos"
+    id: "light.rincon_juegos"
+    area: "salon"
+    state:
+      in: "Encendido"
+      out: "on"
+
   - name: Termómetro cocina
     id: sensor.termometro_cocina
     area: cocina
+    state: "23"
+    attributes:
+      unit_of_measurement: "°C"
 
   - name: "Temperatura exterior"
     id: "sensor.temperatura_exterior"
     area: "garaje"
     state: "14"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: Termostato salon
+    id: climate.termostato_salon
+    area: salon
+    state: "22"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: Termostato cocina
+    id: climate.termostato_cocina
+    area: cocina
+    state: "24"
     attributes:
       unit_of_measurement: "°C"
 
@@ -109,9 +135,253 @@ entities:
       in: "encendida"
       out: "on"
 
+  - name: "Puerta principal"
+    id: "lock.puerta_principal"
+    area: "entrada"
+    state: "locked"
+
+  - name: "Puerta trasera"
+    id: "lock.puerta_trasera"
+    state: "unlocked"
+
+  - name: "Puerta lateral"
+    id: "lock.puerta_lateral"
+    state: "locked"
+
+  - name: "Modo fiesta"
+    id: "scene.modo_fiesta"
+
+  - name: "Modo sigiloso"
+    id: "script.modo_sigiloso"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "Teléfono"
+    id: "binary_sensor.bateria_teléfono"
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "cargando"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "Sensor CO2"
+    id: "binary_sensor.co2"
+    area: "cocina"
+    state:
+      in: "despejado"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "Tuberías de agua"
+    id: "binary_sensor.computer_cold"
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "conectado"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "Puerta de mascotas"
+    id: "binary_sensor.pet_door"
+    state:
+      in: "cerrado"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "Puerta de cochera secundaria"
+    id: "binary_sensor.garage_door"
+    state:
+      in: "cerrada"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "Sensor de Gas"
+    id: "binary_sensor.gas"
+    area: "cocina"
+    state:
+      in: "despejado"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "Ordenador"
+    id: "binary_sensor.computer_heat"
+    state:
+      in: "caliente"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "Luz"
+    id: "binary_sensor.light"
+    state:
+      in: "sin luz"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "Puerta de mascotas"
+    id: "binary_sensor.pet_door_lock"
+    state:
+      in: "abierto"
+      out: "on"
+    attributes:
+      device_class: lock
+
+  - name: "Sensor de fuga de agua"
+    id: "binary_sensor.water_sensor"
+    area: cocina
+    state:
+      in: "seco"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "Movimiento en el garaje"
+    id: "binary_sensor.garage_motion"
+    area: "garaje"
+    state:
+      in: "activo"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "Sensor de presencia"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "cocina"
+    state:
+      in: "detectado"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "Puerta del cobertizo"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "cerrada"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "enchufado"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "Alimentación general"
+    id: "binary_sensor.power"
+    state:
+      in: "conectado"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "Teléfono"
+    id: "binary_sensor.presence"
+    state:
+      in: "fuera"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "Alimentador de mascotas"
+    id: "binary_sensor.problem"
+    area: "cocina"
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "Lavadora"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "en marcha"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "Carretera"
+    id: "binary_sensor.road_safety"
+    state:
+      in: "segura"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "Humo en la cocina"
+    id: "binary_sensor.kitchen_smoke"
+    area: "cocina"
+    state:
+      in: "despejado"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "Sirena"
+    id: "binary_sensor.sound"
+    area: "garaje"
+    state:
+      in: "detectada"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "Tarro de galletas"
+    id: "binary_sensor.cookie_stash_tamper"
+    state:
+      in: "despejado"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "actualización disponible"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "no vibrando"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "Ventana del cobertizo"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "abierta"
+      out: "on"
+    attributes:
+      device_class: window
+
   # https://www.home-assistant.io/integrations/sensor/
-  - name: "Potencia aparente dispositivo"
-    id: "sensor.potencia_aparente_dispositivo"
+  - name: "medidor de potencia"
+    id: "sensor.appliance_apparent_power"
     state: "2"
     attributes:
       device_class: apparent_power
@@ -119,25 +389,26 @@ entities:
 
   - name: "Sensor calidad aire cocina"
     id: "sensor.calidad_aire_cocina"
+    area: cocina
     state: "50"
     attributes:
       device_class: aqi
 
-  - name: "Sensor aire exterior"
+  - name: "Sensor de aire exterior"
     id: "sensor.presion_exterior"
     state: "1000"
     attributes:
       device_class: atmospheric_pressure
       unit_of_measurement: "hPa"
 
-  - name: "Mi teléfono"
+  - name: "Mi Teléfono"
     id: "sensor.mi_telefono_bateria"
     state: "98"
     attributes:
       device_class: battery
       unit_of_measurement: "%"
 
-  - name: "Sensor CO2 bomba calor"
+  - name: "Sensor de CO2"
     id: "sensor.bomba_calor_co2"
     state: "50"
     attributes:

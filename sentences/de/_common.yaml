@@ -65,7 +65,7 @@ lists:
         out: gate
       - in: Schirm[e]
         out: shade
-      - in: "(Rollladen|Rollläden)"
+      - in: "(Rollladen|Rollläden|Rollo[s])"
         out: shutter
       - in: Fenster
         out: window
@@ -129,6 +129,18 @@ lists:
         out: "on"
       - in: "normal"
         out: "off"
+  bs_door_states:
+    values:
+      - in: "(auf|offen|geöffnet)"
+        out: "on"
+      - in: "(zu|geschlossen)"
+        out: "off"
+  bs_garage_door_states:
+    values:
+      - in: "(auf|offen|geöffnet|oben)"
+        out: "on"
+      - in: "(zu|geschlossen|unten)"
+        out: "off"
 
   shopping_list_item:
     wildcard: true
@@ -138,7 +150,7 @@ expansion_rules:
   artikel_unbestimmt: "[(ein|eine|eines|einer|einem|einen)]"
   artikel: "[<artikel_bestimmt>|<artikel_unbestimmt>]"
   name: "<artikel> {name}"
-  area: "((in|an|auf) <artikel>|im|am) {area}"
+  area: "([(in|an|auf)] <artikel>|im|am|<von_dem>) {area}[s]"
   an: "(an|ein|auf)"
   aus: "(aus|ab|zu)"
   auf: "(auf|hoch|rauf|nach oben)"
@@ -150,8 +162,8 @@ expansion_rules:
   schalten: "(schalt[e|en])"
   machen: "(mach[e|en])"
   setzen: "(setz[e|en]|stell[e|en]|einstellen|änder[e|n]|veränder[e|n])"
-  abdeckung: "<artikel> (Rollo[s]|Abdeckung[en]|Rolll(a|ä)den|Jalousie[n]|Raffstore[s]|Markise[n])"
-  alle_abdeckungen: "<alle> (Rollos|Abdeckungen|Rolll(a|ä)den|Jalousien|Raffstores|Markisen)"
+  abdeckung: "<artikel> (Rollo[s]|Abdeckung[en]|Rolll(a|ä)den|Jalousie[n]|Raffstore[s]|Markise[n]|Vorh(a|ä)ng[e])"
+  alle_abdeckungen: "<alle> (Rollos|Abdeckungen|Rolll(a|ä)den|Jalousien|Raffstores|Markisen|Vorhänge)"
   garage: "<artikel> (Garage[n]|Garagentor[e])"
   alle_garagen: "<alle> (Garagen[tore])"
   tor: "<artikel> Tor[e]"

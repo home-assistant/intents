@@ -1,0 +1,74 @@
+language: sr
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "<да_ли> [<име>] [батерија] [у <област>] [<име>] {bs_battery_states:state} [у <област>]"
+          - "<да_ли> {bs_battery_states:state} [батерија] <име> [у <област>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "<да_ли> [било кој(а|е)|неке] батериј(а|е) [у <област>] {bs_battery_states:state} [у <област>]"
+          - "<да_ли> {bs_battery_states:state} [било кој(а|е)|неке] батериј(а|е) [у <област>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "<да_ли> све батерије [у <област>] {bs_battery_states:state} [у <област>]"
+          - "<да_ли> {bs_battery_states:state} све батерије [у <област>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "<који_шта> батериј(а|е) [је|се] {bs_battery_states:state} [у <област>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "<шта_је> батериј(а|е) [је|се] {bs_battery_states:state} [у <област>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "<да_ли> [батерија] <име> {bs_battery_charging_states:state} [у <област>]"
+          - "<да_ли> {bs_battery_charging_states:state} [батерија] <име> [у <област>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "<да_ли> [било кој(а|е)] [батериј(а|е)] {bs_battery_charging_states:state} [у <област>]"
+          - "<да_ли> {bs_battery_charging_states:state} [било кој(а|е)] [батериј(а|е)] [у <област>]"
+          - "<који_шта> [је|се] [батериј(а|е)] [је|се] {bs_battery_charging_states:state} [у <област>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "<шта_је> [је|се] [батериј(а|е)] [је|се] {bs_battery_charging_states:state} [у <област>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
