@@ -1,0 +1,19 @@
+language: sr
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/sensor/
+      
+      # Temperature
+      - sentences:
+          - "<која_је_вредност_сензора>"
+          - "<која_је> [<име>] <class> [(у|на) <област>]"
+        response: sensor_value_temperature
+        requires_context:
+          domain: sensor
+          device_class: temperature
+        slots:
+          domain: sensor
+          device_class: temperature
+        expansion_rules:
+          class: "temperatur(a|e)"
