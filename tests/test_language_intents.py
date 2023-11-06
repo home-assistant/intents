@@ -6,8 +6,6 @@ import sys
 from pathlib import Path
 from typing import Any, Iterable
 
-from pprint import pprint
-
 from hassil import Intents
 from hassil.expression import (
     Expression,
@@ -129,22 +127,14 @@ def do_test_language_sentences(
                 if slot_combinations:
                     # Verify one of the combinations is matched
                     combo_matched = False
-                    pprint(sentence.text)
-                    pprint('found_slots')
-                    pprint(found_slots)
-                    pprint('----------')
                     for combo_slots in slot_combinations.values():
-                        pprint('combo_slots')
-                        pprint(combo_slots)
-                        pprint('----------')
                         if found_slots.issuperset(combo_slots):
                             combo_matched = True
-                            pprint('MATCH')
                             break
 
                     assert (
                         combo_matched
-                    ), f"Slot combination not matched: intent='{intent_name}', slots={found_slots}, sentence='{sentence.text}' {slot_combinations}"
+                    ), f"Slot combination not matched: intent='{intent_name}', slots={found_slots}, sentence='{sentence.text}'"
 
 
 def _verify(
