@@ -2,10 +2,16 @@ language: es
 responses:
   intents:
     HassGetState:
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
-        El estado del dispositivo {{ slots.name | capitalize }} es {{ state.state_with_unit }}
+        {% if state.domain == "sensor" %}
+          El dispositivo {{ slots.name | capitalize }} indica {{ state.state_with_unit }}
+        {% else %}
+          El dispositivo {{ slots.name | capitalize }} está {{ state.state_with_unit }}
+        {% endif %}
 
       one_yesno: |
         {% if query.matched %}
@@ -40,17 +46,17 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} dispositivos lo están
+            No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} dispositivos tienen ese estado
           {% else %}
             {% if no_match | length == 1 %}
-              No, el dispositivo {{ no_match|first }} no
+              No, el dispositivo {{ no_match|first }} no tiene ese estado
             {%- else -%}
               No, ni
               {% for name in no_match -%}
                 {% if not loop.first and not loop.last %}, ni {% elif loop.last and not loop.first %} ni {% endif -%}
                 {{ name }}
               {%- endfor %}
-              lo están
+              tienen el estado {{slots.state}}
             {% endif %}
           {% endif %}
         {% endif %}
