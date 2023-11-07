@@ -65,7 +65,7 @@ lists:
         out: gate
       - in: Schirm[e]
         out: shade
-      - in: "(Rollladen|Rollläden)"
+      - in: "(Rollladen|Rollläden|Rollo[s])"
         out: shutter
       - in: Fenster
         out: window
@@ -141,6 +141,18 @@ lists:
         out: "on"
       - in: "(zu|geschlossen|unten)"
         out: "off"
+  bs_gas_states:
+    values:
+      - in: "(entdeckt|ausgelöst|erkannt|an)"
+        out: "on"
+      - in: "(klar|rein|sauber|sicher)"
+        out: "off"
+  bs_heat_states:
+    values:
+      - in: "hei(ß|ss)"
+        out: "on"
+      - in: "normal"
+        out: "off"
 
   shopping_list_item:
     wildcard: true
@@ -162,8 +174,8 @@ expansion_rules:
   schalten: "(schalt[e|en])"
   machen: "(mach[e|en])"
   setzen: "(setz[e|en]|stell[e|en]|einstellen|änder[e|n]|veränder[e|n])"
-  abdeckung: "<artikel> (Rollo[s]|Abdeckung[en]|Rolll(a|ä)den|Jalousie[n]|Raffstore[s]|Markise[n])"
-  alle_abdeckungen: "<alle> (Rollos|Abdeckungen|Rolll(a|ä)den|Jalousien|Raffstores|Markisen)"
+  abdeckung: "<artikel> (Rollo[s]|Abdeckung[en]|Rolll(a|ä)den|Jalousie[n]|Raffstore[s]|Markise[n]|Vorh(a|ä)ng[e])"
+  alle_abdeckungen: "<alle> (Rollos|Abdeckungen|Rolll(a|ä)den|Jalousien|Raffstores|Markisen|Vorhänge)"
   garage: "<artikel> (Garage[n]|Garagentor[e])"
   alle_garagen: "<alle> (Garagen[tore])"
   tor: "<artikel> Tor[e]"
@@ -186,12 +198,13 @@ expansion_rules:
   szene: "<artikel> Szene"
   skript: "<artikel> Skript"
   batterie: "<artikel> (Batterie[n]|Akku[s])"
-  irgend: "(irgend(<artikel_unbestimmt>[s]|welche[s])|(einige|manche)[s]|<artikel_unbestimmt>[s]) <artikel_bestimmt>"
+  irgend: "(irgend(<artikel_unbestimmt>[s]|welche[s]|wo)|(einige|manche)[s]|<artikel_unbestimmt>[s]) <artikel_bestimmt>"
   etwas: "[irgend][et]was"
   welche: "(welche[r|s]|was für [<artikel_unbestimmt>[s]]) <artikel_bestimmt>"
   ladestand: "<artikel> [Lade][zu]Stand"
   co: "Kohlen[stoff]monoxid"
-  co-sensor: "<co>[-]Sensor[en]"
+  co_sensor: "<co>[-]Sensor[en]"
+  gas_sensor: "Gas[-]Sensor[en]"
   ding: "((Ding|Gerät)[e]|Sensor[en]|Gegenstand|Gegenstände)"
 skip_words:
   - "bitte"
