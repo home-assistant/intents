@@ -1,0 +1,45 @@
+language: en
+responses:
+  intents:
+    HassSetTimer:
+      started: |
+        {% if "hours" in slots: %}
+          {% if slots.hours.value == 1: %}
+            {% set hours = (slots.hours.value | string) + " hour" %}
+          {% else: %}
+            {% set hours = (slots.hours.value | string) + " hours" %}
+          {% endif %}
+        {% endif %}
+
+        {% if "minutes" in slots: %}
+          {% if slots.minutes.value == 1: %}
+            {% set minutes = "1 minute" %}
+          {% else: %}
+            {% set minutes = (slots.minutes.value | string) + " minutes" %}
+          {% endif %}
+        {% endif %}
+
+        {% if "seconds" in slots: %}
+          {% if slots.seconds.value == 1: %}
+            {% set seconds = "1 second" %}
+          {% else: %}
+            {% set seconds = (slots.seconds.value | string) + " seconds" %}
+          {% endif %}
+        {% endif %}
+
+        {% if ("hours" in slots) and ("minutes" in slots) and ("seconds" in slots): %}
+          {% set duration = hours + " and " + minutes + " and " + seconds %}
+        {% elif ("hours" in slots) and ("minutes" in slots): %}
+          {% set duration = hours + " and " + minutes %}
+        {% elif ("hours" in slots) and ("seconds" in slots): %}
+          {% set duration = hours + " and " + seconds %}
+        {% elif "hours" in slots: %}
+          {% set duration = hours %}
+        {% elif ("minutes" in slots) and ("seconds" in slots): %}
+          {% set duration = minutes + " and " + seconds %}
+        {% elif "minutes" in slots: %}
+          {% set duration = minutes %}
+        {% elif "seconds" in slots: %}
+          {% set duration = seconds %}
+        {% endif %}
+        Timer started for {{ duration }}

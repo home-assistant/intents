@@ -104,6 +104,7 @@ def do_test_language_sentences_file(
                 language_sentences,
                 slot_lists=slot_lists,
                 intent_context=intent_context,
+                language=language,
             )
             assert result is not None, f"Recognition failed for '{sentence}'"
             assert (

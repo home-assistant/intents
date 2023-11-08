@@ -12,6 +12,7 @@ from hassil.recognize import recognize
 from hassil.util import merge_dict, normalize_whitespace
 
 from shared import (
+    StringWithValue,
     get_areas,
     get_matched_states,
     get_slot_lists,
@@ -70,12 +71,17 @@ def run() -> int:
 
     # Parse sentences
     for sentence in args.sentence:
-        result = recognize(sentence, intents, slot_lists=slot_lists)
+        result = recognize(
+            sentence, intents, slot_lists=slot_lists, language=args.language
+        )
         output_dict = {"text": sentence, "match": result is not None}
         if result is not None:
             output_dict["intent"] = result.intent.name
             output_dict["slots"] = {
-                entity.name: entity.value for entity in result.entities_list
+                entity.name: StringWithValue(
+                    entity.text_clean or entity.value, value=entity.value
+                )
+                for entity in result.entities_list
             }
             output_dict["context"] = result.context
 

@@ -12,7 +12,7 @@ import voluptuous as vol
 import yaml
 from voluptuous.humanize import validate_with_humanized_errors
 
-from shared import get_jinja2_environment
+from shared import StringWithValue, get_jinja2_environment
 
 from .const import (
     INTENTS_FILE,
@@ -507,7 +507,7 @@ def validate_language(
 
             possible_response_keys: set[str] = set()
             slots = {
-                slot_name: f"<{slot_name}>"
+                slot_name: StringWithValue(f"<{slot_name}>")
                 for slot_name in intent_schemas[intent_name].get("slots", {})
             }
             for response_key, response_template in intent_responses.items():
