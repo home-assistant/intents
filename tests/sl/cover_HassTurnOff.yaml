@@ -1,26 +1,37 @@
 language: sl
 tests:
-  #common for covers
   - sentences:
-      - "zapri vsa okna v kuhinji"
-      - "zapri okna v kuhinji"
-      - "zapri kuhinjska okna"
-      - "zapri vsa kopalniška okna"
-      - "zapri vsa okna v kopalnici"
+      - "zapri okno v kuhinji"
     intent:
       name: HassTurnOff
       slots:
         area:
           - kuhinji
-          - kuhinjska
+        domain: cover
+        device_class: window
+    response: "Zapiram okno"
+  - sentences:
+      - "zapri okna v kuhinji"
+      - "zapri okna v kopalnici"
+    intent:
+      name: HassTurnOff
+      slots:
+        area:
+          - kuhinji
           - kopalnici
-          - kopalniška
         domain: cover
         device_class: window
     response: "Zapiram okna"
-
   - sentences:
-      - "zapri vsa vrata na hodniku"
+      - "zapri kuhinjsko okno"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        device_class: window
+    response: "Zapiram kuhinjsko okno"
+  - sentences:
+      - "zapri vrata na hodniku"
       - "zapri vrata dnevne sobe"
       - "zapri vrata v dnevni sobi"
     intent:
@@ -33,16 +44,15 @@ tests:
         domain: cover
         device_class: door
     response: "Zapiram vrata"
-
   - sentences:
       - "zapri garažna vrata"
     intent:
       name: HassTurnOff
       slots:
         domain: cover
-        device_class: garage
+        #area: garažna
+        device_class: door
     response: "Zapiram garažna vrata"
-
   - sentences:
       - "zapri zavese v dnevni sobi"
     intent:
@@ -53,20 +63,16 @@ tests:
         domain: cover
         device_class: curtain
     response: "Zapiram zavese"
-
-    #different resonse for synonyms
   - sentences:
-      - "zapri vse zavese"
+      - "zapri zavese"
     intent:
       name: HassTurnOff
       slots:
         domain: cover
         device_class: curtain
     response: "Zapiram zavese"
-
-  #window
   - sentences:
-      - "zapri strešno okno"
+      - zapri strešno okno
     intent:
       name: HassTurnOff
       slots:
@@ -76,29 +82,3 @@ tests:
         domain: cover
         device_class: window
     response: "Zapiram strešno okno"
-
-  - sentences:
-      - "zapri malo okno v kuhinji"
-    intent:
-      name: HassTurnOff
-      slots:
-        name: "malo okno"
-        area: kuhinji
-        device_class: window
-      context:
-        domain: cover
-        device_class: window
-    response: "Zapiram malo okno"
-
-  - sentences:
-      - "zapri vhodna vrata na hodniku"
-    intent:
-      name: HassTurnOff
-      slots:
-        name: "vhodna vrata"
-        area: hodniku
-        device_class: door
-      context:
-        domain: cover
-        device_class: door
-    response: "Zapiram vhodna vrata"

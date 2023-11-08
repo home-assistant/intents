@@ -3,29 +3,13 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<zapri> <name> [v|na] <area>"
-          - "<zapri> <area> {cover_classes:device_class}"
-        requires_context:
-          domain: cover
-        response: cover
-
-      - sentences:
-          - "<zapri> <name>"
+          - "<zapri> {cover_classes:device_class} [v|na] [<area>]"
+          - "<zapri> [<area>] {cover_classes:device_class}"
         slots:
           domain: cover
-          device_class:
-            - awning
-            - blind
-            - curtain
-            - door
-            - garage
-            - gate
-            - shade
-            - shutter
-            - window
         response: cover_device_class
       - sentences:
-          - "<zapri> <name> [v|na] {area}"
+          - "<zapri> <name>"
         requires_context:
           domain: cover
         slots:
@@ -41,8 +25,18 @@ intents:
             - window
         response: cover_single
       - sentences:
-          - "<zapri> {cover_classes:device_class} [v|na] <area>"
-          - "<zapri> <area> {cover_classes:device_class}"
-        slots:
+          - "<odpri> <name> [v|na] [<area>]"
+        requires_context:
           domain: cover
-        response: cover_device_class
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - garage
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover_single
