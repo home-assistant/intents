@@ -4,8 +4,9 @@ responses:
     HassGetWeather:
       default: >
         {% set weather_condition = {
+          'clear': 'and clear',
           'clear-night': 'and clear',
-          'cloudy':	'and cloudy',
+          'cloudy': 'and cloudy',
           'exceptional': 'and exceptional',
           'fog': 'with fog',
           'hail': 'with hail',
@@ -20,4 +21,4 @@ responses:
           'windy': 'and windy',
           'windy-variant': 'with wind and clouds'
         } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get(state.state.lower(), "") }}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
