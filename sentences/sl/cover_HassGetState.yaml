@@ -3,33 +3,33 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "(ali je| je|ali so) {cover_classes:device_class} [[v|na] <area>] {cover_states:state}"
+          - "(ali so| ali je| je| so) {cover_classes:device_class} {cover_states:state}"
+          - "(ali so| ali je| je| so) {cover_states:state} {cover_classes:device_class}"
         response: one_yesno
-        requires_context:
-          domain: cover
         slots:
           domain: cover
-
       - sentences:
-          - "(ali je|je ali so|so) {cover_states:state} (katera) {cover_classes:device_class} [[v|na] <area>]"
+          - "(ali so| ali je| je| so) {cover_classes:device_class} [[v|na] <area>] {cover_states:state} [[v|na] <area>]"
+        response: one_yesno
+        slots:
+          domain: cover
+      - sentences:
+          - "(ali so| ali je| je| so) [kater(e|a|i)] {cover_classes:device_class} {cover_states:state}  [[v|na] <area>]"
         response: any
         slots:
           domain: cover
-
       - sentences:
-          - "(ali je|je ali so|so) {cover_states:state} {cover_classes:device_class} [[v|na] <area>]"
+          - "(ali so| ali je| je| so) {cover_states:state} (vsa) {cover_classes:device_class} [[v|na] <area>]"
         response: all
         slots:
           domain: cover
-
       - sentences:
-          - "(katero|katera) {cover_classes:device_class} {cover_states:state} [[v|na] <area>]"
+          - "(katera) {cover_classes:device_class} [so|je] {cover_states:state} [[v|na] <area>]"
         response: which
         slots:
           domain: cover
-
       - sentences:
-          - "(koliko) ({cover_classes:device_class}|{cover_states:state}) ({cover_states:state}|{cover_classes:device_class}) [je|so] [[v|na] <area>]"
+          - "(koliko) {cover_classes:device_class} [je|so] {cover_states:state} [[v|na] <area>]"
         response: how_many
         slots:
           domain: cover
