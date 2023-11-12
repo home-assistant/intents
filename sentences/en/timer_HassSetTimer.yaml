@@ -1,0 +1,25 @@
+language: "en"
+intents:
+  HassSetTimer:
+    data:
+      # hours/minutes/seconds
+      - sentences:
+          - "<start>[ a] timer for <duration_simple>[ <timer_text>]"
+          - "<start>[ a] <duration_simple> timer[ <timer_text>]"
+        response: started
+
+      # half an hour
+      - sentences:
+          - "<start>[ a] timer for (a half hour|half an hour)[ <timer_text>]"
+          - "<start>[ a] half hour timer[ <timer_text>]"
+          - "<start>[ a] timer for {hours} and a half hours[ <timer_text>]"
+        response: started
+        slots:
+          minutes: 30
+
+      # half a minute
+      - sentences:
+          - "<start>[ a] timer for {minutes} and a half minutes[ <timer_text>]"
+        response: started
+        slots:
+          seconds: 30

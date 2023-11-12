@@ -53,6 +53,17 @@ class AreaEntry:
     aliases: Set[str] = field(default_factory=set)
 
 
+class StringWithValue(str):
+    def __new__(cls, text: str, value: Optional[Any] = None) -> "StringWithValue":
+        return super().__new__(cls, text)
+
+    def __init__(self, text: str, value: Optional[Any] = None) -> None:
+        if value is None:
+            self.value = text
+        else:
+            self.value = value
+
+
 def get_matched_states(
     states: List[State], areas: List[AreaEntry], result: RecognizeResult
 ) -> Tuple[List[State], List[State]]:
@@ -173,11 +184,17 @@ def render_response(
     return env.from_string(response_template).render(
         {
             "slots": {
-                entity.name: entity.text_clean or entity.value
+                entity.name: StringWithValue(
+                    entity.text_clean or entity.value, value=entity.value
+                )
                 for entity in result.entities_list
             },
             "state": state1,
-            "query": {"matched": matched, "unmatched": unmatched, "total_results": len(matched) + len(unmatched)},
+            "query": {
+                "matched": matched,
+                "unmatched": unmatched,
+                "total_results": len(matched) + len(unmatched),
+            },
         }
     )
 
