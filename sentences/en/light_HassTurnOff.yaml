@@ -27,5 +27,16 @@ intents:
         response: "light_all"
         slots:
           domain: "light"
-          area: "all"
           name: "all"
+
+      # Turn off all lights in the same area as a satellite device
+      - sentences:
+          - "<turn> off all[ the] lights<in_here>"
+          - "<turn> all[ the] lights( off;<in_here>)"
+        response: "lights_area"
+        expansion_rules:
+          in_here: "[[ in] here]"
+        slots:
+          domain: "light"
+        requires_context:
+          area: null

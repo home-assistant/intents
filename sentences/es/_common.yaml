@@ -1,12 +1,12 @@
 language: es
 responses:
   errors:
-    no_intent: Lo siento, no he entendido
-    no_area: No existe ningún área llamada {{ area }}
+    no_intent: "Lo siento, no he entendido"
+    no_area: "No existe ningún área llamada {{ area }}"
     no_domain: "No hay ningún elemento de tipo {{ domain }} en el área {{ area }}"
     no_device_class: "No hay ningún elemento de clase {{ device_class }} en el área {{ area }}"
-    no_entity: No existe ningún dispositivo o entidad llamado {{ entity }}
-    handle_error: Se ha producido un error inesperado al procesar la instrucción
+    no_entity: "No existe ningún dispositivo o entidad llamado {{ entity }}"
+    handle_error: "Se ha producido un error inesperado al procesar la instrucción"
 lists:
   color:
     values:
@@ -54,7 +54,7 @@ lists:
     values:
       - in: "(máxim(o|a)|más alt(a|o)|tope)"
         out: 100
-      - in: "(mímim(o|a)|más baj(o|a))"
+      - in: "(mínim(o|a)|más baj(o|a))"
         out: 1
   on_off_states:
     values:
@@ -102,7 +102,7 @@ lists:
         out: window
   lock_states:
     values:
-      - in: "(cerrad(o|a)[s] [con (llave|pestillo|cerrojo|cerradura)]|echad(o|a)[s])"
+      - in: "(cerrad|echad)(o|a)[s] [con (llave|pestillo|cerrojo|cerradura)]"
         out: "locked"
       - in: "abiert(o|a)[s]"
         out: "unlocked"
@@ -112,7 +112,7 @@ lists:
     values:
       - in: "baj(o|a)[s]"
         out: "on"
-      - in: "normal"
+      - in: "(normal|cargad(o|a)[s])"
         out: "off"
 
   bs_battery_charging_states:
@@ -124,9 +124,9 @@ lists:
 
   bs_carbon_monoxide_states:
     values:
-      - in: "(detectad|activ)(o|a)[s]"
+      - in: "(detectad|activ[ad])(o|a)[s]"
         out: "on"
-      - in: "(despejad|no detectad)(o|a)[s]"
+      - in: "(despejad|no detectad|(no |in|des)activ[ad])(o|a)[s]"
         out: "off"
 
   bs_cold_states:
@@ -140,7 +140,7 @@ lists:
     values:
       - in: "conectad(o|a)[s]"
         out: "on"
-      - in: "desconectad(o|a)[s]"
+      - in: "(no |des)conectad(o|a)[s]"
         out: "off"
 
   bs_door_states:
@@ -161,7 +161,7 @@ lists:
     values:
       - in: "(detectad|activ[ad])(o|a)[s]"
         out: "on"
-      - in: "(despejad|no detectad|inactiv)(o|a)[s]"
+      - in: "(despejad|no detectad|(no |in|des)activ[ad])(o|a)[s]"
         out: "off"
 
   bs_heat_states:
@@ -173,9 +173,9 @@ lists:
 
   bs_light_states:
     values:
-      - in: "(activ|encendid|detectad)(o|a)[s]"
+      - in: "(activ[ad]|encendid|detectad)(o|a)[s]"
         out: "on"
-      - in: "((inactiv|apagad)(o|a)[s]|sin luz)"
+      - in: "(((no |in|des)activ[ad]|apagad)(o|a)[s]|sin luz)"
         out: "off"
 
   bs_lock_states:
@@ -187,23 +187,23 @@ lists:
 
   bs_moisture_states:
     values:
-      - in: "(húmed|mojad|inundad|activ)(o|a)[s]"
+      - in: "(húmed|mojad|inundad|activ[ad])(o|a)[s]"
         out: "on"
-      - in: "sec(o|a)[s]"
+      - in: "(sec|(no |in|des)activad[ad])(o|a)[s]"
         out: "off"
 
   bs_motion_states:
     values:
       - in: "(activ[ad]|detectad)(o|a)[s]"
         out: "on"
-      - in: "(inactiv|despejad)(o|a)[s]"
+      - in: "((no |in|des)activ[ad]|despejad)(o|a)[s]"
         out: "off"
 
   bs_occupancy_states:
     values:
       - in: "(detectad|activ[ad]|ocupad)(o|a)[s]"
         out: "on"
-      - in: "(inactiv|despejad)(o|a)[s]"
+      - in: "((no |in|des)activ[ad]|despejad)(o|a)[s]"
         out: "off"
 
   bs_opening_states:
@@ -222,9 +222,9 @@ lists:
 
   bs_power_states:
     values:
-      - in: "(alimentad|conectad|encendid|activ)(o|a)[s]"
+      - in: "(alimentad|conectad|encendid|activ[ad])(o|a)[s]"
         out: "on"
-      - in: "(desconectad|apagad|inactiv)(o|a)[s]"
+      - in: "(desconectad|apagad|(no |in|des)activ[ad])(o|a)[s]"
         out: "off"
 
   bs_presence_states:
@@ -243,9 +243,9 @@ lists:
 
   bs_running_states:
     values:
-      - in: "ejecutándose|en ejecución|en marcha|funcionando"
+      - in: "(ejecutándose|en ejecución|en marcha|funcionando)"
         out: "on"
-      - in: "no ejecutándose|parad(o|a)[s]|detenid(o|a)[s]"
+      - in: "(no ejecutándose|(parad|detenid)(o|a)[s])"
         out: "off"
 
   bs_safety_states:
@@ -257,16 +257,16 @@ lists:
 
   bs_smoke_states:
     values:
-      - in: "(activ|detectad)(o|a)[s]"
+      - in: "(activ[ad]|detectad)(o|a)[s]"
         out: "on"
-      - in: "(inactiv|despejad)(o|a)[s]"
+      - in: "((no |in|des)activ[ad]|despejad)(o|a)[s]"
         out: "off"
 
   bs_sound_states:
     values:
-      - in: "(activ|detectad|disparad)(o|a)[s]"
+      - in: "(activ[ad]|detectad|disparad)(o|a)[s]"
         out: "on"
-      - in: "(inactiv|despejad)(o|a)[s]"
+      - in: "((no |in|des)activ[ad]|despejad)(o|a)[s]"
         out: "off"
 
   bs_tamper_states:
@@ -285,9 +285,9 @@ lists:
 
   bs_vibration_states:
     values:
-      - in: "(activ|detectad)(o|a)[s]|vibrando"
+      - in: "(activ[ad]|detectad)(o|a)[s]|vibrando"
         out: "on"
-      - in: "(inactiv|despejad)(o|a)[s]"
+      - in: "((no |in|des)activ[ad]|despejad)(o|a)[s]"
         out: "off"
 
   bs_window_states:
@@ -301,23 +301,31 @@ lists:
     wildcard: true
 
 expansion_rules:
-  abre: "(abre|abra|abrir|abrí|sube|suba|subir|subí)"
-  añadir: "(añade|añada|añadir|añadí|pon|ponga|poner|poné)"
-  apaga: "(apaga|apague|apagar|apagá|desconecta|desconecte|desconectar|desconectá|desactiva|desactive|desactivar|desactivá)"
-  area: "[en|en el|en la|la|de la|del|de|el] {area}"
-  brightness: "{brightness}[ ][%|porciento|por ciento]"
+  abre: "(abr(a|e|ir|í)|sub(a|e|ir|í))"
+  ahora: "[ahora [mismo]|actualmente|en este momento]"
+  añadir: "(añad(a|e|ir|í)|pon[ga|er|é])"
+  apaga: "(apag(a|ue|ar|á)|desconect(a|e|ar|á)|desactiv(a|e|ar|á))"
+  area: "[en|del|de] [el|la] {area}"
+  brightness: "{brightness} [%|porciento|por ciento]"
+  cancela: "cancel(a[r]|á|e|ación)"
+  cambia: "(cambi(a[r]|á|e|o)|(muev[a|e]|mov[er|é]))"
   cierra: "(cierra|cierre|cerrar|cerrá|baja|baje|bajar|bajá)"
-  enciende: "(enciende|encienda|encender|encendé|conecta|conecte|conectar|conectá|activa|active|activar|activá|prende|prenda|prender|prendé)"
-  ejecuta: "(<enciende>|ejecuta|ejecute|ejecutar|ejecutá|activa|active|activar|activá|inicia|inicie|iniciar|iniciá)"
-  establece: "(pon|ponga|poner|poné|establece|establezca|establecer|establecé|ajusta|ajuste|ajustar|ajustá|configura|configure|configurar|configurá)"
-  establece_sube_baja: "(pon|ponga|poner|poné|establece|establezca|establecer|establecé|ajusta|ajuste|ajustar|ajustá|configura|configure|configurar|configurá|sube|suba|subir|subí|baja|baje|bajar|bajá)"
+  cual_es: "(Cuál es [el|la]|Cuáles son [los|las])"
+  dime: "(sab(es|é)|dime|dec(ir|í|id)[me]|ind(i|í)(ca|que|car|cá)[me])"
+  dime_si: "<dime> si"
+  enciende: "(enc[i]end(a|e|er|é)|conect(a|e|ar|á)|activ(a|e|ar|á)|prend(a|e|er|é))"
+  ejecuta: "(<enciende>|ejecut(a|e|ar|á)|inici(a|e|ar|á))"
+  establece: "(pon[ga|er|é]|estable[z]c(a|e|er|é)|ajust(a|e|ar|á)|configur(a|e|ar|á))"
+  establece_sube_baja: "(<establece>|sub(a|e|ir|í)|baj(a|e|ar|á))"
+  mide: "[que] ([es|está] (mid(e|ie)|medi|indica|marca)[ndo|d(a|o)]|tiene|hay) [por|en]"
   name: "[el|la|los|las] {name}"
   puerta: "[el|la] (puerta|portón|cancela|verja|reja|compuerta|portillo)"
   temp: "[el|la] (temperatura|calor|grados)"
-  temperature: "{temperature}[ ][grados][ ][{temperature_unit}]"
-  dime: "[sabes|sabé|dime|decirme|indicar]"
-  dime_si: "[(sabes|sabé|dime|decirme|indicar) si]"
-  ahora: "[ahora [mismo]|actualmente|en este momento]"
+  temperature: "{temperature} [grados] [{temperature_unit}]"
+
+  # Preguntas
+  cual_es_la_medida_del_sensor: "(<cual_es>|Qué|Cuánt(a|o)[s]) [(la (cantidad|medida)|el nivel) de ][<class> (de|del|en|desde|por|<mide>)] [[el ](sensor |medidor )[de ]]<name> [<area>]"
+
 skip_words:
   - "por favor"
   - "porfa"
@@ -326,6 +334,10 @@ skip_words:
   - "podría"
   - "puedes"
   - "podés"
+  - "me podrías"
+  - "me podría"
+  - "me puedes"
+  - "me podés"
   - "te importaría"
   - "te importa"
   - "le importa"
