@@ -17,7 +17,11 @@ responses:
         {% if query.matched %}
           Sí
         {% else %}
-          No, su estado es {{ state.state_with_unit }}
+          {% if state.domain == "person" %}
+            No, está en {{ state.state_with_unit }}
+          {% else %}
+            No, su estado es {{ state.state_with_unit }}
+          {% endif %}
         {% endif %}
 
       any: |
@@ -27,7 +31,11 @@ responses:
             Sí, {{ match[:3] | join(", ") }} y otros {{ (match | length - 3) }} dispositivos más
           {%- else -%}
             {% if match | length == 1 %}
-              Sí, el dispositivo {{ match|first }}
+              {% if state.domain == "person" %}
+                Sí, {{ match|first }}
+              {% else %}
+                Sí, el dispositivo {{ match|first }}
+              {% endif %}
             {% else %}
               Sí,
               {% for name in match -%}
@@ -46,17 +54,29 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} dispositivos tienen ese estado
+            {% if state.domain == "person" %}
+              No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} están en {{slots.state}}
+            {% else %}
+              No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} dispositivos tienen ese estado
+            {% endif %}
           {% else %}
             {% if no_match | length == 1 %}
-              No, el dispositivo {{ no_match|first }} no tiene ese estado
+              {% if state.domain == "person" %}
+                No, {{ no_match|first }} no está en {{slots.state}}
+              {% else %}
+                No, el dispositivo {{ no_match|first }} no tiene ese estado
+              {% endif %}
             {%- else -%}
               No, ni
               {% for name in no_match -%}
                 {% if not loop.first and not loop.last %}, ni {% elif loop.last and not loop.first %} ni {% endif -%}
                 {{ name }}
               {%- endfor %}
-              tienen el estado {{slots.state}}
+              {% if state.domain == "person" %}
+                están en {{slots.state}}
+              {% else %}
+                tienen el estado {{slots.state}}
+              {% endif %}
             {% endif %}
           {% endif %}
         {% endif %}
@@ -78,3 +98,10 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} está fuera
+        {% else %}
+          {{ slots.name | capitalize }} está en {{ state.state }}
+        {% endif %}
