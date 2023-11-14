@@ -1,6 +1,35 @@
 language: sl
 tests:
-  - sentences: []
+  - sentences:
+      - kakšna je temperatura?
+      - povej mi temperaturo?
     intent:
       name: HassClimateGetTemperature
-      slots: {}
+    response: "21 °C"
+
+  - sentences:
+      - kakšna je temperatura v dnevni sobi?
+      - ali je vroče v dnevni sobi?
+    intent:
+      name: HassClimateGetTemperature
+      slots:
+        area:
+          - dnevni sobi
+    response: "21 °C"
+
+  - sentences:
+      - kakšna je temperatura na balkonu?
+    intent:
+      name: HassClimateGetTemperature
+      slots:
+        area:
+          - balkonu
+    response: "" #incorrect
+  - sentences:
+      - kakšna je zunanja temperatura?
+      - kakšna je temperatura zunaj?
+      - povej mi temperaturo zunaj?
+    intent:
+      name: HassClimateGetTemperature
+
+    response: "21 °C"
