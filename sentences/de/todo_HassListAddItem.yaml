@@ -1,0 +1,15 @@
+language: de
+intents:
+  HassListAddItem:
+    data:
+      - sentences:
+          - "füge <item> <meine_liste> hinzu"
+          - "füge <meine_liste> <item> hinzu"
+          - "(setze|schreibe|nehme) <item> (auf|in) <meine_liste>"
+          - "<item> (auf|in) <meine_liste> [setzen|schreiben|nehmen]"
+        response: item_added
+        requires_context:
+          domain: todo
+        expansion_rules:
+          meine_liste: "[meine[r]|die|der] ({name} [Liste]|[Liste] {name})"
+          item: "{shopping_list_item:item}"
