@@ -64,3 +64,12 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state.state == "not_home" %}
+          {{ slots.name | capitalize }} nu este acasă
+        {% elif state.state == "home" %}
+          {{ slots.name | capitalize }} este acasă
+        {% else %}
+          {{ slots.name | capitalize }} este la {{ state.state }}
+        {% endif %}
