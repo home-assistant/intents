@@ -1,0 +1,24 @@
+language: ro
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'cu cer senin',
+          'clear-night': 'cu cer senin',
+          'cloudy': 'și înnorat',
+          'exceptional': 'și exceptional',
+          'fog': 'cu ceață',
+          'hail': 'cu grindină',
+          'lightning': 'cu descărcări electrice',
+          'lightning-rainy': 'cu ploaie însoțită de descărcări electrice',
+          'partlycloudy': 'și parțial noros',
+          'pouring': 'cu averse de ploaie',
+          'rainy': 'cu ploaie',
+          'snowy': 'cu ninsoare',
+          'snowy-rainy': 'cu lapoviță',
+          'sunny': 'și însorit',
+          'windy': 'cu intensificări ale vântului',
+          'windy-variant': 'înnorat, cu intensificări ale vântului'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
