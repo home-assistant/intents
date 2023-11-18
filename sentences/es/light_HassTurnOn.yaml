@@ -3,8 +3,19 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<enciende> ([la] luz | [las] luces) <area>"
-          - "<enciende> todas las luces <area>"
-        response: lights_area
+          - "<enciende> [[(el|la|los|las)] (luz|luces|(interruptor[es]|llave[s] de [la luz]))] [de|del] <name>"
+        requires_context:
+          domain: "light"
+      - sentences:
+          - "<enciende> [toda[s]] ([la] luz | [las] luces) <area>"
         slots:
           domain: "light"
+        response: "lights_area"
+      # Turn on all lights in the same area as a satellite device
+      - sentences:
+          - "<enciende> ((la luz|las luces)[[ de] aquí]|todas las luces [de ]aquí)"
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area: null
