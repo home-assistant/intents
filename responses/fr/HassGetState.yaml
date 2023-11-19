@@ -42,6 +42,29 @@ responses:
           Non
         {% endif %}
 
+      any_short: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% set count_match = no_match | length | int %}
+          {% if match | length > 4 %}
+            Oui, {{ match[:3] | join(", ") }} et {{ (match | length - 3) }} autres
+          {% elif match | length == 1 %}
+            Oui,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {% endfor %}
+          {%- else -%}
+            Oui,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {% endfor %}
+          {% endif %}
+        {% else %}
+          Non
+        {% endif %}
+
       all: |
         {% if not query.unmatched: %}
           Oui
@@ -88,5 +111,33 @@ responses:
           {% endif %}
         {% endif %}
 
+      which_person: |
+        {% if not query.matched %}
+          Personne
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% set count_match = match | length | int %}
+          {% if match | count > 4 %}
+            {{ match[:3] | join(", ") }} et {{ (match | length - 3) }} autres
+          {% elif match | count == 1 %}
+            {% for name in match %}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {% endfor %}
+          {% else %}
+            {% for name in match %}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} et {% endif -%}
+              {{ name }}
+            {% endfor %}
+          {% endif %}
+        {% endif %}
+
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} est absent(e)
+        {% else %}
+          {{ slots.name | capitalize }} est dans la zone {{ state.state }}
+        {% endif %}
