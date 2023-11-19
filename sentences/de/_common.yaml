@@ -157,12 +157,16 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  zone:
+    wildcard: true
+
 expansion_rules:
   artikel_bestimmt: "[(der|die|das|dem|der|den|des)]"
   artikel_unbestimmt: "[(ein|eine|eines|einer|einem|einen)]"
   artikel: "[<artikel_bestimmt>|<artikel_unbestimmt>]"
   name: "<artikel> {name}"
-  area: "([(in|an|auf)] <artikel>|im|am|<von_dem>) {area}[s]"
+  area: "<lokale_praeposition> {area}[s]"
+  lokale_praeposition: "[in|an|auf|bei] <artikel>|im|am|<von_dem>"
   an: "(an|ein|auf)"
   aus: "(aus|ab|zu)"
   auf: "(auf|hoch|rauf|nach oben)"
@@ -206,6 +210,8 @@ expansion_rules:
   co_sensor: "<co>[-]Sensor[en]"
   gas_sensor: "Gas[-]Sensor[en]"
   ding: "((Ding|Gerät)[e]|Sensor[en]|Gegenstand|Gegenstände)"
+  befinden: "(ist|sind|befinde(t|n) [sich])"
+  wo_ist: "(wo|an welchem Ort) <befinden>"
 skip_words:
   - "bitte"
   - "danke"

@@ -1,0 +1,86 @@
+language: de
+tests:
+  - sentences:
+      - "wo ist Martin"
+      - "wo befindet sich Martin"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Martin
+    response: "Martin ist hier: zuhause"
+
+  - sentences:
+      - "wo ist Lisa"
+      - "wo befindet sich Lisa"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Lisa
+    response: "Lisa ist hier: Arbeit"
+
+  - sentences:
+      - "ist Lisa zuhause"
+      - "befindet sich Lisa zuhause"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Lisa
+        state: zuhause
+    response: "Nein"
+
+  - sentences:
+      - "ist Martin auf der Arbeit"
+      - "ist Martin in der Arbeit"
+      - "befindet sich Martin bei der Arbeit"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Martin
+        state: arbeit
+    response: "Nein"
+
+  - sentences:
+      - "ist wer zuhause"
+      - "ist jemand zuhause"
+      - "ist irgendwer zuhause"
+      - "ist irgendjemand zuhause"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: zuhause
+    response: "Ja, Martin"
+
+  - sentences:
+      - "sind alle zuhause"
+      - "befinden sich alle zuhause"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: zuhause
+    response: "Nein, Jonas und Lisa sind es nicht"
+
+  - sentences:
+      - "wer ist zuhause"
+      - "wer befindet sich zuhause"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: zuhause
+    response: "Martin"
+
+  - sentences:
+      - "wie viele Personen sind zuhause"
+      - "wie viele Menschen befinden sich zuhause"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: zuhause
+    response: "1"

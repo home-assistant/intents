@@ -1,0 +1,44 @@
+language: de
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<wo_ist> <name>"
+        response: wo
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<befinden> <name> [<lokale_praeposition>] {zone:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<befinden> [irgend](jemand|wer) [<lokale_praeposition>] {zone:state}"
+        response: irgendeins
+        slots:
+          domain: person
+
+      - sentences:
+          - "<befinden> <alle> [<lokale_praeposition>] {zone:state}"
+        response: alle
+        slots:
+          domain: person
+
+      - sentences:
+          - "wer <befinden> [<lokale_praeposition>] {zone:state}"
+        response: welches
+        slots:
+          domain: person
+
+      - sentences:
+          - "wie viele (Personen|Menschen) <befinden> [<lokale_praeposition>] {zone:state}"
+        response: wie_viele
+        slots:
+          domain: person

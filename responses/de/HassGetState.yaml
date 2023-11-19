@@ -61,3 +61,10 @@ responses:
 
       wie_viele: |
         {{ query.matched | length }}
+
+      wo: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} ist weg
+        {% else %}
+          {{ slots.name | capitalize }} ist hier: {{ state.state }}
+        {% endif %}
