@@ -10,15 +10,15 @@ responses:
       one_yesno: |
         {% if query.matched %}
           Ja
-        {% elif state.state == 'not_home' %}
-          Nee, die is niet thuis
         {% else %}
-          Nee, die is in zone {{ state.state }}
+          Nee, die is {{ state.state_with_unit }}
         {% endif %}
 
       one_zone: |
         {% if query.matched %}
           Ja
+        {% elif state.state == 'not_home' %}
+          Nee, die is niet thuis
         {% else %}
           Nee, die is in de zone {{ state.state_with_unit }}
         {% endif %}
