@@ -70,3 +70,12 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} is weg
+        {% elif state == "home" %}
+          {{ slots.name | capitalize }} is thuis
+        {% else %}
+          {{ slots.name | capitalize }} is bij {{ state.state }}
+        {% endif %}
