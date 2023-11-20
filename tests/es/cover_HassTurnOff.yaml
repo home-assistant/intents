@@ -1,31 +1,54 @@
 language: es
 tests:
   - sentences:
-      - cierra el puerta del garaje
+      - cierra el portón de la cochera
     intent:
       name: HassTurnOff
       slots:
         device_class: garage
         domain: cover
-    response: Cierre de garage completado
+    response: Cierre completado
+
   - sentences:
-      - cierra el puerta en cocina
+      - cierra ventanas de la cocina
+      - cierra las ventanas en la cocina
     intent:
       name: HassTurnOff
       slots:
         area: Cocina
-        device_class: gate
         domain: cover
-    response: Cierre en cocina completado
+        device_class: window
+    response: Cierre completado
+
   - sentences:
-      - cierra la cortinas en cocina
+      - cerrar cortina izquierda
     intent:
       name: HassTurnOff
       slots:
-        area: Cocina
-        device_class:
-          - blind
-          - curtain
-          - shutter
+        name: Cortina izquierda
+      context:
         domain: cover
-    response: Cierre en cocina completado
+        device_class: curtain
+    response: cortina izquierda se ha cerrado
+
+  - sentences:
+      - cierra la cortina izquierda del salón
+    intent:
+      name: HassTurnOff
+      slots:
+        name: Cortina izquierda
+        area: Salón
+      context:
+        domain: cover
+        device_class: curtain
+    response: cortina izquierda se ha cerrado
+
+  - sentences:
+      - cierra la persiana del dormitorio
+    intent:
+      name: HassTurnOff
+      slots:
+        area: Dormitorio
+        domain: cover
+        device_class: blind
+    response: Cierre completado

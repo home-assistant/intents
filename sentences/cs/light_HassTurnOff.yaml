@@ -3,8 +3,10 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "(<vypnout>|<zhasnout>) [světlo] {name}"
-          - "{name} (<vypnout>|<zhasnout>) [světlo]"
+          - "<zhasnout> [světlo] {name}"
+          - "<vypnout> světlo {name}"
+          - "{name} <zhasnout> [světlo]"
+          - "světlo {name} <vypnout>"
         slots:
           domain: light
         response: light
@@ -14,3 +16,10 @@ intents:
         slots:
           domain: light
         response: lights_area
+      - sentences:
+          - "(<vypnout>|<zhasnout>) [úplně] všechna světla"
+        response: "light_all"
+        slots:
+          domain: "light"
+          area: "all"
+          name: "all"

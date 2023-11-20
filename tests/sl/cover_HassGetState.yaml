@@ -1,2 +1,79 @@
 language: sl
-tests: []
+tests:
+  - sentences:
+      - "ali so vhodna vrata odprta?"
+      - "ali so odprta vhodna vrata?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        state: "open"
+        device_class: door
+    response: "Da"
+  - sentences:
+      - "ali je zavesa v kuhinji odprta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        state: "open"
+        area: "kuhinji"
+        device_class: curtain
+    response: "Ne"
+  - sentences:
+      - "ali je katera zavesa odprta v dnevni sobi?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "dnevni sobi"
+        device_class: curtain
+        state: "open"
+    response: "Da, leva zavesa"
+  - sentences:
+      - "ali so zaprta vsa okna v kuhinji?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "kuhinji"
+        device_class: window
+        state: "closed"
+    response: "Ne, nista kuhinjsko okno in strešna okno"
+  - sentences:
+      - "katera vrata so odprta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: door
+        state: "open"
+    response: "drsna vrata in kuhinjska vrata"
+  - sentences:
+      - "katera okna so zaprta"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: window
+        state: "closed"
+    response: "Ni zaprtih okna" #grammar - incorrect declanation
+  - sentences:
+      - "Koliko oken je zaprtih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: window
+        state: "closed"
+    response: "0"
+  - sentences:
+      - "Koliko zaves je odprtih v dnevni sobi?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area: "dnevni sobi"
+        state: "open"
+    response: "1"

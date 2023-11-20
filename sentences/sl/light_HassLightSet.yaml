@@ -2,4 +2,35 @@ language: sl
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      # brightness
+      - sentences:
+          - "<spremeni> [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [na] <brightness>"
+        response: "brightness"
+
+      - sentences:
+          - "<spremeni> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <area> [na] <brightness>"
+          - "<spremeni> <area> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] na {brightness_level:brightness}"
+        response: "brightness"
+
+      # color
+      - sentences:
+          - "<spremeni> [barv[e|o|i]|odtenek] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <color>"
+          - "<spremeni> [barv[e|o|i|ni]|odtenek] [barv[e|o|i]|odtenek] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <area> [v|na] <color>"
+          - "<spremeni> <area> [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <color>"
+          - "<spremeni> <area> [v|na] <color>"
+        response: "color"
+
+      # min/max brightness
+      - sentences:
+          - "<spremeni> [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [na] {brightness_level:brightness}"
+          - "<spremeni> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [v|na] <area> na {brightness_level:brightness}"
+          - "<spremeni> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] na {brightness_level:brightness}"
+        slots:
+          brightness: 100
+        response: brightness
+
+      - sentences:
+          - "<spremeni> [nočn[e|i||o]] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [na] {brightness_level:brightness}"
+        slots:
+          brightness: 1
+        response: brightness
