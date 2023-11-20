@@ -8,16 +8,25 @@ tests:
       slots:
         domain: person
         name: Joost
-    response: "Joost is bij thuis"
-
+    response: "Joost is thuis"
   - sentences:
       - "waar is Ada"
+      - "waar bevindt Ada zich"
     intent:
       name: HassGetState
       slots:
         domain: person
         name: Ada
-    response: "Ada is bij Werk"
+    response: "Ada is in zone werk"
+  - sentences:
+      - "waar is Piet"
+      - "waar bevindt Piet zich"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Piet
+    response: "Piet is niet thuis"
 
   - sentences:
       - "is Ada thuis"
@@ -26,8 +35,26 @@ tests:
       slots:
         domain: person
         name: Ada
-        state: thuis
-    response: "Nee, die is Werk"
+        state: home
+    response: "Nee, die is in de zone werk"
+  - sentences:
+      - "is Ada weg"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Ada
+        state: not_home
+    response: "Nee, die is in de zone werk"
+  - sentences:
+      - "is Ada in de zone werk"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Ada
+        state: werk
+    response: "Ja"
 
   - sentences:
       - "is er iemand thuis"
@@ -35,8 +62,24 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: thuis
-    response: "Nee"
+        state: home
+    response: "Ja, Joost"
+  - sentences:
+      - "is er iemand niet thuis"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Ja, Piet"
+  - sentences:
+      - "is er iemand op het werk"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: werk
+    response: "Ja, Ada"
 
   - sentences:
       - "is iedereen thuis"
@@ -44,8 +87,24 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: thuis
-    response: "Nee, Ada and Piet zijn niet thuis"
+        state: home
+    response: "Nee, Ada en Piet niet"
+  - sentences:
+      - "is iedereen weg"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Nee, Ada en Joost niet"
+  - sentences:
+      - "is iedereen op het werk"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: werk
+    response: "Nee, Joost en Piet niet"
 
   - sentences:
       - "wie is er thuis"
@@ -53,8 +112,25 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: thuis
+        state: home
     response: "Joost"
+  - sentences:
+      - "wie is er niet thuis"
+      - "wie is er weg"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Piet"
+  - sentences:
+      - "wie is er op het werk"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: werk
+    response: "Ada"
 
   - sentences:
       - "hoeveel mensen zijn er thuis"
@@ -62,5 +138,21 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: thuis
+        state: home
+    response: "1"
+  - sentences:
+      - "hoeveel mensen zijn er weg"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "1"
+  - sentences:
+      - "hoeveel mensen zijn er op het werk"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: werk
     response: "1"
