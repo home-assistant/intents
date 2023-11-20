@@ -16,6 +16,25 @@ intents:
           domain: "light"
           name: "all"
 
+      # Turn off all lights in the same area as a satellite device
+      - sentences:
+          - "Zet <hier> [<alle>] <lamp> uit"
+          - "[<doe>] (<hier>;[<alle>] <lamp>) [<naar>] uit"
+          - "[<doe>] [<alle>] <lamp> [<naar>] uit in deze (ruimte|kamer)"
+          - "<zou> (<hier>;[<alle>] <lamp>) [<naar>] (uit willen |uit kunnen |uit[ ])<doe>"
+          - "<zou> [<alle>] <lamp> [<naar>] (uit willen |uit kunnen |uit[ ])<doe> in deze (ruimte|kamer)"
+          - "<zou> (<hier>;[<alle>] <lamp>) [willen|kunnen] (uit[ ](zetten|doen)|uitschakelen)"
+          - "<zou> [<alle>] <lamp> [willen|kunnen] (uit[ ](zetten|doen)|uitschakelen) in deze (ruimte|kamer)"
+          - "(<hier>;[<alle>] <lamp>) (uit[ ](zetten|doen)|uitschakelen)"
+          - "[<alle>] <lamp> (uit[ ](zetten|doen)|uitschakelen) in deze (ruimte|kamer)"
+        response: "lights_area"
+        expansion_rules:
+          hier: "[[ ]hier,[ ]in deze (ruimte|kamer)]"
+        slots:
+          domain: "light"
+        requires_context:
+          area: null
+
       - sentences:
           - "[<doe>] ((overal|<alle>) <lamp>|<lamp> overal) uit"
           - "<zou> ((overal|<alle>) <lamp>|<lamp> overal) (uit willen |uit kunnen |uit[ ])<doe>"
