@@ -17,3 +17,21 @@ intents:
         slots:
           domain: "light"
           name: "all"
+
+      # Turn on all lights in the same area as a satellite device
+      - sentences:
+          - "[<doe>] (<hier>;[<alle>] <lamp>) [<naar>] aan"
+          - "[<doe>] [<alle>] <lamp> [<naar>] aan in deze (ruimte|kamer)"
+          - "<zou> (<hier>;[<alle>] <lamp>) [<naar>] (aan willen |aan kunnen |aan[ ])<doe>"
+          - "<zou> [<alle>] <lamp> [<naar>] (aan willen |aan kunnen |aan[ ])<doe> in deze (ruimte|kamer)"
+          - "<zou> (<hier>;[<alle>] <lamp>) [willen|kunnen] (aan[ ](zetten|doen)|inschakelen)"
+          - "<zou> [<alle>] <lamp> [willen|kunnen] (aan[ ](zetten|doen)|inschakelen) in deze (ruimte|kamer)"
+          - "(<hier>;[<alle>] <lamp>) (aan[ ](zetten|doen)|inschakelen)"
+          - "[<alle>] <lamp> (aan[ ](zetten|doen)|inschakelen) in deze (ruimte|kamer)"
+        response: "lights_area"
+        expansion_rules:
+          hier: "[[ ]hier,[ ]in deze (ruimte|kamer)]"
+        slots:
+          domain: "light"
+        requires_context:
+          area: null
