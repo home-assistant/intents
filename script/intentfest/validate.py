@@ -528,6 +528,7 @@ def validate_language(
                                 },
                                 "slots": slots,
                                 "query": {"matched": [], "unmatched": []},
+                                "state_attr": lambda *args: None,
                             }
                         )
                     except jinja2.exceptions.TemplateError as err:
