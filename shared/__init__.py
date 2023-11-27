@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from functools import partial
 from typing import Any, Dict, Optional, List, Set, Tuple
 
 from hassil import parse_sentence
@@ -177,9 +178,23 @@ def render_response(
                 for entity in result.entities_list
             },
             "state": state1,
-            "query": {"matched": matched, "unmatched": unmatched, "total_results": len(matched) + len(unmatched)},
+            "query": {
+                "matched": matched,
+                "unmatched": unmatched,
+                "total_results": len(matched) + len(unmatched),
+            },
+            "state_attr": partial(state_attr, matched),
         }
     )
+
+
+def state_attr(states: List[State], entity_id: str, attr_name: str) -> Any | None:
+    """Mimic state_attr from Home Assistant."""
+    for state in states:
+        if state.entity_id == entity_id:
+            return state.attributes.get(attr_name)
+
+    return None
 
 
 def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
