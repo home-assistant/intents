@@ -1,0 +1,24 @@
+language: sl
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'jasno': 'in jasno',
+          'jasno': 'in jasno',
+          'oblačno': 'in oblačno',
+          'izjemno': 'in izjemno',
+          'megla': 'z meglo',
+          'toča': 's točo',
+          'strela': 'bliskovito',
+          'bliskovito deževno': 'bliskovito in deževno',
+          'delno oblačno': 'in delno oblačno',
+          'nalivi': 'in nalivi',
+          'deževno': 'in deževno',
+          'sneženje': 'in sneženje',
+          'snežno deževno': 's snegom in dežjem',
+          'sončno': 'in sončno',
+          'vetrovno': 'in vetrovno',
+          'vetrovna varianata': 'z vetrom in oblaki'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
