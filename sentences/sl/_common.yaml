@@ -98,12 +98,22 @@ lists:
         out: window
   lock_states:
     values:
-      - in: "zaklenjen[a|i|o]"
+      - in: "zaklenjen[a|i|o|ih]"
         out: "locked"
       - in: "odklenjen[a|i|o]"
         out: "unlocked"
   shopping_list_item:
     wildcard: true
+  zone:
+    wildcard: true
+
+  # binary sensors
+  bs_presence_states:
+    values:
+      - in: "(doma|prisoten)"
+        out: "on"
+      - in: "(proč|ni prisoten)"
+        out: "off"
 expansion_rules:
   name: "{name}"
   area: "[v | na] {area}[sob[o|e|i|ah]| prostor[u||e|a|ih]| kuhinj(i|a|skem|ski|ske|sko) [prosto[r|ru|re|rih]]| dnevn(i|em|ih) [prostor[u|ih]]| dnevn(i|a) sob(i|a)| spalni(ca|ci)]| zuna(nja|j)"
@@ -131,9 +141,10 @@ expansion_rules:
   kakšna_je: "kakšna je|povej [mi]"
   kakšno_je: "kakšno je|povej [mi]"
   koliko: "koliko"
+  kje_je: "kje je|kje|kje so|kje se nahaja[jo|ta]"
   vse: "[vsi|vsa|vse|vso]"
   vsa: "[vsi|vsa|vse|vso]"
-  lock: "vrata"
+  lock: "vrat[a]|ključavnic(e|a|o)"
   luč: "luč[i|ke|ko|ki|k]|svetil[a|i|o]|razsvetljav[e|o|a]|svetilk[e|o|a]"
 
 skip_words:
