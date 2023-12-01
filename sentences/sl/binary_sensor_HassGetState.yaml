@@ -1,0 +1,83 @@
+language: sl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "([ali] je|[ali] so) [baterija|napolnjenost [baterije]|kapaciteta [baterije]] <name> {bs_battery_states:state} [[v|na] <area>]"
+        response: one_yesno
+
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "([ali] je|[ali] so) [napolnjenost|kapaciteta] [kater(a|e|i)] baterij(a|e) {bs_battery_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "([ali] so) [vse|vsi] baterij(a|e) {bs_battery_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "(katera|kateri|katere) baterij(e|a|i) (je|sta|so) {bs_battery_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "koliko baterij (ima|je) {bs_battery_states:state} [napolnjenost|kapaciteto] [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "([ali] je|[ali] so|[ali] se) <name> {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "([ali] se) [kater(i|a)] [baterija|telefon] {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "([ali] se) vs[i|e] (baterije|telefoni) {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "(katere|kateri|katera) (baterij(a|e|i)|telefon[i|a]) se {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "koliko (baterij|telefon[ov]) se {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging

@@ -1,0 +1,179 @@
+language: sl
+tests:
+  # Battery
+  - sentences:
+      - "ali je baterija telefona nizka?"
+      - "ali je kapaciteta baterije telefona nizka?"
+      - "ali je napolnjenost baterije telefona nizka?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery"
+        name: "telefona"
+        state: "on"
+    response: "Ne, normalna"
+  - sentences:
+      - "ali je napolnjenost baterije telefona normalna?"
+      - "ali je kapaciteta baterije telefona normalna"
+      - "je baterija telefona normalna?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery"
+        name: "telefona"
+        state: "off"
+    response: "Da"
+
+  - sentences:
+      - "ali je katera baterija nizka?"
+      - "je katera baterija nizka?"
+      - "ali je napolnjenost katere baterije nizka?"
+      - "ali je kapaciteta katere baterije nizka?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "Ne"
+  - sentences:
+      - "ali je katera baterija normalna?"
+      - "ali je katera baterija napolnjena?"
+      - "je katera baterija normalna?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "off"
+    response: "Da, Aryin telefon in telefona"
+
+  - sentences:
+      - "ali so vse baterije nizke?"
+      - "ali so vse baterije izpraznjene?"
+      - "so vse baterije izpraznjene?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "Ne, nista Aryin telefon in telefona"
+  - sentences:
+      - "ali so vse baterije normalne?"
+      - "ali so vse baterije napolnjene?"
+      - "so vse baterije normalne?"
+      - "so vse baterije napolnjene?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "off"
+    response: "Da"
+
+  - sentences:
+      - "katera baterija je nizka?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "Ni nizkih battera" #Slovenian hard grammar. Fix needed, check response template for which
+  - sentences:
+      - "katera baterija je normalna?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "off"
+    response: "Aryin telefon in telefona" #grammar fix needed, check response template for which
+
+  - sentences:
+      - "koliko baterij je nizkih"
+      - "koliko baterij je nizko"
+      - "koliko baterij ima nizko napolnjenost"
+      - "koliko baterij ima nizko kapaciteto"
+      - "koliko baterij je izpraznjenih"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "0"
+  - sentences:
+      - "koliko baterij je normalnih?"
+      - "koliko baterij je napolnjenih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "off"
+    response: "2"
+
+  # Battery charging
+  - sentences:
+      - "ali se Aryin telefon polni?"
+      - "ali se telefon polni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery_charging"
+        name:
+          - "Aryin telefon"
+          - "telefon"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali se kateri telefon polni?"
+      - "ali se katera baterija polni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "Da, Aryin telefon in telefon"
+
+  - sentences:
+      - "ali se vse baterije polnijo?"
+      - "ali se vsi telefoni polnijo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "katere baterije se polnijo?"
+      - "kateri telefoni se polnijo?"
+      - "kateri telefon se polni?"
+      - "katera baterija se polni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "Aryin telefon in telefon"
+
+  - sentences:
+      - "koliko baterij se polni?"
+      - "koliko telefonov se polni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "2"

@@ -98,9 +98,9 @@ lists:
         out: window
   lock_states:
     values:
-      - in: "zaklenjen[a|i|o|ih]"
+      - in: "zaklenjen[a|i|o|ih|e]"
         out: "locked"
-      - in: "odklenjen[a|i|o]"
+      - in: "odklenjen[a|i|o|e|ih]"
         out: "unlocked"
   shopping_list_item:
     wildcard: true
@@ -114,6 +114,21 @@ lists:
         out: "on"
       - in: "(proč|ni prisoten)"
         out: "off"
+
+  bs_battery_states:
+    values:
+      - in: "nizk(a|o|e|ih)|izpraznjen[a|i|e|ih]"
+        out: "on"
+      - in: "normal(en|na|no|ne|ni|nih)|napolnjen(e|a|o|ih)"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "poln(enje|i|ijo)"
+        out: "on"
+      - in: "ne polni"
+        out: "off"
+
 expansion_rules:
   name: "{name}"
   area: "[v | na] {area}[sob[o|e|i|ah]| prostor[u||e|a|ih]| kuhinj(i|a|skem|ski|ske|sko) [prosto[r|ru|re|rih]]| dnevn(i|em|ih) [prostor[u|ih]]| dnevn(i|a) sob(i|a)| spalni(ca|ci)]| zuna(nja|j)"
@@ -140,6 +155,9 @@ expansion_rules:
   katera_je: "kater[i|a|o] je|povej [mi]|katerakoli|katero|kateri|katera"
   kakšna_je: "kakšna je|povej [mi]"
   kakšno_je: "kakšno je|povej [mi]"
+  katera: "kater[i|a|o]"
+  kateri: "kater[i|a|o]"
+  katere: "katere"
   koliko: "koliko"
   kje_je: "kje je|kje|kje so|kje se nahaja[jo|ta]"
   vse: "[vsi|vsa|vse|vso]"
