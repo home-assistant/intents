@@ -81,3 +81,21 @@ intents:
         slots:
           domain: binary_sensor
           device_class: battery_charging
+
+      # Carbon monoxide
+      - sentences:
+          - "([ali] je) (<name> {bs_carbon_monoxide_states:state}| {bs_carbon_monoxide_states:state} <name>) [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "([ali] je) kateri (CO2 (senzor|detektor)| (senzor|detektor) ogljikovega monoksida) {bs_carbon_monoxide_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
