@@ -2,4 +2,12 @@ language: ro
 responses:
   intents:
     HassClimateGetTemperature:
-      default: "{{ state.state }} {{ 'grad' if state.state | float | abs == 1 else 'grade' if state.state == 0 or state.state | float % 1 != 0 or state.state | float % 100 | abs < 20 else 'de grade' }}"
+      default: |
+        {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
+        {% if temperature | float | abs == 1 %}
+        {{ temperature }} grad
+        {% elif temperature == 0 or temperature | float % 1 != 0 or temperature | float % 100 | abs < 20 %}
+        {{ temperature }} grade
+        {% else %}
+        {{ temperature }} de grade
+        {% endif %}
