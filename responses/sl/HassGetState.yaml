@@ -67,6 +67,13 @@ responses:
       how_many: |
         {{ query.matched | length }}
 
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} ni doma
+        {% else %}
+          {{ slots.name | capitalize }} je {{ state.state }}
+        {% endif %}
+
       sensor_value: |
         Vrednost senzorja je {{ state.state_with_unit }}
 

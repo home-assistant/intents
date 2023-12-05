@@ -61,6 +61,9 @@ def get_matched_states(
     if result.intent.name in ("HassClimateGetTemperature", "HassClimateSetTemperature"):
         # Match climate entities only
         states = [state for state in states if state.domain == "climate"]
+    elif result.intent.name in ("HassGetWeather",):
+        # Match weather entities only
+        states = [state for state in states if state.domain == "weather"]
 
     # Implement some matching logic from Home Assistant
     entity_name: Optional[str] = None

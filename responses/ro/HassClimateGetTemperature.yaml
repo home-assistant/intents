@@ -4,10 +4,12 @@ responses:
     HassClimateGetTemperature:
       default: |
         {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
-        {% if temperature | float | abs == 1 %}
-        {{ temperature }} grad
-        {% elif temperature == 0 or temperature | float % 1 != 0 or temperature | float % 100 | abs < 20 %}
-        {{ temperature }} grade
+        {% set temperature_ro = (temperature|string).replace(".", ",") %}
+        {% set temperature_num = temperature | float %}
+        {% if temperature_num | abs == 1 %}
+        {{ temperature_ro }} grad
+        {% elif temperature_num == 0 or temperature_num % 1 != 0 or temperature_num % 100 | abs < 20 %}
+        {{ temperature_ro }} grade
         {% else %}
-        {{ temperature }} de grade
+        {{ temperature_ro }} de grade
         {% endif %}
