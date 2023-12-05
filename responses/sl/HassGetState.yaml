@@ -63,7 +63,20 @@ responses:
             {%- endfor -%}
           {% endif %}
         {% endif %}
-
+      which_bs: |
+        {% if not query.matched %}
+          Noben
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
       how_many: |
         {{ query.matched | length }}
 
