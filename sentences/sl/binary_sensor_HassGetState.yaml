@@ -129,3 +129,99 @@ intents:
         slots:
           domain: binary_sensor
           device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "([ali] so|[ali] je) <name> {bs_cold_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "([ali] so|[ali] je) (kateri senzor| kaj) [zazna[l|no]|detektiral] (hlad[en|no]|mrz[el|lo]) [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "[[ali] je|[ali] so] kateri senzor[ji] [je|so] [zaznal|detektiral] (hlad[ni|en|no]| mrz[li|el|lo]) [[v|na] <area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "koliko senzorjev je [zaznalo|detektiralo] (mrzl[o|ih]| hladn[o|ih]) [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Connectivity
+      - sentences:
+          - "([ali] je|[ali] so) <name> {bs_connectivity_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "([ali] je|[ali] so) katera naprav(a|e) {bs_connectivity_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "[ali] so [vse] naprave {bs_connectivity_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "kater(e|a|i) naprav(e|a|i) (je|sta|so) {bs_connectivity_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "koliko naprav je {bs_connectivity_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "([ali] so) <name> {bs_door_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "([ali] so) <name>  {bs_garage_door_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
