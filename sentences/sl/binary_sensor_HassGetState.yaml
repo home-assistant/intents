@@ -225,3 +225,51 @@ intents:
         slots:
           domain: binary_sensor
           device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "([ali] je) {bs_gas_states:state} <name> [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "([ali] je|[ali] so) {bs_gas_states:state} [kakš[en|ni]] (senzor[ji]|detektor[ji]) plina [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "([ali] je) [zaznan[o]|detektiran[o]] [kaj] plin[a] [v|na] <area>"
+          #- "([ali] je) zaznan plin [v|na] <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "([ali] so) [vsi] (senzorji|detektorji) plina {bs_gas_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "kater[i] (senzor[ji]|detektor[ji]) plina (je|so) {bs_gas_states:state} [[v|na] <area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "koliko (senzorjev|detektorjev) plina je {bs_gas_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
