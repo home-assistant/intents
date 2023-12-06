@@ -7,6 +7,53 @@ responses:
     no_device_class: "{{ area }} өрөөнд {{ device_class }} нэртэй төхөөрөмж байхгүй байна"
     no_entity: "Тийм нэртэй төхөөрөмж байхгүй байна {{ entity }}"
     handle_error: "Ямар нэг алдаа гарлаа"
-lists: {}
-expansion_rules: {}
-skip_words: []
+lists:
+  color:
+    values:
+      - "цагаан"
+      - "хар"
+      - "улаан"
+      - "улбар шар"
+      - "шар"
+      - "ногоон"
+      - "цэнхэр"
+      - "ягаан"
+      - "бор"
+  brightness:
+    range:
+      type: "хувь"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "хэм"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "цельсийн"
+      - in: "градус"
+        out: "цельсийн"
+      - "fahrenheit"
+      - in: "f"
+        out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: (их | хамгийн их | өндөр)
+        out: 100
+      - in: ( дор | бага)
+        out: 1
+expansion_rules:
+  name: "[the] {name}"
+  area: "[the] {area}"
+  what_is: "(юу | хэд вэ | юу вэ)"
+  brightness: "{brightness} [percent]"
+  turn: "(асаа | нээ | өөрчил)"
+  temp: "(хэм | градус)"
+  temperature: "{temperature} [degrees] [{temperature_unit}]"
+  open: "(нээ | онгойлго)"
+  close: "(хаа | буулга | багасга)"
+  window: "(window[s] | blind[s] | curtain[s] | shutter[s])"
+skip_words:
+  - "гуйж байна"
+  - "уучлаарай"
