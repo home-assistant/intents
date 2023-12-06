@@ -1,11 +1,13 @@
 language: "pt"
 intents:
-  HassShoppingListAddItem:
+  HassListAddItem:
     data:
       - sentences:
           - <adicionar> <item> à <lista>
           - <colocar> <item> na <lista>
         response: item_added
+        requires_context:
+          domain: todo
         expansion_rules:
-          lista: "[minha ]lista[ de compras]"
+          lista: "[minha ]lista [de ]{name}"
           item: "{shopping_list_item:item}"
