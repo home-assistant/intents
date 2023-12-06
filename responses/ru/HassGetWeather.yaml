@@ -1,0 +1,21 @@
+language: ru
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'ясно': ', ясно',
+          'облачно': ', облачно',
+          'туман': ', туман',
+          'град': ', град',
+          'гроза': ', гроза',
+          'дождь с грозой': ', дождь с грозой',
+          'частичная облачность': ', частичная облачность',
+          'ливень': ', ливень',
+          'дождь': ', дождь',
+          'снег': ', снег',
+          'мокрый снег': ', мокрый снег',
+          'солнечно': ', солнечно',
+          'ветренно': ', ветренно'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }}{{ weather_condition.get((state.state | string).lower(), "") }}
