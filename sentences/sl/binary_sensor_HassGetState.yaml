@@ -409,3 +409,52 @@ intents:
         slots:
           domain: binary_sensor
           device_class: moisture
+
+      # Motion
+      - sentences:
+          - "([ali] je) <name> [[v|na] <area>] {bs_motion_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "([ali] je|[ali] so) [kakš[en|ni]|kateri] senzor[ji] gibanja {bs_motion_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "([ali] je) [zaznano|detektirano] kakšno gibanje [zaznano|detektirano] [[v|na] <area>]"
+          #- "is there [any] motion [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+          state: "on"
+
+      - sentences:
+          - "([ali] so) [vsi] (senzorji|detektorji) gibanja {bs_motion_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "kateri senzor[ji] gibanja (je|so) {bs_motion_states:state} [[v|na] <area>]"
+          - "kateri senzor[ji] (je|so) {bs_motion_states:state} gibanje [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "koliko senzorjev gibanja je {bs_motion_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: motion
