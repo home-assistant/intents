@@ -553,3 +553,151 @@ tests:
         device_class: light
         state: "on"
     response: "0"
+
+  # Lock
+  - sentences:
+      - "ali so vrata za hišne ljubljenčke zaklenjena?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "lock"
+        name: "vrata za hišne ljubljenčke"
+        state: "off"
+    response: "Ne, odklenjena"
+
+  # Moisture
+  - sentences:
+      - "ali je kuhinjski senzor puščanja vode zaznal mokro?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "moisture"
+        name: "kuhinjski senzor puščanja vode"
+        state: "on"
+    response: "Ne, suho"
+
+  - sentences:
+      - "ali je kateri senzor puščanja vode zaznal mokro?"
+      - "ali je kateri senzor lekaže vode zaznal mokro"
+      - "ali je kakšen senzor izlitja vode zaznal mokro?"
+      - "ali so tla mokra?"
+      - "ali je kakšno izlitje?"
+      - "ali je kakšna poplava?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali je izlitje v kuhinji?"
+      - "ali je zaznana lekaža v kuhinji?"
+      - "ali je detektirana poplava v kuhinji?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+        area: "kuhinji"
+    response: "Ne"
+
+  - sentences:
+      - "ali so vsi senzorji lekaže vode zaznali izlitje?"
+      - "so senzorji izlitja vode detektirali poplavo?"
+      - "ali so senzorji poplave vode zaznali mokro?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "Ne, ni kuhinjski senzor puščanja vode" #have to fix grammar in response, not perfect though
+
+  - sentences:
+      - "kateri senzor vode je zaznal lekažo?"
+      - "kateri senzor izlitja vode je zaznal poplavo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "Noben"
+
+  - sentences:
+      - "koliko senzorjev vode je mokrih?"
+      - "koliko senzorjev izlitja vode je zaznalo lekažo?"
+      - "koliko detektorjev izlitja je zaznalo poplavo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "0"
+
+  # Motion
+  - sentences:
+      - "ali je senzor gibanja v garaži vključen?"
+      - "ali je senzor gibanja v garaži sprožen?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "garaži"
+        domain: "binary_sensor"
+        device_class: "motion"
+        name: "senzor gibanja"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali je kateri senzor gibanja vključen?"
+      - "ali je kakšen senzor gibanja sprožen?"
+      - "ali je kateri senzor gibanja sprožen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "Da, senzor gibanja"
+
+  - sentences:
+      - "ali so vsi senzorji gibanja sproženi?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "kateri senzor gibanja je sprožen?"
+      - "kateri senzorji gibanja so vključeni?"
+      - "kateri senzor je zaznal gibanje?"
+      - "kateri senzorji so zaznali gibanje?"
+      - "kateri senzorji so detektirali gibanje?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "senzor gibanja"
+
+  - sentences:
+      - "koliko senzorjev gibanja je vključenih?"
+      - "koliko senzorjev gibanja je sproženih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "1"
