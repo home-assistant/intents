@@ -348,3 +348,64 @@ intents:
         slots:
           domain: binary_sensor
           device_class: light
+
+      # Lock
+      - sentences:
+          - "([ali] so|[ali] je) <name> {bs_lock_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+          device_class: lock
+
+      # Moisture
+      - sentences:
+          - "([ali] je) <name> [zaznal|detektiral] {bs_moisture_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "([ali] je) [kateri|kakšen] (senzor|detektor) (puščanja|izlitja|lekaže) vode [zaznal|detektiral] {bs_moisture_states:state} [[v|na] <area>]"
+          - "([ali] so) tla [[v|na] <area>] {bs_moisture_states:state} [[v|na] <area>]"
+          - "([ali] je) [[v|na] <area>] kakšn(o|a) {bs_moisture_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "([ali] je) [zaznan(a|o)|detektiran(o|a)] (izlitje|poplava|lekaža) [zaznan(a|o)|detektiran(a|o)] [[v|na] <area>]"
+          #- "is <area> flooded"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+          state: "on"
+
+      - sentences:
+          - "([ali] so|[ali] je) [vsi] (senzorji|detektorji) [izlitja|lekaže|poplave] [vode] (zaznali|detektirali) {bs_moisture_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "kateri senzor[ji] [izlitja|lekaže|puščanja] vode (je|so) (zaznal[i]|detektiral[i]) {bs_moisture_states:state} [[v|na] <area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "koliko (senzorjev|detektorjev) [izlitja|puščanja|lekaže] [vode] je [zaznalo|detektiralo] {bs_moisture_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: moisture
