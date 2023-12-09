@@ -63,8 +63,10 @@ responses:
         {{ query.matched | length }}
 
       wo: |
-        {% if state == "not_home" %}
-          {{ slots.name | capitalize }} ist weg
-        {% else %}
-          {{ slots.name | capitalize }} ist hier: {{ state.state }}
-        {% endif %}
+         {% if state.state == "not_home" %} 
+           {{ slots.name | capitalize }} ist weg
+         {% elif state.state == "home" %} 
+           {{ slots.name | capitalize }} ist zuhause 
+         {% else %} 
+           {{ slots.name | capitalize }} ist im Bereich {{ state.state }} 
+         {% endif %} 
