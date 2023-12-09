@@ -273,3 +273,78 @@ intents:
         slots:
           domain: binary_sensor
           device_class: gas
+
+      # Heat
+      - sentences:
+          - "([ali] je|[ali] so) <name> {bs_heat_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "([ali] je) (kaj|kateri|kakšen) [senzor] (vroč[e]|top[lo|el]) [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "(kater[a|e|i]) (stvar[i]|senzor[ji]) (je|so) (vroč[a|e]|top[la|el|le|li]) [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "koliko (stvari|senzorjev) je (toplih|vročih) [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Light
+      - sentences:
+          - "([ali] je) ({bs_light_states:state} <name>| <name> {bs_light_states:state}) [[v|na] <area>]"
+          - "([ali] je|[ali] so) (senzor[ji]|detektor[ji]) {bs_light_states:state} <name> [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "([ali] je) kateri senzor {bs_light_states:state} svetlobo [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "([ali] so) vsi senzorji {bs_light_states:state} svetlobo [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "kateri senzor[ji] (je|so) {bs_light_states:state} svetlobo [[v|na]<area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "koliko senzorjev je {bs_light_states:state} svetlobo [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: light
