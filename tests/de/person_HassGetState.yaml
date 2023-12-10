@@ -72,6 +72,16 @@ tests:
     response: "Ja, Martin"
 
   - sentences:
+      - "ist wer nicht zuhause"
+      - "ist wer weg"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Ja, Jonas"
+
+  - sentences:
       - "sind alle zuhause"
       - "befinden sich alle zuhause"
     intent:
@@ -80,6 +90,16 @@ tests:
         domain: person
         state: home
     response: "Nein, Jonas und Lisa sind es nicht"
+
+  - sentences:
+      - "sind alle nicht zuhause"
+      - "ist niemand daheim"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Nein, Lisa und Martin sind es nicht"
 
   - sentences:
       - "wer ist zuhause"
@@ -94,9 +114,22 @@ tests:
   - sentences:
       - "wie viele Personen sind zuhause"
       - "wie viele Menschen befinden sich zuhause"
+      - "wieviele Menschen befinden sich daheim"
+      - "welche Anzahl Menschen befinden sich daheim"
+      - "welche Anzahl an Menschen befindet sich daheim"
     intent:
       name: HassGetState
       slots:
         domain: person
         state: home
+    response: "1"
+
+  - sentences:
+      - "wie viele Personen sind weg"
+      - "wieviel Menschen sind nicht daheim"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
     response: "1"
