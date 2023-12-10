@@ -12,6 +12,17 @@ responses:
           Nein
         {% endif %}
 
+      einzeln_zone: |
+        {% if query.matched %}
+          Ja
+        {% elif state.state == 'not_home' %}
+          Nein, ist nicht zu Hause
+        {% elif state.state == 'home' %}
+          Nein, ist zu Hause
+        {% else %}
+          Nein, ist im Bereich {{ state.state_with_unit }}
+        {% endif %}
+
       irgendeins: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
@@ -66,7 +77,7 @@ responses:
         {% if state.state == "not_home" %}
           {{ slots.name | capitalize }} ist weg
         {% elif state.state == "home" %}
-          {{ slots.name | capitalize }} ist zuhause
+          {{ slots.name | capitalize }} ist zu Hause
         {% else %}
           {{ slots.name | capitalize }} ist im Bereich {{ state.state }}
         {% endif %}

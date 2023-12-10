@@ -8,7 +8,7 @@ tests:
       slots:
         domain: person
         name: Martin
-    response: "Martin ist zuhause"
+    response: "Martin ist zu Hause"
 
   - sentences:
       - "wo ist Lisa"
@@ -22,14 +22,30 @@ tests:
 
   - sentences:
       - "ist Lisa zuhause"
+      - "ist Lisa zu Hause"
+      - "ist Lisa daheim"
       - "befindet sich Lisa zuhause"
     intent:
       name: HassGetState
       slots:
         domain: person
         name: Lisa
-        state: zuhause
-    response: "Nein"
+        state: home
+    response: "Nein, ist im Bereich Arbeit"
+
+  - sentences:
+      - "ist Lisa nicht zuhause"
+      - "ist Lisa nicht zu Hause"
+      - "ist Lisa nicht daheim"
+      - "ist Lisa weg"
+      - "befindet sich Lisa nicht zuhause"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Lisa
+        state: not_home
+    response: "Nein, ist im Bereich Arbeit"
 
   - sentences:
       - "ist Martin auf der Arbeit"
@@ -41,7 +57,7 @@ tests:
         domain: person
         name: Martin
         state: arbeit
-    response: "Nein"
+    response: "Nein, ist zu Hause"
 
   - sentences:
       - "ist wer zuhause"
@@ -52,7 +68,7 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: zuhause
+        state: home
     response: "Ja, Martin"
 
   - sentences:
@@ -62,7 +78,7 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: zuhause
+        state: home
     response: "Nein, Jonas und Lisa sind es nicht"
 
   - sentences:
@@ -72,7 +88,7 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: zuhause
+        state: home
     response: "Martin"
 
   - sentences:
@@ -82,5 +98,5 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: zuhause
+        state: home
     response: "1"

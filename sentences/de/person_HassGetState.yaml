@@ -12,18 +12,66 @@ intents:
           domain: person
 
       - sentences:
-          - "<befinden> <name> [<lokale_praeposition>] {zone:state}"
-        response: einzeln_janein
+          - "[<befinden>] <name> <zuhause>"
+        response: einzeln_zone
         requires_context:
           domain: person
         slots:
           domain: person
+          state: home
 
       - sentences:
-          - "<befinden> [irgend](jemand|wer) [<lokale_praeposition>] {zone:state}"
+          - "[<befinden>] <name> <nicht_zuhause>"
+        response: einzeln_zone
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "[<befinden>] <name> [<lokale_praeposition>] {zone:state}"
+        response: einzeln_zone
+        requires_context:
+          domain: person
+        excludes_context:
+          state: home
+        slots:
+          domain: person
+
+      - sentences:
+          - "<befinden> <jemand> <zuhause>"
         response: irgendeins
         slots:
           domain: person
+          state: home
+
+      - sentences:
+          - "<befinden> <jemand> <nicht_zuhause>"
+        response: irgendeins
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "<befinden> <jemand> [<lokale_praeposition>] {zone:state}"
+        response: irgendeins
+        slots:
+          domain: person
+
+      - sentences:
+          - "<befinden> <alle> <zuhause>"
+        response: alle
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "<befinden> <alle> <nicht_zuhause>"
+        response: alle
+        slots:
+          domain: person
+          state: not_home
 
       - sentences:
           - "<befinden> <alle> [<lokale_praeposition>] {zone:state}"
@@ -32,13 +80,41 @@ intents:
           domain: person
 
       - sentences:
+          - "wer <befinden> <zuhause>"
+        response: welches
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "wer <befinden> <nicht_zuhause>"
+        response: welches
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
           - "wer <befinden> [<lokale_praeposition>] {zone:state}"
         response: welches
         slots:
           domain: person
 
       - sentences:
-          - "wie viele (Personen|Menschen) <befinden> [<lokale_praeposition>] {zone:state}"
+          - "<wieviel> (Personen|Menschen) <befinden> <zuhause>"
+        response: wie_viele
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "<wieviel> (Personen|Menschen) <befinden> <nicht_zuhause>"
+        response: wie_viele
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "<wieviel> (Personen|Menschen) <befinden> [<lokale_praeposition>] {zone:state}"
         response: wie_viele
         slots:
           domain: person
