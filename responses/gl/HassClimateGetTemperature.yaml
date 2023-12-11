@@ -2,4 +2,6 @@ language: gl
 responses:
   intents:
     HassClimateGetTemperature:
-      default: "{{ state.state }} graos"
+      default: >
+        {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
+        {{ temperature | float | abs | round(1) | replace('.0', '') | replace('.',',') }} {{ 'grao' if temperature | float | abs == 1 else 'graos' }} {{ 'baixo cero' if temperature | float < 0 else '' }}

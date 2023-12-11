@@ -33,6 +33,22 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  on_off_states:
+    values:
+      - in: "(acendido|acendida|acendidos|acendidas)"
+        out: "on"
+      - in: "(apagado|apagada|apagados|apagadas)"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: (luz|luces|lámpada|lámpadas)
+        out: light
+      - in: (ventilador|ventiladores)
+        out: fan
+      - in: (interrutor|interrutores)
+        out: switch
+  shopping_list_item:
+    wildcard: true
   temperature:
     range:
       type: "temperature"
@@ -48,13 +64,24 @@ lists:
         out: "fahrenheit"
 expansion_rules:
   nome: "[o | a | os | as] {name}"
+  algun: "(algún|algunha|algúns|algunhas)"
   area: "[en | no | na | de | do | da] {area}"
   brightness: "{brightness}[%| porcento]"
+  cal: "(que|cal|cales)"
+  esta: "(está|están|existe|existen|hai)"
   acende: "(acende | activa)"
+  engadir: "(engada | engade)"
+  poñer: "(poña | pon | meta | mete)"
   temp: "[a] (temperatura)"
   temperature: "{temperature} [graos] [{temperature_unit}]"
+  todos: "(todos|todas|tódolos|tódalas)"
 skip_words:
   - "por favor"
   - "gracias"
   - "grazas"
   - "graciñas"
+  - "podes"
+  - "podería"
+  - "poderías"
+  - "dime"
+  - "dígame"

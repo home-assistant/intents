@@ -1,4 +1,72 @@
 language: gl
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      one: |
+        {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched %}
+          Si
+        {% else %}
+          Non, {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Si, {{ match[:3] | join(", ") }} e {{ (match | length - 3) }} máis
+          {%- else -%}
+            Si,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} e {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Non
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Si
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Non, {{ no_match[:3] | join(", ") }} e {{ (no_match | length - 3) }} máis non están {{ slots.state }}
+          {%- else -%}
+            Non,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} e {% endif -%}
+              {{ name }}
+            {%- endfor %} non {% if no_match | length > 1 %}están{% else %}está{% endif %} {{ slots.state }}
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          (Ningunha|Ningún)
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} e {{ (match | length - 3) }} máis
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} e {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} está fora
+        {% else %}
+          {{ slots.name | capitalize }} está en {{ state.state }}
+        {% endif %}
