@@ -29,6 +29,16 @@ tests:
     response: "Claudiu nu este acasă"
 
   - sentences:
+      - "este plecat Mihai?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Mihai
+        state: not_home
+    response: "Nu, ci Acasa"
+
+  - sentences:
       - "este acasa Cristina?"
     intent:
       name: HassGetState
@@ -36,7 +46,17 @@ tests:
         domain: person
         name: Cristina
         state: home
-    response: "Nu, ci magazin"
+    response: "Nu, ci la magazin"
+
+  - sentences:
+      - "Claudiu este la magazin"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Claudiu
+        state: magazin
+    response: "Nu, ci Plecat"
 
   - sentences:
       - "Cristina este la magazin"
@@ -67,6 +87,15 @@ tests:
     response: "Da, Cristina"
 
   - sentences:
+      - "este cineva plecat"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Da, Claudiu"
+
+  - sentences:
       - "este toata lumea acasa"
       - "toata lumea este acasa"
       - "suntem toti acasa"
@@ -89,6 +118,17 @@ tests:
     response: "Nu, Claudiu și Mihai nu sunt"
 
   - sentences:
+      - "este toata lumea plecata"
+      - "toata lumea este plecata"
+      - "suntem toti plecati"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Nu, Cristina și Mihai nu sunt"
+
+  - sentences:
       - "cine este acasa"
     intent:
       name: HassGetState
@@ -107,6 +147,15 @@ tests:
     response: "Cristina"
 
   - sentences:
+      - "cine este plecat"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Claudiu"
+
+  - sentences:
       - "cati oameni sunt acasa"
     intent:
       name: HassGetState
@@ -122,4 +171,13 @@ tests:
       slots:
         domain: person
         state: magazin
+    response: "1"
+
+  - sentences:
+      - "cate persoane sunt plecate"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
     response: "1"

@@ -13,42 +13,25 @@ intents:
           domain: person
 
       - sentences:
-          - "(<name>;<este> acas(ă|a))"
-        response: one_yesno
-        requires_context:
-          domain: person
-        slots:
-          domain: person
-          state: home
-      - sentences:
-          - "(<name>;<este> [<la>] {zone:state})"
-        response: one_yesno
+          - "(<name>;<este> {presence_states:state})"
+          - "(<name>;<este> [[plecat[(ă|a)] ]<la>] {zone:state})"
+        response: someone_yesno
         requires_context:
           domain: person
         slots:
           domain: person
 
       - sentences:
-          - "<este> cineva acas(ă|a)"
-        response: any
-        slots:
-          domain: person
-          state: home
-      - sentences:
+          - "<este> cineva {presence_states:state}"
           - "<este> cineva [<la>] {zone:state}"
         response: any
         slots:
           domain: person
 
       - sentences:
-          - "<este> (acas(ă|a);toat(ă|a) lumea)"
-          - "toat(ă|a) lumea <este> acas(ă|a)"
-          - "sunt[em] (acas(ă|a);(to(ț|t)i|cu to(ț|t)ii))"
-        response: all
-        slots:
-          domain: person
-          state: home
-      - sentences:
+          - "<este> ({presence_states:state};toat(ă|a) lumea)"
+          - "toat(ă|a) lumea <este> {presence_states:state}"
+          - "sunt[em] ({presence_states:state};(to(ț|t)i|cu to(ț|t)ii))"
           - "<este> ([<la>] {zone:state};toat(ă|a) lumea)"
           - "toat(ă|a) lumea <este> [<la>] {zone:state}"
           - "sunt[em] ([<la>] {zone:state};(to(ț|t)i|cu to(ț|t)ii))"
@@ -57,24 +40,14 @@ intents:
           domain: person
 
       - sentences:
-          - "cine <este> acas(ă|a)"
-        response: which
-        slots:
-          domain: person
-          state: home
-      - sentences:
+          - "cine <este> {presence_states:state}"
           - "cine <este> [<la>] {zone:state}"
         response: which
         slots:
           domain: person
 
       - sentences:
-          - "<cate> (persoane|oameni) sunt acas(ă|a)"
-        response: how_many
-        slots:
-          domain: person
-          state: home
-      - sentences:
+          - "<cate> (persoane|oameni) sunt {presence_states:state}"
           - "<cate> (persoane|oameni) sunt [<la>] {zone:state}"
         response: how_many
         slots:
