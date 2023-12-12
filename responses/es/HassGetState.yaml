@@ -24,6 +24,18 @@ responses:
           {% endif %}
         {% endif %}
 
+      someone_yesno: |
+        {% if query.matched %}
+          Sí
+        {% else %}
+          No, está
+          {% if state.attributes.get("untranslated_state") == "not_home" %}
+            {{ state.state }}
+          {% else %}
+            en {{ state.state }}
+          {% endif %}
+        {% endif %}
+
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
@@ -54,11 +66,7 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            {% if state.domain == "person" %}
-              No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} están en {{slots.state}}
-            {% else %}
-              No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} dispositivos tienen ese estado
-            {% endif %}
+            No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} dispositivos tienen ese estado
           {% else %}
             {% if no_match | length == 1 %}
               {% if state.domain == "person" %}
@@ -81,6 +89,36 @@ responses:
           {% endif %}
         {% endif %}
 
+      everybody: |
+        {% if not query.unmatched: %}
+          Sí
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            No, ni {{ no_match[:3] | join(", ni ") }} ni otros {{ (no_match | length - 3) }} están
+            {% if state.attributes.get("untranslated_state") == "not_home" %}
+              {{ state.state }}
+            {% else %}
+              en {{ state.state }}
+            {% endif %}
+          {%- else -%}
+            {% if no_match | length == 1 %}
+              No, {{ no_match|first }} no está
+            {% else %}
+              No, ni
+              {% for name in no_match -%}
+                {% if not loop.first and not loop.last %}, ni {% elif loop.last and not loop.first %} ni {% endif -%}
+                {{ name }}
+              {%- endfor %} están
+            {% endif %}
+            {% if state.attributes.get("untranslated_state") == "not_home" %}
+              {{ state.state }}
+            {% else %}
+              en {{ state.state }}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
       which: |
         {% if not query.matched %}
           Ningún dispositivo
@@ -96,12 +134,28 @@ responses:
           {% endif %}
         {% endif %}
 
+      who: |
+        {% if not query.matched %}
+          Nadie
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} y otros {{ (match | length - 3) }} más
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} y {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
       how_many: |
         {{ query.matched | length }}
 
       where: |
-        {% if state == "not_home" %}
-          {{ slots.name | capitalize }} está fuera
+        {{ slots.name | capitalize }} está
+        {% if state.attributes.get("untranslated_state") == "not_home" %}
+          {{ state.state }}
         {% else %}
-          {{ slots.name | capitalize }} está en {{ state.state }}
+          en {{ state.state }}
         {% endif %}

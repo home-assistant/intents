@@ -7,7 +7,7 @@ tests:
       slots:
         domain: person
         name: José
-    response: "José está en casa"
+    response: "José está en Casa"
 
   - sentences:
       - "dónde está Ada"
@@ -17,6 +17,15 @@ tests:
         domain: person
         name: Ada
     response: "Ada está en Trabajo"
+
+  - sentences:
+      - "dónde está Juan"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Juan
+      response: "Juan está Fuera"
 
   - sentences:
       - "está Ada en casa"
@@ -29,13 +38,51 @@ tests:
     response: "No, está en Trabajo"
 
   - sentences:
+      - "está Juan en el Trabajo"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Juan
+        state: Trabajo
+      response: "No, está Fuera"
+
+  - sentences:
+      - "está José fuera"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: José
+        state: not_home
+      response: "No, está en Casa"
+
+  - sentences:
       - "hay alguien en casa"
     intent:
       name: HassGetState
       slots:
         domain: person
-        state: casa
+        state: home
     response: "Sí, José"
+
+  - sentences:
+      - "hay alguien en el Trabajo"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: Trabajo
+    response: "Sí, Ada"
+
+  - sentences:
+      - "hay alguien fuera"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Sí, Juan"
 
   - sentences:
       - "está todo el mundo en casa"
@@ -45,7 +92,27 @@ tests:
       slots:
         domain: person
         state: casa
-    response: "No, ni Ada ni Juan están en casa"
+    response: "No, ni Ada ni Juan están en Casa"
+
+  - sentences:
+      - "está todo el mundo en el Trabajo"
+      - "están todos en el trabajo"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: Trabajo
+    response: "No, ni Juan ni José están en Trabajo"
+
+  - sentences:
+      - "está todo el mundo fuera"
+      - "están todos fuera"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "No, ni Ada ni José están fuera"
 
   - sentences:
       - "quién está en casa"
@@ -53,8 +120,26 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: casa
+        state: home
     response: "José"
+
+  - sentences:
+      - "quién está en el Trabajo"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: Trabajo
+    response: "Ada"
+
+  - sentences:
+      - "quién está fuera"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Juan"
 
   - sentences:
       - "cuánta gente hay en casa"
@@ -62,5 +147,23 @@ tests:
       name: HassGetState
       slots:
         domain: person
-        state: casa
+        state: home
+    response: "1"
+
+  - sentences:
+      - "cuánta gente hay en el Trabajo"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: Trabajo
+    response: "1"
+
+  - sentences:
+      - "cuánta gente hay fuera"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
     response: "1"
