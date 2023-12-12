@@ -1,0 +1,24 @@
+language: pt
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'Céu limpo',
+          'clear-night': 'Céu limpo',
+          'cloudy': 'Céu nublado',
+          'exceptional': 'Condições excepcionalmente adversas',
+          'fog': 'Nevoeiro',
+          'hail': 'Granizo',
+          'lightning': 'Trovoada',
+          'lightning-rainy': 'Chuva e trovoada',
+          'partlycloudy': 'Céu parcialmente nublado',
+          'pouring': 'Chuva forte',
+          'rainy': 'Chuva',
+          'snowy': 'Neve',
+          'snowy-rainy': 'Chuva e neve',
+          'sunny': 'Sol',
+          'windy': 'Vento',
+          'windy-variant': 'Vento e céu nublado'
+        } %}
+         {{ weather_condition.get((state.state | string).lower(), "") }}, com temperatura de {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }}

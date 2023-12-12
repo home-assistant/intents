@@ -1,0 +1,703 @@
+language: sl
+tests:
+  # Battery
+  - sentences:
+      - "ali je baterija telefona nizka?"
+      - "ali je kapaciteta baterije telefona nizka?"
+      - "ali je napolnjenost baterije telefona nizka?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery"
+        name: "telefona"
+        state: "on"
+    response: "Ne, normalna"
+  - sentences:
+      - "ali je napolnjenost baterije telefona normalna?"
+      - "ali je kapaciteta baterije telefona normalna"
+      - "je baterija telefona normalna?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery"
+        name: "telefona"
+        state: "off"
+    response: "Da"
+
+  - sentences:
+      - "ali je katera baterija nizka?"
+      - "je katera baterija nizka?"
+      - "ali je napolnjenost katere baterije nizka?"
+      - "ali je kapaciteta katere baterije nizka?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "Ne"
+  - sentences:
+      - "ali je katera baterija normalna?"
+      - "ali je katera baterija napolnjena?"
+      - "je katera baterija normalna?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "off"
+    response: "Da, Aryin telefon in telefona"
+
+  - sentences:
+      - "ali so vse baterije nizke?"
+      - "ali so vse baterije izpraznjene?"
+      - "so vse baterije izpraznjene?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "Ne, nista Aryin telefon in telefona"
+  - sentences:
+      - "ali so vse baterije normalne?"
+      - "ali so vse baterije napolnjene?"
+      - "so vse baterije normalne?"
+      - "so vse baterije napolnjene?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "off"
+    response: "Da"
+
+  - sentences:
+      - "katera baterija je nizka?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "Ni nizkih battera" #Slovenian hard grammar. Fix needed, check response template for which
+  - sentences:
+      - "katera baterija je normalna?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "off"
+    response: "Aryin telefon in telefona" #grammar fix needed, check response template for which
+
+  - sentences:
+      - "koliko baterij je nizkih"
+      - "koliko baterij je nizko"
+      - "koliko baterij ima nizko napolnjenost"
+      - "koliko baterij ima nizko kapaciteto"
+      - "koliko baterij je izpraznjenih"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "0"
+  - sentences:
+      - "koliko baterij je normalnih?"
+      - "koliko baterij je napolnjenih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "off"
+    response: "2"
+
+  # Battery charging
+  - sentences:
+      - "ali se Aryin telefon polni?"
+      - "ali se telefon polni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery_charging"
+        name:
+          - "Aryin telefon"
+          - "telefon"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali se kateri telefon polni?"
+      - "ali se katera baterija polni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "Da, Aryin telefon in telefon"
+
+  - sentences:
+      - "ali se vse baterije polnijo?"
+      - "ali se vsi telefoni polnijo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "katere baterije se polnijo?"
+      - "kateri telefoni se polnijo?"
+      - "kateri telefon se polni?"
+      - "katera baterija se polni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "Aryin telefon in telefon"
+
+  - sentences:
+      - "koliko baterij se polni?"
+      - "koliko telefonov se polni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "2"
+
+  # Carbon monoxide
+  - sentences:
+      - "ali je CO2 zaznan?"
+      - "je zaznan CO2?"
+      - "ali je sprožen CO2?"
+      - "je CO2 vklopljen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "carbon_monoxide"
+        name: "CO2"
+        state: "on"
+    response: "Ne, čisto"
+
+  - sentences:
+      - "ali je kateri CO2 senzor sprožen?"
+      - "je kateri CO2 senzor sprožen?"
+      - "ali je kateri detektor ogljikovega monoksida sprožen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali je CO2 senzor v kuhinji?"
+      - "ali je detektor ogljikovega monoksida v kuhinji?"
+      - "ali je zaznan ogljikov monoksid v kuhinji?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "kuhinji"
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali so senzorji ogljikovega monoksida vključeni"
+      - "ali so detektorji ogljikovega monoksida sproženi"
+      - "ali so vsi senzorji CO sproženi"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "Ne, ni CO2"
+
+  - sentences:
+      - "kateri senzorji ogljikovega monoksida so sproženi?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "Ni sproženih carbon_monoxida" #response needs to be fixed
+
+  - sentences:
+      - "koliko senzorjev ogljikovega monoksida je sproženih?"
+      - "koliko detektorjev CO je vključenih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "0"
+
+  # Cold
+  - sentences:
+      - "ali so vodovodne cevi hladne?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "cold"
+        name: "vodovodne cevi"
+        state: "on"
+    response: "Ne, normalne"
+
+  - sentences:
+      - "je kaj zaznano hladno?"
+      - "ali je kateri senzor zaznal hladno?"
+      - "ali je kaj zaznano mrzlo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "kateri senzor je zaznal hladno?"
+      - "kateri senzor je detektiral mrzlo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        state: "on"
+    response: "Noben"
+
+  - sentences:
+      - "koliko senzorjev je mrzlih?"
+      - "koliko senzorjev je hladnih?"
+      - "koliko senzorjev je zaznalo hladno?"
+      - "koliko senzorjev je detektiralo mrzlo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        state: "on"
+    response: "0"
+
+  # Connectivity
+  - sentences:
+      - "ali je telefon priključen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "connectivity"
+        name: "telefon"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali je katera naprava priključena?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "Da, telefon"
+
+  - sentences:
+      - "ali so vse naprave priključene?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "katera naprava je priključena?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "telefon"
+
+  - sentences:
+      - "koliko naprav je priključenih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "1"
+
+  # Door
+  - sentences:
+      - "ali so vrata za hišne ljubljenčke odprta?"
+      - "so vrata za hišne ljubljenčke odprta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "vrata za hišne ljubljenčke"
+        state: "on"
+    response: "Ne, zaprta"
+
+  # Garage door
+  - sentences:
+      - "ali so pomožna garažna vrata zaprta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "pomožna garažna vrata"
+        state: "off"
+    response: "Da"
+
+  # Gas
+  - sentences:
+      - "ali je zaznan plin?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "gas"
+        name: "plin"
+        state: "on"
+    response: "Ne, čisto"
+
+  - sentences:
+      - "ali je vključen kakšen senzor plina?"
+      - "ali je sprožen kakšen detektor plina?"
+      - "ali je sprožen detektor plina?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali je kaj plina v kuhinji?"
+      - "ali je plin v kuhinji?"
+      - "ali je zaznano kaj plina v kuhinji?"
+      - "ali je detektiran plin v kuhinji?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "kuhinji"
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali so vsi senzorji plina sproženi?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "Ne, ni plin"
+
+  - sentences:
+      - "kateri senzor plina je sprožen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "Noben"
+
+  - sentences:
+      - "koliko senzorjev plina je vključenih?"
+      - "koliko detektorjev plina je vključenih?"
+      - "koliko senzorjev plina je sproženih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "0"
+
+  # Heat
+  - sentences:
+      - "ali je računalnik vroč?"
+      - "je računalnik topel"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "heat"
+        name: "računalnik"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali je kaj vroče?"
+      - "ali je kateri senzor vroč?"
+      - "ali je kateri senzor topel?"
+      - "je kakšen senzor vroč?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "Da, računalnik"
+
+  - sentences:
+      - "katere stvari so vroče?"
+      - "kateri senzorji so topli?"
+      - "kateri senzor je topel?"
+      - "katera stvar je vroča?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "računalnik"
+
+  - sentences:
+      - "koliko stvari je vročih?"
+      - "koliko senzorjev je toplih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "1"
+
+  # Light
+  - sentences:
+      - "ali je zaznana svetloba?"
+      - "je detektirana svetloba?"
+      - "ali je svetloba zaznana?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "light"
+        name: "svetloba"
+        state: "on"
+    response: "Ne, ni svetlobe"
+
+  - sentences:
+      - "ali je kateri senzor detektiral svetlobo?"
+      - "ali je kateri senzor zaznal svetlobo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali so vsi senzorji zaznali svetlobo?"
+      - "so vsi senzorji detektirali svetlobo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Ne, ni svetloba"
+
+  - sentences:
+      - "kateri senzor je zaznal svetlobo?"
+      - "kateri senzor je detektiral svetlobo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Noben"
+
+  - sentences:
+      - "koliko senzorjev je detektiralo svetlobo?"
+      - "koliko senzorjev je zaznalo svetlobo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "0"
+
+  # Lock
+  - sentences:
+      - "ali so vrata za hišne ljubljenčke zaklenjena?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "lock"
+        name: "vrata za hišne ljubljenčke"
+        state: "off"
+    response: "Ne, odklenjena"
+
+  # Moisture
+  - sentences:
+      - "ali je kuhinjski senzor puščanja vode zaznal mokro?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "moisture"
+        name: "kuhinjski senzor puščanja vode"
+        state: "on"
+    response: "Ne, suho"
+
+  - sentences:
+      - "ali je kateri senzor puščanja vode zaznal mokro?"
+      - "ali je kateri senzor lekaže vode zaznal mokro"
+      - "ali je kakšen senzor izlitja vode zaznal mokro?"
+      - "ali so tla mokra?"
+      - "ali je kakšno izlitje?"
+      - "ali je kakšna poplava?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali je izlitje v kuhinji?"
+      - "ali je zaznana lekaža v kuhinji?"
+      - "ali je detektirana poplava v kuhinji?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+        area: "kuhinji"
+    response: "Ne"
+
+  - sentences:
+      - "ali so vsi senzorji lekaže vode zaznali izlitje?"
+      - "so senzorji izlitja vode detektirali poplavo?"
+      - "ali so senzorji poplave vode zaznali mokro?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "Ne, ni kuhinjski senzor puščanja vode" #have to fix grammar in response, not perfect though
+
+  - sentences:
+      - "kateri senzor vode je zaznal lekažo?"
+      - "kateri senzor izlitja vode je zaznal poplavo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "Noben"
+
+  - sentences:
+      - "koliko senzorjev vode je mokrih?"
+      - "koliko senzorjev izlitja vode je zaznalo lekažo?"
+      - "koliko detektorjev izlitja je zaznalo poplavo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "0"
+
+  # Motion
+  - sentences:
+      - "ali je senzor gibanja v garaži vključen?"
+      - "ali je senzor gibanja v garaži sprožen?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "garaži"
+        domain: "binary_sensor"
+        device_class: "motion"
+        name: "senzor gibanja"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali je kateri senzor gibanja vključen?"
+      - "ali je kakšen senzor gibanja sprožen?"
+      - "ali je kateri senzor gibanja sprožen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "Da, senzor gibanja"
+
+  - sentences:
+      - "ali so vsi senzorji gibanja sproženi?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "kateri senzor gibanja je sprožen?"
+      - "kateri senzorji gibanja so vključeni?"
+      - "kateri senzor je zaznal gibanje?"
+      - "kateri senzorji so zaznali gibanje?"
+      - "kateri senzorji so detektirali gibanje?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "senzor gibanja"
+
+  - sentences:
+      - "koliko senzorjev gibanja je vključenih?"
+      - "koliko senzorjev gibanja je sproženih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "1"

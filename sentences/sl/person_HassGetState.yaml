@@ -1,0 +1,44 @@
+language: sl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<kje_je> <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[ali] je <name> [v|na] {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[ali] je (nekdo|kdo) [v|na] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "ali so vsi [v|na] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "kdo je [v|na] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "koliko (oseb|ljudi) je [v|na] {zone:state}"
+        response: how_many
+        slots:
+          domain: person
