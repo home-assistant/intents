@@ -1,6 +1,6 @@
 language: sl
 areas:
-  - name: "spalnic(i|a)"
+  - name: "spalnic(i|a|o|e)"
     id: bedroom
   - name: "garaž(a|i|o|na|ne|ni)"
     id: garage
@@ -24,7 +24,7 @@ areas:
     id: wc
   - name: "stopnišč(e|u|ih)|stipnic(e|ah|i)"
     id: staircase
-  - name: "kuhinj(o|a|i|ska|sko|ski)"
+  - name: "kuhinj(o|a|i|ska|sko|ski|ske)"
     id: kitchen
   - name: "dnevna soba|dnevni sobi|dnevne sobe|dnevn(a|i)"
     id: living_room
@@ -33,7 +33,7 @@ areas:
   - name: "utility"
     id: utility
 entities:
-  - name: "nočn(a|e|i|o) (svetil(ka|ke|a|o)|nočn(a|o|e|i) razsvetljav(a|i|o)|nočn(a|e|i|o) luč[ka|i|ke|ki|ko])"
+  - name: "spaln(a|o|e) luč[ka|ko|i]"
     id: light.bedroom_lamp
     area: bedroom
     state: "off"
@@ -186,19 +186,19 @@ entities:
     attributes:
       current_temperature: 21
 
-  - name: "zunanja | zunaj | balkonu"
-    id: "sensor.outside_temperature"
-    state: "17"
-    area: "balcony"
-    attributes:
-      current_temperature: 17
-
-  - name: "temperatura dnevna soba"
-    id: "sensor.living_room"
+  - name: "Kuhinja temperatura"
+    id: "sensor.kitchen_temperature"
     state: "21"
-    area: "living_room"
+    area: "kitchen"
     attributes:
-      unit_of_measurement: "stopinj"
+      current_temperature: 21
+
+  - name: "termostat"
+    id: "climate.thermostat"
+    area: "living_room"
+    state: "heat"
+    attributes:
+      current_temperature: 21
   #locks
   - name: "vhodna vrata"
     id: "lock.front_door"
