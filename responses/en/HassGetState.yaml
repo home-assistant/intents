@@ -21,7 +21,7 @@ responses:
           Yes
         {% else %}
           No,
-          {% if state.attributes.untranslated_state == "not_home" %}
+          {% if state.attributes.get("untranslated_state") == "not_home" %}
             {{ state.state }}
           {% else %}
             at {{ state.state }}
@@ -67,7 +67,7 @@ responses:
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
             No, {{ no_match[:3] | join(", ") }} and {{ (no_match | length - 3) }} more are not
-            {% if state.attributes.untranslated_state == "not_home" %}
+            {% if state.attributes.get("untranslated_state") == "not_home" %}
               {{ state.state }}
             {% else %}
               at {{ state.state }}
@@ -78,7 +78,7 @@ responses:
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
               {{ name }}
             {%- endfor %} {% if no_match | length > 1 %}are{% else %}is{% endif %} not
-            {% if state.attributes.untranslated_state == "not_home" %}
+            {% if state.attributes.get("untranslated_state") == "not_home" %}
               {{ state.state }}
             {% else %}
               at {{ state.state }}
@@ -121,7 +121,7 @@ responses:
 
       where: |
         {{ slots.name | capitalize }} is
-        {% if state.attributes.untranslated_state == "not_home" %}
+        {% if state.attributes.get("untranslated_state") == "not_home" %}
           {{ state.state }}
         {% else %}
           at {{ state.state }}
