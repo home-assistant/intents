@@ -15,6 +15,18 @@ responses:
         Nu, ci {{ state.state_with_unit }}
         {% endif %}
 
+      someone_yesno: |
+        {% if query.matched: %}
+          Da
+        {% else: %}
+          Nu, ci
+          {% if state.attributes.get("untranslated_state") in ("home", "not_home") %}
+            {{ state.state }}
+          {% else %}
+            la {{ state.state }}
+          {% endif %}
+        {% endif %}
+
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
@@ -47,6 +59,29 @@ responses:
           {% endif %}
         {% endif %}
 
+      everybody: |
+        {% if not query.unmatched: %}
+          Da
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nu, {{ no_match[:3] | join(", ") }} și încă {{ (no_match | length - 3) }} nu sunt
+            {% if state.attributes.get("untranslated_state") == "home" %}
+              acasă
+            {% elif state.attributes.get("untranslated_state") == "not_home" %}
+              plecați
+            {% else %}
+              la {{ state.state }}
+            {% endif %}
+          {%- else -%}
+            Nu,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} și {% endif -%}
+              {{ name }}
+            {%- endfor %} nu{{ ' este' if (query.unmatched|length) == 1 else ' sunt' }}
+          {% endif %}
+        {% endif %}
+
       which: |
         {% if not query.matched %}
           Nu există niciun astfel de element
@@ -66,9 +101,9 @@ responses:
         {{ query.matched | length }}
 
       where: |
-        {% if state.state == "not_home" %}
+        {% if state.attributes.get("untranslated_state") == "not_home" %}
           {{ slots.name | capitalize }} nu este acasă
-        {% elif state.state == "home" %}
+        {% elif state.attributes.get("untranslated_state") == "home" %}
           {{ slots.name | capitalize }} este acasă
         {% else %}
           {{ slots.name | capitalize }} este la {{ state.state }}
