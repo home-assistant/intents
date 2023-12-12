@@ -7,7 +7,7 @@ tests:
       slots:
         domain: person
         name: Joseph
-    response: "Joseph is at home"
+    response: "Joseph is at Home"
 
   - sentences:
       - "where is Ada"
@@ -16,7 +16,16 @@ tests:
       slots:
         domain: person
         name: Ada
-    response: "Ada is at Work"
+    response: "Ada is at work"
+
+  - sentences:
+      - "where is John"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: John
+    response: "John is Away"
 
   - sentences:
       - "is Ada at home"
@@ -26,10 +35,30 @@ tests:
         domain: person
         name: Ada
         state: home
-    response: "No, Work"
+    response: "No, at work"
 
   - sentences:
-      - "is anyone at home"
+      - "is John at work"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: John
+        state: work
+    response: "No, Away"
+
+  - sentences:
+      - "is Joseph away"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Joseph
+        state: not_home
+    response: "No, at Home"
+
+  - sentences:
+      - "is anyone home"
     intent:
       name: HassGetState
       slots:
@@ -38,16 +67,52 @@ tests:
     response: "Yes, Joseph"
 
   - sentences:
+      - "is anyone at work"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: work
+    response: "Yes, Ada"
+
+  - sentences:
+      - "is anyone away"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Yes, John"
+
+  - sentences:
       - "is everyone at home"
     intent:
       name: HassGetState
       slots:
         domain: person
         state: home
-    response: "No, Ada and John are not home"
+    response: "No, Ada and John are not at Home"
 
   - sentences:
-      - "who is at home"
+      - "is everyone at work"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: work
+    response: "No, John and Joseph are not at work"
+
+  - sentences:
+      - "is everyone away"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "No, Ada and Joseph are not Away"
+
+  - sentences:
+      - "who is home"
     intent:
       name: HassGetState
       slots:
@@ -56,10 +121,46 @@ tests:
     response: "Joseph"
 
   - sentences:
+      - "who is at work"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: work
+    response: "Ada"
+
+  - sentences:
+      - "who is away"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "John"
+
+  - sentences:
       - "how many people are at home"
     intent:
       name: HassGetState
       slots:
         domain: person
         state: home
+    response: "1"
+
+  - sentences:
+      - "how many people are at work"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: work
+    response: "1"
+
+  - sentences:
+      - "how many people are away"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
     response: "1"
