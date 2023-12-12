@@ -15,10 +15,13 @@ responses:
       einzeln_zone: |
         {% if query.matched %}
           Ja
-        {% elif state.state == 'home' %}
-          Nein, ist zu Hause
         {% else %}
-          Nein, ist im Bereich {{ state.state_with_unit }}
+          Nein, ist
+          {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+            {{ state.state }}
+          {% else %}
+            im Bereich {{ state.state_with_unit }}
+          {% endif %}
         {% endif %}
 
       irgendeins: |
@@ -68,14 +71,28 @@ responses:
           {% endif %}
         {% endif %}
 
+      wer: |
+        {% if not query.matched %}
+          Niemand
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} und {{ (match | length - 3) }} weitere
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} und {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
       wie_viele: |
         {{ query.matched | length }}
 
       wo: |
-        {% if state.state == "not_home" %}
-          {{ slots.name | capitalize }} ist weg
-        {% elif state.state == "home" %}
-          {{ slots.name | capitalize }} ist zu Hause
+        {{ slots.name | capitalize }} ist
+        {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+          {{ state.state }}
         {% else %}
-          {{ slots.name | capitalize }} ist im Bereich {{ state.state }}
+          im Bereich {{ state.state }}
         {% endif %}
