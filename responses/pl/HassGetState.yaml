@@ -21,11 +21,64 @@ responses:
         Nie, {{ slots.name }} jest {{ state.state_with_unit }}
         {% endif %}
 
+      someone_yesno: |
+        {% if query.matched %}
+          Tak
+        {% else %}
+          Nie,
+          {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+            {{ state.state }}
+          {% else %}
+            w {{ state.state }}
+          {% endif %}
+        {% endif %}
+
       one_yesno_cover: |
         {% if query.matched: %}
         Tak
         {% else: %}
         Nie, {{ slots.name }} jest {{ 'otwarta' if state.state_with_unit == 'open' else 'zamknięta' }}
+        {% endif %}
+
+      everybody: |
+        {% if not query.unmatched: %}
+          Tak
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nie, {{ no_match[:3] | join(", ") }} i  {{ (no_match | length - 3) }} more are not
+            {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+              {{ state.state }}
+            {% else %}
+              w {{ state.state }}
+            {% endif %}
+          {%- else -%}
+            Nie,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor %} nie {% if no_match | length > 1 %}są{% else %}jest{% endif %}
+            {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+              {{ state.state }}
+            {% else %}
+              w {{ state.state }}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
+      who: |
+        {% if not query.matched %}
+          Nikt
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} i {{ (match | length - 3) }} inni
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
         {% endif %}
 
       any: |
@@ -107,3 +160,11 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {{ slots.name | capitalize }} jest
+        {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+          {{ state.state }}
+        {% else %}
+          w {{ state.state }}
+        {% endif %}
