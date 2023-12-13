@@ -1,0 +1,24 @@
+language: pl
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'i bezchmurne niebo',
+          'clear-night': 'bezchmurna noc',
+          'cloudy': 'i pochmurnie',
+          'exceptional': 'i niezwykle',
+          'fog': 'z mgłą',
+          'hail': 'z gradem',
+          'lightning': 'z piorunami',
+          'lightning-rainy': 'i burze z piorunami',
+          'partlycloudy': 'z częściowym zachmurzeniem',
+          'pouring': 'z ulewami',
+          'rainy': 'z deszczem',
+          'snowy': 'z śniegiem',
+          'snowy-rainy': 'i śnieg z deszczem',
+          'sunny': 'i słonecznie',
+          'windy': 'i wietrznie',
+          'windy-variant': 'wietrznie i pochmurnie'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.attributes.get('untranslated_state') | string).lower(), "") }}

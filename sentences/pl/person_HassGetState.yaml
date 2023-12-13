@@ -1,0 +1,49 @@
+language: pl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "gdzie <where_is> [<now>] <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[czy] <name> <where_is> [<now>] {presence_states:state}"
+          - "[czy] <name> <where_is> [<now>] [w] {zone:state}"
+        response: someone_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[czy] (ktoś|ktokolwiek) <where_is> [<now>] {presence_states:state}"
+          - "[czy] (ktoś|ktokolwiek) <where_is> [<now>] [w] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "[czy] wszyscy (są|przebywają|znajdują się) [<now>] {presence_states:state}"
+          - "[czy] wszyscy (są|przebywają|znajdują się) [<now>] [w] {zone:state}"
+        response: everybody
+        slots:
+          domain: person
+
+      - sentences:
+          - "kto <where_is> [<now>] {presence_states:state}"
+          - "kto <where_is> [<now>] [w] {zone:state}"
+        response: who
+        slots:
+          domain: person
+
+      - sentences:
+          - "(ile|ilu) (osób|ludzi) (jest|przebywa|znajduje się) [<now>] {presence_states:state}"
+          - "(ile|ilu) (osób|ludzi) (jest|przebywa|znajduje się) [<now>] [w] {zone:state}"
+        response: how_many
+        slots:
+          domain: person
