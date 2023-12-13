@@ -21,4 +21,9 @@ responses:
           'windy': 'Vientos',
           'windy-variant': 'Vientos y nubes'
         } %}
-         {{ weather_condition.get((state.state | string).lower(), "") }}, con una temperatura de {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }}
+         {{ weather_condition.get((state.attributes.get('untranslated_state') | string).lower(), "") }}, con una temperatura de 
+         {% if state.attributes.get('temperature') | int < 0 %}
+         {{ (state.attributes.get('temperature')|float |abs|string).rstrip('.0') }} {{ state.attributes.get('temperature_unit') }} bajo cero
+         {% else %}
+         {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }}
+         {% endif %}
