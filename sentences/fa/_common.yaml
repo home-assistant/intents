@@ -1,11 +1,11 @@
 language: fa
 responses:
   errors:
-    no_intent: "ببخشید نتونستم بفهمم"
+    no_intent: "ببخشید، متوجه نشدم"
     no_area: "وجود ندارد {{ area }} هیچ منطقه ای به نام"
     no_domain: "نیست {{ domain }} دارای {{ area }}"
     no_device_class: "نیست {{ device_class }} دارای {{ area }}"
-    no_entity: "وجود ندارد {{ entity }} هیچ دستگاه یا موجودی به نام"
+    no_entity: "وجود ندارد {{ entity }} هیچ دستگاه یا موردی به نام"
     handle_error: "هنگام اجرای هدف یک خطای غیر منتظره بوجود آمد "
 lists:
   color:
@@ -45,7 +45,43 @@ lists:
   temperature_unit:
     values:
       - "celsius"
-      - in: "c"
-        out: "celsius"
-expansion_rules: {}
-skip_words: []
+      - in: "(c|celsius|سلسیوس)"
+        out: "Celsius"
+      - in: "(f|fahrenheit|فارنهایت)"
+        out: "Fahrenheit"  
+  brightness_level:
+    values:
+      - in: "(حداکثر | بیشترین | ماکسیمم)"    
+        out: 100
+      - in: "(حداقل | کمترین | مینیموم)"
+        out: 1
+expansion_rules: 
+  area: "{area}[در]"
+  what_is: "(چطوره | چجوره| چطوریه| چه شکلیه| در چه حاله| چیه| چه مدلیه)"
+  brightness: "{brightness} [درصد | ٪]"
+  set: "(کن | بکن | بفرما| کنید | بزن)"
+  temp: "(دما | گرما | هوا | درجه | حرارت)"
+  temperature: "{temperature} [درجه] [{temperature_unit}]"
+  open: "(باز | واز)"
+  close: "(ببند | بکش | بپوشون | بسته)"
+  window: "(پنجره | کرکره | پرده )"
+  switch: "(سوییچ| کلید)"
+  plug: "(پریز | دوشاخه)"
+  light: "(چراغ | لامپ)"
+  hvac: "(کولر | تهویه| فن کوئل | شوفاژ | شومینه | بخاری | هیتر | گرمکن)"
+  fan: "(فن | پنکه)"
+  all: "(ها | همه | کل)"
+  garage: "(گاراژ | پارکینگ)"
+  
+  
+skip_words: 
+  - "را"
+  - "لطفا"
+  - "خواهشا"
+  - "لطف کن"
+  - "ممنون میشم"
+  - "میشه"
+  - "میتونی"
+  
+    
+  
