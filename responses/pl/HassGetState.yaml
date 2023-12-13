@@ -46,7 +46,7 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Nie, {{ no_match[:3] | join(", ") }} i  {{ (no_match | length - 3) }} more are not
+            Nie, {{ no_match[:3] | join(", ") }} i {{ (no_match | length - 3) }} inne osoby są
             {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
               {{ state.state }}
             {% else %}
@@ -85,7 +85,7 @@ responses:
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Tak, {{ match[:3] | join(", ") }} oraz {{ (match | length - 3) }} więcej
+            Tak, {{ match[:3] | join(", ") }} i {{ (match | length - 3) }} inne osoby są
           {%- else -%}
             Tak,
             {% for name in match -%}
