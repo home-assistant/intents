@@ -14,13 +14,16 @@ responses:
           Nee, die is {{ state.state_with_unit }}
         {% endif %}
 
-      one_zone: |
+      someone_yesno: |
         {% if query.matched %}
           Ja
-        {% elif state.state == 'not_home' %}
-          Nee, die is niet thuis
         {% else %}
-          Nee, die is in de zone {{ state.state_with_unit }}
+          Nee,
+          {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+            {{ state.state }}
+          {% else %}
+            in zone {{ state.state }}
+          {% endif %}
         {% endif %}
 
       bs_yesno: |
@@ -62,6 +65,32 @@ responses:
           {% endif %}
         {% endif %}
 
+      everybody: |
+        {% if not query.unmatched: %}
+          Ja
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nee, {{ no_match[:3] | join(", ") }} en nog {{ (no_match | length - 3) }} personen zijn niet
+            {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+              {{ state.state }}
+            {% else %}
+              in zone {{ state.state }}
+            {% endif %}
+          {%- else -%}
+            Nee,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} en {% endif -%}
+              {{ name }}
+            {%- endfor %} {% if no_match | length > 1 %}zijn{% else %}is{% endif %} niet
+            {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+              {{ state.state }}
+            {% else %}
+              in zone {{ state.state }}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
       which: |
         {% if not query.matched %}
           Geen
@@ -77,14 +106,28 @@ responses:
           {% endif %}
         {% endif %}
 
+      who: |
+        {% if not query.matched %}
+          Niemand
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} en {{ (match | length - 3) }} anderen
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} en {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
       how_many: |
         {{ query.matched | length }}
 
       where: |
-        {% if state.state == "not_home" %}
-          {{ slots.name | capitalize }} is niet thuis
-        {% elif state.state == "home" %}
-          {{ slots.name | capitalize }} is thuis
+        {{ slots.name | capitalize }} is
+        {% if state.attributes.get("untranslated_state") in ["not_home", "home"] %}
+          {{ state.state }}
         {% else %}
-          {{ slots.name | capitalize }} is in zone {{ state.state }}
+          in zone {{ state.state }}
         {% endif %}
