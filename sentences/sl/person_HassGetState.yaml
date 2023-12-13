@@ -12,16 +12,17 @@ intents:
           domain: person
 
       - sentences:
-          - "[ali] je <name> [v|na] {zone:state}"
-        response: one_yesno
+          - "[ali] je [kdo] [je] [<name>] [v|na] {zone:state}"
+        response: someone_yesno
         requires_context:
           domain: person
         slots:
           domain: person
 
       - sentences:
-          - "[ali] je (nekdo|kdo) [v|na] {zone:state}"
-        response: any
+          - "[ali] so vsi [v|na ]{presence_states:state}"
+          - "[ali] so vsi  [v|na] {zone:state}"
+        response: everybody
         slots:
           domain: person
 
@@ -32,12 +33,14 @@ intents:
           domain: person
 
       - sentences:
+          - "kdo je [v |na ]{presence_states:state}"
           - "kdo je [v|na] {zone:state}"
-        response: which
+        response: who
         slots:
           domain: person
 
       - sentences:
+          - "koliko (oseb|ljudi) je [v |na ]{presence_states:state}"
           - "koliko (oseb|ljudi) je [v|na] {zone:state}"
         response: how_many
         slots:
