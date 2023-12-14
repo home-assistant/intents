@@ -1,0 +1,111 @@
+language: nl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "waar [is|zijn] <name>"
+          - "waar bevind[t|en] <name> zich"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[is|zijn] <name> thuis"
+        response: one_zone
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+          state: home
+      - sentences:
+          - "[is|zijn] <name> (niet thuis|weg)"
+        response: one_zone
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+          state: not_home
+      - sentences:
+          - "[is|zijn] <name> [<in>] [de|het] [zone] {zone:state}"
+        response: one_zone
+        requires_context:
+          domain: person
+        excludes_context:
+          state: home
+        slots:
+          domain: person
+
+      - sentences:
+          - "is [er] iemand thuis"
+        response: any
+        slots:
+          domain: person
+          state: home
+      - sentences:
+          - "is [er] iemand (niet thuis|weg)"
+        response: any
+        slots:
+          domain: person
+          state: not_home
+      - sentences:
+          - "is [er] iemand [<in>] [de|het] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "is iedereen thuis"
+        response: all
+        slots:
+          domain: person
+          state: home
+      - sentences:
+          - "is iedereen (niet thuis|weg)"
+        response: all
+        slots:
+          domain: person
+          state: not_home
+      - sentences:
+          - "is iedereen [<in>] [de|het] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "wie (is|zijn) [er] [allemaal] thuis"
+        response: which
+        slots:
+          domain: person
+          state: home
+      - sentences:
+          - "wie (is|zijn) [er] [allemaal] (niet thuis|weg)"
+        response: which
+        slots:
+          domain: person
+          state: not_home
+      - sentences:
+          - "wie (is|zijn) [er] [allemaal] [<in>] [de|het] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "hoe[ ]veel mensen zijn [er] thuis"
+        response: how_many
+        slots:
+          domain: person
+          state: home
+      - sentences:
+          - "hoe[ ]veel mensen zijn [er] (niet thuis|weg)"
+        response: how_many
+        slots:
+          domain: person
+          state: not_home
+      - sentences:
+          - "hoe[ ]veel mensen zijn [er] [<in>] [de|het] {zone:state}"
+        response: how_many
+        slots:
+          domain: person
