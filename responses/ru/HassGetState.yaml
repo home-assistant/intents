@@ -14,6 +14,14 @@ responses:
           Нет, {{ state.state_with_unit }}
         {% endif %}
 
+      someone_yesno: |
+        {% if query.matched %}
+          Да
+        {% else %}
+          Нет,
+            находится в зоне {{ state.state }}
+        {% endif %}
+
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
@@ -45,6 +53,24 @@ responses:
           {% endif %}
         {% endif %}
 
+      everybody: |
+        {% if not query.unmatched: %}
+          Да
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Нет, {{ no_match[:3] | join(", ") }} и еще {{ (no_match | length - 3) }}
+              не находятся в зоне {{ state.state }}
+          {%- else -%}
+            Нет,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}
+              {{ name }}
+            {%- endfor %} {% if no_match | length > 1 %}{% else %}{% endif %}
+              не находятся в зоне {{ state.state }}
+          {% endif %}
+        {% endif %}
+
       which: |
         {% if not query.matched %}
           Ни одного
@@ -60,5 +86,23 @@ responses:
           {% endif %}
         {% endif %}
 
+      who: |
+        {% if not query.matched %}
+          Никого
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} и еще {{ (match | length - 3) }}
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {{ slots.name | capitalize }} находится в зоне {{ state.state }}
