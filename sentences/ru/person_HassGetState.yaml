@@ -1,0 +1,57 @@
+language: ru
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<where_is> <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<name>[ сейчас] [(на|в|у|около) ]{presence_states:state}"
+          - "<name>[ сейчас] [(на|в|у|около) ]{zone:state}"
+          - "[(на|в|у|около) ]{presence_states:state}[ ли][ сейчас] <name>"
+          - "[(на|в|у|около) ]{zone:state}[ ли ][сейчас ]<name>"
+        response: someone_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "есть [ли ]кто[-][то|либо|нибудь] [(на|в|у|около) ]{presence_states:state}"
+          - "есть [ли ]кто[-][то|либо|нибудь] [(на|в|у|около) ]{zone:state}"
+          - "есть [ли ][(на|в|у|около) ]{presence_states:state} кто[-][то|либо|нибудь][ есть]"
+          - "есть [ли ][(на|в|у|около) ]{zone:state} кто[-][то|либо|нибудь][ есть]"
+          - "[(на|в|у|около) ]{presence_states:state} [ли ]кто[-][то|либо|нибудь]"
+          # - "[(на|в|у|около) ]{zone:state} [ли ]кто[-][то|либо|нибудь]"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "Все [ли ][(на|в|у|около) ]{presence_states:state}"
+          - "Все [ли ][(на|в|у|около) ]{zone:state}"
+          - "[(на|в|у|около) ]{presence_states:state} [ли ]все"
+          - "[(на|в|у|около) ]{zone:state} [ли ]все"
+        response: everybody
+        slots:
+          domain: person
+
+      - sentences:
+          - "Кто [сейчас ][есть ] [(на|в|у|около) ]{presence_states:state}"
+          - "Кто [сейчас ][есть ] [(на|в|у|около) ]{zone:state}"
+        response: who
+        slots:
+          domain: person
+
+      - sentences:
+          - "Сколько (людей|человек) [сейчас ][(на|в|у|около) ]{presence_states:state}"
+          - "Сколько (людей|человек) [сейчас ][(на|в|у|около) ]{zone:state}"
+        response: how_many
+        slots:
+          domain: person
