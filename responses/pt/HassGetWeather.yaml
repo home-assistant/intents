@@ -4,21 +4,21 @@ responses:
     HassGetWeather:
       default: >
         {% set weather_condition = {
-          'clear': 'Céu limpo',
-          'clear-night': 'Céu limpo',
-          'cloudy': 'Céu nublado',
-          'exceptional': 'Condições excepcionalmente adversas',
-          'fog': 'Nevoeiro',
-          'hail': 'Granizo',
-          'lightning': 'Trovoada',
-          'lightning-rainy': 'Chuva e trovoada',
-          'partlycloudy': 'Céu parcialmente nublado',
-          'pouring': 'Chuva forte',
-          'rainy': 'Chuva',
-          'snowy': 'Neve',
-          'snowy-rainy': 'Chuva e neve',
-          'sunny': 'Sol',
-          'windy': 'Vento',
-          'windy-variant': 'Vento e céu nublado'
+          'clear': 'céu limpo',
+          'clear-night': 'céu limpo',
+          'cloudy': 'céu nublado',
+          'exceptional': 'condições excepcionalmente adversas',
+          'fog': 'nevoeiro',
+          'hail': 'granizo',
+          'lightning': 'trovoada',
+          'lightning-rainy': 'chuva e trovoada',
+          'partlycloudy': 'céu parcialmente nublado',
+          'pouring': 'chuva forte',
+          'rainy': 'chuva',
+          'snowy': 'neve',
+          'snowy-rainy': 'chuva e neve',
+          'sunny': 'sol',
+          'windy': 'vento',
+          'windy-variant': 'vento e céu nublado'
         } %}
-         {{ weather_condition.get((state.state | string).lower(), "") }}, com temperatura de {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} com {{ weather_condition.get((state.attributes.get('untranslated_state') | string).lower(), "") }}
