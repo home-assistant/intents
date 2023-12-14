@@ -1,0 +1,49 @@
+language: sk
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<where_is> <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<is> <name> [<in> ]{presence_states:state}"
+          - "<is> <name> [<in>] {zone:state}"
+        response: someone_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<is> niekto [<in> ]{presence_states:state}"
+          - "<is> niekto [<in>] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "<is> všetci [<in> ]{presence_states:state}"
+          - "<is> všetci [<in>] {zone:state}"
+        response: everybody
+        slots:
+          domain: person
+
+      - sentences:
+          - "kto <is> [<in> ]{presence_states:state}"
+          - "kto <is> [<in>] {zone:state}"
+        response: who
+        slots:
+          domain: person
+
+      - sentences:
+          - "<how_many> ľudí je [<in> ]{presence_states:state}"
+          - "<how_many> ľudí je [<in>] {zone:state}"
+        response: how_many
+        slots:
+          domain: person
