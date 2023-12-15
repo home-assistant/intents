@@ -22,7 +22,7 @@ responses:
           {% if state.attributes.get("untranslated_state") == "not_home" %}
             {{ state.state }}
           {% else %}
-            at {{ state.state }}
+            em {{ state.state }}
           {% endif %}
         {% endif %}
 
@@ -41,9 +41,9 @@ responses:
           {%- else -%}
             Não,
             {% for name in no_match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} e {% endif -%}
               {{ name }}
-            {%- endfor %} {% if no_match | length > 1 %}are{% else %}is{% endif %} não
+            {%- endfor %} {% if no_match | length > 1 %}estão{% else %}esta{% endif %} não
             {% if state.attributes.get("untranslated_state") == "not_home" %}
               {{ state.state }}
             {% else %}
@@ -74,7 +74,7 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Não, {{ no_match[:3] | join(", ") }} e {{ (no_match | length - 3) }} mais não
+            Não, {{ no_match[:3] | join(", ") }} e {{ (no_match | length - 3) }} mas não
           {%- else -%}
             Não,
             {% for name in no_match -%}
@@ -90,7 +90,7 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} e {{ (match | length - 3) }} mais
+            {{ match[:3] | join(", ") }} e {{ (match | length - 3) }} mas
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} e {% endif -%}
@@ -105,7 +105,7 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} outros
+            {{ match[:3] | join(", ") }} e {{ (match | length - 3) }} outros
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} e {% endif -%}
