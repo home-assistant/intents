@@ -1,0 +1,44 @@
+language: el
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<where_is> <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "είναι <name> [ο | η ] [ στο ] {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "είναι [ κάποιος | κανένας ] [ στο ] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "είναι όλοι [ στο ] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "ποιος είναι [ στο ] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "(πόσοι | ποσα άτομα) είναι [ στο ] {zone:state}"
+        response: how_many
+        slots:
+          domain: person
