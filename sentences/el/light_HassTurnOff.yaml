@@ -3,16 +3,16 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> [<all>] <articles> <lights> <area>"
-          - "<turn_off> <area> [<all>] <articles> <lights>"
+          - "<turn_off> [<all>] <articles> <name> <area>"
+          - "<turn_off> <area> [<all>] <articles> <name>"
         slots:
           domain: light
           name: all
         response: "lights_area"
 
       - sentences:
-          - "[<turn>] (όλα τα <light> | σβηστά <light> παντού)"
-          - "Κλείσε (όλα τα <light>|<light> παντού)"
+          - "[<turn_off>] (όλα τα <name> | σβηστά <name> παντού)"
+          - "Κλείσε (όλα τα <name>|<name> παντού)"
         response: "light_all"
         slots:
           domain: "light"
@@ -20,8 +20,8 @@ intents:
 
       # Turn off lights in the same area as a satellite device
       - sentences:
-          - "<turn> ( σβήσε | κλείσε) [ the] ( τα φώτα | το φώς )<in_here>"
-          - "<turn>[ αυτό | αυτά|  εδώ ] ( τα φώτα | το φώς )( off;<in_here>)"
+          - "<turn_off> ( σβήσε | κλείσε) [ the] ( τα φώτα | το φώς )<in_here>"
+          - "<turn_off>[ αυτό | αυτά|  εδώ ] ( τα φώτα | το φώς )( off;<in_here>)"
         response: "lights_area"
         expansion_rules:
           in_here: "[ στο δωμάτιο | στον χώρο | εδώ ]"
