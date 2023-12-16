@@ -1,0 +1,48 @@
+language: pt
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "onde está <nome>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<nome> (está|encontra-se) [em] {presence_states:state}"
+          - "<nome> (está|encontra-se) (em|no) {zone:state}"
+        response: someone_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "(está|encontra-se) alguém [em] {presence_states:state}"
+          - "(está|encontra-se) alguém (em|no) {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "(está|estão|encontra-se|encontram-se) (todos|toda a gente) [em] {presence_states:state}[s]"
+          - "(está|estão|encontra-se|encontram-se) (todos|toda a gente) (em|no) {zone:state}"
+        response: everybody
+        slots:
+          domain: person
+
+      - sentences:
+          - "quem (está|se encontra) [em] {presence_states:state}"
+          - "quem (está|se encontra) (em|no) {zone:state}"
+        response: who
+        slots:
+          domain: person
+
+      - sentences:
+          - "(quantos|quantas pessoas) (estão|se encontram) [em] {presence_states:state}[s]"
+          - "(quantos|quantas pessoas) (estão|se encontram) (em|no) {zone:state}"
+        response: how_many
+        slots:
+          domain: person
