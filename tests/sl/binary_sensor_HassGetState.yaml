@@ -701,3 +701,82 @@ tests:
         device_class: motion
         state: "on"
     response: "1"
+
+  # Occupancy
+  - sentences:
+      - "ali je senzor zasedenosti v kuhinji vključen?"
+      - "ali je senzor zasedenosti v kuhinji sprožen?"
+      - "ali je senzor zasedenosti sprožen v kuhinji?"
+      - "se je senzor zasedenosti vključil v kuhinji?"
+      - "se je senzor zasedenosti v kuhinji vključil?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "kuhinji"
+        domain: "binary_sensor"
+        device_class: "occupancy"
+        name: "senzor zasedenosti"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali je kakšen senzor zasedenosti sprožen?"
+      - "se je sprožil kakšen senzor zasedenosti?"
+      - "ali je zaznana kakšna zasedenost?"
+      - "je sprožena kakšna zasedenost?"
+      - "je zaznana zasedenost"
+      - "ali je kaj okupirano?"
+      - "je kaj zasedeno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+    response: "Da, senzor zasedenosti"
+
+  - sentences:
+      - "ali je kuhinja zasedena?"
+      - "ali je zasedena kuhinja?"
+      - "ali je kuhinja okupirana?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+        area: "kuhinja"
+    response: "Da, senzor zasedenosti" #tweak the response?
+
+  - sentences:
+      - "ali so vsi senzorji zasedenosti sproženi?"
+      - "so senzorji zasedenosti vključeni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "kateri senzorji zasedenosti so vključeni?"
+      - "kateri senzor zasedenosti je sprožen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+    response: "senzor zasedenosti"
+
+  - sentences:
+      - "koliko senzorjev zasedenosti je vključenih?"
+      - "koliko senzorjev zasedenosti je sproženih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+    response: "1"
