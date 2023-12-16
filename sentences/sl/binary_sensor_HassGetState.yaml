@@ -458,3 +458,54 @@ intents:
         slots:
           domain: binary_sensor
           device_class: motion
+
+      # Occupancy
+      - sentences:
+          - "([ali] je|se je) <name> [[v|na] <area>] {bs_motion_states:state}"
+          - "([ali] je|se je) <name> {bs_motion_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "([ali] je|se je) (kakšen senzor zasedenosti {bs_occupancy_states:state}|{bs_occupancy_states:state} kakšen senzor zasedenosti) [[v|na] <area>]"
+          - "([ali] je) {bs_occupancy_states:state} [kakšna] zasedenost [[v|na] <area>]"
+          - "([ali] je) kaj {bs_occupancy_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "([ali] je) zaznana zasedenost [[v|na] <area>]"
+          - "([ali] je) (<area> (zasedena|okupirana)|(zasedena|okupirana) <area>)"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+          state: "on"
+
+      - sentences:
+          - "([ali] so) [vsi] senzorji zasedenosti {bs_occupancy_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "kateri senzor[ji] zasedenosti (je|so) {bs_occupancy_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "koliko senzorjev zasedenosti je {bs_occupancy_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
