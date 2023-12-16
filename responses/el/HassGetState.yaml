@@ -2,8 +2,9 @@ language: el
 responses:
   intents:
     HassGetState:
-      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
-
+      default: |
+        {{ state.state_with_unit }}
+      # used mostly for custom sentences
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
@@ -68,7 +69,7 @@ responses:
 
       where: |
         {% if state == "not_home" %}
-          {{ slots.name | capitalize }} Είναι εκτός 
+          {{ slots.name | capitalize }} Είναι εκτός
         {% else %}
           {{ slots.name | capitalize }} Είναι στο  {{ state.state }}
         {% endif %}
