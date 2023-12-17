@@ -48,7 +48,22 @@ responses:
             {{ name }}
           {%- endfor %}
         {% endif %}
-
+      all_bs: |
+        {% if not query.unmatched: %}
+          Da
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          Ne,
+          {% if 'vrata' in no_match %}
+            {{ no_match[:-1] | join(' ') }} niso
+          {%- else %}
+            {{ no_match[-1] }} ni
+          {% endif %}
+          {% for name in no_match[0:-1] -%}
+            {% if not loop.first %}, {% endif -%}
+            {{ name }}
+          {%- endfor %}
+        {% endif %}
       which: |
         {% if not query.matched %}
           Ni {{ slots.state[:-1]}}ih {{ slots.device_class[:-1] }}a
@@ -66,6 +81,20 @@ responses:
       which_bs: |
         {% if not query.matched %}
           Noben
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+      which_bs_opening: |
+        {% if not query.matched %}
+          Nič
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
