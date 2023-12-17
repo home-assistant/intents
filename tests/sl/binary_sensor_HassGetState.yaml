@@ -301,7 +301,7 @@ tests:
 
   # Connectivity
   - sentences:
-      - "ali je telefon priključen?"
+      - "ali je telefon povezan?"
     intent:
       name: HassGetState
       slots:
@@ -312,7 +312,7 @@ tests:
     response: "Da"
 
   - sentences:
-      - "ali je katera naprava priključena?"
+      - "ali je katera naprava povezana?"
     intent:
       name: HassGetState
       slots:
@@ -322,7 +322,7 @@ tests:
     response: "Da, telefon"
 
   - sentences:
-      - "ali so vse naprave priključene?"
+      - "ali so vse naprave povezane?"
     intent:
       name: HassGetState
       slots:
@@ -332,7 +332,7 @@ tests:
     response: "Da"
 
   - sentences:
-      - "katera naprava je priključena?"
+      - "katera naprava je povezana?"
     intent:
       name: HassGetState
       slots:
@@ -342,7 +342,7 @@ tests:
     response: "telefon"
 
   - sentences:
-      - "koliko naprav je priključenih?"
+      - "koliko naprav je povezanih?"
     intent:
       name: HassGetState
       slots:
@@ -780,3 +780,170 @@ tests:
         device_class: occupancy
         state: "on"
     response: "1"
+
+  # Opening
+  - sentences:
+      - "ali so vrata lope odprta?"
+      - "ali so se vrata lope odprla?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "opening"
+        name: "vrata lope"
+        state: "on"
+    response: "Ne, zaprta"
+
+  - sentences:
+      - "ali je kaj odprto?"
+      - "ali se je kaj odprlo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: opening
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali je vse odprto?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: opening
+        state: "on"
+    response: "Ne, vrata lope ni"
+
+  - sentences:
+      - "kaj je odprto?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: opening
+        state: "on"
+    response: "Nič"
+
+  - sentences:
+      - "koliko entitet je odprtih?"
+      - "koliko zadev je odprtih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: opening
+        state: "on"
+    response: "0"
+
+  # Plug
+  - sentences:
+      - "ali je telefon izključen?"
+      - "je telefon izštekan?"
+      - "ali je telefon izštekan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "plug"
+        name: "telefon"
+        state: "off"
+    response: "Ne, priključen"
+
+  - sentences:
+      - "ali je telefon vključen?"
+      - "ali je telefon vštekan?"
+      - "je telefon vštekan?"
+      - "je telefon fštekan?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "plug"
+        name: "telefon"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali je kakšna naprava priključena?"
+      - "ali je kaj fštekano?"
+      - "je kaj vštekano?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "on"
+    response: "Da, telefon"
+
+  - sentences:
+      - "ali so vse naprave priključene?"
+      - "ali so naprave vštekane?"
+      - "so vse zadeve priključene?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali so vse naprave izključene?"
+      - "ali so naprave izštekane?"
+      - "so vse zadeve izključene?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "off"
+    response: "Ne, ni telefon"
+
+  - sentences:
+      - "katere naprave so priključene?"
+      - "katera zadeva je vštekana?"
+      - "katera naprava je priključena?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "on"
+    response: "telefon"
+
+  - sentences:
+      - "katere naprave so izključene?"
+      - "katera zadeva je izštekana?"
+      - "katera naprava je izključena?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "off"
+    response: "Noben"
+
+  - sentences:
+      - "koliko naprav je vključenih?"
+      - "koliko zadev je vštekanih?"
+      - "koliko naprav je priključenih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "on"
+    response: "1"
+
+  - sentences:
+      - "koliko naprav je izključenih?"
+      - "koliko zadev je izštekanih?"
+      - "koliko stvari je izključenih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "off"
+    response: "0"
