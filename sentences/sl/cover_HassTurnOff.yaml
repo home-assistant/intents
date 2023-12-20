@@ -1,4 +1,42 @@
 language: sl
 intents:
   HassTurnOff:
-    data: []
+    data:
+      - sentences:
+          - "<zapri> {cover_classes:device_class} [v|na] [<area>]"
+          - "<zapri> [<area>] {cover_classes:device_class}"
+        slots:
+          domain: cover
+        response: cover_device_class
+      - sentences:
+          - "<zapri> <name>"
+        requires_context:
+          domain: cover
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - garage
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover_single
+      - sentences:
+          - "<zapri> <name> [v|na] [<area>]"
+        requires_context:
+          domain: cover
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - garage
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover_single

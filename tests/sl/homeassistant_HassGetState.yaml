@@ -1,2 +1,23 @@
 language: sl
-tests: []
+tests:
+  - sentences:
+      - "koliko luči je vklopljenih?"
+      - "povej koliko svetilk je prižganih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "3"
+  - sentences:
+      - "koliko svetilk je izklopljenih na hodniku?"
+      #- "povej mi koliko svetilk je ugasnjenih zunaj?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        area:
+          - "hodniku"
+          - "zunaj"
+        state: "off"
+    response: "0"

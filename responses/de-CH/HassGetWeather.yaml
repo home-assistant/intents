@@ -1,0 +1,24 @@
+language: de-CH
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'u klar',
+          'clear-night': 'u e klari Nacht',
+          'cloudy': 'u bewöukt',
+          'exceptional': 'u ussergewöhnlech',
+          'fog': 'mit Näbu',
+          'hail': 'mit Hageu',
+          'lightning': 'mit Gewitter',
+          'lightning-rainy': 'mit Gewitter u Räge',
+          'partlycloudy': 'u teilweyys bewöukt',
+          'pouring': 'und strömende Räge',
+          'rainy': 'und rägnerisch',
+          'snowy': 'u verschneit',
+          'snowy-rainy': 'mit Schnee u Räge',
+          'sunny': 'u sunnig',
+          'windy': 'u windig',
+          'windy-variant': 'mit Wind u Wouke'
+        } %}
+        Es isch {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
