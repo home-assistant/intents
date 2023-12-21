@@ -3,9 +3,9 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <allume> [<tous>] (<lumiere> | <lumieres>) [<dans>] <area>
-          - (lumières|lumière) [<dans>] <area>
-          - <eclaire> <area>
+          - <allume> [<tous>] (<lumiere> | <lumieres>) [<dans>] [<le>]{area}
+          - (lumières|lumière) [<dans>] [<le>]{area}
+          - <eclaire> [<le>]{area}
         slots:
           domain: light
         response: lights
@@ -17,3 +17,13 @@ intents:
           domain: light
           area: all
         response: lights
+
+      # Turn off all lights in the same area as a satellite device
+      - sentences:
+          - "<allume>[ (les|la) lumière[s]][( dans la pièce| ici)]"
+          - "<allume> <tous>[ (les|la) lumière[s]]( dans la pièce| ici)"
+        response: "lights"
+        slots:
+          domain: "light"
+        requires_context:
+          area: null
