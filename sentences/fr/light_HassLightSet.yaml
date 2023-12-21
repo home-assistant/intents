@@ -66,23 +66,30 @@ intents:
 
       # color (name)
       - sentences:
-          - "<regle> [la couleur] [<de>] [<le>]{name} [en] {color}"
-          - "<regle> [<le>]{name} [avec la couleur | de couleur | en] {color}"
-          - "<allume> [<le>]{name} [avec la couleur | de couleur | en] {color}"
+          # Règle la couleur du mirrior en vert
+          - "<regle> la couleur [<de>] [<le>]{name} [en] {color}"
+          # Règle le mirrior en vert
+          - "(<regle>|<allume>) [<le>]{name} [avec la couleur | de couleur | en] {color}"
         response: color
 
       # color (area)
       - sentences:
-          - "<regle> [la couleur] [<de>] [toutes] [<le>][<lumieres>] [<de>] [<le>]{area} [en] {color}"
-          - "<regle> [la couleur] [des] [<le>][<lumieres>] [<dans>] [<le>]{area} [en] {color}"
-          - "<regle> [toutes] [<le>][<lumieres>] [<de>] [<le>]{area} [avec la couleur | de couleur | en] {color}"
-          - "<allume> [toutes] [<le>][<lumieres>] [<de>] [<le>]{area} [avec la couleur | de couleur | en] {color}"
+          # Règle la couleur du salon en vert
+          - "<regle> la couleur [<de>] [<le>]{area} [en] {color}"
+          # Règle la couleur des lumières du salon en vert
+          - "<regle> la couleur <de> [toutes] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{area} [en] {color}"
+          # Allume les lumières du salon en rouge
+          - "(<regle>|<allume>) [toutes] [<le>](<lumiere>|<lumieres>) [<de>] [<le>]{area} [avec la couleur | de couleur | en] {color}"
+          # Allume le salon en rouge
+          - "(<regle>|<allume>) [<le>]{area} [avec la couleur | de couleur | en] {color}"
         slots:
           name: all
         response: color
 
       # color (name + area)
       - sentences:
-          - <regle> [la couleur de] [<le>]{name} [<dans>] [<le>]{area} [avec la couleur |
-            de couleur | en] {color}
+          # Règle la couleur du sapin dans le salon en rouge
+          - "<regle> la couleur [<de>] [<le>]{name} [<dans>] [<le>]{area} [en] {color}"
+          # Allume le sapin de l'exterieur en vert
+          - (<regle>|<allume>) [<le>]{name} [<dans>] [<le>]{area} [avec la couleur | de couleur | en] {color}
         response: color
