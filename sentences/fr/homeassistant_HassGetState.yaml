@@ -3,10 +3,10 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - <quel> est [(l'(e|é)tat|le statut|la valeur) de] <name> [<dans> <area>]
-          - dans <quel> (e|é)tat est <name> [<dans> <area>]
-          - comment (va|est) <name> [<dans> <area>]
-          - donne(-| )moi [(l'(e|é)tat|le statut|la valeur) de] <name> [<dans> <area>]
+          - <quel> est [(l'(état|etat)|le statut|la valeur) de] [<le>]{name} [<dans> [<le>]{area}]
+          - dans <quel> (état|etat) est [<le>]{name} [<dans> [<le>]{area}]
+          - comment (va|est) [<le>]{name} [<dans> [<le>]{area}]
+          - donne(-| )moi [(l'(état|etat)|le statut|la valeur) de] [<le>]{name} [<dans> [<le>]{area}]
         response: one
         excludes_context:
           domain:
@@ -14,25 +14,25 @@ intents:
             - script
 
       - sentences:
-          - <name> [<dans> <area>] <estil> {on_off_states:state}
+          - "[<le>]{name} [<dans> [<le>]{area}] <estil> {on_off_states:state}"
         response: one_yesno
         excludes_context:
           domain:
             - cover
 
       - sentences:
-          - certain[e]s {on_off_domains:domain} [<estil>] {on_off_states:state} [<dans> <area>]
+          - certain[e]s {on_off_domains:domain} [<estil>] {on_off_states:state} [<dans> [<le>]{area}]
         response: any
 
       - sentences:
-          - <tous> les {on_off_domains:domain} <estil> {on_off_states:state} [<dans> <area>]
+          - <tous> les {on_off_domains:domain} <estil> {on_off_states:state} [<dans> [<le>]{area}]
         response: all
 
       - sentences:
-          - <quel> sont les {on_off_domains:domain} {on_off_states:state} [<dans> <area>]
+          - <quel> sont les {on_off_domains:domain} {on_off_states:state} [<dans> [<le>]{area}]
         response: which
 
       - sentences:
-          - combien <yatil> de {on_off_domains:domain} [d']{on_off_states:state} [<dans> <area>]
-          - combien de {on_off_domains:domain} [<estil>] [d']{on_off_states:state} [<dans> <area>]
+          - combien <yatil> de {on_off_domains:domain} [d']{on_off_states:state} [<dans> [<le>]{area}]
+          - combien de {on_off_domains:domain} [<estil>] [d']{on_off_states:state} [<dans> [<le>]{area}]
         response: how_many
