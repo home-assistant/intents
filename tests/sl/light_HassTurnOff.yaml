@@ -3,13 +3,59 @@ tests:
   - sentences:
       - Izključi vse luči v kuhinji
       - Izključi luč v kuhinji
+      - Izklopi luč v kuhinji
       - Izključi vsa svetila v kuhinji
       - Izključi vso razsvetljavo v kuhinji
+      - Izklopi vsa stikala luči v kuhinji
+      - Ugasni stikala za luči v kuhinji
+
     intent:
       name: HassTurnOff
       slots:
         area:
           - kuhinji
+        domain: light
+    response: "Izklopljeno"
+
+  - sentences:
+      - Izklopi vse luči povsod
+      - Ugasni vse luči povsod
+      - Izključi vse luči povsod
+      - Povsod izključi luči
+      - Povsod izključi vse luči
+      - Izključi luči povsod
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        name: all
+
+  - sentences:
+      - Izključi kuhinjske luči
+      - Izklopi kuhinjske luči
+      - Izklopi kuhinjsko luč
+    intent:
+      name: HassTurnOff
+      slots:
+        name:
+          - kuhinjske
           - kuhinjsko
         domain: light
-    response: "Luči so izklopljene"
+    response: "Izklopljeno"
+
+  # Turn off lights in the same area as a satellite device
+  - sentences:
+      - "izključi vse luči tukaj"
+      - "izklopi vse luči tukaj"
+      - "ugasni vse luči tukaj"
+      - "izključi vse luči v tem prostoru"
+      - "izklopi vse luči tu"
+      - "ugasni vse luči tu"
+    intent:
+      name: HassTurnOff
+      context:
+        area: Kitchen
+      slots:
+        domain: light
+        area: Kitchen
+    response: "Izklopljeno"

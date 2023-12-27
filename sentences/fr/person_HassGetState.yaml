@@ -1,0 +1,44 @@
+language: fr
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "o(u|ù) est [<le>]{name}"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[<le>]{name} <estil> (<dans>|à|au) [(le|la|l')] {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<yatil> (quelqu'un|du monde) (<dans>|à|au) [(le|la|l')] {zone:state}"
+        response: any_short
+        slots:
+          domain: person
+
+      - sentences:
+          - "<tous> (le monde|les membres de la famille) <estil> (<dans>|à|au) [(le|la|l')] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "Qui est (<dans>|à|au) [(le|la|l')] {zone:state}"
+        response: which_person
+        slots:
+          domain: person
+
+      - sentences:
+          - "Combien de (personnes|membres de la famille) <estil> (<dans>|à|au) [(le|la|l')] {zone:state}"
+        response: how_many
+        slots:
+          domain: person

@@ -35,9 +35,9 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: (maksimum|najmočnejš(a|e|o)|najmočneje|maksimalno|največ|maks|max)
+      - in: (maksimum|najmočnejš(a|e|o)|najmočneje|maksimalno|največ[jo|ja|je]|maks|max|najsvetlej(e|še|šo))
         out: 100
-      - in: (minimum|minimalno|najmanjš(o|a|i|em)|najšibkejš(o|a|em|i)|najmanj|min)
+      - in: (minimum|minimaln(o|a)|najmanj[šo|ša|ši|še]|najšibkej(šo|ša|šem|ši|še|e|šo)|min)
         out: 1
   temperature:
     range:
@@ -50,13 +50,13 @@ lists:
         out: "celsius"
   on_off_states:
     values:
-      - in: "vklopljen[a|o|i|ih|e]|vključen[a|o|i|e|ih]|prižgan[e|i|o|ih]"
+      - in: "vklopljen[a|o|i|ih|e]|vključen[a|o|i|e|ih]|prižgan[a|e|i|o|ih]"
         out: "on"
-      - in: "izklopljen[a|i|ih|e]|izključen[a|i|ih|e|o]|ugasnjen[e|i|o|ih]"
+      - in: "izklopljen[a|o|i|ih|e]|izključen[a|i|ih|e|o]|ugasnjen[a|e|i|o|ih]"
         out: "off"
   on_off_domains:
     values:
-      - in: "luč[i|k|ke]| svetil[ke|ki|k|ka|a|o|i]| noč[ne|ni|no|nih] luč[i|ke|ka|ki]"
+      - in: "luč[i|k|ke]| svetil[ke|ki|k|ka|a|o|i]" # | noč[ne|ni|no|nih] luč[i|ke|ka|ki]"
         out: light
       - in: "ventilator[ji|ja|je|ju|jem]| ventilaci[je|jo|ja|jem]| prezračevanje"
         out: fan
@@ -76,7 +76,7 @@ lists:
     values:
       - in: pergol(a|e|o|i)|tend(a|e|o|i)|nadstrešnic(a|o|i|e)
         out: awning
-      - in: role(ta|te|ti|to|t)| senči(lo|la|li|l)|senčnik[a|i]| rol(o|ji|ja|jev)
+      - in: role(ta|te|ti|to|t)|senči(lo|la|li|l)|senčnik[a|i|e]|rol(o|ji|ja|jev|je)
         out: blinds
       - in: zave(sa|se|so|si|s)|zastor[a|i|ov]
         out: curtain
@@ -88,51 +88,181 @@ lists:
         out: gate
       - in: vhodna vrata
         out: door
-      - in: žaluzij(a|e|o|e)
+      - in: žaluzij(a|e|o|i)
         out: blinds
-      - in: zapah[i|e]|pokrov
+      - in: zapah[i|e]|pokrov|polk(en|na|no|ni)
         out: shutter
-      - in: kuhinj(sko|ska|ski) okn(o|a|i)
-        out: window
       - in: ok(en|no|na|ni)
         out: window
   lock_states:
     values:
-      - in: "zaklenjen[a|i|o]"
+      - in: "zaklenjen[a|i|o|ih|e]"
         out: "locked"
-      - in: "odklenjen[a|i|o]"
+      - in: "odklenjen[a|i|o|e|ih]"
         out: "unlocked"
+  shopping_list_item:
+    wildcard: true
+  zone:
+    wildcard: true
+
+  # binary sensors
+  bs_presence_states:
+    values:
+      - in: "(doma|prisoten)"
+        out: "on"
+      - in: "(proč|ni prisoten)"
+        out: "off"
+
+  bs_battery_states:
+    values:
+      - in: "nizk(a|o|e|ih)|izpraznjen[a|i|e|ih]"
+        out: "on"
+      - in: "normal(en|na|no|ne|ni|nih)|napolnjen(e|a|o|ih)"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "poln(enje|i|ijo)"
+        out: "on"
+      - in: "ne polni"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(zaznan[o|i|ih]|sprožen[i|ih]|vključen[i|ih]|vklopljen[i|ih]|detektiran[i|ih])"
+        out: "on"
+      - in: "čisto"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "([zaznano] hladn(e|o|a)|[zaznano] mrzl(o|e|a|i))"
+        out: "on"
+      - in: "normaln(e|o|a|i)"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "povezan[o|a|e|i|ih]"
+        out: "on"
+      - in: "ni povezan[o|a|e|i|ih]"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "odprt(a|e|i|ih|o)"
+        out: "on"
+      - in: "zaprt(a|e|i|o|ih)"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "odprt(a|e|i|ih|o)"
+        out: "on"
+      - in: "zaprt(a|e|i|o|ih)"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(zaznan[o|i|ih]|sprožen[o|i|ih]|vključen[o|i|ih])"
+        out: "on"
+      - in: "čisto"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "(vroč[i|e|a|ih]|top[el|li|lo|la|ih])"
+        out: "on"
+      - in: "normal(no|ni)"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "zazna[no|na|l|li|lo]|detektira[n|na|no|l|li|lo]"
+        out: "on"
+      - in: "ni svetlobe"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "odklenjen[a|o|e]"
+        out: "on"
+      - in: "zaklenjen[e|a|o]"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "mokr(a|o|i|ih)|izlitje|poplav(o|a|e)|lekaž(a|e|o)"
+        out: "on"
+      - in: "suh(a|o)"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "vključ(il|en|eni|enih|eno)|zazna[no|l|nani|li|nih]|sprož(il|en|eni|enih)|detektira(li|l|no|l|ni|nih)"
+        out: "on"
+      - in: "čisto"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "vključ(il|en|eni|enih|eno|na)|zazna[no|l|nani|li|nih|na]|sprož(il|en|eni|enih|ena)|detektira(li|l|no|l|ni|na|nih)|zaseden[a|o|i|e|ost|osti]|okupiran[o|ost|a|i]"
+        out: "on"
+      - in: "čisto"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "odpr[ta|to|te|la|le|li|lo|tih]"
+        out: "on"
+      - in: "zapr[ta|te|to|la|le|li|lo|tih]"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "priključen[a|o|e|ih]|vključen[a|o|e|ih]|(v|f|u)štekan[a|o|e|ih]"
+        out: "on"
+      - in: "izključen[a|e|o|ih]|izštekan[e|i|o|a|ih]"
+        out: "off"
+
 expansion_rules:
   name: "{name}"
-  area: "[v | na] {area}[sob[o|e|i|ah]| prostor[u||e|a|ih]| kuhinj(i|a|skem|ski|ske|sko) [prosto[r|ru|re|rih]]| dnevn(i|em|ih) prostor[u|ih]| dnevn(i|a) sob(i|a)| spalni(ca|i)]| zuna(nja|j)"
-  brightness: "{brightness}[%| procent(a|e|ov|i)| odstot(ek|ka|kov|ki|kov|kih)| svetlost[i]]"
+  area: "[v|na] {area}" #|[v|na] [sob[o|e|i|ah]|[v|na] prostor[u||e|a|ih]| [v|na] kuhinj(i|a|skem|ski|ske|sko) [prosto[r|ru|re|rih]]|[v|na] dnevn(a|i|em|ih) [prostor[u|ih]]|[v|na] dnevn(i|a) sob(i|a)|[v|na] spalni(ca|ci)]| zuna(nja|j)| lop(a|i)| ut(a|i)| dvorišč(e|u|na|ni)| teras(i|e|a)
+  brightness: "{brightness}[[ ]%| procent(a|e|ov|i)| odstot(ek|ka|kov|ki|kov|kih)]" # |svetlost[i]
   color: "{color}[barv[o|e|i]| odten[ek|ke]| barv[e]]"
-  svetlost: "{brightness}"
+  dodaj: "dodaj|daj"
+  #svetlost: "{brightness}"
   temperature: "{temperature}[°| <stopinj>| celzija] [{temperature_unit}|°C ] "
   stopinj: "(stopin(j|ja|ji|je))"
-  temp: "temperatur[a|i|e|o]"
-  set: "(nastavi|spremeni|prilagodi|segrej|ohladi|dvigni|znižaj|spusti)"
-  #spremeni: "(nastavi|spremeni|prilagodi|segrej|ohladi|dvigni|znižaj|spusti)"
+  temp: "temperatur[a|i|e|o]|termostat"
+  set: "(nastavi|spremeni|prilagodi|segrej|ohladi|dvigni|znižaj|spusti|dodaj|daj)"
   close: "(zapri|spusti|zagrni|zatesni|z[a]vij)"
   open: "(odpri|dvigni|odgrni|razkrij|razvij|odkrij)"
-  covers: "([garažna|vhodna|balkonska|zadnja|sprednja|drsna|kuhinjska]) vrata| [strešn(o|i|a|ih)|kuhinjsk(o|a|i)] ok(no|ni|na|en) | rolet(a|o|i|e) | žaluzij(a|o|i|e) | markiz(a|i|e|o) | tend(a|i|e|o) | [pokrov|pokrivalo] bazena | ograj(a|i|e|o) | zaves(a|o|i|e)"
-  vklopi: "vključi[te|mo]|vklopi[te|mo]"
-  vključi: "vključi[te|mo]|vklopi[te|mo]"
-  izklopi: "izključi[te|mo]|ugasni[te|mo|izklopi]"
+  covers: "([garažna|vhodna|balkonska|zadnja|sprednja|drsna|kuhinjska]) vrata| [strešn(o|i|a|ih)|kuhinjsk(o|a|i)] ok(no|ni|na|en) | rolet(a|o|i|e) | žaluzij[a|o|i|e] | markiz(a|i|e|o) | tend(a|i|e|o) | (pokrov|pokrivalo) bazena | ograj(a|i|e|o) | zaves(a|o|i|e)"
+  vklopi: "vključi[te|mo]|vklopi[te|mo]|prižg[i|te]"
+  vključi: "vključi[te|mo]|vklopi[te|mo]|prižg[i|te]"
+  prižgi: "vključi[te|mo]|vklopi[te|mo]|prižg[i|te]"
+  izklopi: "izključi[te|mo]|ugasni[te|mo]|izklopi[te]"
   izključi: "izključi[te|mo]|ugasni[te|mo|izklopi]"
+  ugasni: "izključi[te|mo]|ugasni[te|mo|izklopi]"
   spremeni: "spremeni|prilagodi|nastavi|zamenjaj|zmanjšaj|povečaj|znižaj|ohladi|segrej"
+  numeric_value_set: "(spremeni|nastavi|obrni|zamenjaj|zmanjšaj|znižaj|povečaj|zvišaj|naredi|daj)"
   odpri: "odpri[te|mo]|dvigni[te|mo]"
   zapri: "zapri[te|mo]|spusti[te|mo]"
   katera_je: "kater[i|a|o] je|povej [mi]|katerakoli|katero|kateri|katera"
   kakšna_je: "kakšna je|povej [mi]"
+  kakšno_je: "kakšno je|povej [mi]"
+  katera: "kater[i|a|o]"
+  kateri: "kater[i|a|o]"
+  katere: "katere"
   koliko: "koliko"
+  kje_je: "kje je|kje|kje so|kje se nahaja[jo|ta]"
   vse: "[vsi|vsa|vse|vso]"
   vsa: "[vsi|vsa|vse|vso]"
-  lock: "vrata"
+  lock: "vrat[a]|ključavnic(e|a|o)"
   luč: "luč[i|ke|ko|ki|k]|svetil[a|i|o]|razsvetljav[e|o|a]|svetilk[e|o|a]"
 
 skip_words:
   - "prosim"
   - "takoj"
   - "lahko"
-  - "daj"

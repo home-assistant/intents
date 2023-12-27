@@ -1,0 +1,590 @@
+language: sl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "([ali] je|[ali] so) [baterija|napolnjenost [baterije]|kapaciteta [baterije]] <name> {bs_battery_states:state} [[v|na] <area>]"
+        response: one_yesno
+
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "([ali] je|[ali] so) [napolnjenost|kapaciteta] [kater(a|e|i)] baterij(a|e) {bs_battery_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "([ali] so) [vse|vsi] baterij(a|e) {bs_battery_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "(katera|kateri|katere) baterij(e|a|i) (je|sta|so) {bs_battery_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "koliko baterij (ima|je) {bs_battery_states:state} [napolnjenost|kapaciteto] [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "([ali] je|[ali] so|[ali] se) <name> {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "([ali] se) [kater(i|a)] [baterija|telefon] {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "([ali] se) vs[i|e] (baterije|telefoni) {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "(katere|kateri|katera) (baterij(a|e|i)|telefon[i|a]) se {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "koliko (baterij|telefon[ov]) se {bs_battery_charging_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # Carbon monoxide
+      - sentences:
+          - "([ali] je) (<name> {bs_carbon_monoxide_states:state}| {bs_carbon_monoxide_states:state} <name>) [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "([ali] je) kateri (CO2 (senzor|detektor)| (senzor|detektor) ogljikovega monoksida) {bs_carbon_monoxide_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "([ali je| je]) [kateri] (CO2 (senzor|detektor)| (senzor|detektor) ogljikovega monoksida) [v|na] <area>"
+          - "([ali je| je]) (zaznan| sprožen| detektiran) (ogljikov monoksid| CO2| CO) [v|na] <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+
+      - sentences:
+          - "(ali so| so) [vsi] (senzorji| detektorji) (ogljikovega monoksida| CO) {bs_carbon_monoxide_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "kateri (senzor[ji]| detektor[ji]) (ogljikovega monoksida| CO) (so| je) {bs_carbon_monoxide_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "koliko (senzor[jev]| detektor[jev]) (ogljikovega monoksida| CO) je {bs_carbon_monoxide_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "([ali] so|[ali] je) <name> {bs_cold_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "([ali] so|[ali] je) (kateri senzor| kaj) [zazna[l|no]|detektiral] (hlad[en|no]|mrz[el|lo]) [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "[[ali] je|[ali] so] kateri senzor[ji] [je|so] [zaznal|detektiral] (hlad[ni|en|no]| mrz[li|el|lo]) [[v|na] <area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "koliko senzorjev je [zaznalo|detektiralo] (mrzl[o|ih]| hladn[o|ih]) [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Connectivity
+      - sentences:
+          - "([ali] je|[ali] so) <name> {bs_connectivity_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "([ali] je|[ali] so) katera naprav(a|e) {bs_connectivity_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "[ali] so [vse] naprave {bs_connectivity_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "kater(e|a|i) naprav(e|a|i) (je|sta|so) {bs_connectivity_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "koliko naprav je {bs_connectivity_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "([ali] so) <name> {bs_door_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "([ali] so) <name>  {bs_garage_door_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "([ali] je) {bs_gas_states:state} <name> [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "([ali] je|[ali] so) {bs_gas_states:state} [kakš[en|ni]] (senzor[ji]|detektor[ji]) plina [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "([ali] je) [zaznan[o]|detektiran[o]] [kaj] plin[a] [v|na] <area>"
+          #- "([ali] je) zaznan plin [v|na] <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "([ali] so) [vsi] (senzorji|detektorji) plina {bs_gas_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "kater[i] (senzor[ji]|detektor[ji]) plina (je|so) {bs_gas_states:state} [[v|na] <area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "koliko (senzorjev|detektorjev) plina je {bs_gas_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Heat
+      - sentences:
+          - "([ali] je|[ali] so) <name> {bs_heat_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "([ali] je) (kaj|kateri|kakšen) [senzor] (vroč[e]|top[lo|el]) [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "(kater[a|e|i]) (stvar[i]|senzor[ji]) (je|so) (vroč[a|e]|top[la|el|le|li]) [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "koliko (stvari|senzorjev) je (toplih|vročih) [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Light
+      - sentences:
+          - "([ali] je) ({bs_light_states:state} <name>| <name> {bs_light_states:state}) [[v|na] <area>]"
+          - "([ali] je|[ali] so) (senzor[ji]|detektor[ji]) {bs_light_states:state} <name> [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "([ali] je) kateri senzor {bs_light_states:state} svetlobo [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "([ali] so) vsi senzorji {bs_light_states:state} svetlobo [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "kateri senzor[ji] (je|so) {bs_light_states:state} svetlobo [[v|na]<area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "koliko senzorjev je {bs_light_states:state} svetlobo [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      # Lock
+      - sentences:
+          - "([ali] so|[ali] je) <name> {bs_lock_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+          device_class: lock
+
+      # Moisture
+      - sentences:
+          - "([ali] je) <name> [zaznal|detektiral] {bs_moisture_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "([ali] je) [kateri|kakšen] (senzor|detektor) (puščanja|izlitja|lekaže) vode [zaznal|detektiral] {bs_moisture_states:state} [[v|na] <area>]"
+          - "([ali] so) tla [[v|na] <area>] {bs_moisture_states:state} [[v|na] <area>]"
+          - "([ali] je) [[v|na] <area>] kakšn(o|a) {bs_moisture_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "([ali] je) [zaznan(a|o)|detektiran(o|a)] (izlitje|poplava|lekaža) [zaznan(a|o)|detektiran(a|o)] [[v|na] <area>]"
+          #- "is <area> flooded"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+          state: "on"
+
+      - sentences:
+          - "([ali] so|[ali] je) [vsi] (senzorji|detektorji) [izlitja|lekaže|poplave] [vode] (zaznali|detektirali) {bs_moisture_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "kateri senzor[ji] [izlitja|lekaže|puščanja] vode (je|so) (zaznal[i]|detektiral[i]) {bs_moisture_states:state} [[v|na] <area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "koliko (senzorjev|detektorjev) [izlitja|puščanja|lekaže] [vode] je [zaznalo|detektiralo] {bs_moisture_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      # Motion
+      - sentences:
+          - "([ali] je) <name> [[v|na] <area>] {bs_motion_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "([ali] je|[ali] so) [kakš[en|ni]|kateri] senzor[ji] gibanja {bs_motion_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "([ali] je) [zaznano|detektirano] kakšno gibanje [zaznano|detektirano] [[v|na] <area>]"
+          #- "is there [any] motion [in <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+          state: "on"
+
+      - sentences:
+          - "([ali] so) [vsi] (senzorji|detektorji) gibanja {bs_motion_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "kateri senzor[ji] gibanja (je|so) {bs_motion_states:state} [[v|na] <area>]"
+          - "kateri senzor[ji] (je|so) {bs_motion_states:state} gibanje [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "koliko senzorjev gibanja je {bs_motion_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      # Occupancy
+      - sentences:
+          - "([ali] je|se je) <name> [[v|na] <area>] {bs_motion_states:state}"
+          - "([ali] je|se je) <name> {bs_motion_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "([ali] je|se je) (kakšen senzor zasedenosti {bs_occupancy_states:state}|{bs_occupancy_states:state} kakšen senzor zasedenosti) [[v|na] <area>]"
+          - "([ali] je) {bs_occupancy_states:state} [kakšna] zasedenost [[v|na] <area>]"
+          - "([ali] je) kaj {bs_occupancy_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "([ali] je) zaznana zasedenost [[v|na] <area>]"
+          - "([ali] je) (<area> (zasedena|okupirana)|(zasedena|okupirana) <area>)"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+          state: "on"
+
+      - sentences:
+          - "([ali] so) [vsi] senzorji zasedenosti {bs_occupancy_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "kateri senzor[ji] zasedenosti (je|so) {bs_occupancy_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "koliko senzorjev zasedenosti je {bs_occupancy_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      # Opening
+      - sentences:
+          - "([ali] so [se]| je) <name> {bs_opening_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: opening
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "([ali] [se] je) [kaj] {bs_opening_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "([ali] je) [vse] {bs_opening_states:state} [[v|na] <area>]"
+        response: all_bs
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "kaj [vse] je {bs_opening_states:state} [[v|na] <area>]"
+        response: which_bs_opening
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "koliko (entitet|stvari|zadev) je {bs_opening_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      # Plug
+      - sentences:
+          - "([ali] je|[ali] so) <name> {bs_plug_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "([ali] je) kakšna naprava {bs_plug_states:state} [[v|na] <area>]"
+          - "([ali] je) kaj {bs_plug_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "([ali] so) [vse] (naprave|zadeve) {bs_plug_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "(katere|katera) (naprav[a|e]|zadev[a|e]|stvar[i]) (je|so) {bs_plug_states:state} [[v|na] <area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "koliko (naprav|stvari|zadev) je {bs_plug_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: plug

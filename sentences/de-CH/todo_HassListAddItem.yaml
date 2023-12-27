@@ -1,0 +1,12 @@
+language: de-CH
+intents:
+  HassListAddItem:
+    data:
+      - sentences:
+          - "Setz <item> uf <my_list>"
+        response: item_added
+        requires_context:
+          domain: todo
+        expansion_rules:
+          my_list: "[mini |d |d' |d']({name}[(-| )](Lys[ch]te|lys[ch]te|Lis[ch]te|Liis[ch]te)|[(Lys[ch]te|lys[ch]te|Lis[ch]te|Liis[ch]te) ]{name})"
+          item: "{list_item:item}"
