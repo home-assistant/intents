@@ -6,6 +6,7 @@ intents:
           - "<turn> on (<area> <name> <light_devices>|<name> <light_devices> [in <area>])"
           - "[<turn>] (<area> <name> <light_devices>|<name> <light_devices> [in <area>]) [to] on"
           - "activate (<area> <name> <light_devices>|<name> <light_devices> [in <area>])"
+          - "lumos" # Turn on all lights everywhere (using harry potter's "lumos" spell)
         expansion_rules:
           light_devices: "(light[s]|[light] switch[es])"
         requires_context:
@@ -17,7 +18,8 @@ intents:
           - "[<turn>] [all] <light> [in] <area> on"
           - "activate [all] <light> [in] <area>"
           - "activate [all] <area> <light>"
-          - "lumos" # Turn on all lights in HA (using harry potter's "lumos" spell)
+          - "lumos <area>" "lumos" # Turn on all lights in the same area (using harry potter's "lumos" spell)
+          - "<area> lumos"
         slots:
           domain: "light"
         response: "lights_area"
