@@ -1,7 +1,7 @@
 language: sr
 responses:
   errors:
-    no_intent: "Нажалост, нисам вас разумео"
+    no_intent: "Нажалост, не разумем"
     no_area: "Не постоји просторија са именом {{ area }}"
     no_domain: "Просторија {{ area }} не постоји у оквиру подручја {{ domain }}"
     no_device_class: "Просторија {{ area }} не садржи {{ device_class }}"
@@ -42,18 +42,273 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - in: "Ц | [степен[а|и]] (Целзијус[а] | у Целзијусима)"
+      - in: "Ц|[степен[а|и]] (Целзијус[а]|у Целзијусима|Целзијусових)"
         out: "celsius"
-      - in: "Ф | [степен[а|и]] (Фаренхајт[а] | у Фаренхајтима)"
+      - in: "Ф|[степен[а|и]] (Фаренхајт[а]|у Фаренхајтима|Фаренхајтових)"
         out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: "(максимум|најјаче|највише)"
+        out: 100
+      - in: "(минимум|најслабије|најниже)"
+        out: 1
+  on_off_states:
+    values:
+      - in: "укључен[а|е|о]"
+        out: "on"
+      - in: "искључен[а|е|о]"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "светл[а|о]"
+        out: "light"
+      - in: "вентилатор[и]"
+        out: "fan"
+      - in: "прекидач[и]"
+        out: "switch"
+  cover_states:
+    values:
+      - in: "отворен[а|е|о]"
+        out: "open"
+      - in: "затворен[а|е|о]"
+        out: "closed"
+      - in: "отвара[ју] се"
+        out: "opening"
+      - in: "затвара[ју] се"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "тенд[а|е|у]"
+        out: "awning"
+      - in: "ролетн[а|е|и|у]"
+        out: "blind"
+      - in: "завес[а|е|у]"
+        out: "curtain"
+      - in: "врата"
+        out: "door"
+      - in: "врата гараже|гаражна врата"
+        out: "garage"
+      - in: "капиј[а|е|у]"
+        out: "gate"
+      - in: "ролетн[а|е|и|у]"
+        out: "shade"
+      - in: "ролетн[а|е|и|у]"
+        out: "shutter"
+      - in: "прозор[а|и|е]"
+        out: "window"
+  lock_states:
+    values:
+      - in: "закључано"
+        out: "locked"
+      - in: "откључано"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "празн[е|а]|слаб[е|а]|празно"
+        out: "on"
+      - in: "нормалн[е|а]|нормалан"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "пун[и|е] [се]"
+        out: "on"
+      - in: "не пун[и|е] [се]"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(детектован|активиран|укључен)"
+        out: "on"
+      - in: "чист"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "хладан"
+        out: "on"
+      - in: "нормалан"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "конектован"
+        out: "on"
+      - in: "дисконектован"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "отворен[а]"
+        out: "on"
+      - in: "затворен[а]"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "отворен[а]"
+        out: "on"
+      - in: "затворен[а]"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(детектован|активиран|укључен)"
+        out: "on"
+      - in: "чист"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "врућ"
+        out: "on"
+      - in: "нормалан"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "детектован[о]"
+        out: "on"
+      - in: "без светла"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "откључан[а]"
+        out: "on"
+      - in: "закључан[а]"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "влажан"
+        out: "on"
+      - in: "сув"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(детектован|активиран|укључен)"
+        out: "on"
+      - in: "без покрета"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(детектован|активиран|укључен)"
+        out: "on"
+      - in: "слободно"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "отворен"
+        out: "on"
+      - in: "затворен"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "укључен"
+        out: "on"
+      - in: "искључен"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(укључен|детектована снага)"
+        out: "on"
+      - in: "(искључен[о])"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(кућа|присуство)"
+        out: "on"
+      - in: "(ван куће|ван присуства)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "детектован"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "трчање"
+        out: "on"
+      - in: "нема трчања"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "небезбедно"
+        out: "on"
+      - in: "безбедно"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(детектован|активиран|укључен)"
+        out: "on"
+      - in: "нема дима"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(детектован|активиран|укључен)"
+        out: "on"
+      - in: "нема звука"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(detected|tampered with)"
+        out: "on"
+      - in: "clear"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "доступно ажурирање"
+        out: "on"
+      - in: "ажурирано"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(детектован|вибрира)"
+        out: "on"
+      - in: "(нема вибрације)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "отворен"
+        out: "on"
+      - in: "затворен"
+        out: "closed"
+
+  shopping_list_item:
+    wildcard: true
+
 expansion_rules:
-  name: "{name}"
-  area: "[у [просторији]|на] {area}"
-  brightness: "{brightness}[%| посто|процената]"
-  temperature: "{temperature}"
-  упали: "(упали[ш|те|мо] | укључи[ш|те|мо])"
-  угаси: "(угаси[ш|те|мо] | искључи[ш|те|мо])"
-  подеси: "(подеси[ш] | намести[ш] | постави[ш] | сетуј[еш] | промени[ш])"
+  име: "{name}"
+  област: "[[просторији]|на] {area}"
+  шта_је: "прикажи|покажи|која је|колик[а|е|о] [је|су]|каква [је|су]|да ли [је]|реци [ми]"
+  да_ли: "да ли [је|су|се] [све]"
+  који_шта: "кој[и|е] [је|су]|шта [је|су]"
+  осветљеност: "{brightness}[%|посто|процената]"
+  светла: "светл[о|а]|осветљење|расвет[а|у]"
+  temperature: "{temperature}[°| степени] [{temperature_unit}]"
+  temp: "температур(а|е|у)"
+  активирај: "упали[ш|те|мо]|укључи[ш|те|мо]|отвори[ш|те|мо]|подигни[ш|те|мо]"
+  деактивирај: "угаси[ш|те|мо]|искључи[ш|те|мо]|затвори[ш|те|мо]|спусти[ш|те|мо]"
+  подеси: "подеси[ш]|намести[ш]|постави[ш]|сетуј[еш]|промени[ш]|појачај|увећај|смањи|умањи"
 skip_words:
   - "молим [те|вас] [да]"
   - "може(ш|те) [ли] [да]"

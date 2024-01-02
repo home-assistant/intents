@@ -1,0 +1,24 @@
+language: el
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'και καθαρός',
+          'clear-night': 'και με ξαστεριά',
+          'cloudy': 'και νεφελώδης',
+          'exceptional': 'και εξαιρετικός',
+          'fog': 'με ομίχλη',
+          'hail': 'με χαλάζι',
+          'lightning': 'με καταιγίδα',
+          'lightning-rainy': 'με καταιγίδες και βροχή',
+          'partlycloudy': 'και μερικώς νεφελώδης',
+          'pouring': 'και καταρρακτώδης βροχή',
+          'rainy': 'και βροχερός',
+          'snowy': 'και χιονισμένος',
+          'snowy-rainy': 'με χιόνι και βροχή',
+          'sunny': 'και ηλιόλουστος',
+          'windy': 'και θυελλώδης',
+          'windy-variant': 'με άνεμο και σύννεφα'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.attributes.get('untranslated_state') | string).lower(), "") }}

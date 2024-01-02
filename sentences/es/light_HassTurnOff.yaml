@@ -3,9 +3,30 @@ intents:
   HassTurnOff:
     data:
       - sentences:
+          - "<apaga> [[el|la|los|las] (luz|luces|(interruptor[es]|llave[s] de [la luz]))] [de|del] <name>"
+        requires_context:
+          domain: "light"
+
+      - sentences:
           - "<apaga> [(la|las)] (luz | luces) <area>"
           - "<apaga> todas las luces <area>"
-        response: lights_area
         slots:
           domain: light
-          name: all
+        response: lights_area
+
+      - sentences:
+          - "<apaga> todas las luces"
+        response: "light_all"
+        slots:
+          domain: "light"
+          name: "all"
+
+      # Turn off lights in the same area as a satellite device
+      - sentences:
+          - "<apaga> ((la luz|las luces)[[ de] aquí]|todas las luces [de ]aquí)"
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true

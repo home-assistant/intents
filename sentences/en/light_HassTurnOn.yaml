@@ -3,6 +3,14 @@ intents:
   HassTurnOn:
     data:
       - sentences:
+          - "<turn> on (<area> <name> <light_devices>|<name> <light_devices> [in <area>])"
+          - "[<turn>] (<area> <name> <light_devices>|<name> <light_devices> [in <area>]) [to] on"
+          - "activate (<area> <name> <light_devices>|<name> <light_devices> [in <area>])"
+        expansion_rules:
+          light_devices: "(light[s]|[light] switch[es])"
+        requires_context:
+          domain: "light"
+      - sentences:
           - "<turn> on [all] <light> in <area>"
           - "<turn> on [all] <area> <light>"
           - "[<turn>] [all] <area> <light> on"
@@ -12,3 +20,16 @@ intents:
         slots:
           domain: "light"
         response: "lights_area"
+
+      # Turn on all lights in the same area as a satellite device
+      - sentences:
+          - "<turn> on[ the] lights<in_here>"
+          - "<turn>[ the] lights( on;<in_here>)"
+        response: "lights_area"
+        expansion_rules:
+          in_here: "[[ in] here]"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true

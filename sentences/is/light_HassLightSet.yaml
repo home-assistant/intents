@@ -2,4 +2,56 @@ language: is
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      # Brightness
+      - sentences:
+          - "[<set>] <bright> (á|í) <name><the> í <brightness>"
+          - "[<set>] [á|í] <brightness> (á|í) <name><the>"
+          - "[<set>] <name><the> [(á|í)] <brightness>"
+        response: brightness
+        requires_context:
+          domain: light
+      - sentences:
+          - "[<set>] <bright> (á|í) <area>[<the>] (á|í) <brightness>"
+          - "[<set>] [á|í] <brightness> (á|í) <area><the>"
+          - "[<set>] <area>[<the>] (á|í) <brightness>"
+          - "[<set>] <area>[<the>] [<bright>] <brightness>"
+          - "[<set>] <area>[<the>] <brightness> <bright>"
+        slots:
+          name: all
+        response: brightness_area
+
+      # Max/Min brightness
+      - sentences:
+          - "[<set>] <bright> [(á|í)] <name>[<the>] [(á|í)] {brightness_level:brightness} [stillingu]"
+          - "[<set>] <bright> [(á|í)] <name>[<the>] eins {brightness_level:brightness} og hægt er"
+          - "[<set>] <name>[<the>] [(á|í)] {brightness_level:brightness} (<bright>|stillingu)"
+          - "[<set>] <name>[<the>] {brightness_level:brightness} <bright>"
+        requires_context:
+          domain: light
+        response: "brightness"
+      - sentences:
+          - "[<set>] <bright> [(á|í)] <area>[<the>] [(á|í)] {brightness_level:brightness} [stillingu]"
+          - "[<set>] <bright> [(á|í)] <area>[<the>] eins {brightness_level:brightness} og hægt er"
+          - "[<set>] <area>[<the>] [(á|í)] {brightness_level:brightness} (<bright>|stillingu)"
+          - "[<set>] <area>[<the>]<bright> (á|í) {brightness_level:brightness}"
+        slots:
+          name: "all"
+        response: "brightness_area"
+
+      # color
+      - sentences:
+          - "[<set>] [lit[inn|num|ur]|ljós[ið|inu]] [(á|í)] <name>[<the>] [í] {color}"
+          - "[<set>] [lit[inn|num|ur]|ljós[ið|inu]] [(á|í)] {color} [(á|í)] <name>[<the>]"
+          - "[<set>] <name>[<the>] [í] {color} [á litinn]"
+        requires_context:
+          domain: light
+        response: "color"
+      - sentences:
+          - "[<set>] [lit[inn|num|ur]|ljós[ið|inu]] [[á] <all> [ljós[unum]]] (í|á) <area>[<the>] [í] {color}"
+          - "[<set>] [lit[inn|num|ur]|ljós[ið|inu]] [(á|í)] <area>[<the>] [í] {color}"
+          - "[<set>] [lit[inn|num|ur]|ljós[ið|inu]] [(á|í)] {color} [(á|í)] <area>[<the>]"
+          - "[<set>] <area>[<the>] [í] {color} [á litinn]"
+          - "<area>[<the>] [lit[inn|num|ur]] {color}"
+        slots:
+          name: "all"
+        response: "color_area"
