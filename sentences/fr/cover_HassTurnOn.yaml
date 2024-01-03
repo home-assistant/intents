@@ -3,13 +3,24 @@ intents:
   HassTurnOn:
     data:
       - sentences:
+          - <ouvre> [<le>]{name}
+        requires_context:
+          domain: cover
+        response: covers
+      - sentences:
+          - <ouvre> [<le>]{name} <dans> [<le>]{area}
+        requires_context:
+          domain: cover
+        response: covers
+
+      - sentences:
           - <ouvre> <garage>
         response: cover_device_class
         slots:
           device_class: garage
           domain: cover
       - sentences:
-          - <ouvre> [tous] (<volets>|<volet>) <dans> <area>
+          - <ouvre> [tous] (<volets>|<volet>) <dans> [<le>]{area}
         response: covers
         slots:
           device_class:
