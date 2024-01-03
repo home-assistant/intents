@@ -53,16 +53,25 @@ responses:
           Da
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
-          Ne,
-          {% if 'vrata' in no_match %}
-            {{ no_match[:-1] | join(' ') }} niso
-          {%- else %}
-            {{ no_match[-1] }} ni
+          {% if no_match | length > 4 %}
+            Ne, {{ no_match[:3] | join(", ") }} in {{ (no_match | length - 3) }} niso
+            {% if state.attributes.get("untranslated_state") == "not_home" %}
+              {{ state.state }}
+            {% else %}
+              v {{ state.state }}
+            {% endif %}
+          {%- else -%}
+            Ne,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
+              {{ name }}
+            {%- endfor %} {% if no_match | length > 1 %}in{% else %}  {% endif %} niso
+            {% if state.attributes.get("untranslated_state") == "not_home" %}
+              {{ state.state }}
+            {% else %}
+               {{ state.state }}
+            {% endif %}
           {% endif %}
-          {% for name in no_match[0:-1] -%}
-            {% if not loop.first %}, {% endif -%}
-            {{ name }}
-          {%- endfor %}
         {% endif %}
       which: |
         {% if not query.matched %}
