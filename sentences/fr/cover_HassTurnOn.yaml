@@ -13,7 +13,7 @@ intents:
       # device_class and area
       - sentences:
           # Ouvre les rideaux du salon
-          - <ouvre> [<tous>] [<le>]{cover_classes:device_class} <dans> [<le>]{area}
+          - <ouvre> [<tous>] [<le>]{cover_classes:device_class} [<dans>] [<le>]{area}
         response: cover
         slots:
           domain: cover
@@ -21,7 +21,7 @@ intents:
       # name and area
       - sentences:
           # Ouvre la fenetre droite de la cuisine
-          - <ouvre> [<le>]{name} <dans> [<le>]{area}
+          - <ouvre> [<le>]{name} [<dans>] [<le>]{area}
         requires_context:
           domain: cover
         response: cover
@@ -46,8 +46,10 @@ intents:
           # ouvre les volets dans cette pièce
           - <ouvre> [<tous>] [<le>]{cover_classes:device_class} <ici>
         expansion_rules:
-          ici: "(dans la pièce)|(dans cette pièce)|(ici)"
+          ici: "(<dans> <le>pièce)|(<dans> cette pièce)|(ici)"
         slots:
           domain: cover
         requires_context:
-          area: null
+          area:
+            slot: true
+        response: cover
