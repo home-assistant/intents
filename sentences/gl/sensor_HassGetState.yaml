@@ -1,0 +1,622 @@
+language: gl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/sensor/
+      # Apparent power
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: apparent_power
+        slots:
+          domain: sensor
+          device_class: apparent_power
+        expansion_rules:
+          class: "Potencia aparente"
+
+      # AQI
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: aqi
+        slots:
+          domain: sensor
+          device_class: aqi
+        expansion_rules:
+          class: "(AQI|[Índice d(a|e)] calidade do aire)"
+
+      # Atmospheric pressure
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: atmospheric_pressure
+        slots:
+          domain: sensor
+          device_class: atmospheric_pressure
+        expansion_rules:
+          class: "Presión (atmosférica| do aire)"
+
+      # Battery
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+          - "canta batería (ten|lle queda (a|ao|á)) <nome>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: battery
+        slots:
+          domain: sensor
+          device_class: battery
+        expansion_rules:
+          class: "[nivel de] batería [restante]"
+
+      # CO2
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: carbon_dioxide
+        slots:
+          domain: sensor
+          device_class: carbon_dioxide
+        expansion_rules:
+          class: "[(nivel|concentración) de] (dióxido de carbono|CO2)"
+
+      # CO
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: sensor
+          device_class: carbon_monoxide
+        expansion_rules:
+          class: "[(nivel|concentración) de] (monóxido de carbono|CO)"
+
+      # Current
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: current
+        slots:
+          domain: sensor
+          device_class: current
+        expansion_rules:
+          class: "[cantidade de] corrente [eléctrica]"
+
+      # Data rate
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: data_rate
+        slots:
+          domain: sensor
+          device_class: data_rate
+        expansion_rules:
+          class: "(ratio|velocidade) de [(descarga|subida)] [de] [datos]"
+
+      # Data size
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: data_size
+        slots:
+          domain: sensor
+          device_class: data_size
+        expansion_rules:
+          class: "(cantidade|tamaño) [(de|dos) datos]"
+
+      # Date
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+          - "cando (é|era|será|sucedeu|sucederá) <nome>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: date
+        slots:
+          domain: sensor
+          device_class: date
+        expansion_rules:
+          class: "data [do calendario]"
+
+      # Distance
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: distance
+        slots:
+          domain: sensor
+          device_class: distance
+        expansion_rules:
+          class: "distancia"
+
+      # Duration
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: duration
+        slots:
+          domain: sensor
+          device_class: duration
+        expansion_rules:
+          class: "duración"
+
+      # Energy
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: energy
+        slots:
+          domain: sensor
+          device_class: energy
+        expansion_rules:
+          class: "[cantidade de] enerxía"
+
+      # Energy storage
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: energy_storage
+        slots:
+          domain: sensor
+          device_class: energy_storage
+        expansion_rules:
+          class: "[cantidade de] enerxía [total] [hai] almacenada"
+
+      # Skipping enum
+
+      # Frequency
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: frequency
+        slots:
+          domain: sensor
+          device_class: frequency
+        expansion_rules:
+          class: "frecuencia"
+
+      # Gas
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: gas
+        slots:
+          domain: sensor
+          device_class: gas
+        expansion_rules:
+          class: "[(cantidade de|volume d(e|o))] gas"
+
+      # Humidity
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: humidity
+        slots:
+          domain: sensor
+          device_class: humidity
+        expansion_rules:
+          class: "humidade [relativa] [(do aire|da atmosfera|atmosférica)]"
+
+      # Illuminance
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: illuminance
+        slots:
+          domain: sensor
+          device_class: illuminance
+        expansion_rules:
+          class: "[(cantidade|nivel) de] (refulxencia|luz|brillo)"
+
+      # Irradiance
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: irradiance
+        slots:
+          domain: sensor
+          device_class: irradiance
+        expansion_rules:
+          class: "[(cantidade|nivel) de] ([ir]radiación)"
+
+      # Moisture
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: moisture
+        slots:
+          domain: sensor
+          device_class: moisture
+        expansion_rules:
+          class: "(humidade|(porcentaxe|proporción|ratio) de auga)"
+
+      # Monetary
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: monetary
+        slots:
+          domain: sensor
+          device_class: monetary
+        expansion_rules:
+          class: "(valor|coste)"
+
+      # Nitrogen dioxide
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: nitrogen_dioxide
+        slots:
+          domain: sensor
+          device_class: nitrogen_dioxide
+        expansion_rules:
+          class: "[(nivel|concentración) de] (dióxido de nitróxeno|NO2)"
+
+      # Nitrogen monoxide
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: nitrogen_monoxide
+        slots:
+          domain: sensor
+          device_class: nitrogen_monoxide
+        expansion_rules:
+          class: "[(nivel|concentración) de] (monóxido de nitróxeno|NO)"
+
+      # Nitrous oxide
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: nitrous_oxide
+        slots:
+          domain: sensor
+          device_class: nitrous_oxide
+        expansion_rules:
+          class: "[(nivel|concentración) de] (óxido nitroso|N2O)"
+
+      # Ozone
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: ozone
+        slots:
+          domain: sensor
+          device_class: ozone
+        expansion_rules:
+          class: "[(nivel|concentración) de] (ozono|O3)"
+
+      # PM1
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: pm1
+        slots:
+          domain: sensor
+          device_class: pm1
+        expansion_rules:
+          class: "[(nivel|concentración) de] [partículas] [de] ([menos de] 1 (micrón|micrómetro)|PM1)"
+
+      # PM2.5
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: pm25
+        slots:
+          domain: sensor
+          device_class: pm25
+        expansion_rules:
+          class_type: "(25|2.5|2,5)"
+          class: "[(nivel|concentración) de] [partículas] [de] (<class_type> (micróns|micrómetros)|PM<class_type>)"
+
+      # PM10
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: pm10
+        slots:
+          domain: sensor
+          device_class: pm10
+        expansion_rules:
+          class: "[(nivel|concentración) de] [partículas] [de] (10 (micróns|micrómetros)|PM10)"
+
+      # Power factor
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: power_factor
+        slots:
+          domain: sensor
+          device_class: power_factor
+        expansion_rules:
+          class: "factor de potencia"
+
+      # Power
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: power
+        slots:
+          domain: sensor
+          device_class: power
+        expansion_rules:
+          class: "potencia"
+
+      # Precipitation
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: precipitation
+        slots:
+          domain: sensor
+          device_class: precipitation
+        expansion_rules:
+          class: "[nivel de|cantidade de] (precipitación|chuvia|neve) [acumulada|caída]"
+
+      # Precipitation intensity
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: precipitation_intensity
+        slots:
+          domain: sensor
+          device_class: precipitation_intensity
+        expansion_rules:
+          class: "intensidade da (precipitación|chuvia|neve) [caída]"
+
+      # Pressure
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: pressure
+        slots:
+          domain: sensor
+          device_class: pressure
+        expansion_rules:
+          class: "presión"
+
+      # Reactive power
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: reactive_power
+        slots:
+          domain: sensor
+          device_class: reactive_power
+        expansion_rules:
+          class: "potencia reactiva"
+
+      # Signal strength
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: signal_strength
+        slots:
+          domain: sensor
+          device_class: signal_strength
+        expansion_rules:
+          class: "Intensidade d(e|o) sinal"
+
+      # Sound pressure
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: sound_pressure
+        slots:
+          domain: sensor
+          device_class: sound_pressure
+        expansion_rules:
+          class: "presión (sonora|acústica)"
+
+      # Speed
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: speed
+        slots:
+          domain: sensor
+          device_class: speed
+        expansion_rules:
+          class: "velocidade"
+
+      # Sulphur dioxide
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: sulphur_dioxide
+        slots:
+          domain: sensor
+          device_class: sulphur_dioxide
+        expansion_rules:
+          class: "[(nivel|concentración) d(e|o)] (dióxido de xofre|SO2)"
+
+      # Temperature
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: temperature
+        slots:
+          domain: sensor
+          device_class: temperature
+        expansion_rules:
+          class: "temperatura"
+
+      # Skipping Timestamp
+
+      # Volatile organic compounds
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: volatile_organic_compounds
+        slots:
+          domain: sensor
+          device_class: volatile_organic_compounds
+        expansion_rules:
+          class: "[(nivel|concentración) d(e|o[s])] (COV[s]|composto[s] orgánico[s] [volátil[es]])"
+
+      # Volatile organic compounds parts
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: volatile_organic_compounds_parts
+        slots:
+          domain: sensor
+          device_class: volatile_organic_compounds_parts
+        expansion_rules:
+          class: "[(nivel|concentración) d(e|o[s])] (COV[s]|composto[s] orgánico[s] [volátil[es]])"
+
+      # Voltage
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: voltage
+        slots:
+          domain: sensor
+          device_class: voltage
+        expansion_rules:
+          class: "[caída da] (tensión|voltaxe)"
+
+      # Volume
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: volume
+        slots:
+          domain: sensor
+          device_class: volume
+        expansion_rules:
+          class: "volume"
+
+      # Volume storage
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: volume_storage
+        slots:
+          domain: sensor
+          device_class: volume_storage
+        expansion_rules:
+          class: "Volume [total] [almacenado]"
+
+      # Water
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: water
+        slots:
+          domain: sensor
+          device_class: water
+        expansion_rules:
+          class: "[(cantidade [total] de|total de)] (auga [total] [consumida]|consumo de auga)"
+
+      # Weight
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: weight
+        slots:
+          domain: sensor
+          device_class: weight
+        expansion_rules:
+          class: "(peso|masa)"
+
+      # Wind speed
+      - sentences:
+          - "<cal_e_a_medida_do_sensor>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: wind_speed
+        slots:
+          domain: sensor
+          device_class: wind_speed
+        expansion_rules:
+          class: "velocidade [do viento]"
