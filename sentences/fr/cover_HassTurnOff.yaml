@@ -2,28 +2,52 @@ language: fr
 intents:
   HassTurnOff:
     data:
+      # name
       - sentences:
-          - <ferme> [<le>]<garage>
-        response: cover_device_class
-        slots:
-          device_class: garage
+          # Fermer le volet droit
+          - <ferme> [<le>]{name}
+        requires_context:
           domain: cover
+        response: covers
+
+      # device_class and area
       - sentences:
-          - <ferme> [tous] [<le>](<volets>|<volet>) <dans> [<le>]{area}
+          # Ferme les rideaux du salon
+          - <ferme> [<tous>] [<le>]{cover_classes:device_class} <dans> [<le>]{area}
         response: covers
         slots:
-          device_class:
-            - blind
-            - curtain
-            - shutter
           domain: cover
+
+      # name and area
       - sentences:
-          - <ferme> tous [<le>](<volets>|<volet>)
-        response: cover_device_class
-        slots:
-          name: all
-          device_class:
-            - blind
-            - curtain
-            - shutter
+          # Ferme la fenetre droite de la cuisine
+          - <ferme> [<le>]{name} <dans> [<le>]{area}
+        requires_context:
           domain: cover
+        response: covers
+
+      # device_class
+      - sentences:
+          # Ferme tous les volets
+          - <ferme> <tous> [<le>]{cover_classes:device_class}
+          # Ferme les volets dans toute la maison
+          - <ferme> [<tous>] [<le>]{cover_classes:device_class} <partout>
+        expansion_rules:
+          partout: (partout)|(dans toute la maison)|(dans toutes les pièces)|(de la maison)
+        slots:
+          domain: cover
+          area: all
+        response: covers
+
+      # Context area awareness
+      - sentences:
+          # Ferme les volets
+          - <ferme> [<le>]{cover_classes:device_class}
+          # Ferme les volets dans cette pièce
+          - <ferme> [<tous>] [<le>]{cover_classes:device_class} <ici>
+        expansion_rules:
+          ici: "(dans la pièce)|(dans cette pièce)|(ici)"
+        slots:
+          domain: cover
+        requires_context:
+          area: null

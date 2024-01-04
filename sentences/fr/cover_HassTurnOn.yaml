@@ -4,36 +4,50 @@ intents:
     data:
       # name
       - sentences:
+          # Ouvrir le volet droit
           - <ouvre> [<le>]{name}
         requires_context:
           domain: cover
         response: covers
 
+      # device_class and area
       - sentences:
+          # Ouvre les rideaux du salon
+          - <ouvre> [<tous>] [<le>]{cover_classes:device_class} <dans> [<le>]{area}
+        response: covers
+        slots:
+          domain: cover
+
+      # name and area
+      - sentences:
+          # Ouvre la fenetre droite de la cuisine
           - <ouvre> [<le>]{name} <dans> [<le>]{area}
         requires_context:
           domain: cover
         response: covers
 
+      # device_class
       - sentences:
-          - <ouvre> [<le>] <garage>
-        response: cover_device_class
+          # Ouvre tous les volets
+          - <ouvre> <tous> [<le>]{cover_classes:device_class}
+          # Ouvre les volets dans toute la maison
+          - <ouvre> [<tous>] [<le>]{cover_classes:device_class} <partout>
+        expansion_rules:
+          partout: (partout)|(dans toute la maison)|(dans toutes les pièces)|(de la maison)
         slots:
-          device_class: garage
           domain: cover
-
-      - sentences:
-          - <ouvre> [tous] [<le>]{cover_classes:device_class} <dans> [<le>]{area}
+          area: all
         response: covers
-        slots:
-          domain: cover
+
+      # Context area awareness
       - sentences:
-          - <ouvre> tous [les] [<le>](<volets>|<volet>)
-        response: cover_device_class
+          # ouvre les volets
+          - <ouvre> [<le>]{cover_classes:device_class}
+          # ouvre les volets dans cette pièce
+          - <ouvre> [<tous>] [<le>]{cover_classes:device_class} <ici>
+        expansion_rules:
+          ici: "(dans la pièce)|(dans cette pièce)|(ici)"
         slots:
-          name: all
-          device_class:
-            - blind
-            - curtain
-            - shutter
           domain: cover
+        requires_context:
+          area: null
