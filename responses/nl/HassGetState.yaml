@@ -2,6 +2,8 @@ language: nl
 responses:
   intents:
     HassGetState:
+      default: "{{ state.state_with_unit }}"
+
       one: |
         {{ slots.name | capitalize }} is {{ state.state_with_unit }}
 
@@ -10,6 +12,15 @@ responses:
           Ja
         {% else %}
           Nee, die is {{ state.state_with_unit }}
+        {% endif %}
+
+      one_zone: |
+        {% if query.matched %}
+          Ja
+        {% elif state.state == 'not_home' %}
+          Nee, die is niet thuis
+        {% else %}
+          Nee, die is in de zone {{ state.state_with_unit }}
         {% endif %}
 
       bs_yesno: |
@@ -68,3 +79,12 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state.state == "not_home" %}
+          {{ slots.name | capitalize }} is niet thuis
+        {% elif state.state == "home" %}
+          {{ slots.name | capitalize }} is thuis
+        {% else %}
+          {{ slots.name | capitalize }} is in zone {{ state.state }}
+        {% endif %}

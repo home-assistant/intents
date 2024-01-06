@@ -24,6 +24,8 @@ HassTurnOn:
       - "name"
     area_only:
       - "area"
+    domain_only:
+      - "domain"
     area_name:
       - "name"
       - "area"
@@ -54,6 +56,25 @@ HassTurnOff:
     device_class:
       description: "Device class of devices/entities in an area"
       required: false
+  slot_combinations:
+    name_only:
+      - "name"
+    area_only:
+      - "area"
+    domain_only:
+      - "domain"
+    area_name:
+      - "name"
+      - "area"
+    area_domain:
+      - "area"
+      - "domain"
+    area_device_class:
+      - "area"
+      - "device_class"
+    domain_device_class:
+      - "domain"
+      - "device_class"
 
 HassGetState:
   supported: true
@@ -82,6 +103,11 @@ HassGetState:
       description: "List of states that matched the query and state name"
     query.unmatched:
       description: "List of states that matched everything except state name"
+
+HassNevermind:
+  supported: true
+  domain: homeassistant
+  description: "Does nothing. Used to cancel a request"
 
 # -----------------------------------------------------------------------------
 # light
@@ -128,7 +154,7 @@ HassClimateSetTemperature:
       required: false
 
 HassClimateGetTemperature:
-  supported: false
+  supported: true
   domain: climate
   description: "Gets the current temperature of a climate device or entity"
   slots:
@@ -153,4 +179,33 @@ HassShoppingListAddItem:
   slots:
     item:
       description: "Item to add"
+      required: true
+
+# -----------------------------------------------------------------------------
+# weather
+# -----------------------------------------------------------------------------
+
+HassGetWeather:
+  supported: true
+  domain: weather
+  description: "Gets the current weather"
+  slots:
+    name:
+      description: "Name of the weather entity to use"
+      required: false
+
+# -----------------------------------------------------------------------------
+# todo
+# -----------------------------------------------------------------------------
+
+HassListAddItem:
+  supported: true
+  domain: todo
+  description: "Adds an item to a todo list"
+  slots:
+    item:
+      description: "Item to add"
+      required: true
+    name:
+      description: "Name of the list"
       required: true

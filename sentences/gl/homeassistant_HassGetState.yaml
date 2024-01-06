@@ -1,4 +1,38 @@
 language: gl
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "<cal> é [o estado] [do|da] <nome> [<area>]"
+          - "en que estado <esta> <nome> [<area>]"
+          - "como <esta> <nome> [<area>]"
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - "[se] <esta> <nome> {on_off_states:state} [<area>]"
+          - "[se] <esta> <nome> [<area>] {on_off_states:state}"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "[se] <esta> <algun> {on_off_domains:domain} {on_off_states:state} [<area>]"
+        response: any
+
+      - sentences:
+          - "[se] <todos> [os|as] {on_off_domains:domain} [<esta>] {on_off_states:state} [<area>]"
+          - "[se] están <todos> [os|as] {on_off_domains:domain} [<area>] {on_off_states:state}"
+        response: all
+
+      - sentences:
+          - <cal> {on_off_domains:domain} <esta> {on_off_states:state} [<area>]
+        response: which
+
+      - sentences:
+          - (cantos|cantas) {on_off_domains:domain} <esta> {on_off_states:state} [<area>]
+        response: how_many

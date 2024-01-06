@@ -346,3 +346,306 @@ tests:
         device_class: cold
         state: "on"
     response: "0"
+
+  # Door
+  - sentences:
+      - "ist die Wohnungstür offen?"
+      - "steht die Wohnungstür offen?"
+      - "ist die Wohnungstür auf?"
+      - "ist die Wohnungstür geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Wohnungstür"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist die Wohnungstür im Eingang offen?"
+      - "ist im Eingang die Wohnungstür offen?"
+      - "ist die Wohnungstür offen im Eingang?"
+      - "steht die Wohnungstür im Eingang offen?"
+      - "steht im Eingang die Wohnungstür offen?"
+      - "steht die Wohnungstür offen im Eingang?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Eingang"
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Wohnungstür"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist die Wohnungstür zu?"
+      - "steht die Wohnungstür zu?"
+      - "ist die Wohnungstür geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "Wohnungstür"
+        state: "off"
+    response: "Ja"
+
+  # Garage door
+  - sentences:
+      - "ist das Garagentor geschlossen?"
+      - "ist das Garagentor zu?"
+      - "ist das Garagentor unten?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garagentor"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "ist das Garagentor in der Auffahrt geschlossen?"
+      - "ist in der Auffahrt das Garagentor geschlossen?"
+      - "ist das Garagentor geschlossen in der Auffahrt?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Auffahrt"
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garagentor"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "ist das Garagentor auf?"
+      - "ist das Garagentor offen?"
+      - "ist das Garagentor geöffnet?"
+      - "ist das Garagentor oben?"
+      - "steht das Garagentor auf?"
+      - "steht das Garagentor offen?"
+      - "steht das Garagentor geöffnet?"
+      - "steht das Garagentor oben?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garagentor"
+        state: "on"
+    response: "Nein"
+
+  # Gas
+  - sentences:
+      - "wurde Gas entdeckt?"
+      - "wurde Gas ausgelöst?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "gas"
+        name: "Gas"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "sind irgendwelche Gas-Sensoren an?"
+      - "sind Gassensoren an?"
+      - "sind irgendwo Gassensoren an?"
+      - "ist einer der Gas-Sensoren an?"
+      - "wurde einer der Gas-Sensoren ausgelöst?"
+      - "wurden Gas-Sensoren ausgelöst?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist einiges Gas in der Küche?"
+      - "ist Gas in der Küche?"
+      - "gibt es irgendwelches Gas in der Küche?"
+      - "wurde irgendwelches Gas in der Küche erkannt?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Küche"
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "sind alle Gassensoren an?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "Nein, Gas ist es nicht"
+
+  - sentences:
+      - "was für ein Gassensor ist an?"
+      - "welcher Gassensor ist ausgelöst?"
+      - "welche Gassensoren wurden ausgelöst?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "Keins"
+
+  - sentences:
+      - "wie viele Gassensoren sind an?"
+      - "wie viele Gassensoren wurden ausgelöst?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "0"
+
+  # Heat
+  - sentences:
+      - "ist der Computer heiss?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "heat"
+        name: "Computer"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "ist der Computer im Büro heiß?"
+      - "ist im Büro der Computer heiß?"
+      - "ist der Computer heiß im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: "binary_sensor"
+        device_class: "heat"
+        name: "Computer"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "sind irgendwelche Sensoren heiß?"
+      - "sind Dinge heiß?"
+      - "sind einige der Dinge heiß?"
+      - "ist was heiß?"
+      - "ist eins der Geräte heiß?"
+      - "ist eines der Geräte heiß?"
+      - "ist irgendeins der Geräte heiß?"
+      - "ist irgendeines der Geräte heiß?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "Ja, Computer"
+
+  - sentences:
+      - "sind irgendwelche der Sensoren im Büro heiß?"
+      - "sind irgendwelche der Sensoren heiß im Büro?"
+      - "sind Sensoren im Büro heiß?"
+      - "sind im Büro einige Dinge heiß?"
+      - "sind im Büro Dinge heiß?"
+      - "sind Dinge heiß im Büro?"
+      - "ist etwas im Büro heiß?"
+      - "ist im Büro irgendwas heiß?"
+      - "ist irgendetwas heiß im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "Ja, Computer"
+
+  - sentences:
+      - "sind alle Sensoren heiß?"
+      - "sind alle Geräte heiß?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "sind alle Sensoren im Büro heiß?"
+      - "sind alle Geräte heiß im Büro?"
+      - "sind im Büro alle Geräte heiß?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "welche Dinge sind heiß?"
+      - "welcher Sensor ist heiß?"
+      - "was für Sensoren sind heiß?"
+      - "was für ein Gegenstand ist heiß?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "Computer"
+
+  - sentences:
+      - "welche Dinge sind im Büro heiß?"
+      - "welcher Sensor im Büro ist heiß?"
+      - "was für Sensoren sind heiß im Büro?"
+      - "was für ein Gegenstand im Büro ist heiß?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "Computer"
+
+  - sentences:
+      - "wie viele Geräte sind heiß?"
+      - "wie viele Gegenstände sind heiß?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "1"
+
+  - sentences:
+      - "wie viele Geräte sind im Büro heiß?"
+      - "wie viele Gegenstände im Büro sind heiß?"
+      - "wie viele Dinge sind heiß im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "1"

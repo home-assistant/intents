@@ -65,7 +65,7 @@ lists:
         out: gate
       - in: Schirm[e]
         out: shade
-      - in: "(Rollladen|Rollläden)"
+      - in: "(Rollladen|Rollläden|Rollo[s])"
         out: shutter
       - in: Fenster
         out: window
@@ -129,6 +129,30 @@ lists:
         out: "on"
       - in: "normal"
         out: "off"
+  bs_door_states:
+    values:
+      - in: "(auf|offen|geöffnet)"
+        out: "on"
+      - in: "(zu|geschlossen)"
+        out: "off"
+  bs_garage_door_states:
+    values:
+      - in: "(auf|offen|geöffnet|oben)"
+        out: "on"
+      - in: "(zu|geschlossen|unten)"
+        out: "off"
+  bs_gas_states:
+    values:
+      - in: "(entdeckt|ausgelöst|erkannt|an)"
+        out: "on"
+      - in: "(klar|rein|sauber|sicher)"
+        out: "off"
+  bs_heat_states:
+    values:
+      - in: "hei(ß|ss)"
+        out: "on"
+      - in: "normal"
+        out: "off"
 
   shopping_list_item:
     wildcard: true
@@ -138,7 +162,7 @@ expansion_rules:
   artikel_unbestimmt: "[(ein|eine|eines|einer|einem|einen)]"
   artikel: "[<artikel_bestimmt>|<artikel_unbestimmt>]"
   name: "<artikel> {name}"
-  area: "((in|an|auf) <artikel>|im|am) {area}"
+  area: "([(in|an|auf)] <artikel>|im|am|<von_dem>) {area}[s]"
   an: "(an|ein|auf)"
   aus: "(aus|ab|zu)"
   auf: "(auf|hoch|rauf|nach oben)"
@@ -147,11 +171,11 @@ expansion_rules:
   alle: "((alle|sämtliche)[r]|jede[r|s|n]|<artikel> (ganze|komplette|sämtliche)[n]) [der]"
   schliessen: "(schlie(ß|ss)[e|en]|zumachen|zu machen)"
   öffnen: "(öffne[n]|aufmachen|auf machen)"
-  schalten: "(schalt[e|en])"
-  machen: "(mach[e|en])"
+  schalten: "(schalt[e|en|et])"
+  machen: "(mach[e|en|t])"
   setzen: "(setz[e|en]|stell[e|en]|einstellen|änder[e|n]|veränder[e|n])"
-  abdeckung: "<artikel> (Rollo[s]|Abdeckung[en]|Rolll(a|ä)den|Jalousie[n]|Raffstore[s]|Markise[n])"
-  alle_abdeckungen: "<alle> (Rollos|Abdeckungen|Rolll(a|ä)den|Jalousien|Raffstores|Markisen)"
+  abdeckung: "<artikel> (Rollo[s]|Abdeckung[en]|Rolll(a|ä)den|Jalousie[n]|Raffstore[s]|Markise[n]|Vorh(a|ä)ng[e])"
+  alle_abdeckungen: "<alle> (Rollos|Abdeckungen|Rolll(a|ä)den|Jalousien|Raffstores|Markisen|Vorhänge)"
   garage: "<artikel> (Garage[n]|Garagentor[e])"
   alle_garagen: "<alle> (Garagen[tore])"
   tor: "<artikel> Tor[e]"
@@ -159,7 +183,7 @@ expansion_rules:
   luefter: "<artikel> (Ventilator[en]|Lüfter)"
   alle_luefter: "<alle> (Ventilatoren|Lüfter)"
   brightness: "{brightness} [Prozent|%]"
-  temperature: "{temperature} [Grad] [{temperature_unit}]"
+  temperature: "{temperature}[ ][°|Grad][ ][{temperature_unit}]"
   licht: "<artikel> (Licht|Lampe|Beleuchtung)"
   lichter: "[die|der|von den] (Lichter|Lichtern|Lampen|Leuchten|Beleuchtungen)"
   alle_lichter: "(<alle> (<lichter>|Beleuchtung)|von allen [Lichtern|Lampen|Leuchten|Beleuchtungen])"
@@ -174,12 +198,13 @@ expansion_rules:
   szene: "<artikel> Szene"
   skript: "<artikel> Skript"
   batterie: "<artikel> (Batterie[n]|Akku[s])"
-  irgend: "(irgend(<artikel_unbestimmt>[s]|welche[s])|(einige|manche)[s]|<artikel_unbestimmt>[s]) <artikel_bestimmt>"
+  irgend: "(irgend(<artikel_unbestimmt>[s]|welche[s]|wo)|(einige|manche)[s]|<artikel_unbestimmt>[s]) <artikel_bestimmt>"
   etwas: "[irgend][et]was"
   welche: "(welche[r|s]|was für [<artikel_unbestimmt>[s]]) <artikel_bestimmt>"
   ladestand: "<artikel> [Lade][zu]Stand"
   co: "Kohlen[stoff]monoxid"
-  co-sensor: "<co>[-]Sensor[en]"
+  co_sensor: "<co>[-]Sensor[en]"
+  gas_sensor: "Gas[-]Sensor[en]"
   ding: "((Ding|Gerät)[e]|Sensor[en]|Gegenstand|Gegenstände)"
 skip_words:
   - "bitte"

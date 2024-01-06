@@ -1,0 +1,36 @@
+language: sl
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "(ali so|je |ali je|so) <name> {lock_states:state}  [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(ali so|ali je|je|so) [katera|kakšna] <lock> {lock_states:state} [[v|na] <area>]"
+          - "(ali so|ali je|je|so) [katera|kakšna] {lock_states:state} <lock> [[v|na] <area>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(ali so|so) (vse|vsa) <lock> {lock_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(katere|katera) <lock> [je|so] {lock_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "koliko <lock> je {lock_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: lock
