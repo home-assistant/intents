@@ -2,18 +2,40 @@ language: fr
 intents:
   HassTurnOn:
     data:
-      - sentences:
-          - <allume> [<tous>] (<lumiere> | <lumieres>) [<dans>] <area>
-          - (lumières|lumière) [<dans>] <area>
-          - <eclaire> <area>
-        slots:
-          domain: light
-        response: lights
+      # name
+      # See intents/sentences/fr/homeassistant_HassTurnOn.yaml
 
+      # area
       - sentences:
-          - <allume> (<lumiere> | <lumieres>) partout
-          - <allume> <tous> <lumieres>
+          # Allume la lumiere du bureau
+          - "<allume> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{area}"
+          # Allume le bureau
+          - "(<allume>|<eclaire>) [<le>]{area}"
+          # Lumière dans le bureau
+          - "(<lumiere>|<lumieres>) [<dans>] [<le>]{area}"
         slots:
           domain: light
-          area: all
-        response: lights
+
+      # area + context awareness
+      - sentences:
+          # Allume toutes les lumieres ici
+          - "<allume> [<tous>] [<le>](<lumiere>|<lumieres>) <ici>"
+          # Allume les lumieres
+          - "<allume> [<le>](<lumiere>|<lumieres>)"
+        expansion_rules:
+          ici: "(dans la pièce)|(dans cette pièce)|(ici)"
+        slots:
+          domain: light
+        requires_context:
+          area:
+            slot: true
+
+      # name + area
+      # See intents/sentences/fr/homeassistant_HassTurnOff.yaml
+
+      # all
+      - sentences:
+          - <allume> [<le>](<lumiere>|<lumieres>) [de] partout
+          - <allume> <tous> [<le>]<lumieres>
+        slots:
+          domain: light
