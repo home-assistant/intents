@@ -13,7 +13,6 @@ intents:
           - "<eteins> [<le>]{area}"
         slots:
           domain: light
-        response: lights
 
       # area + context awareness
       - sentences:
@@ -21,9 +20,8 @@ intents:
           - "<eteins> [<tous>] [<le>](<lumiere>|<lumieres>) <ici>"
           # Éteindre les lumieres
           - "<eteins> [<le>](<lumiere>|<lumieres>)"
-        expansion_rules:
-          ici: "(dans la pièce)|(dans cette pièce)|(ici)"
-        response: lights
+          # Jacouille, éteins les lumieres
+          - nuit
         slots:
           domain: light
         requires_context:
@@ -36,10 +34,8 @@ intents:
       # all
       - sentences:
           # Éteindre les lumieres de partout
-          - <eteins> [<le>](<lumiere>|<lumieres>) [de] partout
-          # Éteindre toutes lumieres de partout
+          - <eteins> [<le>](<lumiere>|<lumieres>) <partout>
+          # Éteindre toutes lumieres
           - <eteins> <tous> [<le>]<lumieres>
         slots:
           domain: light
-          name: all
-        response: lights
