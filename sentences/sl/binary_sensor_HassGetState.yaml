@@ -588,3 +588,84 @@ intents:
         slots:
           domain: binary_sensor
           device_class: plug
+
+      # Power
+      - sentences:
+          - "([ali] je) <name> {bs_power_states:state} [[v|na] <area>]"
+          - "([ali] je) {bs_power_states:state} <name>  [[v|na] <area>]"
+
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "([ali] je|[ali] so) (kakš[na|ne|en] | kaj) [naprav[a|e]|stvar[i]|[omrežni] vtič[i]] {bs_power_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "([ali] je|[ali] so) [vse|povsod] [naprav[a|e]|stvar[i]|[omrežni] vtič[i]] {bs_power_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "(katere|katera|kaj) [vse je] [naprav[a|e]|stvar[i]|[omrežni] vtič[i]] [je|so] {bs_power_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "koliko (naprav[a|e]|stvar[i]|[omrežni] vtič[i]) (je|so|ima) {bs_power_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      # Presence
+      - sentences:
+          - "([ali] je|[ali] so) <name> {bs_presence_states:state} [[v|na] <area>]"
+          - "ali <name> {bs_presence_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "([ali] je|[ali] so) (kakš[na|ne|en]|kater[a|e|i]) (naprav(e|a)|stvar[i]|telefon) {bs_presence_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "([ali] so) [vs[e|i]] (naprav(e|a)|stvar[i]|telefon) {bs_presence_states:state} [[v|na] <area>]"
+        response: all_bs
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "kater(a|e|i) (naprav(e|a)|stvar[i]|telefon[i]) (je|so) {bs_presence_states:state} [[v|na] <area>]"
+        response: which_bs
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "koliko (naprav[e|a]|stvar[i]|telefon[ov]) je {bs_presence_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: presence
