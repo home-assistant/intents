@@ -947,3 +947,137 @@ tests:
         device_class: plug
         state: "off"
     response: "0"
+
+  # Power
+  - sentences:
+      - "ali je razdelilna omarica pod napetostjo?"
+      - "ali je zaznano napajanje razdelilne omarice?"
+      - "ali je razdelilna omarica napajana?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "power"
+        name:
+          - "razdelilna omarica"
+          - "razdelilne omarice"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali je kakšna naprava pod napetostjo?"
+      - "ali je kakšen omrežni vtič pod napetostjo?"
+      - "je kaj pod napetostjo?" #v primeru težav s prepoznavo izbriši (name)
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        state: "on"
+    response: "Da, razdelilna omarica"
+
+  - sentences:
+      - "ali so vse naprave pod napetostjo?"
+      - "ali so naprave napajane?"
+      - "ali je vse pod napetostjo?"
+      - "ali je povsod zaznana napetost?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "katere naprave so pod napetostjo?"
+      - "kaj vse je pod napetostjo?"
+      - "katera naprava je napajana?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        state: "on"
+    response: "razdelilna omarica"
+
+  - sentences:
+      - "koliko naprav je pod napetostjo?"
+      - "koliko stvari je napajanih?"
+      - "koliko naprav ima zaznano napetost?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        state: "on"
+    response: "1"
+
+  # Presence
+  - sentences:
+      - "ali je iphone doma?"
+      - "ali je iphone prisoten"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        name: "iPhone"
+        state: "on"
+    response: "Ne, odsoten"
+
+  - sentences:
+      - "ali je iphone odsoten?"
+      - "ali iphone ni prisoten"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        name: "iPhone"
+        state: "off"
+    response: "Da"
+
+  - sentences:
+      - "ali je katera naprava doma?"
+      - "ali je kakšen telefon doma?"
+      - "je kakšna naprava prisotna?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali so vse naprave doma?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        state: "on"
+    response: "Ne, iPhone ni"
+
+  - sentences:
+      - "katere naprave so doma?"
+      - "kateri telefoni so doma?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        state: "on"
+    response: "Noben"
+
+  - sentences:
+      - "koliko naprav je doma?"
+      - "koliko telefonov je prisotnih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        state: "on"
+    response: "0"

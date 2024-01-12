@@ -106,12 +106,6 @@ lists:
     wildcard: true
 
   # binary sensors
-  bs_presence_states:
-    values:
-      - in: "(doma|prisoten)"
-        out: "on"
-      - in: "(proč|ni prisoten)"
-        out: "off"
 
   bs_battery_states:
     values:
@@ -223,6 +217,20 @@ lists:
       - in: "priključen[a|o|e|ih]|vključen[a|o|e|ih]|(v|f|u)štekan[a|o|e|ih]"
         out: "on"
       - in: "izključen[a|e|o|ih]|izštekan[e|i|o|a|ih]"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(napajan[o|a|e|ih] | pod napetostjo | zaznan[a|o] [napetost] | zaznano [ napajanje | napetost ] | [omrežni] vtič (vtaknjen | pod napetostjo))"
+        out: "on"
+      - in: "(ni napajan[o|a|e|ih] | ni napetosti | ni zaznan[a|e] napetosti | ni znanano napajanje | [omrežni] vtič iztaknjen )"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(doma | prisot(na|en|ni|nih|o|a))"
+        out: "on"
+      - in: "(odsot(nih|ni|na|en) | ni prisot(na|en|ih|o|a))"
         out: "off"
 
 expansion_rules:
