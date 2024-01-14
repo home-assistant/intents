@@ -1081,3 +1081,89 @@ tests:
         device_class: presence
         state: "on"
     response: "0"
+
+  # Problem
+  - sentences:
+      - "ali je kakšen problem s hranilnikom za psa?"
+      - "so težave s hranilnikom za psa?"
+      - "ali ima hranilnik za psa težave?"
+      - "ali je hranilnik za psa zaznanal težavo"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        name:
+          - "hranilnikom za psa"
+          - "hranilnik za psa"
+        state: "on"
+    response: "Ne, ok"
+
+  # Running
+  - sentences:
+      - "ali pralni stroj deluje?"
+      - "pralni stroj še laufa?"
+      - "pralni stroj že obratuje?"
+      - "ali je pralni stroj še delujoč?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        name: "pralni stroj"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali kakšna naprava obratuje?"
+      - "ali je kateri stroj delujoč?"
+      - "ali kateri stroj še laufa?"
+      - "ali katera entiteta že deluje?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "Da, pralni stroj"
+
+  - sentences:
+      - "ali vse naprave obratujejo?"
+      - "ali vsi stroji laufajo?"
+      - "ali vse naprave še obratujejo?"
+      - "ali so vsi stroji še delujoči?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "katere naprave delujejo?"
+      - "kateri stroj že deluje?"
+      - "kateri stroj še laufa?"
+      - "katera entiteta že obratuje?"
+      - "kateri stroj je še delujoč?"
+      - "kateri stroj je še obratujoč?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "pralni stroj"
+
+  - sentences:
+      - "koliko naprav obratuje?"
+      - "koliko strojev je še obratujočih?"
+      - "koliko entitet je že laufajočih?"
+      - "koliko strojev še deluje?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "1"

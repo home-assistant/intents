@@ -669,3 +669,57 @@ intents:
         slots:
           domain: binary_sensor
           device_class: presence
+
+      # Problem
+      - sentences:
+          - "([ali] je | [ali] so) [kakš(en|ni)] (problem[i]|težav(e|a)) (s|z) <name> [[v|na] <area>]"
+          - "([ali] ima) <name> [[v|na] <area>] [kakš(en|ne)] (problem[e]|težave)"
+          - "([ali] ima | [ali] je) <name> [[v|na] <area>] {bs_problem_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      # Running
+      - sentences:
+          - "[ali] [je] <name> [še|že] {bs_running_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "ali [je] (kakš(na|en)|kater(i|a)) (stvar|naprava|stroj|entiteta) [še|že] {bs_running_states:state} [[v|na] <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "[ali] (vse|vsi) (stvari|naprave|stroji|entitete) [[v|na] <area>] [že|še] {bs_running_states:state} [[v|na] <area>]"
+          - "[ali] so (vse|vsi) (stvari|naprave|stroji|entitete) [[v|na] <area>] [že|še] {bs_running_states:state} [[v|na] <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "(katere|kateri|katera) (stvar[i]|naprav(a|e|i)|stroj[i|a]|entitet(e|a)) [[v|na] <area>] [je] [že|še] {bs_running_states:state} [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "koliko (stvari|naprav|strojev|entitet) [[v|na] <area>] [je] [še|že] {bs_running_states:state} [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: running
