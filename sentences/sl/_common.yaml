@@ -82,17 +82,17 @@ lists:
         out: curtain
       - in: vra(ta|ti|t)
         out: door
-      - in: garažna vrata
-        out: door
+      - in: garaž(a|o|i|e)
+        out: garage
       - in: dovozna vrat(a|i)
         out: gate
       - in: vhodna vrata
         out: door
-      - in: žaluzij(a|e|o|i)
+      - in: žaluzij[a|e|o|i]
         out: blinds
       - in: zapah[i|e]|pokrov|polk(en|na|no|ni)
         out: shutter
-      - in: ok(en|no|na|ni)
+      - in: ([strešno] ok(en|no|na|ni))
         out: window
   lock_states:
     values:
@@ -106,12 +106,6 @@ lists:
     wildcard: true
 
   # binary sensors
-  bs_presence_states:
-    values:
-      - in: "(doma|prisoten)"
-        out: "on"
-      - in: "(proč|ni prisoten)"
-        out: "off"
 
   bs_battery_states:
     values:
@@ -225,6 +219,20 @@ lists:
       - in: "izključen[a|e|o|ih]|izštekan[e|i|o|a|ih]"
         out: "off"
 
+  bs_power_states:
+    values:
+      - in: "(napajan[o|a|e|ih] | pod napetostjo | zaznan[a|o] [napetost] | zaznano [ napajanje | napetost ] | [omrežni] vtič (vtaknjen | pod napetostjo))"
+        out: "on"
+      - in: "(ni napajan[o|a|e|ih] | ni napetosti | ni zaznan[a|e] napetosti | ni znanano napajanje | [omrežni] vtič iztaknjen )"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(doma | prisot(na|en|ni|nih|o|a))"
+        out: "on"
+      - in: "(odsot(nih|ni|na|en) | ni prisot(na|en|ih|o|a))"
+        out: "off"
+
 expansion_rules:
   name: "{name}"
   area: "[v|na] {area}" #|[v|na] [sob[o|e|i|ah]|[v|na] prostor[u||e|a|ih]| [v|na] kuhinj(i|a|skem|ski|ske|sko) [prosto[r|ru|re|rih]]|[v|na] dnevn(a|i|em|ih) [prostor[u|ih]]|[v|na] dnevn(i|a) sob(i|a)|[v|na] spalni(ca|ci)]| zuna(nja|j)| lop(a|i)| ut(a|i)| dvorišč(e|u|na|ni)| teras(i|e|a)
@@ -236,9 +244,9 @@ expansion_rules:
   stopinj: "(stopin(j|ja|ji|je))"
   temp: "temperatur[a|i|e|o]|termostat"
   set: "(nastavi|spremeni|prilagodi|segrej|ohladi|dvigni|znižaj|spusti|dodaj|daj)"
-  close: "(zapri|spusti|zagrni|zatesni|z[a]vij)"
-  open: "(odpri|dvigni|odgrni|razkrij|razvij|odkrij)"
-  covers: "([garažna|vhodna|balkonska|zadnja|sprednja|drsna|kuhinjska]) vrata| [strešn(o|i|a|ih)|kuhinjsk(o|a|i)] ok(no|ni|na|en) | rolet(a|o|i|e) | žaluzij[a|o|i|e] | markiz(a|i|e|o) | tend(a|i|e|o) | (pokrov|pokrivalo) bazena | ograj(a|i|e|o) | zaves(a|o|i|e)"
+  zapri: "(zapri|spusti|zagrni|zatesni|z[a]vij)"
+  odpri: "(odpri|dvigni|odgrni|razkrij|razvij|odkrij)"
+  covers: "([balkonska|zadnja|sprednja|drsna|kuhinjska]) vrata| ok(no|ni|na|en)| rolet(a|o|i|e) | žaluzij[a|o|i|e] | markiz(a|i|e|o) | tend(a|i|e|o) | (pokrov|pokrivalo) bazena | ograj(a|i|e|o) | zaves(a|o|i|e)"
   vklopi: "vključi[te|mo]|vklopi[te|mo]|prižg[i|te]"
   vključi: "vključi[te|mo]|vklopi[te|mo]|prižg[i|te]"
   prižgi: "vključi[te|mo]|vklopi[te|mo]|prižg[i|te]"
@@ -247,8 +255,8 @@ expansion_rules:
   ugasni: "izključi[te|mo]|ugasni[te|mo|izklopi]"
   spremeni: "spremeni|prilagodi|nastavi|zamenjaj|zmanjšaj|povečaj|znižaj|ohladi|segrej"
   numeric_value_set: "(spremeni|nastavi|obrni|zamenjaj|zmanjšaj|znižaj|povečaj|zvišaj|naredi|daj)"
-  odpri: "odpri[te|mo]|dvigni[te|mo]"
-  zapri: "zapri[te|mo]|spusti[te|mo]"
+  #odpri: "odpri[te|mo]|dvigni[te|mo]"
+  #zapri: "zapri[te|mo]|spusti[te|mo]"
   katera_je: "kater[i|a|o] je|povej [mi]|katerakoli|katero|kateri|katera"
   kakšna_je: "kakšna je|povej [mi]"
   kakšno_je: "kakšno je|povej [mi]"
