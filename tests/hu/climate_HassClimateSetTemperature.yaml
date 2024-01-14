@@ -1,20 +1,34 @@
 language: hu
 tests:
   - sentences:
-      - hőmérséklet 22 fokra
-      - kérem a hőmérsékletet 22 fokra
-      - állítsd a hőmérsékletet 22 fokra
+      - "Állítsd a hőmérsékletet 30 fokra"
+      - "Állítsd be a hőmérsékletet 30 fokra"
+      - "Változtasd meg a hőfokot 30 fokra"
+      - "Változtasd a hőmérsékletet 30 fokra"
+      - "Hőmérséklet 30 fokra"
     intent:
       name: HassClimateSetTemperature
       slots:
-        temperature: 22
+        temperature: 30
+    response: "Hőmérséklet beállítva"
+
   - sentences:
-      - kérem a hőmérsékletet a nappaliban 22 fokra
-      - állítsd a hőmérsékletet a nappaliban 22 fokra
-      - 22 fokot a nappaliban
-      - kérek 22 fokot a nappaliban
+      - "Állítsd a hőmérsékletet 30 Celsius fokra"
     intent:
       name: HassClimateSetTemperature
       slots:
-        temperature: 22
-        area: Nappali
+        temperature: 30
+        temperature_unit: celsius
+    response: "Hőmérséklet beállítva"
+
+  - sentences:
+      - "Állítsd be a hőfokot a hálószobában 50 Fahrenheit fokra"
+      - "Állítsd be a hálószobában a hőfokot 50 Fahrenheit fokra"
+      - "Hőfok 50 Fahrenheit fokra a hálószobában"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        area: Hálószoba
+        temperature: 50
+        temperature_unit: fahrenheit
+    response: "Hőmérséklet beállítva"

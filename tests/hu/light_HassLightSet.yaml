@@ -2,37 +2,99 @@ language: hu
 tests:
   # brightness
   - sentences:
-      - a hálószoba fényerejét 50%-ra
-      - állítsd a hálószoba fényerejét 50%-ra
-      - a hálószoba fényerejét kérem 50%-ra
-      - a hálószoba fényerejét 50 százalékra
-      - állítsd a hálószoba fényerejét 50 százalékra
-      - a hálószoba fényerejét kérem 50 százalékra
+      - "állítsd a hálószobai lámpa fényerejét 50 százalékra"
+      - "a hálószobai lámpa fényerejét 50 százalékra"
+      - "hálószoba lámpa fényerejét 50 százalékra"
+      - "változtasd meg a hálószoba lámpa fényerőt 50 százalékra"
+      - "állítsd be a hálószoba lámpa fényerejét 50 százalékra"
+      - "Állítsd be a fényerejét a hálószoba lámpanak 50 százalékra"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 50
+        name: Háloszobai lámpa
+    response: "Fényerő beállítva"
+
+  - sentences:
+      - "állítsd a fényerőt a hálószobaban 50 százalékra"
+      - "a hálószoba fényerejét 50 százalékra"
+      - "állítsd a hálószoba fényerejét 50 százalékra"
+      - "kapcsold a hálószoba fényerőt 50 százalékra"
+      - "állítsd a hálószobaban az összes lámpát 50 százalékra"
+      - "A lámpák fényerejét a halószobaban állíts 50%-ra"
     intent:
       name: HassLightSet
       slots:
         brightness: 50
         area: Hálószoba
         name: all
+    response: "Fényerő beállítva"
+
   - sentences:
-      - az éjjeli lámpa fényerejét 50%-ra
-      - állítsd az éjjeli lámpa fényerejét 50%-ra
-      - az éjjeli lámpa fényerejét kérem 50%-ra
-      - az éjjeli lámpa fényerejét 50 százalékra
-      - állítsd az éjjeli lámpa fényerejét 50 százalékra
-      - az éjjeli lámpa fényerejét kérem 50 százalékra
+      - "Állítsd a hálószoba lámpa fényerőt maximumra"
+      - "Növeld a hálószoba lámpa fényerőt a legnagyobbra"
+      - "állítsd be a fényerőt a hálószoba lámpanak maximumra"
     intent:
       name: HassLightSet
       slots:
-        brightness: 50
-        name: Éjjeli lámpa
-      # color
+        brightness: 100
+        name: Hálószoba lámpa
+    response: "Fényerő beállítva"
+
   - sentences:
-      - az éjjeli lámpa színét pirosra
-      - állítsd az éjjeli lámpa színt pirosra
-      - az éjjeli lámpa színét kérem pirosra
+      - "Állítsd a hálószoba fényerőt maximumra"
+      - "állítsd be a fényerőt a hálószobaban maximumra"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 100
+        area: Bedroom
+        name: all
+    response: "Fényerő beállítva"
+
+  - sentences:
+      - "Állítsd a hálószoba lámpa fényerőt minimumra"
+      - "Csökkentsd a hálószoba lámpa fényerőt a legkisebbre"
+      - "állítsd be a fényerőt a hálószoba lámpanak minimumra"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 1
+        name: Bedroom Lamp
+    response: "Fényerő beállítva"
+
+  - sentences:
+      - "Állítsd a hálószoba fényerőt minimumra"
+      - "állítsd be a fényerőt a hálószobaban minimumra"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 1
+        area: Bedroom
+        name: all
+    response: "Fényerő beállítva"
+
+  # color
+  - sentences:
+      - "Állítsd be a hálószoba lámpát piros színűre"
+      - "A hálószoba lámpa szinét piros színre állítsd"
+      - "A hálószoba lámpa szinét pirosra állítsd"
     intent:
       name: HassLightSet
       slots:
         color: red
-        name: Éjjeli lámpa
+        name: hálószoba lámpa
+    response: "Color set"
+
+  - sentences:
+      - "Állítsd a háloszoba összes lámpáját piros színre"
+      - "Állítsd az összes lámpát pirosra a hálószobaban"
+      - "A hálószobát pirosra"
+      - "Állítsd az összes lámpát a hálószobában piros színre"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        area: Hálószoba
+        name: all
+    response: "Color set"

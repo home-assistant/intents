@@ -1,32 +1,32 @@
 language: hu
 responses:
   errors:
-    no_intent: Elnézést, ezt nem értettem
+    no_intent: "Elnézést, ezt nem értettem"
     no_area: "{{ area }} terület nem található"
-    no_domain: "{{ area }} (ban | ben) nem található {{ domain }}"
-    no_device_class: "{{ area }} (ban | ben) nem található {{ device_class }}"
+    no_domain: "{{ domain }} nem található itt: {{ area }}"
+    no_device_class: "{{ device_class }} nem található itt: {{ area }}"
     no_entity: "{{ entity }} nem található"
-    handle_error: Váratlan hiba történt.
+    handle_error: "Váratlan hiba történt."
 lists:
   color:
     values:
-      - in: "fehér"
+      - in: "fehér[re]"
         out: "white"
-      - in: "fekete"
+      - in: "feket[e|ére]"
         out: "black"
-      - in: "piros"
+      - in: "piros[ra]"
         out: "red"
-      - in: "narancs"
+      - in: "narancs[ra|sárg[a|ára]]"
         out: "orange"
-      - in: "sárga"
+      - in: "sárg[a|ára]"
         out: "yellow"
-      - in: "zöld"
+      - in: "zöld[re]"
         out: "green"
-      - in: "kék"
+      - in: "kék[re]"
         out: "blue"
-      - in: "lila"
+      - in: "lil[a|ára]"
         out: "purple"
-      - in: "barna"
+      - in: "barn[a|ára]"
         out: "brown"
   brightness:
     range:
@@ -40,18 +40,296 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - in: "c | celziusz | celsziusz"
+      - in: "(C|Celsius|celziusz)"
         out: "celsius"
-      - in: "f | fárenhejt | fárenhájt"
+      - in: "(F|Farenheit|fárenhejt)"
         out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: (maximum[ra]|legnagyobb[ra])
+        out: 100
+      - in: (minimum[ra]|legkisebb[re]|legalacsonyabb[ra])
+        out: 1
+  on_off_states:
+    values:
+      - in: "(be|be[ van|vannak ]kapcsolva)"
+        out: "on"
+      - in: "(ki|ki[ van|vannak ]kapcsolva)"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: fény[t|ek|eket]
+        out: light
+      - in: lámp[a|át|ák|ákat]
+        out: light
+      - in: világítás[t|ok|okat]
+        out: light
+      - in: ventillátor[t|ok|okat]
+        out: fan
+      - in: kapcsoló[t|k|kat]
+        out: switch
+  cover_states:
+    values:
+      - in: "nyitva"
+        out: "open"
+      - in: "zárva"
+        out: "closed"
+      - in: "nyílik"
+        out: "opening"
+      - in: "záródik"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: napellenző[t|k|ket]
+        out: awning
+      - in: redőny[t|ök|öket]
+        out: blind
+      - in: függöny[t|ök|öket]
+        out: curtain
+      - in: ajtó[t|k|kat]
+        out: door
+      - in: "(garázsajtó[t|k|kat]|garázskapu[t|k|kat])"
+        out: garage
+      - in: kapu[t|k|kat]
+        out: gate
+      - in: árnyékoló[t|k|kat]
+        out: shade
+      - in: "(zsalu[t|k|kat]|roló[t|k|kat])"
+        out: shutter
+      - in: ablak[ot|ok|okat]
+        out: window
+  lock_domains:
+    values:
+      - in: "Zár[t|ak|akat]"
+        out: "lock"       
+  lock_states:
+    values:
+      - in: "[be]zár(va|olva)"
+        out: "locked"
+      - in: "(nyitva|feloldva|nincs bezárva)"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "(alacsony|gyenge)"
+        out: "on"
+      - in: "(normál|megfelelő)"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "(tölt[őd][ik|nek])"
+        out: "on"
+      - in: "(nem tölt[őd][ik|nek])"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(aktív|érzékel|jelez)"
+        out: "on"
+      - in: "(tiszta|rendben|nem érzékel|nem jelez)"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "hideg[et]"
+        out: "on"
+      - in: "(normál|nem hideg[et])"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "([van ]csatlakoz[tat]va[ van])"
+        out: "on"
+      - in: "(le van választva|nincs csatlakozva)"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "nyitva"
+        out: "on"
+      - in: "(zárva|csukva)"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "nyitva"
+        out: "on"
+      - in: "zárva"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(aktív|érzékel|jelez)"
+        out: "on"
+      - in: "(tiszta|rendben|nem [érzékel|jelez])"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "meleg[et]"
+        out: "on"
+      - in: "(normál|nem meleg[et])"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "nyitva"
+        out: "on"
+      - in: "zárva"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "(nedves|vizes|jelez|érzékel)"
+        out: "on"
+      - in: "(száraz|nem [jelez|érzékel])"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(érzékel|aktiválva|be|jelez)"
+        out: "on"
+      - in: "(tiszta|nem [jelez|érzékel])"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(érzékel|foglalt[ság[ot]|at])"
+        out: "on"
+      - in: "(tiszta|nem [foglalt|érzékel])"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "nyitva"
+        out: "on"
+      - in: "zárva"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "(csatlakoztva|be[ van ]dugva)"
+        out: "on"
+      - in: "[nincs bedugva|ki[ van ]húzva]"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "kap áramot"
+        out: "on"
+      - in: "nem kap áramot"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "([o|i]tthon|jelen)"
+        out: "on"
+      - in: "(távol|nincs [o|i]tthon|nincs jelen)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "Detektálva"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(fut|megy|működik|be[ van ]kapcsolva)"
+        out: "on"
+      - in: "(nem fut|nem [megy|működik]|ki[ van ]kapcsolva)"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "nem biztonságos"
+        out: "on"
+      - in: "biztonságos"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(aktív|érzékel|jelez)"
+        out: "on"
+      - in: "(tiszta|rendben|nem [érzékel|jelez])"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(aktív|érzékel|jelez)"
+        out: "on"
+      - in: "(tiszta|nem [érzékel|jelez])"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(nincs rendben|manipulált|szabotált)"
+        out: "on"
+      - in: "(tiszta|rendben)"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "(elérhető frissítés|nem naprakész)"
+        out: "on"
+      - in: "(nincs frissítés|naprakész)"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(vibráció|vibrál)"
+        out: "on"
+      - in: "(nincs vibráció|nem vibrál)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "nyitva"
+        out: "on"
+      - in: "(zárva|csukva)"
+        out: "closed"
+
+  shopping_list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+    
 expansion_rules:
-  area: "[(a | az)] {area} [ban | ben]"
-  name: "[(a | az)] {name}"
-  what_is: "(mi | mennyi)"
-  brightness: "{brightness}[%]"
-  turn_on: "[kapcsol | kapcsold | kapcsolj | nyisd] (be|fel|föl)[kapcsol][ás]"
-  turn_off: "[kapcsol | kapcsold | kapcsolj | zárd | oltsd] (ki|le|el)[kapcsol][ás]"
-  temp: "(hőfok | hőmérséklet)"
-  temperature: "{temperature}"
-  set: "(állítsd | kérem | kérek | szeretnék)"
-skip_words: []
+  name: "[a|az] {name}[nak|nek|ot|t|ra|re]"
+  area: "[a|az] {area}[ban|ben|on|en|ön|t]"
+  what_is: "((mi|mennyi) (a|az))"
+  where_is: "(hol van (a|az)|hol (a|az))"
+  brightness: "{brightness}[[ ]%| százalék[ra]]"
+  light: "[a|az] (fény[t]|fények[et]|lámp[a|át|ák|ákat]|világítás[t])"
+  turn_on: "(kapcsol[d|j] (be|fel|föl)|(be|fel|föl)kapcsol[ás]|oltsd (fel|föl))"
+  turn_off: "((kapcsol[d|j] (ki|le))|(ki|le)kapcsol[ás]|oltsd (el|le))"
+  temp: "(hőmérséklet[e|et|ét]|hőfok[a|ot|át])"
+  temperature: "{temperature}[ ][°][{temperature_unit}] (fok[ra])"
+  open: "(nyi(t|sd|ss) [ki|meg]|emel[d] [fel]|húzd (fel|el|szét))"
+  close: "(csuk[d] [be]|zár[d|j] [be]|leenged|engedd le|húzd (le|be))"
+  set: "(állít[sd] [be]|csinál[d] [meg]|változta[t|sd] [meg]|kapcsol[d]|aktivál[d])"
+  numeric_value_set: "(állíts[d] [be]|változta[t|sd] [meg|át]|növel[d] [meg]|csökkent[sd] [le])"
+  battery: "(akkumulátor[a|ok]|akku[ja|k]|elem[e|ek]|eszköz[e|ök])"
+  melyik: "(melyik|milyen)"
+  mennyi: "(mennyi[en]|hány[an])"
+  bármelyik: "(bárm[i|elyik]|valam[i|elyik])"
+  minden: "(minden[t]|az össszes)"
+  valaki: "(valaki|bárki)"
+  eszköz: "(eszköz[ök][zel|höz]|dolog[ok][gal|hoz]|érzékelő[k][vel|höz]|szenzor[ok][ral|hoz])"
+  vane: "van[ ][e]"
+  co: "(szénmonoxid[ot]|szén monoxid[ot]|co[t])"
+  foglalt: "(foglalt[ság[ot]|at])"
+  jelenlét: "(jelenlét[et])"
+  szenzor: "(szenzor[ok]|érzékelő[k])"
+  futtat: "(futtasd|indítsd [el]|aktiváld|kapcsold be)"
+  ragok: "((o|e|ö)n|b(a|e)[n]|h(o|e|ö)z)"
+  időjáráshelyek: "(város[á]ban|helyen|helységben|településen|faluban)"
+skip_words:
+  - "Kérem [szépen]"
+  - "Kérlek [szépen]"
+  - "Azonnal"
+  - "Megtennéd"

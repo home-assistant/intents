@@ -1,2 +1,84 @@
 language: hu
-tests: []
+tests:
+  - sentences:
+      - "Mi a külső hőmérséklet?"
+      - "Mennyi az aktuális éréke a külső hőmérsékletnek?"
+      - "Mennyi az aktuális külső hőmérséklet?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Külső hőmérséklet"
+    response: "Külső hőmérséklet jelenleg 42 °C"
+
+  - sentences:
+      - "Az ágylámpa be van kapcsolva?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Ágylámpa"
+        state: "on"
+    response: "Nem, ki van kapcsolva"
+
+  - sentences:
+      - "Bármelyik kapcsoló be van kapcsolva a konyhaban?"
+      - "Kapcsoló van bekapcsolva a konyhaban?"      
+    intent:
+      name: HassGetState
+      slots:
+        area: "Konyha"
+        domain: "switch"
+        state: "on"
+    response: "Yes, Kitchen Switch"
+
+  - sentences:
+      - "Valamelyik kapcsoló be van kapcsolva?"
+      - "Jelenleg bármelyik kapcsoló be van kapcsolva?"
+      - "Jelenleg kapcsolók vannak bekapcsolva?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Nem, a Hálószoba kapcsoló nincs bekapcsolva."
+
+  - sentences:
+      - "Minden lámpa ki van kapcsolva?"
+      - "Jelenleg minden lámpa kikapcsolva?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Nem, Garázs lámpa, Konyha szekrény, Konyha fali és 3 további nincs kikapcsolva"
+
+  - sentences:
+      - "Melyik lámpák vannak bekapcsolva?"
+      - "Jelenleg melyik lámpa van bekapcsolva?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Garázs lámpa, Konyha szekrény, Konyha fali és 3 további"
+
+  - sentences:
+      - "Hány lámpa van bekapcsolva?"
+      - "Mennyi lámpa van bekapcsolva?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "6"
+
+  - sentences:
+      - "Minden lámpa be van kapcsolva a konyhában?"
+      - "Az összes lámpa be van kapcsolva a konyhában?"
+      - "A lámpák be vannak kapcsolva a konyhában?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+        area: "Kitchen"
+    response: "Yes"

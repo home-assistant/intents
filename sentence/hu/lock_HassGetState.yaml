@@ -1,0 +1,38 @@
+language: hu
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<name> {lock_states:state} [van] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<bármelyik> (ajtó|zár) {lock_states:state} [van] [<area>]"
+          - "Van [<bármelyik>] (ajtó|zár) {lock_states:state} [<area>]"
+          - "{lock_states:state} van [<bármelyik>] (ajtó|zár) [<area>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<minden> (ajtó|zár) {lock_states:state} [van] [<area>]"
+          - "{lock_states:state} van <minden> (ajtó|zár) [<area>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<melyik> (ajtó|zár) van {lock_states:state} [<area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<mennyi> (ajtó|zár) van {lock_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: lock

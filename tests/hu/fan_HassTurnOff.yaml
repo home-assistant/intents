@@ -1,11 +1,40 @@
 language: hu
 tests:
   - sentences:
-      - kapcsold ki a ventilátort a nappaliban
-      - ventilátort ki a nappaliban
+      - "kapcsold ki a ventilátort a nappaliban"
+      - "kapcsold ki az összes ventilátort a nappaliban"
+      - "kapcsold ki a nappali ventilátortát"
+      - "kapcsold ki a nappali ventilátortokat"
+      - "kapcsold ki az összes nappali ventilátort"
+      - "kapcsold ki az összes nappali ventilátort"
+      - "nappali ventilátortok ki"
     intent:
       name: HassTurnOff
       slots:
-        area: Nappali
+        area: Hálószoba
         domain: fan
         name: all
+    response: "ventilátortok kikapcsolva"
+
+  - sentences:
+      - "kapcsold ki a ventilátort mindenhol"
+      - "az összes ventilátort kapcsold ki"
+      - "kapcsolj ki minden ventilátort"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: fan
+        name: all
+    response: "ventilátortok kikapcsolva"
+    
+  - sentences:
+      - "kapcsold ki az összes ventilátort"
+      - "Az összes ventilátort kapcsold ki"
+    intent:
+      name: HassTurnOff
+      context:
+        area: Living Room
+      slots:
+        domain: fan
+        area: Hálószoba
+    response: "ventilátortok kikapcsolva"

@@ -1,0 +1,62 @@
+language: hu
+tests:
+  - sentences:
+      - "A bejárati ajtó zárva van?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Bejárati ajtó"
+        state: "locked"
+    response: "Igen"
+
+  - sentences:
+      - "Valamelyik ajtó nyitva van?"
+      - "Van bármelyik zár nyitva?"
+      - "Van ajtó nyitva?"
+      - "Nyitva van bármelyik ajtó?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Igen, hátsó ajtó"
+
+  - sentences:
+      - "Van bármelyik ajtó nyitva?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Igen, hátsó ajtó"
+
+  - sentences:
+      - "Minden ajtó zárva van?"
+      - "Zárva van az összes ajtó?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Nem, hátsó ajtó nyitva"
+
+  - sentences:
+      - "Melyik ajtó van zárva?"
+      - "Milyen ajtó van zárva?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Bejárati ajtó és Oldal ajtó"
+
+  - sentences:
+      - "Mennyi ajtó van zárva?"
+      - "Hány ajtó van zárva?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "2"

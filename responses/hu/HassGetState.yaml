@@ -1,4 +1,75 @@
 language: hu
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      default: "{{ state.state_with_unit }}" # leginkább egyéni mondatokhoz használva
+
+      # a visszaadott nevek száma maximum 4, ha több van, az első 3 név és a maradék szám kerül visszaadásra
+      # 4 vagy kevesebb név esetén a nevek vesszővel ", " vannak összekötve, és az utolsó név "és" szóval
+    
+      one: |
+        {{ slots.name | capitalize }} {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched %}
+          Igen
+        {% else %}
+          Nem, {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Igen, {{ match[:3] | join(", ") }} és még {{ (match | length - 3) }} további
+          {%- else -%}
+            Igen,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Nem
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Igen
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nem, {{ no_match[:3] | join(", ") }} és {{ (no_match | length - 3) }} további nincs {{ slots.state }} állapotban
+          {%- else -%}
+            Nem,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
+              {{ name }}
+            {%- endfor %} {% if no_match | length > 1 %}are{% else %}is{% endif %} nincs {{ slots.state }} állapotban
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Egyik sem
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} és {{ (match | length - 3) }} további
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} van távol
+        {% else %}
+          {{ slots.name | capitalize }} van {{ state.state }} állapotban
+        {% endif %}
