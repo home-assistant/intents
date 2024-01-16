@@ -843,3 +843,61 @@ intents:
         slots:
           domain: binary_sensor
           device_class: tamper
+
+      # Update
+      - sentences:
+          - "([ali] je| [ali] so) <name> [[v|na] <area>] {bs_update_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+
+      - sentences:
+          - "([ali] je | [ali] so) [na voljo] kakšn(a|e) [posodobit(ev|ve) | novejš(a|e) raličic(a|e)] (sistema | programske opreme | firmware) [[v|na] <area>]"
+        response: any_bs
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "kater(a|e) (posodobit(ev|ve) | nov(a|e) različic(a|e)) [sistema | programske opreme] (so | je) na voljo [[v|na] <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "koliko (posodobitev | novih različic) [programske opreme | sistema] je na voljo [[v|na] <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      # Vibration
+      - sentences:
+          - "ali <name> {bs_vibration_states:state} [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      # Window
+      - sentences:
+          - "([ali] je | [ali] so) <name> {bs_window_states:state} [[v|na] <area>]"
+          - "([ali] je | [ali] so) <name> [[v|na] <area>] {bs_window_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
