@@ -233,13 +233,75 @@ lists:
       - in: "(odsot(nih|ni|na|en) | ni prisot(na|en|ih|o|a))"
         out: "off"
 
+  bs_problem_states:
+    values:
+      - in: "zaznan[a|al|o|i|ih] težav[a|o|e]"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(deluje[jo|ta] | delujoč[e|i] | obratu(je|jejo|jeta|joč|joči[h]|joča) | laufa[jo|ta|joč|joči[h]])"
+        out: "on"
+      - in: "(ne deluje | nedelujoč | ne obratuje | ne laufa)"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "nevarn(o|a) | ni varno"
+        out: "on"
+      - in: "varn(a|e|i|o)"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(zaznan[o|a|ih|i|ih] | sprož(il|en|eni|ili|enih|ilo) | vključ(en|eni|il|enih|ilo) | detektira(n|al|li|ni|nih))"
+        out: "on"
+      - in: "čist[i|o|ih]"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(zaznan[o|a|ih|i|ih] | sprož(il|en|eni|ili|enih|ilo|ena) | vključ(en|eni|ena|il|enih|ilo) | detektira(n|al|li|ni|nih))"
+        out: "on"
+      - in: "čisto"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(zaznan[o|a|ih|i|ih] | sprož(il|en|eni|ili|enih|ilo|ena) | vključ(en|eni|ena|il|enih|ilo) | detektira(n|al|li|ni|nih))"
+        out: "on"
+      - in: "čist[a|o]"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "posodobitev je na voljo"
+        out: "on"
+      - in: "(posodobljen[o|a|i] | najnovejša različica)"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(vibrira | zaznane vibracije | detektirane vibracije)"
+        out: "on"
+      - in: "(čisto|ne vibrira)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "odprto"
+        out: "on"
+      - in: "čisto"
+        out: "closed"
+
 expansion_rules:
   name: "{name}"
-  area: "[v|na] {area}" #|[v|na] [sob[o|e|i|ah]|[v|na] prostor[u||e|a|ih]| [v|na] kuhinj(i|a|skem|ski|ske|sko) [prosto[r|ru|re|rih]]|[v|na] dnevn(a|i|em|ih) [prostor[u|ih]]|[v|na] dnevn(i|a) sob(i|a)|[v|na] spalni(ca|ci)]| zuna(nja|j)| lop(a|i)| ut(a|i)| dvorišč(e|u|na|ni)| teras(i|e|a)
-  brightness: "{brightness}[[ ]%| procent(a|e|ov|i)| odstot(ek|ka|kov|ki|kov|kih)]" # |svetlost[i]
+  area: "[v|na] {area}"
+  brightness: "{brightness}[[ ]%| procent(a|e|ov|i)| odstot(ek|ka|kov|ki|kov|kih)]"
   color: "{color}[barv[o|e|i]| odten[ek|ke]| barv[e]]"
   dodaj: "dodaj|daj"
-  #svetlost: "{brightness}"
   temperature: "{temperature}[°| <stopinj>| celzija] [{temperature_unit}|°C ] "
   stopinj: "(stopin(j|ja|ji|je))"
   temp: "temperatur[a|i|e|o]|termostat"
@@ -255,8 +317,6 @@ expansion_rules:
   ugasni: "izključi[te|mo]|ugasni[te|mo|izklopi]"
   spremeni: "spremeni|prilagodi|nastavi|zamenjaj|zmanjšaj|povečaj|znižaj|ohladi|segrej"
   numeric_value_set: "(spremeni|nastavi|obrni|zamenjaj|zmanjšaj|znižaj|povečaj|zvišaj|naredi|daj)"
-  #odpri: "odpri[te|mo]|dvigni[te|mo]"
-  #zapri: "zapri[te|mo]|spusti[te|mo]"
   katera_je: "kater[i|a|o] je|povej [mi]|katerakoli|katero|kateri|katera"
   kakšna_je: "kakšna je|povej [mi]"
   kakšno_je: "kakšno je|povej [mi]"

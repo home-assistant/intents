@@ -1081,3 +1081,327 @@ tests:
         device_class: presence
         state: "on"
     response: "0"
+
+  # Problem
+  - sentences:
+      - "ali je kakšen problem s hranilnikom za psa?"
+      - "so težave s hranilnikom za psa?"
+      - "ali ima hranilnik za psa težave?"
+      - "ali je hranilnik za psa zaznanal težavo"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        name:
+          - "hranilnikom za psa"
+          - "hranilnik za psa"
+        state: "on"
+    response: "Ne, ok"
+
+  # Running
+  - sentences:
+      - "ali pralni stroj deluje?"
+      - "pralni stroj še laufa?"
+      - "pralni stroj že obratuje?"
+      - "ali je pralni stroj še delujoč?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "running"
+        name: "pralni stroj"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali kakšna naprava obratuje?"
+      - "ali je kateri stroj delujoč?"
+      - "ali kateri stroj še laufa?"
+      - "ali katera entiteta že deluje?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "Da, pralni stroj"
+
+  - sentences:
+      - "ali vse naprave obratujejo?"
+      - "ali vsi stroji laufajo?"
+      - "ali vse naprave še obratujejo?"
+      - "ali so vsi stroji še delujoči?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "katere naprave delujejo?"
+      - "kateri stroj že deluje?"
+      - "kateri stroj še laufa?"
+      - "katera entiteta že obratuje?"
+      - "kateri stroj je še delujoč?"
+      - "kateri stroj je še obratujoč?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "pralni stroj"
+
+  - sentences:
+      - "koliko naprav obratuje?"
+      - "koliko strojev je še obratujočih?"
+      - "koliko entitet je že laufajočih?"
+      - "koliko strojev še deluje?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "1"
+
+  # Safety
+  - sentences:
+      - "ali je cesta varna?"
+      - "ali so ceste varne?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name:
+          - "cesta"
+          - "ceste"
+        state: "off"
+    response: "Da"
+
+  # Smoke
+  - sentences:
+      - "ali je zaznan kuhinjski dim?"
+      - "je detektiran kuhinjski dim?"
+      - "ali je vključen kuhinjski dim?"
+      - "ali se je vključil kuhinjski dim?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "smoke"
+        name: "kuhinjski dim"
+        state: "on"
+    response: "Ne, čisto"
+
+  - sentences:
+      - "ali so se sprožili kakšni senzorji dima?"
+      - "ali se je sprožil kakšen senzor dima?"
+      - "ali se je vključil detektor za dim?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali je dim v kuhinji?"
+      - "ali je zaznan dim v kuhinji?"
+      - "ali je v kuhinji zaznan dim?"
+      - "ali je v kuhinji detektiran dim?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "kuhinji"
+        domain: "binary_sensor"
+        device_class: "smoke"
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "ali so sproženi vsi senzorji dima?"
+      - "so sproženi vsi detektorji dima?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        state: "on"
+    response: "Ne, kuhinjski dim ni"
+
+  - sentences:
+      - "kateri detektorji dima so sproženi?"
+      - "kateri senzor za dim je sprožen?"
+      - "kateri detektor za dim se je sprožil?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        state: "on"
+    response: "Noben"
+
+  - sentences:
+      - "koliko senzorjev za dim je sproženih?"
+      - "koliko detektorjev dima se je sprožilo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        state: "on"
+    response: "0"
+
+  # Sound
+  - sentences:
+      - "ali je trobilka vključena?"
+      - "ali je trobilka sprožena?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "sound"
+        name: "trobilka"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali je sprožen kakšen senzor za zvok?"
+      - "ali so sproženi kakšni detektorji za hrup?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        state: "on"
+    response: "Da, trobilka"
+
+  - sentences:
+      - "ali je kakšen hrup v garaži?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        state: "on"
+        area: "garaži"
+    response: "Da, trobilka"
+
+  - sentences:
+      - "ali so vsi senzorji hrupa sproženi?"
+      - "ali so vsi detektorji zvoka vključeni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "kateri senzor hrupa je vključen?"
+      - "kateri detektorji za zvok so vključeni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        state: "on"
+    response: "trobilka"
+
+  - sentences:
+      - "koliko senzorjev za zvok je sproženih?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        state: "on"
+    response: "1"
+
+  # Tamper
+  - sentences:
+      - "ali je shramba piškotov čista?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "tamper"
+        name: "shramba piškotov"
+        state: "off"
+    response: "Da"
+
+  # Update
+  - sentences:
+      - "ali je telefon posodobljen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "update"
+        name:
+          - "telefon"
+        state: "off"
+    response: "Ne, posodobitev je na voljo"
+
+  - sentences:
+      - "ali je na voljo kakšna posodobitev sistema?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "update"
+        state: "on"
+    response: "Da, telefon"
+
+  - sentences:
+      - "katere posodobitve so na voljo?"
+      - "katera nova različica programske opreme je na voljo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: update
+        state: "on"
+    response: "telefon"
+
+  - sentences:
+      - "koliko posodobitev je na voljo?"
+      - "koliko novih različic programske opreme je na voljo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: update
+        state: "on"
+    response: "1"
+
+  # Vibration
+  - sentences:
+      - "ali telefon vibrira?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "vibration"
+        name: "telefon"
+        state: "on"
+    response: "Ne, ne vibrira"
+
+  # Window
+  - sentences:
+      - "ali je okno lope odprto?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "okno lope"
+        state: "on"
+    response: "Da"
