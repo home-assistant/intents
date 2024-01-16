@@ -2,10 +2,23 @@ language: hu
 tests:
   # Battery
   - sentences:
+      - "a telefon akkumulátora alacsony töltöttségű"
+      - "a telefon akkuja alacsony"
+      - "a telefon gyenge töltöttségű"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery"
+        name: "telefon"
+        state: "on"
+    response: "Nem"
+
+  - sentences:
       - "van alacsony töltöttségű akkumulátor?"
       - "van alacsony töltöttségű elem?"
       - "vannak alacsony töltöttségű akkumulátorok?"
-      - "Valamelyik akkumlátor alacsony tölttségú?"
+      - "Valamelyik akkumulátor alacsony töltöttségű?"
     intent:
       name: HassGetState
       slots:
@@ -16,18 +29,18 @@ tests:
 
   - sentences:
       - "minden elem gyenge?"
-      - "Az összes akkumulátor alacsony töltöttségú?"
+      - "Az összes akkumulátor alacsony töltöttségű?"
     intent:
       name: HassGetState
       slots:
         domain: binary_sensor
         device_class: battery
         state: "on"
-    response: "Nem, a telefon akkumulátora nem gyenge"
+    response: "Nem, telefon nincs ebben az állapotban"
 
   - sentences:
       - "Melyik akkumulátor gyenge?"
-      - "Milyen elemek alacsony tölttségűek?"
+      - "Milyen elemek alacsony töltöttségűek?"
     intent:
       name: HassGetState
       slots:
@@ -37,8 +50,8 @@ tests:
     response: "Egyik sem"
 
   - sentences:
-      - "Melyik akkumulátor gyenge?"
-      - "Mennyi elem alacsony tölttségű?"
+      - "Hány akkumulátor gyenge?"
+      - "Mennyi elem alacsony töltöttségű?"
     intent:
       name: HassGetState
       slots:
@@ -51,17 +64,18 @@ tests:
   - sentences:
       - "A telefon tölt?"
       - "A telefon jelenleg töltődik?"
+      - "Töltődik a telefon?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "battery_charging"
-        name: "Telefon"
+        name: "telefon"
         state: "on"
     response: "Igen"
 
   - sentences:
-      - "töltődik valamelyik akkumlátor?"
+      - "töltődik valamelyik akkumulátor?"
       - "töltődik akkumulátor?"
       - "bármelyik akkumulátor töltődik?"
     intent:
@@ -70,7 +84,7 @@ tests:
         domain: binary_sensor
         device_class: battery_charging
         state: "on"
-    response: "Igen, Telefon"
+    response: "Igen, telefon"
 
   - sentences:
       - "töltődik minden akkumulátor?"
@@ -92,7 +106,7 @@ tests:
         domain: binary_sensor
         device_class: battery_charging
         state: "on"
-    response: "Telefon"
+    response: "telefon"
 
   - sentences:
       - "hány akkumulátor töltődik?"
@@ -115,7 +129,7 @@ tests:
         device_class: "carbon_monoxide"
         name: "CO"
         state: "on"
-    response: "Nem, tiszta"
+    response: "Nem"
 
   - sentences:
       - "Bármelyik co érzékelő érzékel?"
@@ -135,7 +149,7 @@ tests:
     intent:
       name: HassGetState
       slots:
-        area: "Konyha"
+        area: "konyha"
         domain: binary_sensor
         device_class: carbon_monoxide
         state: "on"
@@ -150,7 +164,7 @@ tests:
         domain: binary_sensor
         device_class: carbon_monoxide
         state: "on"
-    response: "Nem, CO nem érzékel"
+    response: "Nem, CO nincs ebben az állapotban"
 
   - sentences:
       - "Melyik co érzékelő érzékel?"
@@ -161,7 +175,7 @@ tests:
         domain: binary_sensor
         device_class: carbon_monoxide
         state: "on"
-    response: "Not any"
+    response: "Egyik sem"
 
   - sentences:
       - "Hány co érzékelő érzékel?"
@@ -184,9 +198,9 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "cold"
-        name: "Víz cső"
+        name: "vízcső"
         state: "on"
-    response: "Nem, normál"
+    response: "Nem"
 
   - sentences:
       - "Van hideg eszköz?"
@@ -198,7 +212,7 @@ tests:
         domain: binary_sensor
         device_class: cold
         state: "on"
-    response: "Nincs"
+    response: "Nem"
 
   - sentences:
       - "Melyik eszköz hideg?"
@@ -209,7 +223,7 @@ tests:
         domain: binary_sensor
         device_class: cold
         state: "on"
-    response: "Nincs semmi"
+    response: "Egyik sem"
 
   - sentences:
       - "Hány eszköz hideg?"
@@ -230,7 +244,7 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "connectivity"
-        name: "Telefon"
+        name: "telefon"
         state: "on"
     response: "Igen"
 
@@ -243,7 +257,7 @@ tests:
         domain: binary_sensor
         device_class: connectivity
         state: "on"
-    response: "Igen, Telefon"
+    response: "Igen, telefon"
 
   - sentences:
       - "Minden eszköz csatlakoztatva van?"
@@ -264,7 +278,7 @@ tests:
         domain: binary_sensor
         device_class: connectivity
         state: "on"
-    response: "Telefon"
+    response: "telefon"
 
   - sentences:
       - "Mennyi eszköz van csatlakoztatva?"
@@ -287,7 +301,7 @@ tests:
         device_class: "door"
         name: "macska ajtó"
         state: "on"
-    response: "Nem, zárva"
+    response: "Nem"
 
   # Garage door
   - sentences:
@@ -303,15 +317,15 @@ tests:
 
   # Gas
   - sentences:
-      - "A Gáz jelző 1 jelez?"
+      - "A gáz jelző 1 jelez?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "gas"
-        name: "Gáz jelző 1"
+        name: "gáz jelző 1"
         state: "on"
-    response: "Nem, rendben"
+    response: "Nem"
 
   - sentences:
       - "Jelez gáz érzékelő?"
@@ -327,15 +341,15 @@ tests:
 
   - sentences:
       - "Érzékelhető gáz a konyhaban?"
-      - "Van gáz jelzés a a konyhaban?"
+      - "Van gáz jelzés a konyha helyiségben?"
     intent:
       name: HassGetState
       slots:
-        area: "Konyha"
+        area: "konyha"
         domain: binary_sensor
         device_class: gas
         state: "on"
-    response: "Nincs"
+    response: "Nem"
 
   - sentences:
       - "Minden gáz szenzor jelez?"
@@ -346,7 +360,7 @@ tests:
         domain: binary_sensor
         device_class: gas
         state: "on"
-    response: "Nem, nincs Gáz jelzés"
+    response: "Nem, gáz jelző 1 nincs ebben az állapotban"
 
   - sentences:
       - "Melyik gáz szenzor jelez?"
@@ -357,7 +371,7 @@ tests:
         domain: binary_sensor
         device_class: gas
         state: "on"
-    response: "Nem egyik sem"
+    response: "Egyik sem"
 
   - sentences:
       - "Hány gáz szenzor jelez?"
@@ -379,7 +393,7 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "heat"
-        name: "Számítógép"
+        name: "számítógép"
         state: "on"
     response: "Igen"
 
@@ -393,7 +407,7 @@ tests:
         domain: binary_sensor
         device_class: heat
         state: "on"
-    response: "Igen, Számítógép"
+    response: "Igen, számítógép"
 
   - sentences:
       - "Melyik eszköz meleg?"
@@ -403,7 +417,7 @@ tests:
         domain: binary_sensor
         device_class: heat
         state: "on"
-    response: "Számítógép"
+    response: "számítógép"
 
   - sentences:
       - "Mennyi eszköz meleg?"
@@ -418,7 +432,7 @@ tests:
 
   # Lock
   - sentences:
-      - "A macska ajtó zárva van?"
+      - "A macska ajtó zára zárva van?"
     intent:
       name: HassGetState
       slots:
@@ -426,7 +440,7 @@ tests:
         device_class: "lock"
         name: "macska ajtó"
         state: "off"
-    response: "Nem, nyitva"
+    response: "Nem"
 
   # Moisture
   - sentences:
@@ -436,9 +450,9 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "moisture"
-        name: "Konyhai szivárgás szenzor"
+        name: "konyhai szivárgás szenzor"
         state: "on"
-    response: "Nem, száraz"
+    response: "Nem"
 
   - sentences:
       - "Jelez bármelyik vízszivárgás szenzor?"
@@ -451,7 +465,7 @@ tests:
         domain: binary_sensor
         device_class: moisture
         state: "on"
-    response: "Nincs"
+    response: "Nem"
 
   - sentences:
       - "A konyhaban szivárgás?"
@@ -463,7 +477,7 @@ tests:
         domain: binary_sensor
         device_class: moisture
         state: "on"
-        area: "Konyha"
+        area: "konyha"
     response: "Nem"
 
   - sentences:
@@ -475,7 +489,7 @@ tests:
         domain: binary_sensor
         device_class: moisture
         state: "on"
-    response: "Nem, Konyha nem jelez nedvességet"
+    response: "Nem, konyhai szivárgás szenzor nincs ebben az állapotban"
 
   - sentences:
       - "Melyik szivárgás szenzor nedves?"
@@ -506,10 +520,10 @@ tests:
     intent:
       name: HassGetState
       slots:
-        area: "Garage"
+        area: "garázs"
         domain: "binary_sensor"
         device_class: "motion"
-        name: "Mozgásérzékelő 1"
+        name: "mozgásérzékelő 1"
         state: "on"
     response: "Igen"
 
@@ -524,7 +538,7 @@ tests:
         domain: binary_sensor
         device_class: motion
         state: "on"
-    response: "Igen, Mozgásérzékelő 1"
+    response: "Igen, mozgásérzékelő 1"
 
   - sentences:
       - "Minden mozgásérzékelő jelez?"
@@ -546,7 +560,7 @@ tests:
         domain: binary_sensor
         device_class: motion
         state: "on"
-    response: "Mozgásérzékelő 1"
+    response: "mozgásérzékelő 1"
 
   - sentences:
       - "Mennyi mozgásérzékelő jelez?"
@@ -566,10 +580,10 @@ tests:
     intent:
       name: HassGetState
       slots:
-        area: "Konyha"
+        area: "konyha"
         domain: "binary_sensor"
         device_class: "occupancy"
-        name: "Foglaltság 1"
+        name: "foglaltság 1"
         state: "on"
     response: "Igen"
 
@@ -582,7 +596,7 @@ tests:
         domain: binary_sensor
         device_class: occupancy
         state: "on"
-    response: "Igen, Foglaltság 1"
+    response: "Igen, foglaltság 1"
 
   - sentences:
       - "A konyha foglalt?"
@@ -592,8 +606,8 @@ tests:
         domain: binary_sensor
         device_class: occupancy
         state: "on"
-        area: "Konyha"
-    response: "Igen, foglalt"
+        area: "konyha"
+    response: "Igen, foglaltság 1"
 
   - sentences:
       - "Minden foglaltság érzékelő foglalt?"
@@ -615,7 +629,7 @@ tests:
         domain: binary_sensor
         device_class: occupancy
         state: "on"
-    response: "Foglaltság 1"
+    response: "foglaltság 1"
 
   - sentences:
       - "Mennyi foglaltság érzékelő foglalt?"
@@ -630,15 +644,15 @@ tests:
 
   # Opening
   - sentences:
-      - "A fészerajtó nyitva van?"
+      - "A fészer ajtó nyitva van?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "opening"
-        name: "fészerajtó"
+        name: "fészer ajtó"
         state: "on"
-    response: "Nem, zárva"
+    response: "Nem"
 
   - sentences:
       - "nyitva van valamelyik nyílászáró?"
@@ -652,16 +666,16 @@ tests:
     response: "Nem"
 
   - sentences:
-      - "Minden nyilás nyitva van?"
-      - "Az összes nyilászáró nyitva van?"
-      - "nyitva van valamelyik nyílászáró?"
+      - "Minden nyílás nyitva van?"
+      - "Az összes nyílászáró nyitva van?"
+      - "nyitva van az összes nyílászáró?"
     intent:
       name: HassGetState
       slots:
         domain: binary_sensor
         device_class: opening
         state: "on"
-    response: "Nem, fészerajtó nyitva"
+    response: "Nem, fészer ajtó nincs ebben az állapotban"
 
   - sentences:
       - "Melyik nyílászáró van nyitva?"
@@ -671,10 +685,11 @@ tests:
         domain: binary_sensor
         device_class: opening
         state: "on"
-    response: "Nem egyik sem"
+    response: "Egyik sem"
 
   - sentences:
-      - "Mennyi nyílászáro van nyitva?"
+      - "Mennyi nyílászáró van nyitva?"
+      - "Hány nyílás van nyitva?"
     intent:
       name: HassGetState
       slots:
@@ -691,9 +706,9 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "plug"
-        name: "Telefon"
+        name: "telefon"
         state: "off"
-    response: "Nem, be van dugva"
+    response: "Nem"
 
   - sentences:
       - "Bármelyik eszköz be van dugva?"
@@ -724,7 +739,7 @@ tests:
         domain: binary_sensor
         device_class: plug
         state: "on"
-    response: "Telefon"
+    response: "telefon"
 
   - sentences:
       - "Hány eszköz van bedugva?"
@@ -746,7 +761,7 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "power"
-        name: "Inverter"
+        name: "inverter"
         state: "on"
     response: "Igen"
 
@@ -758,7 +773,7 @@ tests:
         domain: binary_sensor
         device_class: power
         state: "on"
-    response: "Igen, Inverter"
+    response: "Igen, inverter"
 
   - sentences:
       - "Minden eszköz kap áramot?"
@@ -780,7 +795,7 @@ tests:
         domain: binary_sensor
         device_class: power
         state: "on"
-    response: "Inverter"
+    response: "inverter"
 
   - sentences:
       - "Mennyi eszköz kap áramot?"
@@ -801,9 +816,9 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "presence"
-        name: "Telefon"
+        name: "telefon"
         state: "on"
-    response: "Nem, távol van, nincs jelen"
+    response: "Nem, távol van"
 
   - sentences:
       - "Valamelyik eszköz otthon van?"
@@ -813,7 +828,7 @@ tests:
         domain: binary_sensor
         device_class: presence
         state: "on"
-    response: "Nincs"
+    response: "Nem"
 
   - sentences:
       - "Minden eszköz otthon van?"
@@ -824,7 +839,7 @@ tests:
         domain: binary_sensor
         device_class: presence
         state: "on"
-    response: "Nem, a telefon nincs otthon"
+    response: "Nem, telefon távol van"
 
   - sentences:
       - "Melyik eszköz állapota jelen?"
@@ -859,7 +874,7 @@ tests:
         device_class: "problem"
         name: "macska etető"
         state: "on"
-    response: "Nem, rendben van"
+    response: "Nem"
 
   # Running
   - sentences:
@@ -870,7 +885,7 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "running"
-        name: "Mosógép"
+        name: "mosógép"
         state: "on"
     response: "Igen"
 
@@ -884,7 +899,7 @@ tests:
         domain: binary_sensor
         device_class: running
         state: "on"
-    response: "Igen, Mosógép"
+    response: "Igen, mosógép"
 
   - sentences:
       - "Minden eszköz megy?"
@@ -908,7 +923,7 @@ tests:
         domain: binary_sensor
         device_class: running
         state: "on"
-    response: "Mindegy"
+    response: "mosógép"
 
   - sentences:
       - "hány eszköz megy?"
@@ -930,9 +945,9 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "safety"
-        name: "Út"
+        name: "út"
         state: "off"
-    response: "igen"
+    response: "Igen"
 
   # Smoke
   - sentences:
@@ -943,9 +958,9 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "smoke"
-        name: "Füst konyha"
+        name: "füst konyha"
         state: "on"
-    response: "Nem, nem érzékel"
+    response: "Nem"
 
   - sentences:
       - "jelez bármelyik füst szenzor?"
@@ -966,7 +981,7 @@ tests:
     intent:
       name: HassGetState
       slots:
-        area: "Konyha"
+        area: "konyha"
         domain: "binary_sensor"
         device_class: "smoke"
         state: "on"
@@ -974,18 +989,18 @@ tests:
 
   - sentences:
       - "minden füst szenzor aktív?"
-      - "az összes füst érzékeló jelez?"
+      - "az összes füst érzékelő jelez?"
     intent:
       name: HassGetState
       slots:
         domain: binary_sensor
         device_class: smoke
         state: "on"
-    response: "Nem, Füst konyha nem jelez."
+    response: "Nem, füst konyha nincs ebben az állapotban"
 
   - sentences:
       - "melyik füst szenzor aktív?"
-      - "milyen füst érzékeló jelez?"
+      - "milyen füst érzékelő jelez?"
     intent:
       name: HassGetState
       slots:
@@ -996,7 +1011,7 @@ tests:
 
   - sentences:
       - "hány füst szenzor aktív?"
-      - "mennyi füst érzékeló jelez?"
+      - "mennyi füst érzékelő jelez?"
     intent:
       name: HassGetState
       slots:
@@ -1015,7 +1030,7 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "sound"
-        name: "Sziréna"
+        name: "sziréna"
         state: "on"
     response: "Igen"
 
@@ -1038,7 +1053,7 @@ tests:
         domain: binary_sensor
         device_class: sound
         state: "on"
-        area: "Garázs"
+        area: "garázs"
     response: "Igen, sziréna"
 
   - sentences:
@@ -1061,7 +1076,7 @@ tests:
         domain: binary_sensor
         device_class: sound
         state: "on"
-    response: "Siren"
+    response: "sziréna"
 
   - sentences:
       - "Mennyi hang érzékelő jelez hangot?"
@@ -1083,9 +1098,9 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "tamper"
-        name: "Süti rejtekhely"
+        name: "süti rejtekhely"
         state: "off"
-    response: "Rendben"
+    response: "Igen"
 
   # Update
   - sentences:
@@ -1095,9 +1110,9 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "update"
-        name: "Telefon"
+        name: "telefon"
         state: "off"
-    response: "Nem, elérhető frissítés"
+    response: "Nem"
 
   - sentences:
       - "Bármelyik eszközhöz elérhető frissítés?"
@@ -1108,18 +1123,18 @@ tests:
         domain: binary_sensor
         device_class: update
         state: "on"
-    response: "Igen, Telefon"
+    response: "Igen, telefon"
 
   - sentences:
       - "Melyik eszközhöz érhető el frissítés?"
-      - "Milyen eszközhözök elérhető frissítés?"
+      - "Milyen eszközökhöz elérhető frissítés?"
     intent:
       name: HassGetState
       slots:
         domain: binary_sensor
         device_class: update
         state: "on"
-    response: "Telefon"
+    response: "telefon"
 
   - sentences:
       - "Mennyi eszközhöz érhető el frissítés?"
@@ -1142,9 +1157,9 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "vibration"
-        name: "Telefon"
+        name: "telefon"
         state: "on"
-    response: "Nem, nem vibrál"
+    response: "Nem"
 
   - sentences:
       - "Vibrál valami?"
@@ -1170,6 +1185,6 @@ tests:
       slots:
         domain: "binary_sensor"
         device_class: "window"
-        name: "Fészerablak"
+        name: "fészer ablak"
         state: "on"
-    response: "Yes"
+    response: "Igen"

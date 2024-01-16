@@ -5,8 +5,8 @@ intents:
       # https://www.home-assistant.io/integrations/binary_sensor/
       # Battery
       - sentences:
-          - "<name> [az] <battery> {bs_battery_states:state} [töltöttségű] [<area>]"
-          - "{bs_battery_states:state} töltöttségű <name> <battery> [<area>]"
+          - "<name> [<battery>] {bs_battery_states:state} [töltöttségű] [<area>]"
+          - "{bs_battery_states:state} [töltöttségű] <name> [<battery>] [<area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -38,7 +38,7 @@ intents:
           device_class: battery
 
       - sentences:
-          - "<mennyi> <battery> {bs_battery_states:state} töltöttségű [<area>]"
+          - "<mennyi> <battery> {bs_battery_states:state} [töltöttségű] [<area>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -47,6 +47,7 @@ intents:
       # Battery charging
       - sentences:
           - "{bs_battery_charging_states:state} [jelenleg] <name> [<area>]"
+          - "<name> [jelenleg] {bs_battery_charging_states:state} [<area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -132,7 +133,7 @@ intents:
           domain: binary_sensor
           device_class: carbon_monoxide
 
-      # Cold                                  
+      # Cold
       - sentences:
           - "<name> {bs_cold_states:state} [állapotú|jelez] [<area>]"
         response: one_yesno
@@ -179,7 +180,7 @@ intents:
           device_class: connectivity
 
       - sentences:
-          - "<bármelyik> <eszköz> {bs_connectivity_states:state} [<area>]"
+          - "<bármelyik> <eszköz> {bs_connectivity_states:state} [van] [<area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -314,7 +315,7 @@ intents:
 
       # Lock
       - sentences:
-          - "<name> {bs_lock_states:state} van [<area>]"
+          - "<name> <zár> {bs_lock_states:state} van [<area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -590,7 +591,7 @@ intents:
       # Presence
       - sentences:
           - "<name> {bs_presence_states:state} [van] [<area>]"
-        response: one_yesno
+        response: one_yesno_where
         requires_context:
           domain: binary_sensor
           device_class: presence
@@ -608,7 +609,7 @@ intents:
       - sentences:
           - "<minden> <eszköz> {bs_presence_states:state} [van] [<area>]"
           - "<minden> <eszköz> állapota {bs_presence_states:state} [<area>]"
-        response: all
+        response: all_where
         slots:
           domain: binary_sensor
           device_class: presence
@@ -799,7 +800,7 @@ intents:
 
       # Update
       - sentences:
-          - "<name> <eszköz> {bs_update_states:state} [<area>]"
+          - "<name> [<eszköz>] {bs_update_states:state} [<area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -809,7 +810,7 @@ intents:
           device_class: update
 
       - sentences:
-          - "<bármelyik> <eszköz> elérhető [(firmware|förmver|fönn ver|software|szoftver)] frissítés [<area>]"
+          - "<bármelyik> <eszköz> elérhető [<firmware>] frissítés [<area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -817,7 +818,7 @@ intents:
           state: "on"
 
       - sentences:
-          - "<melyik> <eszköz> [el]érhető[ el] [(firmware|förmver|fönn ver|software|szoftver)] frissítés [<area>]"
+          - "<melyik> <eszköz> [el]érhető[ el] [<firmware>] frissítés [<area>]"
         response: which
         slots:
           domain: binary_sensor
@@ -825,8 +826,8 @@ intents:
           state: "on"
 
       - sentences:
-          - "<mennyi> <eszköz> elérhető[ el] [(firmware|förmver|fönn ver|software|szoftver)] frissítés [<area>]"
-          - "<mennyi> frissítés érhető el [<area>]"
+          - "<mennyi> <eszköz> [el]érhető[ el] [<firmware>] frissítés [<area>]"
+          - "<mennyi> [<firmware>] frissítés [el]érhető[ el] [<area>]"
         response: how_many
         slots:
           domain: binary_sensor

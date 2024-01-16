@@ -1,15 +1,15 @@
 language: hu
 tests:
   - sentences:
-      - "A bal függöny zárva?"
-      - "A bal függöny zárva van?"
+      - "a bal függöny zárva"
+      - "a bal függöny zárva van"
     intent:
       name: HassGetState
       slots:
         domain: cover
         name: "bal függöny"
         state: "closed"
-    response: "Nem, nyitva van"
+    response: "Nem"
 
   - sentences:
       - "Bármelyik függöny nyitva van a nappaliban?"
@@ -18,7 +18,7 @@ tests:
       name: HassGetState
       slots:
         domain: cover
-        area: "Nappali"
+        area: "nappali"
         device_class: curtain
         state: "open"
     response: "Igen, bal függöny"
@@ -30,10 +30,10 @@ tests:
       name: HassGetState
       slots:
         domain: cover
-        area: "Nappali"
+        area: "nappali"
         device_class: curtain
         state: "open"
-    response: "Nem, jobb függöny nincs nyitva"
+    response: "Nem, háló függöny és jobb függöny nincs ebben az állapotban"
 
   - sentences:
       - "Melyik függöny van zárva?"
@@ -43,14 +43,15 @@ tests:
         domain: cover
         device_class: curtain
         state: "closed"
-    response: "hálószoba függöny és jobb függöny"
+    response: "Egyik sem"
 
   - sentences:
       - "Mennyi függöny van zárva?"
+      - "Hány függöny van zárva?"
     intent:
       name: HassGetState
       slots:
         domain: cover
         device_class: curtain
         state: "closed"
-    response: "2"
+    response: "0"

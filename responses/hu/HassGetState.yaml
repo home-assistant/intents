@@ -6,7 +6,7 @@ responses:
 
       # a visszaadott nevek száma maximum 4, ha több van, az első 3 név és a maradék szám kerül visszaadásra
       # 4 vagy kevesebb név esetén a nevek vesszővel ", " vannak összekötve, és az utolsó név "és" szóval
-    
+
       one: |
         {{ slots.name | capitalize }} {{ state.state_with_unit }}
 
@@ -14,14 +14,14 @@ responses:
         {% if query.matched %}
           Igen
         {% else %}
-          Nem, {{ state.state_with_unit }}
+          Nem
         {% endif %}
 
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Igen, {{ match[:3] | join(", ") }} és még {{ (match | length - 3) }} további
+            Igen, {{ match[:3] | join(", ") }} és további {{ (match | length - 3) }} db
           {%- else -%}
             Igen,
             {% for name in match -%}
@@ -39,13 +39,13 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Nem, {{ no_match[:3] | join(", ") }} és {{ (no_match | length - 3) }} további nincs {{ slots.state }} állapotban
+            Nem, {{ no_match[:3] | join(", ") }} és további {{ (no_match | length - 3) }} db nincs ebben az állapotban
           {%- else -%}
             Nem,
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
               {{ name }}
-            {%- endfor %} {% if no_match | length > 1 %}are{% else %}is{% endif %} nincs {{ slots.state }} állapotban
+            {%- endfor %} {% if no_match | length > 1 %} {% else %} {% endif %} nincs ebben az állapotban
           {% endif %}
         {% endif %}
 
@@ -55,7 +55,7 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} és {{ (match | length - 3) }} további
+            {{ match[:3] | join(", ") }} és további {{ (match | length - 3) }} db
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
@@ -68,8 +68,46 @@ responses:
         {{ query.matched | length }}
 
       where: |
-        {% if state == "not_home" %}
-          {{ slots.name | capitalize }} van távol
+        {% if state.state == "home" %}
+          {{ slots.name | capitalize }} otthon van
+        {% elif state.state == "not_home" %}
+          {{ slots.name | capitalize }} távol van
         {% else %}
-          {{ slots.name | capitalize }} van {{ state.state }} állapotban
+          {{ slots.name | capitalize }} itt van: {{ state.state }}
+        {% endif %}
+
+      one_yesno_where: |
+        {% if query.matched %}
+          Igen
+        {% else %}
+          {% if state.state == 'home' %}
+            Nem, otthon van
+          {% elif state.state == 'away' %}
+            Nem, távol van
+          {% else %}
+            Nem, itt van: {{ state.state }}
+          {% endif %}
+        {% endif %}
+
+      all_where: |
+        {% if not query.unmatched %}
+          Igen
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nem, {{ no_match[:3] | join(", ") }} és további {{ (no_match | length - 3) }} nincs a zónában
+          {%- else -%}
+            Nem,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
+              {{ name }}
+            {%- endfor %}
+            {% if state.state == "home" %}
+              otthon van
+            {% elif state.state == "away" %}
+              távol van
+            {% else %}
+              itt van: {{ state.state }}
+            {% endif %}
+          {% endif %}
         {% endif %}
