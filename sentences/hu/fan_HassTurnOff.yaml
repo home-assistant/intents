@@ -3,8 +3,19 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> a (ventilátort | ventilátorokat | szellőztetést) <area>"
-          - "(ventilátort | szellőztetést) ki <area>"
+          - "<turn_off> [<minden>] <ventilátor> <area>"
+          - "<turn_off> [<minden>] <area> <ventilátor>"
+          - "<turn_off> <area> [<minden>] <ventilátor>"
+          - "<area> [<minden>] <ventilátor> ki"
         slots:
           domain: "fan"
           name: "all"
+        response: fans_area
+
+      - sentences:
+          - "<turn_off> <minden> <ventilátor>"
+          - "<minden> <ventilátor> <turn_off>"
+        slots:
+          domain: "fan"
+          name: "all"
+        response: fans_all

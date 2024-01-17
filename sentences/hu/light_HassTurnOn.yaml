@@ -3,9 +3,18 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<turn_on> a (lámpát | lámpákat) <area>"
-          - "<turn_on> <area> a (lámpát | lámpákat)"
+          - "<turn_on> (<area> <name> [<light>]|<name> [<light>] [<area>])"
+          - "(<area> <name> [<light>]|<name> [<light>] [<area>]) <turn_on>"
+          - "<area> <turn_on> <name> [<light>]"
+        requires_context:
+          domain: "light"
+
+      - sentences:
+          - "<turn_on> [<minden>] <light> <area>"
+          - "<turn_on> <area> <light>"
+          - "[<minden>] <light> <turn_on> <area>"
+          - "<area> [<minden>] <light> <turn_on>"
         slots:
-          domain: light
+          domain: "light"
           name: all
         response: "lights_area"
