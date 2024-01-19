@@ -16,8 +16,7 @@ intents:
           domain: "light"
         response: "brightness"
       - sentences:
-          - "[<numeric_value_set>] a fényer[őt|ejét] <area> <brightness>"
-          - "[<numeric_value_set>] a fényer[őt|ejét] <brightness> <area>"
+          - "[<numeric_value_set>] a fényer[őt|ejét] (<area>;<brightness>)"
           - "[<numeric_value_set>] <area> fényer[őt|ejét] <brightness>"
           - "[<numeric_value_set>] [<minden>] <light> [fényer[őt|ejét]] <area> <brightness>"
           - "[<numeric_value_set>] <area> [<minden>] <light> [fényer[őt|ejét]]  <brightness>"
@@ -25,6 +24,13 @@ intents:
         slots:
           name: "all"
         response: "brightness"
+
+      - sentences:
+          - "[<in_here>] <numeric_value_set> a fényerőt <brightness>"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
 
       # Max/Min brightness
       - sentences:
@@ -42,6 +48,13 @@ intents:
           name: "all"
         response: "brightness"
 
+      - sentences:
+          - "[<in_here>] <numeric_value_set> a fényerőt [a] {brightness_level:brightness}"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
+
       # color
       - sentences:
           - "[<set>] <name> [<light>] [szín[e|ét]] {color} [legyen|színre|színűre]"
@@ -57,3 +70,10 @@ intents:
         slots:
           name: "all"
         response: "color"
+
+      - sentences:
+          - "[<in_here>] <set> <light> színét {color} [színre|színűre]"
+        response: "color"
+        requires_context:
+          area:
+            slot: true
