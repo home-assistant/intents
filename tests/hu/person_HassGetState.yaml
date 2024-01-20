@@ -1,0 +1,187 @@
+language: hu
+tests:
+  - sentences:
+      - "Hol van Jóska"
+      - "Hol a Jóska"
+      - "Jóska hol van"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: "Jóska"
+    response: "Jóska otthon van"
+
+  - sentences:
+      - "Hol van Marika"
+      - "Marika hol van?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: "Marika"
+    response: "Marika itt van: munkahely"
+
+  - sentences:
+      - "Marika otthon van"
+      - "Marika a házban van"
+      - "Marika a lakásban van"
+      - "Otthon van Marika?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: "Marika"
+        state: home
+    response: "Nem, itt van: munkahely"
+
+  - sentences:
+      - "Marika nincs otthon"
+      - "Marika nincs a lakásban?"
+      - "Marika nincs a házban?"
+      - "Nincs otthon Marika?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: "Marika"
+        state: not_home
+    response: "Nem, itt van: munkahely"
+
+  - sentences:
+      - "Marika a munkahely zónában van?"
+      - "Marika a munkahely helyen van?"
+      - "A munkahely helyen van Marika?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: "Marika"
+        state: "munkahely "
+    response: "Igen"
+
+  - sentences:
+      - "Valaki van otthon?"
+      - "Otthon van valaki?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: home
+    response: "Igen, Jóska"
+
+  - sentences:
+      - "Valaki nincs otthon?"
+      - "Nincs otthon valaki?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Igen, Géza"
+
+  - sentences:
+      - "Valaki van a bolt zónában"
+      - "A bolt zónában van valaki?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: "bolt "
+    response: "Igen, Ernő"
+
+  - sentences:
+      - "Mindenki otthon van"
+      - "Itthon van mindenki?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: home
+    response: "Nem, Ernő, Géza és Marika nincs otthon"
+
+  - sentences:
+      - "Mindenki távol van?"
+      - "Távol van mindenki?"
+      - "Senki nincs otthon?"
+      - "Nincs otthon senki?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Nem, Ernő, Jóska és Marika távol van"
+
+  - sentences:
+      - "Mindenki a bolt zónában van?"
+      - "A bolt zónában van mindenki?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: "bolt "
+    response: "Nem, Géza, Jóska és Marika nem ebben a zónában van: bolt"
+
+  - sentences:
+      - "Ki van otthon"
+      - "Kik vannak otthon"
+      - "Itthon kik vannak?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: home
+    response: "Jóska"
+
+  - sentences:
+      - "Kik vannak távol?"
+      - "Kik nincsenek otthon?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Géza"
+
+  - sentences:
+      - "Ki van a bolt zónában"
+      - "Kik vannak a bolt helyen"
+      - "A bolt zónában kik vannak?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: "bolt "
+    response: "Ernő"
+
+  - sentences:
+      - "Hány ember van otthon?"
+      - "Hányan vannak otthon?"
+      - "Mennyien vannak itthon?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: home
+    response: "1"
+
+  - sentences:
+      - "Hány ember van távol?"
+      - "Hányan nincsenek itthon?"
+      - "távol hány ember van?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "1"
+
+  - sentences:
+      - "Hány ember van a bolt zónában"
+      - "Hányan vannak a bolt zónában"
+      - "A bolt zónában mennyien vannak?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: "bolt "
+    response: "1"

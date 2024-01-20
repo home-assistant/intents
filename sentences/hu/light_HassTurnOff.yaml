@@ -3,9 +3,32 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> a (lámpát | lámpákat) <area>"
-          - "<turn_off> <area> a (lámpát | lámpákat)"
-        slots:
-          domain: light
-          name: all
+          - "<turn_off> (<area> <name> [<light>]|<name> [<light>] [<area>])"
+          - "(<area> <name> [<light>]|<name> [<light>] [<area>]) <turn_off>"
+          - "<area> <turn_off> <name> [<light>]"
+        requires_context:
+          domain: "light"
+
+      - sentences:
+          - "<turn_off> [<minden>] <light> <area>"
+          - "<turn_off> <area> [<minden>] <light>"
+          - "[<minden>] <light> <turn_off> <area>"
+          - "<area> [<minden>] <light> <turn_off>"
+          - "<turn_off> <mindenhol> [<minden>] <light>"
+          - "<mindenhol> <turn_off> [<minden>] <light>"
+          - "[<minden>] <light> <turn_off> <mindenhol>"
         response: "lights_area"
+        slots:
+          domain: "light"
+          name: "all"
+
+      #Kikapcsolja a lámpákat azon a területen, ahol az Assist eszköz van
+      - sentences:
+          - "<turn_off> [<minden>] <light> [<in_here>]"
+          - "<in_here> <turn_off> [<minden>] <light>"
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true

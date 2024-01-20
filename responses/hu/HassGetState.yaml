@@ -1,4 +1,113 @@
 language: hu
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      default: "{{ state.state_with_unit }}" # leginkább egyéni mondatokhoz használva
+
+      # a visszaadott nevek száma maximum 4, ha több van, az első 3 név és a maradék szám kerül visszaadásra
+      # 4 vagy kevesebb név esetén a nevek vesszővel ", " vannak összekötve, és az utolsó név "és" szóval
+
+      one: |
+        {{ slots.name | capitalize }} értéke: {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched %}
+          Igen
+        {% else %}
+          Nem
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Igen, {{ match[:3] | join(", ") }} és további {{ (match | length - 3) }} db
+          {%- else -%}
+            Igen,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Nem
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Igen
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nem, {{ no_match[:3] | join(", ") }} és további {{ (no_match | length - 3) }} db nincs ebben az állapotban
+          {%- else -%}
+            Nem,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
+              {{ name }}
+            {%- endfor %} {% if no_match | length > 1 %} {% else %} {% endif %} nincs ebben az állapotban
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Egyik sem
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} és további {{ (match | length - 3) }} db
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}
+
+      where: |
+        {% if state.attributes.get("untranslated_state") == "home" %}
+          {{ slots.name | capitalize }} otthon van
+        {% elif state.attributes.get("untranslated_state") == 'not_home' or state.state == 'away' %}
+          {{ slots.name | capitalize }} távol van
+        {% else %}
+          {{ slots.name | capitalize }} itt van: {{ state.state }}
+        {% endif %}
+
+      one_yesno_where: |
+        {% if query.matched %}
+          Igen
+        {% else %}
+          {% if state.attributes.get("untranslated_state") == 'home' %}
+            Nem, otthon van
+          {% elif state.attributes.get("untranslated_state") == 'not_home' or state.state == 'away' %}
+            Nem, távol van
+          {% else %}
+            Nem, itt van: {{ state.state }}
+          {% endif %}
+        {% endif %}
+
+      all_where: |
+        {% if not query.unmatched %}
+          Igen
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nem, {{ no_match[:3] | join(", ") }} és további {{ (no_match | length - 3) }} nincs a zónában
+          {%- else -%}
+            Nem,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} és {% endif -%}
+              {{ name }}
+            {%- endfor %}
+            {% if state.attributes.get("untranslated_state") == "home" %}
+              nincs otthon
+            {% elif state.attributes.get("untranslated_state") == 'not_home' or state.state == 'away' %}
+              távol van
+            {% else %}
+              nem ebben a zónában van: {{ state.state }} 
+            {% endif %}
+          {% endif %}
+        {% endif %}

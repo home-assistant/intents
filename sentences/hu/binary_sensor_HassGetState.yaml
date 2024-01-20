@@ -1,0 +1,870 @@
+language: hu
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "<name> [<battery>] {bs_battery_states:state} [töltöttségű] [<area>]"
+          - "{bs_battery_states:state} [töltöttségű] <name> [<battery>] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "van[nak] {bs_battery_states:state} töltöttségű <battery> [<area>]"
+          - "<bármelyik> <battery> {bs_battery_states:state} töltöttségű [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "<minden> <battery> {bs_battery_states:state} [töltöttségű] [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "<melyik> <battery> {bs_battery_states:state} [töltöttségű[ek]] [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "<mennyi> <battery> {bs_battery_states:state} [töltöttségű] [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "{bs_battery_charging_states:state} [jelenleg] <name> [<area>]"
+          - "<name> [jelenleg] {bs_battery_charging_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "{bs_battery_charging_states:state} [<bármelyik>] <battery> [<area>]"
+          - "<bármelyik> <battery> {bs_battery_charging_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "{bs_battery_charging_states:state} <minden> <battery> [<area>]"
+          - "<minden> <battery> {bs_battery_charging_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "<melyik> <battery> {bs_battery_charging_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "<mennyi> <battery> {bs_battery_charging_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # Carbon monoxide
+      - sentences:
+          - "<name> {bs_carbon_monoxide_states:state} [<co>] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "(<bármelyik>|a) <co> <szenzor> {bs_carbon_monoxide_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "Van <co> [jelzés|észlelés] <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+
+      - sentences:
+          - "<minden> <co> <szenzor> {bs_carbon_monoxide_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "<melyik> <co> <szenzor> {bs_carbon_monoxide_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "<mennyi> <co> <szenzor> {bs_carbon_monoxide_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "<name> {bs_cold_states:state} [állapotú|jelez] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "<vane> [bármilyen] hideg <eszköz> [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "<melyik> <eszköz> hideg [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "<mennyi> <eszköz> hideg [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Connectivity
+      - sentences:
+          - "<name> {bs_connectivity_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<bármelyik> <eszköz> {bs_connectivity_states:state} [van] [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<minden> <eszköz> {bs_connectivity_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<melyik> <eszköz> {bs_connectivity_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<mennyi> eszköz {bs_connectivity_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "<name> {bs_door_states:state} van [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "<name> {bs_garage_door_states:state} van [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "<name> {bs_gas_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "{bs_gas_states:state} [<bármelyik>] gáz <szenzor> [<area>]"
+          - "<bármelyik> gáz <szenzor> {bs_gas_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "Érzékelhető gáz <area>"
+          - "Van gáz jelzés <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "<minden> gáz <szenzor> {bs_gas_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "<melyik> gáz <szenzor> {bs_gas_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "<mennyi> gáz <szenzor> {bs_gas_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Heat
+      - sentences:
+          - "<name> {bs_heat_states:state} [állapotú|jelez] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "<vane> [bármilyen] meleg [<eszköz>] [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "<melyik> <eszköz> meleg [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "<mennyi> <eszköz> meleg [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Lock
+      - sentences:
+          - "<name> <zár> {bs_lock_states:state} van [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+          device_class: lock
+
+      # Moisture
+      - sentences:
+          - "<name> [állapota] {bs_moisture_states:state} [állapotú] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "{bs_moisture_states:state} <bármelyik> ([víz]szivárgás|víz) <szenzor> [<area>]"
+          - "<bármelyik> ([víz]szivárgás|víz) <szenzor> {bs_moisture_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "Van ([víz]szivárgás|víz) [<area>]"
+          - "<area> [van] ([víz]szivárgás|víz)"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+          state: "on"
+
+      - sentences:
+          - "<minden> ([víz]szivárgás|víz) <szenzor> {bs_moisture_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "<melyik> ([víz]szivárgás|víz) <szenzor> {bs_moisture_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "<mennyi> ([víz]szivárgás|víz) <szenzor> {bs_moisture_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      # Motion
+      - sentences:
+          - "<name> {bs_motion_states:state} [mozgást] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "{bs_motion_states:state} [mozgást] <bármelyik> mozgásérzékelő [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "Érzékelhető mozgás [<area>]"
+          - "Van mozgás [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+          state: "on"
+
+      - sentences:
+          - "<minden> mozgásérzékelő {bs_motion_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "<melyik> mozgásérzékelő {bs_motion_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "<mennyi> mozgásérzékelő {bs_motion_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      # Occupancy
+      - sentences:
+          - "<name> {bs_occupancy_states:state} (<foglalt>|jelez) [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "{bs_occupancy_states:state} [<foglalt>|jelez] <bármelyik> <foglalt> <szenzor> [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "Érzékelhető <foglalt> [<area>]"
+          - "<area> foglalt"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+          state: "on"
+
+      - sentences:
+          - "<minden> <foglalt> <szenzor> {bs_occupancy_states:state} [állapotú] [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "<melyik> <foglalt> <szenzor> {bs_occupancy_states:state} [állapotú] [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "<mennyi> <foglalt> <szenzor> {bs_occupancy_states:state} [állapotú] [ <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      # Opening
+      - sentences:
+          - "<name> {bs_opening_states:state} van [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: opening
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "{bs_opening_states:state} van <bármelyik> nyílás[záró] [<area>]"
+          - "<bármelyik> nyílás[záró] {bs_opening_states:state} van [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "{bs_opening_states:state} van <minden> nyílás[záró] [<area>]"
+          - "<minden> nyílás[záró] {bs_opening_states:state} van [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "<melyik> nyílás[záró] van {bs_opening_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "<mennyi> nyílás[záró] van {bs_opening_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      # Plug
+      - sentences:
+          - "<name> {bs_plug_states:state} [van] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "<bármelyik> <eszköz> {bs_plug_states:state} [van] [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "<minden> <eszköz> {bs_plug_states:state} [van] [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "<melyik> <eszköz> van {bs_plug_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "<mennyi> <eszköz> van {bs_plug_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      # Power
+      - sentences:
+          - "<name> {bs_power_states:state} [van] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "<bármelyik> [<eszköz>] {bs_power_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "<minden> <eszköz> {bs_power_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "<melyik> <eszköz> {bs_power_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "<mennyi> <eszköz> {bs_power_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      # Presence
+      - sentences:
+          - "<name> {bs_presence_states:state} [van] [<area>]"
+        response: one_yesno_where
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "<bármelyik> <eszköz> {bs_presence_states:state} [van] [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "<minden> <eszköz> {bs_presence_states:state} [van] [<area>]"
+          - "<minden> <eszköz> állapota {bs_presence_states:state} [<area>]"
+        response: all_where
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "<melyik> <eszköz> (állapota|van) {bs_presence_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "<mennyi> <eszköz> (állapota|van) {bs_presence_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      # Problem
+      - sentences:
+          - "Van [<bármelyik>] probléma <name> <eszköz> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      # Running
+      - sentences:
+          - "<name> [még] {bs_running_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "<bármelyik> <eszköz> {bs_running_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "<minden> <eszköz> {bs_running_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "<melyik> <eszköz> [van] {bs_running_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "<mennyi> <eszköz> [van] {bs_running_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      # Safety
+      - sentences:
+          - "<name> {bs_safety_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      # Smoke
+      - sentences:
+          - "<name> {bs_smoke_states:state} [füstöt] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: smoke
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "{bs_smoke_states:state} <bármelyik> füst <szenzor> [<area>]"
+          - "<bármelyik> füst <szenzor> {bs_smoke_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "érzékelhető füst <area>"
+          - "van füst jelzés <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
+
+      - sentences:
+          - "<minden> füst <szenzor> {bs_smoke_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "<melyik> füst <szenzor> {bs_smoke_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "<mennyi> füst <szenzor> {bs_smoke_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      # Sound
+      - sentences:
+          - "<name> {bs_sound_states:state} [hangot|zajt] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: sound
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "<bármelyik> (hang|zaj) <szenzor> {bs_sound_states:state} [hangot|zajt] [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "Van [hang|zaj] <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+          state: "on"
+
+      - sentences:
+          - "<minden> (hang|zaj) <szenzor> {bs_sound_states:state} [hangot|zajt] [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "<melyik> (hang|zaj) <szenzor> {bs_sound_states:state} [hangot|zajt] [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "<mennyi> (hang|zaj) <szenzor> {bs_sound_states:state} [hangot|zajt] [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      # Tamper
+      - sentences:
+          - "<name> {bs_tamper_states:state} [van|állapotú] [<area>]"
+          - "{bs_tamper_states:state} [van|állapotú] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: tamper
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      # Update
+      - sentences:
+          - "<name> [<eszköz>] {bs_update_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+
+      - sentences:
+          - "<bármelyik> <eszköz> elérhető [<firmware>] frissítés [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "<melyik> <eszköz> [el]érhető[ el] [<firmware>] frissítés [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "<mennyi> <eszköz> [el]érhető[ el] [<firmware>] frissítés [<area>]"
+          - "<mennyi> [<firmware>] frissítés [el]érhető[ el] [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      # Vibration
+      - sentences:
+          - "<name> {bs_vibration_states:state} [állapotú] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "Vibrál valami [<area>]"
+          - "Vibrációt jelez [valami] [<area>]"
+          - "<bármelyik> vibrál [<area>]"
+        response: any
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+          state: "on"
+
+      # Window
+      - sentences:
+          - "<name> {bs_window_states:state} [van] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
