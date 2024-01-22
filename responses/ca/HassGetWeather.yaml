@@ -1,0 +1,24 @@
+language: ca
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'i clar',
+          'clear-night': 'i clar',
+          'cloudy': 'i ennuvolat',
+          'exceptional': 'i excepcional',
+          'fog': 'amb boira',
+          'hail': 'amb calamarsa',
+          'lightning': 'amb llamps',
+          'lightning-rainy': 'amb llamps i pluja',
+          'partlycloudy': 'i parcialment ennuvolat',
+          'pouring': 'i plou una mica',
+          'rainy': 'i plou',
+          'snowy': 'i neva',
+          'snowy-rainy': 'amb neu i pluja',
+          'sunny': 'i assolellat',
+          'windy': 'i fa vent',
+          'windy-variant': 'amb vent i núvols'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.attributes.get('untranslated_state') | string).lower(), "") }}
