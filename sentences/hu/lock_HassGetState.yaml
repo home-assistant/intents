@@ -3,7 +3,7 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "<name> {lock_states:state} [van] [<area>]"
+          - "(<name>; {lock_states:state}; [van]; [<area>])"
         response: one_yesno
         requires_context:
           domain: lock
@@ -11,16 +11,13 @@ intents:
           domain: lock
 
       - sentences:
-          - "<bármelyik> <zár> {lock_states:state} [van] [<area>]"
-          - "Van [<bármelyik>] <zár> {lock_states:state} [<area>]"
-          - "{lock_states:state} van [<bármelyik>] <zár> [<area>]"
+          - "([<bármelyik>] <zár>; {lock_states:state}; [van]; [<area>])"
         response: any
         slots:
           domain: lock
 
       - sentences:
-          - "<minden> <zár> {lock_states:state} [van] [<area>]"
-          - "{lock_states:state} van <minden> <zár> [<area>]"
+          - "(<minden> <zár>; {lock_states:state} [van]; [<area>])"
         response: all
         slots:
           domain: lock

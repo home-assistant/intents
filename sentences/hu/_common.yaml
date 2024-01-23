@@ -28,6 +28,10 @@ lists:
         out: "purple"
       - in: "barn[a|ára]"
         out: "brown"
+      - in: "rózsaszín[re]"
+        out: "pink"
+      - in: "türkiz[re|zöld[re]]"
+        out: "turquoise"
   brightness:
     range:
       type: "percentage"
@@ -298,6 +302,13 @@ lists:
   zone:
     wildcard: true
 
+  presence_states:
+    values:
+      - in: "Otthon"
+        out: "home"
+      - in: "Távol"
+        out: "not_home"
+
 expansion_rules:
   name: "[a |az ]{name}[<name_ragok>| <name_szavak>]"
   name_ragok: "(n(a|e)k|[o]t|r(a|e))"
@@ -326,7 +337,7 @@ expansion_rules:
   valaki: "(valaki|bárki)"
   eszköz: "(eszköz[ök][(z|k)el|höz]|dolog[ok][(g|k)al|hoz]|érzékelő[k][(v|k)el|höz]|szenzor[ok][(r|k)al|hoz])"
   vane: "van[ ][e]"
-  co: "(szénmonoxid[ot]|szén monoxid[ot]|co[t])"
+  co: "(szén[ ]monoxid[ot]|co[t])"
   foglalt: "(foglalt[ság[ot]|at])"
   jelenlét: "(jelenlét[et])"
   szenzor: "(szenzor[ok]|érzékelő[k])"
@@ -336,10 +347,14 @@ expansion_rules:
   zár: "[ajtó|ablak]zár[a[ka]|á][t]"
   ventilátor: "[a ]ventilátor[t|át|ok[at]]"
   firmware: "(firmware|förmver|fönn ver|software|szoftver)"
-  mindenhol: "(mindenhol|mindenütt)"
+  mindenhol: "(minden(hol|ütt))"
+  otthon: "((o|i)tthon|[a ](házban|lakásban)|jelen)[ van]"
+  nincs_otthon: "(nincs <otthon>|távol[ van])"
+  személy: "(személy|ember)"
+  helyen: "(zónában|helyen|<area_szavak>)"
 
   #kérédések
-  what_is_the_class_of_name: "(<what_is> <class> [amit] <name>[a|e|n(a|e)k] [szenzor[a|nak|on]|érzékelő[je|nek|n]|eszköz[e|nek|ön]|esemény[nek]] [mér[t]|mutat[ott]] [<area>]|<what_is> <name> [szenzor[a|on]|érzékelő[je|n]|eszköz[ön]] [által] [mért|mutatott] <class> [értéke] [<area>]|<what_is> <area> <name> [szenzor[a|on]|érzékelő[je|n]|eszköz[ön]] [által] [mér[t]|mutat[ott]] <class> [értéke])"
+  what_is_the_class_of_name: "(<what_is> <class> [amit] <name>[a|e|n(a|e)k] [szenzor[a|nak|on]|érzékelő[je|nek|n]|eszköz[e|nek|ön]|esemény[nek]] [mér[t]|mutat[ott]] [<area>]|<what_is> (<name> [szenzor[a|on]|érzékelő[je|n]|eszköz[ön]] [által] [mért|mutatott] <class> [értéke]; [<area>]))"
 
 skip_words:
   - "kérem [szépen]"
