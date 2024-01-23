@@ -4,9 +4,8 @@ intents:
     data:
       # brightness
       - sentences:
-          - "[<numeric_value_set>] <name> [<light>] fényer[őt|ejét] <brightness>"
-          - "[<numeric_value_set>] a fényer[őt|ejét] <name> [<light>] <brightness>"
-        response: "brightness"
+          - "([<numeric_value_set>];<name> [<light>];[a] fényer(őt|ejét);<brightness>)"
+        response: "brightness_1"
         requires_context:
           domain: light
 
@@ -14,66 +13,56 @@ intents:
           - "<numeric_value_set> <name> [<light>] <brightness>"
         requires_context:
           domain: "light"
-        response: "brightness"
+        response: "brightness_1"
       - sentences:
-          - "[<numeric_value_set>] a fényer[őt|ejét] (<area>;<brightness>)"
-          - "[<numeric_value_set>] <area> fényer[őt|ejét] <brightness>"
-          - "[<numeric_value_set>] [<minden>] <light> [fényer[őt|ejét]] <area> <brightness>"
-          - "[<numeric_value_set>] <area> [<minden>] <light> [fényer[őt|ejét]]  <brightness>"
-          - "[<minden>] <light> [fényer[őt|ejét]] <area> [<numeric_value_set>] <brightness>"
+          - "([<numeric_value_set>];[<minden>] [<light>];[a] [fényer(őt|ejét)];<area>;<brightness>)"
         slots:
           name: "all"
-        response: "brightness"
+        response: "brightness_több"
 
       - sentences:
-          - "[<in_here>] <numeric_value_set> a fényerőt <brightness>"
-        response: "brightness"
+          - "([<in_here>];<numeric_value_set>;[a] fényer(őt|ejét);<brightness>)"
+        response: "brightness_több"
         requires_context:
           area:
             slot: true
 
       # Max/Min brightness
       - sentences:
-          - "[<numeric_value_set>] <name> [<light>] fényer[őt|ejét] [a] {brightness_level:brightness}"
-          - "[<numeric_value_set>] [a] fényer[őt|ejét] <name> [<light>] [a] {brightness_level:brightness}"
+          - "([<numeric_value_set>];[a] fényer(őt|ejét);<name> [<light>];[a] {brightness_level:brightness})"
         requires_context:
           domain: light
-        response: "brightness"
+        response: "brightness_1"
 
       - sentences:
-          - "[<numeric_value_set>] a fényer[őt|ejét] <area> [a] {brightness_level:brightness}"
-          - "[<numeric_value_set>] <area> fényer[őt|ejét] [a] {brightness_level:brightness}"
-          - "[<numeric_value_set>] a fényer[őt|ejét] [a] {brightness_level:brightness} <area>"
+          - "([<numeric_value_set>];[a] fényer(őt|ejét);<area>;[a] {brightness_level:brightness})"
         slots:
           name: "all"
-        response: "brightness"
+        response: "brightness_több"
 
       - sentences:
-          - "[<in_here>] <numeric_value_set> a fényerőt [a] {brightness_level:brightness}"
-        response: "brightness"
+          - "([<in_here>];<numeric_value_set>;[a] fényer(őt|ejét);[a] {brightness_level:brightness})"
+        response: "brightness_több"
         requires_context:
           area:
             slot: true
 
       # color
       - sentences:
-          - "[<set>] <name> [<light>] [szín[e|ét]] {color} [legyen|színre|színűre]"
-          - "<name> [<light>] (szín[e|ét]) {color} [színre|színűre] <set>"
+          - "([<set>];<name> [<light>];[szín(e|ét)];{color} [legyen|szín(re|űre)])"
         requires_context:
           domain: light
-        response: "color"
+        response: "color_1"
 
       - sentences:
-          - "[<set>] <area> [<minden>] [<light>] {color} [szín[re|űre]]"
-          - "[<set>] [<minden>] [<light>] <area> {color} [szín[re|űre]]"
-          - "[<set>] [<minden>] [<light>] {color} [szín[re|űre]] <area>"
+          - "([<set>];<area>;[<minden>] [<light>];[szín(e|ét)];{color};[szín(re|űre)])"
         slots:
           name: "all"
-        response: "color"
+        response: "color_több"
 
       - sentences:
-          - "[<in_here>] <set> <light> színét {color} [színre|színűre]"
-        response: "color"
+          - "([<in_here>];[<set>];[<minden>] <light>;[szín(e|ét)];{color};[szín(re|űre)])"
+        response: "color_több"
         requires_context:
           area:
             slot: true
