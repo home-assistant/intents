@@ -1,0 +1,68 @@
+language: hu
+intents:
+  HassLightSet:
+    data:
+      # brightness
+      - sentences:
+          - "([<numeric_value_set>];<name> [<light>];<fényerő>;<brightness>)"
+        response: "brightness_1"
+        requires_context:
+          domain: light
+
+      - sentences:
+          - "<numeric_value_set> <name> [<light>] <brightness>"
+        requires_context:
+          domain: "light"
+        response: "brightness_1"
+      - sentences:
+          - "([<numeric_value_set>];[<minden>] [<light>];[<fényerő>];<area>;<brightness>)"
+        slots:
+          name: "all"
+        response: "brightness_több"
+
+      - sentences:
+          - "([<in_here>];<numeric_value_set>;<fényerő>;<brightness>)"
+        response: "brightness_több"
+        requires_context:
+          area:
+            slot: true
+
+      # Max/Min brightness
+      - sentences:
+          - "([<numeric_value_set>];<fényerő>;<name> [<light>];[a] {brightness_level:brightness})"
+        requires_context:
+          domain: light
+        response: "brightness_1"
+
+      - sentences:
+          - "([<numeric_value_set>];<fényerő>;<area>;[a] {brightness_level:brightness})"
+        slots:
+          name: "all"
+        response: "brightness_több"
+
+      - sentences:
+          - "([<in_here>];<numeric_value_set>;<fényerő>;[a] {brightness_level:brightness})"
+        response: "brightness_több"
+        requires_context:
+          area:
+            slot: true
+
+      # color
+      - sentences:
+          - "([<set>];<name> [<light>];[szín(e|ét)];{color} [legyen|szín(re|űre)])"
+        requires_context:
+          domain: light
+        response: "color_1"
+
+      - sentences:
+          - "([<set>];<area>;[<minden>] [<light>];[szín(e|ét)];{color};[szín(re|űre)])"
+        slots:
+          name: "all"
+        response: "color_több"
+
+      - sentences:
+          - "([<in_here>];[<set>];[<minden>] <light>;[szín(e|ét)];{color};[szín(re|űre)])"
+        response: "color_több"
+        requires_context:
+          area:
+            slot: true
