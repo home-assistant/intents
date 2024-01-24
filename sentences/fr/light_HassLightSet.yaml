@@ -20,6 +20,8 @@ intents:
           - "[<le>]{name} [à] {brightness}<pourcent> [de] luminosité"
           # Sapin luminosité 30%
           - "[<le>]{name} luminosité [à] {brightness}<pourcent>"
+        requires_context:
+          domain: light
         response: brightness
 
       # brightness (area)
@@ -41,8 +43,23 @@ intents:
           # Règle les lumieres du bureau avec la luminosité à 50% (Too complex... We should think about removing that)
           - "(<allume>|<regle>) [<tous>] [<le>][<lumieres>] [<de>] [<le>]{area} [avec la luminosité|avec la lumière] [à] {brightness}<pourcent>"
         response: brightness
-        slots:
-          name: all
+
+      # brigtness (area + context awareness)
+      - sentences:
+          # Baisse la luminosité à 40%
+          - "(<regle>|<augmente>|<diminue>) [la] luminosité [à] {brightness}<pourcent>"
+          # Allume la lumière à 70%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>](<lumiere>|<lumieres>) [à] {brightness}<pourcent>"
+          # Règle à 50% de luminosité
+          - "(<allume>|<regle>|<augmente>|<diminue>) [à] {brightness}<pourcent> [de] luminosité"
+          # Luminosité à 50%
+          - "luminosité [à] {brightness}<pourcent>"
+          # 50% de luminosité
+          - "{brightness}<pourcent> [de] luminosité"
+        response: brightness
+        requires_context:
+          area:
+            slot: true
 
       # brightness (name + area)
       - sentences:
@@ -62,6 +79,8 @@ intents:
           - "[<le>]{name} [<dans>] [<le>]{area} {brightness}<pourcent> [de] luminosité"
           # Mirroir salle de bain luminosité 40%
           - "[<le>]{name} [<dans>] [<le>]{area} luminosité {brightness}<pourcent>"
+        requires_context:
+          domain: light
         response: brightness
 
       # color (name)
@@ -70,6 +89,8 @@ intents:
           - "<regle> la couleur [<de>] [<le>]{name} [en] {color}"
           # Règle le mirrior en vert
           - "(<regle>|<allume>) [<le>]{name} [avec la couleur | de couleur | en] {color}"
+        requires_context:
+          domain: light
         response: color
 
       # color (area)
@@ -82,9 +103,20 @@ intents:
           - "(<regle>|<allume>) [<tous>] [<le>](<lumiere>|<lumieres>) [<de>] [<le>]{area} [avec la couleur | de couleur | en] {color}"
           # Allume le salon en rouge
           - "(<regle>|<allume>) [<le>]{area} [avec la couleur | de couleur | en] {color}"
-        slots:
-          name: all
         response: color
+
+      # color (area + context awareness)
+      - sentences:
+          # Règle la couleur en vert
+          - "<regle> la couleur [en] {color}"
+          # Règle la couleur des lumières en vert
+          - "<regle> la couleur <de> [<tous>] [<le>](<lumiere>|<lumieres>) [en] {color}"
+          # Allume les lumières en rouge
+          - "(<regle>|<allume>) [<tous>] [<le>](<lumiere>|<lumieres>) [avec la couleur | de couleur | en] {color}"
+        response: color
+        requires_context:
+          area:
+            slot: true
 
       # color (name + area)
       - sentences:
@@ -92,4 +124,6 @@ intents:
           - "<regle> la couleur [<de>] [<le>]{name} [<dans>] [<le>]{area} [en] {color}"
           # Allume le sapin de l'exterieur en vert
           - (<regle>|<allume>) [<le>]{name} [<dans>] [<le>]{area} [avec la couleur | de couleur | en] {color}
+        requires_context:
+          domain: light
         response: color
