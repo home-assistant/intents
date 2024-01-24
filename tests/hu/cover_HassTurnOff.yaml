@@ -1,132 +1,95 @@
 language: hu
 tests:
   - sentences:
-      - redőny a éjjeli lámpa le
+      - "Engedd le a garázsajtót"
+      - "Húzd le a garázskaput"
+      - "Zárd be a garázst"
     intent:
       name: HassTurnOff
       slots:
-        name: Éjjeli lámpa
-        device_class: shutter
         domain: cover
-    response: shutter zárva.
+        device_class: garage
+    response: "Bezárva"
+
   - sentences:
-      - a éjjeli lámpa redőny le
+      - "Zárd be az ablakot a konyhaban"
     intent:
       name: HassTurnOff
       slots:
-        name: Éjjeli lámpa
-        device_class: shutter
+        area: konyha
         domain: cover
-    response: shutter zárva.
+        device_class: window
+    response: "Bezárva"
+
   - sentences:
-      - redőny a konyha ban le
+      - "Csukd be a konyha ablakot"
     intent:
       name: HassTurnOff
       slots:
-        area: Konyha
-        device_class: shutter
+        area: konyha
         domain: cover
-    response: "Zárva itt: konyha."
+        device_class: window
+    response: "Bezárva"
+
   - sentences:
-      - a konyha ban redőny le
+      - "Húzd be a bal függönyt"
+      - "Zárd be a bal függönyt"
     intent:
       name: HassTurnOff
       slots:
-        area: Konyha
-        device_class: shutter
+        name: bal függöny
+      context:
         domain: cover
-    response: "Zárva itt: konyha."
+        device_class: curtain
+    response: "Bezárva"
+
   - sentences:
-      - redőny a konyha ban a éjjeli lámpa le
+      - "Húzd be a bal függönyt a hálóban"
+      - "Zárd be a bal függönyt a hálóban"
     intent:
       name: HassTurnOff
       slots:
-        area: Konyha
-        name: Éjjeli lámpa
-        device_class: shutter
+        name: bal függöny
+        area: háló
+      context:
         domain: cover
-    response: "Zárva itt: konyha."
+        device_class: curtain
+    response: "Bezárva"
+
   - sentences:
-      - a konyha ban a éjjeli lámpa redőny le
+      - "Húzd le a redőnyöket a konyhaban"
+      - "Engedd le a redőnyöket a konyhaban"
+      - "Zárd be a redőnyöket a konyhaban"
     intent:
       name: HassTurnOff
       slots:
-        area: Konyha
-        name: Éjjeli lámpa
-        device_class: shutter
+        area: konyha
         domain: cover
-    response: "Zárva itt: konyha."
+        device_class: blind
+    response: "Bezárva"
+
   - sentences:
-      - árnyékolók a éjjeli lámpa zár
+      - "Húzd be a függönyöket a nappaliban"
+      - "Zárd be a függönyöket a nappaliban"
     intent:
       name: HassTurnOff
+      context:
+        area: nappali
       slots:
-        name: Éjjeli lámpa
-        device_class:
-          - blind
-          - curtain
-          - shade
         domain: cover
-    response: "['blind', 'curtain', 'shade'] zárva."
+        area: nappali
+        device_class: curtain
+    response: "Bezárva"
+
   - sentences:
-      - a éjjeli lámpa árnyékolók zár
+      - "Húzd be a függönyöket"
+      - "Húzd be a függönyöket ahol vagyok"
     intent:
       name: HassTurnOff
+      context:
+        area: nappali
       slots:
-        name: Éjjeli lámpa
-        device_class:
-          - blind
-          - curtain
-          - shade
         domain: cover
-    response: "['blind', 'curtain', 'shade'] zárva."
-  - sentences:
-      - árnyékolók a konyha ban zár
-    intent:
-      name: HassTurnOff
-      slots:
-        area: Konyha
-        device_class:
-          - blind
-          - curtain
-          - shade
-        domain: cover
-    response: "Zárva itt: konyha."
-  - sentences:
-      - a konyha ban árnyékolók zár
-    intent:
-      name: HassTurnOff
-      slots:
-        area: Konyha
-        device_class:
-          - blind
-          - curtain
-          - shade
-        domain: cover
-    response: "Zárva itt: konyha."
-  - sentences:
-      - árnyékolók a konyha ban a éjjeli lámpa zár
-    intent:
-      name: HassTurnOff
-      slots:
-        area: Konyha
-        name: Éjjeli lámpa
-        device_class:
-          - blind
-          - curtain
-          - shade
-        domain: cover
-    response: "Zárva itt: konyha."
-  - sentences:
-      - a konyha ban a éjjeli lámpa árnyékolók zár
-    intent:
-      name: HassTurnOff
-      slots:
-        area: Konyha
-        name: Éjjeli lámpa
-        device_class:
-          - blind
-          - curtain
-          - shade
-        domain: cover
-    response: "Zárva itt: konyha."
+        area: nappali
+        device_class: curtain
+    response: "Bezárva"
