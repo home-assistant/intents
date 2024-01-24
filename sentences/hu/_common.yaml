@@ -167,7 +167,7 @@ lists:
     values:
       - in: "(aktív|érzékel|jelez)"
         out: "on"
-      - in: "(tiszta|rendben|nem [érzékel|jelez])"
+      - in: "(tiszta|rendben|nem (érzékel|jelez))"
         out: "off"
 
   bs_heat_states:
@@ -195,14 +195,14 @@ lists:
     values:
       - in: "(aktív|érzékel|be|jelez)"
         out: "on"
-      - in: "(tiszta|nem [jelez|érzékel])"
+      - in: "(tiszta|nem (jelez|érzékel))"
         out: "off"
 
   bs_occupancy_states:
     values:
       - in: "(jelez|érzékel|foglalt[ság[ot]|at])"
         out: "on"
-      - in: "(tiszta|nem [jelez|foglalt|érzékel])"
+      - in: "(tiszta|nem (jelez|foglalt|érzékel))"
         out: "off"
 
   bs_opening_states:
@@ -244,7 +244,7 @@ lists:
     values:
       - in: "(fut|megy|működik|be[ van ]kapcsolva)"
         out: "on"
-      - in: "(nem fut|nem [megy|működik]|ki[ van ]kapcsolva)"
+      - in: "(nem fut|nem (megy|működik)|ki[ van ]kapcsolva)"
         out: "off"
 
   bs_safety_states:
@@ -258,14 +258,14 @@ lists:
     values:
       - in: "(aktív|érzékel|jelez)"
         out: "on"
-      - in: "(tiszta|rendben|nem [érzékel|jelez])"
+      - in: "(tiszta|rendben|nem (érzékel|jelez))"
         out: "off"
 
   bs_sound_states:
     values:
       - in: "(aktív|érzékel|jelez)"
         out: "on"
-      - in: "(tiszta|nem [érzékel|jelez])"
+      - in: "(tiszta|nem (érzékel|jelez))"
         out: "off"
 
   bs_tamper_states:
@@ -313,13 +313,14 @@ expansion_rules:
   name: "[a |az ]{name}[<name_ragok>| <name_szavak>]"
   name_ragok: "(n(a|e)k|[o]t|r(a|e))"
   name_szavak: "((eszköz|érzékelő)[nek|t|re]|szenzor[nak|t|ra])"
-  area: "[a |az ]{area}[<area_ragok>| <area_szavak>]"
+  area: "[a |az ]{area}[<area_ragok>|<area_szavak>]"
   area_ragok: "(b(a|e)[n]|(o|e|ö)n|t|i)"
   area_szavak: "([ ](szob(a|á)[ba[n]|t|i]|hely[i]ség[be[n]|en|et]))"
   what_is: "((mi|mennyi)[ a| az])"
   where_is: "(hol van [a|az]|hol (a|az))"
-  brightness: "{brightness}[[ ]%[[ ]ra]| százalék[ra]]"
-  light: "[a |az ](fény[t|nek|ét]|fények[et|nek]|lámp(a|á)[t|k[at]|nak|ját]|világítás[t|nak|át])"
+  brightness: "{brightness}[([ ]%[ ]| százalék)][os][ra]"
+  fényerő: "[a ]fényer(ő[t|re]|ejét)"
+  light: "[a ](fény[t|nek|ét]|fények[et|nek]|lámp(a|á)[t|k[at]|nak|ját]|világítás[t|nak|át])"
   turn_on: "(kapcsol[d|j] (be|fel|föl)|(be|fel|föl)kapcsol[ás]|oltsd (fel|föl))"
   turn_off: "((kapcsol[d|j] (ki|le))|(ki|le)kapcsol[ás]|oltsd (el|le))"
   temp: "([a ](hőmérséklet[e|et|ét]|hőfok[a|ot|át]))"
@@ -351,7 +352,7 @@ expansion_rules:
   otthon: "((o|i)tthon|[a ](házban|lakásban)|jelen)[ van]"
   nincs_otthon: "(nincs <otthon>|távol[ van])"
   személy: "(személy|ember)"
-  helyen: "(zónában|helyen|<area_szavak>)"
+  helyen: "(zónában|helyen)"
 
   #kérédések
   what_is_the_class_of_name: "(<what_is> <class> [amit] <name>[a|e|n(a|e)k] [szenzor[a|nak|on]|érzékelő[je|nek|n]|eszköz[e|nek|ön]|esemény[nek]] [mér[t]|mutat[ott]] [<area>]|<what_is> (<name> [szenzor[a|on]|érzékelő[je|n]|eszköz[ön]] [által] [mért|mutatott] <class> [értéke]; [<area>]))"
