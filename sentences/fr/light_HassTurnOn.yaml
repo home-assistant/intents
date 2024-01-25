@@ -2,28 +2,40 @@ language: fr
 intents:
   HassTurnOn:
     data:
+      # name
+      # See intents/sentences/fr/homeassistant_HassTurnOn.yaml
+
+      # area
       - sentences:
-          - <allume> [<tous>] (<lumiere> | <lumieres>) [<dans>] [<le>]{area}
-          - (lumières|lumière) [<dans>] [<le>]{area}
-          - <eclaire> [<le>]{area}
+          # Allume la lumiere du bureau
+          - "<allume> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{area}"
+          # Allume le bureau
+          - "(<allume>|<eclaire>) [<le>]{area}"
+          # Lumière dans le bureau
+          - "(<lumiere>|<lumieres>) [<dans>] [<le>]{area}"
         slots:
           domain: light
-        response: lights
 
+      # area + context awareness
       - sentences:
-          - <allume> (<lumiere> | <lumieres>) partout
-          - <allume> <tous> <lumieres>
+          # Allume toutes les lumieres ici
+          - "<allume> [<tous>] [<le>](<lumiere>|<lumieres>) <ici>"
+          # Allume les lumieres
+          - "<allume> [<le>](<lumiere>|<lumieres>)"
+          # Jacouille, allume les lumieres
+          - jour
         slots:
           domain: light
-          area: all
-        response: lights
-
-      # Turn off all lights in the same area as a satellite device
-      - sentences:
-          - "<allume>[ (les|la) lumière[s]][( dans la pièce| ici)]"
-          - "<allume> <tous>[ (les|la) lumière[s]]( dans la pièce| ici)"
-        response: "lights"
-        slots:
-          domain: "light"
         requires_context:
-          area: null
+          area:
+            slot: true
+
+      # name + area
+      # See intents/sentences/fr/homeassistant_HassTurnOff.yaml
+
+      # all
+      - sentences:
+          - <allume> [<le>](<lumiere>|<lumieres>) <partout>
+          - <allume> <tous> [<le>]<lumieres>
+        slots:
+          domain: light

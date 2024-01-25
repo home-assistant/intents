@@ -3,7 +3,6 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> [весь] свет"
           - "<turn_off> [весь] свет <area>"
           - "<turn_off> <area> [весь] свет"
           - "<turn_off> <area> <name>"
@@ -11,3 +10,15 @@ intents:
         slots:
           domain: "light"
         response: "lights_area"
+
+      # Turn on all lights in the same area as a satellite device
+      - sentences:
+          - "<turn_off> весь свет"
+          - "<turn_off> [весь] свет здесь"
+          - "<turn_off> здесь [весь] свет"
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true

@@ -33,6 +33,16 @@ intents:
           name: "all"
         response: "brightness"
 
+      - sentences:
+          - "[<numeric_value_set>] [the] brightness to <brightness>"
+          - "[<numeric_value_set>] [the] brightness (<in_here>;to <brightness>)"
+        expansion_rules:
+          in_here: "[ in] here"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
+
       # Max/Min brightness
       - sentences:
           - "[<numeric_value_set>] <name> brightness to [the] {brightness_level:brightness}"
@@ -51,6 +61,16 @@ intents:
           name: "all"
         response: "brightness"
 
+      - sentences:
+          - "[<numeric_value_set>] [the] brightness to [the] {brightness_level:brightness}"
+          - "[<numeric_value_set>] [the] brightness (<in_here>;to [the] {brightness_level:brightness})"
+        expansion_rules:
+          in_here: "[ in] here"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
+
       # color
       - sentences:
           - "[<set>] <name> [color] [to] {color}"
@@ -64,3 +84,13 @@ intents:
         slots:
           name: "all"
         response: "color"
+
+      - sentences:
+          - "[<set>] [[the] color of] [all] <light> [to] {color}"
+          - "[<set>] [[the] color of] [all] <light> (<in_here>;[to] {color})"
+        expansion_rules:
+          in_here: "[ in] here"
+        response: "color"
+        requires_context:
+          area:
+            slot: true
