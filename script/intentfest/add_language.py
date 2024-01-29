@@ -1,4 +1,5 @@
 """Script to add a new language."""
+
 import argparse
 from functools import partial
 
