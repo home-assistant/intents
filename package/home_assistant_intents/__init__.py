@@ -1,4 +1,5 @@
 """API for home_assistant_intents package."""
+
 import importlib.resources
 import json
 import os
