@@ -3,6 +3,7 @@ Generates a Python file with available domains/languages.
 
 This is automatically run by script/package after the data files are generated.
 """
+
 import argparse
 import json
 from collections import defaultdict
