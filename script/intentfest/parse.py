@@ -1,4 +1,5 @@
 """Parse sentences using language intent files."""
+
 from __future__ import annotations
 
 import argparse

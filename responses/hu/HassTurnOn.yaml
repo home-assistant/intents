@@ -2,12 +2,37 @@ language: hu
 responses:
   intents:
     HassTurnOn:
-      default: "{{ slots.name }} bekapcsolva"
+      default: |
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.name[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "Az" %}
+        {% else %}
+          {% set nevelo = "A" %}
+        {% endif %}
+        {{ nevelo }} {{ slots.name }} bekapcsolva
       lights_area: "A lámpák bekapcsolva"
       light_all: "Az összes lámpa bekapcsolva"
       fans_area: "A ventilátorok bekapcsolva"
       cover: "Kinyitva"
-      cover_device_class: "Kinyitva"
       scene: "Aktiválva"
       script: "Elindítva"
       lock: "Bezárva"
+      cover_device_class: |
+        {% set device_class_translations = {
+          "awning": "A napellenző",
+          "blind": "A redőny",
+          "curtain": "A függöny",
+          "door": "Az ajtó",
+          "garage": "A garázskapu",
+          "gate": "A kapu",
+          "shade": "Az árnyékoló",
+          "shutter": "A zsalu",
+          "window": "Az ablak"
+        } %}
+        {% set device_class = slots.device_class %}
+        {% if device_class in device_class_translations %}
+          {{ device_class_translations[device_class] }} kinyitva
+        {% else %}
+          Kinyitva
+        {% endif %}

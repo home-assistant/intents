@@ -8,7 +8,7 @@ responses:
       # 4 vagy kevesebb név esetén a nevek vesszővel ", " vannak összekötve, és az utolsó név "és" szóval
 
       one: |
-        {{ slots.name | capitalize }} {{ state.state_with_unit }}
+        {{ slots.name | capitalize }} értéke: {{ state.state_with_unit }}
 
       one_yesno: |
         {% if query.matched %}
@@ -73,7 +73,15 @@ responses:
         {% elif state.state == "not_home" %}
           {{ slots.name | capitalize }} távol van
         {% else %}
-          {{ slots.name | capitalize }} itt van: {{ state.state }}
+          {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+          {% set state_string = state.state | string %}
+          {% set elso_betu = state_string[0].lower() if state_string not in ["home", "not_home"] else 'o' %}
+          {% if elso_betu in magyar_maganhangzok %}
+            {% set nevelo = "az" %}
+          {% else %}
+            {% set nevelo = "a" %}
+          {% endif %}
+          {{ slots.name | capitalize }} {{ nevelo }} {{ state_string }} zónában van
         {% endif %}
 
       one_yesno_where: |
@@ -85,7 +93,15 @@ responses:
           {% elif state.state == 'away' %}
             Nem, távol van
           {% else %}
-            Nem, itt van: {{ state.state }}
+            {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+            {% set state_string = state.state | string %}
+            {% set elso_betu = state_string[0].lower() if state_string not in ["home", "not_home"] else 'o' %}
+            {% if elso_betu in magyar_maganhangzok %}
+              {% set nevelo = "az" %}
+            {% else %}
+              {% set nevelo = "a" %}
+            {% endif %}
+            Nem, {{ nevelo }} {{ state_string }} zónában van
           {% endif %}
         {% endif %}
 
@@ -107,7 +123,15 @@ responses:
             {% elif state.state == "away" %}
               távol van
             {% else %}
-              itt van: {{ state.state }}
+              {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+              {% set state_string = state.state | string %}
+              {% set elso_betu = state_string[0].lower() if state_string not in ["home", "not_home"] else 'o' %}
+              {% if elso_betu in magyar_maganhangzok %}
+                {% set nevelo = "az" %}
+              {% else %}
+                {% set nevelo = "a" %}
+              {% endif %}
+              {{ nevelo }} {{ state_string }} zónában van
             {% endif %}
           {% endif %}
         {% endif %}

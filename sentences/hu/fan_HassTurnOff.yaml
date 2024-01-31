@@ -3,19 +3,25 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> [<minden>] <ventilátor> <area>"
-          - "<turn_off> [<minden>] <area> <ventilátor>"
-          - "<turn_off> <area> [<minden>] <ventilátor>"
-          - "<area> [<minden>] <ventilátor> ki"
+          - "(<turn_off>;[<minden>] <ventilátor>;<area>)"
+          - "(<turn_off>;[<minden>] <area> <ventilátor>)"
         slots:
           domain: "fan"
           name: "all"
         response: fans_area
 
       - sentences:
-          - "<turn_off> <minden> <ventilátor>"
-          - "<minden> <ventilátor> <turn_off>"
+          - "(<turn_off>;<mindenhol>;[<minden>] <ventilátor>)"
         slots:
           domain: "fan"
           name: "all"
         response: fans_all
+
+      - sentences:
+          - "([<in_here>];<turn_off>;[<minden>] <ventilátor>)"
+        response: "fans_area"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+            slot: true
