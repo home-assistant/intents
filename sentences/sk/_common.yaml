@@ -47,6 +47,16 @@ lists:
         out: fan
       - in: vypínač[e|ov]
         out: switch
+  presence_states:
+    values:
+      - in: "doma"
+        out: "home"
+      - in: "preč"
+        out: "not_home"
+      - in: "práci"
+        out: "work"
+  zone:
+    wildcard: true
   temperature:
     range:
       type: "temperature"
@@ -55,10 +65,10 @@ lists:
   temperature_unit:
     values:
       - "celsius"
-      - in: "c|Celzia"
+      - in: "c|C|Celzia"
         out: "Celsius"
       - "fahrenheit"
-      - in: "f|Fahrenheita"
+      - in: "f|F|Fahrenheita"
         out: "Fahrenheit"
   shopping_list_item:
     wildcard: true
@@ -66,6 +76,7 @@ expansion_rules:
   name: "{name}"
   area: "{area}"
   what_is: "((ak(á|é|ý|o)[ je])|je)"
+  where_is: "((kde)[ je|sú])"
   is: "(je|sú)"
   any: "nejak(ý|á|é)"
   all: "(všetk(y)|každ(ý|á|é))"
