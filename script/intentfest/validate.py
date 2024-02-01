@@ -116,16 +116,16 @@ INTENT_ERRORS = {
     "no_domain_in_area",
     "no_device_class",
     "no_device_class_in_area",
-    "no_device",
-    "no_device_in_area",
-    "no_device_exposed",
-    "no_device_in_area_exposed",
+    "no_entity",
+    "no_entity_in_area",
+    "no_entity_exposed",
+    "no_entity_in_area_exposed",
     "no_domain_exposed",
     "no_domain_in_area_exposed",
     "no_device_class_exposed",
     "no_device_class_in_area_exposed",
-    "duplicate_devices",
-    "duplicate_devices_in_area",
+    "duplicate_entities",
+    "duplicate_entities_in_area",
 }
 
 SENTENCE_MATCHER = vol.All(
