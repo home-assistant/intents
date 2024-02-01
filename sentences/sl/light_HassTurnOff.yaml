@@ -2,7 +2,51 @@ language: sl
 intents:
   HassTurnOff:
     data:
-      - sentences: []
+      - sentences:
+          - "<izključi> [vs[a|e|o]] <light_devices> [[v|na] <area>]"
+          - "<ugasni> [vs[a|e|o]] <light_devices> [[v|na] <area>]"
+          - "<izklopi> [vs[a|e|o]] <light_devices> [[v] <area>]"
+          - "<izključi> [vs[a|e|o]] <light_devices> [[v|na] <area>]"
+          - "<izklopi> [vs[a|e|o]] [razsvetljavo] [[v|na] <area>]"
+        expansion_rules:
+          light_devices: "([luč[i]]|[svetil[a|ke|ko|i]]|[razsvetljav[a|e|o]]|stikal[a|o] [za] luč[i|ke|ko])"
+        requires_context:
+          domain: "light"
+      - sentences:
+          - "<izključi> [vs[a|e|o]] <light_devices> [v|na] <area>"
+          - "<izklopi> [vs[a|e|o]] <light_devices> [v|na] <area>"
+          - "<ugasni> [vs[a|e|o]] <light_devices> [v|na] <area>"
+          - "<izključi> [vs[a|e|o]] [razsvetljavo] [v|na] <area>"
+          - "<izključi> [vs[a|e|o]] <name> <light_devices>" #eksperiment za 'kuhinjsko luč'
+          - "<izklopi> [vs[a|e|o]] <name> <light_devices>" #eksperiment za 'kuhinjsko luč'
+          - "<ugasni> [vs[a|e|o]] <name> <light_devices>" #eksperiment za 'kuhinjsko luč'
+        expansion_rules:
+          light_devices: "([luč[i]]|[svetil[a|ke|ko|i]]|[razsvetljav[a|e|o]]|stikal[a|o] [za] luč[i|ke|ko])"
         slots:
-          domain: light
-          name: all
+          domain: "light"
+        response: lights_area
+
+      - sentences:
+          - "[povsod] <izključi> [vs[a|e|o]] <light_devices> [povsod]"
+          - "[povsod] <izklopi> [vs[a|e|o]] <light_devices> [povsod]"
+        expansion_rules:
+          light_devices: "([luč[i]]|[svetil[a|ke|ko|i]]|[razsvetljav[a|e|o]]|stikal[a|o] [za] luč[i|ke|ko])"
+        response: "light_all"
+        slots:
+          domain: "light"
+          name: "all"
+
+      # Turn off lights in the same area as a satellite device
+      - sentences:
+          - "<izključi> [vse] luči <in_here>"
+          - "<izklopi> [vse] luči <in_here>"
+          - "<ugasni> [vse] luči <in_here>"
+          #- "<turn>[ the] lights( off;<in_here>)"
+        response: "lights_area"
+        expansion_rules:
+          in_here: "[[ v] tu[kaj]]|[v [tem] prostoru]"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true

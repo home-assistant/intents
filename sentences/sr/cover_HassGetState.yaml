@@ -1,4 +1,36 @@
 language: sr
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "<да_ли> <име> {cover_states:state} [у <област>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<да_ли> било која {cover_classes:device_class} {cover_states:state} [у <област>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<да_ли> {cover_classes:device_class} {cover_states:state} [у <област>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<који_шта> {cover_classes:device_class} [је|су] {cover_states:state} [у <област>]"
+          - "<шта_је> {cover_classes:device_class} [је|су] {cover_states:state} [у <област>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<шта_је> {cover_classes:device_class} [је|су] {cover_states:state} [у <област>]"
+        response: how_many
+        slots:
+          domain: cover

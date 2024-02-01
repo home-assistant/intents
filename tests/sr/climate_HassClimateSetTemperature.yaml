@@ -1,6 +1,44 @@
 language: sr
 tests:
-  - sentences: []
+  - sentences:
+      - "подеси температуру на 30"
     intent:
       name: HassClimateSetTemperature
-      slots: {}
+      slots:
+        temperature: 30
+    response: "Температура је подешена на 30 степени"
+
+  - sentences:
+      - "подеси температуру на 22 Ц"
+      - "подеси температуру на 22 степени целзијусових"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        temperature: 22
+        temperature_unit: celsius
+    response: "Температура је подешена на 22 степена"
+
+  - sentences:
+      - "подеси температуру у спаваћој соби на 26 степени целзијусових"
+      - "постави температуру у спаваћој соби на 26 степени целзијусових"
+      - "сетуј температуру у спаваћој соби на 26 степени целзијусових"
+      - "подеси у спаваћој соби температуру на 26 степени Целзијусових"
+      - "постави у спаваћој соби температуру на 26 степени Целзијусових"
+      - "сетуј у спаваћој соби температуру на 26 степени Целзијусових"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        area: "спаваћој соби"
+        temperature: 26
+        temperature_unit: celsius
+    response: "Температура је подешена на 26 степени"
+
+  - sentences:
+      - "промени температуру у спаваћој соби на 26"
+      - "промени у спаваћој соби температуру на 26"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        area: "спаваћој соби"
+        temperature: 26
+    response: "Температура је подешена на 26 степени"

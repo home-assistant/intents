@@ -1,4 +1,5 @@
 """Test language intents."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -78,7 +79,7 @@ def do_test_language_sentences(
         ), f"File {file_name} should only contain sentences for intent {file_intent}"
 
         intent_schema = intent_schemas[intent_name]
-        slot_schema = intent_schema["slots"]
+        slot_schema = intent_schema.get("slots", {})
         slot_combinations = intent_schema.get("slot_combinations")
 
         for data in intent.data:

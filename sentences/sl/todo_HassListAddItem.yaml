@@ -1,0 +1,13 @@
+language: "sl"
+intents:
+  HassListAddItem:
+    data:
+      - sentences:
+          - "(dodaj| daj) <item> na [seznam|listo] [za|na] <my_list>"
+          - "[dodaj| daj] <item> [h|k|na] <my_list>"
+        response: item_added
+        requires_context:
+          domain: todo
+        expansion_rules:
+          my_list: "[moj|skupen|družinski|tedenski] [seznam|listo] [za] {name}"
+          item: "{shopping_list_item:item}"

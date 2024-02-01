@@ -1,4 +1,53 @@
 language: sl
 intents:
   HassTurnOn:
-    data: []
+    data:
+      - sentences:
+          - "<odpri> <area> {cover_classes:device_class}"
+          - "<odpri> {cover_classes:device_class} [v|na] [<area>]"
+          - "<odpri> <name> [v|na] [<area>]"
+        slots:
+          domain: cover
+        response: cover_device_class
+
+      - sentences:
+          - "<odpri> <name>"
+          - "<odpri> garaž[o|i|e]"
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover_device_class
+
+      - sentences:
+          - "<odpri> <name>"
+        requires_context:
+          domain: cover
+        slots:
+          device_class:
+            - awning
+            - blinds
+            - curtain
+            - door
+            - garage
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover_single
+
+      - sentences:
+          - "<odpri> <name> [v|na] [<area>]"
+        requires_context:
+          domain: cover
+        slots:
+          device_class:
+            - awning
+            - blinds
+            - curtain
+            - door
+            - garage
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover_single

@@ -1,0 +1,43 @@
+language: sl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/sensor/
+      # Apparent power
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: apparent_power
+        slots:
+          domain: sensor
+          device_class: apparent_power
+        expansion_rules:
+          class: "navidezna moč"
+
+      # AQI
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: aqi
+        slots:
+          domain: sensor
+          device_class: aqi
+        expansion_rules:
+          class: "(AQI|[indeks] kakovost[i] zraka|kvalitet(e|a) zraka)"
+
+      # Atmospheric pressure
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: atmospheric_pressure
+        slots:
+          domain: sensor
+          device_class: atmospheric_pressure
+        expansion_rules:
+          class: "(zračnega tlaka|zračni tlak) [zraka]"

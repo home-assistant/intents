@@ -1,0 +1,24 @@
+language: uk
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'ясно',
+          'clear-night': 'ясно',
+          'cloudy': 'хмарно',
+          'exceptional': 'виняткові погодні умови',
+          'fog': 'туман',
+          'hail': 'град',
+          'lightning': 'блискавка',
+          'lightning-rainy': 'дощ з блискавкою',
+          'partlycloudy': 'хмарно з проясненням',
+          'pouring': 'злива',
+          'rainy': 'дощ',
+          'snowy': 'сніг',
+          'snowy-rainy': 'сніг з дощем',
+          'sunny': 'сонячно',
+          'windy': 'вітряно',
+          'windy-variant': 'хмарно і вітряно'
+        } %}
+        Температура повітря {{ state.attributes.get('temperature') }}{{ state.attributes.get('temperature_unit') }}, {{ weather_condition.get((state.state | string).lower(), "") }}
