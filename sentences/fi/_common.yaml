@@ -3,8 +3,8 @@ responses:
   errors:
     no_intent: "Olen pahoillani, en ymmärrä mitä tarkoitat"
     no_area: "Ei ole aluetta nimellä {{ area }}"
-    no_domain: "{{ area }} ei sisällä {{ domain }}"
-    no_device_class: "{{ area }} ei sisällä {{ device_class }}"
+    no_domain_in_area: "{{ area }} ei sisällä {{ domain }}"
+    no_device_class_in_area: "{{ area }} ei sisällä {{ device_class }}"
     no_entity: "Ei laitetta tai kohdetta nimellä {{ entity }}"
     handle_error: "Asian käsittelyssä tapahtui odottamaton ongelma"
 lists:
@@ -104,6 +104,8 @@ lists:
         out: "locked"
       - in: "(auki|avoinna|lukitsematta)"
         out: "unlocked"
+  shopping_list_item:
+    wildcard: true
 expansion_rules:
   # On off states
   päälle: "päälle" # on
@@ -132,7 +134,7 @@ expansion_rules:
   sulje: "(sulje|laske)" # close|lower
   laita: "(kytke|aseta|käännä|säädä|pistä|muuta|laita)" # toggle|set|turn|adjust|put|change (for brightness)
 
-  kuinka: "(kuinka|miten)" # how..
+  kuinka: "(kuinka|miten|millainen|minkälainen)" # how..
   onko: "(onko|onhan|onkohan|oliko)" # are singular
   ovatko: "(ovatko|olivatko)" # are plural
   paljonko: "(paljonko|mikä|<kuinka> paljon)" # how much|what
@@ -225,6 +227,8 @@ expansion_rules:
   # väreittä: "(väreittä|[väri]sävyittä|värivivahteitta)"
 
   huone: "{area}" # Room, this Finnish version helps when reading sentences
+  paikka: "(kaupunki|kaupungissa|paikka|paikassa|kaupungin|paikan)"
+  nimi: "{name}"
 
   jokin: "(jokin|mikään|joku|ainutkaan|yksikään)" # any - singular
   jotkut: "(jotkut|mitkään|yhdetkään)" # any - plural
