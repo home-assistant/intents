@@ -1,0 +1,124 @@
+language: hu
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "(<where_is>; <name>)"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "(<name>; <otthon>)"
+        response: one_yesno_where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "(<name> ; <nincs_otthon> )"
+        response: one_yesno_where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "(<name>; [a[z]] {zone:state} <helyen> [van])"
+        response: one_yesno_where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<valaki> van <otthon>"
+          - "<otthon> <valaki>"
+        response: any
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "<valaki> [van] <nincs_otthon>"
+          - "<nincs_otthon> [van] <valaki>"
+        response: any
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "<valaki> van [a[z]] {zone:state} <helyen>"
+          - "[a[z]] {zone:state} <helyen> van <valaki>"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "(Mindenki; <otthon>)"
+        response: all_where
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "(mindenki; <nincs_otthon>)"
+          - "(senki; <nincs_otthon>)"
+        response: all_where
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "(Mindenki; [a[z]] {zone:state} <helyen> van)"
+        response: all_where
+        slots:
+          domain: person
+
+      - sentences:
+          - "(Ki[k] van[nak]; <otthon>)"
+        response: which
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "Ki[k] van[nak] <nincs_otthon>"
+          - "Ki[k] nincs[enek] <otthon>"
+        response: which
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "(Ki[k] van[nak]; [a[z]] {zone:state} <helyen>)"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "(<mennyi> [<személy>] van[nak]; <otthon>)"
+        response: how_many
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "(<mennyi> [<személy>] van[nak]; <nincs_otthon>)"
+          - "(<mennyi> [<személy>] nincs[enek] <otthon>)"
+        response: how_many
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "(<mennyi> [<személy>] van[nak]; [a[z]] {zone:state} <helyen>)"
+        response: how_many
+        slots:
+          domain: person
