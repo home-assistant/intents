@@ -19,22 +19,38 @@ intents:
           name: "all"
         response: "brightness"
 
+      - sentences:
+          - "[<establece_sube_baja>] [el] brillo [a|al] <brightness>"
+          - "[<establece_sube_baja>] [el] brillo (<de_aqui>;[a|al] <brightness>)"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
+
       # Max/Min brightness
       - sentences:
           - "[<establece_sube_baja>] [el] brillo [de] <name> a[l] {brightness_level:brightness}"
-          - "[<establece_sube_baja>] <name> al brillo {brightness_level:brightness}"
-          - "[<establece_sube_baja>] <name> al {brightness_level:brightness} [de] brillo"
+          - "[<establece_sube_baja>] <name> [a[l]|el] brillo [a[l]] {brightness_level:brightness}"
+          - "[<establece_sube_baja>] <name> [a[l]|el] {brightness_level:brightness} [de] brillo"
         requires_context:
           domain: light
         response: "brightness"
 
       - sentences:
-          - "[<establece_sube_baja>] [el] brillo <area> a[l] {brightness_level:brightness}"
-          - "[<establece_sube_baja>] <area> al brillo {brightness_level:brightness}"
-          - "[<establece_sube_baja>] <area> al {brightness_level:brightness} [de] brillo"
+          - "[<establece_sube_baja>] [el] brillo <area> [a[l]] {brightness_level:brightness}"
+          - "[<establece_sube_baja>] <area> [a[l]|el] brillo [a[l]] {brightness_level:brightness}"
+          - "[<establece_sube_baja>] <area> [a[l]|el] {brightness_level:brightness} [de] brillo"
         slots:
           name: "all"
         response: "brightness"
+
+      - sentences:
+          - "[<establece_sube_baja>] [el] brillo [a[l]|el] {brightness_level:brightness}"
+          - "[<establece_sube_baja>] [el] brillo (<de_aqui>;[a[l]] {brightness_level:brightness})"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
 
       # color
       - sentences:
@@ -50,3 +66,11 @@ intents:
         slots:
           name: "all"
         response: "color"
+
+      - sentences:
+          - "[<establece>] [[el] color de] [todas] las luces [a|al|en] {color}"
+          - "[<establece>] [[el] color de] [todas] las luces (<de_aqui>;[a|al|en] {color})"
+        response: "color"
+        requires_context:
+          area:
+            slot: true
