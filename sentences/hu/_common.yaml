@@ -1,8 +1,9 @@
 language: hu
 responses:
   errors:
+    # Általános hibák
     no_intent: "Sajnálom, ezt nem értettem."
-    handle_error: "Váratlan hiba történt."
+    handle_error: "Váratlan hiba történt"
     no_area: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
       {% set elso_betu = area[0].lower() %}
@@ -11,7 +12,7 @@ responses:
       {% else %}
         {% set nevelo = "a" %}
       {% endif %}
-      Sajnálom, {{nevelo}} {{ area }} terület nem található.
+      Sajnálom, {{ nevelo }} {{ area }} terület nem található
     no_entity: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
       {% set elso_betu = entity[0].lower() %}
@@ -19,8 +20,53 @@ responses:
         {% set nevelo = "az" %}
       {% else %}
         {% set nevelo = "a" %}
-      {% endif %}    
-      Sajnálom, {{nevelo}} {{ entity }} nem található.
+      {% endif %}
+      Sajnálom, {{ nevelo }} {{ entity }} nem található
+    no_entity_in_area: |
+      {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+      {% set elso_betu = entity[0].lower() %}
+      {% if elso_betu in magyar_maganhangzok %}
+        {% set nevelo_device = "az" %}
+      {% else %}
+        {% set nevelo_device = "a" %}
+      {% endif %}
+      {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+      {% set elso_betu = area[0].lower() %}
+      {% if elso_betu in magyar_maganhangzok %}
+        {% set nevelo_area = "az" %}
+      {% else %}
+        {% set nevelo_area = "a" %}
+      {% endif %}
+      Sajnálom, {{ nevelo_device }} {{ entity }} nem található {{ nevelo_area }} {{ area }} területen
+    no_domain: |
+      {% set translations_domains_with_article = {
+        "button": "gombot",
+        "camera": "kamerát",
+        "input_button": "gombot",
+        "alarm_control_panel": "riasztót",
+        "automation": "automatizálást",
+        "fan": "ventilátort",
+        "climate": "hőmérsékletszabályozót",
+        "humidifier": "párásítót",
+        "input_boolean": "kapcsolót",
+        "siren": "szirénát",
+        "water_heater": "melegvíz tartályt",
+        "light": "lámpát",
+        "switch": "kapcsolót",
+        "script": "szkriptet",
+        "remote": "távirányítót",
+        "lock": "zárat",
+        "vacuum": "porszívót",
+        "scene": "jelenetet",
+        "media_player": "médialejátszót",
+        "lawn_mower": "fűnyírót",
+        "valve": "szelepet"
+        } %}
+      {% if domain in translations_domains_with_article %}
+        Sajnálom, nem találtam {{ translations_domains_with_article[domain] }}
+      {% else %}
+        Sajnálom, nem találtam megfelelő eszközt
+      {% endif %}
     no_domain_in_area: |
       {% set translations_domains_with_article = {
         "button": "gombot",
@@ -53,11 +99,11 @@ responses:
         {% set nevelo = "a" %}
       {% endif %}
       {% if domain in translations_domains_with_article %}
-        Sajnálom, nem találtam {{ translations_domains_with_article[domain] }} {{ nevelo }} {{ area }} területén.
+        Sajnálom, nem találtam {{ translations_domains_with_article[domain] }} {{ nevelo }} {{ area }} területén
       {% else %}
-        Sajnálom, nem találtam megfelelő eszközt {{ nevelo }} {{ area }} területén.
+        Sajnálom, nem találtam megfelelő eszközt {{ nevelo }} {{ area }} területén
       {% endif %}
-    no_device_class_in_area: |
+    no_device_class: |
       {% set translations_cover_device_classes_with_article = {
         "awning": "napellenzőt",
         "blind": "redőnyt",
@@ -69,19 +115,175 @@ responses:
         "shutter": "zsalut",
         "window": "ablakot"
         } %}
+      {% if device_class in translations_cover_device_classes_with_article %}
+        Sajnálom, nem találtam {{ translations_cover_device_classes_with_article[device_class] }}
+      {% else %}
+        Sajnálom, nem találtam megfelelő eszközt
+      {% endif %}
+    no_device_class_in_area: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
       {% set elso_betu = area[0].lower() %}
       {% if elso_betu in magyar_maganhangzok %}
         {% set nevelo = "az" %}
       {% else %}
         {% set nevelo = "a" %}
-      {% endif %}      
+      {% endif %}
+      {% set translations_cover_device_classes_with_article = {
+        "awning": "napellenzőt",
+        "blind": "redőnyt",
+        "curtain": "függönyt",
+        "door": "ajtót",
+        "garage": "garázskaput",
+        "gate": "kaput",
+        "shade": "árnyékolót",
+        "shutter": "zsalut",
+        "window": "ablakot"
+        } %}
       {% if device_class in translations_cover_device_classes_with_article %}
         Sajnálom, nem találtam {{ translations_cover_device_classes_with_article[device_class] }} {{ nevelo }} {{ area }} területén
       {% else %}
         Sajnálom, nem találtam megfelelő eszközt {{ nevelo }} {{ area }} területén
       {% endif %}
-
+    # Hibák, amikor a felhasználó be van jelentkezve, és több információt tudunk adni
+    no_entity_exposed: |
+      {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+      {% set elso_betu = entity[0].lower() %}
+      {% if elso_betu in magyar_maganhangzok %}
+        {% set nevelo = "az" %}
+      {% else %}
+        {% set nevelo = "a" %}
+      {% endif %}
+      Sajnálom, {{ nevelo }} {{ entity }} eszköz még nincs beállítva
+    no_entity_in_area_exposed: |
+      {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+      {% set elso_betu = entity[0].lower() %}
+      {% if elso_betu in magyar_maganhangzok %}
+        {% set nevelo_device = "az" %}
+      {% else %}
+        {% set nevelo_device = "a" %}
+      {% endif %}
+      {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+      {% set elso_betu = area[0].lower() %}
+      {% if elso_betu in magyar_maganhangzok %}
+        {% set nevelo_area = "az" %}
+      {% else %}
+        {% set nevelo_area = "a" %}
+      {% endif %}
+      Sajnálom, {{ nevelo_device }} {{ entity }} eszköz még nincs beállítva {{ nevelo_area }} {{ area }} területén
+    no_domain_exposed: |
+      {% set translations = {
+        "button": "gombok",
+        "camera": "kamerák",
+        "input_button": "gombok",
+        "alarm_control_panel": "riasztók",
+        "automation": "automatizálások",
+        "fan": "ventilátorok",
+        "climate": "termosztátok",
+        "humidifier": " párásítók",
+        "input_boolean": "kapcsolók",
+        "siren": "szirénák",
+        "water_heater": "vízmelegítők",
+        "light": "lámpák",
+        "switch": "kapcsolók",
+        "script": "szkriptek",
+        "remote": "távirányítók",
+        "lock": "zárak",
+        "vacuum": "porszívók",
+        "scene": "jelenetek",
+        "media_player": "médialejátszók",
+        "lawn_mower": "fűnyírók",
+        "valve": "szelepek"
+        } %}
+      {% if domain in translations -%}
+        Sajnálom, nincsenek beállítva {{ translations[domain] }}
+      {%- else -%}
+        Sajnálom, ez a típusú eszköz még nincs beállítva
+      {%- endif %}
+    no_domain_in_area_exposed: |
+      {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+      {% set elso_betu = area[0].lower() %}
+      {% if elso_betu in magyar_maganhangzok %}
+        {% set nevelo_area = "az" %}
+      {% else %}
+        {% set nevelo_area = "a" %}
+      {% set translations = {
+        "button": "gombok",
+        "camera": "kamerák",
+        "input_button": "gombok",
+        "alarm_control_panel": "riasztók",
+        "automation": "automatizálások",
+        "fan": "ventilátorok",
+        "climate": "termosztátok",
+        "humidifier": " párásítók",
+        "input_boolean": "kapcsolók",
+        "siren": "szirénák",
+        "water_heater": "vízmelegítők",
+        "light": "lámpák",
+        "switch": "kapcsolók",
+        "script": "szkriptek",
+        "remote": "távirányítók",
+        "lock": "zárak",
+        "vacuum": "porszívók",
+        "scene": "jelenetek",
+        "media_player": "médialejátszók",
+        "lawn_mower": "fűnyírók",
+        "valve": "szelepek"
+        } %}
+      {% if domain in translations -%}
+        Sajnálom, nincsenek beállítva {{ translations[domain] }} {{ nevelo_area }} {{ area }} területén
+      {%- else -%}
+        Sajnálom, ez a típusú eszköz még nincs beállítva {{ nevelo_area }} {{ area }} területén
+      {%- endif %}
+    no_device_class_exposed: |
+      {% set translations = {
+        "awning": "napellenzők",
+        "blind": "redőnyök",
+        "curtain": "függönyök",
+        "door": "ajtók",
+        "garage": "garázsajtók",
+        "gate": "kapuk",
+        "shade": "árnyékolók",
+        "shutter": "redőnyök",
+        "window": "ablakok"
+        } %}
+      {% if device_class in translations -%}
+        Sajnálom, nincsenek beállított {{ translations[device_class] }}
+      {%- else -%}
+        Sajnálom, ilyen típusú eszköz még nincs beállítva
+      {%- endif %}
+    no_device_class_in_area_exposed: |
+      {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+      {% set elso_betu = area[0].lower() %}
+      {% if elso_betu in magyar_maganhangzok %}
+        {% set nevelo_area = "az" %}
+      {% else %}
+        {% set nevelo_area = "a" %}
+      {% set translations = {
+        "awning": "napellenzők",
+        "blind": "redőnyök",
+        "curtain": "függönyök",
+        "door": "ajtók",
+        "garage": "garázsajtók",
+        "gate": "kapuk",
+        "shade": "árnyékolók",
+        "shutter": "redőnyök",
+        "window": "ablakok"
+        } %}
+      {% if device_class in translations -%}
+        Sajnálom, nincsenek beállított {{ translations[device_class] }} {{ nevelo_area }} {{ area }} területén.
+      {%- else -%}
+        Sajnálom, ez a típusú eszköz még nincs beállítva {{ nevelo_area }} {{ area }} területén
+      {%- endif %}
+    duplicate_entities: "Sajnálom, több {{ entity }} nevű eszköz is van"
+    duplicate_entities_in_area: |
+      {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+      {% set elso_betu = area[0].lower() %}
+      {% if elso_betu in magyar_maganhangzok %}
+        {% set nevelo_area = "az" %}
+      {% else %}
+        {% set nevelo_area = "a" %}
+      {% endif %}
+      Sajnálom, több {{ entity }} nevű eszköz is van {{ nevelo_area }} {{ area }} területén
 lists:
   color:
     values:
