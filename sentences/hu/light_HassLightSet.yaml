@@ -4,7 +4,8 @@ intents:
     data:
       # brightness
       - sentences:
-          - "([<numeric_value_set>];<name> [<light>];<fényerő>;<brightness>)"
+          - "(<numeric_value_set>;<name> [<light>];<fényerő>;<brightness>)"
+          - "(<name> [<light>];<fényerő>;<brightness>)"
         response: "brightness_1"
         requires_context:
           domain: light
@@ -15,13 +16,19 @@ intents:
           domain: "light"
         response: "brightness_1"
       - sentences:
-          - "([<numeric_value_set>];[<minden>] [<light>];[<fényerő>];<area>;<brightness>)"
+          - "(<numeric_value_set>;<fényerő>;<area>;<brightness>)"
+          - "(<numeric_value_set>;[<minden>] <light>;<area>;<brightness>)"
+          - "(<numeric_value_set>;[<minden>] <light>;<fényerő>;<area>;<brightness>)"
+          - "([<minden>] <light>;<fényerő>;<area>;<brightness>)"
+          - "([<minden>] <light>;<area>;<brightness>)"
+          - "(<area>;<brightness>;<fényerő>)"
         slots:
           name: "all"
         response: "brightness_több"
 
       - sentences:
-          - "([<in_here>];<numeric_value_set>;<fényerő>;<brightness>)"
+          - "(<in_here>;<numeric_value_set>;<fényerő>;<brightness>)"
+          - "(<numeric_value_set>;<fényerő>;<brightness>)"
         response: "brightness_több"
         requires_context:
           area:
@@ -29,19 +36,22 @@ intents:
 
       # Max/Min brightness
       - sentences:
-          - "([<numeric_value_set>];<fényerő>;<name> [<light>];[a] {brightness_level:brightness})"
+          - "(<numeric_value_set>;<fényerő>;<name> [<light>];[a] {brightness_level:brightness})"
+          - "(<fényerő>;<name> [<light>];[a] {brightness_level:brightness})"
         requires_context:
           domain: light
         response: "brightness_1"
 
       - sentences:
-          - "([<numeric_value_set>];<fényerő>;<area>;[a] {brightness_level:brightness})"
+          - "(<numeric_value_set>;<fényerő>;<area>;[a] {brightness_level:brightness})"
+          - "(<fényerő>;<area>;[a] {brightness_level:brightness})"
         slots:
           name: "all"
         response: "brightness_több"
 
       - sentences:
-          - "([<in_here>];<numeric_value_set>;<fényerő>;[a] {brightness_level:brightness})"
+          - "(<in_here>;<numeric_value_set>;<fényerő>;[a] {brightness_level:brightness})"
+          - "(<numeric_value_set>;<fényerő>;[a] {brightness_level:brightness})"
         response: "brightness_több"
         requires_context:
           area:
@@ -49,19 +59,25 @@ intents:
 
       # color
       - sentences:
-          - "([<set>];<name> [<light>];szín(űre|e|re|ét);{color})"
+          - "(<set>;<name> [<light>];szín(űre|e|re|ét);{color})"
+          - "(<name> [<light>];szín(űre|e|re|ét);{color})"
         requires_context:
           domain: light
         response: "color_1"
 
       - sentences:
-          - "([<set>];<area>;[<minden>] [<light>];szín(űre|e|re|ét);{color})"
+          - "(<set>;<area>;[<minden>] [<light>];szín(űre|e|re|ét);{color})"
+          - "(<area>;[<minden>] [<light>];szín(űre|e|re|ét);{color})"
+          - "(<set>;<area>;[<minden>] <light>;szín(űre|e|re|ét);{color})"
+          - "(<area>;szín(űre|e|re|ét);{color})"
         slots:
           name: "all"
         response: "color_több"
 
       - sentences:
-          - "([<in_here>];[<set>];[<minden>] <light>;szín(űre|e|re|ét);{color})"
+          - "(<in_here>;<set>;[<minden>] <light>;szín(űre|e|re|ét);{color})"
+          - "(<set>;[<minden>] <light>;szín(űre|e|re|ét);{color})"
+          - "([<minden>] <light>;szín(űre|e|re|ét);{color})"
         response: "color_több"
         requires_context:
           area:
