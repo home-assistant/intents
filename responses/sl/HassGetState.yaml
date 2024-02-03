@@ -30,6 +30,22 @@ responses:
           Ne
         {% endif %}
 
+      any_bs: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Da, {{ match[:3] | join(", ") }} in še {{ (match | length - 3) }}
+          {%- else -%}
+            Da,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Ne
+        {% endif %}
+
       all: |
         {% if not query.unmatched: %}
           Da
