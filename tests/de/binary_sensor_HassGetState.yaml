@@ -786,3 +786,27 @@ tests:
         device_class: heat
         state: "on"
     response: "1"
+
+  # Safety
+  - sentences:
+      - "ist die Straße sicher?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Straße"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "ist die Straße unsicher?"
+      - "ist die Straße gefährlich?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Straße"
+        state: "on"
+    response: "Nein"
