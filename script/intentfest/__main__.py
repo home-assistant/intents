@@ -1,4 +1,5 @@
 """Validate manifests."""
+
 import argparse
 import importlib
 import sys

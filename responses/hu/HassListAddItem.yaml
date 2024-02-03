@@ -1,0 +1,13 @@
+language: "hu"
+responses:
+  intents:
+    HassListAddItem:
+      item_added: |
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.item[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "Az" %}
+        {% else %}
+          {% set nevelo = "A" %}
+        {% endif %}
+        {{ nevelo }} {{ slots.item }} hozzáadva a listához
