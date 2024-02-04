@@ -786,3 +786,83 @@ tests:
         device_class: heat
         state: "on"
     response: "1"
+
+  # Problem
+  - sentences:
+      - "Gibt es Probleme mit dem Futterspender"
+      - "Gibt es ein Problem mit dem Futterspender"
+      - "Gibt es irgendwelche Probleme mit dem Futterspender"
+      - "Hat der Futterspender irgendein Problem"
+      - "Hat der Futterspender Probleme"
+      - "Hat der Futterspender irgendwelche Probleme"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        name: "Futterspender"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "Gibt es ein Problem mit dem Futterspender in der Küche"
+      - "Hat der Futterspender in der Küche Probleme"
+    intent:
+      name: HassGetState
+      slots:
+        area: Küche
+        domain: "binary_sensor"
+        device_class: "problem"
+        name: "Futterspender"
+        state: "on"
+    response: "Nein"
+
+  # Safety
+  - sentences:
+      - "ist die Straße sicher?"
+      - "ist die Straße ungefährlich?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Straße"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "ist die Straße unsicher?"
+      - "ist die Straße gefährlich?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Straße"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist die Straße an der Auffahrt sicher?"
+      - "ist bei der Auffahrt die Straße ungefährlich?"
+      - "ist die Straße sicher bei der Auffahrt?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Auffahrt
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Straße"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "sind die Server sicher?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Server"
+        state: "off"
+    response: "Ja"
