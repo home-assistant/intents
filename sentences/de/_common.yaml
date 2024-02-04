@@ -137,7 +137,7 @@ lists:
         out: "off"
   bs_carbon_monoxide_states:
     values:
-      - in: "(entdeckt|ausgelöst|erkannt|an)"
+      - in: "(<erkannt>|an)"
         out: "on"
       - in: "(klar|rein|sauber|sicher)"
         out: "off"
@@ -167,7 +167,7 @@ lists:
         out: "off"
   bs_gas_states:
     values:
-      - in: "(entdeckt|ausgelöst|erkannt|an)"
+      - in: "(<erkannt>|an)"
         out: "on"
       - in: "(klar|rein|sauber|sicher)"
         out: "off"
@@ -177,9 +177,15 @@ lists:
         out: "on"
       - in: "normal"
         out: "off"
+  bs_light_states:
+    values:
+      - in: "<erkannt>"
+        out: "on"
+      - in: "kein Licht"
+        out: "off"
   bs_problem_states:
     values:
-      - in: "erkannt"
+      - in: "<erkannt>"
         out: "on"
       - in: "(ok[ay]|normal)"
         out: "off"
@@ -244,6 +250,7 @@ expansion_rules:
   co_sensor: "<co>[-]Sensor[en]"
   gas_sensor: "Gas[-]Sensor[en]"
   ding: "((Ding|Gerät)[e|en]|Sensor[en]|Gegenstand|Gegenstände[n])"
+  erkannt: "(entdeckt|ausgelöst|erkannt|an)"
 skip_words:
   - "bitte"
   - "danke"
