@@ -3,39 +3,32 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<close> [<the>] {name} [<in> {area}]"
+          - "<close> [<the>] {name}"
         response: "cover"
         requires_context:
           domain: "cover"
 
       - sentences:
-          - "<close> <all> [[<the>] casa]"
-        slots:
-          domain: "cover"
-        response: "cover_all"
-
-      - sentences:
-          - "<close> <all> [<in>|<the>] {area}"
+          - "<close> [<all>] [<in>|<the>] {area}"
         slots:
           domain: "cover"
         response: "cover_area"
 
       - sentences:
-          - "<close> <all> [<the>] {cover_classes:device_class}"
+          - "<close> tutto"
+        slots:
+          domain: "cover"
+        response: "cover_all"
+
+      - sentences:
+          - "<close> [<all>] [<the>] {cover_classes:device_class}"
         response: "cover_device_class"
         slots:
           domain: "cover"
 
       - sentences:
-          - "<close> [<all>] [<the>] {cover_classes:device_class} [<in>|<of>] {area}"
+          - "<close> [<all>] [<the>] {cover_classes:device_class} [(<in>|<of>)] {area}"
           - "<close> [<in>] {area} [<all>] [<the>] {cover_classes:device_class}"
         response: "cover_device_class_area"
-        requires_context:
-          domain: "cover"
-      - sentences:
-          - "<close> <the> <garage> [[(in | del)] garage]"
-          - "<close> [[<in>] garage] <the> <garage>"
-        response: "cover_garage"
         slots:
-          device_class: "garage"
           domain: "cover"

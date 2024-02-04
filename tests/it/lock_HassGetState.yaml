@@ -1,0 +1,49 @@
+language: "it"
+tests:
+  - sentences:
+      - "la porta di casa è bloccata?"
+      - "é la serratura della porta di casa bloccata"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Porta di casa"
+        state: "locked"
+    response: "Si"
+
+  - sentences:
+      - "Ci sono porte sbloccate?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Si, la porta sul retro"
+
+  - sentences:
+      - "tutte le porte sono bloccate?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "No, la porta sul retro no"
+
+  - sentences:
+      - "Quali porte sono bloccate?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "La porta di casa e la porta del bagno"
+
+  - sentences:
+      - "quante porte sono bloccate?"
+      - "quante sono le porte bloccate?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "2"
