@@ -1,32 +1,32 @@
-language: it
+language: "it"
 intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<open> [<the>] <name> [[<of>|<in>] <area>]"
+          - "<open> [<the>] {name} [[<in> | <of>] {area}]"
         response: "cover"
         requires_context:
-          domain: cover
+          domain: "cover"
       - sentences:
-          - "<open> [<the>] <cover> [[<in> | <of>] <area>]"
-          - "<open> [[<in>] <area>] [<the>] <cover>"
+          - "<open> [<all>] [<in> | <the>] {area}"
         response: "cover_area"
+        slots:
+          domain: "cover"
+      - sentences:
+          - "<open> <all> [<the>] {cover_classes:device_class}"
+        response: "cover_device_class"
+        slots:
+          domain: "cover"
+      - sentences:
+          - "<open> [<all>][<the>] {cover_classes:device_class} [[<in> | <of>] {area}]"
+          - "<open> [[<in>] {area}] [<all>] [<the>] {cover_classes:device_class}"
+        response: "cover_device_class_area"
         requires_context:
-          domain: cover
+          domain: "cover"
       - sentences:
-          - "<open> <the> (serranda | [porta [del garage]] [basculante] | saracinesca) [[(in | del)] garage]"
-          - "<open> [[<in>] garage] <the> (serranda | [porta [del garage]] [basculante] | saracinesca)"
-        response: cover_device_class
+          - "<open> <the> <garage> [[(in | del)] garage]"
+          - "<open> [[<in>] garage] <the> <garage>"
+        response: "cover_garage"
         slots:
-          device_class: garage
-          domain: cover
-      - sentences:
-          - "<open> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e)) [(<in> | <of>)] <area>"
-          - "<open> [<in>] <area> [l(a|e)] (tend(a|e) | tapparell(a|e) | venezian(a|e))"
-        response: "cover_area"
-        slots:
-          device_class:
-            - blind
-            - curtain
-            - shutter
-          domain: cover
+          device_class: "garage"
+          domain: "cover"

@@ -1,12 +1,207 @@
 language: fr
 responses:
   errors:
+    # General errors
     no_intent: "Désolé, je n'ai pas compris"
-    no_area: "Aucune zone appelée {{ area }}"
-    no_domain: "{{ area }} ne contient pas de {{ domain }}"
-    no_device_class: "{{ area }} ne contient pas de {{ device_class }}"
-    no_entity: "Aucun appareil ou entité appelé {{ entity }}"
     handle_error: "Une erreur est intervenue pendant le traitement"
+
+    # Errors for when user is not logged in
+    no_area: "Désolé, je ne connais pas la pièce {{ area }}"
+    no_domain: |
+      {% set translations = {
+        "button": "de boutons",
+        "camera": "de caméras",
+        "input_button": "de boutons",
+        "alarm_control_panel": "d'alarmes",
+        "automation": "d'automatisations",
+        "fan": "de ventilateurs",
+        "climate": "de thermostats",
+        "humidifier": "d'humidificateurs",
+        "input_boolean": "de commutateurs",
+        "siren": "de sirènes",
+        "water_heater": "de ballon d'eau chaude",
+        "light": "de lumières",
+        "switch": "de commutateurs",
+        "script": "de scripts",
+        "remote": "de télécommandes",
+        "lock": "de verrous",
+        "vacuum": "d'aspirateurs",
+        "scene": "de scènes",
+        "media_player": "de lecteurs multimédia",
+        "lawn_mower": "de tondeuses à gazon",
+        "valve": "de vannes"
+        } %}
+      {% if domain in translations -%}
+        Désolé, je n'ai pas trouvé {{ translations[domain] }}
+      {%- else -%}
+        Désolé, je n'ai rien trouvé de correspondant
+      {%- endif %}
+    no_domain_in_area: |
+      {% set translations = {
+        "button": "de boutons",
+        "camera": "de caméras",
+        "input_button": "de boutons",
+        "alarm_control_panel": "d'alarmes",
+        "automation": "d'automatisations",
+        "fan": "de ventilateurs",
+        "climate": "de thermostats",
+        "humidifier": "d'humidificateurs",
+        "input_boolean": "de commutateurs",
+        "siren": "de sirènes",
+        "water_heater": "de ballon d'eau chaude",
+        "light": "de lumières",
+        "switch": "de commutateurs",
+        "script": "de scripts",
+        "remote": "de télécommandes",
+        "lock": "de verrous",
+        "vacuum": "d'aspirateurs",
+        "scene": "de scènes",
+        "media_player": "de lecteurs multimédia",
+        "lawn_mower": "de tondeuses à gazon",
+        "valve": "de vannes"
+        } %}
+      {% if domain in translations -%}
+        Désolé, je n'ai pas trouvé {{ translations[domain] }} dans cette pièce
+      {%- else -%}
+        Désolé, je n'ai rien trouvé de correspondant dans cette pièce
+      {%- endif %}
+    no_device_class: |
+      {% set translations = {
+        "awning": "d'auvents",
+        "blind": "de stores",
+        "curtain": "de rideaux",
+        "door": "de portes",
+        "garage": "de portes de garage",
+        "gate": "de portes",
+        "shade": "de stores",
+        "shutter": "de volets",
+        "window": "de fenêtres"
+        } %}
+      {% if device_class in translations -%}
+        Désolé, je n'ai pas trouvé {{ translations[device_class] }}
+      {%- else -%}
+        Désolé, je n'ai rien trouvé de correspondant
+      {%- endif %}
+    no_device_class_in_area: |
+      {% set translations = {
+        "awning": "d'auvents",
+        "blind": "de stores",
+        "curtain": "de rideaux",
+        "door": "de portes",
+        "garage": "de portes de garage",
+        "gate": "de portes",
+        "shade": "de stores",
+        "shutter": "de volets",
+        "window": "de fenêtres"
+        } %}
+      {% if device_class in translations -%}
+        Désolé, je n'ai pas trouvé {{ translations[device_class] }} dans cette pièce
+      {%- else -%}
+        Désolé, je n'ai rien trouvé de correspondant dans cette pièce
+      {%- endif %}
+    no_entity: "Désolé, je ne connais pas l'appareil {{ entity }}"
+    no_entity_in_area: "Désolé, je ne connais pas l'appareil {{ entity }}"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
+    no_entity_in_area_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
+    no_domain_exposed: |
+      {% set translations = {
+        "button": "aucun bouton n'est exposé",
+        "camera": "aucune caméra n'est exposée",
+        "input_button": "aucun bouton n'est exposé",
+        "alarm_control_panel": "aucune alarme n'est exposée",
+        "automation": "aucune automatisation n'est exposée",
+        "fan": "aucun ventilateur n'est exposé",
+        "climate": "aucun thermostat n'est exposé",
+        "humidifier": "aucun humidificateur n'est exposé",
+        "input_boolean": "aucun commutateur n'est exposé",
+        "siren": "aucune sirène n'est exposée",
+        "water_heater": "aucun ballon d'eau chaude n'est exposé",
+        "light": "aucune lumière n'est exposée",
+        "switch": "aucun commutateur n'est exposé",
+        "script": "aucun script n'est exposé",
+        "remote": "aucune télécommande n'est exposée",
+        "lock": "aucun verrou n'est exposé",
+        "vacuum": "aucun aspirateur n'est exposé",
+        "scene": "aucune scène n'est exposée",
+        "media_player": "aucun lecteur multimédia n'est exposé",
+        "lawn_mower": "aucune tondeuse à gazon n'est exposée",
+        "valve": "aucune vanne n'est exposée"
+        } %}
+      {% if domain in translations -%}
+        Désolé, {{ translations[domain] }}
+      {%- else -%}
+        Désolé, aucun appareil de ce type n'est exposé
+      {%- endif %}
+    no_domain_in_area_exposed: |
+      {% set translations = {
+        "button": "aucun bouton de cette pièce n'est exposé",
+        "camera": "aucune caméra de cette pièce n'est exposée",
+        "input_button": "aucun bouton de cette pièce n'est exposé",
+        "alarm_control_panel": "aucune alarme de cette pièce n'est exposée",
+        "automation": "aucune automatisation de cette pièce n'est exposée",
+        "fan": "aucun ventilateur de cette pièce n'est exposé",
+        "climate": "aucun thermostat de cette pièce n'est exposé",
+        "humidifier": "aucun humidificateur de cette pièce n'est exposé",
+        "input_boolean": "aucun commutateur de cette pièce n'est exposé",
+        "siren": "aucune sirène de cette pièce n'est exposée",
+        "water_heater": "aucun ballon d'eau chaude de cette pièce n'est exposé",
+        "light": "aucune lumière de cette pièce n'est exposée",
+        "switch": "aucun commutateur de cette pièce n'est exposé",
+        "script": "aucun script de cette pièce n'est exposé",
+        "remote": "aucune télécommande de cette pièce n'est exposée",
+        "lock": "aucun verrou de cette pièce n'est exposé",
+        "vacuum": "aucun aspirateur de cette pièce n'est exposé",
+        "scene": "aucune scène de cette pièce n'est exposée",
+        "media_player": "aucun lecteur multimédia de cette pièce n'est exposé",
+        "lawn_mower": "aucune tondeuse à gazon de cette pièce n'est exposée",
+        "valve": "aucune vanne de cette pièce n'est exposée"
+        } %}
+      {% if domain in translations -%}
+        Désolé, {{ translations[domain] }}
+      {%- else -%}
+        Désolé, aucun appareil de ce type n'est exposé
+      {%- endif %}
+    no_device_class_exposed: |
+      {% set translations = {
+        "awning": "aucun auvent n'est exposé",
+        "blind": "aucun store n'est exposé",
+        "curtain": "aucun rideau n'est exposé",
+        "door": "aucune porte n'est exposée",
+        "garage": "aucune porte de garage n'est exposée",
+        "gate": "aucune porte n'est exposée",
+        "shade": "aucun store n'est exposé",
+        "shutter": "aucun volet n'est exposé",
+        "window": "aucune fenêtre n'est exposeé"
+        } %}
+      {% if device_class in translations -%}
+        Désolé, {{ translations[device_class] }}
+      {%- else -%}
+        Désolé, aucun appareil de ce type n'est exposé
+      {%- endif %}
+    no_device_class_in_area_exposed: |
+      {% set translations = {
+        "awning": "aucun auvent de cette pièce n'est exposé",
+        "blind": "aucun store de cette pièce n'est exposé",
+        "curtain": "aucun rideau de cette pièce n'est exposé",
+        "door": "aucune porte de cette pièce n'est exposée",
+        "garage": "aucune porte de garage de cette pièce n'est exposée",
+        "gate": "aucune porte de cette pièce n'est exposée",
+        "shade": "aucun store de cette pièce n'est exposé",
+        "shutter": "aucun volet de cette pièce n'est exposé",
+        "window": "aucune fenêtre de cette pièce n'est exposeé"
+        } %}
+      {% if device_class in translations -%}
+        Désolé, {{ translations[device_class] }}
+      {%- else -%}
+        Désolé, aucun appareil de ce type n'est exposé
+      {%- endif %}
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Désolé, plusieurs appareils sont nommés {{entity}}"
+    duplicate_entities_in_area: "Désolé, plusieurs appareils de cette pièce sont nommés {{entity}}"
+
 lists:
   color:
     values:
@@ -74,20 +269,20 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: "store[s]"
+      - in: "store[s] [vénitien[s]]"
+        out:
+          - "blind"
+          - "shade"
+      - in: "(banne[s])|(auvent[s])|(store[s] banne[s])"
         out: "awning"
-      - in: "store[s]"
-        out: "blind"
       - in: "rideau[x]"
         out: "curtain"
       - in: "porte[s]"
         out: "door"
-      - in: "portes[s] de garage[s]"
-        out: "garage door"
+      - in: "portes[s] [de|du] garage[s]"
+        out: "garage"
       - in: "portail[s]"
         out: "gate"
-      - in: "store[s]"
-        out: "shade"
       - in: "volet[s]"
         out: "shutter"
       - in: "fenêtre[s]"
@@ -296,36 +491,60 @@ lists:
       - in: "fermé[e][s]|clos[e][s]"
         out: "off"
 
+  shopping_list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+
 expansion_rules:
-  name: "[le |la |les |[l']]{name}"
-  area: "[le |la |[l']]{area}"
-  brightness: "{brightness:brightness}[%| pourcent]"
-  temperature: "{temperature}[°| degrés] [{temperature_unit}]"
+  #Common rules
+  pourcent: "(%| %| pourcent)"
+  degres: "(°| °| degré| degrés)"
+  le: (le |la |les |l')
+  dans: "(dans|du|de|des|à|au|aux|sur)"
+  de: "(du|de|des)"
+  tous: "(tout|tous|toute[s])"
+
+  # Context awareness
+  maison: maison|domicile|appartement|appart|logement
+  ici: "(<dans> (cette|la) pièce)|(ici)"
+  partout: ([de] partout)|(<dans> [<tous>] [<le>]<maison>)|(<dans> toutes les pièces)
+
+  # Verbs
   regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer)"
+  augmente: "(augmente|augmenter|monte|monter)"
+  diminue: "(diminue|diminuer|baisse|baisser)"
   allume: "(allume|allumer|active|activer|démarre|démarrer)"
-  eteins: "((é|e)teint|(é|e)teins|(é|e)teindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper)"
+  eteins: "(éteint|eteint|éteins|eteins|éteindre|eteindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper)"
   ferme: "(ferme|fermer|baisse|baisser)"
   ouvre: "(ouvre|ouvrir|monte|monter)"
-  lumiere: "([la ](lumière|lampe)|[l']ampoule)"
-  lumieres: "[les ](lumières|lampes|ampoules)"
+  eclaire: (éclaire|éclairer|illumine|illuminer)
+
+  # Domains and Things
+  lumiere: "(lumière|lampe|ampoule)"
+  lumieres: "(lumières|lampes|ampoules)"
   ventilateur: "[le ](ventilateur|brasseur d'air)"
   ventilateurs: "[les ](ventilateurs|brasseurs d'air)"
-  volet: "([le ](volet|store))"
-  volets: "[les ](volets|stores)"
-  garage: "([la ]porte (du |de )garage)|([le ]garage)"
-  fenetre: "(fen(e|ê)tre[s]|baie[s]|v(e|é)lux|lucarne[s])"
-  dans: "(dans|du|de)"
-  de: "(du|de)"
+  fenetre: "(fenetre[s]|fenêtre[s]|baie[s]|velux|vélux|lucarne[s])"
+  appareil: "(appareil|machine|équipement)[s]"
+
+  # Questions
   yatil: "(y a[-][ ]t[-][']il|il y a)"
   estil: "(est|sont)[-][ ][(il[s]|elle[s])]"
   atil: "(ont|a)[-][ ][t][ ][-][(il[s]|elle[s])]"
   quel: "quel[le][s]"
   capteur: "(capteur|sonde|détecteur)[s]"
-  appareil: "(appareil|machine|équipement)[s]"
-  tous: "(tous|toute[s])"
-  eclaire: (éclaire|éclairer|illumine|illuminer)
+  quelest: "<quel> (est|sont)"
+  what_is_the_class_of_name: "<quelest> (le |la |l'|les )<class> [(indiqué[e][s]|mesuré[e][s]|renvoyé[e][s]|restant[e][s]|retourné[e][s]|utilisé[e][s]|produit[e][s]|consommé[e][s]|donné[e][s]) ][(par|<dans>|sur)] [<le>]{name} [<dans> [<le>]{area}]"
+
 skip_words:
   - "s'il te plaît"
+  - "stp"
+  - "please"
   - "merci"
   - "est ce que"
   - "est-ce que"
+  - "tu peux"
+  - "peux tu"
+  - "peux-tu"

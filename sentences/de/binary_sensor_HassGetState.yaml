@@ -16,7 +16,7 @@ intents:
           device_class: battery
 
       - sentences:
-          - "(ist|sind) <irgend> <batterie> [<area>] {bs_battery_states:state}"
+          - "(ist|sind) [<irgend>] <batterie> [<area>] {bs_battery_states:state}"
         response: irgendeins
         slots:
           domain: binary_sensor
@@ -37,7 +37,7 @@ intents:
           device_class: battery
 
       - sentences:
-          - "wie viele <batterie> [<area>] (ist|sind) {bs_battery_states:state}"
+          - "<wieviel> <batterie> [<area>] (ist|sind) {bs_battery_states:state}"
         response: wie_viele
         slots:
           domain: binary_sensor
@@ -56,8 +56,8 @@ intents:
           device_class: battery_charging
 
       - sentences:
-          - "(wird|werden) <irgend> <batterie> [<area>] {bs_battery_charging_states:state}"
-          - "{bs_battery_charging_states:state} <irgend> <batterie> [<area>] [auf]"
+          - "(wird|werden) [<irgend>] <batterie> [<area>] {bs_battery_charging_states:state}"
+          - "{bs_battery_charging_states:state} [<irgend>] <batterie> [<area>] [auf]"
         response: irgendeins
         slots:
           domain: binary_sensor
@@ -79,7 +79,7 @@ intents:
           device_class: battery_charging
 
       - sentences:
-          - "wie viele <batterie> [<area>] [werden] {bs_battery_charging_states:state}"
+          - "<wieviel> <batterie> [<area>] [werden] {bs_battery_charging_states:state}"
         response: wie_viele
         slots:
           domain: binary_sensor
@@ -97,7 +97,7 @@ intents:
           device_class: carbon_monoxide
 
       - sentences:
-          - "(ist|sind|wurde[n]) <irgend> <co-sensor> [<area>] {bs_carbon_monoxide_states:state}"
+          - "(ist|sind|wurde[n]) [<irgend>] <co_sensor> [<area>] {bs_carbon_monoxide_states:state}"
         response: irgendeins
         slots:
           domain: binary_sensor
@@ -113,21 +113,21 @@ intents:
           state: "on"
 
       - sentences:
-          - "(sind|wurden) <alle> <co-sensor> [<area>] {bs_carbon_monoxide_states:state}"
+          - "(sind|wurden) <alle> <co_sensor> [<area>] {bs_carbon_monoxide_states:state}"
         response: alle
         slots:
           domain: binary_sensor
           device_class: carbon_monoxide
 
       - sentences:
-          - "<welche> <co-sensor> (ist|sind|wurde[n]) [<area>] {bs_carbon_monoxide_states:state}"
+          - "<welche> <co_sensor> (ist|sind|wurde[n]) [<area>] {bs_carbon_monoxide_states:state}"
         response: welches
         slots:
           domain: binary_sensor
           device_class: carbon_monoxide
 
       - sentences:
-          - "wie viele <co-sensor> (sind|wurden) [<area>] {bs_carbon_monoxide_states:state}"
+          - "<wieviel> <co_sensor> (sind|wurden) [<area>] {bs_carbon_monoxide_states:state}"
         response: wie_viele
         slots:
           domain: binary_sensor
@@ -180,11 +180,220 @@ intents:
           state: "on"
 
       - sentences:
-          - "wie viele <ding> sind [<area>] kalt"
-          - "wie viele <ding> sind kalt <area>"
-          - "wie viele <ding> <area> sind kalt"
+          - "<wieviel> <ding> sind [<area>] kalt"
+          - "<wieviel> <ding> sind kalt <area>"
+          - "<wieviel> <ding> <area> sind kalt"
         response: wie_viele
         slots:
           domain: binary_sensor
           device_class: cold
           state: "on"
+
+      # Connectivity
+      - sentences:
+          - "ist <name> [<area>] {bs_connectivity_states:state}"
+          - "ist <area> <name> {bs_connectivity_states:state}"
+          - "ist <name> {bs_connectivity_states:state} <area>"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "(ist|sind) ([<irgend>] <ding>|<etwas>) [<area>] {bs_connectivity_states:state}"
+          - "(ist|sind) ([<irgend>] <ding>|<etwas>) {bs_connectivity_states:state} <area>"
+          - "(ist|sind) <area> ([<irgend>] <ding>|<etwas>) {bs_connectivity_states:state}"
+        response: irgendeins
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "sind <alle> <ding> [<area>] {bs_connectivity_states:state}"
+          - "sind <alle> <ding> {bs_connectivity_states:state} <area>"
+          - "sind <area> <alle> <ding> {bs_connectivity_states:state}"
+        response: alle
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<welche> <ding> [<area>] (ist|sind) {bs_connectivity_states:state}"
+          - "<welche> <ding> (ist|sind) <area> {bs_connectivity_states:state}"
+          - "<welche> <ding> (ist|sind) {bs_connectivity_states:state} <area>"
+        response: welches
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<wieviel> <ding> [<area>] sind {bs_connectivity_states:state}"
+          - "<wieviel> <ding> sind <area> {bs_connectivity_states:state}"
+          - "<wieviel> <ding> sind {bs_connectivity_states:state} <area>"
+        response: wie_viele
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "(ist|steht) <name> [<area>] {bs_door_states:state}"
+          - "(ist|steht) <name> {bs_door_states:state} <area>"
+          - "(ist|steht) <area> <name> {bs_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "(ist|steht) <name> [<area>] {bs_garage_door_states:state}"
+          - "(ist|steht) <name> {bs_garage_door_states:state} <area>"
+          - "(ist|steht) <area> <name> {bs_garage_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "(ist|wurde) <name> [<area>] {bs_gas_states:state}"
+          - "(ist|wurde) <name> {bs_gas_states:state} <area>"
+          - "(ist|wurde) <area> <name> {bs_gas_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "(ist|sind|wurde[n]) [<irgend>] <gas_sensor> [<area>] {bs_gas_states:state}"
+          - "(ist|sind|wurde[n]) [<irgend>] <gas_sensor> {bs_gas_states:state} <area>"
+          - "(ist|sind|wurde[n]) <area> [<irgend>] <gas_sensor> {bs_gas_states:state}"
+        response: irgendeins
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "(gibt es|ist [da]) [<irgend>] Gas <area>"
+          - "(wird|wurde) [<irgend>] Gas <area> {bs_gas_states:state}"
+        response: irgendeins
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "(sind|wurden) <alle> <gas_sensor> [<area>] {bs_gas_states:state}"
+        response: alle
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "<welche> <gas_sensor> (ist|sind|wurde[n]) [<area>] {bs_gas_states:state}"
+        response: welches
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "<wieviel> <gas_sensor> (sind|wurden) [<area>] {bs_gas_states:state}"
+        response: wie_viele
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Heat
+      - sentences:
+          - "ist <name> [<area>] {bs_heat_states:state}"
+          - "ist <area> <name> {bs_heat_states:state}"
+          - "ist <name> {bs_heat_states:state} <area>"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "(ist|sind) [<irgend>] <ding> [<area>] hei(ß|ss)"
+          - "(ist|sind) [<irgend>] <ding> hei(ß|ss) <area>"
+          - "(ist|sind) <area> [<irgend>] <ding> hei(ß|ss)"
+          - "ist <etwas> [<area>] hei(ß|ss)"
+          - "ist <etwas> hei(ß|ss) <area>"
+          - "ist <area> <etwas> hei(ß|ss)"
+        response: irgendeins
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "sind <alle> <ding> [<area>] hei(ß|ss)"
+          - "sind <alle> <ding> hei(ß|ss) <area>"
+          - "sind <area> <alle> <ding> hei(ß|ss)"
+        response: alle
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "<welche> <ding> (ist|sind) [<area>] hei(ß|ss)"
+          - "<welche> <ding> (ist|sind) hei(ß|ss) <area>"
+          - "<welche> <ding> <area> (ist|sind) hei(ß|ss)"
+        response: welches
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "<wieviel> <ding> sind [<area>] hei(ß|ss)"
+          - "<wieviel> <ding> sind hei(ß|ss) <area>"
+          - "<wieviel> <ding> <area> sind hei(ß|ss)"
+        response: wie_viele
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Problem
+      - sentences:
+          - "Gibt es [<irgend>] Problem[e] mit <name> [<area>]"
+          - "Hat der <name> [<area>] [<irgend>] Problem[e]"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      # Safety
+      - sentences:
+          - "(ist|sind) <name> {bs_safety_states:state} [<area>]"
+          - "(ist|sind) <name> <area> {bs_safety_states:state}"
+          - "(ist|sind) <area> <name> {bs_safety_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety

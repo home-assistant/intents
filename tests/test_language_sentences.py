@@ -1,4 +1,5 @@
 """Test language sentences."""
+
 from __future__ import annotations
 
 import sys
@@ -111,7 +112,7 @@ def do_test_language_sentences_file(
             ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
 
             matched_slots = {slot.name: slot.value for slot in result.entities.values()}
-            actual_slots = intent.get("slots", {})
+            actual_slots = intent.get("slots") or {}
 
             # Check for all match slots
             for match_name, match_value in matched_slots.items():

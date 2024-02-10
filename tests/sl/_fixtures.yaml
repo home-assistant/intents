@@ -1,20 +1,552 @@
 language: sl
 areas:
-  - name: Kuhinja
-    id: kitchen
-  - name: Dnevna soba
-    id: living_room
-  - name: Spalnica
+  - name: "spalnic(i|a|o|e)"
     id: bedroom
-  - name: Garaža
+  - name: "garaž(a|e|i|o|na|ne|ni)"
     id: garage
+  - name: "pisarn(a|i|o)|kabinet(a|u)"
+    id: office
+  - name: "balkon(u)"
+    id: balcony
+  - name: "teras(a|i|o)"
+    id: terrace
+  - name: "omar(a|i|o)"
+    id: closet
+  - name: "vhod(na|nimi|nih)|predverj(e|u)"
+    id: entrance
+  - name: "hodnik(u|ih)"
+    id: hallway
+  - name: "shramb(a|i|e|ah)"
+    id: pantry
+  - name: "garderob(a||i|u)"
+    id: wardrobe
+  - name: "stranišč(e|u|ih)|(v|w)c[ju]"
+    id: wc
+  - name: "stopnišč(e|u|ih)|stipnic(e|ah|i)"
+    id: staircase
+  - name: "kuhinj(o|a|i|ska|sko|ski|ske)"
+    id: kitchen
+  - name: "dnevna soba|dnevni sobi|dnevne sobe|dnevn(a|i)"
+    id: living_room
+  - name: "kopalni(ca|ci|co|cah|cama|ška|ški|ške)"
+    id: bathroom
+  - name: "utility"
+    id: utility
 entities:
-  - name: Luč v spalnici
+  - name: "spaln(a|o|e) luč[ka|ko|i]"
     id: light.bedroom_lamp
     area: bedroom
-  - name: Kuhinjska luč
+    state: "off"
+
+  - name: "luč[i|ke|ki] na terasi"
+    id: light.terrace
+    area: terrace
+    state: "off"
+
+  - name: "rolo na terasi"
+    id: blinds.terrace
+    area: terrace
+    state: "closed"
+
+  - name: "luč[i|ke|ki] na balkonu"
+    id: light.balcony
+    area: balcony
+    state: "off"
+
+  - name: "kuhinjs(ko|ka|ki) stikal(o|la|li)|tipk(a|lo|li)"
     id: switch.kitchen
     area: kitchen
-  - name: Stropni ventilator
+    state: "on"
+
+  - name: "stropn(i|a|e|nemu) ventila(cijo|cije|ciji|torja|toje|torju|tor)"
     id: fan.ceiling
     area: living_room
+    state: "on"
+
+  - name: "lesten(ec|ca|ce)"
+    id: light.chandalier
+    area: living_room
+    state: "on"
+
+  - name: "božičn(a|e|i) luč[ke|i|ki|ko]|"
+    id: light.christmas_ligths
+    area: living_room
+    state: "on"
+
+  - name: "taln(o|a|e|i) svetilk(a|e|i|o)"
+    id: light.floor_lamp
+    area: living_room
+    state: "on"
+
+  - name: "[stropn(i|o|a)] ventila(cijo|cije|tor|torje|torja) [na stropu]"
+    id: fan.ceiling
+    area: living_room
+    state: "on"
+
+  - name: "[kuhinjsk(a|o|e)] [ventila(cijo|tor|ja|torji|torje)] [napa|napo]"
+    id: fan.kitchen_hood
+    area: kitchen
+    state: "on"
+
+  - name: "prezračevanje"
+    id: fan.living_room
+    area: living_room
+    state: "on"
+
+  - name: "lev(a|o|i|e) zaves(a|i|o|e)"
+    id: cover.curtain_left
+    area: living_room
+    state: "open"
+    attributes:
+      device_class: curtain
+  - name: "zaves(a|i|o|e)"
+    id: cover.curtain
+    area: living_room
+    state: "closed"
+    attributes:
+      device_class: curtain
+  - name: "žaluzij(a|e|i|o)" #žaluzija v dnevni sobi
+    id: cover.blinds
+    area: living_room
+    state: "open"
+    attributes:
+      device_class: blinds
+  - name: "dvoriščn(a|i|e) vrat(a|i|e)"
+    id: cover.main_gate
+    area: "entrance"
+    state: "closed"
+    attributes:
+      device_class: gate
+
+  - name: "garaž(a|o)"
+    id: cover.garage_doors
+    area: "garage"
+    state: "closed"
+    attributes:
+      device_class: garage
+
+  - name: "balkonsk(a|e|i) rolet(e|a|i)"
+    id: cover.balcony_blinds
+    area: "living_room"
+    state: "closed"
+    attributes:
+      device_class: blinds
+
+  - name: "kopalnišk(o|a|i) okn(a|o|i)"
+    id: cover.bathroom_window
+    area: "bathroom"
+    state: "open"
+    attributes:
+      device_class: window
+
+  - name: "strešno okno"
+    id: cover.ceiling_window
+    area: "kitchen"
+    state: "open"
+    attributes:
+      device_class: window
+  - name: "kuhinj(sko|ski|ska) okn(o|a|i)"
+    id: cover.kitchen_window
+    area: "kitchen"
+    state: "open"
+    attributes:
+      device_class: window
+
+  #door
+  - name: "vhodna vrata"
+    id: cover.entrance_door
+    area: "entrance"
+    state: "closed"
+    attributes:
+      device_class: door
+
+  - name: "kuhinjska vrata"
+    id: cover.kitchen_door
+    area: "entrance"
+    state: "open"
+    attributes:
+      device_class: door
+
+  - name: "drsna vrata"
+    id: cover.living_room_door
+    area: "living_room"
+    state: "open"
+    attributes:
+      device_class: door
+
+  - name: "razvlaževalec|razvlažilnik (zraka)"
+    id: "humidifier.dehumidifier"
+    area: "living_room"
+    state: "off"
+
+  - name: "radiator|radiatorji"
+    id: "climate.trv_living_room"
+    area: "living_room"
+    state: "heat"
+    attributes:
+      current_temperature: 21
+
+  - name: "Kuhinja temperatura"
+    id: "sensor.kitchen_temperature"
+    state: "21"
+    area: "kitchen"
+    attributes:
+      current_temperature: 21
+
+  - name: "termostat"
+    id: "climate.thermostat"
+    area: "living_room"
+    state: "heat"
+    attributes:
+      current_temperature: 21
+  #locks
+  - name: "vhodna vrata"
+    id: "lock.front_door"
+    area: "entrance"
+    state: "locked"
+
+  - name: "zadnja vrata"
+    id: "lock.back_door"
+    area: "kitchen"
+    state: "unlocked"
+
+  - name: "dvoriščna vrata"
+    id: "lock.yard_door"
+    state: "locked"
+
+  - name: "dovozna vrata"
+    id: "lock.yard_gate"
+    state: "unlocked"
+
+  - name: "Igranje"
+    id: "scene.play_mode"
+
+  - name: "sesaj|posesaj kuhinjo"
+    id: "script.vacuum_clean_kitchen"
+
+  - name: "v Mariboru"
+    id: "weather.maribor"
+    state: "deževno"
+    attributes:
+      temperature: "21"
+      temperature_unit: "stopinj"
+
+  - name: "opravila|opravilom"
+    id: "todo.opravila"
+    state: ""
+
+  - name: "v Benetkah"
+    id: "weather.benetke"
+    state: "jasno"
+    attributes:
+      temperature: "28"
+      temperature_unit: "stopinj"
+
+  - name: "Lev"
+    id: "person.Lev"
+    state: "doma"
+
+  - name: "Arya"
+    id: "person.arya"
+    state: "v službi"
+
+  - name: "Jon"
+    id: "person.jon"
+    state: "ni doma"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "telefon[a]"
+    id: "binary_sensor.phone_battery"
+    state:
+      in: "normalna"
+      out: "off"
+    attributes:
+      device_class: battery
+  - name: "Aryin telefon"
+    id: "binary_sensor.aryin_telefon_baterija"
+    state:
+      in: "normalna"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "telefon"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "polnjenje"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "Aryin telefon"
+    id: "binary_sensor.aryin_telefon_battery_charging"
+    state:
+      in: "polnjenje"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "CO2"
+    id: "binary_sensor.co2"
+    area: "kitchen"
+    state:
+      in: "čisto"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "vodovodne cevi"
+    id: "binary_sensor.computer_cold"
+    state:
+      in: "normalne"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "telefon"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "povezan"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "vrata za hišne ljubljenčke"
+    id: "binary_sensor.pet_door"
+    state:
+      in: "zaprta"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "pomožna garažna vrata"
+    id: "binary_sensor.garage_door"
+    state:
+      in: "zaprta"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "plin"
+    id: "binary_sensor.gas"
+    area: "kitchen"
+    state:
+      in: "čisto"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "računalnik"
+    id: "binary_sensor.computer_heat"
+    state:
+      in: "vroč[i|e|ih]|top[el|li|lo|le|ih]"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "svetloba"
+    id: "binary_sensor.light"
+    state:
+      in: "ni svetlobe"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "vrata za hišne ljubljenčke"
+    id: "binary_sensor.pet_door_lock"
+    state:
+      in: "odklenjena"
+      out: "on"
+    attributes:
+      device_class: lock
+
+  - name: "kuhinjski senzor puščanja vode"
+    id: "binary_sensor.water_sensor"
+    area: kitchen
+    state:
+      in: "suho"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "senzor gibanja"
+    id: "binary_sensor.garage_motion"
+    area: "garage"
+    state:
+      in: "vključen"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "senzor zasedenosti"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "kitchen"
+    state:
+      in: "vključen"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "vrata lope"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "zaprta"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "telefon"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "priključen"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "razdeliln[a|e] omaric[a|e]"
+    id: "binary_sensor.power"
+    state:
+      in: "napajano"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "iPhone"
+    id: "binary_sensor.presence"
+    state:
+      in: "odsoten"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "hranilnik[om] za psa"
+    id: "binary_sensor.problem"
+    area: "kitchen"
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "pralni stroj"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "running"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "cest(a|e)"
+    id: "binary_sensor.road_safety"
+    state:
+      in: "varn(o|a|e|i)"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "kuhinjski dim"
+    id: "binary_sensor.kitchen_smoke"
+    area: "kitchen"
+    state:
+      in: "čisto"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "trobilka"
+    id: "binary_sensor.sound"
+    area: "garage"
+    state:
+      in: "vključena"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "shramba piškotov"
+    id: "binary_sensor.cookie_stash_tamper"
+    state:
+      in: "clear"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "telefon"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "posodobitev je na voljo"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "telefon"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "ne vibrira"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "okno lope"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "odprto"
+      out: "on"
+    attributes:
+      device_class: window
+
+  # https://www.home-assistant.io/integrations/sensor/
+  - name: "zamrzovalnik[a]"
+    id: "sensor.appliance_apparent_power"
+    state: "2"
+    attributes:
+      device_class: apparent_power
+      unit_of_measurement: "VA"
+
+  - name: "kuhinjsk(ega|i) senzor[ja] kakovosti zraka"
+    id: "sensor.kitchen_aqi_sensor"
+    state: "50"
+    attributes:
+      device_class: aqi
+
+  - name: "spalnici"
+    id: "sensor.bedroom_aqi_sensor"
+    state: "30"
+    area: "bedroom"
+    attributes:
+      device_class: aqi
+
+  - name: "[zunanj(i|ega)] [senzor[ja]] [zraka] | (zračni tlak zunaj)"
+    id: "sensor.outside_pressure"
+    state: "1000"
+    area: "balcony"
+    attributes:
+      device_class: atmospheric_pressure
+      unit_of_measurement: "hPa"
+
+  - name: "moj[ega] telefon[a]"
+    id: "sensor.my_phone_battery"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "spalnici"
+    id: "sensor.bedroom_co2"
+    state: "50"
+    attributes:
+      device_class: carbon_dioxide
+      unit_of_measurement: "ppm"
+
+  - name: "kotlovnici"
+    id: "sensor.heat_pump_co"
+    state: "48"
+    attributes:
+      device_class: carbon_monoxide
+      unit_of_measurement: "ppm"
+
+  - name: "hišni omarici"
+    id: "sensor.house_current"
+    state: "19"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"

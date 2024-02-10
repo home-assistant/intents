@@ -1,4 +1,5 @@
 """Test language intents."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -7,7 +8,13 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from hassil import Intents
-from hassil.expression import Expression, ListReference, RuleReference, Sequence
+from hassil.expression import (
+    Expression,
+    ListReference,
+    RuleReference,
+    Sentence,
+    Sequence,
+)
 from hassil.intents import TextSlotList
 
 from . import SENTENCES_DIR
@@ -72,12 +79,14 @@ def do_test_language_sentences(
         ), f"File {file_name} should only contain sentences for intent {file_intent}"
 
         intent_schema = intent_schemas[intent_name]
-        slot_schema = intent_schema["slots"]
+        slot_schema = intent_schema.get("slots", {})
         slot_combinations = intent_schema.get("slot_combinations")
 
         for data in intent.data:
             if not data.sentences:
                 continue
+
+            expansion_rules = language_sentences.expansion_rules | data.expansion_rules
 
             if file_domain != "homeassistant":
                 # Domain specific files (ie light_HassTurnOn.yaml) should only match
@@ -101,6 +110,7 @@ def do_test_language_sentences(
                         slot_schema,
                         visited_rules=set(),
                         found_slots=found_slots,
+                        expansion_rules=expansion_rules,
                     )
 
                 # Add inferred slots
@@ -135,6 +145,7 @@ def _verify(
     slot_schema: dict[str, Any],
     visited_rules: set[str],
     found_slots: set[str],
+    expansion_rules: dict[str, Sentence],
 ) -> None:
     if isinstance(expression, ListReference):
         list_ref: ListReference = expression
@@ -154,18 +165,17 @@ def _verify(
     elif isinstance(expression, RuleReference):
         rule_ref: RuleReference = expression
         assert (
-            rule_ref.rule_name in intents.expansion_rules
-        ), f"Missing expansion rule: <{rule_ref.rule_name}>. Are you missing an 'expansion_rules' entry in _common.yaml?"
+            rule_ref.rule_name in expansion_rules
+        ), f"Missing expansion rule: <{rule_ref.rule_name}>. Are you missing an 'expansion_rules' entry in _common.yaml or in the intent data?"
 
         # Check for recursive rules (not supported)
         assert (
             rule_ref.rule_name not in visited_rules
         ), f"Recursive rule detected: <{rule_ref.rule_name}>"
 
-        visited_rules.add(rule_ref.rule_name)
-
         # Verify rule body
-        for body_expression in _flatten(intents.expansion_rules[rule_ref.rule_name]):
+        for body_expression in _flatten(expansion_rules[rule_ref.rule_name]):
+            visited_rules.add(rule_ref.rule_name)
             _verify(
                 body_expression,
                 intents,
@@ -173,7 +183,9 @@ def _verify(
                 slot_schema,
                 visited_rules,
                 found_slots,
+                expansion_rules,
             )
+            visited_rules.remove(rule_ref.rule_name)
 
 
 def _flatten(expression: Expression) -> Iterable[Expression]:
