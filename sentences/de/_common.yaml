@@ -2,11 +2,29 @@ language: de
 responses:
   errors:
     no_intent: "Entschuldigung, das habe ich nicht verstanden"
-    no_area: "Kein Bereich mit dem Namen {{ area }} vorhanden"
-    no_domain_in_area: "{{ domain }} ist nicht im Bereich {{ area }} vorhanden"
-    no_device_class_in_area: "{{ device_class }} ist nicht im Bereich {{ area }} vorhanden"
-    no_entity: "{{ entity }} existiert nicht"
     handle_error: "Es ist ein unerwarteter Fehler aufgetreten"
+
+    # Errors for when user is not logged in
+    no_area: "Kein Bereich mit dem Namen {{ area }} vorhanden"
+    no_domain: "Kein {{ domain }} vorhanden"
+    no_domain_in_area: "Im Bereich {{ area }} ist kein {{ domain }} vorhanden"
+    no_device_class: "Kein {{ device_class }} vorhanden"
+    no_device_class_in_area: "Im Bereich {{ area }} ist kein {{ device_class }} vorhanden"
+    no_entity: "{{ entity }} existiert nicht"
+    no_entity_in_area: "{{ entity }} ist im Bereich {{ area }} nicht vorhanden"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "{{ entity }} ist nicht freigegeben"
+    no_entity_in_area_exposed: "{{ entity }} ist im Bereich {{ area }} nicht freigegeben"
+    no_domain_exposed: "Es ist kein {{ domain }} freigegeben"
+    no_domain_in_area_exposed: "Im Bereich {{ area }} ist kein {{ domain }} freigegeben"
+    no_device_class_exposed: "Es ist kein {{ device_class }} freigegeben"
+    no_device_class_in_area_exposed: "Im Bereich {{ area }} ist kein {{ device_class }} freigegeben"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Es wurden mehrere {{ entity }} gefunden"
+    duplicate_entities_in_area: "Im Bereich {{ area }} wurden mehrere {{ entity }} gefunden"
+
 lists:
   color:
     values:
@@ -129,6 +147,12 @@ lists:
         out: "on"
       - in: "normal"
         out: "off"
+  bs_connectivity_states:
+    values:
+      - in: "verbunden"
+        out: "on"
+      - in: "getrennt"
+        out: "off"
   bs_door_states:
     values:
       - in: "(auf|offen|geöffnet)"
@@ -153,6 +177,18 @@ lists:
         out: "on"
       - in: "normal"
         out: "off"
+  bs_problem_states:
+    values:
+      - in: "erkannt"
+        out: "on"
+      - in: "(ok[ay]|normal)"
+        out: "off"
+  bs_safety_states:
+    values:
+      - in: "(unsicher|gefährlich)"
+        out: "on"
+      - in: "(sicher|ungefährlich)"
+        out: "off"
 
   shopping_list_item:
     wildcard: true
@@ -162,7 +198,7 @@ expansion_rules:
   artikel_unbestimmt: "[(ein|eine|eines|einer|einem|einen)]"
   artikel: "[<artikel_bestimmt>|<artikel_unbestimmt>]"
   name: "<artikel> {name}"
-  area: "([(in|an|auf)] <artikel>|im|am|<von_dem>) {area}[s]"
+  area: "[in|an|auf|bei] [<artikel>|im|am|<von_dem>] {area}[s]"
   an: "(an|ein|auf)"
   aus: "(aus|ab|zu)"
   auf: "(auf|hoch|rauf|nach oben)"
@@ -187,6 +223,7 @@ expansion_rules:
   licht: "<artikel> (Licht|Lampe|Beleuchtung)"
   lichter: "[die|der|von den] (Lichter|Lichtern|Lampen|Leuchten|Beleuchtungen)"
   alle_lichter: "(<alle> (<lichter>|Beleuchtung)|von allen [Lichtern|Lampen|Leuchten|Beleuchtungen])"
+  leuchten_lassen: "([er]leuchten lassen|[ein]färben)"
   tuer: "<artikel> Tür[e|en]"
   schloss: "<artikel> (Schloss|Schlösser)"
   sperren: "(sperr|schlie(ss|ß))[e|en]"
@@ -201,11 +238,12 @@ expansion_rules:
   irgend: "(irgend(<artikel_unbestimmt>[s]|welche[s]|wo)|(einige|manche)[s]|<artikel_unbestimmt>[s]) <artikel_bestimmt>"
   etwas: "[irgend][et]was"
   welche: "(welche[r|s]|was für [<artikel_unbestimmt>[s]]) <artikel_bestimmt>"
+  wieviel: "(wie[ ]viel[e]|welche Anzahl [an|von])"
   ladestand: "<artikel> [Lade][zu]Stand"
   co: "Kohlen[stoff]monoxid"
   co_sensor: "<co>[-]Sensor[en]"
   gas_sensor: "Gas[-]Sensor[en]"
-  ding: "((Ding|Gerät)[e]|Sensor[en]|Gegenstand|Gegenstände)"
+  ding: "((Ding|Gerät)[e|en]|Sensor[en]|Gegenstand|Gegenstände[n])"
 skip_words:
   - "bitte"
   - "danke"
