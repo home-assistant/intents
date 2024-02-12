@@ -99,7 +99,200 @@ lists:
       - in: "odblokowan(e|y|ych)|otwart(e|y|ych)"
         out: "unlocked"
 
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "niski"
+        out: "on"
+      - in: "normalny"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "ładuje się"
+        out: "on"
+      - in: "nie ładuje się"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "zimno"
+        out: "on"
+      - in: "normalnie"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "połaczony"
+        out: "on"
+      - in: "rozłączony"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "otwarte"
+        out: "on"
+      - in: "zamknięte"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "otwarty"
+        out: "on"
+      - in: "zamknięty"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "gorący"
+        out: "on"
+      - in: "normalny"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "świecący"
+        out: "on"
+      - in: "brak światła"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "odblokowany"
+        out: "on"
+      - in: "zablokowany"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "mokro"
+        out: "on"
+      - in: "sucho"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "otwarty"
+        out: "on"
+      - in: "zamknięty"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "podłączony"
+        out: "on"
+      - in: "odłączony"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(zasilany|podłaczony)"
+        out: "on"
+      - in: "(nie zasilany|wyłączony)"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(w domu|obecny)"
+        out: "on"
+      - in: "(poza domem|nie obecny)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "wykryty"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "uruchomiony"
+        out: "on"
+      - in: "zatrzymany"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "bezpieczny"
+        out: "on"
+      - in: "nie zabezpieczony"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(wykryty|wyzwolony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "dostępna aktualizacja"
+        out: "on"
+      - in: "aktualny"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(wykryto|wibruje)"
+        out: "on"
+      - in: "(brak|nie wibruje)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "otwarte"
+        out: "on"
+      - in: "zamknięte"
+        out: "closed"
+
   shopping_list_item:
+    wildcard: true
+
+  zone:
     wildcard: true
 
 expansion_rules:
@@ -107,6 +300,7 @@ expansion_rules:
   set: "(ustaw|zmień|przestaw|nastaw)"
   area: "[w|na] {area}"
   what_is: "Jak[a|i] jest"
+  where_is: "Gdzie jest"
   all: "(wszystkie|każde)"
   how_many_is: "Ile jest"
   activate: "(aktywuj|uaktywnij|rozpocznij|zacznij|uruchom)"
@@ -125,6 +319,10 @@ expansion_rules:
   brightness: "{brightness}[%| procent]"
   temp: "temperatur(a|ę|y)|stopni|zimno|gorąco"
   temperature: "{temperature}[°| stopni] [{temperature_unit}]"
+  numeric_value_set: "(ustaw|zmień|przestaw|nastaw|zwiększ|zmniejsz)"
+  # Questions
+  what_is_the_class_of_name: "(<what_is> <class> (w|z|(wskazany|wymierzony)) <name> [<area>]|<what_is> <name> <class> [<area>]|<what_is> <area> <name> <class>)"
+
 skip_words:
   - "Proszę"
   - "Poproszę"
