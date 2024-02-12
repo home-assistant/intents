@@ -110,11 +110,22 @@ INTENTS_SCHEMA = vol.Schema(
 
 INTENT_ERRORS = {
     "no_intent",
+    "handle_error",
     "no_area",
     "no_domain",
+    "no_domain_in_area",
     "no_device_class",
+    "no_device_class_in_area",
     "no_entity",
-    "handle_error",
+    "no_entity_in_area",
+    "no_entity_exposed",
+    "no_entity_in_area_exposed",
+    "no_domain_exposed",
+    "no_domain_in_area_exposed",
+    "no_device_class_exposed",
+    "no_device_class_in_area_exposed",
+    "duplicate_entities",
+    "duplicate_entities_in_area",
 }
 
 SENTENCE_MATCHER = vol.All(

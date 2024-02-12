@@ -2,4 +2,6 @@ language: sk
 responses:
   intents:
     HassClimateGetTemperature:
-      default: "{{ state.state }} {{ 'stupeň' if state.state | int | abs == 1 else 'stupne' if state.state | int | abs in [2,3,4] else 'stupňov' }}"
+      default: >
+        {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
+        {{ temperature }} {{ 'stupeň' if temperature | int | abs == 1 else 'stupne' if temperature | int | abs in [2,3,4] else 'stupňov' }}
