@@ -9,20 +9,21 @@ tests:
         domain: cover
         name: "Lewa zasłona"
         state: "closed"
-    response: "Nie, lewa zasłona jest otwarta"
+    response: "Nie, Lewa zasłona jest otwarta"
 
   - sentences:
-      - "czy w salonie lewa zasłona jest zamknięta?"
+      - "czy w salonie lewa zasłona jest otwarta?"
+      - "czy lewa zasłona w salonie jest otwarta?"
     intent:
       name: HassGetState
       slots:
         domain: cover
         name: "Lewa zasłona"
-        state: "closed"
+        state: "open"
         area:
           - Salonie
           - Salonu
-    response: "Nie, lewa zasłona jest otwarta"
+    response: "Tak"
 
   - sentences:
       - "czy jest jakaś otwarta roleta w salonie?"
@@ -61,6 +62,8 @@ tests:
   - sentences:
       - "czy wszystkie rolety w salonie są otwarte?"
       - "czy wszystkie rolety są otwarte w salonie?"
+      - "czy są otwarte wszystkie rolety w salonie?"
+      - "czy są otwarte w salonie wszystkie rolety?"
     intent:
       name: HassGetState
       slots:
@@ -70,6 +73,22 @@ tests:
           - Salonu
         device_class: shutter
         state: "open"
+    response: "Tak"
+
+  - sentences:
+      - "czy wszystkie rolety w salonie są zamknięte?"
+      - "czy wszystkie rolety są zamknięte w salonie?"
+      - "czy są zamknięte wszystkie rolety w salonie?"
+      - "czy są zamknięte w salonie wszystkie rolety?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area:
+          - Salonie
+          - Salonu
+        device_class: shutter
+        state: "closed"
     response: "Tak"
 
   - sentences:
@@ -99,6 +118,7 @@ tests:
 
   - sentences:
       - które rolety są otwarte?
+      - jakie rolety są otwarte?
     intent:
       name: HassGetState
       slots:
@@ -112,6 +132,7 @@ tests:
 
   - sentences:
       - "ile zasłon jest zamkniętych?"
+      - "ile jest zamkniętych zasłon?"
     intent:
       name: HassGetState
       slots:
@@ -121,6 +142,7 @@ tests:
 
   - sentences:
       - "ile rolet jest zamkniętych?"
+      - "ile jest zamkniętych rolet?"
     intent:
       name: HassGetState
       slots:
