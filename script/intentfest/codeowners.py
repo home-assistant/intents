@@ -1,4 +1,5 @@
 """Generate codeowners."""
+
 from __future__ import annotations
 
 import argparse
