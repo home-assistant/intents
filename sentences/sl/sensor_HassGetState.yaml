@@ -28,3 +28,109 @@ intents:
           device_class: aqi
         expansion_rules:
           class: "(AQI|[indeks] kakovost[i] zraka|kvalitet(e|a) zraka)"
+
+      # Atmospheric pressure
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: atmospheric_pressure
+        slots:
+          domain: sensor
+          device_class: atmospheric_pressure
+        expansion_rules:
+          class: "(zračnega tlaka|zračni tlak) [zraka]"
+
+      # Battery
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "koliko [preostale] baterije [še] ima <name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: battery
+        slots:
+          domain: sensor
+          device_class: battery
+        expansion_rules:
+          class: "[preostal(a|e)] [raven] baterij(a|e) | napolnjenost baterije"
+
+      # CO2
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: carbon_dioxide
+        slots:
+          domain: sensor
+          device_class: carbon_dioxide
+        expansion_rules:
+          class: "[koncentracija|raven|stopnja] (oglikov[ega] dioksid[a]|CO2|co2)"
+
+      # CO
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: sensor
+          device_class: carbon_monoxide
+        expansion_rules:
+          class: "[koncentracija|raven|stopnja] (oglikov[ega] monoksid[a]|CO|co)"
+
+      # Current
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: current
+        slots:
+          domain: sensor
+          device_class: current
+        expansion_rules:
+          class: "[količina|vrednost] [električn[i|ega]] tok[a]"
+
+      # Data rate
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: data_rate
+        slots:
+          domain: sensor
+          device_class: data_rate
+        expansion_rules:
+          class: "[([hitrost] prenosa [podatkov]|[hitrost] nalaganj(a|e) [podatkov])]"
+
+      # Data size
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: data_size
+        slots:
+          domain: sensor
+          device_class: data_size
+        expansion_rules:
+          class: "(velikost [datoteke]|(velikost) podatk(ov|a))"
+
+      # Date
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "(kdaj|katerega) ((je|bo|je bil) <name>|se (bo|je) [zgodil[o|a|i]] <name>)"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: date
+        slots:
+          domain: sensor
+          device_class: date
+        expansion_rules:
+          class: "[koledar[ski]] dogodek| termin| datum"
