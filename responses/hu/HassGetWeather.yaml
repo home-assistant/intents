@@ -21,4 +21,10 @@ responses:
           'windy': 'és szeles',
           'windy-variant': 'széllel és felhőkkel'
         } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {% set temperature = state.attributes.get('temperature') | float %}
+        {% if temperature < 0 %}
+          {% set temperature_string = 'mínusz ' ~ (temperature * -1) | string | replace('.', ',') %}
+        {% else %}
+          {% set temperature_string = temperature | string | replace('.', ',') %}
+        {% endif %}
+        {{ temperature_string }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}

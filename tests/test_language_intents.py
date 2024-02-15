@@ -1,4 +1,5 @@
 """Test language intents."""
+
 from __future__ import annotations
 
 import dataclasses
