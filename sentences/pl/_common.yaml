@@ -1,12 +1,30 @@
 language: pl
 responses:
   errors:
+    # General errors
     no_intent: "Wybacz, niestety nie mogę tego zrozumieć"
-    no_area: "Brak obszaru nazwanego {{ area }}"
-    no_domain_in_area: "W obszarze {{ area }} nie ma {{ domain }}"
-    no_device_class_in_area: "Obszar {{ area }} nie zawiera {{ device_class }}"
-    no_entity: "Brak urządzenia lub encji nazwanej {{ entity }}"
     handle_error: "Podczas przetwarzania zapytania wystąpił nieoczekiwany błąd"
+
+    # Errors for when user is not logged in
+    no_area: "Brak obszaru o nazwie {{ area }}"
+    no_domain: "Brak {{ domain }} domeny"
+    no_domain_in_area: "W obszarze {{ area }} nie ma {{ domain }}"
+    no_device_class: "Brak urzadzenia {{ device_class }}"
+    no_device_class_in_area: "Obszar {{ area }} nie zawiera {{ device_class }}"
+    no_entity: "Brak urządzenia lub encji o nazwie {{ entity }}"
+    no_entity_in_area: "Obszar {{ area }} nie zawiera urządzenia lub encji o nazwie {{ entity }}"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "{{ entity }} nie została udostępniona"
+    no_entity_in_area_exposed: "W obszarze {{ area }} {{ entity }} nie została udostępniona"
+    no_domain_exposed: "Domena {{ domena }} nie została udostępniona"
+    no_domain_in_area_exposed: "W obszarze {{ area }} domena {{ domena }} nie została udostępniona"
+    no_device_class_exposed: "Urządzenie {{ device_class }} nie zostało udostępnione"
+    no_device_class_in_area_exposed: "W obszarze {{ area }} urządzenie {{ device_class }} nie zostało udostępnione"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Przykro mi ale istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
+    duplicate_entities_in_area: "Przykro mi ale w obszarze {{ area }} istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
 lists:
   color:
     values:
@@ -42,7 +60,11 @@ lists:
     values:
       - in: "c|celsjusza"
         out: "celsius"
+      - in: "c"
+        out: "celsius"
       - in: "f|fahrenheita"
+        out: "fahrenheit"
+      - in: "f"
         out: "fahrenheit"
   brightness_level:
     values:
@@ -76,22 +98,26 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: (drzwi garażowe|drzwi w garażu)
-        out: garage
-      - in: bram(a|y)
-        out: gate
-      - in: zasłon(a|y)
-        out: curtain
       - in: markiz(a|y)
         out: awning
       - in: rolet(a|y)
         out: blind
-      - in: rolet(a|y)
+      - in: zasłon(a|y)
+        out: curtain
+      - in: door[s]
+        out: door
+      - in: (drzwi garażowe|drzwi w garażu)
+        out: garage
+      - in: bram(a|y)
+        out: gate
+      - in: osłon(a|y)
         out: shade
       - in: żaluzj(a|e)
         out: shutter
-      # - in: okn(o|a)
-      #   out: window
+      - in: okn(o|a)
+        out: window
+      - in: klap[a|y]
+        out: damper
   lock_states:
     values:
       - in: "zablokowan(e|y|ych)|zamknięt(y|e|ych)"
@@ -326,3 +352,5 @@ expansion_rules:
 skip_words:
   - "Proszę"
   - "Poproszę"
+  - "Czy"
+  - "Czy możesz"
