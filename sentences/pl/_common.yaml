@@ -58,13 +58,9 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - in: "c|celsjusza"
-        out: "celsius"
-      - in: "c"
+      - in: "c|celsjusza|celcjusza"
         out: "celsius"
       - in: "f|fahrenheita"
-        out: "fahrenheit"
-      - in: "f"
         out: "fahrenheit"
   brightness_level:
     values:
@@ -321,6 +317,18 @@ lists:
   zone:
     wildcard: true
 
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
   name: "{name}"
   set: "(ustaw|zmień|przestaw|nastaw)"
@@ -346,6 +354,8 @@ expansion_rules:
   temp: "temperatur(a|ę|y)|stopni|zimno|gorąco"
   temperature: "{temperature}[°| stopni] [{temperature_unit}]"
   numeric_value_set: "(ustaw|zmień|przestaw|nastaw|zwiększ|zmniejsz)"
+  position: "{position}[[ ]%| procent]"
+  volume: "{volume:volume_level}[[ ]%| procent]"
   # Questions
   what_is_the_class_of_name: "(<what_is> <class> (w|z|(wskazany|wymierzony)) <name> [<area>]|<what_is> <name> <class> [<area>]|<what_is> <area> <name> <class>)"
 
