@@ -17,8 +17,6 @@ intents:
           - "(<close>|<close_blind>) [<area>] [<all>] rolety"
           - "[<area>] (<close>|<close_blind>) [<all>] rolety"
         slots:
-          device_class: blind
-        requires_context:
           domain: cover
           device_class: blind
         response: cover_blinds
@@ -38,8 +36,6 @@ intents:
           - "(<close>|<close_blind>) [<area>] [<all>] żaluzje"
           - "[<area>] (<close>|<close_blind>) [<all>] żaluzje"
         slots:
-          device_class: shutter
-        requires_context:
           domain: cover
           device_class: shutter
         response: cover_shutters
@@ -59,8 +55,6 @@ intents:
           - "(<close>|<close_blind>) [<area>] [<all>] osłony"
           - "[<area>] (<close>|<close_blind>) [<all>] osłony"
         slots:
-          device_class: shade
-        requires_context:
           domain: cover
           device_class: shade
         response: cover_shades
@@ -80,8 +74,6 @@ intents:
           - "(<close>|<close_blind>) [<area>] [<all>] zasłony"
           - "[<area>] (<close>|<close_blind>) [<all>] zasłony"
         slots:
-          device_class: curtain
-        requires_context:
           domain: cover
           device_class: curtain
         response: cover_curtains
@@ -99,8 +91,6 @@ intents:
       - sentences:
           - "<close> (garaż|drzwi garażowe|drzwi do garażu|bramę garażową|bramę do garażu)"
         slots:
-          device_class: garage
-        requires_context:
           domain: cover
           device_class: garage
         response: cover_garage
@@ -120,8 +110,6 @@ intents:
           - "<close> [<area>] bramę"
           - "[<area>] <close> bramę"
         slots:
-          device_class: gate
-        requires_context:
           domain: cover
           device_class: gate
         response: cover_gate
@@ -131,8 +119,6 @@ intents:
           - "<close> [<area>] [<all>] bramy"
           - "[<area>] <close> [<all>] bramy"
         slots:
-          device_class: gate
-        requires_context:
           domain: cover
           device_class: gate
         response: cover_gates
@@ -152,8 +138,6 @@ intents:
           - "<close> [<area>] [<all>] drzwi"
           - "[<area>] <close> [<all>] drzwi"
         slots:
-          device_class: door
-        requires_context:
           domain: cover
           device_class: door
         response: cover_door
@@ -173,8 +157,6 @@ intents:
           - "(<close>|opuść) [<area>] [<all>] klapy"
           - "[<area>] (<close>|opuść) [<all>] klapy"
         slots:
-          device_class: damper
-        requires_context:
           domain: cover
           device_class: damper
         response: cover_dampers
@@ -194,8 +176,6 @@ intents:
           - "(<close>|<close_blind>) [<area>] [<all>] markizy"
           - "[<area>] (<close>|<close_blind>) [<all>] markizy"
         slots:
-          device_class: awning
-        requires_context:
           domain: cover
           device_class: awning
         response: cover_awnings
@@ -215,8 +195,6 @@ intents:
           - "<close> [<area>] [<all>] okna"
           - "[<area>] <close> [<all>] okna"
         slots:
-          device_class: window
-        requires_context:
           domain: cover
           device_class: window
         response: cover_windows
@@ -242,10 +220,15 @@ intents:
             - window
         response: cover
 
+      # TODO: Assist don't support translations for response for use {{ slots.device_class }} {{ state.domain }}. We have two way to correct support polish responses:
+      # 1. Create seperate sentences for each device_class or domens (this was use too choosed)
+      # 2. Create lot of conditions in response for correctly translate specific domain
+
       # ---------- Device_class ----------
       - sentences:
           - "<close> {cover_classes:device_class} [<area>]"
           - "<close> [<area>] {cover_classes:device_class}"
+          - "[<area>] <close> {cover_classes:device_class}"
         slots:
           domain: cover
         response: cover_device_class

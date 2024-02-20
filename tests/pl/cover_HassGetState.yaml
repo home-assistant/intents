@@ -7,7 +7,9 @@ tests:
       name: HassGetState
       slots:
         domain: cover
-        name: "Lewa zasłona"
+        name:
+          - Lewa zasłona
+          - Lewą zasłonę
         state: "closed"
     response: "Nie, Lewa zasłona jest otwarta"
 
@@ -18,9 +20,12 @@ tests:
       name: HassGetState
       slots:
         domain: cover
-        name: "Lewa zasłona"
+        name:
+          - Lewa zasłona
+          - Lewą zasłonę
         state: "open"
         area:
+          - Salon
           - Salonie
           - Salonu
     response: "Tak"
@@ -35,12 +40,13 @@ tests:
       name: HassGetState
       slots:
         domain: cover
+        device_class: blind
         area:
+          - Salon
           - Salonie
           - Salonu
-        device_class: shutter
         state: "open"
-    response: "Nie"
+    response: "Tak, Roleta i Roleta drzwi"
 
   - sentences:
       - "czy jest jakaś otwarta zasłona w salonie?"
@@ -54,6 +60,7 @@ tests:
         domain: cover
         device_class: curtain
         area:
+          - Salon
           - Salonie
           - Salonu
         state: "open"
@@ -68,10 +75,11 @@ tests:
       name: HassGetState
       slots:
         domain: cover
+        device_class: blind
         area:
+          - Salon
           - Salonie
           - Salonu
-        device_class: shutter
         state: "open"
     response: "Tak"
 
@@ -84,12 +92,13 @@ tests:
       name: HassGetState
       slots:
         domain: cover
+        device_class: blind
         area:
+          - Salon
           - Salonie
           - Salonu
-        device_class: shutter
         state: "closed"
-    response: "Tak"
+    response: "Nie, Roleta i Roleta drzwi nie są"
 
   - sentences:
       - "czy wszystkie zasłony w salonie są otwarte?"
@@ -98,10 +107,11 @@ tests:
       name: HassGetState
       slots:
         domain: cover
+        device_class: curtain
         area:
+          - Salon
           - Salonie
           - Salonu
-        device_class: curtain
         state: "open"
     response: "Nie, Prawa zasłona nie jest"
 
@@ -117,18 +127,37 @@ tests:
     response: "Lewa zasłona"
 
   - sentences:
+      - które zasłony są zasłonięte?
+      - jakie zasłony są zasłonięte?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Prawa zasłona i Zasłona"
+
+  - sentences:
       - które rolety są otwarte?
       - jakie rolety są otwarte?
     intent:
       name: HassGetState
       slots:
         domain: cover
-        device_class:
-          - shutter
-          - shade
-          - blind
+        device_class: blind
         state: "open"
-    response: "Żadne"
+    response: "Roleta i Roleta drzwi"
+
+  - sentences:
+      - które rolety są zamknięte?
+      - jakie rolety są zamknięte?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        state: "closed"
+    response: "Żadna roleta nie jest zamknięta"
 
   - sentences:
       - "ile zasłon jest zamkniętych?"
@@ -137,6 +166,7 @@ tests:
       name: HassGetState
       slots:
         domain: cover
+        device_class: curtain
         state: "closed"
     response: "2"
 
@@ -147,5 +177,6 @@ tests:
       name: HassGetState
       slots:
         domain: cover
+        device_class: blind
         state: "closed"
-    response: "2"
+    response: "0"

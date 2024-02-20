@@ -20,14 +20,7 @@ responses:
         {% if query.matched: %}
         Tak
         {% else: %}
-        Nie, {{ slots.name | capitalize }} jest {{ state.state_with_unit }}
-        {% endif %}
-
-      one_yesno_cover: |
-        {% if query.matched: %}
-        Tak
-        {% else: %}
-        Nie, {{ slots.name | capitalize }} jest {{ 'otwarta' if state.state_with_unit == 'open' else 'zamknięta' }}
+        Nie, {{ slots.name | capitalize }} jest {% if state.state_with_unit == 'open': %}otwarta{% elif state.state_with_unit == 'close': %}zamknięta{% else %}{{ state.state_with_unit }}{% endif %}
         {% endif %}
 
       any: |
@@ -79,22 +72,29 @@ responses:
 
       which: |
         {% if not query.matched %}
-          Żaden
-        {% else: %}
-          {% set match = query.matched | map(attribute="name") | sort | list %}
-          {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} oraz {{ (match | length - 3) }} inne
+          {% if state.attributes.device_class in "shade" %}
+          Żadna osłona nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+          {% elif state.attributes.device_class == "blind" %}
+          Żadna roleta nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+          {% elif state.attributes.device_class == "curtain" %}
+          Żadna zasłona nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+          {% elif state.attributes.device_class == "shutter" %}
+          Żadna żaluzja nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+          {% elif state.attributes.device_class == "garage" %}
+          Żaden garaż nie jest {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
+          {% elif state.attributes.device_class == "gate" %}
+          Żadna brama nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+          {% elif state.attributes.device_class == "door" %}
+          Żadne drzwi nie są {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
+          {% elif state.attributes.device_class == "damper" %}
+          Żadna klapa nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+          {% elif state.attributes.device_class == "awning" %}
+          Żadna markiza nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+          {% elif state.attributes.device_class == "window" %}
+          Żadne okno nie jest {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
           {% else %}
-            {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
-              {{ name }}
-            {%- endfor -%}
+          Żadna
           {% endif %}
-        {% endif %}
-
-      which_cover: |
-        {% if not query.matched %}
-          Żadne
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
