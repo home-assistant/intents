@@ -2,4 +2,38 @@ language: pt-br
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      - sentences:
+          - <muda> o brilho (do|da) <nome> (a | para) <brilho>
+          - <muda> <nome> (a | para) <brilho>
+          - <muda> o brilho (do | da) <nome> <na_zona> (a|para) <brilho>
+          - <muda> <nome> <na_zona> (a | para) <brilho>
+        response: brightness
+
+      - sentences:
+          - <muda> o brilho <na_zona> (a | para) <brilho>
+          - <muda> <zona> (a | para) <brilho>
+          - <muda> [todas] as luzes (a | para) <brilho>
+          - <muda> [todas] as luzes <na_zona> (a | para) <brilho>
+          - <muda> [o brilho (de todas as | das) | as] luzes
+            (a | para) <brilho>
+          - <muda> [o brilho (de todas as | das) | as] luzes
+            <na_zona> (a | para) <brilho>
+        slots:
+          name: all
+        response: brightness
+
+      - sentences:
+          - <muda> [a cor [(do | da)]] <nome> (a | para | em) {color}
+          - <muda> <nome> {color}
+          - <muda> [a cor [(do | da)]] <nome> <na_zona> (a | para | em) {color}
+          - (põe | ponha | muda | altera) <nome> <na_zona> {color}
+        response: color
+
+      - sentences:
+          - <muda> a cor <na_zona> (a | para | em) {color}
+          - <muda> <zona> [a | para | em] {color}
+          - <muda> [a cor (de todas as | das) | as] luzes (a | para | em) {color}
+          - <muda> [a cor (de todas as | das) | as] luzes <na_zona> (a | para | em) {color}
+        slots:
+          name: all
+        response: color
