@@ -1,119 +1,351 @@
 language: vi
 responses:
   errors:
-    no_intent: "Xin lỗi, tôi chưa hiểu hành động này"
-    no_area: "Không có khu vực nào tên là {{ area }}"
-    no_domain_in_area: "{{ area }} không chứa {{ domain }}"
-    no_device_class_in_area: "{{ area }} không có {{ device_class }} nào"
-    no_entity: "Không có thiết bị hoặc thực thể nào tên là {{ entity }}"
-    handle_error: "Đã xảy ra lỗi khi phân tích câu"
+    # General errors
+    no_intent: "Xin lỗi, tôi không hiểu bạn nói gì"
+    handle_error: "Đã xảy ra lỗi bất ngờ"
+
+    # Errors for when user is not logged in
+    no_area: "Xin lỗi, tôi không biết khu vực nào có tên là {{ area }}"
+    no_domain: "Xin lỗi, tôi không biết {{ domain }} nào cả"
+    no_domain_in_area: "Xin lỗi, tôi không biết có {{ domain }} nào ở khu vực {{ area }}"
+    no_device_class: "Xin lỗi, tôi không biết loại thiết bị nào là {{ device_class }}"
+    no_device_class_in_area: "Xin lỗi, tôi không biết có loại thiết bị nào là {{ device_class }} ở khu vực {{ area }}"
+    no_entity: "Xin lỗi, tôi không biết thiết bị nào có tên là {{ entity }}"
+    no_entity_in_area: "Xin lỗi, tôi không biết có thiết bị nào tên là {{ entity }} ở khu vực {{ area }}"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Xin lỗi, không tìm thấy thiết bị {{ entity }}"
+    no_entity_in_area_exposed: "Xin lỗi, không tìm thấy thiết bị {{ entity }} ở khu vực {{ area }}"
+    no_domain_exposed: "Xin lỗi, không có {{ domain }} nào"
+    no_domain_in_area_exposed: "Xin lỗi, không có {{ domain }} nào ở khu vực {{ area }}"
+    no_device_class_exposed: "Xin lỗi, không có loại thiết bị nào là {{ device_class }}"
+    no_device_class_in_area_exposed: "Xin lỗi, không có loại thiết bị nào là {{ device_class }} ở khu vực {{ area }}"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Xin lỗi, có nhiều thiết bị cùng tên là {{ entity }}"
+    duplicate_entities_in_area: "Xin lỗi, có nhiều thiết bị cùng tên là {{ entity }} ở khu vực {{ area }}"
 lists:
   color:
     values:
-      - in: "mầu trắng"
-        out: "white"
-      - in: "mầu đen"
-        out: "black"
-      - in: "mầu đỏ"
-        out: "red"
-      - in: "mầu cam"
-        out: "orange"
-      - in: "mầu vàng"
-        out: "yellow"
-      - in: "mầu xanh lá"
-        out: "green"
-      - in: "mầu xanh lục"
-        out: "blue"
-      - in: "mầu tím"
-        out: "purple"
-      - in: "mầu nâu"
-        out: "brown"
-      - in: "mầu hồng"
-        out: "pink"
+      - "trắng"
+      - "đen"
+      - "đỏ"
+      - "cam"
+      - "vàng"
+      - "xanh lá"
+      - "xanh dương"
+      - "tím"
+      - "nâu"
+      - "hồng"
+      - "màu ngọc lam"
   brightness:
     range:
-      type: "percentage"
+      type: "tỷ lệ phần trăm"
       from: 0
       to: 100
   temperature:
     range:
-      type: "temperature"
+      type: "nhiệt độ"
       from: 0
       to: 100
   temperature_unit:
     values:
-      - in: "độ"
-        out: "celsius"
-      - in: "độ F"
-        out: "fahrenheit"
+      - "độ C"
+      - in: "c"
+        out: "độ C"
+      - "độ F"
+      - in: "f"
+        out: "độ F"
   brightness_level:
     values:
-      - in: (max | maximum | highest)
+      - in: (max|maximum|highest)
         out: 100
-      - in: ( minimum | lowest)
+      - in: (minimum|lowest)
         out: 1
   on_off_states:
     values:
       - in: "bật"
-        out: "on"
+        out: "bật"
       - in: "tắt"
-        out: "off"
+        out: "tắt"
   on_off_domains:
     values:
-      - in: đèn
-        out: light
-      - in: quạt
-        out: fan
-      - in: công tắc
-        out: switch
+      - in: light[s]
+        out: đèn
+      - in: fan[s]
+        out: quạt
+      - in: switch[es]
+        out: công tắc
   cover_states:
     values:
-      - in: "mở"
-        out: "open"
-      - in: "đóng"
-        out: "closed"
-      - in: "đang mở"
-        out: "opening"
-      - in: "đang đóng"
-        out: "closing"
+      - in: "open"
+        out: "mở"
+      - in: "closed"
+        out: "đóng"
+      - in: "opening"
+        out: "đang mở"
+      - in: "closing"
+        out: "đang đóng"
   cover_classes:
     values:
-      - in: mái che
-        out: awning
-      - in: rèm cầu vồng
-        out: blind
-      - in: rèm
-        out: curtain
-      - in: cửa
-        out: door
-      - in: cửa cuốn
-        out: garage
-      - in: cổng
-        out: gate
-      - in: rèm cuộn
-        out: shade
-      - in: rèm sáo
-        out: shutter
-      - in: cửa sổ
-        out: window
+      - in: awning[s]
+        out: mái che
+      - in: blind[s]
+        out: rèm cửa
+      - in: curtain[s]
+        out: màn cửa
+      - in: door[s]
+        out: cửa
+      - in: garage door[s]
+        out: cửa garage
+      - in: gate[s]
+        out: cổng
+      - in: shade[s]
+        out: bóng râm
+      - in: shutter[s]
+        out: cửa đóng mở
+      - in: window[s]
+        out: cửa sổ
+  lock_states:
+    values:
+      - in: "locked"
+        out: "khóa"
+      - in: "unlocked"
+        out: "mở khóa"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "low"
+        out: "yếu"
+      - in: "normal"
+        out: "bình thường"
+
+  bs_battery_charging_states:
+    values:
+      - in: "charging"
+        out: "đang sạc"
+      - in: "not charging"
+        out: "không sạc"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(detected|triggered|on)"
+        out: "phát hiện"
+      - in: "clear"
+        out: "an toàn"
+
+  bs_cold_states:
+    values:
+      - in: "cold"
+        out: "lạnh"
+      - in: "normal"
+        out: "bình thường"
+
+  bs_connectivity_states:
+    values:
+      - in: "connected"
+        out: "kết nối"
+      - in: "disconnected"
+        out: "mất kết nối"
+
+  bs_door_states:
+    values:
+      - in: "open"
+        out: "mở"
+      - in: "closed"
+        out: "đóng"
+
+  bs_garage_door_states:
+    values:
+      - in: "open"
+        out: "mở"
+      - in: "closed"
+        out: "đóng"
+
+  bs_gas_states:
+    values:
+      - in: "(detected|triggered|on)"
+        out: "phát hiện"
+      - in: "clear"
+        out: "an toàn"
+
+  bs_heat_states:
+    values:
+      - in: "hot"
+        out: "nóng"
+      - in: "normal"
+        out: "bình thường"
+
+  bs_light_states:
+    values:
+      - in: "detected"
+        out: "phát hiện"
+      - in: "no light"
+        out: "không"
+
+  bs_lock_states:
+    values:
+      - in: "unlocked"
+        out: "mở"
+      - in: "locked"
+        out: "khóa"
+
+  bs_moisture_states:
+    values:
+      - in: "wet"
+        out: "ẩm"
+      - in: "dry"
+        out: "khô"
+
+  bs_motion_states:
+    values:
+      - in: "(detected|triggered|on)"
+        out: "phát hiện"
+      - in: "clear"
+        out: "an toàn"
+
+  bs_occupancy_states:
+    values:
+      - in: "(detected|triggered|on)"
+        out: "phát hiện"
+      - in: "clear"
+        out: "an toàn"
+
+  bs_opening_states:
+    values:
+      - in: "open"
+        out: "mở"
+      - in: "closed"
+        out: "đóng"
+
+  bs_plug_states:
+    values:
+      - in: "plugged in"
+        out: "bật"
+      - in: "unplugged"
+        out: "tắt"
+
+  bs_power_states:
+    values:
+      - in: "(powered on|power detected)"
+        out: "bật"
+      - in: "(not powered|powered off)"
+        out: "tắt"
+
+  bs_presence_states:
+    values:
+      - in: "(home|present)"
+        out: "có mặt"
+      - in: "(away|not present)"
+        out: "vắng mặt"
+
+  bs_problem_states:
+    values:
+      - in: "detected"
+        out: "có vấn đề"
+      - in: "ok"
+        out: "ổn"
+
+  bs_running_states:
+    values:
+      - in: "running"
+        out: "đang chạy"
+      - in: "not running"
+        out: "không hoạt động"
+
+  bs_safety_states:
+    values:
+      - in: "unsafe"
+        out: "không an toàn"
+      - in: "safe"
+        out: "an toàn"
+
+  bs_smoke_states:
+    values:
+      - in: "(detected|triggered|on)"
+        out: "phát hiện khói"
+      - in: "clear"
+        out: "không khói"
+
+  bs_sound_states:
+    values:
+      - in: "(detected|triggered|on)"
+        out: "phát hiện âm thanh"
+      - in: "clear"
+        out: "không âm thanh"
+
+  bs_tamper_states:
+    values:
+      - in: "(detected|tampered with)"
+        out: "có sự can thiệp"
+      - in: "clear"
+        out: "không can thiệp"
+
+  bs_update_states:
+    values:
+      - in: "update available"
+        out: "có cập nhật"
+      - in: "(up to date|up-to-date)"
+        out: "mới nhất"
+
+  bs_vibration_states:
+    values:
+      - in: "(detected|vibrating)"
+        out: "phát hiện rung động"
+      - in: "(clear|not vibrating)"
+        out: "không rung động"
+
+  bs_window_states:
+    values:
+      - in: "open"
+        out: "mở"
+      - in: "clear"
+        out: "đóng"
+
+  shopping_list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "tỷ lệ phần trăm"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "tỷ lệ phần trăm"
+      from: 0
+      to: 100
+
 expansion_rules:
   name: "[cái] {name}"
-  area: "[ trong | ở trong | ngoài | ở ngoài | bên trong] {area}"
-  what_is: "(cái gì | gì | những gì)"
-  brightness: "{brightness}[%| phần trăm]"
-  turn: "(bật | chuyển | thay đổi)"
-  turn_off: "(tắt)"
-  temp: "(nhiệt độ | độ)"
-  temperature: "{temperature}[°| độ] [{temperature_unit}]"
-  open: "(mở | kéo)"
-  close: "(đóng | kéo | thu gọn)"
-  window: "(rèm cuốn | rèm sáo | rèm | rèm cầu vồng | rèm vải)"
-  percentage: "phần trăm"
+  area: "[khu vực] {area}"
+  what_is: "(là gì|là cái gì|là cái nào)"
+  where_is: "(ở đâu|ở chỗ nào)"
+  brightness: "{brightness}[[ ]%| phần trăm]"
+  light: "[cái] (đèn|ánh sáng)"
+  turn: "(bật|tắt|đổi)"
+  temp: "(nhiệt độ)"
+  temperature: "{temperature}[ ][°|độ][ ][{temperature_unit}]"
+  open: "(mở | nâng)"
+  close: "(đóng|gạt xuống)"
+  set: "(đặt|thiết lập|thay đổi|chuyển đổi)"
+  numeric_value_set: "(đặt|thay đổi|chuyển đổi|tăng|giảm)"
+  in: "(trong|ở|tại|của)"
+  position: "{position}[[ ]%| phần trăm]"
+  volume: "{volume:volume_level}[[ ]%| phần trăm]"
+
+  # Questions
+  what_is_the_class_of_name: "(<what_is> <class> của <name> [trong <area>]|<what_is> <name> có <class> gì [trong <area>]|<what_is> <class> của <name> ở <area>)"
 skip_words:
+  - "làm ơn"
+  - "bạn có thể"
   - "xin"
   - "hãy"
-  - "làm ơn"
   - "vui lòng"
-  - "hộ tôi"
-  - "nhé"
   - "xin hãy"
