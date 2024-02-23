@@ -1,0 +1,45 @@
+language: pl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<where_is> <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "Czy <name> jest w {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "Czy jest ktoś w {zone:state}"
+          - "Czy ktoś jest w {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "Czy wszyscy są w {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "Kto jest w {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "Ile (osób|ludzi) jest w {zone:state}"
+        response: how_many
+        slots:
+          domain: person
