@@ -1,0 +1,24 @@
+language: de
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'und klar',
+          'clear-night': 'und klare Nacht',
+          'cloudy': 'und bewölkt',
+          'exceptional': 'und außergewöhnlich',
+          'fog': 'mit Nebel',
+          'hail': 'mit Hagel',
+          'lightning': 'mit Gewitter',
+          'lightning-rainy': 'mit Gewitter und Regen',
+          'partlycloudy': 'und teilweise bewölkt',
+          'pouring': 'und strömender Regen',
+          'rainy': 'und regnerisch',
+          'snowy': 'und verschneit',
+          'snowy-rainy': 'mit Schnee und Regen',
+          'sunny': 'und sonnig',
+          'windy': 'und windig',
+          'windy-variant': 'mit Wind und Wolken'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}

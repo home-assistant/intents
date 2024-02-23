@@ -10,8 +10,10 @@ areas:
     id: garaje
   - name: Jardín
     id: jardin
+  - name: Entrada
+    id: entrada
 entities:
-  - name: Lámpara
+  - name: Lámpara del dormitorio
     id: light.lampara_dormitorio
     area: dormitorio
     state:
@@ -26,6 +28,7 @@ entities:
       out: "closed"
     attributes:
       device_class: curtain
+      position: "0"
 
   - name: Interruptor dormitorio
     id: switch.interruptor_dormitorio
@@ -70,7 +73,7 @@ entities:
       in: "encendida"
       out: "on"
 
-  - name: Luz cocina
+  - name: Luz techo cocina
     id: light.luz_cocina
     area: cocina
     state:
@@ -91,9 +94,19 @@ entities:
       in: "encendida"
       out: "on"
 
+  - name: "Rincón de juegos"
+    id: "light.rincon_juegos"
+    area: "salon"
+    state:
+      in: "Encendido"
+      out: "on"
+
   - name: Termómetro cocina
     id: sensor.termometro_cocina
     area: cocina
+    state: "23"
+    attributes:
+      unit_of_measurement: "°C"
 
   - name: "Temperatura exterior"
     id: "sensor.temperatura_exterior"
@@ -102,9 +115,643 @@ entities:
     attributes:
       unit_of_measurement: "°C"
 
+  - name: Termostato salon
+    id: climate.termostato_salon
+    area: salon
+    state: "off"
+    attributes:
+      unit_of_measurement: "°C"
+      current_temperature: 22
+
+  - name: Termostato cocina
+    id: climate.termostato_cocina
+    area: cocina
+    state: "heat"
+    attributes:
+      unit_of_measurement: "°C"
+      current_temperature: 24.28
+
   - name: Luz de garaje
     id: light.luz_garaje
     area: garaje
     state:
       in: "encendida"
       out: "on"
+
+  - name: "Puerta principal"
+    id: "lock.puerta_principal"
+    area: "entrada"
+    state: "locked"
+
+  - name: "Puerta trasera"
+    id: "lock.puerta_trasera"
+    state: "unlocked"
+
+  - name: "Puerta lateral"
+    id: "lock.puerta_lateral"
+    state: "locked"
+
+  - name: "Modo fiesta"
+    id: "scene.modo_fiesta"
+
+  - name: "Modo sigiloso"
+    id: "script.modo_sigiloso"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "Teléfono"
+    id: "binary_sensor.bateria_teléfono"
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "cargando"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "Sensor CO2"
+    id: "binary_sensor.co2"
+    area: "cocina"
+    state:
+      in: "despejado"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "Tuberías de agua"
+    id: "binary_sensor.computer_cold"
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "conectado"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "Puerta de mascotas"
+    id: "binary_sensor.pet_door"
+    state:
+      in: "cerrado"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "Puerta de cochera secundaria"
+    id: "binary_sensor.garage_door"
+    state:
+      in: "cerrada"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "Sensor de Gas"
+    id: "binary_sensor.gas"
+    area: "cocina"
+    state:
+      in: "despejado"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "Ordenador"
+    id: "binary_sensor.computer_heat"
+    state:
+      in: "caliente"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "Luz"
+    id: "binary_sensor.light"
+    state:
+      in: "sin luz"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "Puerta de mascotas"
+    id: "binary_sensor.pet_door_lock"
+    state:
+      in: "abierto"
+      out: "on"
+    attributes:
+      device_class: lock
+
+  - name: "Sensor de fuga de agua"
+    id: "binary_sensor.water_sensor"
+    area: cocina
+    state:
+      in: "seco"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "Movimiento en el garaje"
+    id: "binary_sensor.garage_motion"
+    area: "garaje"
+    state:
+      in: "activo"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "Sensor de presencia"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "cocina"
+    state:
+      in: "detectado"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "Puerta del cobertizo"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "cerrada"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "enchufado"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "Alimentación general"
+    id: "binary_sensor.power"
+    state:
+      in: "conectado"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "Teléfono"
+    id: "binary_sensor.presence"
+    state:
+      in: "fuera"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "Alimentador de mascotas"
+    id: "binary_sensor.problem"
+    area: "cocina"
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "Lavadora"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "en marcha"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "Carretera"
+    id: "binary_sensor.road_safety"
+    state:
+      in: "segura"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "Humo en la cocina"
+    id: "binary_sensor.kitchen_smoke"
+    area: "cocina"
+    state:
+      in: "despejado"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "Sirena"
+    id: "binary_sensor.sound"
+    area: "garaje"
+    state:
+      in: "detectada"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "Tarro de galletas"
+    id: "binary_sensor.cookie_stash_tamper"
+    state:
+      in: "despejado"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "actualización disponible"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "Teléfono"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "no vibrando"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "Ventana del cobertizo"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "abierta"
+      out: "on"
+    attributes:
+      device_class: window
+
+  # https://www.home-assistant.io/integrations/sensor/
+  - name: "medidor de potencia"
+    id: "sensor.appliance_apparent_power"
+    state: "2"
+    attributes:
+      device_class: apparent_power
+      unit_of_measurement: "VA"
+
+  - name: "Sensor de calidad de aire"
+    id: "sensor.calidad_aire_cocina"
+    area: cocina
+    state: "50"
+    attributes:
+      device_class: aqi
+
+  - name: "Sensor de aire exterior"
+    id: "sensor.presion_exterior"
+    state: "1000"
+    attributes:
+      device_class: atmospheric_pressure
+      unit_of_measurement: "hPa"
+
+  - name: "Mi Teléfono"
+    id: "sensor.mi_telefono_bateria"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "Sensor de CO2"
+    id: "sensor.bomba_calor_co2"
+    state: "50"
+    attributes:
+      device_class: carbon_dioxide
+      unit_of_measurement: "ppm"
+
+  - name: "Sensor CO bomba calor"
+    id: "sensor.bomba_calor_co"
+    state: "48"
+    attributes:
+      device_class: carbon_monoxide
+      unit_of_measurement: "ppm"
+
+  - name: "Consumo corriente casa"
+    id: "sensor.corriente_casa"
+    state: "19"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"
+
+  - name: "Macrotorrent"
+    id: "sensor.macrotorrent_velocidad_descarga"
+    state: "22.9"
+    attributes:
+      device_class: data_rate
+      unit_of_measurement: "MB/s"
+
+  - name: "Fichero de registro"
+    id: "sensor.tamano_fichero_registro"
+    state: "106"
+    attributes:
+      device_class: data_size
+      unit_of_measurement: "kB"
+
+  - name: "Próximo cumpleaños"
+    id: "sensor.proximo_cumpleanos"
+    state: "2024-04-01"
+    attributes:
+      device_class: date
+
+  - name: "Cuentakilómetros del coche"
+    id: "sensor.auto_kilometraje"
+    state: "65536"
+    attributes:
+      device_class: distance
+      unit_of_measurement: "km"
+
+  - name: "Programa actual del lavavajillas"
+    id: "sensor.lavavajillas_duracion_programa"
+    state: "64"
+    attributes:
+      device_class: duration
+      unit_of_measurement: "min"
+
+  - name: "Producción solar"
+    id: "sensor.produccion_solar"
+    state: "3.2"
+    attributes:
+      device_class: energy
+      unit_of_measurement: "kWh"
+
+  - name: "Batería solar"
+    id: "sensor.bateria_solar"
+    state: "6"
+    attributes:
+      device_class: energy_storage
+      unit_of_measurement: "kWh"
+
+  - name: "Frecuencia CA red"
+    id: "sensor.frecuencia_red"
+    state: "51"
+    attributes:
+      device_class: frequency
+      unit_of_measurement: "Hz"
+
+  - name: "Consumo mensual gas"
+    id: "sensor.consumo_mensual_gas"
+    state: "12"
+    attributes:
+      device_class: gas
+      unit_of_measurement: "m³"
+
+  - name: "Humedad salón"
+    id: "sensor.humedad_salon"
+    state: "48"
+    attributes:
+      device_class: humidity
+      unit_of_measurement: "%"
+
+  - name: "Iluminancia salón"
+    id: "sensor.iluminancia_salon"
+    state: "438"
+    attributes:
+      device_class: illuminance
+      unit_of_measurement: "lux"
+
+  - name: "Irradiancia radiador salón"
+    id: "sensor.irradiancia_radiador_salon"
+    state: "155"
+    attributes:
+      device_class: irradiance
+      unit_of_measurement: "W/m²"
+
+  - name: "Humedad en mezclador"
+    id: "sensor.humedad_en_mezclador_cervecera"
+    state: "83"
+    attributes:
+      device_class: moisture
+      unit_of_measurement: "%"
+
+  - name: "Precio por kW"
+    id: "sensor.price_per_kW"
+    state: "1"
+    attributes:
+      device_class: monetary
+      unit_of_measurement: "EUR"
+
+  - name: "Sensor NO2 bomba de calor"
+    id: "sensor.bomba_calor_no2"
+    state: "50"
+    attributes:
+      device_class: nitrogen_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "NO bomba de calor"
+    id: "sensor.bomba_calor_no"
+    state: "50"
+    attributes:
+      device_class: nitrogen_monoxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "N2O bomba de calor"
+    id: "sensor.bomba_calor_n2o"
+    state: "50"
+    attributes:
+      device_class: nitrous_oxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Ozono salón"
+    id: "sensor.ozono_salon"
+    state: "50"
+    attributes:
+      device_class: ozone
+      unit_of_measurement: "µg/m³"
+
+  - name: "PM1 salón"
+    id: "sensor.pm1_salon"
+    state: "50"
+    attributes:
+      device_class: pm1
+      unit_of_measurement: "µg/m³"
+
+  - name: "PM25 salón"
+    id: "sensor.pm25_salon"
+    state: "50"
+    attributes:
+      device_class: pm25
+      unit_of_measurement: "µg/m³"
+
+  - name: "PM10 salón"
+    id: "sensor.pm10_salon"
+    state: "30"
+    attributes:
+      device_class: pm10
+      unit_of_measurement: "µg/m³"
+
+  - name: "Punto de carga"
+    id: "sensor.factor_potencia_punto_carga"
+    state: "2"
+    attributes:
+      device_class: power_factor
+
+  - name: "Potencia del aire acondicionado"
+    id: "sensor.potencia_aa"
+    state: "380"
+    attributes:
+      device_class: power
+      unit_of_measurement: "W"
+
+  - name: "Pluviómetro exterior"
+    id: "sensor.sensor_lluvia_total"
+    state: "29"
+    attributes:
+      device_class: precipitation
+      unit_of_measurement: "mm"
+
+  - name: "Sensor de lluvia"
+    id: "sensor.sensor_lluvia_intensidad"
+    state: "144"
+    attributes:
+      device_class: precipitation_intensity
+      unit_of_measurement: "mm/h"
+
+  - name: "Presión rueda"
+    id: "sensor.presion_rueda"
+    state: "2.1"
+    attributes:
+      device_class: pressure
+      unit_of_measurement: "bar"
+
+  - name: "Bomba de agua"
+    id: "sensor.bomba_agua_potencia_reactiva"
+    state: "22"
+    attributes:
+      device_class: reactive_power
+      unit_of_measurement: "VAR"
+
+  - name: "Señal de mi teléfono"
+    id: "sensor.mi_telefono_gsm_signal"
+    state: "-43"
+    attributes:
+      device_class: signal_strength
+      unit_of_measurement: "dBm"
+
+  - name: "Barra de sonido"
+    id: "sensor.barra_sonido_presion_sonora"
+    state: "62"
+    attributes:
+      device_class: sound_pressure
+      unit_of_measurement: "dB"
+
+  - name: "Velocidad de crucero"
+    id: "sensor.velocidad_crucero"
+    state: "67"
+    attributes:
+      device_class: speed
+      unit_of_measurement: "km/h"
+
+  - name: "SO2 bomba de calor"
+    id: "sensor.bomba_calor_so2"
+    state: "50"
+    attributes:
+      device_class: sulphur_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Horno"
+    id: "sensor.temperatura_horno"
+    state: "380"
+    attributes:
+      device_class: temperature
+      unit_of_measurement: "°C"
+
+  - name: "Sensor de la letrina"
+    id: "sensor.sensor_cov"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds
+      unit_of_measurement: "µg/m³"
+
+  - name: "Sensor de la letrina 2"
+    id: "sensor.sensor_cov_partes"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds_parts
+      unit_of_measurement: "ppm"
+
+  - name: "Voltaje entrada"
+    id: "sensor.voltaje_entrada"
+    state: "12"
+    attributes:
+      device_class: voltage
+      unit_of_measurement: "V"
+
+  - name: "Uso de bomba de agua hoy"
+    id: "sensor.bomba_agua_uso_hoy"
+    state: "1356"
+    attributes:
+      device_class: volume
+      unit_of_measurement: "L"
+
+  - name: "Acumulador de la bomba de agua"
+    id: "sensor.bomba_agua_acumulador"
+    state: "28"
+    attributes:
+      device_class: volume_storage
+      unit_of_measurement: "L"
+
+  - name: "Bombeo total de la bomba de agua"
+    id: "sensor.bomba_agua_uso"
+    state: "5987"
+    attributes:
+      device_class: water
+      unit_of_measurement: "L"
+
+  - name: "Peso cama"
+    id: "sensor.sensor_peso_cama"
+    state: "87"
+    attributes:
+      device_class: weight
+      unit_of_measurement: "kg"
+
+  - name: "Mistral"
+    id: "sensor.velocidad_mistral"
+    state: "33"
+    attributes:
+      device_class: wind_speed
+      unit_of_measurement: "km/h"
+
+  - name: "Madrid"
+    id: "weather.madrid"
+    state: "rainy"
+    attributes:
+      temperature: "18"
+      temperature_unit: "°C"
+
+  - name: "Ávila"
+    id: "weather.avila"
+    state: "clear"
+    attributes:
+      temperature: "-4"
+      temperature_unit: "°C"
+
+  - name: "José"
+    id: "person.jose"
+    state: "casa"
+
+  - name: "Ada"
+    id: "person.ada"
+    state: "Trabajo"
+
+  - name: "Juan"
+    id: "person.john"
+    state: "not_home"
+
+  - name: "Mercadona"
+    id: "todo.mercadona"
+    state: ""
+
+  - name: "Llave de paso"
+    id: "valve.llave_de_paso"
+    state: "open"
+    attributes:
+      position: "100"
+
+  - name: "TV"
+    id: "media_player.tv"
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
+  - name: "Aspiradora"
+    id: "vacuum.aspiradora"
+    state: "idle"

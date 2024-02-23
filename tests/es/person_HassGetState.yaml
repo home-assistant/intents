@@ -1,0 +1,66 @@
+language: es
+tests:
+  - sentences:
+      - "dónde está José"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: José
+    response: "José está en casa"
+
+  - sentences:
+      - "dónde está Ada"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Ada
+    response: "Ada está en Trabajo"
+
+  - sentences:
+      - "está Ada en casa"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Ada
+        state: casa
+    response: "No, está en Trabajo"
+
+  - sentences:
+      - "hay alguien en casa"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: casa
+    response: "Sí, José"
+
+  - sentences:
+      - "está todo el mundo en casa"
+      - "están todos en casa"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: casa
+    response: "No, ni Ada ni Juan están en casa"
+
+  - sentences:
+      - "quién está en casa"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: casa
+    response: "José"
+
+  - sentences:
+      - "cuánta gente hay en casa"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: casa
+    response: "1"

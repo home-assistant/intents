@@ -1,42 +1,69 @@
 language: fr
 tests:
   - sentences:
-      - ferme la porte du garage
+      - ferme le rideau gauche
+      - fermer rideau gauche
+      - baisse le rideau gauche
+      - baisser rideau gauche
     intent:
       name: HassTurnOff
       slots:
-        device_class: garage
+        name: rideau gauche
+      context:
         domain: cover
-    response: garage fermé
+        device_class: curtain
+    response: Fermé
+
   - sentences:
-      - ferme le garage
-    intent:
-      name: HassTurnOff
-      slots:
-        device_class: garage
-        domain: cover
-    response: garage fermé
-  - sentences:
-      - ferme tous les store dans le cuisine
+      - ferme les rideaux de la cuisine
+      - fermer rideaux cuisine
+      - fermer tous les rideaux dans le cuisine
     intent:
       name: HassTurnOff
       slots:
         area: cuisine
-        device_class:
-          - blind
-          - curtain
-          - shutter
+        device_class: curtain
         domain: cover
-    response: Ouvrants de cuisine fermés
+    response: Fermé
+
   - sentences:
-      - ferme tous les stores
+      - ferme le rideau gauche du salon
+      - baisser le rideau gauche dans le salon
+      - ferme rideau gauche salon
     intent:
       name: HassTurnOff
       slots:
-        name: all
-        device_class:
-          - blind
-          - curtain
-          - shutter
+        name: rideau gauche
+        area: salon
+      context:
         domain: cover
-    response: "['blind', 'curtain', 'shutter'] fermé"
+        device_class: curtain
+    response: Fermé
+
+  - sentences:
+      - ferme tous les volets
+      - fermer les volets de la maison
+      - baisser volets partout
+    intent:
+      name: HassTurnOff
+      slots:
+        device_class: shutter
+        domain: cover
+      context:
+        domain: cover
+    response: Fermé
+
+  - sentences:
+      - ferme les volets
+      - fermer volets
+      - fermer tous les volets dans la pièce
+      - ferme les volets de cette pièce
+    intent:
+      name: HassTurnOff
+      context:
+        area: salon
+      slots:
+        area: salon
+        device_class: shutter
+        domain: cover
+    response: Fermé

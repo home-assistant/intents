@@ -3,10 +3,11 @@ responses:
   errors:
     no_intent: "عفوا, لم افهم هذا"
     no_area: "لا توجد منطقة بالأسم {{ area }}"
-    no_domain: "النطاق {{ domain }} غير موجود بالمنطقة {{ area }}"
-    no_device_class: "المنطقة {{ area }} لا تحتوى على فئة الأجهزة {{ device_class }}"
+    no_domain_in_area: "النطاق {{ domain }} غير موجود بالمنطقة {{ area }}"
+    no_device_class_in_area: "المنطقة {{ area }} لا تحتوى على فئة الأجهزة {{ device_class }}"
     no_entity: "لا يوجد جهاز او خاصية بالأسم {{ entity }}"
     handle_error: "حدث خطأ اثناء معالجة النص"
+
 lists:
   color:
     values:
@@ -28,11 +29,7 @@ lists:
         out: "purple"
       - in: "بني"
         out: "brown"
-  brightness:
-    range:
-      type: "percentage"
-      from: 0
-      to: 100
+
   temperature:
     range:
       type: "temperature"
@@ -41,36 +38,44 @@ lists:
   temperature_unit:
     values:
       - "مئوية"
-      - in: "c"
+      - in: "°c"
         out: "celsius"
       - "فهرنهايت"
       - in: "f"
         out: "fahrenheit"
+
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   brightness_level:
     values:
-      - in: ( عالي| قصوى )
+      - in: (عالي|قصوى)
         out: 100
       - in: منخفض
         out: 1
+
   on_off_states:
     values:
-      - in: "شغل"
+      - in: "(شغال|[ت|ي]عمل|[ي|ت]وجد|[ي|ت]شحن)"
         out: "on"
-      - in: "أطفي"
+      - in: "(مطفي|لا [ت|ي]عمل|لا [ي|ت]وجد|لا [ي|ت]شحن)"
         out: "off"
   on_off_domains:
     values:
-      - in: ( نور | لمبة | لمبات | أنوار )
+      - in: <light>
         out: light
-      - in: ( مروحة | مراوح )
+      - in: <fan>
         out: fan
-      - in: ( مفتاح | مفاتيح )
+      - in: <switch>
         out: switch
+
   cover_states:
     values:
       - in: "مفتوح"
         out: "open"
-      - in: "( مغلق | مقفول )"
+      - in: "(مغلق|مقفول)"
         out: "closed"
       - in: "يفتح"
         out: "opening"
@@ -78,29 +83,62 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: ( مظلات | مظلة )
+      - in: <awning>
         out: awning
-      - in: ( ستائر | ستارة )
+      - in: <curtain>
         out: curtain
-      - in: ( باب | ابواب )
+      - in: <door>
         out: door
-      - in: ( باب | ابواب ) الجراج
+      - in: <garage>
         out: garage
-      - in: ( بوابة | بوابات )
+      - in: <gate>
         out: gate
-      - in: ( شباك | شبابيك | نافذة | نوافذ )
+      - in: <window>
         out: window
+
 expansion_rules:
-  name: "[ال] {name}"
-  area: "[ال] {area}"
-  what_is: "( ما هو | ما هى | ماذا يكون | ماذا تكون )"
+  name: "[ال]{name}"
+  area: "[ال]{area}"
+  colors: "[ال]{color}"
+
+  script: "[ال](برنامج|برامج|مسار|مسارات|سيناريو)"
+  scene: "[ال](مشهد|مشاهد|اعدادات)"
+
+  what_is: "(ما هو|ما هي|ماذا يكون|ماذا تكون|كم هي|كم هو)"
+  is_it: "(هل [هي]|هل [هو]|هل هناك)"
+  how_many: "كم عدد"
+
   brightness: "{brightness}[% | بالمائة]"
-  turn: "( افتح | شغل | غير | اضبط )"
-  temp: "درجة [ال]حرارة"
   temperature: "{temperature}[°| درجة] [{temperature_unit}]"
-  open: "(افتح | ارفع)"
-  close: "(اغلق | اقفل | اخفض)"
-  window: "(نافذة | نوافذ | مظلة | مظلات | ستارة | ستائر)"
+
+  light: "[ال](اضواء|اضاءة|ضوء|مصابيح|مصباح|انوار|نور|لمبة|لمبات|انوار)"
+  switch: "[ال](مفتاح|مفاتيح)"
+  fan: "[ال](مروحة|مراوح|مروحات)"
+
+  turn: "(غير|اضبط|ضبط)"
+  turn_on: "(افتح|شغل|اشعل|اشغل|ابدأ|شعل|فعل|تفعيل|تشغيل|فعل)"
+  turn_off: "(اغلق|اطفئ|طفي)"
+
+  temp: "(باردة|دافئة|لطيفة|حارة|درجة [ال]حرارة)"
+  intensity: "[ال](درجة [ال]سطوع|[شدة] [ال]سطوع|قوة|شدة)"
+  color: "[ال](لون|الوان)"
+
+  in: "(في|داخل)"
+  all: "(كل|جميع)"
+  to: "(على|الى)"
+  any: "(أي)"
+
+  open: "(افتح|ارفع)"
+  close: "(اغلق|اقفل|اخفض|انزل|نزل)"
+
+  awning: "[ال](مظلة|مظلات)"
+  curtain: "[ال](ستائر|ستارة|ستارات)"
+  door: "[ال](باب|ابواب)"
+  garage: "[ال](باب|ابواب|بوابة|بوابات) [ال]جراج"
+  gate: "[ال](بوابة|بوابات)"
+  window: "[ال](نافذة|نوافذ|نافذات|شباك|شبابيك)"
+  lock: "[ال](اقفال|قفل)"
+
 skip_words:
-  - "(من فضلك | لو سمحت)"
-  - "(هل يمكنك | تقدر)"
+  - "(من فضلك|لو سمحت)"
+  - "(هل يمكنك|تقدر)"

@@ -5,12 +5,24 @@ intents:
       - sentences:
           - "(<vypnout>|<zhasnout>) [světlo] {name}"
           - "{name} (<vypnout>|<zhasnout>) [světlo]"
+        requires_context:
+          domain: light
         slots:
           domain: light
         response: light
       - sentences:
-          - "(<vypnout>|<zhasnout>) [všechna] světla <area>"
+          - "<vypnout> [všechna] světla <area>"
+          - "<vypnout> světlo <area>"
+          - "<zhasnout> [všechna] [světla] <area>"
+          - "<zhasnout> světlo <area>"
           - "<area> (<vypnout>|<zhasnout>) [všechna] světla"
+          - "<area> (<vypnout>|<zhasnout>) světlo"
         slots:
           domain: light
         response: lights_area
+      - sentences:
+          - "(<vypnout>|<zhasnout>) [úplně] všechna světla"
+        response: "light_all"
+        slots:
+          domain: "light"
+          name: "all"

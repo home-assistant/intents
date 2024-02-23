@@ -1,4 +1,72 @@
 language: sr
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      one: |
+        {{ slots.name | capitalize }} је {{ state.state_with_unit }}
+
+      one_yesno: |
+        {% if query.matched %}
+          Да
+        {% else %}
+          Не, {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Да, {{ match[:3] | join(", ") }} и {{ (match | length - 3) }} више
+          {%- else -%}
+            Да,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Не
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Да
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Не, {{ no_match[:3] | join(", ") }} и {{ (no_match | length - 3) }} не више
+          {%- else -%}
+            Не,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}
+              {{ name }}
+            {%- endfor %} није
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          0
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} више
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}
+      sensor_value: |
+        Вредност сензора је {{ state.state_with_unit }}
+
+      sensor_value_temperature: |
+        Температура је {{ state.state_with_unit }}

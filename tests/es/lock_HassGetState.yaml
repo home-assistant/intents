@@ -1,0 +1,52 @@
+language: es
+tests:
+  - sentences:
+      - "¿está la puerta principal cerrada con llave?"
+      - "¿está cerrada con pestillo la puerta principal?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Puerta principal"
+        state: "locked"
+    response: "Sí"
+
+  - sentences:
+      - "¿hay alguna cerradura abierta?"
+      - "¿hay abierta alguna cerradura?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "unlocked"
+    response: "Sí, el dispositivo Puerta trasera"
+
+  - sentences:
+      - "¿Están todas las puertas cerradas con pestillo?"
+      - "¿Están todos los cerrojos cerrados?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "No, el dispositivo Puerta trasera no tiene ese estado"
+
+  - sentences:
+      - "¿Qué puertas están cerradas con cerrojo?"
+      - "¿Qué pestillos están cerrados?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Puerta lateral y Puerta principal"
+
+  - sentences:
+      - "¿cuántos pestillos hay echados?"
+      - "¿cuántos puertas hay cerradas con llave?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "2"

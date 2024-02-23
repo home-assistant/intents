@@ -3,8 +3,8 @@ responses:
   errors:
     no_intent: "Mi dispiace, non ho capito"
     no_area: "Non esiste nessuna area chiamata {{ area }}"
-    no_domain: "{{ area }} non contiene {{ domain }}"
-    no_device_class: "{{ area }} non contiene {{ device_class }}"
+    no_domain_in_area: "{{ area }} non contiene {{ domain }}"
+    no_device_class_in_area: "{{ area }} non contiene {{ device_class }}"
     no_entity: "Non esiste nessun dispositivo o entità chiamato {{ entity }}"
     handle_error: "Si è verificato un errore inatteso durante l'elaborazione"
 lists:
@@ -28,6 +28,10 @@ lists:
         out: "purple"
       - in: "marrone"
         out: "brown"
+      - in: "rosa"
+        out: "pink"
+      - in: "turchese"
+        out: "turquoise"
   brightness:
     range:
       type: "percentage"
@@ -46,11 +50,17 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: "massimo"
+        out: 100
+      - in: "minimo"
+        out: 1
   on_off_states:
     values:
-      - in: "(acces(o|i|a|e)|attiv(o|i|a|e))"
+      - in: "(acces|attiv)(o|i|a|e)"
         out: "on"
-      - in: "(spent(o|i|a|e)|disattiv(o|i|a|e))"
+      - in: "(spent|disattiv[at])(o|i|a|e)"
         out: "off"
   on_off_domains:
     values:
@@ -62,9 +72,9 @@ lists:
         out: switch
   cover_states:
     values:
-      - in: "apert(a|o|e)"
+      - in: "apert(a|o|e|i)"
         out: "open"
-      - in: "chius(a|o|e)"
+      - in: "chius(a|o|e|i)"
         out: "closed"
       - in: "in apertura"
         out: "opening"
@@ -80,7 +90,7 @@ lists:
         out: curtain
       - in: "port(a|e)"
         out: door
-      - in: "(serrand(a|e) | port(a|e) [basculant(e|i)|de(l|i) garage] | saracinesc(a|he))"
+      - in: <garage>
         out: garage
       - in: "cancell(o|i)"
         out: gate
@@ -92,13 +102,203 @@ lists:
         out: window
   lock_states:
     values:
-      - in: "chiusa"
+      - in: "chius(o|a|e|i)"
         out: "locked"
-      - in: "aperta"
-        out: "aperto"
+      - in: "apert(o|a|e|i)"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "bass(o|a|e|i)"
+        out: "on"
+      - in: "normale"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "[in] carica"
+        out: "on"
+      - in: "non in carica"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
+        out: "on"
+      - in: "non rilevat(o|a|e|i)"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "freddo"
+        out: "on"
+      - in: "normale"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "connesso"
+        out: "on"
+      - in: "(disconnesso|non connesso)"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "apert(o|a|e|i)"
+        out: "on"
+      - in: "chius(o|a|e|i)"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "apert(o|a|e|i)"
+        out: "on"
+      - in: "chus(o|a|e|i)"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
+        out: "on"
+      - in: "non rilevat(o|a|e|i)"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "cald(o|a|e|i)"
+        out: "on"
+      - in: "normale"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "(rilevat|attiv[at]|acces)(o|a|e|i)"
+        out: "on"
+      - in: "no luce"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "apert(o|a|e|i)"
+        out: "on"
+      - in: "chius(o|a|e|i)"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "umid(o|a|e|i)"
+        out: "on"
+      - in: "secc(o|a|e|hi)"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
+        out: "on"
+      - in: "liber(o|a|e|i)"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
+        out: "on"
+      - in: "(liber|sgombr)(o|a|e|i)"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "apert(o|a|e|i)"
+        out: "on"
+      - in: "chius(o|a|e|i)"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "(attaccat|collegat)(o|a|e|i)"
+        out: "on"
+      - in: "(staccat|non attaccat|scollegat|non collegat)(o|a|e|i)"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(attaccat|collegat)(o|a|e|i)"
+        out: "on"
+      - in: "(staccat|non attaccat|scollegat|non collegat)(o|a|e|i)"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "([a ] casa|present(e|i))"
+        out: "on"
+      - in: "(fuori casa|non present(e|i))"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "rilevat(o|i)"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(funziona[nte]|gira|va)"
+        out: "on"
+      - in: "non (funziona[nte]|gira|va)"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "non sicuro"
+        out: "on"
+      - in: "sicuro"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
+        out: "on"
+      - in: "liber(o|a|e|i)"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(rilevat|attiv[at])(o|a|e|i)"
+        out: "on"
+      - in: "liber(o|a|e|i)"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(rilevat|attiv[at]|manomess|alterat)(o|a|e|i)"
+        out: "on"
+      - in: "liber(o|a|e|i)"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "aggiornamento disponibile"
+        out: "on"
+      - in: "aggornato"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(rilevat(a|a|e|i)|[in ]vibrazione)"
+        out: "on"
+      - in: "(liber(a|a|e|i)|non [in ]vibrazione)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "apert(o|a|e|i)"
+        out: "on"
+      - in: "chius(o|a|e|i)"
+        out: "closed"
 
 expansion_rules:
-  the: "(l(o|a|e) | i[l] | gli | l')"
+  the: "(l(o|a|e) | i[l] | gli | l'| in | nel[(lo|la|le|l'|gli)] | a[(l|llo|lla|lle|gli)])"
   in: "(in | ne[i|gli|l[lo|la|le]])"
   of: "(de[i|gli|l[lo|la|le]]|di)"
   to: "a[l[lo|la|le] | gli]"
@@ -107,17 +307,22 @@ expansion_rules:
   what_is: "(qual[e] è | quant(o |')è | com(e |')è | che)"
   brightness: "{brightness}[%| percento]"
   turn_on: "(accend(i|ere) | attiv(a|are))"
-  turn_off: "(spegn(i|ere) | disattiv(a|are))"
+  turn_off: "((spegn|speng)(i|ere) | disattiv(a|are))"
   open: "(apr(i|ire) | alz(a|are))"
   close: "(chiud(i|ere) | abbass(a|are))"
   set: "(impost(a|are) | cambi(a|are) | mett(i|ere) | modific(a|are))"
   temp: "[la] (temperatura)"
   temperature: "{temperature}[°| gradi] [{temperature_unit}]"
-  cover: (tend(a|e)[ da sole]|serrand(a|e)|tapparell(a|e)|persian(a|e)|port(a|e)|saracinesc(a|he)|venezian(a|e)|cancell(o|i)|finestr(a|i))
+  cover: "(tend(a|e)[ da sole]|serrand(a|e)|tapparell(a|e)|persian(a|e)|port(a|e)|saracinesc(a|he)|venezian(a|e)|cancell(o|i)|finestr(a|e))"
+  climate: "(clima|climatizzator(e|i)|condizionator(e|i)|aria condizionata)"
   fan: "(ventol(a|e) | ventilator(e|i) | ventilazione | climatizzator(e|i) | condizionator(e|i))"
+  all: "tutt(o|e|i|a)"
+  garage: "(serrand(a|e) | port(a|e) [basculant(e|i)|de(l|i) garage] | saracinesc(a|he))"
 skip_words:
   - "per favore"
   - "potresti"
+  - "mi potresti"
+  - "mi puoi"
   - "puoi"
   - "puoi dirmi"
   - "dimmi"

@@ -3,33 +3,30 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - redőny <name> fel
-          - <name> redőny fel
-        response: cover_device_class
-        slots: &id001
-          device_class: shutter
+          - "<open> (<name>;<area>)"
+          - "<open> <name>"
+        requires_context:
           domain: cover
+        response: cover
+
       - sentences:
-          - redőny <area> fel
-          - <area> redőny fel
-          - redőny <area> <name> fel
-          - <area> <name> redőny fel
-        response: cover_area
-        slots: *id001
-      - sentences:
-          - árnyékoló[k] <name> nyit
-          - <name> árnyékoló[k] nyit
-        response: cover_device_class
-        slots: &id002
-          device_class:
-            - blind
-            - curtain
-            - shade
+          - "<open> a garázs[t|ajtót|kaput]"
+        slots:
           domain: cover
+          device_class: garage
+        response: cover_device_class
+
       - sentences:
-          - árnyékoló[k] <area> nyit
-          - <area> árnyékoló[k] nyit
-          - árnyékoló[k] <area> <name> nyit
-          - <area> <name> árnyékoló[k] nyit
-        response: cover_area
-        slots: *id002
+          - "<open> ({cover_classes:device_class};<area>)"
+        slots:
+          domain: cover
+        response: cover_device_class
+
+      - sentences:
+          - "<open> ({cover_classes:device_class};[<in_here>])"
+        slots:
+          domain: cover
+        response: cover_device_class
+        requires_context:
+          area:
+            slot: true

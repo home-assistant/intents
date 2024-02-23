@@ -1,4 +1,24 @@
 language: sr
 intents:
   HassTurnOff:
-    data: []
+    data:
+      - sentences:
+          - "<деактивирај> <име> [[у|на] <област>]"
+        requires_context:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<деактивирај> гаражна врата"
+          - "<деактивирај> врата гараже"
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover_device_class
+
+      - sentences:
+          - "<деактивирај> {cover_classes:device_class} [[у|на] <област>]"
+          - "<деактивирај> <област> {cover_classes:device_class}"
+        slots:
+          domain: cover
+        response: cover_device_class

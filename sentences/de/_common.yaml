@@ -2,11 +2,29 @@ language: de
 responses:
   errors:
     no_intent: "Entschuldigung, das habe ich nicht verstanden"
-    no_area: "Kein Bereich mit dem Namen {{ area }} vorhanden"
-    no_domain: "{{ domain }} ist nicht im Bereich {{ area }} vorhanden"
-    no_device_class: "{{ device_class }} ist nicht im Bereich {{ area }} vorhanden"
-    no_entity: "{{ entity }} existiert nicht"
     handle_error: "Es ist ein unerwarteter Fehler aufgetreten"
+
+    # Errors for when user is not logged in
+    no_area: "Kein Bereich mit dem Namen {{ area }} vorhanden"
+    no_domain: "Kein {{ domain }} vorhanden"
+    no_domain_in_area: "Im Bereich {{ area }} ist kein {{ domain }} vorhanden"
+    no_device_class: "Kein {{ device_class }} vorhanden"
+    no_device_class_in_area: "Im Bereich {{ area }} ist kein {{ device_class }} vorhanden"
+    no_entity: "{{ entity }} existiert nicht"
+    no_entity_in_area: "{{ entity }} ist im Bereich {{ area }} nicht vorhanden"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "{{ entity }} ist nicht freigegeben"
+    no_entity_in_area_exposed: "{{ entity }} ist im Bereich {{ area }} nicht freigegeben"
+    no_domain_exposed: "Es ist kein {{ domain }} freigegeben"
+    no_domain_in_area_exposed: "Im Bereich {{ area }} ist kein {{ domain }} freigegeben"
+    no_device_class_exposed: "Es ist kein {{ device_class }} freigegeben"
+    no_device_class_in_area_exposed: "Im Bereich {{ area }} ist kein {{ device_class }} freigegeben"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Es wurden mehrere {{ entity }} gefunden"
+    duplicate_entities_in_area: "Im Bereich {{ area }} wurden mehrere {{ entity }} gefunden"
+
 lists:
   color:
     values:
@@ -33,6 +51,12 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: (max[imale|imum]|höchste|volle)
+        out: 100
+      - in: (min[imale|imum]|niedrigste)
+        out: 1
   cover_states:
     values:
       - in: "(offen|auf|oben)"
@@ -59,7 +83,7 @@ lists:
         out: gate
       - in: Schirm[e]
         out: shade
-      - in: "(Rollladen|Rollläden)"
+      - in: "(Rollladen|Rollläden|Rollo[s])"
         out: shutter
       - in: Fenster
         out: window
@@ -69,9 +93,9 @@ lists:
         out: "lock"
   lock_states:
     values:
-      - in: "(([ab|zu]ge|ver)schlossen|verriegelt)"
+      - in: "(([ab|zu]ge|ver)(schlossen|sperrt)|verriegelt)"
         out: "locked"
-      - in: "(nicht ([ab|zu]ge|ver)schlossen|entriegelt)"
+      - in: "(nicht (([ab|zu]ge|ver)(schlossen|sperrt)|verriegelt)|ent(riegelt|sperrt)|aufge(sperrt|schlossen))"
         out: "unlocked"
   on_off_domains:
     values:
@@ -98,38 +122,137 @@ lists:
         out: "Celsius"
       - in: "(f|fahrenheit)"
         out: "Fahrenheit"
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "(niedrig|gering|schwach)"
+        out: "on"
+      - in: "normal"
+        out: "off"
+  bs_battery_charging_states:
+    values:
+      - in: "(lädt|[auf][ge]laden) [auf]"
+        out: "on"
+      - in: "(lädt nicht|nicht [auf][ge]laden|laden nicht) [auf]"
+        out: "off"
+  bs_carbon_monoxide_states:
+    values:
+      - in: "<erkannt>"
+        out: "on"
+      - in: "(klar|rein|sauber|sicher)"
+        out: "off"
+  bs_cold_states:
+    values:
+      - in: "kalt"
+        out: "on"
+      - in: "normal"
+        out: "off"
+  bs_connectivity_states:
+    values:
+      - in: "verbunden"
+        out: "on"
+      - in: "getrennt"
+        out: "off"
+  bs_door_states:
+    values:
+      - in: "(auf|offen|geöffnet)"
+        out: "on"
+      - in: "(zu|geschlossen)"
+        out: "off"
+  bs_garage_door_states:
+    values:
+      - in: "(auf|offen|geöffnet|oben)"
+        out: "on"
+      - in: "(zu|geschlossen|unten)"
+        out: "off"
+  bs_gas_states:
+    values:
+      - in: "<erkannt>"
+        out: "on"
+      - in: "(klar|rein|sauber|sicher)"
+        out: "off"
+  bs_heat_states:
+    values:
+      - in: "hei(ß|ss)"
+        out: "on"
+      - in: "normal"
+        out: "off"
+  bs_light_states:
+    values:
+      - in: "<erkannt>"
+        out: "on"
+      - in: "kein Licht"
+        out: "off"
+  bs_problem_states:
+    values:
+      - in: "<erkannt>"
+        out: "on"
+      - in: "(ok[ay]|normal)"
+        out: "off"
+  bs_safety_states:
+    values:
+      - in: "(unsicher|gefährlich)"
+        out: "on"
+      - in: "(sicher|ungefährlich)"
+        out: "off"
+
+  shopping_list_item:
+    wildcard: true
+
 expansion_rules:
-  name: "[(der|den|dem|die|das)] {name}"
-  area: "((in|an|auf) (der|dem)|im|am) {area}"
+  artikel_bestimmt: "[(der|die|das|dem|der|den|des)]"
+  artikel_unbestimmt: "[(ein|eine|eines|einer|einem|einen)]"
+  artikel: "[<artikel_bestimmt>|<artikel_unbestimmt>]"
+  name: "<artikel> {name}"
+  area: "[in|an|auf|bei] [<artikel>|im|am|<von_dem>] {area}[s]"
   an: "(an|ein|auf)"
   aus: "(aus|ab|zu)"
   auf: "(auf|hoch|rauf|nach oben)"
   zu: "(zu|[he]runter|nach unten)"
   von_dem: "(von [dem]|vom)"
-  schliessen: "(schlie(ß|ss)|schlie(ß|ss)e|zumachen|zu machen)"
-  machen: "(mach[e|en])"
+  alle: "((alle|sämtliche)[r]|jede[r|s|n]|<artikel> (ganze|komplette|sämtliche)[n]) [der]"
+  schliessen: "(schlie(ß|ss)[e|en]|zumachen|zu machen)"
+  öffnen: "(öffne[n]|aufmachen|auf machen)"
+  schalten: "(schalt[e|en|et])"
+  machen: "(mach[e|en|t])"
   setzen: "(setz[e|en]|stell[e|en]|einstellen|änder[e|n]|veränder[e|n])"
-  abdeckung: "(das Rollo|die Rollos|die (Abdeckung|Abdeckungen)|(den|die) Rolll(a|ä)den|die (Jalousie|Jalousien)|(den|die) Raffstore[s]|die (Markise|Markisen))"
-  alle_abdeckungen: "alle (Rollos|Abdeckungen|Rolll(a|ä)den|Jalousien|Raffstores|Markisen)"
-  garage: "(die Garage|die Garagen|das Garagentor|die Garagentore)"
-  alle_garagen: "(alle Garagen|alle Garagentore)"
-  tor: "(das Tor|die Tore)"
-  alle_tore: "alle (Tore|Garagentore)"
-  luefter: "(den Ventilator|die Ventilatoren|(den|die) Lüfter)"
-  alle_luefter: "alle (Ventilatoren|Lüfter)"
+  abdeckung: "<artikel> (Rollo[s]|Abdeckung[en]|Rolll(a|ä)den|Jalousie[n]|Raffstore[s]|Markise[n]|Vorh(a|ä)ng[e])"
+  alle_abdeckungen: "<alle> (Rollos|Abdeckungen|Rolll(a|ä)den|Jalousien|Raffstores|Markisen|Vorhänge)"
+  garage: "<artikel> (Garage[n]|Garagentor[e])"
+  alle_garagen: "<alle> (Garagen[tore])"
+  tor: "<artikel> Tor[e]"
+  alle_tore: "<alle> (Tore|Garagentore)"
+  luefter: "<artikel> (Ventilator[en]|Lüfter)"
+  alle_luefter: "<alle> (Ventilatoren|Lüfter)"
   brightness: "{brightness} [Prozent|%]"
-  temperature: "{temperature} [Grad] [{temperature_unit}]"
-  licht: "([das] Licht|[die] Lampe|[die] Beleuchtung)"
+  temperature: "{temperature}[ ][°|Grad][ ][{temperature_unit}]"
+  licht: "<artikel> (Licht|Lampe|Beleuchtung)"
   lichter: "[die|der|von den] (Lichter|Lichtern|Lampen|Leuchten|Beleuchtungen)"
-  alle_lichter: "(alle[r] <lichter>|von allen [Lichtern|Lampen|Leuchten|Beleuchtungen]|[die] ganze Beleuchtung)"
+  alle_lichter: "(<alle> (<lichter>|Beleuchtung)|von allen [Lichtern|Lampen|Leuchten|Beleuchtungen])"
+  leuchten_lassen: "([er]leuchten lassen|[ein]färben)"
+  tuer: "<artikel> Tür[e|en]"
+  schloss: "<artikel> (Schloss|Schlösser)"
   sperren: "(sperr|schlie(ss|ß))[e|en]"
   entsperren: "((ent|auf)<sperren>|öffne|entrieg(el|le))[n]"
   absperren: "(zu|ab)<sperren>|verrieg(el|le)[n]"
   aktivieren: "aktivier[e|en]"
   deaktivieren: "de<aktivieren>"
   ausfuehren: "(start[e|en]|ausführen)"
-  szene: "[die] Szene"
-  skript: "[das] Skript"
+  szene: "<artikel> Szene"
+  skript: "<artikel> Skript"
+  batterie: "<artikel> (Batterie[n]|Akku[s])"
+  irgend: "(irgend(<artikel_unbestimmt>[s]|welche[s]|wo)|(einige|manche)[s]|<artikel_unbestimmt>[s]) <artikel_bestimmt>"
+  etwas: "[irgend][et]was"
+  welche: "(welche[r|s]|was für [<artikel_unbestimmt>[s]]) <artikel_bestimmt>"
+  wieviel: "(wie[ ]viel[e]|welche Anzahl [an|von])"
+  ladestand: "<artikel> [Lade][zu]Stand"
+  co: "Kohlen[stoff]monoxid"
+  co_sensor: "<co>[-]Sensor[en]"
+  gas_sensor: "Gas[-]Sensor[en]"
+  ding: "((Ding|Gerät)[e|en]|Sensor[en]|Gegenstand|Gegenstände[n])"
+  erkannt: "(entdeckt|ausgelöst|erkannt|an)"
+  ist_wurde: "(ist|wurde)"
+  sind_wurden: "(sind|wurden)"
 skip_words:
   - "bitte"
   - "danke"
@@ -137,6 +260,9 @@ skip_words:
   - "jetzt"
   - "sofort"
   - "gleich"
+  - "gerade"
+  - "momentan"
+  - "im Moment"
   - "mal"
   - "eben"
   - "kannst du"
