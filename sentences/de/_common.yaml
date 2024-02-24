@@ -53,9 +53,9 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: (max[imale|imum]|höchste|volle)
+      - in: (max[imal[e]|imum]|höchste|volle)
         out: 100
-      - in: (min[imale|imum]|niedrigste)
+      - in: (min[imal[e]|imum]|niedrigste)
         out: 1
   cover_states:
     values:
@@ -199,6 +199,30 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  position_level:
+    values:
+      - in: (max[imal[e]|imum]|höchste)
+        out: 100
+      - in: (min[imal[e]|imum]|niedrigste)
+        out: 1
+
+  volume_level:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  volume_mapping:
+    values:
+      - in: (max[imal[e]|imum]|höchste|volle)
+        out: 100
+      - in: (min[imal[e]|imum]|niedrigste)
+        out: 1
+
 expansion_rules:
   artikel_bestimmt: "[(der|die|das|dem|der|den|des)]"
   artikel_unbestimmt: "[(ein|eine|eines|einer|einem|einen)]"
@@ -253,6 +277,8 @@ expansion_rules:
   erkannt: "(entdeckt|ausgelöst|erkannt|an)"
   ist_wurde: "(ist|wurde)"
   sind_wurden: "(sind|wurden)"
+  position: "{position} [Prozent|%]"
+  volume: "{volume_level} [Prozent|%]"
 skip_words:
   - "bitte"
   - "danke"
