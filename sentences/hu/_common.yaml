@@ -319,6 +319,16 @@ lists:
       type: "temperature"
       from: 0
       to: 100
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   temperature_unit:
     values:
       - in: "(Celsius|C|celziusz)"
@@ -588,14 +598,16 @@ lists:
 
 expansion_rules:
   name: "[a |az ]{name}[<name_ragok>| <name_szavak>]"
-  name_ragok: "(n(a|e)k|[o]t|r(a|e))"
+  name_ragok: "(n(a|e)k|[o|e]t|r(a|e)|[o|e|ö]n)"
   name_szavak: "((eszköz|érzékelő)[nek|t|re]|szenzor[nak|t|ra])"
   area: "[a |az ]{area}[<area_ragok>|<area_szavak>]"
   area_ragok: "(b(a|e)[n]|(o|e|ö)n|t|i)"
   area_szavak: "([ ](szob(a|á)[ba[n]|t|i]|hely[i]ség[be[n]|en|et]))"
   what_is: "((mi|mennyi)[ a| az])"
   where_is: "(hol van [a|az]|hol (a|az))"
-  brightness: "{brightness}[([ ]%[ ]| százalék)][os][ra]"
+  brightness: "{brightness}[[ ]%[ ]| százalék][os][r(a|e)]"
+  position: "{position}[[ ]%[ ]| százalék][os][r(a|e)]"
+  volume: "{volume:volume_level}[[ ]%[ ]| százalék][os][r(a|e)]"
   fényerő: "[a ]fényer(ő[t|re]|ejét)"
   light: "[a ](fény[t|nek|ét]|fények[et|nek]|lámp(a|á)[t|k[at]|nak|ját]|világítás[t|nak|át])"
   turn_on: "(kapcsol[d|j] (be|fel|föl)|(be|fel|föl)kapcsol[ás]|oltsd (fel|föl)|be)"
@@ -604,6 +616,8 @@ expansion_rules:
   temperature: "{temperature}[ ][°][{temperature_unit}] (fok[ra])"
   open: "(nyi(t|sd|ss) [ki|meg]|emel[d] [fel]|húzd (fel|el|szét))"
   close: "(csuk[d] [be]|zár[d|j] [be]|leenged|engedd le|húzd (le|be))"
+  open_dev: "(nyi(t|sd|ss) [ki|meg])"
+  close_dev: "(csuk[d] [be]|zár[d|j] [be])"
   set: "(állít[sd][ be]|csinál[d][ meg]|változta[t|sd][ meg]|kapcsol[d]|aktivál[d])"
   numeric_value_set: "(állíts[d][ be]|változta[t|sd][ meg| át]|növel[d][ meg]|csökkent[sd][ le]|kapcsol[d|j][ át])"
   battery: "(akkumulátor[a|ok]|akku[ja|k]|elem[e|ek]|eszköz[e|ök])"
