@@ -110,15 +110,15 @@ lists:
   # binary_sensor
   bs_battery_states:
     values:
-      - in: "(lav|lave|lavt|flad|fladt|flade)"
+      - in: "(lav[(e|t)]|flad[(e|t)])"
         out: "on"
       - in: "normal[t]"
         out: "off"
   bs_battery_charging_states:
     values:
-      - in: "[op]lader"
+      - in: "(lader|oplader)"
         out: "on"
-      - in: "[op]lader ikke"
+      - in: "(lader|oplader) ikke"
         out: "off"
   bs_carbon_monoxide_states:
     values:
@@ -200,9 +200,9 @@ lists:
         out: "off"
   bs_plug_states:
     values:
-      - in: "(koblet til|sat (i|til)|tilsluttet|tilkoblet)"
+      - in: "(koblet til|sat i|sat til|tilkoblet|tilsluttet)"
         out: "on"
-      - in: "(ikke koblet til|ikke sat (i|til)|ikke tilsluttet|ikke tilkoblet)"
+      - in: "ikke (koblet til|sat i|sat til|tilkoblet|tilsluttet)"
         out: "off"
   bs_power_states:
     values:
@@ -248,9 +248,9 @@ lists:
         out: "off"
   bs_tamper_states:
     values:
-      - in: "(detekteret|pillet ved|registreret|klar)"
+      - in: "(detekteret|klar|pillet ved|registreret)"
         out: "on"
-      - in: "(ikke detekteret|ikke pillet ved|ikke registreret|ikke klar)"
+      - in: "ikke (detekteret|klar|pillet ved|registreret)"
         out: "off"
   bs_update_states:
     values:
@@ -278,7 +278,7 @@ expansion_rules:
   gardin: "gardin[(et|er|erne)]"
   i_på: "(i | på)"
   koldt_varmt: "(kold[t] | varm[t])"
-  koldt: "(kold([t]|[e])|kold)"
+  koldt: "kold[(t|e)]"
   luk: "luk [for]"
   lys: "lys[(ene|et)]"
   lysstyrke: "{brightness}[%| procent]"
@@ -290,11 +290,18 @@ expansion_rules:
   sluk: "sluk [for]"
   temperatur: "{temperature}[°| grader] [{temperature_unit}]"
   tænd: "tænd [for]"
-  # Speach-to-text has difficulty with åbn and åbne, so we allow åbne even though åbn is the correct word.
-  åbn: "åbn[e] [for]"
-  nogen: "(nogle|nogen)"
-  enheder: "enhed[er]"
-  hvormange: "(hvor mange|hvormange)"
+  åbn: "(åben|åbn[e]) [for]"
+  nogen: "(nogen|nogle)"
+  enhed: "enhed[(en|er|erne)]"
+  hvor_mange: "hvor[ ]mange"
+  hvilke: "hvilke[(t|n)]"
+  er_nogen: "er [der] <nogen>"
+  er_noget: "er [der] noget"
+  carbonmonoxid: "(carbonmonoxid|kulilte|kulmonoxid|kulos)"
+  carbonmonoxid_sensor: "<carbonmonoxid> sensorer[ne]"
+  gas_fundet: "er [der] [noget] gas (detekteret|fundet|registreret)"
+  gas_ikke_fundet: "er [der] ikke [noget] gas (detekteret|fundet|registreret)"
+  bevaegelses_sensor: "bevægelses[ ]sensorer[ne]"
 
 skip_words:
   - "venligst"

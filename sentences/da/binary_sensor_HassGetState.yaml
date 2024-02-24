@@ -5,7 +5,7 @@ intents:
       # https://www.home-assistant.io/integrations/binary_sensor/
       # Battery
       - sentences:
-          - "er <navn> [batteri[et]] {bs_battery_states:state} [i <område>]"
+          - "er <navn> [batteri[et]] {bs_battery_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -15,28 +15,28 @@ intents:
           device_class: battery
 
       - sentences:
-          - "er <nogen> batteri[er] {bs_battery_states:state} [i <område>]"
+          - "er <nogen> batteri[er] {bs_battery_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: battery
 
       - sentences:
-          - "er alle batterier[ne] {bs_battery_states:state} [i <område>]"
+          - "er alle batterier[ne] {bs_battery_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: battery
 
       - sentences:
-          - "Hvilke[n] batteri[er] er {bs_battery_states:state} [i <område>]"
+          - "<hvilke> batteri[er] er {bs_battery_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: battery
 
       - sentences:
-          - "<hvormange> batteri[er] er {bs_battery_states:state} [i <område>]"
+          - "<hvor_mange> batteri[er] er {bs_battery_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -44,7 +44,7 @@ intents:
 
       # Battery charging
       - sentences:
-          - "{bs_battery_charging_states:state} <navn> [battery] [i <område>]"
+          - "{bs_battery_charging_states:state} <navn> [battery] [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -54,28 +54,28 @@ intents:
           device_class: battery_charging
 
       - sentences:
-          - "{bs_battery_charging_states:state} <nogen> batteri[er] [i <område>]"
+          - "{bs_battery_charging_states:state} <nogen> batteri[er] [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: battery_charging
 
       - sentences:
-          - "{bs_battery_charging_states:state} [alle] batteri[er][ne] [i <område>]"
+          - "{bs_battery_charging_states:state} [alle] batteri[er][ne] [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: battery_charging
 
       - sentences:
-          - "hvilke[n] batteri[er] {bs_battery_charging_states:state} [i <område>]"
+          - "<hvilke> batteri[er] {bs_battery_charging_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: battery_charging
 
       - sentences:
-          - "<hvormange> batteri[er] {bs_battery_charging_states:state} [i <område>]"
+          - "<hvor_mange> batteri[er] {bs_battery_charging_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -83,7 +83,7 @@ intents:
 
       # Carbon monoxide
       - sentences:
-          - "er <navn> {bs_carbon_monoxide_states:state} [i <område>]"
+          - "er <navn> {bs_carbon_monoxide_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -93,15 +93,15 @@ intents:
           device_class: carbon_monoxide
 
       - sentences:
-          - "er [der] [<nogen>] carbonmonoxid sensorer[ne] {bs_carbon_monoxide_states:state} [i <område>]"
+          - "er [der] [<nogen>] <carbonmonoxid_sensor> {bs_carbon_monoxide_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: carbon_monoxide
 
       - sentences:
-          - "er der [noget] carbonmonoxid [i <område>]"
-          - "er [der] [noget] carbonmonoxid (detekteret|fundet|registreret) [i <område>]"
+          - "er der [noget] <carbonmonoxid> [(detekteret|fundet|registreret)] [<i_på> <område>]"
+          - "<er_noget> <carbonmonoxid> (detekteret|fundet|registreret) [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
@@ -109,21 +109,21 @@ intents:
           state: "on"
 
       - sentences:
-          - "er alle carbonmonoxid sensorer {bs_carbon_monoxide_states:state} [i <område>]"
+          - "er alle <carbonmonoxid_sensor> {bs_carbon_monoxide_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: carbon_monoxide
 
       - sentences:
-          - "hvilke[n] carbonmonoxid sensorer er {bs_carbon_monoxide_states:state} [i <område>]"
+          - "<hvilke> <carbonmonoxid_sensor> er {bs_carbon_monoxide_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: carbon_monoxide
 
       - sentences:
-          - "<hvormange> carbonmonoxid sensorer er {bs_carbon_monoxide_states:state} [i <område>]"
+          - "<hvor_mange> <carbonmonoxid_sensor> er {bs_carbon_monoxide_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -131,7 +131,7 @@ intents:
 
       # Cold
       - sentences:
-          - "er <navn> {bs_cold_states:state} [i <område>]"
+          - "er <navn> {bs_cold_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -141,9 +141,10 @@ intents:
           device_class: cold
 
       - sentences:
-          - "er noget <koldt> [i <område>]"
-          - "er [der] <nogen> sensorer <koldt> [i <område>]"
-          - "er [der] <nogen> <koldt> sensorer [i <område>]"
+          - "er noget <koldt> [<i_på> <område>]"
+          - "<er_noget> <koldt> (detekteret|fundet|registreret) <i_på> <område>"
+          - "<er_nogen> <koldt> sensorer [<i_på> <område>]"
+          - "<er_nogen> sensorer <koldt> [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
@@ -151,8 +152,8 @@ intents:
           state: "on"
 
       - sentences:
-          - "hvilke[n] [sensorer] er <koldt> [i <område>]"
-          - "hvad er <koldt> [i <område>]"
+          - "<hvilke> [sensorer] er <koldt> [<i_på> <område>]"
+          - "hvad er <koldt> [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
@@ -160,7 +161,7 @@ intents:
           state: "on"
 
       - sentences:
-          - "<hvormange> [sensorer] er <koldt> [i <område>]"
+          - "<hvor_mange> [sensorer] er <koldt> [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -169,7 +170,7 @@ intents:
 
       # Connectivity
       - sentences:
-          - "er <navn> {bs_connectivity_states:state} [i <område>]"
+          - "er <navn> {bs_connectivity_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -179,28 +180,28 @@ intents:
           device_class: connectivity
 
       - sentences:
-          - "er [der] <nogen> <enheder> {bs_connectivity_states:state} [i <område>]"
+          - "<er_nogen> <enhed> {bs_connectivity_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: connectivity
 
       - sentences:
-          - "er alle <enheder>[ne] {bs_connectivity_states:state} [i <område>]"
+          - "er alle <enhed>[ne] {bs_connectivity_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: connectivity
 
       - sentences:
-          - "hvilke[n] <enheder> er {bs_connectivity_states:state} [i <område>]"
+          - "<hvilke> <enhed> er {bs_connectivity_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: connectivity
 
       - sentences:
-          - "<hvormange> <enheder> er {bs_connectivity_states:state} [i <område>]"
+          - "<hvor_mange> <enhed> er {bs_connectivity_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -208,7 +209,7 @@ intents:
 
       # Door
       - sentences:
-          - "er <navn> {bs_door_states:state} [i <område>]"
+          - "er <navn> {bs_door_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -219,7 +220,7 @@ intents:
 
       # Garage door
       - sentences:
-          - "er <navn> {bs_garage_door_states:state} [i <område>]"
+          - "er <navn> {bs_garage_door_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -230,7 +231,7 @@ intents:
 
       # Gas
       - sentences:
-          - "er <navn> {bs_gas_states:state} [i <område>]"
+          - "er <navn> {bs_gas_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -240,15 +241,15 @@ intents:
           device_class: gas
 
       - sentences:
-          - "er [der] [nogen] gas sensorer {bs_gas_states:state} [i <område>]"
+          - "er [der] [nogen] gas sensorer {bs_gas_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: gas
 
       - sentences:
-          - "er [der] [noget] gas i <område>"
-          - "er [der] [noget] gas detekteret i <område>"
+          - "er der gas [<i_på> <område>]"
+          - "<gas_fundet> <i_på> <område>"
         response: any
         slots:
           domain: binary_sensor
@@ -256,21 +257,29 @@ intents:
           state: "on"
 
       - sentences:
-          - "er alle gas sensorer[ne] {bs_gas_states:state} [i <område>]"
+          - "<gas_ikke_fundet> <i_på> <område>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "off"
+
+      - sentences:
+          - "er alle gas sensorer[ne] {bs_gas_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: gas
 
       - sentences:
-          - "hvilke[n] gas sensorer er {bs_gas_states:state} [i <område>]"
+          - "<hvilke> gas sensorer er {bs_gas_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: gas
 
       - sentences:
-          - "<hvormange> gas sensorer er {bs_gas_states:state} [i <område>]"
+          - "<hvor_mange> gas sensorer er {bs_gas_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -278,7 +287,7 @@ intents:
 
       # Heat
       - sentences:
-          - "er <navn> {bs_heat_states:state} [i <område>]"
+          - "er <navn> {bs_heat_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -288,9 +297,9 @@ intents:
           device_class: heat
 
       - sentences:
-          - "er [der] noget [(som|der) er] varmt [i <område>]"
-          - "er [der] noget varmt [i <område>]"
-          - "er [der] <nogen> varme sensorer [i <område>]"
+          - "er [der] noget [(som|der) er] varmt [<i_på> <område>]"
+          - "er [der] noget varmt [<i_på> <område>]"
+          - "<er_nogen> varme sensorer [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
@@ -298,8 +307,8 @@ intents:
           state: "on"
 
       - sentences:
-          - "hvad er varmt [i <område>]"
-          - "hvilke[n] sensorer er varme [i <område>]"
+          - "hvad er varmt [<i_på> <område>]"
+          - "<hvilke> sensorer er varme [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
@@ -307,7 +316,7 @@ intents:
           state: "on"
 
       - sentences:
-          - "<hvormange> (ting|sensorer) er varme [i <område>]"
+          - "<hvor_mange> (ting|sensorer) er varme [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -316,7 +325,7 @@ intents:
 
       # Light
       - sentences:
-          - "er <navn> {bs_light_states:state} [i <område>]"
+          - "er <navn> {bs_light_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -326,28 +335,28 @@ intents:
           device_class: light
 
       - sentences:
-          - "er (<nogen>|noget) lys {bs_light_states:state} [i <område>]"
+          - "er (<nogen>|noget) lys {bs_light_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: light
 
       - sentences:
-          - "er alle lys {bs_light_states:state} [i <område>]"
+          - "er alle lys {bs_light_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: light
 
       - sentences:
-          - "hvilke[n] lys er {bs_light_states:state} [i <område>]"
+          - "<hvilke> lys er {bs_light_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: light
 
       - sentences:
-          - "<hvormange> lys er {bs_light_states:state} [i <område>]"
+          - "<hvor_mange> lys er {bs_light_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -355,7 +364,7 @@ intents:
 
       # Lock
       - sentences:
-          - "er <navn> {bs_lock_states:state} [i <område>]"
+          - "er <navn> {bs_lock_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -366,7 +375,7 @@ intents:
 
       # Moisture
       - sentences:
-          - "er <navn> [sensoren] {bs_moisture_states:state} [i <område>]"
+          - "er <navn> [sensoren] {bs_moisture_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -376,16 +385,15 @@ intents:
           device_class: moisture
 
       - sentences:
-          - "er [der] <nogen> (vand|fugt|læk|oversvømmelse) sensorer {bs_moisture_states:state} [i <område>]"
-          - "er [der] <nogen> fugt sensorer {bs_moisture_states:state} [i <område>]"
-          - "er (gulv[et]|vand|fugt|læk|oversvømmelses)[ ][sensoren] {bs_moisture_states:state} [i <område>]"
+          - "<er_nogen> (vand|fugt|læk|oversvømmelse) sensorer {bs_moisture_states:state} [<i_på> <område>]"
+          - "er (gulv[et]|vand|fugt|læk|oversvømmelses)[ ][sensoren] {bs_moisture_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: moisture
 
       - sentences:
-          - "er der <nogen> (læk|oversvømmelse) [i <område>]"
+          - "er der <nogen> (læk|oversvømmelse) [<i_på> <område>]"
           - "er <område> oversvømmet"
         response: any
         slots:
@@ -394,21 +402,21 @@ intents:
           state: "on"
 
       - sentences:
-          - "er alle vand sensorer {bs_moisture_states:state} [i <område>]"
+          - "er alle vand sensorer {bs_moisture_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: moisture
 
       - sentences:
-          - "hvilke[n] vand sensorer er {bs_moisture_states:state} [i <område>]"
+          - "<hvilke> vand sensorer er {bs_moisture_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: moisture
 
       - sentences:
-          - "<hvormange> vand sensorer er {bs_moisture_states:state} [i <område>]"
+          - "<hvor_mange> vand sensorer er {bs_moisture_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -416,7 +424,7 @@ intents:
 
       # Motion
       - sentences:
-          - "er <navn> {bs_motion_states:state} [i <område>]"
+          - "er <navn> {bs_motion_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -426,16 +434,16 @@ intents:
           device_class: motion
 
       - sentences:
-          - "er [der] <nogen> bevægelse[s][ ]sensor[er] {bs_motion_states:state} [i <område>]"
-          - "er bevægelse[s] {bs_motion_states:state} [i <område>]"
+          - "<er_nogen> <bevaegelses_sensor> {bs_motion_states:state} [<i_på> <område>]"
+          - "er bevægelse[s] {bs_motion_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: motion
 
       - sentences:
-          - "er der noget (der|som) bevæger sig [i <område>]"
-          - "er der (noge[t]|<nogen>) bevægelse[s] [i <område>]"
+          - "er der noget (der|som) bevæger sig [<i_på> <område>]"
+          - "er der (noget|<nogen>) bevægelse[s] [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
@@ -443,21 +451,21 @@ intents:
           state: "on"
 
       - sentences:
-          - "er alle bevægelse[s][ ]sensorer {bs_motion_states:state} [i <område>]"
+          - "er alle bevægelse[s][ ]sensorer {bs_motion_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: motion
 
       - sentences:
-          - "hvilke[n] bevægelse[s][ ]sensor[er] er {bs_motion_states:state} [i <område>]"
+          - "<hvilke> <bevaegelses_sensor> er {bs_motion_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: motion
 
       - sentences:
-          - "<hvormange> bevægelse[s][ ]sensor[er] er {bs_motion_states:state} [i <område>]"
+          - "<hvor_mange> <bevaegelses_sensor> er {bs_motion_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -465,7 +473,7 @@ intents:
 
       # Occupancy
       - sentences:
-          - "er <navn> {bs_occupancy_states:state} [i <område>]"
+          - "er <navn> {bs_occupancy_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -475,16 +483,16 @@ intents:
           device_class: occupancy
 
       - sentences:
-          - "er [der] [<nogen>] optaget[ ]sensorer {bs_occupancy_states:state} [i <område>]"
+          - "er [der] [<nogen>] optaget[ ]sensorer {bs_occupancy_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: occupancy
 
       - sentences:
-          - "er optaget detekteret [i <område>]"
-          - "er optaget registreret [i <område>]"
-          - "er noget optaget [i <område>]"
+          - "er optaget detekteret [<i_på> <område>]"
+          - "er optaget registreret [<i_på> <område>]"
+          - "er noget optaget [<i_på> <område>]"
           - "er <område> optaget"
         response: any
         slots:
@@ -493,21 +501,21 @@ intents:
           state: "on"
 
       - sentences:
-          - "er alle optaget[ ]sensorer {bs_occupancy_states:state} [i <område>]"
+          - "er alle optaget[ ]sensorer {bs_occupancy_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: occupancy
 
       - sentences:
-          - "hvilke[n] optaget[ ]sensor[er] er {bs_occupancy_states:state} [i <område>]"
+          - "<hvilke> optaget[ ]sensor[er] er {bs_occupancy_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: occupancy
 
       - sentences:
-          - "<hvormange> optaget[ ]sensor[er] er {bs_occupancy_states:state} [i <område>]"
+          - "<hvor_mange> optaget[ ]sensor[er] er {bs_occupancy_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -515,7 +523,7 @@ intents:
 
       # Opening
       - sentences:
-          - "(er|står) <navn> {bs_opening_states:state} [i <område>]"
+          - "er <navn> {bs_opening_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -525,28 +533,28 @@ intents:
           device_class: opening
 
       - sentences:
-          - "(står|er) [der] <nogen> åbning[er] {bs_opening_states:state} [i <område>]"
+          - "<er_nogen> åbning[er] {bs_opening_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: opening
 
       - sentences:
-          - "(er|står) alle åbning[er] {bs_opening_states:state} [i <område>]"
+          - "er alle åbning[er] {bs_opening_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: opening
 
       - sentences:
-          - "hvilke[n] åbning[er] (er|står) {bs_opening_states:state} [i <område>]"
+          - "<hvilke> åbning[er] er {bs_opening_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: opening
 
       - sentences:
-          - "<hvormange> åbning[er] (er|står) {bs_opening_states:state} [i <område>]"
+          - "<hvor_mange> åbning[er] er {bs_opening_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -554,7 +562,7 @@ intents:
 
       # Plug
       - sentences:
-          - "er <navn> {bs_plug_states:state} [i <område>]"
+          - "er <navn> {bs_plug_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -564,28 +572,28 @@ intents:
           device_class: plug
 
       - sentences:
-          - "er <nogen> <enheder> {bs_plug_states:state} [i <område>]"
+          - "er <nogen> <enhed> {bs_plug_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: plug
 
       - sentences:
-          - "er alle <enheder> {bs_plug_states:state} [i <område>]"
+          - "er alle <enhed> {bs_plug_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: plug
 
       - sentences:
-          - "hvilke[n] <enheder> er {bs_plug_states:state} [i <område>]"
+          - "<hvilke> <enhed> er {bs_plug_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: plug
 
       - sentences:
-          - "<hvormange> <enheder> er {bs_plug_states:state} [i <område>]"
+          - "<hvor_mange> <enhed> er {bs_plug_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -593,7 +601,7 @@ intents:
 
       # Power
       - sentences:
-          - "er <navn> {bs_power_states:state} [i <område>]"
+          - "er <navn> {bs_power_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -603,28 +611,28 @@ intents:
           device_class: power
 
       - sentences:
-          - "er [der] <nogen> <enheder> {bs_power_states:state} [i <område>]"
+          - "<er_nogen> <enhed> {bs_power_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: power
 
       - sentences:
-          - "er alle <enheder> {bs_power_states:state} [i <område>]"
+          - "er alle <enhed> {bs_power_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: power
 
       - sentences:
-          - "hvilke[n] <enheder> er {bs_power_states:state} [i <område>]"
+          - "<hvilke> <enhed> er {bs_power_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: power
 
       - sentences:
-          - "<hvormange> <enheder> er {bs_power_states:state} [i <område>]"
+          - "<hvor_mange> <enhed> er {bs_power_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -632,7 +640,7 @@ intents:
 
       # Presence
       - sentences:
-          - "er <navn> {bs_presence_states:state} [i <område>]"
+          - "er <navn> {bs_presence_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -642,28 +650,28 @@ intents:
           device_class: presence
 
       - sentences:
-          - "er [der] <nogen> <enheder> {bs_presence_states:state} [i <område>]"
+          - "<er_nogen> <enhed> {bs_presence_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: presence
 
       - sentences:
-          - "er alle <enheder> {bs_presence_states:state} [i <område>]"
+          - "er alle <enhed> {bs_presence_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: presence
 
       - sentences:
-          - "hvilke[n] <enheder> er {bs_presence_states:state} [i <område>]"
+          - "<hvilke> <enhed> er {bs_presence_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: presence
 
       - sentences:
-          - "<hvormange> <enheder> er {bs_presence_states:state} [i <område>]"
+          - "<hvor_mange> <enhed> er {bs_presence_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -671,7 +679,7 @@ intents:
 
       # Problem
       - sentences:
-          - "er der [<nogen>] problemer med <navn> [i <område>]"
+          - "er der [<nogen>] problemer med <navn> [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -683,8 +691,8 @@ intents:
 
       # Running
       - sentences:
-          - "{bs_running_states:state} <navn> [i <område>]"
-          - "er <navn> ved at {bs_running_states:state} [i <område>]"
+          - "{bs_running_states:state} <navn> [<i_på> <område>]"
+          - "er <navn> ved at {bs_running_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -694,30 +702,30 @@ intents:
           device_class: running
 
       - sentences:
-          - "{bs_running_states:state} <nogen> <enheder> [i <område>]"
-          - "er <nogen> <enheder> ved at {bs_running_states:state} [i <område>]"
+          - "{bs_running_states:state} <nogen> <enhed> [<i_på> <område>]"
+          - "er <nogen> <enhed> ved at {bs_running_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: running
 
       - sentences:
-          - "er alle <enheder> ved at {bs_running_states:state} [i <område>]"
-          - "{bs_running_states:state} alle <enheder> [i <område>]"
+          - "er alle <enhed> ved at {bs_running_states:state} [<i_på> <område>]"
+          - "{bs_running_states:state} alle <enhed> [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: running
 
       - sentences:
-          - "hvilke[n] <enheder> [er ved at] {bs_running_states:state} [i <område>]"
+          - "<hvilke> <enhed> [er ved at] {bs_running_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: running
 
       - sentences:
-          - "<hvormange> <enheder> [er ved at] {bs_running_states:state} [i <område>]"
+          - "<hvor_mange> <enhed> [er ved at] {bs_running_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -725,7 +733,7 @@ intents:
 
       # Safety
       - sentences:
-          - "er <navn> {bs_safety_states:state} [i <område>]"
+          - "er <navn> {bs_safety_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -736,7 +744,7 @@ intents:
 
       # Smoke
       - sentences:
-          - "er <navn> {bs_smoke_states:state} [i <område>]"
+          - "er <navn> {bs_smoke_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -746,14 +754,14 @@ intents:
           device_class: smoke
 
       - sentences:
-          - "er [der] <nogen> røg[ ](sensorer|detektorer) {bs_smoke_states:state} [i <område>]"
+          - "<er_nogen> røg[ ](sensorer|detektorer) {bs_smoke_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: smoke
 
       - sentences:
-          - "er der røg i <område>"
+          - "er der røg <i_på> <område>"
         response: any
         slots:
           domain: binary_sensor
@@ -761,21 +769,21 @@ intents:
           state: "on"
 
       - sentences:
-          - "er alle røg[ ](sensorer|detektorer) {bs_smoke_states:state} [i <område>]"
+          - "er alle røg[ ](sensorer|detektorer) {bs_smoke_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: smoke
 
       - sentences:
-          - "hvilke[n] røg[ ](sensorer|detektorer) er {bs_smoke_states:state} [i <område>]"
+          - "<hvilke> røg[ ](sensorer|detektorer) er {bs_smoke_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: smoke
 
       - sentences:
-          - "<hvormange> røg[ ](sensorer|detektorer) er  {bs_smoke_states:state} [i <område>]"
+          - "<hvor_mange> røg[ ](sensorer|detektorer) er  {bs_smoke_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -783,7 +791,7 @@ intents:
 
       # Sound
       - sentences:
-          - "er <navn> {bs_sound_states:state} [i <område>]"
+          - "er <navn> {bs_sound_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -793,15 +801,15 @@ intents:
           device_class: sound
 
       - sentences:
-          - "er [der] <nogen> (støj|lyd) sensorer {bs_sound_states:state} [i <område>]"
+          - "<er_nogen> (støj|lyd) sensorer {bs_sound_states:state} [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
           device_class: sound
 
       - sentences:
-          - "er [der] noget (der|som) (larmer|støjer) [i <område>]"
-          - "er der (støj|larm) [i <område>]"
+          - "er [der] noget (der|som) (larmer|støjer) [<i_på> <område>]"
+          - "er der (støj|larm) [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
@@ -809,21 +817,21 @@ intents:
           state: "on"
 
       - sentences:
-          - "er alle (støj|lyd) sensorer {bs_sound_states:state} [i <område>]"
+          - "er alle (støj|lyd) sensorer {bs_sound_states:state} [<i_på> <område>]"
         response: all
         slots:
           domain: binary_sensor
           device_class: sound
 
       - sentences:
-          - "hvilke[n] (støj|lyd) sensorer er {bs_sound_states:state} [i <område>]"
+          - "<hvilke> (støj|lyd) sensorer er {bs_sound_states:state} [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: sound
 
       - sentences:
-          - "<hvormange> (støj|lyd) sensorer er {bs_sound_states:state} [i <område>]"
+          - "<hvor_mange> (støj|lyd) sensorer er {bs_sound_states:state} [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -831,8 +839,8 @@ intents:
 
       # Tamper
       - sentences:
-          - "er <navn> {bs_tamper_states:state} [i <område>]"
-          - "er der {bs_tamper_states:state} <navn> [i <område>]"
+          - "er <navn> {bs_tamper_states:state} [<i_på> <område>]"
+          - "er der {bs_tamper_states:state} <navn> [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -843,7 +851,7 @@ intents:
 
       # Update
       - sentences:
-          - "er <navn> {bs_update_states:state} [i <område>]"
+          - "er <navn> {bs_update_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -853,7 +861,7 @@ intents:
           device_class: update
 
       - sentences:
-          - "er der <nogen> [(firmware|software)] opdateringer [i <område>]"
+          - "er der <nogen> [(firmware|software)] opdateringer [<i_på> <område>]"
         response: any
         slots:
           domain: binary_sensor
@@ -861,7 +869,7 @@ intents:
           state: "on"
 
       - sentences:
-          - "hvilke[n] [(firmware|software)] opdateringer er (der|tilgængelige) [i <område>]"
+          - "<hvilke> [(firmware|software)] opdateringer er (der|tilgængelige) [<i_på> <område>]"
         response: which
         slots:
           domain: binary_sensor
@@ -869,7 +877,7 @@ intents:
           state: "on"
 
       - sentences:
-          - "<hvormange> [(firmware|software)] opdateringer er (der|tilgængelige) [i <område>]"
+          - "<hvor_mange> [(firmware|software)] opdateringer er (der|tilgængelige) [<i_på> <område>]"
         response: how_many
         slots:
           domain: binary_sensor
@@ -878,8 +886,8 @@ intents:
 
       # Vibration
       - sentences:
-          - "er <navn> {bs_vibration_states:state} [i <område>]"
-          - "{bs_vibration_states:state} <navn> [i <område>]"
+          - "er <navn> {bs_vibration_states:state} [<i_på> <område>]"
+          - "{bs_vibration_states:state} <navn> [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -889,7 +897,7 @@ intents:
           device_class: vibration
 
       - sentences:
-          - "er der noget (der|som) vibrerer [i <område>]"
+          - "er der noget (der|som) vibrerer [<i_på> <område>]"
         response: any
         requires_context:
           domain: binary_sensor
@@ -901,7 +909,7 @@ intents:
 
       # Window
       - sentences:
-          - "(er|står) <navn> {bs_window_states:state} [i <område>]"
+          - "(er|står) <navn> {bs_window_states:state} [<i_på> <område>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
