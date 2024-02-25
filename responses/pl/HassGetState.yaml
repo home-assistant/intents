@@ -4,15 +4,15 @@ responses:
     HassGetState:
       default: |
         {% set vowelsList = ['e', 'i', 'o', 'u'] %}
-        {% set lastChar = slots.name | last %}
+        {% set lastChar = slots.name | default("y", false) | last %}
         {% if state.state_with_unit == 'open': %}
-          {% if lastChar == "a" %}Otwarta{% elif lastChar and lastChar in vowelsList %}Otwarte{% else %}Otwarty{% endif %}
+          {% if lastChar == "a" %}Otwarta{% elif lastChar in vowelsList %}Otwarte{% else %}Otwarty{% endif %}
         {% elif state.state_with_unit == 'close': %}
-          {% if lastChar == "a" %}Zamknięta{% elif lastChar and lastChar in vowelsList %}Zamknięte{% else %}Zamknięty{% endif %}
+          {% if lastChar == "a" %}Zamknięta{% elif lastChar in vowelsList %}Zamknięte{% else %}Zamknięty{% endif %}
         {% elif state.state_with_unit == 'on': %}
-          {% if lastChar == "a" %}Włączona{% elif lastChar and lastChar in vowelsList %}Włączone{% else %}Włączony{% endif %}
+          {% if lastChar == "a" %}Włączona{% elif lastChar in vowelsList %}Włączone{% else %}Włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
-          {% if lastChar == "a" %}Wyłączona{% elif lastChar and lastChar in vowelsList %}Wyłączone{% else %}Wyłączony{% endif %}
+          {% if lastChar == "a" %}Wyłączona{% elif lastChar in vowelsList %}Wyłączone{% else %}Wyłączony{% endif %}
         {% else %}{{ state.state_with_unit }}
         {% endif %}
 
@@ -21,13 +21,13 @@ responses:
         {% set lastChar = slots.name | last %}
         {{ slots.name | capitalize }} jest 
         {% if state.state_with_unit == 'open': %}
-          {% if lastChar == "a" %}otwarta{% elif lastChar and lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
         {% elif state.state_with_unit == 'close': %}
-          {% if lastChar == "a" %}zamknięta{% elif lastChar and lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
         {% elif state.state_with_unit == 'on': %}
-          {% if lastChar == "a" %}włączona{% elif lastChar and lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
-          {% if lastChar == "a" %}wyłączona{% elif lastChar and lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
         {% else %}{{ state.state_with_unit }}
         {% endif %}
 
@@ -36,13 +36,13 @@ responses:
         {% set lastChar = slots.name | last %}
         Stan {{ slots.name | capitalize }} to 
         {% if state.state_with_unit == 'open': %}
-          {% if lastChar == "a" %}otwarta{% elif lastChar and lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
         {% elif state.state_with_unit == 'close': %}
-          {% if lastChar == "a" %}zamknięta{% elif lastChar and lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
         {% elif state.state_with_unit == 'on': %}
-          {% if lastChar == "a" %}włączona{% elif lastChar and lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
-          {% if lastChar == "a" %}wyłączona{% elif lastChar and lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
         {% else %}{{ state.state_with_unit }}
         {% endif %}
 
@@ -51,13 +51,13 @@ responses:
         {% set lastChar = slots.name | last %}
         Status {{ slots.name | capitalize }} to 
         {% if state.state_with_unit == 'open': %}
-          {% if lastChar == "a" %}otwarta{% elif lastChar and lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
         {% elif state.state_with_unit == 'close': %}
-          {% if lastChar == "a" %}zamknięta{% elif lastChar and lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
         {% elif state.state_with_unit == 'on': %}
-          {% if lastChar == "a" %}włączona{% elif lastChar and lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
-          {% if lastChar == "a" %}wyłączona{% elif lastChar and lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
         {% else %}{{ state.state_with_unit }}
         {% endif %}
 
@@ -66,13 +66,13 @@ responses:
         {% set lastChar = slots.name | last %}
         Wartość {{ slots.name | capitalize }} to 
         {% if state.state_with_unit == 'open': %}
-          {% if lastChar == "a" %}otwarta{% elif lastChar and lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
         {% elif state.state_with_unit == 'close': %}
-          {% if lastChar == "a" %}zamknięta{% elif lastChar and lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
         {% elif state.state_with_unit == 'on': %}
-          {% if lastChar == "a" %}włączona{% elif lastChar and lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
-          {% if lastChar == "a" %}wyłączona{% elif lastChar and lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
         {% else %}{{ state.state_with_unit }}
         {% endif %}
 
@@ -84,13 +84,13 @@ responses:
         {% else: %}
         Nie, {{ slots.name | capitalize }} jest 
         {% if state.state_with_unit == 'open': %}
-          {% if lastChar == "a" %}otwarta{% elif lastChar and lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
         {% elif state.state_with_unit == 'close': %}
-          {% if lastChar == "a" %}zamknięta{% elif lastChar and lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
         {% elif state.state_with_unit == 'on': %}
-          {% if lastChar == "a" %}włączona{% elif lastChar and lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
-          {% if lastChar == "a" %}wyłączona{% elif lastChar and lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
         {% else %}{{ state.state_with_unit }}
         {% endif %}
         {% endif %}
