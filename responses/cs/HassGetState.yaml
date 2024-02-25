@@ -57,7 +57,7 @@ responses:
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} a {% endif -%}
               {{ name }}
-            {%- endfor %} {{ 'není' if no_match | length == 1 else 'nejou'}} {{ state.state_with_unit }}
+            {%- endfor %} {{ 'není' if no_match | length == 1 else 'nejsou'}} {{ state.state_with_unit }}
           {% endif %}
         {% endif %}
 
@@ -78,3 +78,10 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} je pryč
+        {% else %}
+          {{ slots.name | capitalize }} je {{ state.state }}
+        {% endif %}
