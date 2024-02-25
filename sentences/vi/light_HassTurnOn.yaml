@@ -1,9 +1,36 @@
-language: vi
+language: "vi"
 intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<turn> [toàn bộ | tất cả] đèn [trong | bên trong] <area>"
-          - "<turn> đèn <area>"
+          - "<turn> bật (<area> <name> <thiết_bị_đèn>|<name> <thiết_bị_đèn> [trong <area>])"
+          - "[<turn>] (<area> <name> <thiết_bị_đèn>|<name> <thiết_bị_đèn> [trong <area>]) [để] bật"
+          - "kích hoạt (<area> <name> <thiết_bị_đèn>|<name> <thiết_bị_đèn> [trong <area>])"
+        expansion_rules:
+          thiết_bị_đèn: "(đèn|[công tắc])"
+        requires_context:
+          domain: "light"
+      - sentences:
+          - "<turn> bật [tất cả] <đèn> trong <area>"
+          - "<turn> bật [tất cả] <área> <đèn>"
+          - "[<turn>] [tất cả] <area> <đèn> bật"
+          - "[<turn>] [tất cả] <đèn> [trong] <area> bật"
+          - "kích hoạt [tất cả] <đèn> [trong] <area>"
+          - "kích hoạt [tất cả] <area> <đèn>"
         slots:
           domain: "light"
+        response: "lights_area"
+
+      # Bật tất cả đèn cùng khu vực với thiết bị vệ tinh
+      - sentences:
+          - "<turn> bật [tất cả] <đèn>[<ở_đây>]"
+          - "<turn> [tất cả] <đèn>( bật;<ở_đây>)"
+          - "<turn> [tất cả] <đèn> bật"
+        response: "lights_area"
+        expansion_rules:
+          ở_đây: "[ ở] đây"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true

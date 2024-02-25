@@ -1,9 +1,27 @@
-language: vi
+language: "vi"
 intents:
   HassTurnOn:
     data:
       - sentences:
-          - "bật <name> <area>"
-          - "bật [hết | tất cả | toàn bộ] <name> <area>"
+          - "<turn> bật [tất cả] [các] quạt [ở] <area>"
+          - "<turn> bật quạt [ở] <area>"
+          - "[<turn>] [tất cả] quạt [ở] <area> bật"
+          - "kích hoạt [tất cả] quạt [ở] <area>"
+          - "kích hoạt [tất cả] [các] quạt [tại] <area>"
         slots:
           domain: "fan"
+          name: "all"
+        response: fans_area
+
+      - sentences:
+          - "<turn> bật[tất cả][ các] quạt[<in_here>]"
+          - "<turn>[tất cả][ các] quạt (bật;<in_here>)"
+          - "<turn>[tất cả][ các] quạt bật"
+        response: "fans_area"
+        expansion_rules:
+          in_here: "[trong] đây"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+            slot: true

@@ -1,30 +1,35 @@
-language: vi
+language: "vi"
 intents:
   HassGetState:
     data:
       - sentences:
-          - trạng thái [của] <name> [trong | ở trong <area>] [là bao nhiêu | thế nào]
+          - (bạn có biết|cho tôi biết|<what_is>) [trạng thái [hiện tại] của] <name> [trong <area>]
         response: one
-
+        excludes_context:
+          domain:
+            - scene
+            - script
       - sentences:
-          - <name>[trong | ở trong <area>] đang {on_off_states:state} (có phải không | phải không)
+          - <name> có phải {on_off_states:state} không [trong <area>]
         response: one_yesno
         excludes_context:
           domain:
             - cover
 
       - sentences:
-          - có {on_off_domains:domain} [nào] đang {on_off_states:state} [trong | ở trong] <area> [không | hay không]
+          - (có | liệu có) bất kỳ {on_off_domains:domain} nào {on_off_states:state} không [trong <area>]
+          - (bạn có biết | cho tôi biết) nếu có bất kỳ {on_off_domains:domain} nào {on_off_states:state} không [trong <area>]
         response: any
 
       - sentences:
-          - (tất cả | toàn bộ) {on_off_domains:domain} [trong | ở trong] [<area>] đang {on_off_states:state} [phải không | có phải không]
+          - tất cả [các] {on_off_domains:domain} đều được [(chuyển | đặt)] {on_off_states:state} không [trong <area>]
+          - tất cả [các] {on_off_domains:domain} trong <area> có đều [(chuyển | đặt)] {on_off_states:state} không
         response: all
 
       - sentences:
-          - những {on_off_domains:domain} nào đang {on_off_states:state} [trong | ở trong <area>]
+          - "[bạn có biết] (nào | cái nào) {on_off_domains:domain} (là | đang) {on_off_states:state} [trong <area>]"
         response: which
 
       - sentences:
-          - có bao nhiêu {on_off_domains:domain} đang {on_off_states:state} [trong | ở trong <area>]
+          - "[cho tôi biết] có bao nhiêu {on_off_domains:domain} (là | đang) {on_off_states:state} [trong <area>]"
         response: how_many

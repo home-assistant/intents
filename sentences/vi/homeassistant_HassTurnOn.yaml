@@ -1,12 +1,17 @@
-language: vi
+language: "vi"
 intents:
   HassTurnOn:
     data:
       - sentences:
-          - bật <name>
-      - sentences:
-          - mở <name>
-        response: cover
-      - sentences:
-          - mở <name> trong <area>
-        response: cover_area
+          - "<turn> bật (<area> <name>|<name> [trong <area>])"
+          - "[<turn>] (<area> <name>|<name> [trong <area>]) thành bật"
+          - "kích hoạt (<area> <name>|<name> [trong <area>])"
+        excludes_context:
+          domain:
+            - binary_sensor
+            - cover
+            - lock
+            - scene
+            - script
+            - sensor
+            - valve

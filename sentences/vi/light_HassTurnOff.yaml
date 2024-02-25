@@ -1,10 +1,44 @@
-language: vi
+language: "vi"
 intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> [tất cả | toàn bộ] (đèn) trong <area>"
-          - "<turn_off> [tất cả | toàn bộ] đèn <area>"
-          - "<turn_off> đèn <area>"
+          - "<turn> tắt (<area> <name> <thiết_bị_đèn>|<name> <thiết_bị_đèn> [trong <area>])"
+          - "[<turn>] (<area> <name> <thiết_bị_đèn>|<name> <thiết_bị_đèn> [trong <area>]) [để] tắt"
+          - "ngưng hoạt động (<area> <name> <thiết_bị_đèn>|<name> <thiết_bị_đèn> [trong <area>])"
+        expansion_rules:
+          thiết_bị_đèn: "(đèn[s]|[công tắc đèn])"
+        requires_context:
+          domain: "light"
+      - sentences:
+          - "<turn> tắt [tất cả] <đèn> trong <area>"
+          - "<turn> tắt [tất cả] <área> <đèn>"
+          - "[<turn>] [tất cả] <area> <đèn> tắt"
+          - "[<turn>] [tất cả] <đèn> [trong] <area> tắt"
+          - "ngưng hoạt động [tất cả] <đèn> [trong] <area>"
+          - "ngưng hoạt động [tất cả] <area> <đèn>"
         slots:
           domain: "light"
+        response: "đèn_khu_vực"
+
+      - sentences:
+          - "[<turn>] (tất cả <đèn> tắt|<đèn> tắt mọi nơi)"
+          - "ngưng hoạt động (tất cả <đèn>|<đèn> mọi nơi)"
+        response: "tất_cả_đèn"
+        slots:
+          domain: "light"
+          name: "tất cả"
+
+      # Tắt đèn cùng khu vực với thiết bị vệ tinh
+      - sentences:
+          - "<turn> tắt [tất cả] <đèn>[<ở_đây>]"
+          - "<turn> [tất cả] <đèn>( tắt;<ở_đây>)"
+          - "<turn> [tất cả] <đèn> tắt"
+        response: "đèn_khu_vực"
+        expansion_rules:
+          ở_đây: "[ ở] đây"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true

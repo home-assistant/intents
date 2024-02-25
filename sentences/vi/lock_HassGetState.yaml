@@ -1,0 +1,36 @@
+language: "vi"
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<name> có {lock_states:state} [trong <area>] không"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(có|có phải) [có] bất kỳ cánh cửa nào {lock_states:state} [trong <area>] không"
+          - "(có|có phải) [có] bất kỳ cánh cửa nào đang {lock_states:state} [trong <area>] không"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "Tất cả các cánh cửa đều {lock_states:state} [trong <area>] chứ"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "Cánh cửa nào (đang|là) {lock_states:state} [trong <area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "Có bao nhiêu cánh cửa (đang|là) {lock_states:state} [trong <area>]"
+        response: how_many
+        slots:
+          domain: lock

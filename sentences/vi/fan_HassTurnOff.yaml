@@ -1,10 +1,36 @@
-language: vi
+language: "vi"
 intents:
   HassTurnOff:
     data:
       - sentences:
-          - "tắt <name> <area>"
-          - "tắt <name> [trong]  <area>"
-          - "tắt [tất cả | toàn bộ] <name> [trong] <area>"
+          - "<turn> tắt [tất cả] [cái] quạt [ở] <area>"
+          - "<turn> tắt quạt [tại] <area>"
+          - "[<turn>] tắt [tất cả] quạt [ở] <area>"
+          - "[<turn>] tắt [tất cả] [cái] quạt [ở] <area>"
+          - "dừng [tất cả] [cái] quạt [tại] <area>"
+          - "dừng [tất cả] quạt [tại] <area>"
         slots:
           domain: "fan"
+          name: "all"
+        response: fans_area
+
+      - sentences:
+          - "[<turn>] (tắt hết [tất cả] quạt|[tất cả] quạt ở mọi nơi)"
+          - "dừng (tất cả quạt|quạt ở mọi nơi)"
+        response: "light_all"
+        slots:
+          domain: "fan"
+          name: "all"
+
+      - sentences:
+          - "<turn> tắt[ tất cả][ cái] quạt[<in_here>]"
+          - "<turn>[ tất cả][ cái] quạt tắt[<in_here>]"
+          - "<turn> tắt[ tất cả][ cái] quạt"
+        response: "fans_area"
+        expansion_rules:
+          in_here: "[ở] đây"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+            slot: true
