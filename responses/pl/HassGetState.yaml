@@ -144,28 +144,30 @@ responses:
 
       which: |
         {% if not query.matched %}
-          {% if state.attributes.device_class in "shade" %}
-          Żadna osłona nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
-          {% elif state.attributes.device_class == "blind" %}
-          Żadna roleta nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
-          {% elif state.attributes.device_class == "curtain" %}
-          Żadna zasłona nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
-          {% elif state.attributes.device_class == "shutter" %}
-          Żadna żaluzja nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
-          {% elif state.attributes.device_class == "garage" %}
-          Żaden garaż nie jest {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
-          {% elif state.attributes.device_class == "gate" %}
-          Żadna brama nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
-          {% elif state.attributes.device_class == "door" %}
-          Żadne drzwi nie są {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
-          {% elif state.attributes.device_class == "damper" %}
-          Żadna klapa nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
-          {% elif state.attributes.device_class == "awning" %}
-          Żadna markiza nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
-          {% elif state.attributes.device_class == "window" %}
-          Żadne okno nie jest {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
-          {% elif state.domain == "light" %}
-          Żadne
+          {% if state.domain == "light" %}
+            Żadne
+          {% elif state.attributes and state.attributes.device_class %}
+            {% if state.attributes.device_class in "shade" %}
+            Żadna osłona nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "blind" %}
+            Żadna roleta nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "curtain" %}
+            Żadna zasłona nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "shutter" %}
+            Żadna żaluzja nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "garage" %}
+            Żaden garaż nie jest {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
+            {% elif state.attributes.device_class == "gate" %}
+            Żadna brama nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "door" %}
+            Żadne drzwi nie są {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
+            {% elif state.attributes.device_class == "damper" %}
+            Żadna klapa nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "awning" %}
+            Żadna markiza nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "window" %}
+            Żadne okno nie jest {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
+            {% endif %}
           {% else %}
           Żadna
           {% endif %}
