@@ -2,25 +2,85 @@ language: pl
 responses:
   intents:
     HassGetState:
-      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+      default: |
+        {% if state.state_with_unit == 'open': %}
+          {% if slots.name | last == "a" %}Otwarta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}Otwarte{% else %}Otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if slots.name | last == "a" %}Zamknięta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}Zamknięte{% else %}Zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if slots.name | last == "a" %}Włączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}Włączone{% else %}Włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if slots.name | last == "a" %}Wyłączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}Wyłączone{% else %}Wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
 
       one: |
-        {{ slots.name | capitalize }} jest {{ state.state_with_unit }}
+        {{ slots.name | capitalize }} jest 
+        {% if state.state_with_unit == 'open': %}
+          {% if slots.name | last == "a" %}otwarta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if slots.name | last == "a" %}zamknięta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if slots.name | last == "a" %}włączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if slots.name | last == "a" %}wyłączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
 
       one_state: |
-        Stan {{ slots.name | capitalize }} to {{ state.state_with_unit }}
+        Stan {{ slots.name | capitalize }} to 
+        {% if state.state_with_unit == 'open': %}
+          {% if slots.name | last == "a" %}otwarta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if slots.name | last == "a" %}zamknięta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if slots.name | last == "a" %}włączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if slots.name | last == "a" %}wyłączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
 
       one_status: |
-        Status {{ slots.name | capitalize }} to {{ state.state_with_unit }}
+        Status {{ slots.name | capitalize }} to 
+        {% if state.state_with_unit == 'open': %}
+          {% if slots.name | last == "a" %}otwarta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if slots.name | last == "a" %}zamknięta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if slots.name | last == "a" %}włączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if slots.name | last == "a" %}wyłączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
 
       one_value: |
-        Wartość {{ slots.name | capitalize }} to {{ state.state_with_unit }}
+        Wartość {{ slots.name | capitalize }} to 
+        {% if state.state_with_unit == 'open': %}
+          {% if slots.name | last == "a" %}otwarta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if slots.name | last == "a" %}zamknięta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if slots.name | last == "a" %}włączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if slots.name | last == "a" %}wyłączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
 
       one_yesno: |
         {% if query.matched: %}
         Tak
         {% else: %}
-        Nie, {{ slots.name | capitalize }} jest {% if state.state_with_unit == 'open': %}otwarta{% elif state.state_with_unit == 'close': %}zamknięta{% else %}{{ state.state_with_unit }}{% endif %}
+        Nie, {{ slots.name | capitalize }} jest 
+        {% if state.state_with_unit == 'open': %}
+          {% if slots.name | last == "a" %}otwarta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if slots.name | last == "a" %}zamknięta{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if slots.name | last == "a" %}włączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if slots.name | last == "a" %}wyłączona{% elif is in(slots.name, ['e', 'i', 'o', 'u', 'y']) %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
         {% endif %}
 
       any: |

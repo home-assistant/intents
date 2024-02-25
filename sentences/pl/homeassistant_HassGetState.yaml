@@ -40,6 +40,7 @@ intents:
       - sentences:
           - "czy [stan|status|wartość] <name> jest {on_off_states:state} [<area>]"
           - "czy [stan|status|wartość] <name> [<area>] jest {on_off_states:state}"
+          - "czy jest {on_off_states:state} <name> [<area>]"
         excludes_context:
           domain:
             - cover
@@ -47,13 +48,19 @@ intents:
 
       - sentences:
           - "(czy jest|czy są) [jakiś|jakieś] {on_off_domains:domain} {on_off_states:state} [<area>]"
+          - "(czy jest|czy są) {on_off_states:state} [jakiś|jakieś] {on_off_domains:domain} [<area>]"
           - "(czy jest|czy są) [<area>] [jakiś|jakieś] {on_off_domains:domain} {on_off_states:state}"
           - "czy [<area>] (jest|są) [jakiś|jakieś] {on_off_states:state} {on_off_domains:domain}"
+          - "czy [<area>] (jest|są) {on_off_states:state} [jakiś|jakieś] {on_off_domains:domain}"
         response: "any"
 
       - sentences:
           - "czy <all> {on_off_domains:domain} (jest|są) {on_off_states:state} [<area>]"
+          - "czy <all> {on_off_domains:domain} [<area>] (jest|są) {on_off_states:state}"
+          - "czy (jest|są) {on_off_states:state} <all> {on_off_domains:domain} [<area>]"
+          - "czy (jest|są) {on_off_states:state} [<area>] <all> {on_off_domains:domain}"
           - "czy [<area>] <all> {on_off_domains:domain} (jest|są) {on_off_states:state}"
+          - "czy [<area>] (jest|są) {on_off_states:state} <all> {on_off_domains:domain}"
         response: "all"
 
       - sentences:
