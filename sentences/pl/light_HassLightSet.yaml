@@ -11,9 +11,9 @@ intents:
 
       - sentences:
           - "<numeric_value_set> [jasność] <area> na <brightness>"
-          - "<numeric_value_set> [jasność] [<all>] [<light>] <area> na <brightness>"
+          - "<numeric_value_set> [jasność] [<all>] [<light>|<lights>] <area> na <brightness>"
         slots:
-          name: "all"
+          name: all
         response: "brightness_area"
 
       - sentences:
@@ -37,12 +37,12 @@ intents:
         response: "brightness"
 
       - sentences:
-          - "[<numeric_value_set>] {brightness_level:brightness} [<light>] <area>"
-          - "[<numeric_value_set>] {brightness_level:brightness} jasność [<light>] <area>"
+          - "[<numeric_value_set>] {brightness_level:brightness} [<light>|<lights>] <area>"
+          - "[<numeric_value_set>] {brightness_level:brightness} jasność [<light>|<lights>] <area>"
           - "[<numeric_value_set>] jasność na {brightness_level:brightness} <area>"
           - "[<numeric_value_set>] <area> {brightness_level:brightness} jasność"
         slots:
-          name: "all"
+          name: all
         response: "brightness_area"
 
       - sentences:
@@ -66,21 +66,21 @@ intents:
         response: "color"
 
       - sentences:
-          - "<set> [<all>] [<color>] [<light>] <area> na {color}"
-          - "<set> [<color>] [<all>] [<light>] <area> na {color}"
-          - "<set> [<color>] {color} [<light>] <area>"
-          - "<set> [<all>] [<light>] <area> na [kolor] {color}"
-          - "<set> [<all>] [<light>] <area> na {color} [kolor]"
-        slots:
-          name: "all"
+          - "<set> [<all>] [<color>] [<light>|<lights>] <area> na {color}"
+          - "<set> [<color>] [<all>] [<light>|<lights>] <area> na {color}"
+          - "<set> [<color>] {color} [<light>|<lights>] <area>"
+          - "<set> [<all>] [<light>|<lights>] <area> na [kolor] {color}"
+          - "<set> [<all>] [<light>|<lights>] <area> na {color} [kolor]"
         expansion_rules:
           color: "(kolor|kolory)"
+        slots:
+          name: all
         response: "color_area"
 
       - sentences:
-          - "[<set>] [<in_here>] kolor [<light>] na {color}"
-          - "[<set>] [<in_here>] {color} kolor [<light>]"
-          - "[<set>] kolor [<light>] [<in_here>] na {color}"
+          - "[<set>] [<in_here>] kolor [<light>|<lights>] na {color}"
+          - "[<set>] [<in_here>] {color} kolor [<light>|<lights>]"
+          - "[<set>] kolor [<light>|<lights>] [<in_here>] na {color}"
         expansion_rules:
           in_here: "(tutaj|w tym miejscu|w tym pokoju|w tym pomieszczeniu)"
         requires_context:
