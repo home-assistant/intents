@@ -12,7 +12,7 @@ responses:
           'hail': 'with hail',
           'lightning': 'with lightning',
           'lightning-rainy': 'with lightning and rain',
-          'partlycloudy': 'and partly cloudy',
+          'partly-cloudy': 'and partly cloudy',
           'pouring': 'and pouring rain',
           'rainy': 'and raining',
           'snowy': 'and snowing',
@@ -21,4 +21,4 @@ responses:
           'windy': 'and windy',
           'windy-variant': 'with wind and clouds'
         } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).replace(' ', '-').lower(), "") }}
