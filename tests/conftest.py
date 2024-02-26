@@ -10,7 +10,7 @@ import yaml
 from hassil import Intents
 from hassil.util import merge_dict
 
-from . import INTENTS_FILE, TESTS_DIR, LANGUAGES, RESPONSES_DIR, load_sentences
+from . import INTENTS_FILE, LANGUAGES, RESPONSES_DIR, TESTS_DIR, load_sentences
 
 
 def pytest_addoption(parser):
