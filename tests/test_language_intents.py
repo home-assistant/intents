@@ -17,7 +17,7 @@ from hassil.expression import (
 )
 from hassil.intents import TextSlotList
 
-from . import TESTS_DIR
+from . import SENTENCES_DIR
 
 
 def test_language_common(
@@ -217,8 +217,8 @@ def gen_test(test_file: str) -> None:
 def gen_tests() -> None:
     names = {
         test_file.name
-        for test_file in TESTS_DIR.glob("*/*.yaml")
-        if test_file.name != "_fixtures.yaml"
+        for test_file in SENTENCES_DIR.glob("*/*.yaml")
+        if test_file.name != "_common.yaml"
     }
 
     for name in names:
