@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 from typing import Any, List
 
 import pytest
@@ -187,7 +186,7 @@ def do_test_language_sentences_file(
                 ), f"Incorrect response for: {sentence}"
 
 
-def gen_test(test_file: Path) -> None:
+def gen_test(test_file_stem: str) -> None:
     def test_func(
         language: str,
         intent_schemas: dict[str, Any],
@@ -199,7 +198,7 @@ def gen_test(test_file: Path) -> None:
     ) -> None:
         do_test_language_sentences_file(
             language,
-            test_file.stem,
+            test_file_stem,
             intent_schemas,
             slot_lists,
             states,
@@ -208,16 +207,19 @@ def gen_test(test_file: Path) -> None:
             language_responses,
         )
 
-    test_func.__name__ = f"test_{test_file.stem}"
+    test_func.__name__ = f"test_{test_file_stem}"
     setattr(sys.modules[__name__], test_func.__name__, test_func)
 
 
 def gen_tests() -> None:
-    lang_dir = TESTS_DIR / "en"
+    names = {
+        test_file.stem
+        for test_file in TESTS_DIR.glob("*/*.yaml")
+        if test_file.name != "_fixtures.yaml"
+    }
 
-    for test_file in lang_dir.glob("*.yaml"):
-        if test_file.name != "_fixtures.yaml":
-            gen_test(test_file)
+    for name in names:
+        gen_test(name)
 
 
 gen_tests()
