@@ -46,6 +46,29 @@ def areas_fixture(language: str) -> List[AreaEntry]:
     return get_areas(fixtures)
 
 
+
+@pytest.fixture(name="valid_test_files", scope="session")
+def valid_test_files_fixture() -> list[str]:
+    """Loads the valid tests for a language."""
+    lang_dir = TESTS_DIR / "en"
+    return {
+        test_file.name
+        for test_file in lang_dir.glob("*.yaml")
+    }
+
+
+
+def test_valid_test_files(language: str, valid_test_files: set[str]) -> None:
+    """Test that all files for a language have tests generated for them.
+
+    We test languages based on the files that exist in English. If an individual
+    language adds a different test file, it will not be tested.
+    """
+    lang_dir = TESTS_DIR / language
+    for test_file in lang_dir.glob("*.yaml"):
+        assert test_file.name in valid_test_files, f"The file {test_file.name} will not be tested. It does not exist for English."
+
+
 def do_test_language_sentences_file(
     language: str,
     test_file: str,
