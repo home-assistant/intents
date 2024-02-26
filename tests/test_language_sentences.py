@@ -187,7 +187,7 @@ def do_test_language_sentences_file(
                 ), f"Incorrect response for: {sentence}"
 
 
-def gen_test(test_file_stem: Path) -> None:
+def gen_test(test_file_stem: str) -> None:
     def test_func(
         language: str,
         intent_schemas: dict[str, Any],
