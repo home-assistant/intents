@@ -46,26 +46,6 @@ def areas_fixture(language: str) -> List[AreaEntry]:
     return get_areas(fixtures)
 
 
-@pytest.fixture(name="valid_test_files", scope="session")
-def valid_test_files_fixture() -> list[str]:
-    """Loads the valid tests for a language."""
-    lang_dir = TESTS_DIR / "en"
-    return {test_file.name for test_file in lang_dir.glob("*.yaml")}
-
-
-def test_valid_test_files(language: str, valid_test_files: set[str]) -> None:
-    """Test that all files for a language have tests generated for them.
-
-    We test languages based on the files that exist in English. If an individual
-    language adds a different test file, it will not be tested.
-    """
-    lang_dir = TESTS_DIR / language
-    for test_file in lang_dir.glob("*.yaml"):
-        assert (
-            test_file.name in valid_test_files
-        ), f"The file {test_file.name} will not be tested. It does not exist for English."
-
-
 def do_test_language_sentences_file(
     language: str,
     test_file: str,
@@ -207,7 +187,7 @@ def do_test_language_sentences_file(
                 ), f"Incorrect response for: {sentence}"
 
 
-def gen_test(test_file: Path) -> None:
+def gen_test(test_file_stem: Path) -> None:
     def test_func(
         language: str,
         intent_schemas: dict[str, Any],
@@ -219,7 +199,7 @@ def gen_test(test_file: Path) -> None:
     ) -> None:
         do_test_language_sentences_file(
             language,
-            test_file.stem,
+            test_file_stem,
             intent_schemas,
             slot_lists,
             states,
@@ -228,16 +208,19 @@ def gen_test(test_file: Path) -> None:
             language_responses,
         )
 
-    test_func.__name__ = f"test_{test_file.stem}"
+    test_func.__name__ = f"test_{test_file_stem}"
     setattr(sys.modules[__name__], test_func.__name__, test_func)
 
 
 def gen_tests() -> None:
-    lang_dir = TESTS_DIR / "en"
+    names = {
+        test_file.stem
+        for test_file in TESTS_DIR.glob("*/*.yaml")
+        if test_file.name != "_fixtures.yaml"
+    }
 
-    for test_file in lang_dir.glob("*.yaml"):
-        if test_file.name != "_fixtures.yaml":
-            gen_test(test_file)
+    for name in names:
+        gen_test(name)
 
 
 gen_tests()
