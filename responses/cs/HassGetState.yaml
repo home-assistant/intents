@@ -82,6 +82,8 @@ responses:
       where: |
         {% if state == "not_home" %}
           {{ slots.name | capitalize }} je pryč
+        {% elif state.state == "home" %}
+          {{ slots.name | capitalize }} je doma
         {% else %}
-          {{ slots.name | capitalize }} je {{ state.state }}
+          {{ slots.name | capitalize }} je v zóně {{ state.state }}
         {% endif %}
