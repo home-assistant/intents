@@ -54,10 +54,17 @@ responses:
             Ne, {{ no_match[:3] | join(", ") }} a {{ (no_match | length - 3) }} další jsou {{ state.state_with_unit }}
           {%- else -%}
             Ne,
+            {% if state.state_with_unit == "home" %}
+              {% set state_with_unit = "doma" %}
+            {% elif state.state_with_unit == "not_home" %}
+              {% set state_with_unit = "mimo domov" %}
+            {% else %}
+              {% set state_with_unit = state.state_with_unit %}
+            {% endif %}
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} a {% endif -%}
               {{ name }}
-            {%- endfor %} {{ 'není' if no_match | length == 1 else 'nejou'}} {{ state.state_with_unit }}
+            {%- endfor %} {{ 'není' if no_match | length == 1 else 'nejsou'}} {{ state_with_unit }}
           {% endif %}
         {% endif %}
 
@@ -78,3 +85,12 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state.state == "not_home" %}
+          {{ slots.name | capitalize }} je mimo domov
+        {% elif state.state == "home" %}
+          {{ slots.name | capitalize }} je doma
+        {% else %}
+          {{ slots.name | capitalize }} je v zóně {{ state.state }}
+        {% endif %}
