@@ -1,0 +1,67 @@
+language: fr
+intents:
+  HassSetPosition:
+    data:
+      # name
+      - sentences:
+          # Regler la position du volet à 50%
+          - "<regle> [la position] [<de>] [<le>]{name} [(à|sur)] {position}<pourcent>"
+          # ouvre le volet a 50%
+          - "(<ouvre>|<ferme>) [<le>]{name} [à] {position}<pourcent>"
+        requires_context:
+          domain: cover
+
+      # device_class and area
+      - sentences:
+          # Ouvre tous les volets du salon à 80%
+          - "(<ouvre>|<ferme>) [<tous>] [<le>]{cover_classes:device_class} [<dans>] [<le>]{area} [à] {position}<pourcent>"
+          # Régler la position des rideaux de la cuisise sur 40%
+          - "<regle> [la position] [<de>] [<tous>] [<le>]{cover_classes:device_class} [<dans>] [<le>]{area} [(à|sur)] {position}<pourcent>"
+        slots:
+          domain: cover
+
+      # name and area
+      - sentences:
+          # ouvre le volet du salon à 80%
+          - "(<ouvre>|<ferme>) [<le>]{name} [<dans>] [<le>]{area} [à] {position}<pourcent>"
+          # Règle la position du rideaux de la cuisine sur 80%
+          - "<regle> [la position] [<de>] [<le>]{name} [<dans>] [<le>]{area} [(à|sur)] {position}<pourcent>"
+        requires_context:
+          domain: cover
+
+      # device_class
+      - sentences:
+          # Ouvrir tous les volets à 50%
+          - "(<ouvre>|<ferme>) <tous> [<le>]{cover_classes:device_class} [à] {position}<pourcent>"
+          # Ouvrir les volets de toute la maison à 50%
+          - "(<ouvre>|<ferme>) [<tous>] [<le>]{cover_classes:device_class} <partout> [à] {position}<pourcent>"
+          # Ouvre les volets à 50% dans toute la maison
+          - "(<ouvre>|<ferme>) [<tous>] [<le>]{cover_classes:device_class} [à] {position}<pourcent> <partout>"
+          # Régler la position de tous les rideaux sur 50%
+          - "<regle> [la position] [<de>] <tous> [<le>]{cover_classes:device_class} [(à|sur)] {position}<pourcent>"
+          # Règle la position des rideaux de toute la maison sur 50%
+          - "<regle> [la position] [<de>] [<tous>] [<le>]{cover_classes:device_class} <partout> [(à|sur)] {position}<pourcent>"
+          # Règle la position des rideaux sur 50% dans toute la maison
+          - "<regle> [la position] [<de>] [<tous>] [<le>]{cover_classes:device_class} [(à|sur)] {position}<pourcent> <partout>"
+        slots:
+          domain: cover
+
+      # Context area awareness
+      - sentences:
+          # Ouvre les rideaux à 50%
+          - "(<ouvre>|<ferme>) [<le>]{cover_classes:device_class} [à] {position}<pourcent>"
+          # Ouvre tous les rideaux de cette pièce à 50%
+          - "(<ouvre>|<ferme>) [<tous>] [<le>]{cover_classes:device_class} <ici> [à] {position}<pourcent>"
+          # Ouvre tous les rideaux à 50% dans cette pièce
+          - "(<ouvre>|<ferme>) [<tous>] [<le>]{cover_classes:device_class} [à] {position}<pourcent> <ici>"
+          # Règler la position des rideaux sur 50%
+          - "<regle> [la position] [<de>] [<le>]{cover_classes:device_class} [(à|sur)] {position}<pourcent>"
+          # Règler la position tous les rideaux de cette pièce sur 50%
+          - "<regle> [la position] [<de>] [<tous>] [<le>]{cover_classes:device_class} <ici> [(à|sur)] {position}<pourcent>"
+          # Règler la position tous les rideaux sur 50% dans cette pièce
+          - "<regle> [la position] [<de>] [<tous>] [<le>]{cover_classes:device_class} [(à|sur)] {position}<pourcent> <ici>"
+        slots:
+          domain: cover
+        requires_context:
+          area:
+            slot: true
