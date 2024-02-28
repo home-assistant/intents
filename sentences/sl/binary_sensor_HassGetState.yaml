@@ -413,6 +413,7 @@ intents:
       # Motion
       - sentences:
           - "([ali] je) <name> [[v|na] <area>] {bs_motion_states:state}"
+          - "([ali] je) {bs_motion_states:state} <name> [[v|na] <area>]"
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -430,7 +431,6 @@ intents:
 
       - sentences:
           - "([ali] je) [zaznano|detektirano] kakšno gibanje [zaznano|detektirano] [[v|na] <area>]"
-          #- "is there [any] motion [in <area>]"
         response: any
         slots:
           domain: binary_sensor
@@ -462,7 +462,18 @@ intents:
       # Occupancy
       - sentences:
           - "([ali] je|se je) <name> [[v|na] <area>] {bs_motion_states:state}"
-          - "([ali] je|se je) <name> {bs_motion_states:state} [[v|na] <area>]"
+          - "([ali] je|se je) <name> {bs_motion_states:state} [[v|na] <area>] "
+          - "([ali] je|se je) <name>  [[v|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "([ali] je) <area> {bs_motion_states:state}"
         response: one_yesno
         requires_context:
           domain: binary_sensor
