@@ -1,0 +1,73 @@
+language: fr
+tests:
+  - sentences:
+      - Mets le rideau droit à 50%
+      - Ouvre le rideau droit à 50%
+      - Régler la position du rideau droit sur 50%
+    intent:
+      name: HassSetPosition
+      slots:
+        name: rideau droit
+        position: 50
+      context:
+        domain: cover
+        device_class: curtain
+    response: Position réglée
+  - sentences:
+      - Ferme les rideaux de la cuisine à 20%
+      - Régler la position de tous les rideaux de la cuisine sur 20%
+    intent:
+      name: HassSetPosition
+      slots:
+        area: cuisine
+        device_class: curtain
+        domain: cover
+        position: 20
+    response: Position réglée
+  - sentences:
+      - Mets le rideau gauche du salon à 30%
+      - Ouvre le rideau gauche du salon à 30%
+      - Régler la position du rideau gauche du salon sur 30%
+    intent:
+      name: HassSetPosition
+      slots:
+        name: rideau gauche
+        area: salon
+        position: 30
+      context:
+        domain: cover
+        device_class: curtain
+    response: Position réglée
+  - sentences:
+      - Ferme tous les volets à 20%
+      - Ouvrir les volets de toute la maison à 20%
+      - Ouvre les volets à 20% dans toute la maison
+      - Régler la position de tous les volets sur 20%
+      - Règle la position des volets de toute la maison sur 20%
+      - Règle la position des volets sur 20% dans toute la maison
+    intent:
+      name: HassSetPosition
+      slots:
+        device_class: shutter
+        domain: cover
+        position: 20
+    response: Position réglée
+  - sentences:
+      - Ouvrir les stores à 50%
+      - Ouvre tous les stores de cette pièce à 50%
+      - Ouvre tous les stores à 50% dans cette pièce
+      - Règle la position des stores sur 50%
+      - Régler la position tous les stores de cette pièce sur 50%
+      - Règle la position tous les stores sur 50% ici
+    intent:
+      name: HassSetPosition
+      context:
+        area: salon
+      slots:
+        area: salon
+        device_class:
+          - blind
+          - shade
+        domain: cover
+        position: 50
+    response: Position réglée
