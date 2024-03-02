@@ -4,6 +4,8 @@ responses:
     HassGetState:
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
       one: |
         {{ slots.name | capitalize }} je {{ state.state_with_unit }}
 
@@ -27,6 +29,13 @@ responses:
           Ano
         {% else %}
           Ne, {{ state.state_with_unit }}
+        {% endif %}
+
+      bs_yesno: |
+        {% if query.matched %}
+          Ano
+        {% else %}
+          Ne
         {% endif %}
 
       any: |
