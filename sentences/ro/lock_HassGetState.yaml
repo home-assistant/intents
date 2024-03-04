@@ -3,8 +3,7 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "<name> [<din_zona>] <este> {lock_states_singular:state}"
-          - "<este> {lock_states_singular:state} <name> [<din_zona>]"
+          - "(<name>[ <din_zona>];<este> {lock_states_singular:state})"
         response: one_yesno
         requires_context:
           domain: lock
@@ -12,28 +11,27 @@ intents:
           domain: lock
 
       - sentences:
-          - "<exista> [<vreun>] <usa> {lock_states_singular:state} [<in> <area>]"
-          - "(sunt | exist(ă|a)) <usile> {lock_states_plural:state} [<in> <area>]"
+          - "<exista> [<vreun> ]<usa> {lock_states_singular:state}[ <din_zona>]"
+          - "(sunt|exist(ă|a)) <usile> {lock_states_plural:state}[ <din_zona>]"
         response: any
         slots:
           domain: lock
 
       - sentences:
-          - "sunt toate <usile> {lock_states_plural:state} [<in> <area>]"
-          - "toate <usile> sunt {lock_states_plural:state} [<in> <area>]"
+          - "(sunt;toate <usile>) {lock_states_plural:state}[ <din_zona>]"
         response: all
         slots:
           domain: lock
 
       - sentences:
-          - "<care> <usa> <este> {lock_states_singular:state} [<in> <area>]"
-          - "<care> <usile> sunt {lock_states_plural:state} [<in> <area>]"
+          - "<care> <usa> <este> {lock_states_singular:state}[ <din_zona>]"
+          - "<care> <usile> sunt {lock_states_plural:state}[ <din_zona>]"
         response: which
         slots:
           domain: lock
 
       - sentences:
-          - "<cate> <usile> sunt {lock_states_plural:state} [<in> <area>]"
+          - "<cate> <usile> sunt {lock_states_plural:state}[ <din_zona>]"
         response: how_many
         slots:
           domain: lock

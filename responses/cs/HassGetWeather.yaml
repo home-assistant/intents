@@ -1,0 +1,24 @@
+language: cs
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'a jasno',
+          'clear-night': 'a jasno',
+          'cloudy': 'a zamračeno',
+          'exceptional': 'a výjímečně',
+          'fog': 's mlhou',
+          'hail': 's kroupami',
+          'lightning': 's bouřkami',
+          'lightning-rainy': 's bouřkami a deštěm',
+          'partlycloudy': 'a částečně zamračeno',
+          'pouring': 'a silný déšť',
+          'rainy': 'a přeháňky',
+          'snowy': 'a sněžení',
+          'snowy-rainy': 'a déšť se sněhem',
+          'sunny': 'a slunečno',
+          'windy': 'a větrno',
+          'windy-variant': 'se silným větrem'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}

@@ -7,60 +7,62 @@ responses:
       # số lượng tên trả về bị giới hạn là 4, nếu có nhiều hơn, ba tên đầu tiên và số lượng còn lại sẽ được trả về
       # với 4 tên trở xuống, các tên được nối lại bằng dấu phẩy ", " và tên cuối cùng được nối bằng " và "
       one: |
-        {{ slots.name | capitalize }} đang ở mức {{ state.state_with_unit }}
+        {{ slots.name | capitalize }} là {{ state.state_with_unit }}
 
       one_yesno: |
         {% if query.matched %}
-          Có
+          có
         {% else %}
-          Không, {{ state.state_with_unit }}
+          không, {{ state.state_with_unit }}
         {% endif %}
 
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Có, {{ match[:3] | join(", ") }} và thêm {{ (match | length - 3) }} nữa
+            có, {{ match[:3] | join(", ") }} và thêm {{ (match | length - 3) }} nữa
           {%- else -%}
-            Có,
+            có,
             {% for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} và {% endif -%}
               {{ name }}
-            {%- endfor -%}
+            {%- endfor -%} 
           {% endif %}
         {% else %}
-          Không
+          không
         {% endif %}
 
       all: |
         {% if not query.unmatched: %}
-          Có
+          có
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+
           {% if no_match | length > 4 %}
-            Không, {{ no_match[:3] | join(", ") }} và {{ (no_match | length - 3) }} nữa không phải là {{ slots.state }}
+            không, {{ no_match[:3] | join(", ") }} và {{ (no_match | length - 3) }} cái khác đều không  {{ slots.state }}
+          
           {%- else -%}
-            Không,
+            không,
             {% for name in no_match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} và {% endif -%}
               {{ name }}
-            {%- endfor %} {% if no_match | length > 1 %}are{% else %}is{% endif %} not {{ slots.state }}
+            {%- endfor %} không {{ slots.state }}
           {% endif %}
         {% endif %}
 
       which: |
         {% if not query.matched %}
-          Không có
+          không có
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
-          {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} và thêm {{ (match | length - 3) }} nữa
-          {% else %}
-            {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
-              {{ name }}
-            {%- endfor -%}
-          {% endif %}
+            {% if match | length > 4 %}
+              {{ match[:3] | join(", ") }} và {{ (match | length - 3) }} cái nữa
+            {% else %}
+              {%- for name in match -%}
+                {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} và {% endif -%}
+                {{ name }}
+              {%- endfor -%}
+            {% endif %}
         {% endif %}
 
       how_many: |
@@ -70,5 +72,5 @@ responses:
         {% if state == "not_home" %}
           {{ slots.name | capitalize }} đang vắng nhà
         {% else %}
-          {{ slots.name | capitalize }} đang ở tại {{ state.state }}
+          {{ slots.name | capitalize }} đang {{ state.state }}
         {% endif %}

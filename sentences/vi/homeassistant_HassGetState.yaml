@@ -3,33 +3,49 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - (bạn có biết|cho tôi biết|<what_is>) [trạng thái [hiện tại] của] <name> [trong <area>]
+          - "   [[giá trị] ;[trạng thái] ; [hiện tại]] [của] <name> [là] <what_is> [ (trong|của|ở|tại) <area>] "
+          # - "[bạn có biết|cho tôi biết|<what_is>] [trạng thái [hiện tại] của] <name> [là] <what_is> [trong <area>]"
+          # - "[bạn có biết|cho tôi biết|<what_is>] [trạng thái [hiện tại] của] <name> [là] [trong <area>] <what_is>"
+          - "   [ (trong|của|ở|tại) <area>] [[giá trị] ;[trạng thái] ; [hiện tại]] [của] <name> [là] <what_is>  "
         response: one
         excludes_context:
           domain:
             - scene
             - script
+
       - sentences:
-          - <name> có phải {on_off_states:state} không [trong <area>]
+          # - <name> có phải {on_off_states:state} không [trong <area>]
+          - " [[hiện tại];[trạng thái]] [của] <name>  [ [có];[đang];[được];[để] ] {on_off_states:state} [[có]phải] không [(trong|của|tại|ở) <area> ]"
+          - " [[hiện tại];[trạng thái]] [của] <name>  [ [có];[đang];[được];[để] ] {on_off_states:state} [(trong|của|tại|ở) <area> ] [[có]phải] không "
+          - "   [(trong|của|tại|ở) <area> ] [[hiện tại];[trạng thái]] [của] <name> [ [có];[đang];[được];[để] ] {on_off_states:state} [[có]phải] không "
+
         response: one_yesno
         excludes_context:
           domain:
             - cover
 
       - sentences:
-          - (có | liệu có) bất kỳ {on_off_domains:domain} nào {on_off_states:state} không [trong <area>]
-          - (bạn có biết | cho tôi biết) nếu có bất kỳ {on_off_domains:domain} nào {on_off_states:state} không [trong <area>]
+          - " [[hiện tại];[đang]] có [bất kì] {on_off_domains:domain} [nào] ( [ (trong|của|tại|ở) <area> ] ; [ [có];[đang];[được];[để] ] {on_off_states:state} )[hay[là]] không"
+          # - (có | liệu có) bất kỳ {on_off_domains:domain} nào {on_off_states:state} không [trong <area>]
+          # - (bạn có biết | cho tôi biết) nếu có bất kỳ {on_off_domains:domain} nào {on_off_states:state} không [trong <area>]
         response: any
 
       - sentences:
-          - tất cả [các] {on_off_domains:domain} đều được [(chuyển | đặt)] {on_off_states:state} không [trong <area>]
-          - tất cả [các] {on_off_domains:domain} trong <area> có đều [(chuyển | đặt)] {on_off_states:state} không
+          - " [liệu rằng|có phải] (tất cả|mọi) {on_off_domains:domain} [đều]  [ [có];[đang];[được];[để];[đã] ] {on_off_states:state} [(trong|của|tại|ở) <area> ] ( [[có]phải] không|chưa) "
+
+          - "  [liệu rằng|có phải] (tất cả|mọi) {on_off_domains:domain} [(trong|của|tại|ở) <area> ] [đều]  [ [đã];[có];[đang];[được];[để] ] {on_off_states:state}  ( [[có]phải] không|chưa) "
+          # - tất cả [các] {on_off_domains:domain} đều được [(chuyển | đặt)] {on_off_states:state} không [trong <area>]
+          # - tất cả [các] {on_off_domains:domain} trong <area> có đều [(chuyển | đặt)] {on_off_states:state} không
         response: all
 
       - sentences:
-          - "[bạn có biết] (nào | cái nào) {on_off_domains:domain} (là | đang) {on_off_states:state} [trong <area>]"
+          # - "[bạn có biết] (nào | cái nào) {on_off_domains:domain} (là | đang) {on_off_states:state} [trong <area>]"
+
+          - " [[hiện tại];[đang]] [có] {on_off_domains:domain} [nào] ( [ (trong|của|tại|ở) <area> ] ; [ [có];[đang];[được];[để] ] {on_off_states:state} ) [vậy|thế]"
+
         response: which
 
       - sentences:
-          - "[cho tôi biết] có bao nhiêu {on_off_domains:domain} (là | đang) {on_off_states:state} [trong <area>]"
+          - " có bao nhiêu [cái] {on_off_domains:domain} ( [ [có];[đang];[được];[để] ] {on_off_states:state} ; [(trong|của|ở|tại)<area>] )"
+          # - "[cho tôi biết] có bao nhiêu {on_off_domains:domain} (là | đang) {on_off_states:state} [trong <area>]"
         response: how_many

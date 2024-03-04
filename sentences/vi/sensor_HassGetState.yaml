@@ -3,6 +3,34 @@ intents:
   HassGetState:
     data:
       # https://www.home-assistant.io/integrations/sensor/
+
+      # # todo
+      # # Distance
+      # - sentences:
+      #     - "<what_is_the_class_of_name>"
+      #   response: one
+      #   requires_context:
+      #     domain: sensor
+      #     device_class: distance
+      #   slots:
+      #     domain: sensor
+      #     device_class: distance
+      #   expansion_rules:
+      #     class: "(khoảng cách|quãng đường [đã đi]|độ dài)"
+
+      # # Temperature
+      # - sentences:
+      #     - "<what_is_the_class_of_name>"
+      #   response: one
+      #   requires_context:
+      #     domain: sensor
+      #     device_class: temperature
+      #   slots:
+      #     domain: sensor
+      #     device_class: temperature
+      #   expansion_rules:
+      #     class: "nhiệt độ"
+
       # Apparent power
       - sentences:
           - "<what_is_the_class_of_name>"
@@ -14,7 +42,7 @@ intents:
           domain: sensor
           device_class: apparent_power
         expansion_rules:
-          class: "công suất tỏa ra"
+          class: "(công suất tỏa ra|công suất biểu kiến|công suất)"
 
       # AQI
       - sentences:
@@ -27,7 +55,7 @@ intents:
           domain: sensor
           device_class: aqi
         expansion_rules:
-          class: "(AQI|chỉ số chất lượng không khí)"
+          class: "(AQI|chỉ số chất lượng không khí|chỉ số |chất lượng không khí)"
 
       # Atmospheric pressure
       - sentences:
@@ -40,12 +68,12 @@ intents:
           domain: sensor
           device_class: atmospheric_pressure
         expansion_rules:
-          class: "áp suất khí quyển"
+          class: "(áp suất [khí quyển])"
 
       # Battery
       - sentences:
           - "<what_is_the_class_of_name>"
-          - "pin <name> còn bao nhiêu (đã qua sử dụng|còn lại)"
+          - "{name} (còn [lại] |có ) bao nhiêu pin"
         response: one
         requires_context:
           domain: sensor
@@ -54,7 +82,7 @@ intents:
           domain: sensor
           device_class: battery
         expansion_rules:
-          class: "mức pin còn lại"
+          class: "mức pin [còn lại]"
 
       # CO2
       - sentences:
@@ -67,7 +95,7 @@ intents:
           domain: sensor
           device_class: carbon_dioxide
         expansion_rules:
-          class: "nồng độ khí CO2"
+          class: "(nồng độ|mức[độ]) [khí] CO2"
 
       # CO
       - sentences:
@@ -80,7 +108,7 @@ intents:
           domain: sensor
           device_class: carbon_monoxide
         expansion_rules:
-          class: "nồng độ khí CO"
+          class: "(nồng độ|mức[độ]) [khí] (CO|monoxide carbon|cacbon monoxit)"
 
       # Current
       - sentences:
@@ -93,7 +121,7 @@ intents:
           domain: sensor
           device_class: current
         expansion_rules:
-          class: "dòng điện"
+          class: "[lượng] [dòng] điện"
 
       # Data rate
       - sentences:
@@ -106,7 +134,7 @@ intents:
           domain: sensor
           device_class: data_rate
         expansion_rules:
-          class: "tốc độ truyền dữ liệu"
+          class: "tốc độ (truyền dữ liệu|tải xuống) "
 
       # Data size
       - sentences:
@@ -119,12 +147,12 @@ intents:
           domain: sensor
           device_class: data_size
         expansion_rules:
-          class: "kích thước dữ liệu"
+          class: "kích thước [dữ liệu]"
 
       # Date
       - sentences:
           - "<what_is_the_class_of_name>"
-          - "khi nào (là|sẽ là|đã xảy ra|sẽ xảy ra) <name>"
+          - "{name} [sẽ|sắp] [là] [vào] (bao giờ| ngày nào|lúc nào|thời điểm nào |khi nào) "
         response: one
         requires_context:
           domain: sensor
@@ -134,19 +162,6 @@ intents:
           device_class: date
         expansion_rules:
           class: "ngày"
-
-      # Distance
-      - sentences:
-          - "<what_is_the_class_of_name>"
-        response: one
-        requires_context:
-          domain: sensor
-          device_class: distance
-        slots:
-          domain: sensor
-          device_class: distance
-        expansion_rules:
-          class: "khoảng cách"
 
       # Duration
       - sentences:
@@ -172,7 +187,7 @@ intents:
           domain: sensor
           device_class: energy
         expansion_rules:
-          class: "năng lượng"
+          class: "[lượng] năng lượng"
 
       # Energy storage
       - sentences:
@@ -185,7 +200,7 @@ intents:
           domain: sensor
           device_class: energy_storage
         expansion_rules:
-          class: "năng lượng lưu trữ"
+          class: "[lượng] năng lượng [lưu trữ]"
 
       # Skipping enum
 
@@ -213,7 +228,7 @@ intents:
           domain: sensor
           device_class: gas
         expansion_rules:
-          class: "khí gas"
+          class: "[lượng] [khí] gas"
 
       # Humidity
       - sentences:
@@ -226,7 +241,7 @@ intents:
           domain: sensor
           device_class: humidity
         expansion_rules:
-          class: "độ ẩm"
+          class: "độ ẩm [tương đối]"
 
       # Illuminance
       - sentences:
@@ -239,7 +254,7 @@ intents:
           domain: sensor
           device_class: illuminance
         expansion_rules:
-          class: "cường độ ánh sáng"
+          class: "[cường] độ [ánh] sáng"
 
       # Irradiance
       - sentences:
@@ -278,7 +293,7 @@ intents:
           domain: sensor
           device_class: monetary
         expansion_rules:
-          class: "tiền"
+          class: "(giá [tiền] | [giá] tiền )"
 
       # Nitrogen dioxide
       - sentences:
@@ -330,7 +345,7 @@ intents:
           domain: sensor
           device_class: ozone
         expansion_rules:
-          class: "nồng độ ozone"
+          class: "(nồng|mức) độ ozone"
 
       # PM1
       - sentences:
@@ -343,7 +358,7 @@ intents:
           domain: sensor
           device_class: pm1
         expansion_rules:
-          class: "nồng độ bụi PM1"
+          class: "(nồng độ|mức [độ]) [bụi] PM1"
 
       # PM2.5
       - sentences:
@@ -356,7 +371,7 @@ intents:
           domain: sensor
           device_class: pm25
         expansion_rules:
-          class: "nồng độ bụi PM2.5"
+          class: "(nồng độ|mức [độ] ) [bụi] PM2.5"
 
       # PM10
       - sentences:
@@ -369,7 +384,7 @@ intents:
           domain: sensor
           device_class: pm10
         expansion_rules:
-          class: "nồng độ bụi PM10"
+          class: "(nồng độ|mức[độ] ) [bụi] PM10"
 
       # Power factor
       - sentences:
@@ -408,7 +423,7 @@ intents:
           domain: sensor
           device_class: precipitation
         expansion_rules:
-          class: "mưa"
+          class: "lượng mưa [tích lũy]"
 
       # Precipitation intensity
       - sentences:
@@ -486,7 +501,7 @@ intents:
           domain: sensor
           device_class: speed
         expansion_rules:
-          class: "tốc độ gió"
+          class: "tốc độ"
 
       # Sulphur dioxide
       - sentences:
@@ -501,22 +516,9 @@ intents:
         expansion_rules:
           class: "nồng độ SO2"
 
-      # Temperature
-      - sentences:
-          - "<what_is_the_class_of_name>"
-        response: one
-        requires_context:
-          domain: sensor
-          device_class: temperature
-        slots:
-          domain: sensor
-          device_class: temperature
-        expansion_rules:
-          class: "nhiệt độ"
-
       # Skipping Timestamp
 
-      # Volatile organic compounds
+      # Volatile organic compoundssen
       - sentences:
           - "<what_is_the_class_of_name>"
         response: one
@@ -527,7 +529,7 @@ intents:
           domain: sensor
           device_class: volatile_organic_compounds
         expansion_rules:
-          class: "hợp chất hữu cơ dễ bay hơi"
+          class: "(hợp chất hữu cơ dễ bay hơi|nồng độ hợp chất hữu cơ)"
 
       # Volatile organic compounds
       - sentences:
@@ -540,7 +542,7 @@ intents:
           domain: sensor
           device_class: volatile_organic_compounds_parts
         expansion_rules:
-          class: "phần hợp chất hữu cơ dễ bay hơi"
+          class: "(phần hợp chất hữu cơ dễ bay hơi|nồng độ hợp chất hữu cơ)"
 
       # Voltage
       - sentences:
@@ -579,7 +581,7 @@ intents:
           domain: sensor
           device_class: volume_storage
         expansion_rules:
-          class: "thể tích lưu trữ"
+          class: "[tổng] thể tích [đã] [lưu trữ]"
 
       # Water
       - sentences:
@@ -592,7 +594,7 @@ intents:
           domain: sensor
           device_class: water
         expansion_rules:
-          class: "nước tiêu thụ"
+          class: "[lượng] nước tiêu thụ [tổng cộng]"
 
       # Weight
       - sentences:

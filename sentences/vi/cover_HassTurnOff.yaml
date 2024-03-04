@@ -3,31 +3,32 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<close> <name> [tại <area>]"
+          - "<đóng> <name> [[tại|trong|của|ở] <area>]"
         requires_context:
           domain: cover
         response: cover
 
       - sentences:
-          - "<close> cửa garage"
+          - "<đóng> cửa garage"
         slots:
           domain: cover
           device_class: garage
         response: cover_device_class
 
       - sentences:
-          - "<close> {cover_classes:device_class} [tại <area>]"
-          - "<close> {cover_classes:device_class} ở <area>"
+          - "<đóng> {cover_classes:device_class} [tại|trong|của|ở] <area>"
+          # - "<đóng> {cover_classes:device_class} (tại|trong|của|ở) <area>"
         slots:
           domain: cover
         response: cover_device_class
 
       - sentences:
-          - "<close> {cover_classes:device_class}[<in_here>]"
+          - "<đóng> {cover_classes:device_class} [<in_here>] "
         expansion_rules:
-          in_here: "[ trong] đây"
+          in_here: "ở đây | tại đây | trong đây | [ở|tại|trong] [phòng|chỗ] này"
         slots:
           domain: cover
+          device_class: curtain
         response: cover_device_class
         requires_context:
           area:
