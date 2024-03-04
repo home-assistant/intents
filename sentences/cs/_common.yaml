@@ -119,16 +119,16 @@ lists:
 
   bs_door_states:
     values:
-      - in: "otevřené"
+      - in: "otevřen(é|á|ý)"
         out: "on"
-      - in: "zavřené"
+      - in: "zavřen(é|á|ý)"
         out: "off"
 
   bs_garage_door_states:
     values:
-      - in: "otevřené"
+      - in: "otevřen(é|á|ý)"
         out: "on"
-      - in: "zavřené"
+      - in: "zavřen(é|á|ý)"
         out: "off"
 
   bs_gas_states:
@@ -161,9 +161,9 @@ lists:
 
   bs_moisture_states:
     values:
-      - in: "vlhké"
+      - in: "vlhk(é|ý)"
         out: "on"
-      - in: "suché"
+      - in: "such(é|ý)"
         out: "off"
 
   bs_motion_states:
@@ -175,16 +175,16 @@ lists:
 
   bs_occupancy_states:
     values:
-      - in: "přítomný"
+      - in: "přítomn(ý|ost)"
         out: "on"
-      - in: "nepřítomný"
+      - in: "nepřítomn(ý|ost)"
         out: "off"
 
   bs_opening_states:
     values:
-      - in: "otevřený"
+      - in: "otevřen(ý|ých|y|o|é)"
         out: "on"
-      - in: "zavřený"
+      - in: "zavřen(ý|ých|y|o|é)"
         out: "off"
 
   bs_plug_states:
@@ -292,6 +292,16 @@ lists:
       type: "temperature"
       from: 0
       to: 100
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   temperature_unit:
     values:
       - "celsia"
@@ -317,6 +327,9 @@ expansion_rules:
   ztlumit: "(ztlu(m|it)|snížit|sniž)"
   zvysit: "zv(yš|ýšit)"
   teplota: "{temperature}[°| stupňů] [{temperature_unit}]"
+  pozice: "{position}[[ ]%| procent]"
+  volume: "{volume:volume_level}[[ ]%| procent]"
+
   brightness: "[na] {brightness}[%| procent]"
   zavrit: "(zavři|zavřít)"
   otevrit: "(otevři|otevřít)"
@@ -324,7 +337,17 @@ expansion_rules:
   zatahnout: "zatáhn(out|i)"
   ktere: "(kter(á|é)|jak(é|á))"
   prejit: "(přejít|přejdi)"
+  je_jsou: "(je|jsou)"
   v: "(v|ve|na)"
+  y_ej: "(ý|ej)"
+  y_e: "(ý|é)"
+  koncentrace: "(úroveň|množství|koncentrace)"
+  jaky_je: "(jak<y_e> (je|bude)|jaká (je|bude)|jakou|jaká|jak|kolik|kolik (je|bude))"
+  jaka_je_class_of_name: >
+    (
+       <jaky_je> <class> [(je|byla)] [[(na|z)]měřen(á|ý|é)] [(na|na sen(z|s)oru|sen(z|s)orem)] {name} [<area>]
+       |<jaky_je> <area> <class> (na|z)měřen(á|ý) [(na sen(z|s)oru|sen(z|s)orem)] {name}
+     )
 
 skip_words:
   - "prosím"
