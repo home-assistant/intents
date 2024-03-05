@@ -187,7 +187,9 @@ responses:
         {{ query.matched | length }}
 
       where: |
-        {% if state == "not_home" %}
+        {% if state.state == "home" %}
+          {{ slots.name | capitalize }} jest w domu
+        {% elif state.state == "not_home" %}
           {{ slots.name | capitalize }} jest poza domem
         {% else %}
           {{ slots.name | capitalize }} jest w {{ state.state }}
