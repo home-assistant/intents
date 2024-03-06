@@ -1,6 +1,15 @@
 language: sl
 tests:
   - sentences:
+      - "zapri garažna vrata"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        device_class: garage
+    response: "Zapiram garažna vrata"
+
+  - sentences:
       - "zapri okno v kuhinji"
     intent:
       name: HassTurnOff
@@ -22,15 +31,7 @@ tests:
         domain: cover
         device_class: window
     response: "Zapiram okna"
-  - sentences:
-      - "zapri kuhinjsko okno"
-    intent:
-      name: HassTurnOff
-      slots:
-        domain: cover
-        area: kuhinjsko
-        device_class: window
-    response: "Zapiram okno"
+
   - sentences:
       - "zapri vrata na hodniku"
       - "zapri vrata dnevne sobe"
@@ -45,14 +46,6 @@ tests:
         domain: cover
         device_class: door
     response: "Zapiram vrata"
-  - sentences:
-      - "zapri garažo"
-    intent:
-      name: HassTurnOff
-      slots:
-        domain: cover
-        device_class: garage
-    response: "Zapiram garažo"
 
   - sentences:
       - "zapri zavese v dnevni sobi"
@@ -76,20 +69,16 @@ tests:
     response: "Zapiram žaluzije"
 
   - sentences:
-      - zapri strešno okno v kuhinji
+      - "zapri žaluzijo"
     intent:
       name: HassTurnOff
       slots:
-        area: "kuhinji"
         domain: cover
-        device_class: window
-      context:
-        domain: cover
-        device_class: window
-    response: "Zapiram strešno okno"
+        device_class: blinds
+    response: "Zapiram žaluzijo"
 
   - sentences:
-      - "zapri vhodna vrata"
+      - "zapri vrata"
     intent:
       name: HassTurnOff
       slots:
@@ -98,7 +87,7 @@ tests:
       context:
         domain: cover
         device_class: door
-    response: "Zapiram vhodna vrata"
+    response: "Zapiram vrata"
 
   - sentences:
       - "zapri dovozna vrata"
@@ -111,3 +100,16 @@ tests:
         domain: cover
         device_class: gate
     response: "Zapiram dovozna vrata"
+
+  - sentences:
+      - "zapri žaluzije tukaj"
+      - "zapri žaluzije v tem prostoru"
+    intent:
+      name: HassTurnOff
+      context:
+        area: dnevna soba
+      slots:
+        domain: cover
+        area: dnevna soba
+        device_class: blinds
+    response: "Zapiram žaluzije"
