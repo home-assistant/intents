@@ -7,10 +7,98 @@ responses:
 
     # Errors for when user is not logged in
     no_area: "Lo siento, no conozco ningún área llamada {{ area }}"
-    no_domain: "Lo siento, no conozco ningún elemento de tipo {{ domain }}"
-    no_domain_in_area: "Lo siento, no conozco ningún elemento de tipo {{ domain }} en el área {{ area }}"
-    no_device_class: "Lo siento, no conozco ningún elemento de clase {{ device_class }}"
-    no_device_class_in_area: "Lo siento, no conozco ningún elemento de clase {{ device_class }} en el área {{ area }}"
+    no_domain: |
+      {% set translations = {
+        "button": "ningún botón",
+        "camera": "ninguna cámara",
+        "input_button": "ningún botón de entrada",
+        "alarm_control_panel": "ninguna alarma",
+        "automation": "ninguna automatización",
+        "fan": "ningún ventilador",
+        "climate": "ningún termostato",
+        "humidifier": "ningún humidificador",
+        "input_boolean": "ningún interruptor",
+        "siren": "ninguna sirena",
+        "water_heater": "ningún calentador de agua",
+        "light": "ninguna luz",
+        "switch": "ningún interruptor",
+        "script": "ningún script",
+        "remote": "ningún control remoto",
+        "lock": "ninguna cerradura",
+        "vacuum": "ningún aspirador",
+        "scene": "ninguna escena",
+        "media_player": "ningún reproductor multimedia",
+        "lawn_mower": "ningún cortacésped",
+        "valve": "ninguna válvula"
+        } %}
+      {% if domain in translations -%}
+        Lo siento, no conozco {{ translations[domain] }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento del tipo indicado
+      {%- endif %}
+    no_domain_in_area: |
+      {% set translations = {
+        "button": "ningún botón",
+        "camera": "ninguna cámara",
+        "input_button": "ningún botón de entrada",
+        "alarm_control_panel": "ninguna alarma",
+        "automation": "ninguna automatización",
+        "fan": "ningún ventilador",
+        "climate": "ningún termostato",
+        "humidifier": "ningún humidificador",
+        "input_boolean": "ningún interruptor",
+        "siren": "ninguna sirena",
+        "water_heater": "ningún calentador de agua",
+        "light": "ninguna luz",
+        "switch": "ningún interruptor",
+        "script": "ningún script",
+        "remote": "ningún control remoto",
+        "lock": "ninguna cerradura",
+        "vacuum": "ningún aspirador",
+        "scene": "ninguna escena",
+        "media_player": "ningún reproductor multimedia",
+        "lawn_mower": "ningún cortacésped",
+        "valve": "ninguna válvula"
+        } %}
+      {% if domain in translations -%}
+        Lo siento, no conozco {{ translations[domain] }} en el área {{ area }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento del tipo {{ domain }} en el área {{ area }}
+      {%- endif %}
+    no_device_class: |
+      {% set translations = {
+        "awning": "ningún toldo",
+        "blind": "ninguna persiana",
+        "curtain": "ninguna cortina",
+        "door": "ninguna puerta",
+        "garage": "ninguna puerta de garaje",
+        "gate": "ninguna puerta",
+        "shade": "ningún estor",
+        "shutter": "ninguna contraventana",
+        "window": "ninguna ventana"
+        } %}
+      {% if device_class in translations -%}
+        Lo siento, no conozco {{ translations[device_class] }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento de la clase {{ device_class }}
+      {%- endif %}
+    no_device_class_in_area: |
+      {% set translations = {
+        "awning": "ningún toldo",
+        "blind": "ninguna persiana",
+        "curtain": "ninguna cortina",
+        "door": "ninguna puerta",
+        "garage": "ninguna puerta de garaje",
+        "gate": "ninguna puerta",
+        "shade": "ningún estor",
+        "shutter": "ninguna contraventana",
+        "window": "ninguna ventana"
+        } %}
+      {% if device_class in translations -%}
+        Lo siento, no conozco {{ translations[device_class] }} en el área {{ area }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento de la clase {{ device_class }} en el área {{ area }}
+      {%- endif %}
     no_entity: "Lo siento, no conozco ningún dispositivo llamado {{ entity }}"
     no_entity_in_area: "Lo siento, no conozco ningún dispositivo llamado {{ entity }} en el área {{ area }}"
 
