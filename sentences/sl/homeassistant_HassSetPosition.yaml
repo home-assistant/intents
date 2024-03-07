@@ -3,8 +3,13 @@ intents:
   HassSetPosition:
     data:
       - sentences:
-          - "<set> <name> [na|do] <position>"
+          - "(<numeric_value_set>|<odpri>|<zapri>) <name> [na] [položaj|pozicijo] <position>"
         requires_context:
-          domain:
-            - cover
-            - valve
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<numeric_value_set>|<odpri>|<zapri>) {cover_classes:device_class} [[v|na] <area>] [na] [položaj|pozicijo] <position>"
+        slots:
+          domain: cover
