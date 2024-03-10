@@ -4,9 +4,9 @@ intents:
     data:
       - sentences:
           - "<zapnout> světlo {name}"
-          - "<rozsvitit>[ světlo] {name}"
+          - "<rozsvitit> [světlo] {name}"
           - "{name} <zapnout> světlo"
-          - "{name} <rozsvitit>[ světlo]"
+          - "{name} <rozsvitit> [světlo]"
         requires_context:
           domain: light
         slots:
@@ -14,17 +14,19 @@ intents:
         response: light
       - sentences:
           - "<zapnout> <svetla> <area>"
-          - "<rozsvitit>[ <svetla>] <area>"
+          - "<rozsvitit> [<svetla>] <area>"
           - "<area> <zapnout> <svetla>"
-          - "<area> <rozsvitit>[ <svetla>]"
+          - "<area> <rozsvitit> [<svetla>]"
         slots:
           domain: light
         response: lights_area
       - sentences:
-          - "(<zapnout>|<rozsvitit>)[ úplně][ všechna] světla"
+          - "(<zapnout>|<rozsvitit>) [úplně] [všechna] světla"
           - "<zapnout> světlo"
-          - "<rozsvitit>[ světlo]"
+          - "<rozsvitit> [světlo]"
         response: "light_all"
+        requires_context:
+          area:
+            slot: true
         slots:
           domain: "light"
-          name: "all"

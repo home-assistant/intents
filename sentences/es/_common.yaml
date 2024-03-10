@@ -7,10 +7,98 @@ responses:
 
     # Errors for when user is not logged in
     no_area: "Lo siento, no conozco ningún área llamada {{ area }}"
-    no_domain: "Lo siento, no conozco ningún elemento de tipo {{ domain }}"
-    no_domain_in_area: "Lo siento, no conozco ningún elemento de tipo {{ domain }} en el área {{ area }}"
-    no_device_class: "Lo siento, no conozco ningún elemento de clase {{ device_class }}"
-    no_device_class_in_area: "Lo siento, no conozco ningún elemento de clase {{ device_class }} en el área {{ area }}"
+    no_domain: |
+      {% set translations = {
+        "button": "ningún botón",
+        "camera": "ninguna cámara",
+        "input_button": "ningún botón de entrada",
+        "alarm_control_panel": "ninguna alarma",
+        "automation": "ninguna automatización",
+        "fan": "ningún ventilador",
+        "climate": "ningún termostato",
+        "humidifier": "ningún humidificador",
+        "input_boolean": "ningún interruptor",
+        "siren": "ninguna sirena",
+        "water_heater": "ningún calentador de agua",
+        "light": "ninguna luz",
+        "switch": "ningún interruptor",
+        "script": "ningún script",
+        "remote": "ningún control remoto",
+        "lock": "ninguna cerradura",
+        "vacuum": "ningún aspirador",
+        "scene": "ninguna escena",
+        "media_player": "ningún reproductor multimedia",
+        "lawn_mower": "ningún cortacésped",
+        "valve": "ninguna válvula"
+        } %}
+      {% if domain in translations -%}
+        Lo siento, no conozco {{ translations[domain] }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento del tipo indicado
+      {%- endif %}
+    no_domain_in_area: |
+      {% set translations = {
+        "button": "ningún botón",
+        "camera": "ninguna cámara",
+        "input_button": "ningún botón de entrada",
+        "alarm_control_panel": "ninguna alarma",
+        "automation": "ninguna automatización",
+        "fan": "ningún ventilador",
+        "climate": "ningún termostato",
+        "humidifier": "ningún humidificador",
+        "input_boolean": "ningún interruptor",
+        "siren": "ninguna sirena",
+        "water_heater": "ningún calentador de agua",
+        "light": "ninguna luz",
+        "switch": "ningún interruptor",
+        "script": "ningún script",
+        "remote": "ningún control remoto",
+        "lock": "ninguna cerradura",
+        "vacuum": "ningún aspirador",
+        "scene": "ninguna escena",
+        "media_player": "ningún reproductor multimedia",
+        "lawn_mower": "ningún cortacésped",
+        "valve": "ninguna válvula"
+        } %}
+      {% if domain in translations -%}
+        Lo siento, no conozco {{ translations[domain] }} en el área {{ area }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento del tipo {{ domain }} en el área {{ area }}
+      {%- endif %}
+    no_device_class: |
+      {% set translations = {
+        "awning": "ningún toldo",
+        "blind": "ninguna persiana",
+        "curtain": "ninguna cortina",
+        "door": "ninguna puerta",
+        "garage": "ninguna puerta de garaje",
+        "gate": "ninguna puerta",
+        "shade": "ningún estor",
+        "shutter": "ninguna contraventana",
+        "window": "ninguna ventana"
+        } %}
+      {% if device_class in translations -%}
+        Lo siento, no conozco {{ translations[device_class] }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento de la clase {{ device_class }}
+      {%- endif %}
+    no_device_class_in_area: |
+      {% set translations = {
+        "awning": "ningún toldo",
+        "blind": "ninguna persiana",
+        "curtain": "ninguna cortina",
+        "door": "ninguna puerta",
+        "garage": "ninguna puerta de garaje",
+        "gate": "ninguna puerta",
+        "shade": "ningún estor",
+        "shutter": "ninguna contraventana",
+        "window": "ninguna ventana"
+        } %}
+      {% if device_class in translations -%}
+        Lo siento, no conozco {{ translations[device_class] }} en el área {{ area }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento de la clase {{ device_class }} en el área {{ area }}
+      {%- endif %}
     no_entity: "Lo siento, no conozco ningún dispositivo llamado {{ entity }}"
     no_entity_in_area: "Lo siento, no conozco ningún dispositivo llamado {{ entity }} en el área {{ area }}"
 
@@ -335,15 +423,16 @@ lists:
       to: 100
 
 expansion_rules:
-  abre: "(abr(a|e|ir|í)|sub(a|e|ir|í))"
+  abre: "(abr(a|e|ir|í)|<sube>)"
   ahora: "[ahora [mismo]|actual[mente]|en este momento]"
   añadir: "(añad(a|e|ir|í)|apunt[a|e|ar|á]|pon[ga|er|é])"
   apaga: "(apag(a|ue|ar|á)|desconect(a|e|ar|á)|desactiv(a|e|ar|á))"
   area: "[en|del|de] [el|la] {area}"
-  brightness: "{brightness} [%|porciento|por ciento]"
+  baja: "(baj(a|e|ar|á)|redu(ce|zca|cir|cí)|decrement(a|e|ar|á))"
+  brightness: "{brightness} [%|porcien[to]|por cien[to]]"
   cancela: "cancel(a[r]|á|e|ación)"
   cambia: "(cambi(a[r]|á|e|o)|(muev[a|e]|mov[er|é]))"
-  cierra: "(cierra|cierre|cerrar|cerrá|baja|baje|bajar|bajá)"
+  cierra: "(cierr(a|e)|cerr(ar|á)|<baja>)"
   cual_es: "(Cuál es [el|la]|Cuáles son [los|las])"
   de_aqui: "[ (de|en)] (aquí|acá|la habitación|la pieza)"
   dime: "(sab(es|é)|dime|dec(ir|í|id)[me]|ind(i|í)(ca|que|car|cá)[me])"
@@ -353,18 +442,19 @@ expansion_rules:
   ejecuta: "(<enciende>|ejecut(a|e|ar|á)|inici(a|e|ar|á))"
   establece: "(pon[ga|er|é]|estable[z]c(a|e|er|é)|ajust(a|e|ar|á)|configur(a|e|ar|á)|cambi(a[r]|á|e))"
   establece_abre_cierra: "(<establece>|<abre>|<cierra>)"
-  establece_sube_baja: "(<establece>|<enciende>|sub(a|e|ir|í)|baj(a|e|ar|á))"
+  establece_sube_baja: "(<establece>|<enciende>|<sube>|<baja>)"
   mide: "[que] ([es|está] (mid(e|ie)|medi|indica|marca)[ndo|d(a|o)]|tiene|hay) [por|en]"
   name: "[el|la|los|las] {name}"
   pausa: "(paus(a|ar|e|á)|par(a|ar|e|á))|det(én|ener|enga|ené)"
   pista: "(pista|canción|medio|vídeo|video|elemento)"
-  posición: "{position}[ ][%|por[ ]ciento]"
+  posición: "{position}[ ][%|por[ ]cien[to]]"
   puerta: "[el|la] (puerta|portón|cancela|verja|reja|compuerta|portillo)"
   reproduce: "(reprodu(ce|cir|cí|zca)|escuchar|oir|ver|visualizar)"
   se_encuentra: (se (encuentra|localiza|ubica)|está|mora)
+  sube: "(sub(a|e|ir|í)|levant(a|e|ar|á)|aument(a|e|ar|á)|increment(a|e|ar|á))"
   temp: "[el|la] (temperatura|calor|grados)"
   temperature: "{temperature} [grados] [{temperature_unit}]"
-  volumen: "{volume:volume_level}[ ][%|por[ ]ciento]"
+  volumen: "{volume:volume_level}[ ][%|por[ ]cien[to]]"
 
   # Preguntas
   cual_es_la_medida_del_sensor: "(<cual_es>|Qué|Cuánt(a|o)[s]) [(la (cantidad|medida)|el nivel) de ][<class> (de|del|en|desde|por|<mide>)] [[el ](sensor |medidor )[de ]]<name> [<area>]"

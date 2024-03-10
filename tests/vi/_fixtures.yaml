@@ -1,26 +1,737 @@
 language: vi
 areas:
-  - name: phòng bếp
-    id: kitchen
-  - name: phòng khách
-    id: living_room
-  - name: Phòng ngủ
-    id: bedroom
-  - name: cửa cuốn
-    id: garage
+  - name: "bếp"
+    id: "kitchen"
+
+  - name: "phòng khách"
+    id: "living_room"
+
+  - name: "phòng ngủ"
+    id: "bedroom"
+
+  - name: "Gara"
+    id: "garage"
+
+  - name: "lối vào"
+    id: "entrance"
+
+  - name: "văn phòng"
+    id: "office"
 entities:
-  - name: đèn bàn
-    id: light.bedroom_lamp
-    area: bedroom
-  - name: công tắc bếp
-    id: switch.kitchen
-    area: kitchen
-  - name: quạt trần
-    id: fan.ceiling
-    area: living_room
-  - name: điều hòa phòng khách
-    id: climate.living_room
-    area: living_room
-  - name: rèm cửa sổ
-    id: cover.bedroom_window
-    area: bedroom
+  - name: "đèn phòng ngủ"
+    id: "light.bedroom_lamp"
+    area: "bedroom"
+    state:
+      in: "đang tắt"
+      out: "off"
+
+  - name: "Công tắc phòng ngủ"
+    id: "switch.bedroom"
+    area: "bedroom"
+    state:
+      in: "tắt"
+      out: "off"
+
+  - name: "Công tắc nhà bếp"
+    id: "switch.kitchen"
+    area: "kitchen"
+    state:
+      in: "bật"
+      out: "on"
+
+  - name: "quầy bếp"
+    id: "light.kitchen_countertop"
+    area: "kitchen"
+    state: "on"
+
+  - name: "Trần nhà bếp"
+    id: "light.kitchen_ceiling"
+    area: "kitchen"
+    state: "on"
+
+  - name: "Tủ bếp"
+    id: "light.kitchen_cabinets"
+    area: "kitchen"
+    state: "on"
+
+  - name: "quạt trần"
+    id: "fan.ceiling"
+    area: "living_room"
+    state: "off"
+
+  - name: "rèm cửa bên trái"
+    id: "cover.curtain_left"
+    area: "living_room"
+    state:
+      in: "mở"
+      out: "open"
+
+    attributes:
+      device_class: curtain
+
+  - name: "rèm cửa bên phải"
+    id: "cover.curtain_right"
+    area: "living_room"
+    state: "closed"
+    attributes:
+      device_class: curtain
+
+  - name: "rèm cửa phòng ngủ"
+    id: "cover.bedroom"
+    area: "bedroom"
+    state: "closed"
+    attributes:
+      device_class: curtain
+      position: "0"
+
+  - name: "nhiệt độ bên ngoài"
+    id: "sensor.outside_temperature"
+    area: "garage"
+    state: "42"
+    attributes:
+      unit_of_measurement: "°F"
+
+  - name: "Đèn phòng khách"
+    id: "light.living_room_lamp"
+    area: "living_room"
+    state: "on"
+
+  - name: "đèn gara"
+    id: "light.garage"
+    area: "garage"
+    state: "on"
+
+  - name: "đèn góc chơi"
+    id: "light.play_corner"
+    area: "living_room"
+    state: "on"
+
+  - name: "thiết bị điều chỉnh nhiệt độ"
+    id: "climate.thermostat"
+    area: "living_room"
+    state: "heat"
+    attributes:
+      current_temperature: 68
+
+  - name: "máy điều hòa văn phòng"
+    id: "climate.office_thermostat"
+    area: "office"
+    state: "heat"
+    attributes:
+      current_temperature: 1
+
+  - name: "cửa trước"
+    id: "lock.front_door"
+    area: "entrance"
+    state: "locked"
+
+  - name: "cửa sau"
+    id: "lock.back_door"
+    state: "unlocked"
+
+  - name: "cửa bên"
+    id: "lock.side_door"
+    state: "locked"
+
+  - name: "chế độ tiệc"
+    id: "scene.party_mode"
+
+  - name: "chế độ ẩn danh"
+    id: "script.stealth_mode"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "điện thoại"
+    id: "binary_sensor.phone_battery"
+    state:
+      in: "bình thường"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "điện thoại"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "đang sạc"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "CO2"
+    id: "binary_sensor.co2"
+    area: "kitchen"
+    state:
+      in: "trong lành"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "ống nước"
+    id: "binary_sensor.computer_cold"
+    state:
+      in: "bình thường"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "điện thoại"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "kết nối"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "cửa cho thú cưng"
+    id: "binary_sensor.pet_door"
+    state:
+      in: "đóng"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "cửa gara phụ"
+    id: "binary_sensor.garage_door"
+    state:
+      in: "đóng"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "khí gas"
+    id: "binary_sensor.gas"
+    area: "kitchen"
+    state:
+      in: "trong lành"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "máy tính"
+    id: "binary_sensor.computer_heat"
+    state:
+      in: "nóng"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "đèn"
+    id: "binary_sensor.light"
+    state:
+      in: "không có ánh sáng"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "cửa cho thú cưng"
+    id: "binary_sensor.pet_door_lock"
+    state:
+      in: "mở khóa"
+      out: "on"
+    attributes:
+      device_class: lock
+
+  - name: "cảm biến rò rỉ nhà bếp"
+    id: "binary_sensor.water_sensor"
+    area: "kitchen"
+    state:
+      in: "khô"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "cảm biến chuyển động"
+    id: "binary_sensor.garage_motion"
+    area: "garage"
+    state:
+      in: "đã phát hiện"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "Sự có mặt"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "kitchen"
+    state:
+      in: "đã phát hiện"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "cửa nhà kho"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "đóng"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "điện thoại"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "đã cắm vào"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "Chính"
+    id: "binary_sensor.power"
+    state:
+      in: "được cung cấp năng lượng"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "điện thoại"
+    id: "binary_sensor.presence"
+    state:
+      in: "vắng mặt"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "Máy phân phối thức ăn cho thú cưng"
+    id: "binary_sensor.problem"
+    area: "kitchen"
+    state:
+      in: "ổn"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "Máy giặt"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "đang hoạt động"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "Đường"
+    id: "binary_sensor.road_safety"
+    state:
+      in: "an toàn"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "Khói nhà bếp"
+    id: "binary_sensor.kitchen_smoke"
+    area: "kitchen"
+    state:
+      in: "rõ ràng"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "Còi báo động"
+    id: "binary_sensor.sound"
+    area: "garage"
+    state:
+      in: "đã phát hiện"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "Chỗ giấu bánh quy"
+    id: "binary_sensor.cookie_stash_tamper"
+    state:
+      in: "rõ ràng"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "điện thoại"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "có bản cập nhật"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "điện thoại"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "không rung"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "cửa nhà xe"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "mở"
+      out: "on"
+    attributes:
+      device_class: window
+
+  # https://www.home-assistant.io/integrations/sensor/
+  - name: "thiết bị gì đó"
+    id: "sensor.appliance_apparent_power"
+    state: "2"
+    attributes:
+      device_class: apparent_power
+      unit_of_measurement: "VA"
+
+  - name: "cảm biến chất lượng không khí nhà bếp"
+    id: "sensor.kitchen_aqi_sensor"
+    state: "50"
+    attributes:
+      device_class: aqi
+
+  - name: "cảm biến không khí bên ngoài"
+    id: "sensor.outside_pressure"
+    state: "1000"
+    attributes:
+      device_class: atmospheric_pressure
+      unit_of_measurement: "hPa"
+
+  - name: "điện thoại của tôi"
+    id: "sensor.my_phone_battery"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "cảm biến CO2 của máy bơm nhiệt"
+    id: "sensor.heat_pump_co2"
+    state: "50"
+    attributes:
+      device_class: carbon_dioxide
+      unit_of_measurement: "ppm"
+
+  - name: "cảm biến CO của máy bơm nhiệt"
+    id: "sensor.heat_pump_co"
+    state: "48"
+    attributes:
+      device_class: carbon_monoxide
+      unit_of_measurement: "ppm"
+
+  - name: "Mức tiêu thụ điện của nhà"
+    id: "sensor.house_current"
+    state: "19"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"
+
+  - name: "Macrotorrent"
+    id: "sensor.macrotorrent_download_speed"
+    state: "22.9"
+    attributes:
+      device_class: data_rate
+      unit_of_measurement: "MB/s"
+
+  - name: "tệp nhật ký"
+    id: "sensor.log_file_size"
+    state: "106"
+    attributes:
+      device_class: data_size
+      unit_of_measurement: "kB"
+
+  - name: "Sinh nhật tiếp theo"
+    id: "sensor.next_birthday"
+    state: "2024-04-01"
+    attributes:
+      device_class: date
+
+  - name: "Quãng đường xe đã đi"
+    id: "sensor.car_mileage"
+    state: "65536"
+    attributes:
+      device_class: distance
+      unit_of_measurement: "km"
+
+  - name: "Chương trình hiện tại của máy rửa chén"
+    id: "sensor.dishwasher_program_duration"
+    state: "64"
+    attributes:
+      device_class: duration
+      unit_of_measurement: "phút"
+
+  - name: "Sản lượng năng lượng mặt trời"
+    id: "sensor.solar_production"
+    state: "3.2"
+    attributes:
+      device_class: energy
+      unit_of_measurement: "kWh"
+
+  - name: "Năng lượng đã lưu trữ của Powerwall"
+    id: "sensor.powerwall_stored_energy"
+    state: "6"
+    attributes:
+      device_class: energy_storage
+      unit_of_measurement: "kWh"
+
+  - name: "Tần số AC lưới điện"
+    id: "sensor.grid_frequency"
+    state: "51"
+    attributes:
+      device_class: frequency
+      unit_of_measurement: "Hz"
+
+  - name: "Lượng gas tiêu thụ hàng tháng"
+    id: "sensor.monthly_gas_consumption"
+    state: "12"
+    attributes:
+      device_class: gas
+      unit_of_measurement: "m³"
+
+  - name: "Độ ẩm phòng khách"
+    id: "sensor.living_room_humidity"
+    state: "48"
+    attributes:
+      device_class: humidity
+      unit_of_measurement: "%"
+
+  - name: "Độ sáng phòng khách"
+    id: "sensor.living_room_illuminance"
+    state: "438"
+    attributes:
+      device_class: illuminance
+      unit_of_measurement: "lux"
+
+  - name: "Bức xạ của lò sưởi phòng khách"
+    id: "sensor.living_room_heater_irradiance"
+    state: "155"
+    attributes:
+      device_class: irradiance
+      unit_of_measurement: "W/m²"
+
+  - name: "Máy trộn quán bia"
+    id: "sensor.bewery_mixer_moisture"
+    state: "83"
+    attributes:
+      device_class: moisture
+      unit_of_measurement: "%"
+
+  - name: "Giá tiền mỗi kw"
+    id: "sensor.price_per_kW"
+    state: "1"
+    attributes:
+      device_class: monetary
+      unit_of_measurement: "EUR"
+
+  - name: "cảm biến NO2 của máy bơm nhiệt"
+    id: "sensor.heat_pump_no2"
+    state: "50"
+    attributes:
+      device_class: nitrogen_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "cảm biến NO của máy bơm nhiệt"
+    id: "sensor.heat_pump_no"
+    state: "50"
+    attributes:
+      device_class: nitrogen_monoxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "cảm biến N2O của máy bơm nhiệt"
+    id: "sensor.heat_pump_n2o"
+    state: "50"
+    attributes:
+      device_class: nitrous_oxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "cảm biến Ozone phòng khách"
+    id: "sensor.living_room_ozone"
+    state: "50"
+    attributes:
+      device_class: ozone
+      unit_of_measurement: "µg/m³"
+
+  - name: "cảm biến PM1 phòng khách"
+    id: "sensor.living_room_pm1"
+    state: "50"
+    attributes:
+      device_class: pm1
+      unit_of_measurement: "µg/m³"
+
+  - name: "cảm biến PM2.5 phòng khách"
+    id: "sensor.living_room_pm25"
+    state: "50"
+    attributes:
+      device_class: pm25
+      unit_of_measurement: "µg/m³"
+
+  - name: "cảm biến PM10 phòng khách"
+    id: "sensor.living_room_pm10"
+    state: "50"
+    attributes:
+      device_class: pm10
+      unit_of_measurement: "µg/m³"
+
+  - name: "Hệ số công suất của ổ cắm tường"
+    id: "sensor.wall_plug_power_factor"
+    state: "2"
+    attributes:
+      device_class: power_factor
+
+  - name: "Công suất điều hòa không khí"
+    id: "sensor.aircon_power"
+    state: "380"
+    attributes:
+      device_class: power
+      unit_of_measurement: "W"
+
+  - name: "cảm biến mưa ngoài trời"
+    id: "sensor.rain_sensor_total"
+    state: "29"
+    attributes:
+      device_class: precipitation
+      unit_of_measurement: "mm"
+
+  - name: "cảm biến mưa ngoài trời"
+    id: "sensor.rain_sensor_intensity"
+    state: "144"
+    attributes:
+      device_class: precipitation_intensity
+      unit_of_measurement: "mm/h"
+
+  - name: "Áp suất lốp xe"
+    id: "sensor.tyre_pressure"
+    state: "2.1"
+    attributes:
+      device_class: pressure
+      unit_of_measurement: "bar"
+  - name: "Công suất phản kháng của máy bơm nước"
+    id: "sensor.water_pump_reactive_power"
+    state: "22"
+    attributes:
+      device_class: reactive_power
+      unit_of_measurement: "VAR"
+
+  - name: "Tín hiệu GSM của điện thoại của tôi"
+    id: "sensor.my_phone_gsm_signal"
+    state: "-43"
+    attributes:
+      device_class: signal_strength
+      unit_of_measurement: "dBm"
+
+  - name: "Áp suất âm thanh của thanh âm thanh"
+    id: "sensor.sound_bar_sound_pressure"
+    state: "62"
+    attributes:
+      device_class: sound_pressure
+      unit_of_measurement: "dB"
+
+  - name: "Tốc độ di chuyển"
+    id: "sensor.traveling speed"
+    state: "67"
+    attributes:
+      device_class: speed
+      unit_of_measurement: "km/h"
+
+  - name: "cảm biến SO2 của máy bơm nhiệt"
+    id: "sensor.heat_pump_so2"
+    state: "50"
+    attributes:
+      device_class: sulphur_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Lò sửoi"
+    id: "sensor.furnace_temperature"
+    state: "380"
+    attributes:
+      device_class: temperature
+      unit_of_measurement: "°C"
+
+  - name: "cảm biến poo poo"
+    id: "sensor.voc_sensor"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds
+      unit_of_measurement: "µg/m³"
+
+  - name: "cảm biến poo poo 2"
+    id: "sensor.voc_sensor_parts"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds_parts
+      unit_of_measurement: "ppm"
+
+  - name: "Điện áp đầu vào"
+    id: "sensor.input_voltage"
+    state: "12"
+    attributes:
+      device_class: voltage
+      unit_of_measurement: "V"
+
+  - name: "Lượng sử dụng máy bơm nước hôm nay"
+    id: "sensor.water_pump_usage_today"
+    state: "1356"
+    attributes:
+      device_class: volume
+      unit_of_measurement: "L"
+
+  - name: "Bộ đệm máy bơm nước"
+    id: "sensor.water_pump_buffer"
+    state: "28"
+    attributes:
+      device_class: volume_storage
+      unit_of_measurement: "L"
+
+  - name: "Lượng sử dụng máy bơm nước"
+    id: "sensor.water_pump_usage"
+    state: "5987"
+    attributes:
+      device_class: water
+      unit_of_measurement: "L"
+
+  - name: "Trọng lượng cảm biến giường"
+    id: "sensor.bed_sensor_weight"
+    state: "87"
+    attributes:
+      device_class: weight
+      unit_of_measurement: "kg"
+
+  - name: "Mistral"
+    id: "sensor.mistral_speed"
+    state: "33"
+    attributes:
+      device_class: wind_speed
+      unit_of_measurement: "km/h"
+
+  - name: "London"
+    id: "weather.london"
+    state: "mưa"
+    attributes:
+      temperature: "47"
+      unit_of_measurement: "°F"
+
+  - name: "Los Angeles"
+    id: "weather.los_angeles"
+    state: "trong veo"
+    attributes:
+      temperature: "76"
+      unit_of_measurement: "°F"
+
+  - name: "Joseph"
+    id: "person.jospeh"
+    state: "ở nhà "
+
+  - name: "Ada"
+    id: "person.ada"
+    state: "đi làm"
+
+  - name: "John"
+    id: "person.john"
+    state: "không ở nhà"
+
+  - name: "Trader Joes"
+    id: "todo.trader_joes"
+    state: ""
+
+  - name: "van chính"
+    id: "valve.main_valve"
+    state: "mở"
+    attributes:
+      position: "100"
+
+  - name: "TV"
+    id: "media_player.tv"
+    state: "đang rỗi"
+    attributes:
+      volume_level: "50"
+
+  - name: "Rover"
+    id: "vacuum.rover"
+    state: "đang rỗi"

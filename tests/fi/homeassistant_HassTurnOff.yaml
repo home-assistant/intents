@@ -1,10 +1,25 @@
 language: fi
 tests:
   - sentences:
+      - "kytke päältä kattotuuletin alueella olohuone"
+      - "kytke päältä alueen olohuone kattotuuletin"
+      - "sammuta huoneen olohuone kattotuuletin"
+      - "kytke kattotuuletin päältä huoneessa olohuone"
+      - "laita kattotuuletin pois päältä huoneesta olohuone"
+      - "sammuta kattotuuletin alueesta olohuone"
+      - "kattotuuletin alueella olohuone pois päältä"
+    intent:
+      name: HassTurnOff
+      slots:
+        name: Kattotuuletin
+        area: Olohuone
+    response: "Kytkettiin pois päältä kattotuuletin"
+
+  # Sentences without area
+  - sentences:
       - "kytke päältä kattotuuletin"
-      - "kytke kattotuuletin päältä"
-      - "pysäytä kattotuuletin"
-      - "kattotuuletin pois päältä"
+      - "sammuta kattotuuletin"
+      - "kytke kattotuuletin pois päältä"
     intent:
       name: HassTurnOff
       slots:
@@ -22,3 +37,13 @@ tests:
       slots:
         name: Keittiön katto
     response: "Kytkettiin pois päältä keittiön katto"
+
+  - sentences:
+      - "sammuta alueen keittiö työpöytä"
+      - "kytke pois päältä työpöytä huoneesta keittiö"
+    intent:
+      name: HassTurnOff
+      slots:
+        name: Työpöytä
+        area: Keittiö
+    response: "Kytkettiin pois päältä työpöytä"
