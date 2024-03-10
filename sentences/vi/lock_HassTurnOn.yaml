@@ -1,0 +1,21 @@
+language: vi
+
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<lock> <name> [ <in_area>] "
+        requires_context:
+          domain: lock
+        response: lock
+
+      - sentences:
+          - "<lock> [tất cả|mọi] [cánh] <door> <in_area>"
+            # - "khoá [tất cả] [các] [trong|tại] <area>"
+            # - "khoá [tất cả] <area> [(ổ khoá|cửa|khóa)]"
+        expansion_rules:
+          door: "khóa|cửa"
+        slots:
+          domain: "lock"
+          name: "all"
+        response: lock
