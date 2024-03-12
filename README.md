@@ -22,7 +22,7 @@ Repository layout:
   - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/test-syntax/)
 - `tests/<language>`
   - YAML files for `<language>` with test sentences and corresponding intents.
-  - [File format](tests/README.md#file-format)
+  - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/test-syntax/)
 
 See the [documentation](docs/README.md) for more information.
 

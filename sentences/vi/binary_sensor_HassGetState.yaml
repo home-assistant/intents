@@ -1,0 +1,876 @@
+language: vi
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Pin
+      - sentences:
+          # - "<name> [pin] {bs_battery_states:state} [trong <area>]"
+          - "[liệu[rằng]|có phải] [pin] <name> [pin] [đang][có] {bs_battery_states:state} [không|chăng] [trong|ở|tại <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có thể] có [bất kỳ] [một] pin [nào] [có]  [đang] {bs_battery_states:state} [không] [trong|ở|tại <area>] [không]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có phải] tất cả [các] pin [đều] [có] [đang] {bs_battery_states:state} [[đúng]không] [trong|ở|tại <area>] "
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - " [[có]những|các] pin nào [đang] {bs_battery_states:state} [trong|ở|tại <area>] "
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - " [có] bao nhiêu pin [đang] {bs_battery_states:state} [trong|ở|tại <area>] "
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Sạc pin
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có thể] ([pin] [của|trong] <name>|<name> [pin]) ([có] [đang]|[có][đang]) {bs_battery_charging_states:state} [không] [trong|ở|tại <area>] "
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có thể] có [bất kỳ] [một] pin [nào] [có]  [đang] {bs_battery_charging_states:state} [không] [trong|ở|tại <area>] [không]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có phải] tất cả [các] pin [đều] [có] [đang] {bs_battery_charging_states:state} [[đúng]không] [trong|ở|tại <area>] "
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - " [[có]những|các] pin nào [đang] {bs_battery_charging_states:state} [trong|ở|tại <area>] "
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - " [có] bao nhiêu pin [đang] {bs_battery_charging_states:state} [trong|ở|tại <area>] "
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # khí CO
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có thể] <name> ([có] [đang]|[có][đang]) {bs_carbon_monoxide_states:state} [không] [trong|ở|tại <area>] "
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có thể] có [bất kỳ] [một] cảm biến [khí] (CO| monoxide carbon) [nào] [có]  [đang] {bs_carbon_monoxide_states:state} [không] [trong|ở|tại <area>] [không]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có thể] có [phát hiện] [bất kỳ] [một] [khí] (CO|monoxide carbon) [nào] [có] [không] [trong|ở|tại] <area> [không]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có phải] tất cả [các] cảm biến khí CO [đều] [có] [đang] {bs_carbon_monoxide_states:state} [[đúng]không] [trong|ở|tại <area>] "
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - " [[có]những|các] cảm biến khí CO nào [đang] {bs_carbon_monoxide_states:state} [trong|ở|tại <area>] "
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - " [có] bao nhiêu cảm biến khí CO [đang] {bs_carbon_monoxide_states:state} [trong|ở|tại <area>] "
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+      # Lạnh
+      - sentences:
+          - " [liệu [rằng]|phải chăng|có thể] <name> ([có] [đang]|[có][đang]) {bs_cold_states:state} [không] [trong|ở|tại <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "có (vật|cảm biến) nào [đang] lạnh [trong <area>] [không]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "(vật|cảm biến) nào [đang] lạnh [trong <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "có bao nhiêu (vật|cảm biến) [đang] lạnh [trong <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Kết nối
+      - sentences:
+          - "<name> [có] {bs_connectivity_states:state} [trong <area>] [không]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "[có] thiết bị nào [đang] {bs_connectivity_states:state} [trong <area>] [không]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "[tất cả] [các] thiết bị [trong <area>] [có đang] {bs_connectivity_states:state} [không]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "(which|what) thiết bị {bs_connectivity_states:state} [trong <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "có bao nhiêu thiết bị đang {bs_connectivity_states:state} [trong <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Cửa
+      - sentences:
+          - "<name> có {bs_door_states:state} [trong <area>] [không]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Cửa garage
+      - sentences:
+          - "<name> có [được] {bs_garage_door_states:state} [trong <area>] [không]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Khí ga
+      - sentences:
+          - "<name> [có] {bs_gas_states:state} [trong <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "có cảm biến khí gas nào {bs_gas_states:state} [trong <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "có [bất kỳ] khí gas nào trong <area>"
+          - "có [bất kỳ] phát hiện khí gas [nào] trong <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      # - sentences:
+      #     - "tất cả [các] cảm biến khí gas [có] {bs_gas_states:state} [trong <area>]"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: gas
+
+      - sentences:
+          - "cảm biến khí gas nào {bs_gas_states:state} [trong <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "có bao nhiêu cảm biến khí gas {bs_gas_states:state} [trong <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Nhiệt
+      - sentences:
+          - "<name> [có] {bs_heat_states:state} [trong <area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "có [bất cứ] (vật|cảm biến) nào [đang] nóng [trong <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "(vật|cảm biến) nào [đang] nóng [trong <area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "có bao nhiêu (vật|cảm biến) [đang] nóng [trong <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Ánh sáng
+      # - sentences:
+      #     - "{bs_light_states:state} ánh sáng [trong <area>] không"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: light
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: light
+
+      - sentences:
+          - "có ánh sáng nào {bs_light_states:state} [trong <area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "[các] ánh sáng {bs_light_states:state} [trong <area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      # - sentences:
+      #     - "{bs_light_states:state} ánh sáng (which|what) [trong <area>]"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: light
+
+      # - sentences:
+      #     - "có bao nhiêu ánh sáng {bs_light_states:state} [trong <area>]"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: light
+
+      # Khóa
+      # - sentences:
+      #     - "<name> {bs_lock_states:state} [trong <area>] chưa"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: lock
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: lock
+
+      # Độ ẩm
+      # - sentences:
+      #     - "<name> {bs_moisture_states:state} [trong <area>]"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: moisture
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: moisture
+
+      # - sentences:
+      #     - "có cảm biến nước nào {bs_moisture_states:state} [trong <area>]"
+      #     - "có (nước lênh láng|phát hiện rò rỉ nước|phát hiện ngập lụt) {bs_moisture_states:state} [trong <area>]"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: moisture
+
+      # - sentences:
+      #     - "có [bất kỳ] (ngập|rò rỉ) [phát hiện] [trong <area>]"
+      #     - "<area> có bị ngập không"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: moisture
+      #     state: "on"
+
+      # - sentences:
+      #     - "are all [các] cảm biến nước {bs_moisture_states:state} [trong <area>]"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: moisture
+
+      # - sentences:
+      #     - "(which|what) cảm biến nước {bs_moisture_states:state} [trong <area>]"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: moisture
+
+      # - sentences:
+      #     - "có bao nhiêu cảm biến nước {bs_moisture_states:state} [trong <area>]"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: moisture
+
+      # # Chuyển động
+      # - sentences:
+      #     - "<name> {bs_motion_states:state} [trong <area>]"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: motion
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: motion
+
+      # - sentences:
+      #     - "có cảm biến chuyển động nào {bs_motion_states:state} [trong <area>]"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: motion
+
+      # - sentences:
+      #     - "are all [các] cảm biến chuyển động {bs_motion_states:state} [trong <area>]"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: motion
+
+      # - sentences:
+      #     - "(which|what) cảm biến chuyển động {bs_motion_states:state} [trong <area>]"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: motion
+
+      # - sentences:
+      #     - "có bao nhiêu cảm biến chuyển động {bs_motion_states:state} [trong <area>]"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: motion
+
+      # # Chuyển động
+      # - sentences:
+      #     - "<name> {bs_occupancy_states:state} [trong <area>]"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: occupancy
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: occupancy
+
+      # - sentences:
+      #     - "có cảm biến chuyển động nào {bs_occupancy_states:state} [trong <area>]"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: occupancy
+
+      # - sentences:
+      #     - "are all [các] cảm biến chuyển động {bs_occupancy_states:state} [trong <area>]"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: occupancy
+
+      # - sentences:
+      #     - "(which|what) cảm biến chuyển động {bs_occupancy_states:state} [trong <area>]"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: occupancy
+
+      # - sentences:
+      #     - "có bao nhiêu cảm biến chuyển động {bs_occupancy_states:state} [trong <area>]"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: occupancy
+
+      # # Mở
+      # - sentences:
+      #     - "<name> {bs_opening_states:state} [trong <area>]"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: opening
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: opening
+
+      # - sentences:
+      #     - "có cửa hay cửa sổ nào {bs_opening_states:state} [trong <area>]"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: opening
+
+      # - sentences:
+      #     - "are all [các] cửa và cửa sổ {bs_opening_states:state} [trong <area>]"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: opening
+
+      # - sentences:
+      #     - "(which|what) cửa hay cửa sổ {bs_opening_states:state} [trong <area>]"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: opening
+
+      # - sentences:
+      #     - "có bao nhiêu cửa hay cửa sổ {bs_opening_states:state} [trong <area>]"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: opening
+
+      # # Ổ cắm
+      # - sentences:
+      #     - "(có|đang) <name> {bs_plug_states:state} [trong <area>]"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: plug
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: plug
+
+      # - sentences:
+      #     - "(có|đang) bất kỳ (thứ|thiết bị) nào {bs_plug_states:state} [trong <area>]"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: plug
+
+      # - sentences:
+      #     - "tất cả [các] (thứ|thiết bị) {bs_plug_states:state} [trong <area>]"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: plug
+
+      # - sentences:
+      #     - "(nào|cái nào) (thứ|thiết bị) (có|đang) {bs_plug_states:state} [trong <area>]"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: plug
+
+      # - sentences:
+      #     - "có bao nhiêu (thứ|thiết bị) (có|đang) {bs_plug_states:state} [trong <area>]"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: plug
+
+      # # Điện
+      # - sentences:
+      #     - "(có|đang) <name> {bs_power_states:state} [trong <area>]"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: power
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: power
+
+      # - sentences:
+      #     - "(có|đang) bất kỳ (thứ|thiết bị) nào {bs_power_states:state} [trong <area>]"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: power
+
+      # - sentences:
+      #     - "tất cả [các] (thứ|thiết bị) {bs_power_states:state} [trong <area>]"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: power
+
+      # - sentences:
+      #     - "(nào|cái nào) (thứ|thiết bị) (có|đang) {bs_power_states:state} [trong <area>]"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: power
+
+      # - sentences:
+      #     - "có bao nhiêu (thứ|thiết bị) (có|đang) {bs_power_states:state} [trong <area>]"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: power
+
+      # # Mặt tiền
+      # - sentences:
+      #     - "(có|đang) <name> {bs_presence_states:state} [trong <area>]"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: presence
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: presence
+
+      # - sentences:
+      #     - "(có|đang) bất kỳ (thứ|thiết bị) nào {bs_presence_states:state} [trong <area>]"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: presence
+
+      # - sentences:
+      #     - "tất cả [các] (thứ|thiết bị) {bs_presence_states:state} [trong <area>]"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: presence
+
+      # - sentences:
+      #     - "(nào|cái nào) (thứ|thiết bị) (có|đang) {bs_presence_states:state} [trong <area>]"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: presence
+
+      # - sentences:
+      #     - "có bao nhiêu (thứ|thiết bị) (có|đang) {bs_presence_states:state} [trong <area>]"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: presence
+
+      #   # Vấn đề
+      # - sentences:
+      #     - "có [bất kỳ] vấn đề nào với <name> [tại <area>] không"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: problem
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: problem
+      #     state: "đang bật"
+
+      # # Hoạt động
+      # - sentences:
+      #     - "<name> (có|đang) {bs_running_states:state} [tại <area>] không"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: running
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: running
+
+      # - sentences:
+      #     - "(có|đang) bất kỳ (thứ|thiết bị) nào {bs_running_states:state} [tại <area>] không"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: running
+
+      # - sentences:
+      #     - "tất cả [các] (thứ|thiết bị) (có|đang) {bs_running_states:state} [tại <area>] không"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: running
+
+      # - sentences:
+      #     - "(nào|cái nào) (thứ|thiết bị) (có|đang) {bs_running_states:state} [tại <area>] không"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: running
+
+      # - sentences:
+      #     - "có bao nhiêu (thứ|thiết bị) (có|đang) {bs_running_states:state} [tại <area>] không"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: running
+
+      # # An toàn
+      # - sentences:
+      #     - "<name> (có|đang) {bs_safety_states:state} [tại <area>] không"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: safety
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: safety
+
+      # # Khói
+      # - sentences:
+      #     - "<name> (có|đang) {bs_smoke_states:state} [tại <area>] không"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: smoke
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: smoke
+
+      # - sentences:
+      #     - "(có|đang) bất kỳ cảm biến khói nào {bs_smoke_states:state} [tại <area>] không"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: smoke
+
+      # - sentences:
+      #     - "tại [có] [bất kỳ] khói nào trong <area> không"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: smoke
+      #     state: "đang bật"
+
+      # - sentences:
+      #     - "tất cả [các] cảm biến khói (có|đang) {bs_smoke_states:state} [tại <area>] không"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: smoke
+
+      # - sentences:
+      #     - "(nào|cái nào) cảm biến khói (có|đang) {bs_smoke_states:state} [tại <area>] không"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: smoke
+
+      # - sentences:
+      #     - "có bao nhiêu cảm biến khói (có|đang) {bs_smoke_states:state} [tại <area>] không"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: smoke
+
+      #   # Âm thanh
+      # - sentences:
+      #     - "<name> (có|đang) {bs_sound_states:state} [tại <area>] không"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: sound
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: sound
+
+      # - sentences:
+      #     - "(có|đang) bất kỳ cảm biến (tiếng ồn|âm thanh) nào {bs_sound_states:state} [tại <area>] không"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: sound
+
+      # - sentences:
+      #     - "tại [có] [bất kỳ] tiếng ồn nào trong <area> không"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: sound
+      #     state: "đang bật"
+
+      # - sentences:
+      #     - "tất cả [các] cảm biến (tiếng ồn|âm thanh) (có|đang) {bs_sound_states:state} [tại <area>] không"
+      #   response: all
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: sound
+
+      # - sentences:
+      #     - "(nào|cái nào) cảm biến (tiếng ồn|âm thanh) (có|đang) {bs_sound_states:state} [tại <area>] không"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: sound
+
+      # - sentences:
+      #     - "có bao nhiêu cảm biến (tiếng ồn|âm thanh) (có|đang) {bs_sound_states:state} [tại <area>] không"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: sound
+
+      # # Phá hoại
+      # - sentences:
+      #     - "<name> (có|đang) {bs_tamper_states:state} [tại <area>] không"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: tamper
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: tamper
+
+      # # Cập nhật
+      # - sentences:
+      #     - "<name> (có|đang) {bs_update_states:state} [tại <area>] không"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: update
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: update
+
+      # - sentences:
+      #     - "có [bất kỳ] cập nhật [(firmware|phần mềm)] nào [được] [có sẵn] [trong <area>] không"
+      #   response: any
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: update
+      #     state: "đang bật"
+
+      # - sentences:
+      #     - "(nào|cái nào) cập nhật [(firmware|phần mềm)] (có|đang) [có sẵn] [tại <area>] không"
+      #   response: which
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: update
+      #     state: "đang bật"
+
+      # - sentences:
+      #     - "có bao nhiêu cập nhật [(firmware|phần mềm)] (có|đang) [có sẵn] [tại <area>] không"
+      #   response: how_many
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: update
+      #     state: "đang bật"
+
+      # # Rung động
+      # - sentences:
+      #     - "<name> (có|đang) {bs_vibration_states:state} [tại <area>] không"
+      #   response: one_yesno
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: vibration
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: vibration
+
+      # - sentences:
+      #     - "có cái gì đang rung [tại <area>] không"
+      #   response: any
+      #   requires_context:
+      #     domain: binary_sensor
+      #     device_class: vibration
+      #   slots:
+      #     domain: binary_sensor
+      #     device_class: vibration
+      #     state: "đang bật"
+
+      # Cửa sổ
+      - sentences:
+          - "<name> (có|đang) {bs_window_states:state} [tại <area>] [không]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
