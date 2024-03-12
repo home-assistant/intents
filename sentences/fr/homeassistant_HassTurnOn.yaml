@@ -3,11 +3,15 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <allume> <name>
-          - <allume> <name> <dans> <area>
-      - sentences:
-          - <ouvre> <name>
-        response: covers
-      - sentences:
-          - <ouvre> <name> <dans> <area>
-        response: covers
+          - <allume> [<le>]{name}
+          - <allume> [<le>]{name} <dans> [<le>]{area}
+        excludes_context:
+          domain:
+            - binary_sensor
+            - cover
+            - lock
+            - scene
+            - script
+            - sensor
+            - vacuum
+            - valve

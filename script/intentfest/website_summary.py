@@ -1,4 +1,5 @@
 """Generate a summary for the website."""
+
 from __future__ import annotations
 
 import json

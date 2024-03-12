@@ -1,46 +1,71 @@
 language: fr
 tests:
   - sentences:
-      - ouvre la porte du garage
-      - monter la porte du garage
+      - ouvre le rideau gauche
+      - ouvrir rideau gauche
+      - monte le rideau gauche
+      - monter rideau gauche
     intent:
       name: HassTurnOn
       slots:
-        device_class: garage
+        name: rideau gauche
+      context:
         domain: cover
-    response: garage ouvert
+        device_class: curtain
+    response: Ouvert
+
   - sentences:
-      - ouvre le garage
-      - ouvrir le garage
-    intent:
-      name: HassTurnOn
-      slots:
-        device_class: garage
-        domain: cover
-    response: garage ouvert
-  - sentences:
-      - ouvre le store dans le cuisine
+      - ouvre les stores de le cuisine
+      - ouvrir stores cuisine
       - ouvrir tous les stores dans le cuisine
     intent:
       name: HassTurnOn
       slots:
         area: cuisine
         device_class:
-          - blind
-          - curtain
-          - shutter
+          - "blind"
+          - "shade"
         domain: cover
-    response: Ouvrants ouverts
+    response: Ouvert
+
   - sentences:
-      - ouvre tous les stores
-      - monter tous les stores
+      - ouvre le rideau gauche du salon
+      - monter le rideau gauche dans le salon
+      - ouvrir rideau gauche salon
     intent:
       name: HassTurnOn
       slots:
-        name: all
-        device_class:
-          - blind
-          - curtain
-          - shutter
+        name: rideau gauche
+        area: salon
+      context:
         domain: cover
-    response: "['blind', 'curtain', 'shutter'] ouvert"
+        device_class: curtain
+    response: Ouvert
+
+  - sentences:
+      - ouvre toutes les portes
+      - ouvrir les portes de la maison
+      - ouvrir portes partout
+    intent:
+      name: HassTurnOn
+      slots:
+        device_class: door
+        domain: cover
+      context:
+        domain: cover
+    response: Ouvert
+
+  - sentences:
+      - ouvre les rideaux
+      - ouvrir rideaux
+      - ouvrir tous les rideaux dans cette pièce
+      - ouvre les rideaux de cette pièce
+    intent:
+      name: HassTurnOn
+      context:
+        area: salon
+      slots:
+        area: salon
+        device_class: curtain
+        domain: cover
+    response: Ouvert

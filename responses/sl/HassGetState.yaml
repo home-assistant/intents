@@ -1,4 +1,140 @@
 language: sl
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      one: |
+        {{ slots.name | capitalize }} je {{ state.state_with_unit }}
+      one_sensor: |
+        {{ slots.device_class }} {{ slots.name | capitalize }} je {{ state.state_with_unit }}
+      one_yesno: |
+        {% if query.matched %}
+          Da
+        {% else %}
+          Ne, {{ state.state_with_unit }}
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Da, {{ match[:3] | join(", ") }} in še {{ (match | length - 3) }}
+          {%- else -%}
+            Da,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Ne
+        {% endif %}
+
+      any_bs: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Da, {{ match[:3] | join(", ") }} in še {{ (match | length - 3) }}
+          {%- else -%}
+            Da,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Ne
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Da
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          Ne,
+          {% if no_match | length == 2 %}
+            nista
+          {%- elif no_match | length > 2 %}
+            niso
+          {%- else -%}
+            ni
+          {% endif %}
+          {% for name in no_match -%}
+            {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
+            {{ name }}
+          {%- endfor %}
+        {% endif %}
+      all_bs: |
+        {% if not query.unmatched: %}
+          Da
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          Ne,
+          {% if 'vrata' in no_match %}
+            {{ no_match[:-1] | join(' ') }} niso
+          {%- else %}
+            {{ no_match[-1] }} ni
+          {% endif %}
+          {% for name in no_match[0:-1] -%}
+            {% if not loop.first %}, {% endif -%}
+            {{ name }}
+          {%- endfor %}
+        {% endif %}
+      which: |
+        {% if not query.matched %}
+          Ni {{ slots.state[:-1]}}ih {{ slots.device_class[:-1] }}a
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+      which_bs: |
+        {% if not query.matched %}
+          Noben
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+      which_bs_opening: |
+        {% if not query.matched %}
+          Nič
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+      how_many: |
+        {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} ni doma
+        {% else %}
+          {{ slots.name | capitalize }} je {{ state.state }}
+        {% endif %}
+
+      sensor_value: |
+        Vrednost senzorja je {{ state.state_with_unit }}
+
+      sensor_value_temperature: |
+        Temperatura je {{ state.state_with_unit }}

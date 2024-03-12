@@ -2,17 +2,40 @@ language: fr
 intents:
   HassTurnOff:
     data:
-      - sentences:
-          - "<eteins> [toutes] (<lumiere> | <lumieres>) <dans> <area>"
-        slots:
-          domain: light
-        response: lights
+      # name
+      # See intents/sentences/fr/homeassistant_HassTurnOff.yaml
 
+      # area
       - sentences:
-          - <eteins> (<lumiere> | <lumieres>) partout
-          - <eteins> <tous> <lumieres>
+          # Éteindre les lumieres du bureau
+          - "<eteins> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{area}"
+          # Éteint le salon
+          - "<eteins> [<le>]{area}"
         slots:
           domain: light
-          area: all
-          name: all
-        response: lights
+
+      # area + context awareness
+      - sentences:
+          # Éteindre toutes les lumieres ici
+          - "<eteins> [<tous>] [<le>](<lumiere>|<lumieres>) <ici>"
+          # Éteindre les lumieres
+          - "<eteins> [<le>](<lumiere>|<lumieres>)"
+          # Jacouille, éteins les lumieres
+          - (nuit|nuits)
+        slots:
+          domain: light
+        requires_context:
+          area:
+            slot: true
+
+      # name + area
+      # See intents/sentences/fr/homeassistant_HassTurnOff.yaml
+
+      # all
+      - sentences:
+          # Éteindre les lumieres de partout
+          - <eteins> [<le>](<lumiere>|<lumieres>) <partout>
+          # Éteindre toutes lumieres
+          - <eteins> <tous> [<le>]<lumieres>
+        slots:
+          domain: light

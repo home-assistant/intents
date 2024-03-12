@@ -3,23 +3,30 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<zhasnout> [světlo] {name}"
           - "<vypnout> světlo {name}"
+          - "<zhasnout> [světlo] {name}"
+          - "{name} <vypnout> světlo"
           - "{name} <zhasnout> [světlo]"
-          - "světlo {name} <vypnout>"
+        requires_context:
+          domain: light
         slots:
           domain: light
         response: light
       - sentences:
-          - "(<vypnout>|<zhasnout>) [všechna] světla <area>"
-          - "<area> (<vypnout>|<zhasnout>) [všechna] světla"
+          - "<vypnout> <svetla> <area>"
+          - "<zhasnout> [<svetla>] <area>"
+          - "<area> <vypnout> <svetla>"
+          - "<area> <zhasnout> [<svetla>]"
         slots:
           domain: light
         response: lights_area
       - sentences:
-          - "(<vypnout>|<zhasnout>) [úplně] všechna světla"
+          - "(<vypnout>|<zhasnout>) [úplně] [všechna] světla"
+          - "<vypnout> světlo"
+          - "<zhasnout> [světlo]"
         response: "light_all"
+        requires_context:
+          area:
+            slot: true
         slots:
           domain: "light"
-          area: "all"
-          name: "all"

@@ -3,18 +3,25 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "[activate|<turn>] <name> [scene] [on]"
-          - "(change|transition) to <name> [scene]"
+          - "[activate] <name> [scene]"
+          - "<name> on"
+          - "<turn> (<name> [scene];on)"
+          - "(change|transition) to (<name> [scene]|scene <name>)"
         requires_context:
           domain: scene
         slots:
           domain: scene
         response: scene
       - sentences:
-          - "[activate|<turn>] <area> <name> [scene] [on]"
-          - "[activate|<turn>] <name> [scene] <in> <area>"
+          - "[activate] <area> <name> [scene]"
+          - "<area> <name> on"
+          - "<turn> (<area> <name> [scene];on)"
+          - "[activate] <name> [scene] <in> <area>"
+          - "<turn> (<name> [scene] <in> <area>;on)"
           - "(change|transition) ([to] <area> <name>|<area> to <name>) [scene]"
           - "(change|transition) to <name> [scene] <in> <area>"
+        requires_context:
+          domain: scene
         slots:
           domain: scene
         response: scene

@@ -4,15 +4,16 @@ intents:
     data:
       - sentences:
           - "<apaga> [[el|la|los|las] (luz|luces|(interruptor[es]|llave[s] de [la luz]))] [de|del] <name>"
+        response: "light"
         requires_context:
           domain: "light"
 
       - sentences:
           - "<apaga> [(la|las)] (luz | luces) <area>"
           - "<apaga> todas las luces <area>"
+          - "<apaga> <area>"
         slots:
           domain: light
-          name: all
         response: lights_area
 
       - sentences:
@@ -20,5 +21,14 @@ intents:
         response: "light_all"
         slots:
           domain: "light"
-          area: "all"
           name: "all"
+
+      # Turn off lights in the same area as a satellite device
+      - sentences:
+          - "<apaga> ((la luz|las luces)[<de_aqui>]|todas las luces <de_aqui>)"
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true

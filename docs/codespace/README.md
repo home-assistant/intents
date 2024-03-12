@@ -1,6 +1,6 @@
 # Codespaces Workflow
 
-A complete development environment can be accessed through [Github codespaces](https://docs.github.com/en/codespaces/overview).
+A complete development environment can be accessed through [GitHub Codespaces](https://docs.github.com/codespaces/overview).
 
 To get started, click the green "Code" button on the repository's main page, and then click "Create codespace on main":
 
@@ -42,7 +42,7 @@ Enter a commit message and click the checkmark button to complete:
 
 ![Commit message](commit_message.jpg)
 
-Finally, enter a title and description for your pull request in the left side bar. Click the "Create" button to submit:
+Finally, enter a title and description for your pull request in the left sidebar. Click the "Create" button to submit:
 
 
 ![Create pull request](create_pull_request.jpg)

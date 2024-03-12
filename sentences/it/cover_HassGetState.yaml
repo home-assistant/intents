@@ -3,8 +3,8 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "[<the>] <name> è {cover_states:state} [<in> <area>]"
-          - "è {cover_states:state} <name> [<in> <area>]"
+          - "[<the>]<name> è {cover_states:state} [<in><area>]"
+          - "è {cover_states:state} <name> [<in><area>]"
         response: one_yesno
         requires_context:
           domain: cover
@@ -12,26 +12,28 @@ intents:
           domain: cover
 
       - sentences:
-          - "(C'è una|Ci sono delle) {cover_classes:device_class} {cover_states:state} [<in> <area>]"
+          - "(C'è un[a |'| ]|Ci sono [de[lle|i] ]){cover_classes:device_class} {cover_states:state} [<in><area>]"
         response: any
         slots:
           domain: cover
 
       - sentences:
-          - "<the> {cover_classes:device_class} [<of> <area>] sono [tutt(i|e)] {cover_states:state} [<in> <area>]"
-          - "[tutt(i|e)] [<the>] {cover_classes:device_class} [(<of>|<in>) <area>] sono {cover_states:state} [<in> <area>]"
+          - "<the>{cover_classes:device_class} [<of><area>] sono [<all>] {cover_states:state} [<in><area>]"
+          - "[<all>] [<the>]{cover_classes:device_class} [(<of>|<in>)<area>] sono {cover_states:state} [<in><area>]"
         response: all
         slots:
           domain: cover
 
       - sentences:
-          - "(Qual(i|e)|Che) {cover_classes:device_class} [<of> <area>] (è|sono) {cover_states:state} [<in> <area>]"
+          - "(Qual(i|e)|Che) {cover_classes:device_class} [<of><area>] (è|sono) {cover_states:state} [<in><area>]"
+          - "(Qual(i|e)|Che) sono [<the>]{cover_classes:device_class} [<of><area>] {cover_states:state} [<in><area>]"
         response: which
         slots:
           domain: cover
 
       - sentences:
-          - "Quant(i|e) {cover_classes:device_class} [<of> <area>] (è|sono) {cover_states:state} [<in> <area>]"
+          - "Quant(i|e) {cover_classes:device_class} [<of><area>] (è|sono) {cover_states:state} [<in><area>]"
+          - "Quant(i|e) (è|sono) [<in><area>] [<the>]{cover_classes:device_class} {cover_states:state} [<of><area>] "
         response: how_many
         slots:
           domain: cover

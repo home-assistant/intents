@@ -1,4 +1,5 @@
 """Script to print Markdown language table."""
+
 import yaml
 
 from .const import LANGUAGES_FILE
