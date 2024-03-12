@@ -94,3 +94,123 @@ intents:
           device_class: current
         expansion_rules:
           class: "[količina|vrednost] [električn[i|ega]] tok[a]"
+
+      # Data rate
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: data_rate
+        slots:
+          domain: sensor
+          device_class: data_rate
+        expansion_rules:
+          class: "[([hitrost] prenosa [podatkov]|[hitrost] nalaganj(a|e) [podatkov])]"
+
+      # Data size
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: data_size
+        slots:
+          domain: sensor
+          device_class: data_size
+        expansion_rules:
+          class: "(velikost [datoteke]|(velikost) podatk(ov|a))"
+
+      # Date
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "(kdaj|katerega) ((je|bo|je bil) <name>|se (bo|je) [zgodil[o|a|i]] <name>)"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: date
+        slots:
+          domain: sensor
+          device_class: date
+        expansion_rules:
+          class: "[koledar[ski]] dogodek| termin| datum"
+
+      # Distance
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "(kakšna je) <class> [na|v] <name>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: distance
+        slots:
+          domain: sensor
+          device_class: distance
+        expansion_rules:
+          class: "[prevožena|prehojena|prekolesarjena|preletena|narejena|opravljena] razdalja"
+
+      # Duration
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "(kakšno je) <class> [v|na] <name>"
+        response: one_sensor
+        requires_context:
+          domain: sensor
+          device_class: duration
+        slots:
+          domain: sensor
+          device_class: duration
+        expansion_rules:
+          class: "trajanje|čas do konca"
+
+      # Energy
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: energy
+        slots:
+          domain: sensor
+          device_class: energy
+        expansion_rules:
+          class: "[količina] energij(a|e)"
+
+      # Energy storage
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: energy_storage
+        slots:
+          domain: sensor
+          device_class: energy_storage
+        expansion_rules:
+          class: "[[skupna] količina] [energije] [shranjene] [energij(a|e)]"
+
+      # Frequency
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: frequency
+        slots:
+          domain: sensor
+          device_class: frequency
+        expansion_rules:
+          class: "frekvenca"
+
+      # Gas
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: gas
+        slots:
+          domain: sensor
+          device_class: gas
+        expansion_rules:
+          class: "(količina|volumen) plina"

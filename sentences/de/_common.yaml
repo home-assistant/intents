@@ -53,9 +53,9 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: (max[imale|imum]|höchste|volle)
+      - in: (max[imal[e]|imum]|höchste|volle)
         out: 100
-      - in: (min[imale|imum]|niedrigste)
+      - in: (min[imal[e]|imum]|niedrigste)
         out: 1
   cover_states:
     values:
@@ -137,7 +137,7 @@ lists:
         out: "off"
   bs_carbon_monoxide_states:
     values:
-      - in: "(entdeckt|ausgelöst|erkannt|an)"
+      - in: "<erkannt>"
         out: "on"
       - in: "(klar|rein|sauber|sicher)"
         out: "off"
@@ -146,6 +146,12 @@ lists:
       - in: "kalt"
         out: "on"
       - in: "normal"
+        out: "off"
+  bs_connectivity_states:
+    values:
+      - in: "verbunden"
+        out: "on"
+      - in: "getrennt"
         out: "off"
   bs_door_states:
     values:
@@ -161,7 +167,7 @@ lists:
         out: "off"
   bs_gas_states:
     values:
-      - in: "(entdeckt|ausgelöst|erkannt|an)"
+      - in: "<erkannt>"
         out: "on"
       - in: "(klar|rein|sauber|sicher)"
         out: "off"
@@ -171,16 +177,58 @@ lists:
         out: "on"
       - in: "normal"
         out: "off"
+  bs_light_states:
+    values:
+      - in: "<erkannt>"
+        out: "on"
+      - in: "kein Licht"
+        out: "off"
+  bs_problem_states:
+    values:
+      - in: "<erkannt>"
+        out: "on"
+      - in: "(ok[ay]|normal)"
+        out: "off"
+  bs_safety_states:
+    values:
+      - in: "(unsicher|gefährlich)"
+        out: "on"
+      - in: "(sicher|ungefährlich)"
+        out: "off"
 
   shopping_list_item:
     wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  position_level:
+    values:
+      - in: (max[imal[e]|imum]|höchste)
+        out: 100
+      - in: (min[imal[e]|imum]|niedrigste)
+        out: 1
+
+  volume_level:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  volume_mapping:
+    values:
+      - in: (max[imal[e]|imum]|höchste|volle)
+        out: 100
+      - in: (min[imal[e]|imum]|niedrigste)
+        out: 1
 
 expansion_rules:
   artikel_bestimmt: "[(der|die|das|dem|der|den|des)]"
   artikel_unbestimmt: "[(ein|eine|eines|einer|einem|einen)]"
   artikel: "[<artikel_bestimmt>|<artikel_unbestimmt>]"
   name: "<artikel> {name}"
-  area: "([(in|an|auf)] <artikel>|im|am|<von_dem>) {area}[s]"
+  area: "[in|an|auf|bei] [<artikel>|im|am|<von_dem>] {area}[s]"
   an: "(an|ein|auf)"
   aus: "(aus|ab|zu)"
   auf: "(auf|hoch|rauf|nach oben)"
@@ -205,6 +253,7 @@ expansion_rules:
   licht: "<artikel> (Licht|Lampe|Beleuchtung)"
   lichter: "[die|der|von den] (Lichter|Lichtern|Lampen|Leuchten|Beleuchtungen)"
   alle_lichter: "(<alle> (<lichter>|Beleuchtung)|von allen [Lichtern|Lampen|Leuchten|Beleuchtungen])"
+  leuchten_lassen: "([er]leuchten lassen|[ein]färben)"
   tuer: "<artikel> Tür[e|en]"
   schloss: "<artikel> (Schloss|Schlösser)"
   sperren: "(sperr|schlie(ss|ß))[e|en]"
@@ -219,11 +268,17 @@ expansion_rules:
   irgend: "(irgend(<artikel_unbestimmt>[s]|welche[s]|wo)|(einige|manche)[s]|<artikel_unbestimmt>[s]) <artikel_bestimmt>"
   etwas: "[irgend][et]was"
   welche: "(welche[r|s]|was für [<artikel_unbestimmt>[s]]) <artikel_bestimmt>"
+  wieviel: "(wie[ ]viel[e]|welche Anzahl [an|von])"
   ladestand: "<artikel> [Lade][zu]Stand"
   co: "Kohlen[stoff]monoxid"
   co_sensor: "<co>[-]Sensor[en]"
   gas_sensor: "Gas[-]Sensor[en]"
-  ding: "((Ding|Gerät)[e]|Sensor[en]|Gegenstand|Gegenstände)"
+  ding: "((Ding|Gerät)[e|en]|Sensor[en]|Gegenstand|Gegenstände[n])"
+  erkannt: "(entdeckt|ausgelöst|erkannt|an)"
+  ist_wurde: "(ist|wurde)"
+  sind_wurden: "(sind|wurden)"
+  position: "{position} [Prozent|%]"
+  volume: "{volume_level} [Prozent|%]"
 skip_words:
   - "bitte"
   - "danke"

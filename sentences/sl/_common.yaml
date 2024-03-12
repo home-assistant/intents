@@ -6,7 +6,21 @@ responses:
     no_domain_in_area: "V območju {{ area }} ne obstaja {{ domain }}"
     no_device_class_in_area: "V območju {{ area }} ne obstaja {{ device_class }}"
     no_entity: "Ni naprave ali entitete z imenom {{ entity }}"
+    no_entity_in_area: "Ni naprave ali entitete z imenom {{ entity }} v območju {{ area }}"
     handle_error: "Med izvajanjem je prišlo do nepričakovane napake"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Naprava ali entiteta z imenom {{ entity }} ni izpostavljena"
+    no_entity_in_area_exposed: "Naprava ali entiteta z imenom {{ entity }} v območju {{ area }} ni izpostavljena"
+    no_domain_exposed: "Oprosti, {{ domain }} ni izpostavljena"
+    no_domain_in_area_exposed: "Oprosti, {{ domain }} v območju {{ area }} ni izpostavljena"
+    no_device_class_exposed: "Oprosti, {{ device_class }} ni izpostavljena"
+    no_device_class_in_area_exposed: "Oprosti, {{ device_class }} v območju {{ area }} ni izpostavljena"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Oprosti, klicanih je bilo dvoje ali več naprav z imenom {{ entity }}"
+    duplicate_entities_in_area: "Oprosti, v območju {{ area }} je bilo klicanih dvoje ali več naprav z imenom {{ entity }}"
+
 lists:
   color:
     values:
@@ -76,19 +90,19 @@ lists:
     values:
       - in: pergol(a|e|o|i)|tend(a|e|o|i)|nadstrešnic(a|o|i|e)
         out: awning
-      - in: role(ta|te|ti|to|t)|senči(lo|la|li|l)|senčnik[a|i|e]|rol(o|ji|ja|jev|je)
+      - in: role(ta|te|ti|to|t)|senči(lo|la|li|l)|senčnik[a|i|e]|rol(o|ji|ja|jev|je)|žaluzij(a|e|o|ji)
         out: blinds
       - in: zave(sa|se|so|si|s)|zastor[a|i|ov]
         out: curtain
-      - in: vra(ta|ti|t)
+      - in: vra(ta|ti|t|te) #'vrate' ni slovnično pravilno, ampak včasih (narečno) pogovorno
         out: door
-      - in: garaž(a|o|i|e)
+      - in: garaž(a|o|i|e)|garažna vrata
         out: garage
       - in: dovozna vrat(a|i)
         out: gate
       - in: vhodna vrata
         out: door
-      - in: žaluzij[a|e|o|i]
+      - in: žaluzij(a|e|o|ji)
         out: blinds
       - in: zapah[i|e]|pokrov|polk(en|na|no|ni)
         out: shutter
@@ -104,6 +118,12 @@ lists:
     wildcard: true
   zone:
     wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
 
   # binary sensors
 
@@ -296,6 +316,12 @@ lists:
       - in: "čisto"
         out: "closed"
 
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
   name: "{name}"
   area: "[v|na] {area}"
@@ -305,7 +331,7 @@ expansion_rules:
   temperature: "{temperature}[°| <stopinj>| celzija] [{temperature_unit}|°C ] "
   stopinj: "(stopin(j|ja|ji|je))"
   temp: "temperatur[a|i|e|o]|termostat"
-  set: "(nastavi|spremeni|prilagodi|segrej|ohladi|dvigni|znižaj|spusti|dodaj|daj)"
+  set: "(nastavi|spremeni|prilagodi|segrej|ohladi|dvigni|znižaj|spusti|dodaj|daj|obrni|odpri|zasuči|zavrti|odvij|zapri|odgrni|zagrni)"
   zapri: "(zapri|spusti|zagrni|zatesni|z[a]vij)"
   odpri: "(odpri|dvigni|odgrni|razkrij|razvij|odkrij)"
   covers: "([balkonska|zadnja|sprednja|drsna|kuhinjska]) vrata| ok(no|ni|na|en)| rolet(a|o|i|e) | žaluzij[a|o|i|e] | markiz(a|i|e|o) | tend(a|i|e|o) | (pokrov|pokrivalo) bazena | ograj(a|i|e|o) | zaves(a|o|i|e)"
@@ -316,7 +342,7 @@ expansion_rules:
   izključi: "izključi[te|mo]|ugasni[te|mo|izklopi]"
   ugasni: "izključi[te|mo]|ugasni[te|mo|izklopi]"
   spremeni: "spremeni|prilagodi|nastavi|zamenjaj|zmanjšaj|povečaj|znižaj|ohladi|segrej"
-  numeric_value_set: "(spremeni|nastavi|obrni|zamenjaj|zmanjšaj|znižaj|povečaj|zvišaj|naredi|daj)"
+  numeric_value_set: "(spremeni|nastavi|obrni|zamenjaj|zmanjšaj|znižaj|povečaj|zvišaj|naredi|daj|odvij|odgrni|zagrni)"
   katera_je: "kater[i|a|o] je|povej [mi]|katerakoli|katero|kateri|katera"
   kakšna_je: "kakšna (je|so) | kakšno (je|so)| koliko (je|so) | povej [mi]"
   kakšno_je: "kakšno je|povej [mi]"
@@ -329,9 +355,10 @@ expansion_rules:
   vsa: "[vsi|vsa|vse|vso]"
   lock: "vrat[a]|ključavnic(e|a|o)"
   luč: "luč[i|ke|ko|ki|k]|svetil[a|i|o]|razsvetljav[e|o|a]|svetilk[e|o|a]"
-
+  position: "{position}[[ ]%| odstotkov|procentov]"
+  volume: "{volume:volume_level}[[ ]%| (procent(a|ov)|odsotk(a|ov))]"
   # Questions
-  kaksna_je_vrednost_senzorja: "((kakšna je) [vrednost [senzorja]] [za] <class> [v|na] <name> [[v|na] <area>] | (kakšna je) [vrednost [senzorja]] [za] <name> [[v|na] <area>] | (kakšen je|kakšna je) [vrednost] [napolnjenost] [<class>] [v|na] <name> [[v|na] <area>] )"
+  kaksna_je_vrednost_senzorja: "((kakšna je) [vrednost [senzorja]] [za] <class> [v|na] <name> [[v|na] <area>] | (kakšna je) [vrednost [senzorja]] [za] <name> [[v|na] <area>] | (kakšen je|kakšna je) [vrednost] [napolnjenost] [<class>] [v|na] <name> [[v|na] <area>] | kateri <class> [je|bo|bil] <name> )"
 
 skip_words:
   - "prosim"

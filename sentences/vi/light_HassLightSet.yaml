@@ -2,21 +2,104 @@ language: vi
 intents:
   HassLightSet:
     data:
+      # Độ sáng
       - sentences:
-          - thiết lập độ sáng <name> <brightness>
-          - chuyển độ sáng <name> sang mức <brightness>
-          - chỉnh độ sáng <name> sang mức <brightness>
-          - đặt độ sáng <name> <brightness>
+          - " [<numeric_value_set>] (mức|độ|mức độ) sáng [của] <name> [đến|lên|tới|ở|tại] [ (mức|độ|mức độ) sáng] <brightness>"
+          - " [<numeric_value_set>] <name>  [đến|lên|tới|ở|tại] [(mức|độ|mức độ) sáng] <brightness>"
+          # - "[<numeric_value_set>] <name> độ sáng [đến] <brightness>"
+          # - "[<numeric_value_set>] [độ sáng] [của] <name> [đến] <brightness>"
+          # - "[<numeric_value_set>] <name> [đến] <brightness> [độ sáng]"
+        response: brightness
+        requires_context:
+          domain: light
+
+      - sentences:
+          - "<numeric_value_set> <name> đến <brightness>"
+        requires_context:
+          domain: "light"
         response: brightness
       - sentences:
-          - thiết lập độ sáng <area> sang mức <brightness>
-          - thiết lập tất cả độ sản trong <area> sang mức <brightness>
+          - " [<numeric_value_set>] [(mức|độ|mức độ) sáng] [trong|của|tại|ở] <area> [lên|đến|tới|ở] [mức|độ|mức độ] [sáng] <brightness>"
+          - " [<numeric_value_set>] [(mức|độ|mức độ) sáng] [của] [tất cả] đèn [trong|của|tại|ở] <area> [lên|đến|tới|ở] [mức|độ|mức độ] [sáng] <brightness>"
+
+          # - "[<numeric_value_set>] [độ sáng] của <area> đến <brightness>"
+          # - "[<numeric_value_set>] <area> độ sáng [đến] <brightness>"
+          # - "[<numeric_value_set>] <area> [đến] <brightness> độ sáng"
+          # - "[<numeric_value_set>] <area> [đến] <brightness>"
+          # - "[<numeric_value_set>] [tất cả] [ánh sáng] [trong] <area> đến <brightness> [độ sáng]"
         slots:
-          name: all
-        response: brightness_area
+          name: "tất cả"
+        response: brightness
+
       - sentences:
-          - thiết lập <name> sang {color}
-          - chuyển <name> sang {color}
-          - điều chỉnh <name> sang {color}
-          - đổi mầu <name> sang {color}
+          - "<numeric_value_set> <area> đến <brightness>"
+        slots:
+          name: "tất cả"
+        response: brightness
+
+      - sentences:
+          - " [<numeric_value_set>] [ mức|độ|mức độ] [sáng] [lên|đến|tới|ở] [mức|độ|mức độ] [sáng] <brightness> [<in_here>] "
+          - " [<numeric_value_set>] [ mức|độ|mức độ] [sáng] [<in_here>] [lên|đến|tới|ở] [mức|độ|mức độ] [sáng] <brightness>  "
+          - " [<in_here>] [<numeric_value_set>] [ mức|độ|mức độ] [sáng]  [lên|đến|tới|ở] [mức|độ|mức độ] [sáng] <brightness>  "
+          # - "[<numeric_value_set>] [độ sáng] lên <brightness>"
+          # - "[<numeric_value_set>] [độ sáng] ([ở đây];đến <brightness>)"
+        expansion_rules:
+          in_here: "ở đây|tại đây|tại chỗ này|ở chỗ này"
+        response: brightness
+        requires_context:
+          area:
+            slot: true
+
+      # Độ sáng tối đa/tối thiểu
+      - sentences:
+          - " [<numeric_value_set>] (mức|độ|mức độ) sáng [của] <name> [đến|lên|tới|ở|tại|lên mức|xuống] {brightness_level:brightness} "
+          - " [<numeric_value_set>] <name> [đến|lên|tới|ở|tại|xuống] [(mức|độ|mức độ)] [sáng] {brightness_level:brightness} "
+
+          # - " [<numeric_value_set>] [độ sáng] [của] <name> đến [mức] {brightness_level:brightness}"
+          # - " [<numeric_value_set>] <name> [đến] [mức] {brightness_level:brightness} độ sáng"
+        requires_context:
+          domain: light
+        response: brightness
+
+      - sentences:
+          - "[<numeric_value_set>] [độ sáng] [của|trong] <area> (lên|đến|xuống) [mức] {brightness_level:brightness}"
+          # - "[<numeric_value_set>] [độ sáng] của <area> đến [mức] {brightness_level:brightness}"
+          - "[<numeric_value_set>] <area> độ sáng đến [mức|độ] {brightness_level:brightness}"
+          - "[<numeric_value_set>] <area> [đến|lên|xuống] [mức|độ] độ sáng {brightness_level:brightness} "
+        slots:
+          name: "tất cả"
+        response: brightness
+
+      - sentences:
+          - "[<numeric_value_set>] [độ sáng] [lên|đến] [mức] {brightness_level:brightness} [<in_here>]"
+          - "[<numeric_value_set>] [độ sáng] ([ở đây] [lên|đến] [mức] {brightness_level:brightness})"
+        expansion_rules:
+          in_here: "[ ở] đây"
+        response: brightness
+        requires_context:
+          area:
+            slot: true
+
+      # Màu sắc
+      - sentences:
+          - "[<set>] <name> [màu|màu sắc] [lên|đến|sang] {color}"
+          - "[<set>] [màu sắc|màu] [của] <name> [sang|lên|đến] {color}"
+        requires_context:
+          domain: light
         response: color
+      # - sentences:
+      #     - "[<set>] [màu của|màu sắc] (<area> | [tất cả [các]] đèn trong <area> | [tất cả] đèn <area>) [lên|sang|đến] {color}"
+      #     - "[<set>] (<area> | [tất cả] đèn trong <area> | [tất cả] đèn <area>) [màu] [đến] {color}"
+      #   slots:
+      #     name: "tất cả"
+      #   response: brightness
+
+      - sentences:
+          - "[<set>] [màu của|màu sắc|màu] [tất cả] <light> ([<in_here>] [đến|sang] {color})"
+          - "[<set>] [màu của|màu sắc|màu] {color} cho [tất cả] <light> [<in_here>]"
+        expansion_rules:
+          in_here: "[ở] đây"
+        response: color
+        requires_context:
+          area:
+            slot: true

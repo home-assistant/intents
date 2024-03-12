@@ -42,7 +42,7 @@ Enter a commit message and click the checkmark button to complete:
 
 ![Commit message](commit_message.jpg)
 
-Finally, enter a title and description for your pull request in the left side bar. Click the "Create" button to submit:
+Finally, enter a title and description for your pull request in the left sidebar. Click the "Create" button to submit:
 
 
 ![Create pull request](create_pull_request.jpg)
