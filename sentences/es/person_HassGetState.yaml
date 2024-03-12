@@ -1,0 +1,44 @@
+language: es
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "[<dime> ]<donde_se_encuentra> <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[<dime> ]<se_encuentra> <name> [en] [el|la[s]|los] {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[<dime> ](<se_encuentra>|hay) alguien [en] [el|la[s]|los] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "[<dime> ]<se_encuentra>[n] (todos|todo el mundo) en [el|la[s]|los] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "[<dime> ]quién[es] <se_encuentra>[n] [en] [el|la[s]|los] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "[<dime> ]cuánta[s] (gente|personas) (hay|<se_encuentra>[n]) [en] [el|la[s]|los] {zone:state}"
+        response: how_many
+        slots:
+          domain: person

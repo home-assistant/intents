@@ -1,4 +1,5 @@
 """Sample possible sentences from a template."""
+
 from __future__ import annotations
 
 import argparse

@@ -2,4 +2,10 @@ language: pt-br
 responses:
   intents:
     HassClimateGetTemperature:
-      default: "{{ state.state }} degrees"
+      default: >
+        {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
+        {% if (temperature | float) >= -1 and (temperature | float) <= 1  %}
+        {{ temperature }} grau
+        {% else: %}
+        {{ temperature }} graus
+        {% endif %}

@@ -1,0 +1,73 @@
+language: hu
+tests:
+  - sentences:
+      - "Hol van Jóska"
+      - "Hol a Jóska"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: "Jóska"
+    response: "Jóska az otthon zónában van"
+
+  - sentences:
+      - "Hol van Marika"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: "Marika"
+    response: "Marika a munkahely zónában van"
+
+  - sentences:
+      - "Marika otthon van"
+      - "Marika otthon zónában van"
+      - "Marika otthon helyen van"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: "Marika"
+        state: "otthon "
+    response: "Nem, a munkahely zónában van"
+
+  - sentences:
+      - "Valaki van az otthon zónában"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: "otthon "
+    response: "Igen, Jóska"
+
+  - sentences:
+      - "Mindenki otthon van"
+      - "Mindenki az otthon zónában van"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: "otthon "
+    response: "Nem, Marika az otthon zónában van"
+
+  - sentences:
+      - "Ki van otthon zónában"
+      - "Kik vannak otthon helyen"
+      - "Kik vannak az otthon zónában"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: "otthon "
+    response: "Jóska"
+
+  - sentences:
+      - "Hány ember van otthon zónában"
+      - "Hányan vannak otthon helyen"
+      - "Mennyien vannak az otthon helyen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: "otthon "
+    response: "1"

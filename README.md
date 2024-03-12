@@ -5,24 +5,24 @@ This repository contains training data for Home Assistant's local voice control.
  - [Progress per language and intent](https://home-assistant.github.io/intents/)
  - [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
  - [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
- - [Supported intents](https://developers.home-assistant.io/docs/intent_builtin)
- - [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages)
+ - [Supported intents](https://developers.home-assistant.io/docs/intent_builtin/)
+ - [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages/)
 
 Repository layout:
 
 - [`languages.yaml`](languages.yaml)
-  - Supported languages and their language leader
+  - Supported languages and their language leader.
 - [`intents.yaml`](intents.yaml)
   - Supported intents
 - `sentences/<language>`
-  - Intent matching sentences in YAML files for `<language>` with the name `<domain>_<intent>.yaml`
+  - Intent matching sentences in YAML files for `<language>` with the name `<domain>_<intent>.yaml`.
   - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/template-sentence-syntax/)
 - `responses/<language>`
-  - YAML files for `<language>` with responses for intents
+  - YAML files for `<language>` with responses for intents.
   - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/test-syntax/)
 - `tests/<language>`
-  - YAML files for `<language>` with test sentences and corresponding intents
-  - [File format](tests/README.md#file-format)
+  - YAML files for `<language>` with test sentences and corresponding intents.
+  - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/test-syntax/)
 
 See the [documentation](docs/README.md) for more information.
 

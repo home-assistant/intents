@@ -1,4 +1,5 @@
 """Test language intents."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -78,7 +79,7 @@ def do_test_language_sentences(
         ), f"File {file_name} should only contain sentences for intent {file_intent}"
 
         intent_schema = intent_schemas[intent_name]
-        slot_schema = intent_schema["slots"]
+        slot_schema = intent_schema.get("slots", {})
         slot_combinations = intent_schema.get("slot_combinations")
 
         for data in intent.data:
@@ -196,29 +197,32 @@ def _flatten(expression: Expression) -> Iterable[Expression]:
         yield expression
 
 
-def gen_test(test_file: Path) -> None:
+def gen_test(test_file: str) -> None:
     def test_func(
         intent_schemas: dict[str, Any],
         language_sentences_yaml: dict[str, Any],
         language_sentences_common: Intents,
     ) -> None:
         do_test_language_sentences(
-            test_file.name,
+            test_file,
             intent_schemas,
             language_sentences_yaml,
             language_sentences_common,
         )
 
-    test_func.__name__ = f"test_{test_file.stem}"
+    test_func.__name__ = f"test_{test_file.rsplit('.', 1)[0]}"
     setattr(sys.modules[__name__], test_func.__name__, test_func)
 
 
 def gen_tests() -> None:
-    lang_dir = SENTENCES_DIR / "en"
+    names = {
+        test_file.name
+        for test_file in SENTENCES_DIR.glob("*/*.yaml")
+        if test_file.name != "_common.yaml"
+    }
 
-    for test_file in lang_dir.glob("*.yaml"):
-        if test_file.name != "_common.yaml":
-            gen_test(test_file)
+    for name in names:
+        gen_test(name)
 
 
 gen_tests()

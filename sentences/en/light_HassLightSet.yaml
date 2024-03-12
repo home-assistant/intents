@@ -22,6 +22,7 @@ intents:
           - "[<numeric_value_set>] <area> brightness [to] <brightness>"
           - "[<numeric_value_set>] <area> [to] <brightness> brightness"
           - "[<numeric_value_set>] <area> [to] <brightness>"
+          - "[<numeric_value_set>] [all] [the] lights [<in>] <area> to <brightness> [brightness]"
         slots:
           name: "all"
         response: "brightness"
@@ -31,6 +32,16 @@ intents:
         slots:
           name: "all"
         response: "brightness"
+
+      - sentences:
+          - "[<numeric_value_set>] [the] brightness to <brightness>"
+          - "[<numeric_value_set>] [the] brightness (<in_here>;to <brightness>)"
+        expansion_rules:
+          in_here: "[ in] here"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
 
       # Max/Min brightness
       - sentences:
@@ -50,6 +61,16 @@ intents:
           name: "all"
         response: "brightness"
 
+      - sentences:
+          - "[<numeric_value_set>] [the] brightness to [the] {brightness_level:brightness}"
+          - "[<numeric_value_set>] [the] brightness (<in_here>;to [the] {brightness_level:brightness})"
+        expansion_rules:
+          in_here: "[ in] here"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
+
       # color
       - sentences:
           - "[<set>] <name> [color] [to] {color}"
@@ -58,8 +79,18 @@ intents:
           domain: light
         response: "color"
       - sentences:
-          - "[<set>] [[the] color of] (<area> | [all] lights in <area> | [all] <area> lights) [to] {color}"
+          - "[<set>] [[the] color of] (<area> | [all [the]] lights in <area> | [all] <area> lights) [to] {color}"
           - "[<set>] (<area> | [all] lights in <area> | [all] <area> lights) [color] [to] {color}"
         slots:
           name: "all"
         response: "color"
+
+      - sentences:
+          - "[<set>] [[the] color of] [all] <light> [to] {color}"
+          - "[<set>] [[the] color of] [all] <light> (<in_here>;[to] {color})"
+        expansion_rules:
+          in_here: "[ in] here"
+        response: "color"
+        requires_context:
+          area:
+            slot: true
