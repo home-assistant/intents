@@ -3,8 +3,45 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> [tất cả | toàn bộ] (đèn) trong <area>"
-          - "<turn_off> [tất cả | toàn bộ] đèn <area>"
-          - "<turn_off> đèn <area>"
+          - " <turn_off> (<light_devices> <name> <area>|<light_devices> <name> [trong <area>])"
+          - "<turn_off> tắt (<light_devices> <name> <area>|<light_devices> <name> [trong <area>])"
+          - "<turn_off> (<light_devices> <name> <area>|<light_devices> <name> [trong <area>])"
+        expansion_rules:
+          turn_off: "(tắt|đóng|ngắt|vô hiệu hóa)"
+          light_devices: "(bóng đèn|công tắc [đèn]|đèn[điện]|ánh sáng)"
+        requires_context:
+          domain: light
+      - sentences:
+          - "<turn_off>  [<all>] <light_devices> <in_area>"
+
+        expansion_rules:
+          turn_off: "(tắt|đóng|ngắt|vô hiệu hóa)"
+          light_devices: "( [công tắc] [bóng] đèn [điện]| ánh sáng [điện])"
         slots:
-          domain: "light"
+          domain: light
+        response: "lights_area"
+
+      - sentences:
+          - "<turn_off> [<all>] <light_devices> <every_where>"
+
+        expansion_rules:
+          turn_off: "(tắt|đóng|ngắt|vô hiệu hóa)"
+          light_devices: "( [công tắc] [bóng] đèn [điện]| ánh sáng [điện])"
+        response: "light_all"
+        slots:
+          domain: light
+          # name: "tất cả"
+
+      # Tắt đèn trong cùng khu vực của thiết bị vệ tinh
+      - sentences:
+          - " <turn_off> [<all>] <light_devices> [<in_here>]"
+
+        response: "lights_area"
+        expansion_rules:
+          turn_off: "(tắt|đóng|ngắt|vô hiệu hóa)"
+          light_devices: "( [công tắc] [bóng] đèn [điện]| ánh sáng [điện])"
+        slots:
+          domain: light
+        requires_context:
+          area:
+            slot: true

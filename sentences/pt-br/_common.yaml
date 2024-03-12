@@ -7,6 +7,17 @@ responses:
     no_device_class_in_area: "{{ area }} não contém {{ device_class }}"
     no_entity: "Não existe nenhum dispositivo ou entidade com o nome {{ entity }}"
     handle_error: "Um erro inesperado ocorreu ao processar o pedido"
+    no_domain: "Desculpe, eu não conheço nenhum {{ domain }}"
+    no_device_class: "Desculpe, eu não conheço nenhuma {{ device_class }}"
+    no_entity_in_area: "Desculpe, eu não conheço nenhum dispositivo chamado {{ entity }} na área {{ area }}"
+    no_entity_exposed: "Desculpe, {{ entity }} não está exposto"
+    no_entity_in_area_exposed: "Desculpe, {{ entity }} na área {{ area }} não está exposto"
+    no_domain_exposed: "Desculpe, nenhum {{ domain }} está exposto"
+    no_domain_in_area_exposed: "Desculpe, nenhum {{ domain }} na área {{ area }} está exposto"
+    no_device_class_exposed: "Desculpe, nenhuma {{ device_class }} está exposta"
+    no_device_class_in_area_exposed: "Desculpe, nenhuma {{ device_class }} na área {{ area }} está exposta"
+    duplicate_entities: "Desculpe, há vários dispositivos chamados {{ entity }}"
+    duplicate_entities_in_area: "Desculpe, há vários dispositivos chamados {{ entity }} na área {{ area }}"
 lists:
   color:
     values:
@@ -118,24 +129,38 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
   abre: "(abra|abre|abrir)"
-  adicionar: adicione|adiciona[r]
+  adicionar: "(adicione|adiciona[r])"
   algum: "(algum|alguma|alguns|algumas)"
   brilho: "{brightness}[%| porcento]"
-  colocar: coloque|coloca[r]|pôr|põe
+  colocar: "(coloque|coloca[r]|pôr|põe)"
   desligar: "(desliga|desligue|apaga|apague|desligar|apagar)"
   esta: "(está|estão|existe|existem)"
   fecha: "(fecha|feche|fechar)"
   juntar: "(junte|junta[r])"
   ligar: "(liga[r]|ligue|acende[r]|acenda|ativa[r]|ative)"
-  muda: "(põe|ponha|muda|altera|coloca|deixa|pôr|mudar|alterar|colocar|deixar)"
+  muda: "(põe|ponha|muda|mude|altera|coloca|deixa|pôr|mudar|alterar|colocar|deixar|definir|defina|setar)"
   na_zona: "(n[o|a]|d[a|o]) {area}"
   nome: "[(o[s]|a[s])] {name}"
-  por: pôr|põe|ponha
+  por: "(pôr|põe|ponha|definir|defina|setar)"
   qual: "(que|qual|qual é|quais)"
   temperatura: "{temperature}[°| graus] [{temperature_unit}]"
   zona: "[(o|os|a|as)] {area}"
+  position: "{position}[[ ]%| por cento]"
+  volume: "{volume:volume_level}[[ ]%| por cento]"
 
 skip_words:
   - "porfavor"

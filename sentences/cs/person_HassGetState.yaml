@@ -1,0 +1,108 @@
+language: cs
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "kde je {name}"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "je {name} doma"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "jsou všichni doma"
+        response: all
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "jsou všichni (pryč|na cestě|mimo domov)"
+        response: all
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "je někdo doma"
+          - "kdo je doma"
+        response: which
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "kdo není doma"
+          - "kdo je mimo domov"
+          - "je někdo mimo domov"
+          - "je někdo mimo pryč"
+        response: which
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "kolik lidí je doma"
+        response: how_many
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
+          - "kolik lidí (není doma|je pryč|je na cestě|je mimo domov)"
+        response: how_many
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "není {name} doma"
+          - "je {name} (pryč|na cestě|mimo domov)"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+          state: not_home
+
+      - sentences:
+          - "je {name} [<v>] [zóně] {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "(je někdo|kdo je) [<v>] [zóně] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "jsou všichni [<v>] [zóně] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "kdo je [<v>] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "kolik lidí je [<v>] [zóně] {zone:state}"
+        response: how_many
+        slots:
+          domain: person
