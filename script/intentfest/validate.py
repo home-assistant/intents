@@ -217,18 +217,19 @@ TESTS_SCHEMA = vol.Schema(
     }
 )
 
+NAME_MATCHER = vol.Match(r"^[\w ]+$", "Names cannot contain matching syntax")
 TESTS_FIXTURES = vol.Schema(
     {
         vol.Required("language"): str,
         vol.Optional("areas"): [
             {
-                vol.Required("name"): str,
+                vol.Required("name"): NAME_MATCHER,
                 vol.Required("id"): str,
             }
         ],
         vol.Optional("entities"): [
             {
-                vol.Required("name"): str,
+                vol.Required("name"): NAME_MATCHER,
                 vol.Required("id"): str,
                 vol.Optional("area"): str,
                 vol.Optional("device_class"): str,
