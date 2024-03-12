@@ -3,30 +3,40 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<open> [<the>] {name} [[<in> | <of>] {area}]"
+          - "<open> [<the>] {name} [[<in>|<of>]{area}]"
         response: "cover"
         requires_context:
           domain: "cover"
       - sentences:
-          - "<open> [<all>] [<in> | <the>] {area}"
+          - "<open> [<all>] [<in>|<the>] {area}"
         response: "cover_area"
         slots:
           domain: "cover"
       - sentences:
-          - "<open> <all> [<the>] {cover_classes:device_class}"
+          - "<open> <all> [<the>]{cover_classes:device_class}"
+          - "<open> [<all>] [<the>]{cover_classes:device_class} [<in>|<of>]<home>"
+          - "<open> (<in>|<of>)<home> [<all>] [<the>] {cover_classes:device_class}"
         response: "cover_device_class"
         slots:
           domain: "cover"
       - sentences:
-          - "<open> [<all>][<the>] {cover_classes:device_class} [[<in> | <of>] {area}]"
-          - "<open> [[<in>] {area}] [<all>] [<the>] {cover_classes:device_class}"
+          - "<open> [<all>] [<the>]{cover_classes:device_class} [[<in>|<of>]{area}]"
+          - "<open> [[<in>|<of>]{area}] [<all>] [<the>]{cover_classes:device_class}"
         response: "cover_device_class_area"
         requires_context:
           domain: "cover"
       - sentences:
-          - "<open> <the> <garage> [[(in | del)] garage]"
+          - "<open> <the> <garage> [del garage]"
           - "<open> [[<in>] garage] <the> <garage>"
         response: "cover_garage"
         slots:
           device_class: "garage"
           domain: "cover"
+      - sentences:
+          - "<open> [<the>]{cover_classes:device_class} [<in_here>]"
+        response: "cover_device_class_area"
+        slots:
+          domain: "cover"
+        requires_context:
+          area:
+            slot: true
