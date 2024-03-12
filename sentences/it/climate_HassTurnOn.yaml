@@ -1,0 +1,20 @@
+language: "it"
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<turn_on> [<all>] [<the>]<climate> [(<of>|<in>)]<area>"
+          - "<turn_on> [<in>]<area> [<all>] [<the>]<climate>"
+          - "[<in>]<area> [<all>] [<the>]<climate> <turn_on>"
+          - "[<in>]<area> <turn_on> [<all>] [<the>]<climate>"
+        slots:
+          domain: climate
+        response: "climate_area"
+      - sentences:
+          - "<turn_on> [<the>]<climate> [<in_here>]"
+        response: "climate_area"
+        slots:
+          domain: "climate"
+        requires_context:
+          area:
+            slot: true

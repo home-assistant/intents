@@ -56,6 +56,14 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: "massimo"
+        out: 100
+      - in: "minimo"
+        out: 1
+      - in: "metà"
+        out: 50
   temperature:
     range:
       type: "temperature"
@@ -69,12 +77,6 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
-  brightness_level:
-    values:
-      - in: "massimo"
-        out: 100
-      - in: "minimo"
-        out: 1
   on_off_states:
     values:
       - in: "(acces|attiv)(o|i|a|e)"
@@ -321,9 +323,9 @@ lists:
 
 expansion_rules:
   the: "(l(o|a|e) | i[l] | gli | l'| in | ne(l|llo|lla|lle|ll'|gli) | a[(l|llo|lla|lle|ll'|gli)])"
-  in: "(in | ne(i|gli|l[l'|lo|la|le]))"
-  of: "(de[i|gli|l[lo|la|le]]|di)"
-  to: "a[l[lo|la|le] | gli]"
+  in: "(in | ne[i |gli |l[lo |la |le |l'| ]])"
+  of: "(de[l[lo |la |le |l'| ]]|i |gli |di )"
+  to: "a[l[lo |la |le |l'] | gli ]"
   name: "{name}"
   area: "{area}"
   what_is: "(qual[e] è | quant(o |')è | com(e |')è | che)"
@@ -339,6 +341,9 @@ expansion_rules:
   fan: "(ventol(a|e) | ventilator(e|i) | ventilazione | climatizzator(e|i) | condizionator(e|i))"
   all: "(tutt(o|e|i|a) [quant(i|e)] | ogni)"
   garage: "(serrand(a|e) | port(a|e) [basculant(e|i)|de(l|i) garage] | saracinesc(a|he))"
+  light: "luc(e|i)"
+  in_here: "(qu(a|i)|in questa (stanza|camera))"
+  home: "(casa|appartamento)"
 skip_words:
   - "grazie"
   - "per favore"
