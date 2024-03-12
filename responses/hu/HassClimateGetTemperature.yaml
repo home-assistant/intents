@@ -2,4 +2,15 @@ language: hu
 responses:
   intents:
     HassClimateGetTemperature:
-      default: "{{ state.state }} fok van"
+      default: >
+        {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
+        {% if temperature is number %}
+          {% if temperature < 0 %}
+            {% set temperature_string = 'mínusz ' ~ (temperature * -1) | string | replace('.', ',') %}
+          {% else %}
+            {% set temperature_string = temperature | string | replace('.', ',') %}
+          {% endif %}
+          {{ temperature_string }} fok
+        {% else %}
+          Nem várt eredmény: {{ temperature }}
+        {% endif %}

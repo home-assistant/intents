@@ -1,0 +1,24 @@
+language: fi
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'ja kirkasta',
+          'clear-night': 'ja kirkasta',
+          'cloudy': 'ja pilvistä',
+          'exceptional': 'ja poikkeukselliset sääolosuhteet',
+          'fog': 'ja sumuista',
+          'hail': 'ja tihkua',
+          'lightning': 'ja ukkosta',
+          'lightning-rainy': 'ja ukkosmyrsky',
+          'partlycloudy': 'ja osittain pilvistä',
+          'pouring': 'ja rankkasade',
+          'rainy': 'ja sataa vettä',
+          'snowy': 'ja sataa lunta',
+          'snowy-rainy': 'ja sataa räntää',
+          'sunny': 'ja aurinkoista',
+          'windy': 'ja tuulista',
+          'windy-variant': 'tuulista ja aurinkoista'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}

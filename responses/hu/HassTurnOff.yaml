@@ -2,9 +2,94 @@ language: hu
 responses:
   intents:
     HassTurnOff:
-      default: "{{ slots.name }} kikapcsolva."
-      lights_area: "Lámpák kikapcsolva itt: {{ slots.area }}."
-      fans_area: "Ventilátorok kikapcsolva itt: {{ slots.area }}."
-      cover: "{{ slots.name }} zárva."
-      cover_area: "Zárva itt: {{ slots.area }}."
-      cover_device_class: "{{ slots.device_class }} zárva."
+      default: |
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.name[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "Az" %}
+        {% else %}
+          {% set nevelo = "A" %}
+        {% endif %}
+        {{ nevelo }} {{ slots.name }} kikapcsolva
+      cover: |
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.name[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "Az" %}
+        {% else %}
+          {% set nevelo = "A" %}
+        {% endif %}
+        {{ nevelo }} {{ slots.name }} bezárva
+      lock: |
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.name[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "Az" %}
+        {% else %}
+          {% set nevelo = "A" %}
+        {% endif %}
+        {{ nevelo }} {{ slots.name }} kinyitva
+      lock_area: |
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.area[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "Az" %}
+        {% else %}
+          {% set nevelo = "A" %}
+        {% endif %}
+        {{ nevelo }} {{ slots.area }} zárai kinyitva
+      cover_device_class: |
+        {% set input_string = slots.device_class %}
+        {% set device_class_translations = {
+          "garage": "A garázskapu",
+          "garázs": "A garázskapu",
+          "napellenző": "A napellenző",
+          "redőny": "A redőny",
+          "függöny": "A függöny",
+          "ajtó": "Az ajtó",
+          "kapu": "A kapu",
+          "árnyékoló": "Az árnyékoló",
+          "zsalu": "A zsalu",
+          "roló": "A roló",
+          "ablak": "Az ablak"
+        } %}
+        {% set responses = [] %}
+        {% for key, value in device_class_translations.items() %}
+          {% if key in input_string %}
+            {% set _ = responses.append(value ~ ' bezárva') %}
+          {% endif %}
+        {% endfor %}
+        {% if responses %}
+          {{ responses[0] }}
+        {% else %}
+          Bezárva
+        {% endif %}
+      lights_area: |
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.area[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "Az" %}
+        {% else %}
+          {% set nevelo = "A" %}
+        {% endif %}
+        {{ nevelo }} {{ slots.area }} lámpák kikapcsolva
+      lights_all: "Az összes lámpa kikapcsolva"
+      fans_area: |
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.area[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "Az" %}
+        {% else %}
+          {% set nevelo = "A" %}
+        {% endif %}
+        {{ nevelo }} {{ slots.area }} ventilátorok kikapcsolva
+      fans_all: "Az összes ventilátor kikapcsolva"
+      valve: |
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.name[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "Az" %}
+        {% else %}
+          {% set nevelo = "A" %}
+        {% endif %}
+        {{ nevelo }} {{ slots.name }} bezárva
