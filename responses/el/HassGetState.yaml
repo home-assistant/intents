@@ -63,3 +63,10 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} Είναι εκτός
+        {% else %}
+          {{ slots.name | capitalize }} Είναι στο  {{ state.state }}
+        {% endif %}
