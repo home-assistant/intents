@@ -306,4 +306,121 @@ intents:
           domain: sensor
           device_class: nitrogen_monoxide
         expansion_rules:
-          class: "[koncentracija|stopnja] (dušikov[ega] monoksid[a]|NO)"
+          class: "[koncentracija|stopnja|vrednost] (dušikov[ega] monoksid[a]|NO)"
+
+      # Nitrous oxide
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: nitrous_oxide
+        slots:
+          domain: sensor
+          device_class: nitrous_oxide
+        expansion_rules:
+          class: "[koncentracija|stopnja|vrednost] (dušikov[ega] oksid[a]|[koncentracija|stopnja|vrednost] N2O)"
+
+      # Ozone
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: ozone
+        slots:
+          domain: sensor
+          device_class: ozone
+        expansion_rules:
+          class: "[koncentracija|stopnja|vrednost] [za] (ozon(a))|[koncentracija|stopnja|vrednost] O3"
+
+      # PM1
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: pm1
+        slots:
+          domain: sensor
+          device_class: pm1
+        expansion_rules:
+          class: "((stopnja|koncentracija|vrednost) PM1 [delcev]|PM1 [delci])"
+
+      # PM2.5
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: pm25
+        slots:
+          domain: sensor
+          device_class: pm25
+        expansion_rules:
+          class: "((stopnja|koncentracija|vrednost) (PM2.5|pe em dva cela pet|PM dva cela pet|PM 2,5) [delcev]|(PM2.5|PM2,5|pe em dva cela pet|PM dva cela pet) [delci])"
+
+      # PM10
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: pm10
+        slots:
+          domain: sensor
+          device_class: pm10
+        expansion_rules:
+          class: "((stopnja|koncentracija|vrednost) (PM10|pe em 10|PM 10|PM deset) [delcev]|(PM10|PM10|pe em dest|PM 10) [delci])"
+
+      # Power factor
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: power_factor
+        slots:
+          domain: sensor
+          device_class: power_factor
+        expansion_rules:
+          class: "faktor moči"
+
+      # Power
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: power
+        slots:
+          domain: sensor
+          device_class: power
+        expansion_rules:
+          class: "moč"
+
+      # Precipitation
+      - sentences:
+          - "kakšna je <class> [ki jo [je]] [ki je] (prikazuje|prikazana|zaznal|zaznava|detektiral|detektira) [na] <name> [[v|na] <area>]"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: precipitation
+        slots:
+          domain: sensor
+          device_class: precipitation
+        expansion_rules:
+          class: "[[skupna] količina] padavin"
+
+      # Precipitation intensity
+      - sentences:
+          - "kakšna je <class> [ki jo [je]] [ki je] (prikazuje|prikazana|zaznal|zaznava|detektiral|detektira) [na] <name> [[v|na] <area>]"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: precipitation_intensity
+        slots:
+          domain: sensor
+          device_class: precipitation_intensity
+        expansion_rules:
+          class: "(intenziteta|jakost|stopnja) (padavin|dežja|snega)"
