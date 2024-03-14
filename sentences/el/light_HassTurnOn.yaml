@@ -9,3 +9,16 @@ intents:
           domain: light
           name: all
         response: "lights_area"
+
+      # Turn on all lights in the same area as a satellite device
+      - sentences:
+          - "<turn_on> ( άνοιξε | άναψε ) [ τα ] φώτα <in_here>"
+          - "<turn_on>[ τα ] φώτα(<in_here>)"
+        response: "lights_area"
+        expansion_rules:
+          in_here: "[ στο δωμάτιο | στον χώρο | εδώ ]"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
