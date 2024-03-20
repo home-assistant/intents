@@ -331,6 +331,18 @@ lists:
   zone:
     wildcard: true
 
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
   # generic expansion rules for sentences
   name: "[de|het] {name}"
@@ -378,9 +390,9 @@ expansion_rules:
   type: (<lamp>|<ventilator>|<afdekking>|<schakelaar>)
   # light brightness
   helderheid: "[de] (helderheid|felheid|intensiteit|lichtsterkte)"
-  brightness: "{brightness}[%|procent]"
+  brightness: "{brightness}[ ][%|procent]"
   # temperature/climate states
-  temperature: "{temperature}[°|graden] [{temperature_unit}]"
+  temperature: "{temperature}[ ][°|graden] [{temperature_unit}]"
   warm: "(warm|heet|koud|koel)"
   # cover states
   open: "(open|omhoog|naar boven|opwaarts)"
@@ -394,6 +406,11 @@ expansion_rules:
       |[<in> [de|het] {area}] <sensor>
       |[een|de] (apparaat|apparaten|sensor[s|en]|iets) [[in|op|van|bij] <area>]
     )
+
+  numeric_value_set: "(zet|verander|draai|verhoog|verlaag)"
+  media_item: "[lied[je]|nummer|track|item|aflevering|video|film[pje]]"
+  volume: "{volume:volume_level}[[ ]%| procent]"
+  position: "{position}[[ ]%| procent]"
 
   # Questions
   what_is: (wat (is|zijn)|hoeveel (is|zijn)|hoe (hoog|laag) (is|zijn))

@@ -2,81 +2,57 @@ language: pl
 intents:
   HassGetState:
     data:
+      # ---------- one_yesno ----------
       - sentences:
-          - czy <name> jest {cover_states:state} [<area>]
-          - czy [<area>] <name> jest {cover_states:state}
-          - czy jest {cover_states:state} <name> [<area>]
+          - "czy <name> jest {cover_states:state} [<area>]"
+          - "czy <name> [<area>] jest {cover_states:state}"
+          - "czy [<area>] <name> jest {cover_states:state}"
+          - "czy jest {cover_states:state} <name> [<area>]"
         requires_context:
           domain: cover
         slots:
           domain: cover
-        response: one_yesno_cover
+        response: "one_yesno"
 
+      # ---------- any ----------
       - sentences:
-          - "czy jest [jakaś] {cover_states:state} (roleta|żaluzja) [<area>]"
-          - "czy [<area>] jest [jakaś] {cover_states:state} (roleta|żaluzja)"
-          - "czy [<area>] jest {cover_states:state} [jakaś] (roleta|żaluzja)"
-          - "czy są [jakieś|któreś|jaiekolwiek|którekowliek] (rolety|żaluzje) {cover_states:state} [<area>]"
-          - "czy są [jakieś|któreś|jaiekolwiek|którekowliek] {cover_states:state} (rolety|żaluzje) [<area>]"
+          - "czy jest [jakaś] {cover_states:state} {cover_classes:device_class} [<area>]"
+          - "czy jest {cover_states:state} [jakaś] {cover_classes:device_class} [<area>]"
+          - "czy [<area>] jest [jakaś] {cover_states:state} {cover_classes:device_class}"
+          - "czy [<area>] jest {cover_states:state} [jakaś] {cover_classes:device_class}"
+          - "czy są [jakieś|któreś|jakiekolwiek|którekolwiek] {cover_classes:device_class} {cover_states:state} [<area>]"
+          - "czy [<area>] są [jakieś|któreś|jakiekolwiek|którekolwiek] {cover_classes:device_class} {cover_states:state}"
+          - "czy są [jakieś|któreś|jakiekolwiek|którekolwiek] {cover_states:state} {cover_classes:device_class} [<area>]"
+          - "czy [<area>] są [jakieś|któreś|jakiekolwiek|którekolwiek] {cover_states:state} {cover_classes:device_class}"
+          - "czy są {cover_states:state} [jakieś|któreś|jakiekolwiek|którekolwiek] {cover_classes:device_class} [<area>]"
+          - "czy [<area>] są {cover_states:state} [jakieś|któreś|jakiekolwiek|którekolwiek] {cover_classes:device_class}"
         slots:
           domain: cover
-          device_class:
-            - blind
-            - shade
-            - shutter
-        response: any
+        response: "any"
 
+      # ---------- all ----------
       - sentences:
-          - "czy jest [jakaś] {cover_states:state} zasłona [<area>]"
-          - "czy [<area>] jest [jakaś] {cover_states:state} zasłona"
-          - "czy [<area>] jest {cover_states:state} [jakaś] zasłona"
-          - "czy są [jakieś|któreś|jaiekolwiek|którekowliek] zasłony {cover_states:state} [<area>]"
-          - "czy są [jakieś|któreś|jaiekolwiek|którekowliek] {cover_states:state} zasłony [<area>]"
+          - "czy są {cover_states:state} <all> {cover_classes:device_class} [<area>]"
+          - "czy są {cover_states:state} [<area>] <all> {cover_classes:device_class}"
+          - "czy <all> {cover_classes:device_class} są {cover_states:state} [<area>]"
+          - "czy <all> {cover_classes:device_class} [<area>] są {cover_states:state}"
         slots:
           domain: cover
-          device_class: curtain
-        response: any
+        response: "all"
 
+      # ---------- which ----------
       - sentences:
-          - czy <all> (rolety|żaluzje) są {cover_states:state} [<area>]
-          - czy <all> (rolety|żaluzje) [<area>] są {cover_states:state}
+          - "(która|jaka|które|jakie) {cover_classes:device_class} (jest|są) {cover_states:state} [<area>]"
+          - "(która|jaka|które|jakie) są {cover_states:state} {cover_classes:device_class} [<area>]"
+          - "(która|jaka|które|jakie) {cover_classes:device_class} są {cover_states:state} [<area>]"
         slots:
           domain: cover
-          device_class:
-            - blind
-            - shade
-            - shutter
-        response: all
+        response: "which"
 
+      # ---------- how_many ----------
       - sentences:
-          - czy <all> zasłony są {cover_states:state} [<area>]
-          - czy <all> zasłony [<area>] są {cover_states:state}
+          - "ile jest {cover_states:state} {cover_classes:device_class} [<area>]"
+          - "ile {cover_classes:device_class} jest {cover_states:state} [<area>]"
         slots:
           domain: cover
-          device_class: curtain
-        response: all
-
-      - sentences:
-          - "(które|jakie) zasłony są {cover_states:state} [<area>]"
-        slots:
-          domain: cover
-          device_class: curtain
-        response: which
-
-      - sentences:
-          - "(które|jakie) (rolety|żaluzje) są {cover_states:state} [<area>]"
-          - "(które|jakie) {cover_classes:device_class} są {cover_states:state} [<area>]"
-        slots:
-          domain: cover
-          device_class:
-            - blind
-            - shade
-            - shutter
-        response: which_cover
-
-      - sentences:
-          - ile (rolet|żaluzji|zasłon) jest {cover_states:state} [<area>]
-          - ile {cover_classes:device_class} jest {cover_states:state} [<area>]
-        slots:
-          domain: cover
-        response: how_many
+        response: "how_many"

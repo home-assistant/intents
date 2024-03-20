@@ -1,12 +1,31 @@
 language: it
 responses:
   errors:
+    # Errori generici
     no_intent: "Mi dispiace, non ho capito"
-    no_area: "Non esiste nessuna area chiamata {{ area }}"
-    no_domain_in_area: "{{ area }} non contiene {{ domain }}"
-    no_device_class_in_area: "{{ area }} non contiene {{ device_class }}"
-    no_entity: "Non esiste nessun dispositivo o entità chiamato {{ entity }}"
     handle_error: "Si è verificato un errore inatteso durante l'elaborazione"
+
+    # Errori per quando un utente non ha effettuato l'accesso
+    no_area: "Non conosco nessuna area chiamata {{ area }}"
+    no_domain: "Mi dispiace, non conosco nessun dispositivo appartenente al dominio {{ domain }}"
+    no_domain_in_area: "Mi dispiace, nell'area {{ area }} non conosco nessun dispositivo appartenente al dominio {{ domain }}"
+    no_device_class: "Mi dispiace, non conosco nessun dispositivo appartenente alla classe {{ device_class }}"
+    no_device_class_in_area: "Mi dispiace, nell'area {{ area }} non conosco nessun dispositivo appartenente alla classe {{ device_class }}"
+    no_entity: "Mi dispiace, non sconosco nessun dispositivo chiamato {{ entity }}"
+    no_entity_in_area: "Mi dispiace, nell'area {{ area }} non sconosco nessun dispositivo chiamato {{ entity }}"
+
+    # Errori per quando un utente ha effettuato l'accesso ed è quindi possibile dare più informazioni
+    no_entity_exposed: "Mi dispiace, il dispositivo {{ entity }} non è stato esposto"
+    no_entity_in_area_exposed: "Mi dispiace, il dispositivo {{ entity }} nell'area {{ area }} non è stato esposto"
+    no_domain_exposed: "Mi dispiace, il dominio {{ domain }} non è stato esposto"
+    no_domain_in_area_exposed: "Mi dispiace, nell'area {{ area }} il dominio {{ domain }} non è stato esposto"
+    no_device_class_exposed: "Mi dispiace, nessun dispositivo appartenente alla classe {{ device_class }} è stato esposto"
+    no_device_class_in_area_exposed: "Mi dispiace, nell'area {{ area }} nessun dispositivo appartenente alla classe {{ device_class }} è stato esposto"
+
+    # Errori quando più di un dispositivo esposto ha lo stesso nome
+    duplicate_entities: "Mi dispiace, esistono più dispositivi chiamati {{ entity }}"
+    duplicate_entities_in_area: "Mi dispiace, nell'area {{ area }} esistono più dispositivi chiamati {{ entity }}"
+
 lists:
   color:
     values:
@@ -37,6 +56,14 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  brightness_level:
+    values:
+      - in: "massimo"
+        out: 100
+      - in: "minimo"
+        out: 1
+      - in: "metà"
+        out: 50
   temperature:
     range:
       type: "temperature"
@@ -50,12 +77,6 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
-  brightness_level:
-    values:
-      - in: "massimo"
-        out: 100
-      - in: "minimo"
-        out: 1
   on_off_states:
     values:
       - in: "(acces|attiv)(o|i|a|e)"
@@ -84,7 +105,7 @@ lists:
     values:
       - in: "tend(a|e) da sole"
         out: awning
-      - in: "persian(a|e)"
+      - in: "(persian(a|e)|oscurant(e|i))"
         out: blind
       - in: "tend(a|e)"
         out: curtain
@@ -106,6 +127,9 @@ lists:
         out: "locked"
       - in: "apert(o|a|e|i)"
         out: "unlocked"
+
+  shopping_list_item:
+    wildcard: true
 
   # binary_sensor
   bs_battery_states:
@@ -298,32 +322,46 @@ lists:
         out: "closed"
 
 expansion_rules:
-  the: "(l(o|a|e) | i[l] | gli | l'| in | nel[(lo|la|le|l'|gli)] | a[(l|llo|lla|lle|gli)])"
-  in: "(in | ne[i|gli|l[lo|la|le]])"
-  of: "(de[i|gli|l[lo|la|le]]|di)"
-  to: "a[l[lo|la|le] | gli]"
+  the: "(l(o|a|e) | i[l] | gli | l'| in | ne(l|llo|lla|lle|ll'|gli) | a[(l|llo|lla|lle|ll'|gli)])"
+  in: "(in | ne[i |gli |l[lo |la |le |l'| ]])"
+  of: "(de[l[lo |la |le |l'| ]]|i |gli |di )"
+  to: "a[l[lo |la |le |l'] | gli ]"
   name: "{name}"
   area: "{area}"
-  what_is: "(qual[e] è | quant(o |')è | com(e |')è | che)"
+  what_is: "(qual[e] è|quant(o |')è|com(e |')è|che)"
   brightness: "{brightness}[%| percento]"
   turn_on: "(accend(i|ere) | attiv(a|are))"
   turn_off: "((spegn|speng)(i|ere) | disattiv(a|are))"
   open: "(apr(i|ire) | alz(a|are))"
   close: "(chiud(i|ere) | abbass(a|are))"
   set: "(impost(a|are) | cambi(a|are) | mett(i|ere) | modific(a|are))"
-  temp: "[la] (temperatura)"
   temperature: "{temperature}[°| gradi] [{temperature_unit}]"
-  cover: "(tend(a|e)[ da sole]|serrand(a|e)|tapparell(a|e)|persian(a|e)|port(a|e)|saracinesc(a|he)|venezian(a|e)|cancell(o|i)|finestr(a|e))"
+  cover: "(tend(a|e)[ da sole]|serrand(a|e)|tapparell(a|e)|persian(a|e)|port(a|e)|saracinesc(a|he)|venezian(a|e)|cancell(o|i)|finestr(a|e)|oscurant(e|i))"
   climate: "(clima|climatizzator(e|i)|condizionator(e|i)|aria condizionata)"
   fan: "(ventol(a|e) | ventilator(e|i) | ventilazione | climatizzator(e|i) | condizionator(e|i))"
-  all: "tutt(o|e|i|a)"
+  all: "(tutt(o|e|i|a) [quant(i|e)] | ogni)"
   garage: "(serrand(a|e) | port(a|e) [basculant(e|i)|de(l|i) garage] | saracinesc(a|he))"
+  light: "luc(e|i)"
+  in_here: "(qu(a|i)|in questa (stanza|camera))"
+  home: "(casa|appartamento)"
 skip_words:
+  - "grazie"
   - "per favore"
+  - "per piacere"
   - "potresti"
   - "mi potresti"
-  - "mi puoi"
+  - "ci potresti"
   - "puoi"
-  - "puoi dirmi"
+  - "mi puoi"
+  - "ci puoi"
+  - "potreste"
+  - "mi potreste"
+  - "ci potreste"
   - "dimmi"
-  - "grazie"
+  - "dirmi"
+  - "dicci"
+  - "dire"
+  - "mi dici"
+  - "ci dici"
+  - "mi dica"
+  - "ci dica"

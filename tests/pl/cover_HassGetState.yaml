@@ -1,129 +1,184 @@
 language: pl
 tests:
   - sentences:
-      - "czy lewa zasłona jest zamknięta?"
-      - "czy jest zamknięta lewa zasłona?"
+      - "Czy lewa zasłona jest zamknięta?"
+      - "Czy jest zamknięta lewa zasłona?"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        name: "Lewa zasłona"
-        state: "closed"
-    response: "Nie, lewa zasłona jest otwarta"
+        name:
+          - "Lewa zasłona"
+          - "Lewą zasłonę"
+          - "Lewej zasłony"
+        state: closed
+    response: "Nie, Lewa zasłona jest otwarta"
 
   - sentences:
-      - "czy w salonie lewa zasłona jest zamknięta?"
+      - "Czy w salonie lewa zasłona jest otwarta?"
+      - "Czy lewa zasłona w salonie jest otwarta?"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        name: "Lewa zasłona"
-        state: "closed"
+        name:
+          - "Lewa zasłona"
+          - "Lewą zasłonę"
+          - "Lewej zasłony"
+        state: open
         area:
-          - Salonie
-          - Salonu
-    response: "Nie, lewa zasłona jest otwarta"
-
-  - sentences:
-      - "czy jest jakaś otwarta roleta w salonie?"
-      - "czy w salonie jest jakaś otwarta roleta?"
-      - "czy w salonie jest otwarta jakaś roleta?"
-      - "czy są jakieś rolety otwarte w salonie?"
-      - "czy są jakieś otwarte rolety w salonie?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: cover
-        area:
-          - Salonie
-          - Salonu
-        device_class: shutter
-        state: "open"
-    response: "Nie"
-
-  - sentences:
-      - "czy jest jakaś otwarta zasłona w salonie?"
-      - "czy w salonie jest jakaś otwarta zasłona?"
-      - "czy w salonie jest otwarta jakaś zasłona?"
-      - "czy są jakieś zasłony otwarte w salonie?"
-      - "czy są jakieś otwarte zasłony w salonie?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: cover
-        device_class: curtain
-        area:
-          - Salonie
-          - Salonu
-        state: "open"
-    response: "Tak, Lewa zasłona"
-
-  - sentences:
-      - "czy wszystkie rolety w salonie są otwarte?"
-      - "czy wszystkie rolety są otwarte w salonie?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: cover
-        area:
-          - Salonie
-          - Salonu
-        device_class: shutter
-        state: "open"
+          - "Salon"
+          - "Salonie"
+          - "Salonu"
     response: "Tak"
 
   - sentences:
-      - "czy wszystkie zasłony w salonie są otwarte?"
-      - "czy wszystkie zasłony są otwarte w salonie?"
+      - "Czy jest jakaś otwarta roleta w salonie?"
+      - "Czy w salonie jest jakaś otwarta roleta?"
+      - "Czy w salonie jest otwarta jakaś roleta?"
+      - "Czy są jakieś rolety otwarte w salonie?"
+      - "Czy są jakieś otwarte rolety w salonie?"
     intent:
       name: HassGetState
       slots:
         domain: cover
+        device_class: blind
         area:
-          - Salonie
-          - Salonu
+          - "Salon"
+          - "Salonie"
+          - "Salonu"
+        state: open
+    response: "Tak, Roleta i Roleta drzwi"
+
+  - sentences:
+      - "Czy jest jakaś otwarta zasłona w salonie?"
+      - "Czy w salonie jest jakaś otwarta zasłona?"
+      - "Czy w salonie jest otwarta jakaś zasłona?"
+      - "Czy są jakieś zasłony otwarte w salonie?"
+      - "Czy są jakieś otwarte zasłony w salonie?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
         device_class: curtain
-        state: "open"
+        area:
+          - "Salon"
+          - "Salonie"
+          - "Salonu"
+        state: open
+    response: "Tak, Lewa zasłona"
+
+  - sentences:
+      - "Czy wszystkie rolety w salonie są otwarte?"
+      - "Czy wszystkie rolety są otwarte w salonie?"
+      - "Czy są otwarte wszystkie rolety w salonie?"
+      - "Czy są otwarte w salonie wszystkie rolety?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        area:
+          - "Salon"
+          - "Salonie"
+          - "Salonu"
+        state: open
+    response: "Tak"
+
+  - sentences:
+      - "Czy wszystkie rolety w salonie są zamknięte?"
+      - "Czy wszystkie rolety są zamknięte w salonie?"
+      - "Czy są zamknięte wszystkie rolety w salonie?"
+      - "Czy są zamknięte w salonie wszystkie rolety?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        area:
+          - "Salon"
+          - "Salonie"
+          - "Salonu"
+        state: closed
+    response: "Nie, Roleta i Roleta drzwi nie są"
+
+  - sentences:
+      - "Czy wszystkie zasłony w salonie są otwarte?"
+      - "Czy wszystkie zasłony są otwarte w salonie?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area:
+          - "Salon"
+          - "Salonie"
+          - "Salonu"
+        state: open
     response: "Nie, Prawa zasłona nie jest"
 
   - sentences:
-      - które zasłony są odsłonięte?
-      - jakie zasłony są odsłonięte?
+      - "Które zasłony są odsłonięte?"
+      - "Jakie zasłony są odsłonięte?"
     intent:
       name: HassGetState
       slots:
         domain: cover
         device_class: curtain
-        state: "open"
+        state: open
     response: "Lewa zasłona"
 
   - sentences:
-      - które rolety są otwarte?
+      - "Które zasłony są zasłonięte?"
+      - "Jakie zasłony są zasłonięte?"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        device_class:
-          - shutter
-          - shade
-          - blind
-        state: "open"
-    response: "Żadne"
+        device_class: curtain
+        state: closed
+    response: "Prawa zasłona i Zasłona"
 
   - sentences:
-      - "ile zasłon jest zamkniętych?"
+      - "Które rolety są otwarte?"
+      - "Jakie rolety są otwarte?"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        state: "closed"
+        device_class: blind
+        state: open
+    response: "Roleta i Roleta drzwi"
+
+  - sentences:
+      - "Które rolety są zamknięte?"
+      - "Jakie rolety są zamknięte?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        state: closed
+    response: "Żadna roleta nie jest zamknięta"
+
+  - sentences:
+      - "Ile zasłon jest zamkniętych?"
+      - "Ile jest zamkniętych zasłon?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: closed
     response: "2"
 
   - sentences:
-      - "ile rolet jest zamkniętych?"
+      - "Ile rolet jest zamkniętych?"
+      - "Ile jest zamkniętych rolet?"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        state: "closed"
-    response: "2"
+        device_class: blind
+        state: closed
+    response: "0"
