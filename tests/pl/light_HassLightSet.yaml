@@ -2,117 +2,205 @@ language: pl
 tests:
   # brightness
   - sentences:
-      - Ustaw jasność w sypialni na 50 procent
-    intent:
-      name: HassLightSet
-      slots:
-        brightness: 50
-        area:
-          - Sypialnia
-          - Sypialni
-        name: all
-    response: Ustawiono jasność w sypialni na 50
-  - sentences:
-      - Ustaw jasność sypialni na 50%
-    intent:
-      name: HassLightSet
-      slots:
-        brightness: 50
-        area:
-          - Sypialnia
-          - Sypialni
-        name: all
-    response: Ustawiono jasność w sypialni na 50%
-  - sentences:
-      - Zmień jasność lampki nocnej na 50%
+      - "Zmień jasność lampki nocnej na 50%"
+      - "Ustaw lampki nocnej na 50%"
+      - "Ustaw jasność lampki nocnej na 50%"
+      - "Ustaw lampkę nocną na 50 procent"
     intent:
       name: HassLightSet
       slots:
         brightness: 50
         name:
-          - Lampę nocna
-          - Lampę nocną
-          - Lampę nocnej
-          - Lampka nocna
-          - Lampka nocną
-          - Lampka nocnej
-          - Lampkę nocna
-          - Lampkę nocną
-          - Lampkę nocnej
-          - Lampki nocna
-          - Lampki nocną
-          - Lampki nocnej
-    response: Ustawiono jasność lampki nocnej na 50%
+          - "Lampę nocną"
+          - "Lampka nocna"
+          - "Lampkę nocną"
+          - "Lampki nocnej"
+          - "Lampy nocnej"
+    response: "Ustawiono jasność"
+
   - sentences:
-      - Ustaw lampkę nocną na 50 procent
+      - "Ustaw jasność w sypialni na 50 procent"
+      - "Ustaw jasność w sypialni na 50%"
+      - "Ustaw jasność oświetlenia w sypialni na 50%"
+      - "Ustaw jasność wszystkich lamp w sypialni na 50%"
     intent:
       name: HassLightSet
       slots:
+        name: all
         brightness: 50
-        name:
-          - Lampę nocna
-          - Lampę nocną
-          - Lampę nocnej
-          - Lampka nocna
-          - Lampka nocną
-          - Lampka nocnej
-          - Lampkę nocna
-          - Lampkę nocną
-          - Lampkę nocnej
-          - Lampki nocna
-          - Lampki nocną
-          - Lampki nocnej
-    response:
-      Ustawiono jasność lampkę nocną na 50
-      # color
+        area:
+          - "Sypialnia"
+          - "Sypialni"
+    response: "Ustawiono jasność w sypialni"
+
   - sentences:
-      - Zmień kolor lampki nocnej na czerwony
+      - "Ustaw tutaj jasność na 50%"
+      - "Ustaw jasność w tym pomieszczeniu na 50%"
+      - "Ustaw jasność w tym pokoju na 50%"
+    intent:
+      name: HassLightSet
+      context:
+        area: "Sypialnia"
+      slots:
+        brightness: 50
+        area:
+          - "Sypialnia"
+          - "Sypialni"
+    response: "Ustawiono jasność"
+
+  # Max/Min brightness
+  - sentences:
+      - "Ustaw najciemniej lampę nocną"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 1
+        name:
+          - "Lampę nocną"
+          - "Lampka nocna"
+          - "Lampkę nocną"
+          - "Lampki nocnej"
+          - "Lampy nocnej"
+    response: "Ustawiono jasność"
+
+  - sentences:
+      - "Ustaw maksymalną jasność lampy nocnej"
+      - "Ustaw jasność na maksa lampy nocnej"
+      - "Ustaw lampę nocną na maksymalną jasność"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 100
+        name:
+          - "Lampę nocną"
+          - "Lampka nocna"
+          - "Lampkę nocną"
+          - "Lampki nocnej"
+          - "Lampy nocnej"
+    response: "Ustawiono jasność"
+
+  - sentences:
+      - "Ustaw najciemniej oświetlenie w sypialni"
+      - "Ustaw najciemniej światło w sypialni"
+      - "Ustaw najciemniej lampy w sypialni"
+      - "Ustaw najciemniej żarówki w sypialni"
+      - "Ustaw w sypialni minimalną jasność"
+    intent:
+      name: HassLightSet
+      slots:
+        name: all
+        brightness: 1
+        area:
+          - "Sypialni"
+          - "Sypialnia"
+    response: "Ustawiono jasność w sypialni"
+
+  - sentences:
+      - "Ustaw maksymalną jasność lamp w sypialni"
+      - "Ustaw maksymalną jasność światła w sypialni"
+      - "Ustaw maksymalną jasność żarówek w sypialni"
+      - "Ustaw jasność na maksa w sypialni"
+      - "Ustaw w sypialni maksymalną jasność"
+    intent:
+      name: HassLightSet
+      slots:
+        name: all
+        brightness: 100
+        area:
+          - "Sypialnia"
+          - "Sypialni"
+    response: "Ustawiono jasność w sypialni"
+
+  - sentences:
+      - "Ustaw tutaj jasność na maksa"
+      - "Ustaw w tym pokoju jasność na maksa"
+      - "Ustaw w tym pokoju maksymalną jasność"
+      - "Ustaw jasność tutaj na maksa"
+    intent:
+      name: HassLightSet
+      context:
+        area: "Sypialni"
+      slots:
+        brightness: 100
+        area:
+          - "Sypialnia"
+          - "Sypialni"
+    response: "Ustawiono jasność w sypialni"
+
+  - sentences:
+      - "Ustaw w tym pomieszczeniu jasność na minimum"
+      - "Ustaw tutaj minimalną jasność"
+      - "Ustaw jasność w tym pokoju na minimum"
+    intent:
+      name: HassLightSet
+      context:
+        area: "Sypialni"
+      slots:
+        brightness: 1
+        area:
+          - "Sypialnia"
+          - "Sypialni"
+    response: "Ustawiono jasność w sypialni"
+
+  # color
+  - sentences:
+      - "Zmień kolor lampki nocnej na czerwony"
+      - "Ustaw lampkę nocną na czerwono"
+      - "Ustaw kolor lampki nocnej na czerwony"
+      - "Ustaw lampkę nocną na kolor czerwony"
+      - "Ustaw lampkę nocną na czerwony kolor"
     intent:
       name: HassLightSet
       slots:
         color: red
         name:
-          - Lampę nocna
-          - Lampę nocną
-          - Lampę nocnej
-          - Lampka nocna
-          - Lampka nocną
-          - Lampka nocnej
-          - Lampkę nocna
-          - Lampkę nocną
-          - Lampkę nocnej
-          - Lampki nocna
-          - Lampki nocną
-          - Lampki nocnej
-    response: Ustawiono kolor lampki nocnej na czerwony
+          - "Lampę nocną"
+          - "Lampka nocna"
+          - "Lampkę nocną"
+          - "Lampki nocnej"
+          - "Lampy nocnej"
+    response: "Ustawiono kolor"
+
   - sentences:
-      - Ustaw lampkę nocną na czerwono
+      - "Zmień kolory wszystkich lamp w sypialni na biały"
+      - "Zmień kolory w sypialni na biały"
+      - "Zmień wszystkie kolory lamp w sypialni na biały"
+      - "Ustaw kolor lamp w sypialni na biały"
+      - "Ustaw kolor oświetlenia w sypialni na biały"
+      - "Zmień kolor wszystkich żarówek w sypialni na biały"
+      - "Ustaw kolor biały lamp w sypialni"
+      - "Ustaw oświetlenie w sypialni na kolor biały"
+      - "Ustaw wszystkie lampy w sypialni na kolor biały"
+      - "Ustaw oświetlenie w sypialni na biały kolor"
+      - "Ustaw wszystkie lampy w sypialni na biały kolor"
     intent:
       name: HassLightSet
       slots:
-        color: red
-        name:
-          - Lampę nocna
-          - Lampę nocną
-          - Lampę nocnej
-          - Lampka nocna
-          - Lampka nocną
-          - Lampka nocnej
-          - Lampkę nocna
-          - Lampkę nocną
-          - Lampkę nocnej
-          - Lampki nocna
-          - Lampki nocną
-          - Lampki nocnej
-    response: Ustawiono kolor lampkę nocną na czerwono
-  - sentences:
-      - Zmień wszystkie kolory w łazience na biały
-      - Zmień kolory w łazience na biały
-    intent:
-      name: HassLightSet
-      slots:
+        name: all
         color: white
         area:
-          - Łazienka
-          - Łazience
-    response: Ustawiono kolor w łazience na biały
+          - "Sypialnia"
+          - "Sypialni"
+    response: "Ustawiono kolor w sypialni"
+
+  - sentences:
+      - "Ustaw tutaj kolor na żółty"
+      - "Ustaw tutaj kolor lamp na żółty"
+      - "Ustaw w tym pokoju kolor lamp na żółty"
+      - "Ustaw w tym pomieszczeniu kolor oświetlenia na żółty"
+      - "Ustaw tutaj żółty kolor"
+      - "Ustaw w tym pokoju żółty kolor"
+      - "Ustaw tutaj żółty kolor lamp"
+      - "Ustaw w tym pokoju żółty kolor oświetlenia"
+      - "Ustaw kolor tutaj na żółty"
+      - "Ustaw kolor lamp tutaj na żółty"
+    intent:
+      name: HassLightSet
+      context:
+        area: "Sypialnia"
+      slots:
+        color: yellow
+        area:
+          - "Sypialnia"
+          - "Sypialni"
+    response: "Ustawiono kolor"

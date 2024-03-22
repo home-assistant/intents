@@ -1,71 +1,98 @@
 language: pl
 tests:
+  # ---------- Blind ----------
   - sentences:
-      - zamknij garaż
+      - "Zamknij roletę"
+      - "Przymknij roletę"
+      - "Zasłoń roletę"
+      - "Opuść roletę"
     intent:
       name: HassTurnOff
-      slots:
+      context:
         domain: cover
-        device_class: garage
-    response: Zamknięto garaż
+        device_class: blind
+      slots:
+        name:
+          - "Roleta"
+          - "Roletę"
+    response: "Zamknięto roletę"
   - sentences:
-      - zamknij drzwi garażowe
+      - "Zamknij roletę drzwi"
+      - "Przymknij roletę drzwi"
+      - "Zasłoń roletę drzwi"
+      - "Opuść roletę drzwi"
     intent:
       name: HassTurnOff
-      slots:
+      context:
         domain: cover
-        device_class: garage
-    response: Zamknięto garaż
+        device_class: blind
+      slots:
+        name:
+          - "Roleta drzwi"
+          - "Roletę drzwi"
+    response: "Zamknięto roletę"
   - sentences:
-      - drzwi garażowe zamknij
+      - "Zamknij roletę w salonie"
+      - "Przymknij roletę w salonie"
+      - "Zasłoń roletę w salonie"
+      - "Opuść roletę w salonie"
+      - "Zamknij w salonie roletę"
     intent:
       name: HassTurnOff
-      slots:
+      context:
         domain: cover
-        device_class: garage
-    response: Zamknięto garaż
-  - sentences:
-      - zamknij drzwi od garażu
-    intent:
-      name: HassTurnOff
+        device_class: blind
       slots:
-        domain: cover
-        device_class: garage
-    response: Zamknięto garaż
-  - sentences:
-      - zamknij wszystkie rolety w kuchni
-    intent:
-      name: HassTurnOff
-      slots:
+        name:
+          - "Roleta"
+          - "Roletę"
         area:
-          - Kuchni
-          - Kuchnia
-        domain: cover
-    response: Zamknięto rolety w kuchni
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Zamknięto roletę"
   - sentences:
-      - zamknij w kuchni wszystkie rolety
+      - "Zamknij rolety w salonie"
+      - "Przymknij rolety w salonie"
+      - "Zasłoń rolety w salonie"
+      - "Opuść rolety w salonie"
+      - "Zamknij wszystkie rolety w salonie"
+      - "Przymknij wszystkie rolety w salonie"
+      - "Zasłoń wszystkie rolety w salonie"
+      - "Opuść wszystkie rolety w salonie"
+      - "Zamknij w salonie wszystkie rolety"
     intent:
       name: HassTurnOff
-      slots:
-        area:
-          - Kuchni
-          - Kuchnia
+      context:
         domain: cover
-    response: Zamknięto rolety w kuchni
+        device_class: blind
+      slots:
+        domain: cover
+        device_class: blind
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Zamknięto rolety"
   - sentences:
-      - zasłoń rolety w sypialni
-      - zasłoń wszystkie rolety w sypialni
-      - zamknij w sypialni wszystkie rolety
+      - "Zamknij rolety"
+      - "Zamknij wszystkie rolety"
     intent:
       name: HassTurnOff
-      slots:
-        area:
-          - Sypialnia
-          - Sypialni
+      context:
         domain: cover
-    response: Zamknięto rolety w sypialni
+        device_class: blind
+      slots:
+        domain: cover
+        device_class: blind
+    response: "Zamknięto rolety"
+
+  # ---------- Shutter ----------
   - sentences:
-      - zamknij roletę
+      - "Zamknij żaluzję"
+      - "Przymknij żaluzję"
+      - "Zasłoń żaluzję"
+      - "Opuść żaluzję"
     intent:
       name: HassTurnOff
       context:
@@ -73,11 +100,15 @@ tests:
         device_class: shutter
       slots:
         name:
-          - Roleta
-          - Roletę
-    response: Zamknięto roletę
+          - "Żaluzja"
+          - "Żaluzję"
+    response: "Zamknięto żaluzję"
   - sentences:
-      - zamknij roletę w salonie
+      - "Zamknij żaluzję w salonie"
+      - "Przymknij żaluzję w salonie"
+      - "Zasłoń żaluzję w salonie"
+      - "Opuść żaluzję w salonie"
+      - "Zamknij w salonie żaluzję"
     intent:
       name: HassTurnOff
       context:
@@ -85,22 +116,608 @@ tests:
         device_class: shutter
       slots:
         name:
-          - Roleta
-          - Roletę
+          - "Żaluzja"
+          - "Żaluzję"
         area:
-          - Salonie
-          - Salonu
-          - Salon
-    response: Zamknięto roletę w salonie
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Zamknięto żaluzję"
   - sentences:
-      - zamknij rolety
-      - zamknij wszystkie rolety
+      - "Zamknij żaluzje w salonie"
+      - "Przymknij żaluzje w salonie"
+      - "Zasłoń żaluzje w salonie"
+      - "Opuść żaluzje w salonie"
+      - "Zamknij wszystkie żaluzje w salonie"
+      - "Przymknij wszystkie żaluzje w salonie"
+      - "Zasłoń wszystkie żaluzje w salonie"
+      - "Opuść wszystkie żaluzje w salonie"
+      - "Zamknij w salonie wszystkie żaluzje"
     intent:
       name: HassTurnOff
+      context:
+        domain: cover
+        device_class: shutter
       slots:
         domain: cover
-        device_class:
-          - curtain
-          - shutter
-          - curtain
-    response: Zamknięto rolety
+        device_class: shutter
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Zamknięto żaluzje"
+  - sentences:
+      - "Zamknij żaluzje"
+      - "Zamknij wszystkie żaluzje"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: shutter
+      slots:
+        domain: cover
+        device_class: shutter
+    response: "Zamknięto żaluzje"
+
+  # ---------- Shade ----------
+  - sentences:
+      - "Zamknij osłonę"
+      - "Przymknij osłonę"
+      - "Zasłoń osłonę"
+      - "Opuść osłonę"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: shade
+      slots:
+        name:
+          - "Osłona"
+          - "Osłonę"
+    response: "Zamknięto osłonę"
+  - sentences:
+      - "Zamknij osłonę w jadalni"
+      - "Przymknij osłonę w jadalni"
+      - "Zasłoń osłonę w jadalni"
+      - "Opuść osłonę w jadalni"
+      - "Zamknij w jadalni osłonę"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: shade
+      slots:
+        name:
+          - "Osłona"
+          - "Osłonę"
+        area:
+          - "Jadalni"
+          - "Jadalnia"
+    response: "Zamknięto osłonę"
+  - sentences:
+      - "Zamknij osłony w jadalni"
+      - "Przymknij osłony w jadalni"
+      - "Zasłoń osłony w jadalni"
+      - "Opuść osłony w jadalni"
+      - "Zamknij wszystkie osłony w jadalni"
+      - "Przymknij wszystkie osłony w jadalni"
+      - "Zasłoń wszystkie osłony w jadalni"
+      - "Opuść wszystkie osłony w jadalni"
+      - "Zamknij w jadalni wszystkie osłony"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: shade
+      slots:
+        domain: cover
+        device_class: shade
+        area:
+          - "Jadalni"
+          - "Jadalnia"
+    response: "Zamknięto osłony"
+  - sentences:
+      - "Zamknij osłony"
+      - "Zamknij wszystkie osłony"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: shade
+      slots:
+        domain: cover
+        device_class: shade
+    response: "Zamknięto osłony"
+
+  # ---------- Curtain ----------
+  - sentences:
+      - "Zamknij zasłonę"
+      - "Zasłoń zasłonę"
+      - "Opuść zasłonę"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        name:
+          - "Zasłona"
+          - "Zasłonę"
+    response: "Zamknięto zasłonę"
+  - sentences:
+      - "Zamknij prawą zasłonę"
+      - "Zasłoń prawą zasłonę"
+      - "Opuść prawą zasłonę"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        name:
+          - "Prawa zasłona"
+          - "Prawą zasłonę"
+    response: "Zamknięto zasłonę"
+  - sentences:
+      - "Zamknij lewą zasłonę"
+      - "Zasłoń lewą zasłonę"
+      - "Opuść lewą zasłonę"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        name:
+          - "Lewą zasłona"
+          - "Lewą zasłonę"
+    response: "Zamknięto zasłonę"
+  - sentences:
+      - "Zamknij zasłonę w sypialni"
+      - "Zasłoń zasłonę w sypialni"
+      - "Opuść zasłonę w sypialni"
+      - "Zamknij w sypialni zasłonę"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        name:
+          - "Zasłona"
+          - "Zasłonę"
+        area:
+          - "Sypialni"
+          - "Sypialnia"
+    response: "Zamknięto zasłonę"
+  - sentences:
+      - "Zamknij zasłony w sypialni"
+      - "Zasłoń zasłony w sypialni"
+      - "Opuść zasłony w sypialni"
+      - "Zamknij wszystkie zasłony w sypialni"
+      - "Zasłoń wszystkie zasłony w sypialni"
+      - "Opuść wszystkie zasłony w sypialni"
+      - "Zamknij w sypialni wszystkie zasłony"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        domain: cover
+        device_class: curtain
+        area:
+          - "Sypialni"
+          - "Sypialnia"
+    response: "Zamknięto zasłony"
+  - sentences:
+      - "Zamknij zasłony"
+      - "Zamknij wszystkie zasłony"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        domain: cover
+        device_class: curtain
+    response: "Zamknięto zasłony"
+
+  # ---------- Garage door ----------
+  - sentences:
+      - "Zamknij drzwi od garażu"
+      - "Przymknij drzwi od garażu"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: garage
+      slots:
+        name:
+          - "Drzwi od garażu"
+    response: Zamknięto garaż
+  - sentences:
+      - "Przymknij garaż"
+      - "Zamknij garaż"
+      - "Przymknij drzwi garażowe"
+      - "Zamknij drzwi garażowe"
+      - "Przymknij drzwi do garażu"
+      - "Zamknij drzwi do garażu"
+      - "Przymknij bramę garażową"
+      - "Zamknij bramę garażową"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: garage
+      slots:
+        domain: cover
+        device_class: garage
+    response: "Zamknięto garaż"
+
+  # ---------- Gate ----------
+  - sentences:
+      - "Zamknij bramę wjazdową"
+      - "Przymknij bramę wjazdową"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        name:
+          - "Brama wjazdowa"
+          - "Bramę wjazdową"
+    response: "Zamknięto bramę"
+  - sentences:
+      - "Zamknij bramę wjazdową w ogrodzie"
+      - "Przymknij bramę wjazdową w ogrodzie"
+      - "Zamknij w ogrodzie bramę wjazdową"
+      - "W ogrodzie zamknij bramę wjazdową"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        name:
+          - "Brama wjazdowa"
+          - "Bramę wjazdową"
+        area:
+          - "Ogród"
+          - "Ogrodzie"
+    response: "Zamknięto bramę"
+  - sentences:
+      - "Zamknij bramę w ogrodzie"
+      - "Przymknij bramę w ogrodzie"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        domain: cover
+        device_class: gate
+        area:
+          - "Ogród"
+          - "Ogrodzie"
+    response: "Zamknięto bramę"
+  - sentences:
+      - "Zamknij wszystkie bramy w ogrodzie"
+      - "Zamknij bramy w ogrodzie"
+      - "Przymknij wszystkie bramy w ogrodzie"
+      - "Przymknij bramy w ogrodzie"
+      - "Zamknij w ogrodzie wszystkie bramy"
+      - "Zamknij w ogrodzie bramy"
+      - "W ogrodzie zamknij wszystkie bramy"
+      - "W ogrodzie zamknij bramy"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        domain: cover
+        device_class: gate
+        area:
+          - "Ogród"
+          - "Ogrodzie"
+    response: "Zamknięto bramy"
+  - sentences:
+      - "Zamknij bramy"
+      - "Zamknij wszystkie bramy"
+      - "Przymknij bramy"
+      - "Przymknij wszystkie bramy"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        domain: cover
+        device_class: gate
+    response: "Zamknięto bramy"
+
+  # ---------- Door ----------
+  - sentences:
+      - "Zamknij drzwi tarasowe"
+      - "Przymknij drzwi tarasowe"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: door
+      slots:
+        name:
+          - "Drzwi tarasowe"
+    response: "Zamknięto drzwi"
+  - sentences:
+      - "Zamknij drzwi tarasowe w salonie"
+      - "Przymknij drzwi tarasowe w salonie"
+      - "Zamknij w salonie drzwi tarasowe"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: door
+      slots:
+        name:
+          - "Drzwi tarasowe"
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Zamknięto drzwi"
+  - sentences:
+      - "Zamknij drzwi w salonie"
+      - "Przymknij drzwi w salonie"
+      - "Zamknij wszystkie drzwi w salonie"
+      - "Przymknij wszystkie drzwi w salonie"
+      - "Zamknij w salonie wszystkie drzwi"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: door
+      slots:
+        domain: cover
+        device_class: door
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Zamknięto drzwi"
+  - sentences:
+      - "Zamknij drzwi"
+      - "Zamknij wszystkie drzwi"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: door
+      slots:
+        domain: cover
+        device_class: door
+    response: "Zamknięto drzwi"
+
+  # ---------- Damper ----------
+  - sentences:
+      - "Zamknij klapę bagażnika"
+      - "Przymknij klapę bagażnika"
+      - "Opuść klapę bagażnika"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: damper
+      slots:
+        name:
+          - "Klapa bagażnika"
+          - "Klapę bagażnika"
+    response: "Zamknięto klapę"
+  - sentences:
+      - "Zamknij klapę bagażnika w garażu"
+      - "Przymknij klapę bagażnika w garażu"
+      - "Opuść klapę bagażnika w garażu"
+      - "Zamknij w garażu klapę bagażnika"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: damper
+      slots:
+        name:
+          - "Klapa bagażnika"
+          - "Klapę bagażnika"
+        area:
+          - "Garaż"
+          - "Garażu"
+    response: "Zamknięto klapę"
+  - sentences:
+      - "Zamknij klapy w garażu"
+      - "Przymknij klapy w garażu"
+      - "Opuść klapy w garażu"
+      - "Zamknij wszystkie klapy w garażu"
+      - "Przymknij wszystkie klapy w garażu"
+      - "Opuść wszystkie klapy w garażu"
+      - "Zamknij w garażu wszystkie klapy"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: damper
+      slots:
+        domain: cover
+        device_class: damper
+        area:
+          - "Garaż"
+          - "Garażu"
+    response: "Zamknięto klapy"
+  - sentences:
+      - "Zamknij klapy"
+      - "Zamknij wszystkie klapy"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: damper
+      slots:
+        domain: cover
+        device_class: damper
+    response: "Zamknięto klapy"
+
+  # ---------- Awning ----------
+  - sentences:
+      - "Zamknij markizę balkonową"
+      - "Przymknij markizę balkonową"
+      - "Zasłoń markizę balkonową"
+      - "Opuść markizę balkonową"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: awning
+      slots:
+        name:
+          - "Markiza balkonowa"
+          - "Markizę balkonową"
+    response: "Zamknięto markizę"
+  - sentences:
+      - "Zamknij markizę balkonową na balkonie"
+      - "Przymknij markizę balkonową na balkonie"
+      - "Zasłoń markizę balkonową na balkonie"
+      - "Opuść markizę balkonową na balkonie"
+      - "Zamknij na balkonie markizę balkonową"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: awning
+      slots:
+        name:
+          - "Markiza balkonowa"
+          - "Markizę balkonową"
+        area:
+          - "Balkon"
+          - "Balkonie"
+          - "Balkonu"
+    response: "Zamknięto markizę"
+  - sentences:
+      - "Zamknij markizy na balkonie"
+      - "Przymknij markizy na balkonie"
+      - "Zasłoń markizy na balkonie"
+      - "Opuść markizy na balkonie"
+      - "Zamknij wszystkie markizy na balkonie"
+      - "Przymknij wszystkie markizy na balkonie"
+      - "Zasłoń wszystkie markizy na balkonie"
+      - "Opuść wszystkie markizy na balkonie"
+      - "Zamknij na balkonie wszystkie markizy"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: awning
+      slots:
+        domain: cover
+        device_class: awning
+        area:
+          - "Balkon"
+          - "Balkonie"
+          - "Balkonu"
+    response: "Zamknięto markizy"
+  - sentences:
+      - "Zamknij markizy"
+      - "Zamknij wszystkie markizy"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: awning
+      slots:
+        domain: cover
+        device_class: awning
+    response: "Zamknięto markizy"
+
+  # ---------- Window ----------
+  - sentences:
+      - "Zamknij okno dachowe"
+      - "Przymknij okno dachowe"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: window
+      slots:
+        name: "Okno dachowe"
+    response: "Zamknięto okno"
+  - sentences:
+      - "Zamknij okno dachowe w biurze"
+      - "Przymknij okno dachowe w biurze"
+      - "Zamknij w biurze okno dachowe"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: window
+      slots:
+        name: "Okno dachowe"
+        area:
+          - "Biuro"
+          - "Biurze"
+    response: "Zamknięto okno"
+  - sentences:
+      - "Zamknij okna w biurze"
+      - "Przymknij okna w biurze"
+      - "Zamknij wszystkie okna w biurze"
+      - "Przymknij wszystkie okna w biurze"
+      - "Zamknij w biurze wszystkie okna"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: window
+      slots:
+        domain: cover
+        device_class: window
+        area:
+          - "Biuro"
+          - "Biurze"
+    response: "Zamknięto okna"
+  - sentences:
+      - "Zamknij okna"
+      - "Zamknij wszystkie okna"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: cover
+        device_class: window
+      slots:
+        domain: cover
+        device_class: window
+    response: "Zamknięto okna"
+
+  # ---------- Other ----------
+  # TODO: Add sentences
+
+  # ---------- Device_class ----------
+  # TODO: Add sentences
+
+  # ---------- Device_class here ----------
+  - sentences:
+      - "Zamknij tutaj rolety"
+      - "Zamknij wszystkie rolety tutaj"
+      - "Zamknij w tym pokoju rolety"
+      - "Zamknij rolety w tym pokoju"
+      - "Zamknij rolety w tym pomieszczeniu"
+    intent:
+      name: HassTurnOff
+      context:
+        area: Salon
+      slots:
+        domain: cover
+        device_class: blind
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Zamknięto rolety"

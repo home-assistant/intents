@@ -9,7 +9,7 @@
     * `sentences/<language>`
     * `tests/<language>`
     * `responses/<language>`
-6. Run `script/lint` and `script/test` to ensure everything is working.
+7. Run `script/lint` and `script/test` to ensure everything is working.
     * Make sure you have at least one test sentence for every intent sentence template.
-7. Commit and push your changes with `git commit` and `git push`
-8. Submit a pull request (PR) with your suggested changes on GitHub.
+8. Commit and push your changes with `git commit` and `git push`
+9. Submit a pull request (PR) with your suggested changes on GitHub.
