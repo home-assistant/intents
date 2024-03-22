@@ -2,30 +2,97 @@ language: pl
 responses:
   intents:
     HassGetState:
-      one: |
-        {{ slots.name | capitalize }} jest {{ state.state_with_unit }}
-
-      one_state: |
-        Stan {{ slots.name | capitalize }} to {{ state.state_with_unit }}
-
-      one_status: |
-        Status {{ slots.name | capitalize }} to {{ state.state_with_unit }}
-
-      one_value: |
-        Wartość {{ slots.name | capitalize }} to {{ state.state_with_unit }}
-
-      one_yesno: |
-        {% if query.matched: %}
-        Tak
-        {% else: %}
-        Nie, {{ slots.name }} jest {{ state.state_with_unit }}
+      default: |
+        {% set vowelsList = ['e', 'i', 'o', 'u'] %}
+        {% set lastChar = slots.name | default("y", false) | last %}
+        {% if state.state_with_unit == 'open': %}
+          {% if lastChar == "a" %}Otwarta{% elif lastChar in vowelsList %}Otwarte{% else %}Otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if lastChar == "a" %}Zamknięta{% elif lastChar in vowelsList %}Zamknięte{% else %}Zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if lastChar == "a" %}Włączona{% elif lastChar in vowelsList %}Włączone{% else %}Włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if lastChar == "a" %}Wyłączona{% elif lastChar in vowelsList %}Wyłączone{% else %}Wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
         {% endif %}
 
-      one_yesno_cover: |
+      one: |
+        {% set vowelsList = ['e', 'i', 'o', 'u'] %}
+        {% set lastChar = slots.name | last %}
+        {{ slots.name | capitalize }} jest 
+        {% if state.state_with_unit == 'open': %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
+
+      one_state: |
+        {% set vowelsList = ['e', 'i', 'o', 'u'] %}
+        {% set lastChar = slots.name | last %}
+        Stan {{ slots.name | capitalize }} to 
+        {% if state.state_with_unit == 'open': %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
+
+      one_status: |
+        {% set vowelsList = ['e', 'i', 'o', 'u'] %}
+        {% set lastChar = slots.name | last %}
+        Status {{ slots.name | capitalize }} to 
+        {% if state.state_with_unit == 'open': %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
+
+      one_value: |
+        {% set vowelsList = ['e', 'i', 'o', 'u'] %}
+        {% set lastChar = slots.name | last %}
+        Wartość {{ slots.name | capitalize }} to 
+        {% if state.state_with_unit == 'open': %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
+
+      one_yesno: |
+        {% set vowelsList = ['e', 'i', 'o', 'u'] %}
+        {% set lastChar = slots.name | last %}
         {% if query.matched: %}
         Tak
         {% else: %}
-        Nie, {{ slots.name }} jest {{ 'otwarta' if state.state_with_unit == 'open' else 'zamknięta' }}
+        Nie, {{ slots.name | capitalize }} jest 
+        {% if state.state_with_unit == 'open': %}
+          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+        {% elif state.state_with_unit == 'close': %}
+          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+        {% elif state.state_with_unit == 'on': %}
+          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+        {% elif state.state_with_unit == 'off': %}
+          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}{{ state.state_with_unit }}
+        {% endif %}
         {% endif %}
 
       any: |
@@ -75,24 +142,35 @@ responses:
           {% endif %}
         {% endif %}
 
-      which_cover: |
-        {% if not query.matched %}
-          Żadne
-        {% else: %}
-          {% set match = query.matched | map(attribute="name") | sort | list %}
-          {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} oraz {{ (match | length - 3) }} inne
-          {% else %}
-            {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
-              {{ name }}
-            {%- endfor -%}
-          {% endif %}
-        {% endif %}
-
       which: |
         {% if not query.matched %}
-          Żaden
+          {% if state.domain == "light" %}
+            Żadne
+          {% elif state.attributes and state.attributes.device_class %}
+            {% if state.attributes.device_class in "shade" %}
+            Żadna osłona nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "blind" %}
+            Żadna roleta nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "curtain" %}
+            Żadna zasłona nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "shutter" %}
+            Żadna żaluzja nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "garage" %}
+            Żaden garaż nie jest {% if state.hass_state == "open" %}zamknięty{% else %}otwarty{% endif %}
+            {% elif state.attributes.device_class == "gate" %}
+            Żadna brama nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "door" %}
+            Żadne drzwi nie są {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
+            {% elif state.attributes.device_class == "damper" %}
+            Żadna klapa nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "awning" %}
+            Żadna markiza nie jest {% if state.hass_state == "open" %}zamknięta{% else %}otwarta{% endif %}
+            {% elif state.attributes.device_class == "window" %}
+            Żadne okno nie jest {% if state.hass_state == "open" %}zamknięte{% else %}otwarte{% endif %}
+            {% endif %}
+          {% else %}
+          Żadna
+          {% endif %}
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
@@ -107,3 +185,12 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state.state == "home" %}
+          {{ slots.name | capitalize }} jest w domu
+        {% elif state.state == "not_home" %}
+          {{ slots.name | capitalize }} jest poza domem
+        {% else %}
+          {{ slots.name | capitalize }} jest w {{ state.state }}
+        {% endif %}

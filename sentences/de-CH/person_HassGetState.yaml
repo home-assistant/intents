@@ -1,0 +1,44 @@
+language: de-CH
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "wo isch <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "isch [d|dr|ds] <name> [i|y|im|ir|i dr|i der] {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "isch öpper [i|y|im|ir|i dr|i der] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "(sy|si) (aui|alli) [i|y|im|ir|i dr|i der] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "wär isch [i|y|im|ir|i dr|i der] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "(wie viu (persone|mösche|lüt)|wie mängi person) (isch|sy) [i|y|im|ir|i dr|i der] {zone:state}"
+        response: how_many
+        slots:
+          domain: person

@@ -1,0 +1,38 @@
+language: hu
+intents:
+  HassSetPosition:
+    data:
+      - sentences:
+          - "(<numeric_value_set>;<name>;[a ]pozícióját;<position>)"
+          - "(<open_close_dev>;<name>;<position>)"
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "(<numeric_value_set>;[<minden>] {cover_classes:device_class};<area>;[a ]pozícióját;<position>)"
+          - "(<open_close_dev>;[<minden>] {cover_classes:device_class};<area>;<position>)"
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<numeric_value_set>;<name>;<area>;[a ]pozícióját;<position>)"
+          - "(<open_close_dev>;<name>;<area>;<position>)"
+        requires_context:
+          domain: cover
+
+      - sentences:
+          - "(<numeric_value_set>;[<minden>] {cover_classes:device_class};<mindenhol>;[a ]pozícióját;<position>)"
+          - "(<open_close_dev>;[<minden>] {cover_classes:device_class};<mindenhol>;<position>)"
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<numeric_value_set>;[<minden>] {cover_classes:device_class};<in_here>;[a ]pozícióját;<position>)"
+          - "(<open_close_dev>;[<minden>] {cover_classes:device_class};<in_here>;<position>)"
+          - "(<numeric_value_set>;[<minden>] {cover_classes:device_class};[a ]pozícióját;<position>)"
+          - "(<open_close_dev>;[<minden>] {cover_classes:device_class};<position>)"
+        slots:
+          domain: cover
+        requires_context:
+          area:
+            slot: true

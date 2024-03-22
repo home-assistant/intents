@@ -1,10 +1,77 @@
 language: vi
 tests:
   - sentences:
-      - đóng cửa cuốn
+      - "đóng cửa garage"
     intent:
       name: HassTurnOff
       slots:
-        device_class: garage
         domain: cover
-    response: Đã đóng garage
+        device_class: garage
+    response: "đã đóng garage"
+
+  - sentences:
+      - "đóng cửa sổ trong bếp"
+    intent:
+      name: HassTurnOff
+      slots:
+        area: bếp
+        domain: cover
+        device_class: window
+    response: "đã đóng cửa sổ"
+
+  - sentences:
+      - "đóng cửa sổ bếp"
+    intent:
+      name: HassTurnOff
+      slots:
+        area: bếp
+        domain: cover
+        device_class: window
+    response: "đã đóng cửa sổ"
+
+  - sentences:
+      - "đóng rèm cửa bên trái"
+    intent:
+      name: HassTurnOff
+      slots:
+        name: rèm cửa bên trái
+      context:
+        domain: cover
+        device_class: curtain
+    response: "đã đóng"
+
+  - sentences:
+      - "đóng rèm cửa bên trái trong phòng khách"
+    intent:
+      name: HassTurnOff
+      slots:
+        name: rèm cửa bên trái
+        area: phòng khách
+      context:
+        domain: cover
+        device_class: curtain
+    response: "đã đóng"
+
+  - sentences:
+      - "đóng rèm trong phòng ngủ"
+      - "đóng rèm phòng ngủ"
+    intent:
+      name: HassTurnOff
+      slots:
+        area: phòng ngủ
+        domain: cover
+        device_class: curtain
+    response: đã đóng rèm
+
+  - sentences:
+      - "đóng rèm"
+      - "đóng rèm trong phòng này"
+    intent:
+      name: HassTurnOff
+      context:
+        area: phòng khách
+      slots:
+        domain: cover
+        area: phòng khách
+        device_class: curtain
+    response: "đã đóng rèm"

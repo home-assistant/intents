@@ -2,22 +2,56 @@ language: it
 intents:
   HassLightSet:
     data:
+      #Brightness
       - sentences:
-          - "[<set>] [la] [luminosità] [<of>] <name> [(a|al)] [valore] <brightness>"
-          - "[<set>] <name> [la] luminosità [(a|al)] [valore] <brightness>"
-          - "[<set>] [(a|al)] [valore] <brightness> [la] luminosità [<of>] <name>"
+          - "[<set>] [[la] luminosità|[l']intensità] [<of>]<name> [<to>][valore ]<brightness>"
+          - "[<set>] <name> [la] ([la] luminosità|[l']intensità) [<to>][valore ]<brightness>"
+          - "[<set>] [<to>][valore ]<brightness> [la] ([la] luminosità|[l']intensità) [<of>]<name>"
         response: "brightness"
+        requires_context:
+          domain: light
+      #Brightness Area
       - sentences:
-          - "[<set>] [la] luminosità [(<of>|<the>|<in>)] <area> [(a|al)] [valore] <brightness>"
-          - "[<set>] [<in>] <area> [la] luminosità [(a|al)] [valore] <brightness>"
-          - "[<set>] [(a|al)] [valore] <brightness> [la] luminosità [(<of>|<the>|<in>)] <area>"
+          - "[<set>] ([la] luminosità|[l']intensità) [(<of>|<the>|<in>)] <area> [<to>][valore ]<brightness>"
+          - "[<set>] [<in>]<area> ([la] luminosità|[l']intensità) [<to>][valore ]<brightness>"
+          - "[<set>] [<to>][valore ]<brightness> ([la] luminosità|[l']intensità) [(<of>|<the>|<in>)]<area>"
         slots:
           name: "all"
         response: "brightness_area"
+      # Max/Min/Medium brightness
       - sentences:
-          - "<set> [<the>] <name> [(a|al|su|in)] [colore] {color}"
-          - "<set> [(il)] [colore] [<of>] <name> [(a|al|su|in)] {color}"
-          - "<set> [il] [colore] {color} [<to>] <name>"
-          - "<set> [(a|al|su|in)] [colore] {color} [<the>] <name>"
-          - "<set> [(a|al|su|in)] {color} [<the>] [colore] [<of>] <name>"
+          - "[<set>] [[la] luminosità|[l']intensità] [<of>]<name> [<to>]{brightness_level:brightness}"
+          - "[<set>] <name> ([la] luminosità|[l']intensità) [<to>]{brightness_level:brightness}"
+          - "[<set>] [<to>]{brightness_level:brightness} ([la] luminosità|[l']intensità) [<of>]<name>"
+        requires_context:
+          domain: light
+        response: "brightness"
+      # Max/Min/Medium brightness Area
+      - sentences:
+          - "[<set>] ([la] luminosità|[l']intensità) [(<of>|<the>|<in>)]<area> [<to>][valore ]{brightness_level:brightness}"
+          - "[<set>] [<in>]<area> ([la] luminosità|[l']intensità) [<to>][valore ]{brightness_level:brightness}"
+          - "[<set>] [<to>][valore ]{brightness_level:brightness} ([la] luminosità|[l']intensità) [(<of>|<the>|<in>)]<area>"
+        slots:
+          name: "all"
+        response: "brightness_area"
+      #Color
+      - sentences:
+          - "<set> [<the>]<name> [(a|al|su|in)] [colore] {color}"
+          - "<set> [il] [colore] [<of>]<name> [(a|al|su|in)] {color}"
+          - "<set> [il] [colore] {color} [<to>]<name>"
+          - "<set> [(a|al|su|in)] [colore] {color} [<the>]<name>"
+          - "<set> [(a|al|su|in)] {color} [<the>][colore] [<of>]<name>"
         response: "color"
+        requires_context:
+          domain:
+            light
+            #ColorArea
+      - sentences:
+          - "<set> [<the>][<light>] [<in>|<of>]<area> [(a|al|su|in)] [colore] {color}"
+          - "<set> [(il)] [colore] [<of>][<light>] [<in>|<of>]<area> [(a|al|su|in)] {color}"
+          - "<set> [il|al] [colore] {color} [<to>|<the>][<light>] [<in>]<area>"
+          - "<set> [(a|al|su|in)] [colore] {color} [<the>][<light>] [<in>|<of>]<area>"
+          - "<set> [(a|al|su|in)] {color} [<the>][colore] [<of>][<light>] [<in>|<of>] <area>"
+        slots:
+          name: "all"
+        response: "color_area"
