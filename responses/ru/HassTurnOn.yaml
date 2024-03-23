@@ -2,10 +2,38 @@ language: ru
 responses:
   intents:
     HassTurnOn:
-      default: "{{ slots.name }} включен"
-      lights_area: "свет в {{ slots.area }} включен"
+      default: |
+        {% set F_ending = "aуяь" %}
+        {% set N_ending = "ое" %}
+        {% set M_ending = "ыи" %}
+        {% set last_letter = slots.name[-1].lower() %}
+        {% if last_letter in F_ending %}
+          {% set ender = "а" %}
+        {% elif last_letter in N_ending%}
+          {% set ender = "о" %}
+        {% elif last_letter in M_ending%}
+          {% set end = "ы" %}
+        {% else %}
+          {% set ender = "" %}
+        {% endif %}
+        {{ slots.name }} включен{{ ender }}
+      lights_area: "Свет в {{ slots.area }} включен"
       fans_area: "Включены вентиляторы в {{ slots.area }}"
-      cover: "Открыто {{ slots.name }}"
-      cover_area: "Открыто {{ slots.area }}"
-      cover_device_class: "Открыто {{ slots.device_class }}"
+      cover: |
+        {% set F_ending = "aуяь" %}
+        {% set N_ending = "ое" %}
+        {% set M_ending = "ыи" %}
+        {% set last_letter = slots.name[-1].lower() %}
+        {% if last_letter in F_ending %}
+          {% set ender = "а" %}
+        {% elif last_letter in N_ending%}
+          {% set ender = "о" %}
+        {% elif last_letter in M_ending%}
+          {% set end = "ы" %}
+        {% else %}
+          {% set ender = "" %}
+        {% endif %}
+        {{ slots.name }} открыт{{ ender }}
+      cover_area: "Открытие в {{ slots.area }} выполнено"
+      cover_device_class: "Открытие выполнено"
       script: "Выполнено"
