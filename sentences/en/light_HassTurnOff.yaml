@@ -21,22 +21,35 @@ intents:
           domain: "light"
         response: "lights_area"
 
+      # Turn off all lights in the home
       - sentences:
-          - "[<turn>] (all <light> off|<light> off everywhere)"
-          - "deactivate (all <light>|<light> everywhere)"
+          - "<turn> <all> <light> off <everywhere>"
+          - "<turn> off <all> <light> <everywhere>"
+          - "deactivate <all> <light> <everywhere>"
+          - "<turn> <light> off <everywhere>"
+          - "<turn> off <light> <everywhere>"
+          - "deactivate <light> <everywhere>"
+          - "<turn> <all> <light> off"
+          - "<turn> off <all> <light>"
+          - "deactivate <all> <light>"
         response: "light_all"
         slots:
           domain: "light"
-          name: "all"
 
       # Turn off lights in the same area as a satellite device
       - sentences:
-          - "<turn> off[ all] <light>[<in_here>]"
-          - "<turn>[ all] <light>( off;<in_here>)"
-          - "<turn>[ all] <light> off"
+          - "<turn> <all> <light> off <here>"
+          - "<turn> <light> off <here>"
+          - "<turn> <all> <light> <here> off"
+          - "<turn> <light> <here> off"
+          - "<turn> off <all> <light> <here>"
+          - "<turn> off <light> <here>"
+          - "deactivate <all> <light> <here>"
+          - "deactivate <light> <here>"
+          - "<turn> <light> off"
+          - "<turn> off <light>"
+          - "deactivate <light>"
         response: "lights_area"
-        expansion_rules:
-          in_here: "[ in] here"
         slots:
           domain: "light"
         requires_context:
