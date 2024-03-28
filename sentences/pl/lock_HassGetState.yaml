@@ -3,35 +3,46 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "czy <name> są {lock_states:state} [<area>]"
+          - "czy <name> (jest|są) {lock_states:state} [<area>]"
+          - "czy (jest|są) {lock_states:state} <name> [<area>]"
+          - "czy [<area>] (jest|są) {lock_states:state} <name>"
+          - "czy [<area>]  <name> (jest|są) {lock_states:state}"
         requires_context:
           domain: lock
         slots:
           domain: lock
-        response: one_yesno
+        response: "one_yesno"
 
       - sentences:
-          - "czy są [jakieś|któreś|jakiekolwiek|którekolwiek] (drzwi|zamki) {lock_states:state} [<area>]"
-          - "czy są [jakieś|któreś|jakiekolwiek|którekolwiek] {lock_states:state} (drzwi|zamki) [<area>]"
+          - "czy (jest|są) [jakiś|jakieś|któryś|któreś|jakiekolwiek|którekolwiek] (zamek|zamki|drzwi) {lock_states:state} [<area>]"
+          - "czy (jest|są) [jakiś|jakieś|któryś|któreś|jakiekolwiek|którekolwiek] {lock_states:state} (zamek|zamki|drzwi) [<area>]"
+          - "czy (jest|są) {lock_states:state} [jakiś|jakieś|któryś|któreś|jakiekolwiek|którekolwiek] (zamek|zamki|drzwi) [<area>]"
+          - "czy [<area>] (jest|są) [jakiś|jakieś|któryś|któreś|jakiekolwiek|którekolwiek] (zamek|zamki|drzwi) {lock_states:state}"
+          - "czy [<area>] (jest|są) [jakiś|jakieś|któryś|któreś|jakiekolwiek|którekolwiek] {lock_states:state} (zamek|zamki|drzwi)"
+          - "czy [<area>] (jest|są) {lock_states:state} [jakiś|jakieś|któryś|któreś|jakiekolwiek|którekolwiek] (zamek|zamki|drzwi)"
         slots:
           domain: lock
-        response: any
+        response: "any"
 
       - sentences:
           - "czy <all> (drzwi|zamki) są {lock_states:state} [<area>]"
+          - "czy [<area>] <all> (drzwi|zamki) są {lock_states:state}"
+          - "czy są {lock_states:state} <all> (drzwi|zamki) [<area>]"
+          - "czy są {lock_states:state} [<area>] <all> (drzwi|zamki)"
         slots:
           domain: lock
-        response: all
+        response: "all"
 
       - sentences:
           - "które (drzwi|zamki) są {lock_states:state} [<area>]"
           - "który zamek jest {lock_states:state} [<area>]"
         slots:
           domain: lock
-        response: which
+        response: "which"
 
       - sentences:
           - "ile (drzwi|zamków) jest {lock_states:state} [<area>]"
+          - "ile jest {lock_states:state} (drzwi|zamków) [<area>]"
         slots:
           domain: lock
-        response: how_many
+        response: "how_many"
