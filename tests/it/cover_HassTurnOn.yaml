@@ -24,22 +24,36 @@ tests:
     response: "Ho aperto tutto in bagno"
   - sentences:
       - "alza tutte le tende"
+      - "apri tutte le tende dell'appartamento"
     intent:
       name: HassTurnOn
       slots:
         device_class: "curtain"
         domain: "cover"
     response: "Ho aperto tutte le tende"
+
   - sentences:
-      - "apri le tapparelle nel bagno"
+      - "apri oscurante in bagno"
+      - "alza oscurante bagno"
+    intent:
+      name: "HassTurnOn"
+      slots:
+        area: "Bagno"
+        device_class: "blind"
+      context:
+        domain: "cover"
+
+  - sentences:
+      - "apri le finestre nel bagno"
+      - "apri tutte le finestre in bagno"
     intent:
       name: HassTurnOn
       slots:
         area: "Bagno"
-        device_class: "shutter"
+        device_class: "window"
       context:
         domain: cover
-    response: "Ho aperto le tapparelle in bagno"
+    response: "Ho aperto le finestre in bagno"
   - sentences:
       - "apri la porta del garage"
       - "apri la serranda del garage"
@@ -50,3 +64,16 @@ tests:
         device_class: garage
         domain: cover
     response: "Ho aperto il garage"
+
+  - sentences:
+      - "apri tapparelle"
+      - "alza la tapparelle in questa stanza"
+    intent:
+      name: HassTurnOn
+      context:
+        area: Soggiorno
+      slots:
+        area: "Soggiorno"
+        domain: "cover"
+        device_class: "shutter"
+    response: "Ho aperto le tapparelle in Soggiorno"

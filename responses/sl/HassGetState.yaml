@@ -2,10 +2,13 @@ language: sl
 responses:
   intents:
     HassGetState:
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
         {{ slots.name | capitalize }} je {{ state.state_with_unit }}
+      # one_sensor for SL variation
       one_sensor: |
         {{ slots.device_class }} {{ slots.name | capitalize }} je {{ state.state_with_unit }}
       one_yesno: |
@@ -30,6 +33,8 @@ responses:
         {% else %}
           Ne
         {% endif %}
+
+      #any_bs is for SL variation of response
 
       any_bs: |
         {% if query.matched %}
@@ -65,6 +70,9 @@ responses:
             {{ name }}
           {%- endfor %}
         {% endif %}
+
+      # all_bs is SL variation of response
+
       all_bs: |
         {% if not query.unmatched: %}
           Da
@@ -95,6 +103,9 @@ responses:
             {%- endfor -%}
           {% endif %}
         {% endif %}
+
+      # which_bs is SL variation of response
+
       which_bs: |
         {% if not query.matched %}
           Noben
@@ -109,6 +120,9 @@ responses:
             {%- endfor -%}
           {% endif %}
         {% endif %}
+
+      # which_bs_opening is SL variation of response
+
       which_bs_opening: |
         {% if not query.matched %}
           Nič
@@ -133,6 +147,7 @@ responses:
           {{ slots.name | capitalize }} je {{ state.state }}
         {% endif %}
 
+      # sensor_value is SL variation of response for sensor
       sensor_value: |
         Vrednost senzorja je {{ state.state_with_unit }}
 

@@ -3,15 +3,51 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "(<turn_off>|<turn_off_light>) [<all>] [światła|światło] <area>"
-          - "(<turn_off>|<turn_off_light>) <area> [<all>] [światła|światło]"
-        slots:
-          domain: "light"
-        response: lights_area
+          - "(<turn_off>|<turn_off_light>) <name>"
+        requires_context:
+          domain: light
+        response: "light"
 
       - sentences:
-          - "(<turn_off>|<turn_off_light>) [<all>] światła"
+          - "(<turn_off>|<turn_off_light>) <name> <area>"
+          - "(<turn_off>|<turn_off_light>) <area> <name>"
+          - "<area> (<turn_off>|<turn_off_light>) <name>"
+        requires_context:
+          domain: light
+        response: "light_area"
+
+      - sentences:
+          - "(<turn_off>|<turn_off_light>) [<all>] (<light>|<lights>) <area>"
+          - "(<turn_off>|<turn_off_light>) <area> [<all>] (<light>|<lights>)"
         slots:
-          domain: "light"
-          name: "all"
-        response: "light_all"
+          domain: light
+        response: "lights_area"
+
+      - sentences:
+          - "(<turn_off>|<turn_off_light>) [<all>] <lights>"
+        slots:
+          name: all
+          domain: light
+        response: "lights_all"
+
+      # Turn off lights in the same area as a satellite device
+      - sentences:
+          - "(<turn_off>|<turn_off_light>) [<in_here>] [<all>] (<light>|<lights>)"
+          - "(<turn_off>|<turn_off_light>) [<all>] (<light>|<lights>) [<in_here>]"
+        slots:
+          domain: light
+        requires_context:
+          area:
+            slot: true
+        response: "lights_area"
+
+      # TODO: How to say: "turn off main light here", where 'main light' is the name of some light
+      # - sentences:
+      #     - "(<turn_off>|<turn_off_light>) [<in_here>] <name>"
+      #     - "(<turn_off>|<turn_off_light>) <name> [<in_here>]"
+      #   slots:
+      #     domain: light
+      #   requires_context:
+      #     area:
+      #       slot: true
+      #   response: "lights_area"

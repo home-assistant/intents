@@ -21,14 +21,35 @@ intents:
           domain: "light"
         response: "lights_area"
 
-      # Turn on all lights in the same area as a satellite device
+      # Turn on all lights in the home
       - sentences:
-          - "<turn> on[ all] <light>[<in_here>]"
-          - "<turn>[ all] <light>( on;<in_here>)"
-          - "<turn>[ all] <light> on"
+          - "<turn> <all> <light> on <everywhere>"
+          - "<turn> on <all> <light> <everywhere>"
+          - "activate <all> <light> <everywhere>"
+          - "<turn> <light> on <everywhere>"
+          - "<turn> on <light> <everywhere>"
+          - "activate <light> <everywhere>"
+          - "<turn> <all> <light> on"
+          - "<turn> on <all> <light>"
+          - "activate <all> <light>"
+        response: "light_all"
+        slots:
+          domain: "light"
+
+      # Turn on lights in the same area as a satellite device
+      - sentences:
+          - "<turn> <all> <light> on <here>"
+          - "<turn> <light> on <here>"
+          - "<turn> <all> <light> <here> on"
+          - "<turn> <light> <here> on"
+          - "<turn> on <all> <light> <here>"
+          - "<turn> on <light> <here>"
+          - "activate <all> <light> <here>"
+          - "activate <light> <here>"
+          - "<turn> <light> on"
+          - "<turn> on <light>"
+          - "activate <light>"
         response: "lights_area"
-        expansion_rules:
-          in_here: "[ in] here"
         slots:
           domain: "light"
         requires_context:
