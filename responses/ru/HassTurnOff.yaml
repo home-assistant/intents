@@ -2,9 +2,39 @@ language: ru
 responses:
   intents:
     HassTurnOff:
-      default: "{{ slots.name }} выключен"
-      lights_area: "Выключен свет в {{ slots.area }}"
+      default: |
+        {% set Female_ending = "ауяь" %}
+        {% set Neuter_ending = "ое" %}
+        {% set Plural_ending = "ыи" %}
+        {% set last_letter = slots.name[-1].lower() %}
+        {% if last_letter in Female_ending %}
+          {% set ender = "а" %}
+        {% elif last_letter in Neuter_ending%}
+          {% set ender = "о" %}
+        {% elif last_letter in Plural_ending%}
+          {% set ender = "ы" %}
+        {% else %}
+          {% set ender = "" %}
+        {% endif %}
+        {{ slots.name }} выключен{{ ender }}
+      lights_area: "Свет в {{ slots.area }} выключен"
       fans_area: "Вентиляторы выключены в {{ slots.area }}"
-      cover: "Закрыто {{ slots.name }}"
-      cover_area: "Закрыто {{ slots.area }}"
-      cover_device_class: "Закрыто {{ slots.device_class }}"
+      cover: |
+        {% set Female_ending = "ауяь" %}
+        {% set Neuter_ending = "ое" %}
+        {% set Plural_ending = "ыи" %}
+        {% set last_letter = slots.name[-1].lower() %}
+        {% if slots.name.lower() == "ворота" %}
+          {% set ender = "ы" %}
+        {% elif last_letter in Female_ending %}
+          {% set ender = "а" %}
+        {% elif last_letter in Neuter_ending%}
+          {% set ender = "о" %}
+        {% elif last_letter in Plural_ending%}
+          {% set ender = "ы" %}
+        {% else %}
+          {% set ender = "" %}
+        {% endif %}
+        {{ slots.name }} закрыт{{ ender }}
+      cover_area: "Закрытие в {{ slots.area }} выполнено"
+      cover_device_class: "Закрытие выполнено"
