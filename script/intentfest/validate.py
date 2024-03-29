@@ -112,20 +112,28 @@ INTENT_ERRORS = {
     "no_intent",
     "handle_error",
     "no_area",
+    "no_floor",
     "no_domain",
     "no_domain_in_area",
+    "no_domain_in_floor",
     "no_device_class",
     "no_device_class_in_area",
+    "no_device_class_in_floor",
     "no_entity",
     "no_entity_in_area",
+    "no_entity_in_floor",
     "no_entity_exposed",
     "no_entity_in_area_exposed",
+    "no_entity_in_floor_exposed",
     "no_domain_exposed",
     "no_domain_in_area_exposed",
+    "no_domain_in_floor_exposed",
     "no_device_class_exposed",
     "no_device_class_in_area_exposed",
+    "no_device_class_in_floor_exposed",
     "duplicate_entities",
     "duplicate_entities_in_area",
+    "duplicate_entities_in_floor",
 }
 
 SENTENCE_MATCHER = vol.All(
@@ -224,6 +232,7 @@ TESTS_FIXTURES = vol.Schema(
             {
                 vol.Required("name"): str,
                 vol.Required("id"): str,
+                vol.Optional("floor"): str,
             }
         ],
         vol.Optional("entities"): [

@@ -204,8 +204,9 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
     # Load test areas and entities for language
     slot_lists: dict[str, SlotList] = {}
 
-    # Generate names from templates
+    # area/floor
     area_names: List[str] = []
+    floor_names: List[str] = []
     for area in fixtures["areas"]:
         area_name = area["name"]
         if is_template(area_name):
@@ -216,8 +217,22 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
         else:
             area_names.append(area_name.strip())
 
-    slot_lists["area"] = TextSlotList.from_strings(area_names)
+        floor_name = area.get("floor")
+        if not floor_name:
+            continue
 
+        if is_template(floor_name):
+            floor_names.extend(
+                floor_name.strip()
+                for floor_name in sample_expression(parse_sentence(floor_name))
+            )
+        else:
+            floor_names.append(floor_name.strip())
+
+    slot_lists["area"] = TextSlotList.from_strings(area_names)
+    slot_lists["floor"] = TextSlotList.from_strings(floor_names)
+
+    # name
     entity_tuples: List[Tuple[str, str, Dict[str, Any]]] = []
     for entity in fixtures["entities"]:
         context = _entity_context(entity)
