@@ -2,11 +2,31 @@ language: "el"
 responses:
   errors:
     no_intent: "Συγγνώμη, δεν μπόρεσα να το καταλάβω αυτό"
-    no_area: "Δεν υπάρχει περιοχή με όνομα {{ area }}"
-    no_domain_in_area: "Η περιοχή {{ area }} δεν περιέχει ένα {{ domain }}"
-    no_device_class_in_area: "Η περιοχή {{ area }} δεν περιέχει {{ device_class }}"
-    no_entity: "Δεν υπάρχει συσκευή ή οντότητα με όνομα {{ entity }}"
     handle_error: "Προέκυψε ένα απροσδόκητο σφάλμα κατά το χειρισμό της πρόθεσης"
+
+    no_area: "Δεν υπάρχει περιοχή με όνομα {{ area }}"
+    no_floor: "Δεν υπάρχει όροφος με όνομα {{ floor }}"
+    no_domain: "Δεν υπάρχει domain {{ domain }}"
+    no_domain_in_area: "Η περιοχή {{ area }} δεν περιέχει ένα {{ domain }}"
+    no_device_class: "Δεν υπάρχει κατηγορία {{ device_class }}"
+    no_device_class_in_area: "Η περιοχή {{ area }} δεν περιέχει {{ device_class }}"
+    no_device_class_in_floor: "Ο όροφος {{ area }} δεν περιέχει {{ device_class }}"
+    no_entity: "Δεν υπάρχει συσκευή ή οντότητα με όνομα {{ entity }}"
+    no_entity_in_area: "Δεν υπάρχει συσκευή ή οντότητα με όνομα {{ entity }} στην περιοχή {{ area }}"
+    no_entity_in_floor: "Δεν υπάρχει συσκευή ή οντότητα με όνομα {{ entity }} στον όροφο {{ floor }}"
+    no_entity_exposed: "Συγνώμη, η οντότητα {{ entity }} δεν είναι εκτεθημένη για χρήση"
+    no_entity_in_area_exposed: "Συγνώμη, η οντότητα {{ entity }} στην περιοχή {{ area }} δεν είναι εκτεθημένη για χρήση"
+    no_entity_in_floor_exposed: "Συγνώμη, η οντότητα {{ entity }} στον όροφο {{ floor }} δεν είναι εκτεθημένη για χρήση"
+    no_domain_exposed: "Συγνώμη, δεν υπάρχει {{ domain }} εκτεθημένο για χρήση"
+    no_domain_in_area_exposed: "Συγνώμη, δεν υπάρχει {{ domain }} στην περιοχή {{ area }} εκτεθημένο για χρήση"
+    no_domain_in_floor_exposed: "Συγνώμη, δεν υπάρχει {{ domain }} στον όροφο {{ floor }} εκτεθημένο για χρήση"
+    no_device_class_exposed: "Συγνώμη, δεν υπάρχει κατηγορία {{ device_class }} εκτεθημένη για χρήση"
+    no_device_class_in_area_exposed: "Συγνώμη, δεν υπάρχει κατηγορία {{ device_class }} στην περιοχή {{ area }} εκτεθημένη για χρήση"
+    no_device_class_in_floor_exposed: "Συγνώμη, δεν υπάρχει κατηγορία {{ device_class }} στον όροφο {{ floor }} εκτεθημένη για χρήση"
+
+    duplicate_entities: "Συγνώμη, υπάρχουν πολλαπλές οντότητες με όνομα {{ entity }}"
+    duplicate_entities_in_area: "Συγνώμη, υπάρχουν πολλαπλές οντότητες με όνομα {{ entity }} στην πεστον όροφο {{ floor }}"
+
 lists:
   color:
     values:
@@ -68,7 +88,7 @@ lists:
     values:
       - in: "(άνοιξε|άνοιγμα|σήκωσε|σήκωμα|ανέβασε|ανέβασμα)"
         out: "open"
-      - in: "(κλείσε|κλείσιμο|κατέβασε|κατέβασμα)"
+      - in: "(κλείσε|κλείσιμο|κατέβασε|κατέβασμα|μάζεψε|μάζεμα)"
         out: "closed"
       - in: "(άνοιγμα|ανέβασμα)"
         out: "opening"
@@ -314,6 +334,9 @@ expansion_rules:
   temperature: "{temperature} [βαθμ(οί|ούς)] [{temperature_unit}]"
   exist: "(υπάρχει | υπάρχουν | είναι) [κάποι(ος|α|ο|οι|ες|α)]"
   numeric_value_set: "(όρισε|άλλαξε|αύξησε|μείωσε)"
+  home: "(σπ(ί|ι)τι[ού]|διαμ(έ|ε)ρ(ι|ί)σμα[τος]|κατοικία[ς]|οικία[ς])"
+  everywhere: "(παντού|σε (όλ(α|o) <article>|κάθε) δωμάτι(α|ο)|σε όλους τους χώρους|<article> <home>)"
+  here: "(εδώ [μέσα]|σε αυτό το (χώρο|δωμάτιο))"
   # Questions
   what_is: "(ποια είναι | ποιο είναι | τι | πώς)"
   where_is: "(πού είναι | πού βρίσκεται)"

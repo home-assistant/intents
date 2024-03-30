@@ -1,4 +1,35 @@
 language: el
 intents:
   HassGetState:
-    data: []
+    data: 
+      - sentences:
+          - "είναι <name> {cover_states:state} [<articles> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(είναι|βρίσκ(εται|ονται)|υπάρχ(ουν|ει)) [κάποι(ο|ος)] {cover_classes:device_class} {cover_states:state} [<articles> <area>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "είναι όλα [<articles>] {cover_classes:device_class} {cover_states:state} [<articles> <area>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(ποιό|τι) {cover_classes:device_class} είναι {cover_states:state} [<articles> <area>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "πόσ(α|οι|ες) {cover_classes:device_class} είναι {cover_states:state} [<articles> <area>]"
+        response: how_many
+        slots:
+          domain: cover
