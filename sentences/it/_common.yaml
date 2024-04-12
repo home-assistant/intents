@@ -71,12 +71,16 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - "(celsius | centigradi)"
-      - in: "c"
+      - in: "(c | celsius | [gradi] centigradi)"
         out: "celsius"
-      - "fahrenheit"
-      - in: "f"
+      - in: "(f | [gradi] fahrenheit)"
         out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: "massimo"
+        out: 100
+      - in: "minimo"
+        out: 1
   on_off_states:
     values:
       - in: "(acces|attiv)(o|i|a|e)"
@@ -93,13 +97,13 @@ lists:
         out: switch
   cover_states:
     values:
-      - in: "apert(a|o|e|i)"
+      - in: "(apert|alzat)(a|o|e|i)"
         out: "open"
-      - in: "chius(a|o|e|i)"
+      - in: "(chius|abbassat)(a|o|e|i)"
         out: "closed"
-      - in: "in apertura"
+      - in: "(in apertura | [si sta[nno]] (aprendo | alzando))"
         out: "opening"
-      - in: "in chiusura"
+      - in: "(in chiusura | [si sta[nno]] (chiudendo | abbassando))"
         out: "closing"
   cover_classes:
     values:
@@ -323,12 +327,14 @@ lists:
 
 expansion_rules:
   the: "(l(o|a|e) | i[l] | gli | l'| in | ne(l|llo|lla|lle|ll'|gli) | a[(l|llo|lla|lle|ll'|gli)])"
-  in: "(in | ne[i |gli |l[lo |la |le |l'| ]])"
+  in: "(all'interno | dentro | in | ne[i|gli|l[lo|la|le]])"
   of: "(de[l[lo |la |le |l'| ]]|i |gli |di )"
   to: "a[l[lo |la |le |l'] | gli ]"
+  some: "(qualche | qualcun(o|a) | un[(o|a|')] | de[i|gli|lle] | alcun(o|a) | nessun(o|a))"
   name: "{name}"
   area: "{area}"
-  what_is: "(qual[e] è|quant(o |')è|com(e |')è|che)"
+  what_is: "(qual[e] è | quant(o |')è | com(e |')è | che)"
+  which: "(qual[e|i] | che)"
   brightness: "{brightness}[%| percento]"
   turn_on: "(accend(i|ere) | attiv(a|are))"
   turn_off: "((spegn|speng)(i|ere) | disattiv(a|are))"
@@ -340,8 +346,11 @@ expansion_rules:
   climate: "(clima|climatizzator(e|i)|condizionator(e|i)|aria condizionata)"
   fan: "(ventol(a|e) | ventilator(e|i) | ventilazione | climatizzator(e|i) | condizionator(e|i))"
   all: "(tutt(o|e|i|a) [quant(i|e)] | ogni)"
+  lock: "(port(a|e) | blocch(o|hi) | serratur(a|e) | lucchett(o|i))"
+  to_lock: "(chiud[i|ere]|blocca[re])"
+  unlock: "(apri[re]|sblocca[re]|schiud[i|ere])"  
   garage: "(serrand(a|e) | port(a|e) [basculant(e|i)|de(l|i) garage] | saracinesc(a|he))"
-  light: "luc(e|i)"
+  light: "([punti] luc(e|i) | lampad[in](a|e) | lampadari[o])"
   in_here: "(qu(a|i)|in questa (stanza|camera))"
   home: "(casa|appartamento)"
 skip_words:
