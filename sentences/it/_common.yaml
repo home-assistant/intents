@@ -99,13 +99,13 @@ lists:
         out: switch
   cover_states:
     values:
-      - in: "<opened>|alzat(a|o|e|i)"
+      - in: "<opened>|alzat(a|o|e|i)|tirat(a|o|e|i) su"
         out: "open"
-      - in: "<closed>|abbassat(a|o|e|i)"
+      - in: "<closed>|abbassat(a|o|e|i)|tirat(a|o|e|i) giù"
         out: "closed"
-      - in: "(in apertura | [si sta[nno]] (aprendo | alzando))"
+      - in: "(in apertura | [si sta[nno]] (aprendo | alzando | tirando su))"
         out: "opening"
-      - in: "(in chiusura | [si sta[nno]] (chiudendo | abbassando))"
+      - in: "(in chiusura | [si sta[nno]] (chiudendo | abbassando | tirando giù))"
         out: "closing"
   cover_classes:
     values:
@@ -371,7 +371,7 @@ expansion_rules:
   open: "(apr(i|ire) | alz(a|are))"
   close: "(chiud(i|ere) | abbass(a|are))"
   set: "( (impost|mett|modific|cambi|sett)(a|are) | rend(i|ere) )"
-  numeric_value_set: "<set> | (aument|increment)(a|are) | ridu(ci|rre)"
+  numeric_value_set: "(<set> | [fa('|i|re) ]((alz|aument|increment|abbass)(a|are) | ridu(ci|rre)) | fa('|i|re) (salire|scendere))"
   to_lock: "(chiud[i|ere]|blocca[re])"
   unlock: "(apri[re]|sblocca[re]|schiud[i|ere])"  
 
@@ -383,11 +383,11 @@ expansion_rules:
 
 # Altro
   name: "[<the>] {name}"
-  brightness: "{brightness}[% | percento | per cento]"
+  brightness: "{brightness}[[ ]<percent>]"
   temperature: "{temperature} [{temperature_unit}]"
   position: "{position}[[ ]<percent>]"
   volume: "{volume:volume_level}[[ ]<percent>]"
-  percent: "(% | percento | per cento | su cento)"
+  percent: "(%|percento|per cento|su cento)"
 
 
 # Stati
