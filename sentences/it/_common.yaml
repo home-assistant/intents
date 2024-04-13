@@ -66,11 +66,11 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: "massimo"
+      - in: "[al] massimo"
         out: 100
-      - in: "minimo"
+      - in: "[al] minimo"
         out: 1
-      - in: "metà"
+      - in: "[a] metà"
         out: 50
   temperature:
     range:
@@ -99,9 +99,9 @@ lists:
         out: switch
   cover_states:
     values:
-      - in: "(apert|alzat)(a|o|e|i)"
+      - in: "<opened>|alzat(a|o|e|i)"
         out: "open"
-      - in: "(chius|abbassat)(a|o|e|i)"
+      - in: "<closed>|abbassat(a|o|e|i)"
         out: "closed"
       - in: "(in apertura | [si sta[nno]] (aprendo | alzando))"
         out: "opening"
@@ -129,34 +129,31 @@ lists:
         out: window
   lock_states:
     values:
-      - in: "chius(o|a|e|i)"
+      - in: "<locked>"
         out: "locked"
-      - in: "apert(o|a|e|i)"
+      - in: "<unlocked>"
         out: "unlocked"
-
-  shopping_list_item:
-    wildcard: true
 
   # binary_sensor
   bs_battery_states:
     values:
-      - in: "bass(o|a|e|i)"
+      - in: "bass(o|a|e|i)|scaric(o|a|he|hi)|per scaricar(e|si)"
         out: "on"
-      - in: "normale"
+      - in: "normale|caric(o|a|he|hi)"
         out: "off"
 
   bs_battery_charging_states:
     values:
-      - in: "[in] carica"
+      - in: "(in carica|caricando)"
         out: "on"
       - in: "non in carica"
         out: "off"
 
   bs_carbon_monoxide_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
-      - in: "non rilevat(o|a|e|i)"
+      - in: "non <triggered>"
         out: "off"
 
   bs_cold_states:
@@ -175,23 +172,23 @@ lists:
 
   bs_door_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<opened>"
         out: "on"
-      - in: "chius(o|a|e|i)"
+      - in: "<closed>"
         out: "off"
 
   bs_garage_door_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<opened>"
         out: "on"
-      - in: "chus(o|a|e|i)"
+      - in: "<closed>"
         out: "off"
 
   bs_gas_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
-      - in: "non rilevat(o|a|e|i)"
+      - in: "non <triggered>"
         out: "off"
 
   bs_heat_states:
@@ -203,16 +200,16 @@ lists:
 
   bs_light_states:
     values:
-      - in: "(rilevat|attiv[at]|acces)(o|a|e|i)"
+      - in: "<triggered>|acces(o|a|e|i)"
         out: "on"
       - in: "no luce"
         out: "off"
 
   bs_lock_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<unlocked>"
         out: "on"
-      - in: "chius(o|a|e|i)"
+      - in: "<locked>"
         out: "off"
 
   bs_moisture_states:
@@ -224,37 +221,37 @@ lists:
 
   bs_motion_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
       - in: "liber(o|a|e|i)"
         out: "off"
 
   bs_occupancy_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
       - in: "(liber|sgombr)(o|a|e|i)"
         out: "off"
 
   bs_opening_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<opened>"
         out: "on"
-      - in: "chius(o|a|e|i)"
+      - in: "<closed>"
         out: "off"
 
   bs_plug_states:
     values:
-      - in: "(attaccat|collegat)(o|a|e|i)"
+      - in: "(attaccat|collegat|alimentat)(o|a|e|i)"
         out: "on"
-      - in: "(staccat|non attaccat|scollegat|non collegat)(o|a|e|i)"
+      - in: "(staccat|scollegat|non (attaccat|collegat|alimentat)(o|a|e|i))"
         out: "off"
 
   bs_power_states:
     values:
-      - in: "(attaccat|collegat)(o|a|e|i)"
+      - in: "(attaccat|collegat|alimentat)(o|a|e|i)"
         out: "on"
-      - in: "(staccat|non attaccat|scollegat|non collegat)(o|a|e|i)"
+      - in: "(staccat|scollegat|non (attaccat|collegat|alimentat)(o|a|e|i))"
         out: "off"
 
   bs_presence_states:
@@ -268,7 +265,7 @@ lists:
     values:
       - in: "rilevat(o|i)"
         out: "on"
-      - in: "ok"
+      - in: "ok|a posto"
         out: "off"
 
   bs_running_states:
@@ -287,77 +284,119 @@ lists:
 
   bs_smoke_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
-      - in: "liber(o|a|e|i)"
+      - in: "non <triggered>"
         out: "off"
 
   bs_sound_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
-      - in: "liber(o|a|e|i)"
+      - in: "non <triggered>"
         out: "off"
 
   bs_tamper_states:
     values:
-      - in: "(rilevat|attiv[at]|manomess|alterat)(o|a|e|i)"
+      - in: "<triggered>|(manomess|alterat)(o|a|e|i)"
         out: "on"
-      - in: "liber(o|a|e|i)"
+      - in: "non (<triggered>|(manomess|alterat)(o|a|e|i))"
         out: "off"
 
   bs_update_states:
     values:
-      - in: "aggiornamento disponibile"
+      - in: "aggiornamento disponibile|da aggiornare|non aggiornato"
         out: "on"
-      - in: "aggornato"
+      - in: "aggiornato"
         out: "off"
 
   bs_vibration_states:
     values:
-      - in: "(rilevat(a|a|e|i)|[in ]vibrazione)"
+      - in: "(<triggered>|[in ]vibrazione|[sta[nno]] vibrando)"
         out: "on"
-      - in: "(liber(a|a|e|i)|non [in ]vibrazione)"
+      - in: "(|liber(a|a|e|i)|non (<triggered>|[in ]vibrazione|[sta[nno] vibrando])"
         out: "off"
 
   bs_window_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<opened>"
         out: "on"
-      - in: "chius(o|a|e|i)"
+      - in: "<closed>"
         out: "closed"
 
+  shopping_list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
+
+  # Parti del discorso
   the: "(l(o|a|e) | i[l] | gli | l'| in | ne(l|llo|lla|lle|ll'|gli) | a[(l|llo|lla|lle|ll'|gli)])"
   in: "(all'interno | dentro | in | ne[i|gli|l[lo|la|le]])"
   of: "(de[l[lo |la |le |l'| ]]|i |gli |di )"
   to: "a[l[lo |la |le |l'] | gli ]"
   some: "(qualche | qualcun(o|a) | un[(o|a|')] | de[i|gli|lle] | alcun(o|a) | nessun(o|a))"
-  name: "[<the>] {name}"
-  area: "[<the>] [area] {area}"
-  floor: "[<the>] [floor] {floor}"
+
   what_is: "(qual[e] è | quant(o |')è | com(e |')è | che)"
   there_is: "(c'è|c'e'|ci sta[nno]|ci sono)"
   which: "(qual[e|i] sono | che)"
   how_many: "quant(i|e) [sono]"
-  brightness: "{brightness}[% | percento | per cento]"
+
+# Dispositivi
+  all: "(tutt(o|e|i|a) [quant(i|e)] | ogni)"
+  lock: "(port(a|e) | blocch(o|hi) | serratur(a|e) | lucchett(o|i))"
+  cover: "(tend(a|e)[ da sole]|serrand(a|e)|tapparell(a|e)|persian(a|e)|port(a|e)|saracinesc(a|he)|venezian(a|e)|cancell(o|i)|finestr(a|e)|oscurant(e|i))"
+  climate: "(clima|climatizzator(e|i)|condizionator(e|i)|aria condizionata)"
+  fan: "(ventol(a|e) | ventilator(e|i) | ventilazione | climatizzator(e|i) | condizionator(e|i))"
+  garage: "(serrand(a|e) | port(a|e) [basculant(e|i)|de(l|i) garage] | saracinesc(a|he))"
+  light: "( [punt(o|i)] luce | luci | lampad[in](a|e) | lampadari[o])"
+
+# Verbi
   turn_on: "(accend(i|ere) | attiv(a|are))"
   turn_off: "((spegn|speng)(i|ere) | disattiv(a|are))"
   open: "(apr(i|ire) | alz(a|are))"
   close: "(chiud(i|ere) | abbass(a|are))"
-  set: "(impost(a|are) | cambi(a|are) | mett(i|ere) | modific(a|are))"
-  temperature: "{temperature} [{temperature_unit}]"
-  cover: "(tend(a|e)[ da sole]|serrand(a|e)|tapparell(a|e)|persian(a|e)|port(a|e)|saracinesc(a|he)|venezian(a|e)|cancell(o|i)|finestr(a|e)|oscurant(e|i))"
-  climate: "(clima|climatizzator(e|i)|condizionator(e|i)|aria condizionata)"
-  fan: "(ventol(a|e) | ventilator(e|i) | ventilazione | climatizzator(e|i) | condizionator(e|i))"
-  all: "(tutt(o|e|i|a) [quant(i|e)] | ogni)"
-  lock: "(port(a|e) | blocch(o|hi) | serratur(a|e) | lucchett(o|i))"
+  set: "( (impost|mett|modific|cambi|sett)(a|are) | rend(i|ere) )"
+  numeric_value_set: "<set> | (aument|increment)(a|are) | ridu(ci|rre)"
   to_lock: "(chiud[i|ere]|blocca[re])"
   unlock: "(apri[re]|sblocca[re]|schiud[i|ere])"  
-  garage: "(serrand(a|e) | port(a|e) [basculant(e|i)|de(l|i) garage] | saracinesc(a|he))"
-  light: "( [punt(o|i)] luce | luci | lampad[in](a|e) | lampadari[o])"
+
+# Posti, aree e luoghi
   in_here: "(qu(a|i)|in questa (stanza|camera))"
   home: "(casa|appartamento)"
+  area: "[<the>] [area] {area}"
+  floor: "[<the>] [floor] {floor}"
+
+# Altro
+  name: "[<the>] {name}"
+  brightness: "{brightness}[% | percento | per cento]"
+  temperature: "{temperature} [{temperature_unit}]"
+  position: "{position}[[ ]<percent>]"
+  volume: "{volume:volume_level}[[ ]<percent>]"
+  percent: "(% | percento | per cento | su cento)"
+
+
+# Stati
+  triggered: "(rilevat|attiv[at])(o|a|e|i)"
+  opened: "(apert|spalancat)(o|a|e|i)"
+  closed: "chius(o|a|e|i)"
+  locked: "(chius|serrat|sbarrat|bloccat)(o|a|e|i)"
+  unlocked: "(apert|sbloccat)(o|a|e|i)"
+
 skip_words:
   - "grazie"
   - "per favore"
