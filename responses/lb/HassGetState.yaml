@@ -11,7 +11,7 @@ responses:
         {% if query.matched %}
           Jo
         {% else %}
-          Nee, ass {{ state.state_with_unit }}
+          Nee, {{ state.state_with_unit }}
         {% endif %}
 
       any: |
@@ -63,3 +63,10 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} ass fort
+        {% else %}
+          {{ slots.name | capitalize }} ass an der Zone {{ state.state }}
+        {% endif %}
