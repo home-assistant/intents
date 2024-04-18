@@ -149,10 +149,12 @@ def do_test_language_sentences_file(
                 )
 
         for sentence in test["sentences"]:
+            sentence_unique_id = sentence + str(intent.get("context", ""))
+
             assert (
-                sentence not in seen_sentences
+                sentence_unique_id not in seen_sentences
             ), f"Duplicate sentence found: {sentence}"
-            seen_sentences.add(sentence)
+            seen_sentences.add(sentence_unique_id)
 
             # Filter {name} list using input text
             slot_lists["name"] = TextSlotList(
