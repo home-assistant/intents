@@ -7,6 +7,7 @@ responses:
 
     # Errors for when user is not logged in
     no_area: "Lo siento, no conozco ningún área llamada {{ area }}"
+    no_floor: "Lo siento, no conozco ninguna planta llamada {{ floor }}"
     no_domain: |
       {% set translations = {
         "button": "ningún botón",
@@ -65,6 +66,35 @@ responses:
       {%- else -%}
         Lo siento, no conozco ningún elemento del tipo {{ domain }} en el área {{ area }}
       {%- endif %}
+    no_domain_in_floor: |
+      {% set translations = {
+        "button": "ningún botón",
+        "camera": "ninguna cámara",
+        "input_button": "ningún botón de entrada",
+        "alarm_control_panel": "ninguna alarma",
+        "automation": "ninguna automatización",
+        "fan": "ningún ventilador",
+        "climate": "ningún termostato",
+        "humidifier": "ningún humidificador",
+        "input_boolean": "ningún interruptor",
+        "siren": "ninguna sirena",
+        "water_heater": "ningún calentador de agua",
+        "light": "ninguna luz",
+        "switch": "ningún interruptor",
+        "script": "ningún script",
+        "remote": "ningún control remoto",
+        "lock": "ninguna cerradura",
+        "vacuum": "ningún aspirador",
+        "scene": "ninguna escena",
+        "media_player": "ningún reproductor multimedia",
+        "lawn_mower": "ningún cortacésped",
+        "valve": "ninguna válvula"
+        } %}
+      {% if domain in translations -%}
+        Lo siento, no conozco {{ translations[domain] }} en la planta {{ floor }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento del tipo {{ domain }} en la planta {{ floor }}
+      {%- endif %}
     no_device_class: |
       {% set translations = {
         "awning": "ningún toldo",
@@ -99,16 +129,36 @@ responses:
       {%- else -%}
         Lo siento, no conozco ningún elemento de la clase {{ device_class }} en el área {{ area }}
       {%- endif %}
+    no_device_class_in_floor: |
+      {% set translations = {
+        "awning": "ningún toldo",
+        "blind": "ninguna persiana",
+        "curtain": "ninguna cortina",
+        "door": "ninguna puerta",
+        "garage": "ninguna puerta de garaje",
+        "gate": "ninguna puerta",
+        "shade": "ningún estor",
+        "shutter": "ninguna contraventana",
+        "window": "ninguna ventana"
+        } %}
+      {% if device_class in translations -%}
+        Lo siento, no conozco {{ translations[device_class] }} en la planta {{ floor }}
+      {%- else -%}
+        Lo siento, no conozco ningún elemento de la clase {{ device_class }} en la planta {{ floor }}
+      {%- endif %}
     no_entity: "Lo siento, no conozco ningún dispositivo llamado {{ entity }}"
     no_entity_in_area: "Lo siento, no conozco ningún dispositivo llamado {{ entity }} en el área {{ area }}"
 
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "Lo siento, el dispositivo {{ entity }} no se expone al asistente"
     no_entity_in_area_exposed: "Lo siento, el dispositivo {{ entity }} en el área {{ area }} no se expone al asistente"
+    no_entity_in_floor_exposed: "Lo siento, el dispositivo {{ entity }} en la planta {{ floor }} no se expone al asistente"
     no_domain_exposed: "Lo siento, no se expone al asistente ningún elemento de tipo {{ domain }}"
     no_domain_in_area_exposed: "Lo siento, no se expone al asistente ningún elemento de tipo {{ domain }} en el área {{ area }}"
+    no_domain_in_floor_exposed: "Lo siento, no se expone al asistente ningún elemento de tipo {{ domain }} en la planta {{ floor }}"
     no_device_class_exposed: "Lo siento, no se expone al asistente ningún elemento de clase {{ device_class }}"
     no_device_class_in_area_exposed: "Lo siento, no se expone al asistente ningún elemento de clase {{ device_class }} en el área {{ area }}"
+    no_device_class_in_floor_exposed: "Lo siento, no se expone al asistente ningún elemento de clase {{ device_class }} en la planta {{ floor }}"
 
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Lo siento, hay varios dispositivos denominados {{ entity }}"
@@ -443,9 +493,11 @@ expansion_rules:
   establece: "(pon[ga|er|é]|estable[z]c(a|e|er|é)|ajust(a|e|ar|á)|configur(a|e|ar|á)|cambi(a[r]|á|e))"
   establece_abre_cierra: "(<establece>|<abre>|<cierra>)"
   establece_sube_baja: "(<establece>|<enciende>|<sube>|<baja>)"
+  luces: "[el|la|l(a|o)s] (luz|luces|lámpara[s]|bombill(a|o)[s]|ampolleta[s]|luminaria[s]|lamparilla[s]|foco[s]|interruptor[es]|llave[s][ de la luz])"
   mide: "[que] ([es|está] (mid(e|ie)|medi|indica|marca)[ndo|d(a|o)]|tiene|hay) [por|en]"
   name: "[el|la|los|las] {name}"
   pausa: "(paus(a|ar|e|á)|par(a|ar|e|á))|det(én|ener|enga|ené)"
+  planta: "[en|del|de] [el|la] ([planta|piso] {floor}|{floor} (planta|piso))"
   pista: "(pista|canción|medio|vídeo|video|elemento)"
   posición: "{position}[ ][%|por[ ]cien[to]]"
   puerta: "[el|la] (puerta|portón|cancela|verja|reja|compuerta|portillo)"
@@ -455,6 +507,12 @@ expansion_rules:
   temp: "[el|la] (temperatura|calor|grados)"
   temperature: "{temperature} [grados] [{temperature_unit}]"
   volumen: "{volume:volume_level}[ ][%|por[ ]cien[to]]"
+
+  # Context awareness expansion rules
+  todos: "(tod(a|o)s [l(a|o)s]|cada [un(a|o) de (l(a|o)s)|tod(a|o)s y cada un[a|o) de l(a|o)s)"
+  casa: "(casa|apartamento|departamento|piso)"
+  todas_partes: "[en |de[l] ](todas [las ]partes|todos los sitios|todos [los ]lados|tod(a|o)s (las (habitaciones|piezas)|los cuartos)|cada (habitación|pieza|cuarto)|(el|la) <casa>)"
+  aquí: "([en |de ](aquí|esta (habitación|pieza)|este cuarto)"
 
   # Preguntas
   cual_es_la_medida_del_sensor: "(<cual_es>|Qué|Cuánt(a|o)[s]) [(la (cantidad|medida)|el nivel) de ][<class> (de|del|en|desde|por|<mide>)] [[el ](sensor |medidor )[de ]]<name> [<area>]"
