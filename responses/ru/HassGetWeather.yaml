@@ -24,7 +24,9 @@ responses:
 
           {% set temperature = state.attributes.get('temperature') | float %}
           {% if temperature.is_integer() %}
-              {% if temperature < 0 %}
+              {% if temperature == 0 %}
+                {% set temperature_string = 0 | string %}
+              {% elif temperature < 0 %}
                 {% set temperature_string = 'минус ' ~ (temperature | abs | int ) | string %}
               {% else %}
                 {% set temperature_string = 'плюс ' ~ (temperature | int) | string %}
