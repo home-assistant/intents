@@ -99,6 +99,9 @@ INTENTS_SCHEMA = vol.Schema(
             vol.Optional("slot_combinations"): {
                 str: [str],
             },
+            vol.Optional("slot_groups"): {
+                str: [str],
+            },
             vol.Optional("response_variables"): {
                 str: {
                     vol.Required("description"): str,
@@ -245,6 +248,20 @@ TESTS_FIXTURES = vol.Schema(
                     str, {vol.Required("in"): str, vol.Required("out"): str}
                 ),
                 vol.Optional("attributes"): {str: match_anything},
+            }
+        ],
+        vol.Optional("timers"): [
+            {
+                vol.Required(
+                    vol.Any("start_hours", "start_minutes", "start_seconds")
+                ): int,
+                vol.Required("total_seconds_left"): int,
+                vol.Required("rounded_hours_left"): int,
+                vol.Required("rounded_minutes_left"): int,
+                vol.Required("rounded_seconds_left"): int,
+                vol.Optional("name"): str,
+                vol.Optional("area"): str,
+                vol.Optional("is_active"): bool,
             }
         ],
     }
@@ -464,6 +481,20 @@ def validate_language(
         sentence_content = sentence_files.pop(test_file.name)
         _domain, intent = test_file.stem.rsplit("_", maxsplit=1)
 
+        # Ensure test file has the correct intent
+        has_correct_intent = True
+        for test in content["tests"]:
+            test_intent = test["intent"]["name"]
+            if test_intent != intent:
+                errors.append(
+                    f"{path}: expected intent {intent} but found {test_intent}"
+                )
+                has_correct_intent = False
+                break
+
+        if not has_correct_intent:
+            continue
+
         test_count = sum(len(test["sentences"]) for test in content["tests"])
 
         # Happens if the sentence file is invalid
@@ -527,10 +558,14 @@ def validate_language(
                 continue
 
             possible_response_keys: set[str] = set()
-            slots = {
+            slots: dict[str, Any] = {
                 slot_name: f"<{slot_name}>"
                 for slot_name in intent_schemas[intent_name].get("slots", {})
             }
+
+            # For timer intents
+            slots["timers"] = []
+
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)
                 if response_key not in used_intent_response_keys:
