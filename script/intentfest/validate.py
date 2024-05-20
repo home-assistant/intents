@@ -261,6 +261,7 @@ TESTS_FIXTURES = vol.Schema(
                 vol.Required("rounded_seconds_left"): int,
                 vol.Optional("name"): str,
                 vol.Optional("area"): str,
+                vol.Optional("is_active"): bool,
             }
         ],
     }

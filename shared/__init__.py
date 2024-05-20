@@ -58,6 +58,7 @@ class AreaEntry:
 class Timer:
     """Minimal HA-like object for intent timers."""
 
+    is_active: bool
     start_hours: Optional[int]
     start_minutes: Optional[int]
     start_seconds: Optional[int]
@@ -66,10 +67,12 @@ class Timer:
     rounded_seconds_left: int
     name: Optional[str]
     area: Optional[str]
+    total_seconds_left: int
 
     def asdict(self) -> Dict[str, Any]:
         """Convert to dict for response template."""
         return {
+            "is_active": self.is_active,
             "start_hours": self.start_hours or 0,
             "start_minutes": self.start_minutes or 0,
             "start_seconds": self.start_seconds or 0,
@@ -78,6 +81,7 @@ class Timer:
             "rounded_seconds_left": self.rounded_seconds_left,
             "name": self.name or "",
             "area": self.area or "",
+            "total_seconds_left": self.total_seconds_left,
         }
 
 
@@ -423,6 +427,7 @@ def get_timers(fixtures: dict[str, Any]) -> List[Timer]:
 
         timers.append(
             Timer(
+                is_active=timer.get("is_active", True),
                 start_hours=timer.get("start_hours"),
                 start_minutes=timer.get("start_minutes"),
                 start_seconds=timer.get("start_seconds"),
@@ -431,6 +436,7 @@ def get_timers(fixtures: dict[str, Any]) -> List[Timer]:
                 rounded_seconds_left=timer["rounded_seconds_left"],
                 name=timer_name,
                 area=timer_area,
+                total_seconds_left=timer["total_seconds_left"],
             )
         )
     return timers
