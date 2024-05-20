@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import sys
-from typing import Any, List
+from typing import Any, List, Optional
 
 import pytest
 from hassil import Intents, recognize
+from hassil.recognize import RecognizeResult
 from hassil.intents import SlotList
 from hassil.util import normalize_whitespace
 from jinja2 import BaseLoader, Environment
@@ -16,9 +17,12 @@ from shared import (
     State,
     get_areas,
     get_matched_states,
+    get_matched_timers,
     get_slot_lists,
     get_states,
+    get_timers,
     render_response,
+    Timer,
 )
 
 from . import TESTS_DIR, get_test_path, load_test
@@ -45,6 +49,13 @@ def areas_fixture(language: str) -> List[AreaEntry]:
     return get_areas(fixtures)
 
 
+@pytest.fixture(name="timers", scope="session")
+def timers_fixture(language: str) -> List[Timer]:
+    """Loads test timers for the language."""
+    fixtures = load_test(language, "_fixtures")
+    return get_timers(fixtures)
+
+
 def do_test_language_sentences_file(
     language: str,
     test_file: str,
@@ -52,6 +63,7 @@ def do_test_language_sentences_file(
     slot_lists: dict[str, SlotList],
     states: List[State],
     areas: List[AreaEntry],
+    timers: List[Timer],
     language_sentences: Intents,
     language_responses: dict[str, Any],
 ) -> None:
@@ -89,9 +101,11 @@ def do_test_language_sentences_file(
         expected_response_texts = test.get("response")
         if expected_response_texts:
             if isinstance(expected_response_texts, str):
-                expected_response_texts = {expected_response_texts}
+                expected_response_texts = {expected_response_texts.strip()}
             else:
-                expected_response_texts = set(expected_response_texts)
+                expected_response_texts = set(
+                    t.strip() for t in expected_response_texts
+                )
 
         for sentence in test["sentences"]:
             assert (
@@ -176,7 +190,12 @@ def do_test_language_sentences_file(
 
                 matched, unmatched = get_matched_states(states, areas, result)
                 actual_response_text = render_response(
-                    response_template_str, result, matched, unmatched, env=template_env
+                    response_template_str,
+                    result,
+                    matched,
+                    unmatched,
+                    env=template_env,
+                    timers=get_matched_timers(timers, result),
                 )
                 actual_response_text = normalize_whitespace(
                     actual_response_text
@@ -193,6 +212,7 @@ def gen_test(test_file_stem: str) -> None:
         slot_lists: dict[str, SlotList],
         states: List[State],
         areas: List[AreaEntry],
+        timers: List[Timer],
         language_sentences: Intents,
         language_responses: dict[str, Any],
     ) -> None:
@@ -203,6 +223,7 @@ def gen_test(test_file_stem: str) -> None:
             slot_lists,
             states,
             areas,
+            timers,
             language_sentences,
             language_responses,
         )

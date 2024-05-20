@@ -1,0 +1,64 @@
+---
+language: en
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set timer = None %}
+        {% if num_timers == 0: %}
+        No timers
+        {% elif num_timers == 1: %}
+        {% set timer = slots.timers[0] %}
+        {% else: %}
+        {% set sorted_timers = slots.timers | sort(attribute='total_seconds_left') %}
+        {% set timer = sorted_timers[0] %}
+        {{ num_timers }} timers running.
+        {% endif %}
+
+        {% if timer: %}
+        {% if (timer.rounded_hours_left == 1) and (timer.rounded_minutes_left > 0): %}
+        1 hour and {{ timer.rounded_minutes_left }} minutes
+        {% elif (timer.rounded_hours_left == 1): %}
+        1 hour
+        {% elif (timer.rounded_hours_left > 1) and (timer.rounded_minutes_left > 0): %}
+        {{ timer.rounded_hours_left }} hours and {{ timer.rounded_minutes_left }} minutes
+        {% elif (timer.rounded_hours_left > 1): %}
+        {{ timer.rounded_hours_left }} hours
+        {% elif (timer.rounded_minutes_left == 1) and (timer.rounded_seconds_left > 0): %}
+        1 minute and {{ timer.rounded_seconds_left }} seconds
+        {% elif (timer.rounded_minutes_left == 1): %}
+        1 minute
+        {% elif (timer.rounded_minutes_left > 1) and (timer.rounded_seconds_left > 0): %}
+        {{ timer.rounded_minutes_left }} minutes and {{ timer.rounded_seconds_left }} seconds
+        {% elif (timer.rounded_minutes_left > 1): %}
+        {{ timer.rounded_minutes_left }} minutes
+        {% elif (timer.rounded_seconds_left == 1): %}
+        1 second
+        {% elif (timer.rounded_seconds_left > 1): %}
+        {{ timer.rounded_seconds_left }} seconds
+        {% endif %}
+
+        {% if num_timers == 1: %}
+        left.
+        {% elif num_timers > 1: %}
+        left on
+        {% if (timer.start_hours > 0) and (timer.start_minutes > 0): %}
+        {{ timer.start_hours }} hour and {{ timer.start_minutes }} minute
+        {% elif (timer.start_hours > 0): %}
+        {{ timer.start_hours }} hour
+        {% elif (timer.start_minutes > 0) and (timer.start_seconds > 0): %}
+        {{ timer.start_minutes }} minute and {{ timer.start_seconds }} second
+        {% elif (timer.start_minutes > 0): %}
+        {{ timer.start_minutes }} minute
+        {% elif (timer.start_seconds > 0): %}
+        {{ timer.start_seconds }} second
+        {% endif %}
+
+        {% if timer.name: %}
+        {{ timer.name }}
+        {% endif %}
+
+        timer.
+        {% endif %}
+        {% endif %}
