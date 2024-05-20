@@ -252,7 +252,9 @@ TESTS_FIXTURES = vol.Schema(
         ],
         vol.Optional("timers"): [
             {
-                vol.Required(vol.Any("start_hours", "start_minutes", "start_seconds")): int,
+                vol.Required(
+                    vol.Any("start_hours", "start_minutes", "start_seconds")
+                ): int,
                 vol.Required("total_seconds_left"): int,
                 vol.Required("rounded_hours_left"): int,
                 vol.Required("rounded_minutes_left"): int,

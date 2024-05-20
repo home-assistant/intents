@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 import sys
-from typing import Any, List, Optional
+from typing import Any, List
 
 import pytest
 from hassil import Intents, recognize
-from hassil.recognize import RecognizeResult
 from hassil.intents import SlotList
 from hassil.util import normalize_whitespace
 from jinja2 import BaseLoader, Environment
@@ -15,6 +14,7 @@ from jinja2 import BaseLoader, Environment
 from shared import (
     AreaEntry,
     State,
+    Timer,
     get_areas,
     get_matched_states,
     get_matched_timers,
@@ -22,7 +22,6 @@ from shared import (
     get_states,
     get_timers,
     render_response,
-    Timer,
 )
 
 from . import TESTS_DIR, get_test_path, load_test
