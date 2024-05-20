@@ -1,0 +1,261 @@
+language: cs
+tests:
+  # Door
+  - sentences:
+      - "jsou dveře na zahradu otevřené?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "dveře na zahradu"
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "jsou Garážová vrata zavřená?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Garážová vrata"
+        state: "off"
+    response: "Ano"
+
+  # Moisture
+  - sentences:
+      - "je sensor voda v kuchyni vlhký?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "moisture"
+        name: "voda v kuchyni"
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "je nějaký senzor vlhkosti vlhký?"
+      - "je někde detekován únik vody?"
+      - "je někde záplava?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "je Kuchyně zaplavená?"
+      - "je voda v Kuchyni"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+        area:
+          - "Kuchyně"
+          - "Kuchyni"
+    response: "Ne"
+
+  - sentences:
+      - "které sensory vlhkosti jsou vlhký?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik sensorů vlhkosti je vlhkých?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "on"
+    response: "0"
+
+  # Motion
+  - sentences:
+      - "je na senzoru Garáž detekován pohyb?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Garáž"
+        domain: "binary_sensor"
+        device_class: "motion"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "jsou některé sensory pohybu ve stavu detekován?"
+      - "byl detekován nějaký pohyb?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "Ano, Garáž"
+
+  - sentences:
+      - "jsou všechny detektory pohybu ve stavu detekován?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "které detektory pohybu jsou ve stavu detekován?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "Garáž"
+
+  - sentences:
+      - "kolik detektorů pohybu je ve stavu detekován?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: motion
+        state: "on"
+    response: "1"
+
+  # Occupancy
+  - sentences:
+      - "detekuje senzor Kuchyně přítomnost?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "occupancy"
+        name: "Kuchyně"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "jsou některé senzory obsazenosti ve stavu přítomný?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+    response: "Ano, Kuchyně"
+
+  - sentences:
+      - "Je někde detekována přítomnost?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+    response: "Ano, Kuchyně"
+
+  - sentences:
+      - "jsou všechny senzory obsazenosti ve stavu přítomný?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "které senzory obsazenosti jsou ve stavu přítomný?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+    response: "Kuchyně"
+
+  - sentences:
+      - "kolik senzorů obsazenosti je ve stavu přítomný?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: occupancy
+        state: "on"
+    response: "1"
+
+  # Opening
+  - sentences:
+      - "jsou vchodové dveře otevřeny?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "opening"
+        name: "vchodové dveře"
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "je někde otevřeno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: opening
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "je všude zavřeno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: opening
+        state: "off"
+    response: "Ano"
+
+  - sentences:
+      - "kde je otevřeno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: opening
+        state: "on"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik dveří je otevřených?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: opening
+        state: "on"
+    response: "0"
+
+  # Window
+  - sentences:
+      - "Je okno v pracovně otevřené?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "okno v pracovně"
+        state: "on"
+    response: "Ano"

@@ -1,0 +1,49 @@
+language: vi
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<name> [đang] <where_is>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          # - "<name> có [đang] [ở] [trong] {zone:state} không"
+          - "<name> [có] [đang] [hiện tại] [trong] {zone:state} không"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          # - "có ai [đang] [ở] [trong] {zone:state}  không"
+          - có ai [đang] [trong] {zone:state} không
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "[tất cả] mọi người [có] [đều] [đang] [trong] {zone:state}không"
+          # - "mọi người [đều] [đang] [ở] [trong] {zone:state} không"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "[có] [những] ai [đang] [trong] {zone:state} (vậy|thế)"
+          # - "ai đang [ở] [trong] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "có bao nhiêu người [đang] [trong] {zone:state} (vậy|thế)"
+          # - "có bao nhiêu người đang [ở] [trong] {zone:state}"
+        response: how_many
+        slots:
+          domain: person

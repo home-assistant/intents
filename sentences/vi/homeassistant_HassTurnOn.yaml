@@ -3,10 +3,17 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - bật <name>
-      - sentences:
-          - mở <name>
-        response: cover
-      - sentences:
-          - mở <name> trong <area>
-        response: cover_area
+          - "<turn> (<area> <name>|<name> [[trong|của|ở|tại] <area>])"
+          - "[<turn>] (<area> <name>|<name> [[trong|của|ở|tại] <area>]) thành bật"
+          - "kích hoạt (<area> <name>|<name> [[trong|của|ở|tại] <area>])"
+          - "[<turn>] <name> [[trong|của|ở|tại] <area>] [thành|sang] bật"
+
+        excludes_context:
+          domain:
+            - binary_sensor
+            - cover
+            - lock
+            - scene
+            - script
+            - sensor
+            - valve

@@ -6,22 +6,51 @@ tests:
       - Éteins les lumières dans la cuisine
       - Éteins toutes les lumières dans la cuisine
       - Désactiver la lumière de la cuisine
+      - Éteins la cuisine
+      - Éteins toutes les lumières de la cuisine
+
     intent:
       name: HassTurnOff
       slots:
         area: cuisine
         domain: light
-    response: Lumières éteintes
+    response: Éteint
 
   - sentences:
       - Éteins toutes les lumières
       - Éteins les lumières partout
+      - Éteins les lumières de partout
       - Éteindre la lumière partout
       - Désactiver toutes les lumières
     intent:
       name: HassTurnOff
       slots:
         domain: light
-        area: all
-        name: all
-    response: Lumières éteintes
+    response: Éteint
+
+  - sentences:
+      - "Eteins toutes les lumières ici"
+      - "Eteins les lumières"
+      - "Eteins la lumière dans cette pièce"
+      - "Eteindre la lumière ici"
+      - "Nuit"
+      - "Nuits"
+    intent:
+      name: HassTurnOff
+      context:
+        area: Living Room
+      slots:
+        domain: light
+        area: Living Room
+    response: "Éteint"
+
+  - sentences:
+      - "Éteindre la lumière du rez-de-chaussée"
+      - "Éteins la lumière au rez-de-chaussée"
+      - "Éteindre le rez-de-chaussée"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        floor: Rez-De-Chaussée
+    response: "Éteint"

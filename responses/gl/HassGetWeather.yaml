@@ -1,0 +1,24 @@
+language: gl
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'Despexado',
+          'clear-night': 'Noite despexada',
+          'cloudy': 'Anubrado',
+          'exceptional': 'Condicións excepcionalmente adversas',
+          'fog': 'Néboa',
+          'hail': 'Sarabia',
+          'lightning': 'Lóstregos',
+          'lightning-rainy': 'Chuvia e lóstregos',
+          'partlycloudy': 'Ceo parcialmente anubrado',
+          'pouring': 'Ballón',
+          'rainy': 'Chuvia',
+          'snowy': 'Neve',
+          'snowy-rainy': 'Chuvia e neve',
+          'sunny': 'Sol',
+          'windy': 'Vento',
+          'windy-variant': 'Vento e ceo anubrado'
+        } %}
+         {{ weather_condition.get((state.state | string).lower(), "") }}, con {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} de temperatura

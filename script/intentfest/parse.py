@@ -1,4 +1,5 @@
 """Parse sentences using language intent files."""
+
 from __future__ import annotations
 
 import argparse
@@ -40,6 +41,14 @@ def get_arguments() -> argparse.Namespace:
         type=str,
         help="Sentence(s) to parse",
     )
+    parser.add_argument(
+        "--context",
+        action="append",
+        nargs=2,
+        default=[],
+        metavar=("key", "value"),
+        help="Add key/value pair to context",
+    )
     return parser.parse_args()
 
 
@@ -68,9 +77,13 @@ def run() -> int:
         load_merged_responses(args.language).get("responses", {}).get("intents", {})
     )
 
+    intent_context = dict(args.context)
+
     # Parse sentences
     for sentence in args.sentence:
-        result = recognize(sentence, intents, slot_lists=slot_lists)
+        result = recognize(
+            sentence, intents, slot_lists=slot_lists, intent_context=intent_context
+        )
         output_dict = {"text": sentence, "match": result is not None}
         if result is not None:
             output_dict["intent"] = result.intent.name

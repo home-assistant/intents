@@ -1,4 +1,5 @@
 """Validate all intent files."""
+
 from __future__ import annotations
 
 import argparse
@@ -109,11 +110,30 @@ INTENTS_SCHEMA = vol.Schema(
 
 INTENT_ERRORS = {
     "no_intent",
-    "no_area",
-    "no_domain",
-    "no_device_class",
-    "no_entity",
     "handle_error",
+    "no_area",
+    "no_floor",
+    "no_domain",
+    "no_domain_in_area",
+    "no_domain_in_floor",
+    "no_device_class",
+    "no_device_class_in_area",
+    "no_device_class_in_floor",
+    "no_entity",
+    "no_entity_in_area",
+    "no_entity_in_floor",
+    "no_entity_exposed",
+    "no_entity_in_area_exposed",
+    "no_entity_in_floor_exposed",
+    "no_domain_exposed",
+    "no_domain_in_area_exposed",
+    "no_domain_in_floor_exposed",
+    "no_device_class_exposed",
+    "no_device_class_in_area_exposed",
+    "no_device_class_in_floor_exposed",
+    "duplicate_entities",
+    "duplicate_entities_in_area",
+    "duplicate_entities_in_floor",
 }
 
 SENTENCE_MATCHER = vol.All(
@@ -212,6 +232,7 @@ TESTS_FIXTURES = vol.Schema(
             {
                 vol.Required("name"): str,
                 vol.Required("id"): str,
+                vol.Optional("floor"): str,
             }
         ],
         vol.Optional("entities"): [
@@ -335,7 +356,7 @@ def _load_yaml_file(
     """Load a YAML file."""
     path = str(file_path.relative_to(ROOT))
     try:
-        content = yaml.safe_load(file_path.read_text())
+        content = yaml.safe_load(file_path.read_text(encoding="utf8"))
     except yaml.YAMLError as err:
         errors.append(f"{path}: invalid YAML: {err}")
         return None
@@ -432,7 +453,7 @@ def validate_language(
                 area = entity.get("area")
                 if (area is not None) and (area not in area_ids):
                     errors.append(
-                        f"{path}: Entity {entity['name']} references unknown area {entity['id']}"
+                        f"{path}: Entity {entity['name']} references unknown area {entity['area']}"
                     )
             continue
 
@@ -528,6 +549,7 @@ def validate_language(
                                 },
                                 "slots": slots,
                                 "query": {"matched": [], "unmatched": []},
+                                "state_attr": lambda *args: None,
                             }
                         )
                     except jinja2.exceptions.TemplateError as err:

@@ -6,42 +6,47 @@ intents:
           - "<lock> <name> [<area>]"
         requires_context:
           domain: lock
-        response: lock_lock_door
-
-      - sentences:
-          - "<close> <name> [<area>]"
-        requires_context:
-          domain: lock
-        response: lock_close_door
+        response: "lock_lock_door"
 
       - sentences:
           - "<lock> [<all>] drzwi <area>"
           - "<lock> <area> [<all>] drzwi"
+          - "<area> <lock> [<all>] drzwi"
         slots:
-          domain: "lock"
-          name: "all"
-        response: lock_lock_door
+          name: all
+          domain: lock
+        response: "lock_lock_door"
 
       - sentences:
           - "<lock> [<all>] zamki <area>"
           - "<lock> <area> [<all>] zamki"
+          - "<area> <lock> [<all>] zamki"
         slots:
-          domain: "lock"
-          name: "all"
-        response: lock_lock_lock
+          name: all
+          domain: lock
+        response: "lock_lock_lock"
 
-      - sentences:
-          - "<close> [<all>] drzwi <area>"
-          - "<close> <area> [<all>] drzwi"
-        slots:
-          domain: "lock"
-          name: "all"
-        response: lock_close_door
+      # TODO: Problem with using the same phrase with cover.door
+      # - sentences:
+      #     - "<close> <name> [<area>]"
+      #   requires_context:
+      #     domain: lock
+      #   response: "lock_close_door"
+
+      # - sentences:
+      #     - "<close> [<all>] drzwi <area>"
+      #     - "<close> <area> [<all>] drzwi"
+      #     - "<area> <close> [<all>] drzwi"
+      #   slots:
+      #     domain: lock
+      #     name: all
+      #   response: "lock_close_door"
 
       - sentences:
           - "<close> [<all>] zamki <area>"
           - "<close> <area> [<all>] zamki"
+          - "<area> <close> [<all>] zamki"
         slots:
-          domain: "lock"
-          name: "all"
-        response: lock_close_lock
+          name: all
+          domain: lock
+        response: "lock_close_lock"

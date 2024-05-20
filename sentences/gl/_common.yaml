@@ -3,8 +3,8 @@ responses:
   errors:
     no_intent: Síntoo, non che entendín
     no_area: Non existe ningunha área chamada {{ area }}
-    no_domain: "{{ area }} non ten {{ domain }}"
-    no_device_class: "{{ area }} non ten {{ device_class }}"
+    no_domain_in_area: "{{ area }} non ten {{ domain }}"
+    no_device_class_in_area: "{{ area }} non ten {{ device_class }}"
     no_entity: Non existe dispositivo ou entidade chamado {{ entity }}
     handle_error: Un erro inesperado ocurreu intentando procesar a instrucción
 lists:
@@ -33,6 +33,22 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  on_off_states:
+    values:
+      - in: "(acendido|acendida|acendidos|acendidas)"
+        out: "on"
+      - in: "(apagado|apagada|apagados|apagadas)"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: (luz|luces|lámpada|lámpadas)
+        out: light
+      - in: (ventilador|ventiladores)
+        out: fan
+      - in: (interrutor|interrutores)
+        out: switch
+  shopping_list_item:
+    wildcard: true
   temperature:
     range:
       type: "temperature"
@@ -47,14 +63,28 @@ lists:
       - in: "f"
         out: "fahrenheit"
 expansion_rules:
-  name: "[o | a] {name}"
+  nome: "[o | a | os | as] {name}"
+  algun: "(algún|algunha|algúns|algunhas)"
   area: "[en | no | na | de | do | da] {area}"
   brightness: "{brightness}[%| porcento]"
+  cal: "(que|cal|cales)"
+  esta: "(está|están|existe|existen|hai)"
   acende: "(acende | activa)"
+  engadir: "(engada | engade)"
+  por: "(por | pol(o|a)[s])"
+  poñer: "(poña | pon | meta | mete)"
   temp: "[a] (temperatura)"
   temperature: "{temperature} [graos] [{temperature_unit}]"
+  todos: "(todos|todas|tódolos|tódalas)"
+  que_marca: "([que] (marca|indica|mide) | (indicad|medid|marcad)(a|o) <por> |[que] está (a (indicar | medir | marcar)|(indicando|medindo|marcando)))"
+  cal_e_a_medida_do_sensor: "(<cal> [é (a|o)] [(cantidade|medida)|nivel (de|da|do)] | cant(o|a)[s]) <class> (de|do|da|en|no|na|dende|<que_marca>) <nome> [<area>]"
 skip_words:
   - "por favor"
   - "gracias"
   - "grazas"
   - "graciñas"
+  - "podes"
+  - "podería"
+  - "poderías"
+  - "dime"
+  - "dígame"

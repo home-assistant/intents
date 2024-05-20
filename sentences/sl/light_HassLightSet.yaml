@@ -1,5 +1,51 @@
-language: sl
+language: "sl"
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      # brightness
+      - sentences:
+          - "[<numeric_value_set>] <name> [na] <brightness> [svetlosti]"
+
+        response: "brightness"
+        requires_context:
+          domain: light
+
+      - sentences:
+          - "[<numeric_value_set>] svetlost [v|na] <area> [na] <brightness>"
+          - "[<numeric_value_set>] svetlost [na] <brightness>"
+          - "[<numeric_value_set>] [v|na] <area> [na] <brightness>"
+        slots:
+          name: "all"
+        response: "brightness"
+
+      # Max/Min brightness
+      - sentences:
+          - "[<numeric_value_set>] <name> [na] {brightness_level:brightness} [svetlost]"
+          - "[<numeric_value_set>] [svetlost] <name> [na] {brightness_level:brightness} [svetlost]"
+        requires_context:
+          domain: light
+        response: "brightness"
+
+      - sentences:
+          - "[<numeric_value_set>] svetlost [v|na] <area> [na] {brightness_level:brightness}"
+          - "[<numeric_value_set>] [svetlost] [v|na] <area> [na] {brightness_level:brightness} [svetlost]"
+          - "{brightness_level:brightness} [svetlost] [v|na] <area>"
+        slots:
+          name: "all"
+        response: "brightness"
+
+      # color
+      - sentences:
+          - "[<set>] [barvo] <name> [na] {color} [barvo]"
+          - "[<set>] {color} <name>"
+        requires_context:
+          domain: light
+        response: "color"
+      - sentences:
+          - "[<set>] [barvo] [v|na] <area> [na|v] {color} [barvo]"
+          - "[<set>] [barvo] [<luč>] [vs[o|eh|e]] [<luč>] [v|na] <area> [na|v] {color} [barvo]"
+          - "[<set>] {color} [<luč>] [v|na] <area>"
+          - "[<set>] [v|na] <area> [na|v] {color} [barvo]"
+        slots:
+          name: "all"
+        response: "color"
