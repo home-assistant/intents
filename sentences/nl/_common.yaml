@@ -26,6 +26,11 @@ responses:
     duplicate_entities: "Sorry, er zijn meerdere apparaten met de naam {{ entity }}"
     duplicate_entities_in_area: "Sorry, er zijn meerdere apparaten met de naam {{ entity }} in {{ area }}"
 
+    # Errors for timers
+    timer_not_found: "Sorry, ik kan die timer niet vinden"
+    multiple_timers_matched: "Sorry, dit werkt niet op meerdere timers tegelijk"
+    no_timer_support: "Sorry, timers zijn niet ondersteund op dit apparaat"
+
 lists:
   brightness:
     range:
@@ -343,6 +348,21 @@ lists:
       from: 0
       to: 100
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_name:
+    wildcard: true
+
 expansion_rules:
   # generic expansion rules for sentences
   name: "[de|het] {name}"
@@ -420,6 +440,19 @@ expansion_rules:
       |<what_is> <name>[[']s] [gemeten] <class> [in <area>]
       |<what_is> <area>[ ]<name>[s] [gemeten] <class>
     )
+
+  # Timers
+  timer_set: "(start|zet|maak)"
+  timer_cancel: "(annuleer|stop)"
+  timer_duration_seconds: &sec "{timer_seconds:seconds} seconde[s|n]"
+  timer_duration_minutes: &min "{timer_minutes:minutes} (minuut|minuten)[ [en ]{timer_seconds:seconds} seconde[s|n]]"
+  timer_duration_hours: &hr "{timer_hours:hours} (uur|uren)[ [en ]{timer_minutes:minutes} (minuut|minuten)][ [en ]{timer_seconds:seconds} seconde[s|n]]"
+  timer_duration: &dur "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: *sec
+  timer_start_minutes: *min
+  timer_start_hours: *hr
+  timer_start: *dur
 
 skip_words:
   - "alstublieft"
