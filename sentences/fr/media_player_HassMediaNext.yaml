@@ -2,10 +2,32 @@ language: fr
 intents:
   HassMediaNext:
     data:
+      # name
       - sentences:
           # Chanson suivante sur la TV
           - "<media> suivant[e] sur [<le>]{name}"
           # Passe au morceau suivant sur la TV
-          - "<mets> (<le>|au|à la) <media> suivant[e] [sur] [<le>]{name}"
+          - "<mets> (<le>|au |à la )<media> suivant[e] [sur] [<le>]{name}"
         requires_context:
           domain: media_player
+
+      # Area (Context awarenes)
+      - sentences:
+          # Suivant
+          - "suivant[e]"
+          # Chansion suivante
+          - "<media> suivant[e]"
+          # Mets l'épisode suivant
+          - "<mets> (<le>|au |à la )<media> suivant[e]"
+        requires_context:
+          area:
+            slot: true
+
+      # Area
+      - sentences:
+          # Suivant dans le salon
+          - "suivant[e] <dans> [<le>]{area}"
+          # Chansion suivante dans le salon
+          - "<media> suivant[e] <dans> [<le>]{area}"
+          # Mets l'episode suivant dans le bureau
+          - "<mets> (<le>|au |à la )<media> suivant[e] <dans> [<le>]{area}"

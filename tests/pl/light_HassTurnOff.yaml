@@ -1,24 +1,105 @@
 language: pl
 tests:
   - sentences:
-      - Zgaś światła w kuchni
-      - Zgaś wszystkie światła w kuchni
-      - Wyłącz światło w kuchni
+      - "Wyłącz lampę główną"
+      - "Zgaś lampę główną"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: light
+      slots:
+        name:
+          - "Lampa główna"
+          - "Lampę główną"
+    response: "Wyłączono światło"
+
+  - sentences:
+      - "Wyłącz lampę główną w korytarzu"
+      - "Zgaś w korytarzu lampę główną"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: light
+      slots:
+        name:
+          - "Lampa główna"
+          - "Lampę główną"
+        area:
+          - "Korytarz"
+          - "Korytarzu"
+          - "Hol"
+          - "Holu"
+    response: "Wyłączono światło w korytarzu"
+
+  - sentences:
+      - "Zgaś światła w kuchni"
+      - "Zgaś wszystkie światła w kuchni"
+      - "Wyłącz wszystkie światła w kuchni"
+      - "Wyłącz oświetlenie w kuchni"
+      - "Wyłącz wszystkie lampy w kuchni"
+      - "Wyłącz światło w kuchni"
+      - "Wyłącz żarówki w kuchni"
+      - "Zgaś w kuchni wszystkie światła"
+      - "Zgaś w kuchni oświetlenie"
+      - "Zgaś w kuchni wszystkie lampy"
+      - "Zgaś w kuchni żarówki"
     intent:
       name: HassTurnOff
       slots:
-        area:
-          - Kuchnia
-          - Kuchni
         domain: light
-    response: Wyłączono światło w kuchni
+        area:
+          - "Kuchnia"
+          - "Kuchni"
+    response: "Wyłączono światła w kuchni"
 
   - sentences:
-      - Wyłącz światła
-      - Wyłącz wszystkie światła
+      - "Zgaś wszystkie lampy"
+      - "Zgaś całe oświetlenie"
+      - "Wyłącz wszystkie żarówki"
+      - "Wyłącz wszystkie światła"
+      - "Wyłącz światła"
     intent:
       name: HassTurnOff
       slots:
         name: all
         domain: light
-    response: Wyłączono wszystkie światła
+    response: "Wyłączono wszystkie światła"
+
+  - sentences:
+      - "Zgaś tutaj lampę"
+      - "Wyłącz tutaj oświetlenie"
+      - "Zgaś wszystkie lampy tutaj"
+      - "Wyłącz oświetlenie w tym pokoju"
+      - "Zgaś lampy w tym pomieszczeniu"
+    intent:
+      name: HassTurnOff
+      context:
+        area: "Korytarzu"
+      slots:
+        domain: "light"
+        area:
+          - "Korytarz"
+          - "Korytarzu"
+          - "Hol"
+          - "Holu"
+    response: "Wyłączono światła w korytarzu"
+
+  # TODO: How to say: "turn off main light here", where 'main light' is the name of some ligth
+  # - sentences:
+  #     - "Wyłącz tutaj lampę główną"
+  #     - "Wyłącz lampę główną w tym pokoju"
+  #   intent:
+  #     name: HassTurnOff
+  #     context:
+  #       area: Korytarzu
+  #     slots:
+  #       domain: light
+  #       name:
+  #         - Lampa główna
+  #         - Lampę główną
+  #       area:
+  #         - Korytarz
+  #         - Korytarzu
+  #         - Hol
+  #         - Holu
+  #   response: "Wyłączono światła w korytarzu"

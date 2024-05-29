@@ -1,39 +1,87 @@
 language: pl
 tests:
   - sentences:
-      - Uruchom wentylator w salonie
-      - Uruchom w salonie wentylator
+      - "Uruchom wentylator w salonie"
+      - "Uruchom w salonie wiatrak"
     intent:
       name: HassTurnOn
       slots:
         area:
-          - Salonie
-          - Salonu
-          - Salon
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
         domain: fan
         name: all
-    response: Włączono wentylator w salonie
+    response: "Włączono wentylator w salonie"
 
   - sentences:
-      - Włącz wszystkie wentylatory w salonie
-      - Uruchom w salonie wszystkie wentylatory
-      - Włącz wentylatory w salonie
+      - "Włącz wentylatory w salonie"
+      - "Włącz wszystkie wentylatory w salonie"
+      - "Uruchom w salonie wszystkie wiatraki"
+      - "Uruchom w salonie wiatraki"
     intent:
       name: HassTurnOn
       slots:
         area:
-          - Salonie
-          - Salonu
-          - Salon
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
         domain: fan
         name: all
-    response: Włączono wentylatory w salonie
+    response: "Włączono wentylatory w salonie"
 
   - sentences:
-      - Włącz wszystkie wentylatory
+      - "Włącz wszystkie wentylatory"
+      - "Włącz wszystkie wiatraki"
     intent:
       name: HassTurnOn
       slots:
         domain: fan
         name: all
-    response: Włączono wszystkie wentylatory
+    response: "Włączono wszystkie wentylatory"
+
+  - sentences:
+      - "Włącz wentylator"
+      - "Włącz tutaj wentylator"
+      - "Włącz wiatrak w tym miejscu"
+    intent:
+      name: HassTurnOn
+      context:
+        area: "Salonie"
+      slots:
+        domain: fan
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Włączono wentylator w salonie"
+
+  - sentences:
+      - "Włącz tutaj wentylatory"
+      - "Włącz wiatraki w tym pokoju"
+    intent:
+      name: HassTurnOn
+      context:
+        area: "Salonie"
+      slots:
+        domain: fan
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Włączono wentylatory w salonie"
+
+  - sentences:
+      - "Włącz tutaj wszystkie wentylatory"
+      - "Włącz wszystkie wiatraki w tym pomieszczeniu"
+    intent:
+      name: HassTurnOn
+      context:
+        area: "Salon"
+      slots:
+        domain: fan
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Włączono wszystkie wentylatory"
