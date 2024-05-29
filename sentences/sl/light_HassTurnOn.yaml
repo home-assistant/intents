@@ -2,7 +2,42 @@ language: sl
 intents:
   HassTurnOn:
     data:
-      - sentences: []
+      - sentences:
+          - "<vključi> [vs[a|e|o]] <light_devices> [[v|na] <area>]"
+          - "<prižgi> [vs[a|e|o]] <light_devices> [[v|na] <area>]"
+          - "<vključi> [vs[a|e|o]] <light_devices> [[v|na] <area>]"
+          - "<vključi> [vs[a|e|o]] [razsvetljavo] [[v|na] <area>]"
+        expansion_rules:
+          light_devices: "([luč[i]]|[svetil[a|ke|ko|i]]|[razsvetljav[a|e|o]]|stikal[a|o] [za] [luč[i|ke|ko]])"
+        requires_context:
+          domain: "light"
+
+      - sentences:
+          - "<vključi> [vs[a|e|o]] <luč> [v|na] <area>"
+          - "<vključi> [vs[a|e|o]] <area> <luč>"
+          - "<vklopi> [vs[a|e|o]] <luč> [v|na] <area>"
+          - "<prižgi> [vs[a|e|o]] <luč> [v|na] <area>"
         slots:
-          domain: light
-          name: all
+          domain: "light"
+        response: "lights_area"
+
+      # Turn on all lights in the same area as a satellite device
+      - sentences:
+          - "<vključi> [vse] luči <in_here>"
+        response: "lights_area"
+        expansion_rules:
+          in_here: "[[ v] tu[kaj]]|[v [tem] prostoru]"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
+
+      # Turn on all lights on a floor
+      - sentences:
+          - "<vključi> [vse] luči (v|na) <floor>"
+          - "<vklopi> [vse] luči (v|na) <floor>"
+          - "<prižgi> [vse] luči (v|na) <floor>"
+        response: "lights_floor"
+        slots:
+          domain: "light"

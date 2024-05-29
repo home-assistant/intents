@@ -1,0 +1,36 @@
+language: ko
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "[<area>] <name> [상태] (<what_is>|어때|말해줘|알려줘|알아)"
+          - "[<area>] <name> 상태[는] [<what_is>]"
+          - "[<area>] <name>[는|은] (<what_is>|어때|말해줘|알려줘|알아)"
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+      - sentences:
+          - "[<area>] <name> [상태가] {on_off_states:state}있어"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "[<area>에] {on_off_domains:domain}(가|이) {on_off_states:state}있어"
+          - "[<area>에] {on_off_domains:domain}(가|이) {on_off_states:state}있는지 (알아|알려줘|말해줘)"
+        response: any
+
+      - sentences:
+          - "[<area>에] 모든 {on_off_domains:domain}(가|이) {on_off_states:state}있어"
+        response: all
+
+      - sentences:
+          - "[<area>에] (어떤|무슨) {on_off_domains:domain}(가|이) {on_off_states:state}있는지 (알아|알려줘|말해줘)"
+        response: which
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 {on_off_domains:domain}(가|이) {on_off_states:state}있는지 (알아|알려줘|말해줘)"
+        response: how_many

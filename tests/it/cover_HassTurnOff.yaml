@@ -1,46 +1,87 @@
-language: it
+language: "it"
 tests:
   - sentences:
       - "chiudi la tapparella"
+      - "chiudi tapparella"
     intent:
-      name: HassTurnOff
+      name: "HassTurnOff"
       slots:
         name: "Tapparella"
       context:
-        domain: cover
-        device_class: curtain
+        domain: "cover"
+        device_class: "curtain"
+    response: "Ho chiuso tapparella"
+
   - sentences:
-      - "abbassa la tapparella del soggiorno"
+      - "chiudi tutto"
+      - "chiudi tutta la casa"
     intent:
-      name: HassTurnOff
+      name: "HassTurnOff"
+      slots:
+        domain: "cover"
+    response: "Ho chiuso tutto"
+
+  - sentences:
+      - "chiudi tutto il soggiorno"
+    intent:
+      name: "HassTurnOff"
       slots:
         area: "Soggiorno"
-        name: "Tapparella"
+        domain: "cover"
+    response: "Ho chiuso tutto in soggiorno"
+
+  - sentences:
+      - "chiudi tutte le tende"
+    intent:
+      name: "HassTurnOff"
+      slots:
+        device_class: "curtain"
+        domain: "cover"
+    response: "Ho chiuso tutte le tende"
+
+  - sentences:
+      - "chiudi oscurante in cucina"
+      - "abbassa oscurante cucina"
+    intent:
+      name: "HassTurnOff"
+      slots:
+        area: "Cucina"
+        device_class: "blind"
       context:
-        domain: cover
-        device_class: curtain
-    response: "Ho chiuso tapparella"
+        domain: "cover"
+
+  - sentences:
+      - "chiudi tutte le tapparelle in soggiorno"
+      - "abbassa tapparelle soggiorno"
+      - "abbassa in soggiorno le tapparelle"
+      - "chiudi soggiorno tutte le tapparelle"
+    intent:
+      name: "HassTurnOff"
+      slots:
+        area: "Soggiorno"
+        device_class: "shutter"
+      context:
+        domain: "cover"
+    response: "Ho chiuso le tapparelle in soggiorno"
   - sentences:
       - "chiudi la porta del garage"
       - "chiudi la serranda del garage"
       - "abbassa in garage la saracinesca"
     intent:
-      name: HassTurnOff
+      name: "HassTurnOff"
       slots:
-        device_class: garage
-        domain: cover
-    response: "Ho chiuso garage"
+        device_class: "garage"
+        domain: "cover"
+    response: "Ho chiuso il garage"
   - sentences:
-      - "chiudi le tapparelle in cucina"
-      - "abbassa le tende in cucina"
-      - "chiudi cucina tapparelle"
+      - "chiudi tapparelle"
+      - "abbassa la tapparelle in questa stanza"
     intent:
       name: HassTurnOff
+      context:
+        area: Soggiorno
       slots:
-        area: "Cucina"
-        device_class:
-          - blind
-          - curtain
-          - shutter
-        domain: cover
-    response: "Chiuse in cucina"
+        area: "Soggiorno"
+        domain: "cover"
+        device_class: "shutter"
+    response: "Ho chiuso le tapparelle in Soggiorno"

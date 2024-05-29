@@ -1,8 +1,8 @@
 """Test language sentences."""
+
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 from typing import Any, List
 
 import pytest
@@ -14,10 +14,13 @@ from jinja2 import BaseLoader, Environment
 from shared import (
     AreaEntry,
     State,
+    Timer,
     get_areas,
     get_matched_states,
+    get_matched_timers,
     get_slot_lists,
     get_states,
+    get_timers,
     render_response,
 )
 
@@ -45,6 +48,13 @@ def areas_fixture(language: str) -> List[AreaEntry]:
     return get_areas(fixtures)
 
 
+@pytest.fixture(name="timers", scope="session")
+def timers_fixture(language: str) -> List[Timer]:
+    """Loads test timers for the language."""
+    fixtures = load_test(language, "_fixtures")
+    return get_timers(fixtures)
+
+
 def do_test_language_sentences_file(
     language: str,
     test_file: str,
@@ -52,6 +62,7 @@ def do_test_language_sentences_file(
     slot_lists: dict[str, SlotList],
     states: List[State],
     areas: List[AreaEntry],
+    timers: List[Timer],
     language_sentences: Intents,
     language_responses: dict[str, Any],
 ) -> None:
@@ -89,9 +100,11 @@ def do_test_language_sentences_file(
         expected_response_texts = test.get("response")
         if expected_response_texts:
             if isinstance(expected_response_texts, str):
-                expected_response_texts = {expected_response_texts}
+                expected_response_texts = {expected_response_texts.strip()}
             else:
-                expected_response_texts = set(expected_response_texts)
+                expected_response_texts = set(
+                    t.strip() for t in expected_response_texts
+                )
 
         for sentence in test["sentences"]:
             assert (
@@ -111,7 +124,7 @@ def do_test_language_sentences_file(
             ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
 
             matched_slots = {slot.name: slot.value for slot in result.entities.values()}
-            actual_slots = intent.get("slots", {})
+            actual_slots = intent.get("slots") or {}
 
             # Check for all match slots
             for match_name, match_value in matched_slots.items():
@@ -176,7 +189,12 @@ def do_test_language_sentences_file(
 
                 matched, unmatched = get_matched_states(states, areas, result)
                 actual_response_text = render_response(
-                    response_template_str, result, matched, unmatched, env=template_env
+                    response_template_str,
+                    result,
+                    matched,
+                    unmatched,
+                    env=template_env,
+                    timers=get_matched_timers(timers, result),
                 )
                 actual_response_text = normalize_whitespace(
                     actual_response_text
@@ -186,37 +204,42 @@ def do_test_language_sentences_file(
                 ), f"Incorrect response for: {sentence}"
 
 
-def gen_test(test_file: Path) -> None:
+def gen_test(test_file_stem: str) -> None:
     def test_func(
         language: str,
         intent_schemas: dict[str, Any],
         slot_lists: dict[str, SlotList],
         states: List[State],
         areas: List[AreaEntry],
+        timers: List[Timer],
         language_sentences: Intents,
         language_responses: dict[str, Any],
     ) -> None:
         do_test_language_sentences_file(
             language,
-            test_file.stem,
+            test_file_stem,
             intent_schemas,
             slot_lists,
             states,
             areas,
+            timers,
             language_sentences,
             language_responses,
         )
 
-    test_func.__name__ = f"test_{test_file.stem}"
+    test_func.__name__ = f"test_{test_file_stem}"
     setattr(sys.modules[__name__], test_func.__name__, test_func)
 
 
 def gen_tests() -> None:
-    lang_dir = TESTS_DIR / "en"
+    names = {
+        test_file.stem
+        for test_file in TESTS_DIR.glob("*/*.yaml")
+        if test_file.name != "_fixtures.yaml"
+    }
 
-    for test_file in lang_dir.glob("*.yaml"):
-        if test_file.name != "_fixtures.yaml":
-            gen_test(test_file)
+    for name in names:
+        gen_test(name)
 
 
 gen_tests()

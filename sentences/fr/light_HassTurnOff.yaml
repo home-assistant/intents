@@ -2,7 +2,52 @@ language: fr
 intents:
   HassTurnOff:
     data:
+      # name
+      # See intents/sentences/fr/homeassistant_HassTurnOff.yaml
+
+      # area
       - sentences:
-          - "<eteins> [toutes] (<lumiere> | <lumieres>) (dans | du | de) <area>"
+          # Éteindre les lumieres du bureau
+          - "<eteins> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{area}"
+          # Éteint le salon
+          - "<eteins> [<le>]{area}"
         slots:
-          domain: "light"
+          domain: light
+
+      # area + context awareness
+      - sentences:
+          # Éteindre toutes les lumieres ici
+          - "<eteins> [<tous>] [<le>](<lumiere>|<lumieres>) <ici>"
+          # Éteindre les lumieres
+          - "<eteins> [<le>](<lumiere>|<lumieres>)"
+          # Jacouille, éteins les lumieres
+          - (nuit|nuits)
+        slots:
+          domain: light
+        requires_context:
+          area:
+            slot: true
+
+      # name + area
+      # See intents/sentences/fr/homeassistant_HassTurnOff.yaml
+
+      # all
+      - sentences:
+          # Éteindre les lumieres de partout
+          - <eteins> [<le>](<lumiere>|<lumieres>) <partout>
+          # Éteindre toutes lumieres
+          - <eteins> <tous> [<le>]<lumieres>
+        slots:
+          domain: light
+
+      # name + floor
+      # To be done when it's supported in the slot_combinations
+
+      # floor
+      - sentences:
+          # Éteindre les lumieres du premiere étage
+          - "<eteins> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{floor}"
+          # Éteint le rez-de-chaussée
+          - "<eteins> [<le>]{floor}"
+        slots:
+          domain: light

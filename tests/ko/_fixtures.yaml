@@ -1,0 +1,352 @@
+language: ko
+areas:
+  - name: "주방"
+    id: "kitchen"
+
+  - name: "거실"
+    id: "living_room"
+
+  - name: "침실"
+    id: "bedroom"
+
+  - name: "차고"
+    id: "garage"
+
+  - name: "(현관|출입문|현관문)"
+    id: "entrance"
+
+entities:
+  - name: "침실 무드등"
+    id: "light.bedroom_lamp"
+    area: "bedroom"
+    state:
+      in: "꺼짐"
+      out: "off"
+
+  - name: "침실 스위치"
+    id: "switch.bedroom"
+    area: "bedroom"
+    state: "off"
+
+  - name: "주방 스위치"
+    id: "switch.kitchen"
+    area: "kitchen"
+    state:
+      in: "켜짐"
+      out: "on"
+
+  - name: "(주방 조리대 조명|주방 싱크대 조명|주방 조리대 등|주방 싱크대 등|주방 조리대 전등|주방 싱크대 전등)"
+    id: "light.kitchen_countertop"
+    area: "kitchen"
+    state: "on"
+
+  - name: "(주방 천장 조명|주방 천장등|주방 천장 전등)"
+    id: "light.kitchen_ceiling"
+    area: "kitchen"
+    state: "on"
+
+  - name: "(주방 팬트리 조명|주방 팬트리 등|주방 팬트리 전등)"
+    id: "light.kitchen_cabinets"
+    area: "kitchen"
+    state: "on"
+
+  - name: "실링팬"
+    id: "fan.ceiling"
+    area: "living_room"
+    state: "off"
+
+  - name: "왼쪽 커튼"
+    id: "cover.curtain_left"
+    area: "living_room"
+    state:
+      in: "열림"
+      out: "open"
+    attributes:
+      device_class: curtain
+
+  - name: "오른쪽 커튼"
+    id: "cover.curtain_right"
+    area: "living_room"
+    state: "closed"
+    attributes:
+      device_class: curtain
+
+  - name: "침실 커튼"
+    id: "cover.bedroom"
+    area: "bedroom"
+    state: "closed"
+    attributes:
+      device_class: curtain
+
+  - name: "(실외 기온|실외 온도|외부 기온|실외 온도|바깥 온도|외기 온도)"
+    id: "sensor.outside_temperature"
+    area: "garage"
+    state: "42"
+    attributes:
+      unit_of_measurement: "°C"
+
+  - name: "(거실 조명|거실 전등|거실 등|거실 불)"
+    id: "light.living_room_lamp"
+    area: "living_room"
+    state: "on"
+
+  - name: "(차고 조명|차고 전등|차고 등|차고 불)"
+    id: "light.garage"
+    area: "garage"
+    state: "on"
+
+  - name: "(놀이공간 조명|놀이공간 전등|놀이공간 등|놀이공간 불)"
+    id: light.play_corner
+    area: living_room
+    state: "on"
+
+  - name: "(온도 조절기|온도 조절 장치|난방 제어기)"
+    id: "climate.thermostat"
+    area: "living_room"
+    state: "heat"
+    attributes:
+      current_temperature: 20
+
+  - name: "(대문|현관문|현관|출입문)"
+    id: "lock.front_door"
+    area: "entrance"
+    state: "locked"
+
+  - name: "후문"
+    id: "lock.back_door"
+    state: "unlocked"
+
+  - name: "옆문"
+    id: "lock.side_door"
+    state: "locked"
+
+  - name: "파티 모드"
+    id: "scene.party_mode"
+
+  - name: "스텔스 모드"
+    id: "script.stealth_mode"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "휴대폰"
+    id: "binary_sensor.phone_battery"
+    state:
+      in: "배터리 보통"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "휴대폰"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "충전 중"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "일산화탄소 센서"
+    id: "binary_sensor.carbon_monoxide"
+    area: "kitchen"
+    state:
+      in: "감지해제"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "수도관"
+    id: "binary_sensor.computer_cold"
+    state:
+      in: "보통"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "휴대폰"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "(연결됨|연결)"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "애완 동물 문"
+    id: "binary_sensor.pet_door"
+    state:
+      in: "닫힘"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "보조 차고 문"
+    id: "binary_sensor.garage_door"
+    state:
+      in: "(닫힘|닫혀)"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "가스 센서"
+    id: "binary_sensor.gas"
+    area: "kitchen"
+    state:
+      in: "감지해제"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "컴퓨터"
+    id: "binary_sensor.computer_heat"
+    state:
+      in: "(뜨거움|뜨거)"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "표시등"
+    id: "binary_sensor.light"
+    state:
+      in: "꺼짐"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "애완 동물 문"
+    id: "binary_sensor.pet_door_lock"
+    state:
+      in: "잠금 해제"
+      out: "on"
+    attributes:
+      device_class: lock
+
+  - name: "주방 누수 센서"
+    id: "binary_sensor.water_sensor"
+    area: kitchen
+    state:
+      in: "감지해제"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "모션 센서"
+    id: "binary_sensor.garage_motion"
+    area: "garage"
+    state:
+      in: "(감지됨|감지|켜짐)"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "재실 센서"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "kitchen"
+    state:
+      in: "(감지됨|감지|켜짐)"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "창고 문"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "닫힘"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "휴대폰"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "플러그 연결"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "주 전원"
+    id: "binary_sensor.power"
+    state:
+      in: "(켜짐|켜져)"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "휴대폰"
+    id: "binary_sensor.presence"
+    state:
+      in: "외출"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "애완동물 급여기"
+    id: "binary_sensor.problem"
+    area: "kitchen"
+    state:
+      in: "정상"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "세탁기"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "(작동 중|작동 중이|작동 중인)"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "길"
+    id: "binary_sensor.road_safety"
+    state:
+      in: "안전"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "주방 연기 센서"
+    id: "binary_sensor.kitchen_smoke"
+    area: "kitchen"
+    state:
+      in: "감지해제"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "사이렌"
+    id: "binary_sensor.sound"
+    area: "garage"
+    state:
+      in: "(감지됨|감지|켜짐)"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "쿠키 보관함"
+    id: "binary_sensor.cookie_stash_tamper"
+    state:
+      in: "(감지 해제됨|없음|탬퍼 감지해제)"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "휴대폰"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "업데이트 가능"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "휴대폰"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "진동 감지해제"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "창고 창문"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "(열림|열려)"
+      out: "on"
+    attributes:
+      device_class: window

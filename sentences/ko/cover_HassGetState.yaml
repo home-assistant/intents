@@ -1,0 +1,35 @@
+language: ko
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "[<area>] <name> {cover_states:state}있어"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>에] {cover_classes:device_class}(이|가) {cover_states:state}있어"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>에] 모든 {cover_classes:device_class}(이|가) {cover_states:state}있어"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>에] (어떤|어디) {cover_classes:device_class}(이|가) {cover_states:state}있어"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 {cover_classes:device_class}(이|가) {cover_states:state}있어"
+        response: how_many
+        slots:
+          domain: cover

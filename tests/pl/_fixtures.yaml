@@ -1,155 +1,852 @@
 language: pl
 areas:
-  - name: Kuchni[a]
+  - name: "Kuchni[a]"
     id: kitchen
-  - name: Salon[ie|u]
+
+  - name: "Salon[ie|u]"
     id: living_room
-  - name: Sypialni[a]
+
+  - name: "Sypialni[a]"
     id: bedroom
-  - name: Garaż[u]
+
+  - name: "Garaż[u]"
     id: garage
-  - name: Łazien(ka|ce)
+
+  - name: "Łazien(ka|ce)"
     id: bathroom
-  - name: Balkon[ie|u]
+
+  - name: "Balkon[ie|u]"
     id: balcony
-  - name: Biur(o|ze)
+
+  - name: "Biur(o|ze)"
     id: office
-  - name: Pracowni[a]
+
+  - name: "Pracowni[a]"
     id: study
-  - name: Gabine(t|cie)
+
+  - name: "Gabine(t|cie)"
     id: closet
-  - name: Warszta(t|cie)
+
+  - name: "Warszta(t|cie)"
     id: workshop
-  - name: Wejści(e|u)
+
+  - name: "Wejści(e|u)"
     id: entrance
+
   - name: "Korytarz[u]|Hol[u]"
     id: hallway
+
   - name: "Wiatrołap[ie]|Przedsion(ek|ku)"
     id: vestibule
-  - name: Spiżarni[a]
+
+  - name: "Spiżarni[a]"
     id: pantry
-  - name: Pok(ój|oju)
+
+  - name: "Pok(ój|oju)"
     id: room
-  - name: Garderob(a|ie)
+
+  - name: "Garderob(a|ie)"
     id: wardrobe
-  - name: Ubikacj(a|i)
+
+  - name: "Ubikacj(a|i)"
     id: wc
+
   - name: "Klat(ka|ce) schodow(a|ej)|Schod(y|ach)"
     id: staircase
-  - name: Jadalni[a]
+
+  - name: "Jadalni[a]"
     id: dining
-  - name: Ogr(ód|odzie)
+
+  - name: "Ogr(ód|odzie)"
     id: garden
-  - name: Podj(azd|eździe)
+
+  - name: "Podj(azd|eździe)"
     id: driveway
 entities:
-  - name: "Oglądanie telewizji"
-    id: scene.watching_tv
-  - name: "Pozycjonowanie rolet"
-    id: script.roller_shutter_positioning
-  - name: Lamp(ę nocną|ka nocna|kę nocną|ki nocnej)
-    id: light.bedroom_lamp
-    area: bedroom
+  - name: "Lamp(ę nocną|ka nocna|kę nocną|ki nocnej|y nocnej)"
+    id: "light.bedroom_lamp"
+    area: "bedroom"
     state: "off"
     attributes:
       device_class: light
-  - name: Przełącznik kuchenny
-    id: switch.kitchen
-    area: kitchen
+
+  - name: "Przełącznik kuchenny"
+    id: "switch.kitchen"
+    area: "kitchen"
     state: "off"
     attributes:
       device_class: switch
-  - name: (Wentylator|Wiatrak) sufitowy
-    id: fan.ceiling
-    area: living_room
+
+  - name: "(Wentylator|Wiatrak) sufitowy"
+    id: "fan.ceiling"
+    area: "living_room"
     state: "off"
-  - name: Wentylator stołowy
-    id: fan.standalone
-    area: bedroom
+
+  - name: "Wentylator stołow|Wentylatora stołowego"
+    id: "fan.standalone"
+    area: "bedroom"
     state: "off"
-  - name: Wentylacj(a|ę)
-    id: fan.ventilation
-    area: wc
+
+  - name: "Wentylacj(a|ę)"
+    id: "fan.ventilation"
+    area: "wc"
     state: "off"
-  - name: Rolet(a|ę)
-    id: cover.roleta
-    area: living_room
+
+  - name: "Rolet(a|ę)"
+    id: "cover.roleta"
+    area: "living_room"
+    state: "open"
+    attributes:
+      device_class: blind
+
+  - name: "Rolet(a|ę) drzwi"
+    id: "cover.roleta_door"
+    area: "living_room"
+    state: "open"
+    attributes:
+      device_class: blind
+
+  - name: "Żaluzj(a|ę)"
+    id: "cover.zaluzja"
+    area: "living_room"
     state: "open"
     attributes:
       device_class: shutter
-  - name: Rolet(a|ę) drzwi
-    id: cover.roleta_door
-    area: living_room
-    state: "open"
+
+  - name: "Osłon(a|ę)"
+    id: "cover.zaluzja"
+    area: "dining"
+    state: "close"
     attributes:
-      device_class: shutter
-  - name: Ekspres [do kawy]
-    id: switch.coffee_maker
-    area: kitchen
-    state: "off"
-    attributes:
-      device_class: switch
-  - name: "Lewa zasłona"
+      device_class: shade
+
+  - name: "(Lewa zasłona|Lewą zasłonę|Lewej zasłony)"
     id: "cover.curtain_left"
     area: "living_room"
     state: "open"
     attributes:
       device_class: curtain
-  - name: "Prawa zasłona"
+
+  - name: "(Prawa zasłona|Prawą zasłonę)"
     id: "cover.curtain_right"
     area: "living_room"
     state: "closed"
     attributes:
       device_class: curtain
-  - name: "Zasłona w sypialni"
+
+  - name: "Zasłon(a|ę)"
     id: "cover.bedroom"
     area: "bedroom"
     state: "closed"
     attributes:
       device_class: curtain
-  - name: Bram(a|ę)
-    id: gate.driveway
-    area: entrance
+
+  - name: "Drzwi od garażu"
+    id: "cover.drzwi_od_garazu"
+    area: "garage"
+    state: "open"
+    attributes:
+      device_class: garage
+
+  - name: "(Brama wjazdowa|Bramę wjazdową)"
+    id: "cover.brama_wjazdowa"
+    area: "garden"
     state: "closed"
     attributes:
       device_class: gate
-  - name: Lampa główna
-    id: light.main_lamp
-    area: hallway
+
+  - name: "Drzwi tarasowe"
+    id: "cover.drzwi_tarasowe"
+    area: "living_room"
+    state: "open"
+    attributes:
+      device_class: door
+
+  - name: "(Klapa|Klapę) bagażnika"
+    id: "cover.klapa_bagaznika"
+    area: "garage"
+    state: "close"
+    attributes:
+      device_class: damper
+
+  - name: "(Markiza balkonowa|Markizę balkonową)"
+    id: "cover.markiza_balkonowa"
+    area: "balcony"
+    state: "close"
+    attributes:
+      device_class: awning
+
+  - name: "Okno dachowe"
+    id: "cover.okno_dachowe"
+    area: "office"
+    state: "close"
+    attributes:
+      device_class: window
+
+  - name: "Ekspres[u] [do kawy]"
+    id: "switch.coffee_maker"
+    area: "kitchen"
     state: "off"
-  - name: Lampy boczne
-    id: light.extra_lamp
-    area: hallway
+    attributes:
+      device_class: switch
+
+  - name: "Lamp(a główna|ę główną)"
+    id: "light.main_lamp"
+    area: "hallway"
     state: "off"
-  - name: Główne drzwi
-    id: lock.main_door
-    area: entrance
-    state: locked
-  - name: Tylne drzwi
-    id: lock.back_door
-    state: unlocked
-  - name: Boczne drzwi
-    id: lock.side_door
-    state: locked
-  # - name: Garaż|(Drzwi|Bramę) [do] garaż(u|owe|ową)
-  #   id: garage.garage_doors
-  #   area: garage
-  #   attributes:
-  #     device_class: garage
-  - name: Zasłony
-    id: curtain.living_room_curtain
-    area: living_room
+
+  - name: "Lampy boczne"
+    id: "light.extra_lamp"
+    area: "hallway"
+    state: "off"
+
+  - name: "Główne drzwi"
+    id: "lock.front_door"
+    area: "entrance"
+    state: "locked"
+
+  - name: "Tylne drzwi"
+    id: "lock.back_door"
+    state: "unlocked"
+
+  - name: "Boczne drzwi"
+    id: "lock.side_door"
+    state: "locked"
+
+  - name: "Oglądanie telewizji"
+    id: "scene.watching_tv"
+
+  - name: "Pozycjonowanie rolet"
+    id: "script.roller_shutter_positioning"
+
+  - name: "Zasłony"
+    id: "curtain.living_room_curtain"
+    area: "living_room"
     attributes:
       device_class: curtain
-  - name: "Termometr"
+
+  - name: "Temperatur(a|y) na zewnątrz"
     id: "sensor.outside_temperature"
     area: "garden"
     state: "32"
     attributes:
       unit_of_measurement: "°C"
+
   - name: "Termostat[u]"
     id: "climate.thermostat"
     area: "living_room"
-    state: "21"
+    state: "heat"
     attributes:
+      current_temperature: 21
+
+  - name: "Termostat[u] biurow(y|ego)"
+    id: "climate.office_thermostat"
+    area: "office"
+    state: "heat"
+    attributes:
+      current_temperature: 18
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "Telefon"
+    id: "binary_sensor.phone_battery"
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "Telefon"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "charging"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "Dwutlenek węgla"
+    id: "binary_sensor.co2"
+    area: "kitchen"
+    state:
+      in: "clear"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "Chłodzenie komputera"
+    id: "binary_sensor.computer_cold"
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "Telefon"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "connected"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "Drzwi dla zwierząt"
+    id: "binary_sensor.pet_door"
+    state:
+      in: "closed"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "Druga brama garażowa"
+    id: "binary_sensor.garage_door"
+    state:
+      in: "closed"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "Gaz"
+    id: "binary_sensor.gas"
+    area: "kitchen"
+    state:
+      in: "clear"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "Komputer"
+    id: "binary_sensor.computer_heat"
+    state:
+      in: "hot"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "Oświetlenie"
+    id: "binary_sensor.light"
+    state:
+      in: "no light"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "Drzwi dla zwierząt"
+    id: "binary_sensor.pet_door_lock"
+    state:
+      in: "unlocked"
+      out: "on"
+    attributes:
+      device_class: lock
+
+  - name: "Czujnik zalania w kuchni"
+    id: "binary_sensor.water_sensor"
+    area: "kitchen"
+    state:
+      in: "dry"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "Czujnik ruchu"
+    id: "binary_sensor.garage_motion"
+    area: "garage"
+    state:
+      in: "detected"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "Obecność"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "kitchen"
+    state:
+      in: "detected"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "Drzwi wiaty"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "closed"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "Telefon"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "plugged in"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "Magistrala"
+    id: "binary_sensor.power"
+    state:
+      in: "powered"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "Telefon"
+    id: "binary_sensor.presence"
+    state:
+      in: "away"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "Karmnik dla zwierząt"
+    id: "binary_sensor.problem"
+    area: "kitchen"
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "Pralka"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "running"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "Podjazd"
+    id: "binary_sensor.driveway_safety"
+    state:
+      in: "safe"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "Czujnik dymu w kuchni"
+    id: "binary_sensor.kitchen_smoke"
+    area: "kitchen"
+    state:
+      in: "clear"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "Syrena"
+    id: "binary_sensor.sound"
+    area: "garage"
+    state:
+      in: "detected"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "Chlebak"
+    id: "binary_sensor.haversack_tamper"
+    state:
+      in: "clear"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "Telefon"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "update available"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "Telefon"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "not vibrating"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "Okno wiaty"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "open"
+      out: "on"
+    attributes:
+      device_class: window
+
+  # https://www.home-assistant.io/integrations/sensor/
+  - name: "Moc pozorna urządzenia"
+    id: "sensor.appliance_apparent_power"
+    state: "2"
+    attributes:
+      device_class: apparent_power
+      unit_of_measurement: "VA"
+
+  - name: "Czujnik powietrza w kuchni"
+    id: "sensor.kitchen_aqi_sensor"
+    state: "50"
+    attributes:
+      device_class: aqi
+
+  - name: "Czujnik ciśnienia"
+    id: "sensor.outside_pressure"
+    state: "1000"
+    attributes:
+      device_class: atmospheric_pressure
+      unit_of_measurement: "hPa"
+
+  - name: "Mój telefon"
+    id: "sensor.my_phone_battery"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "Dwutlenek węgla"
+    id: "sensor.heat_pump_co2"
+    state: "50"
+    attributes:
+      device_class: carbon_dioxide
+      unit_of_measurement: "ppm"
+
+  - name: "Tlenek węgla"
+    id: "sensor.heat_pump_co"
+    state: "48"
+    attributes:
+      device_class: carbon_monoxide
+      unit_of_measurement: "ppm"
+
+  - name: "Aktualne natężenie prądu"
+    id: "sensor.house_current"
+    state: "19"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"
+
+  - name: "Internet"
+    id: "sensor.internet_download_speed"
+    state: "22.9"
+    attributes:
+      device_class: data_rate
+      unit_of_measurement: "MB/s"
+
+  - name: "Plik dziennika"
+    id: "sensor.log_file_size"
+    state: "106"
+    attributes:
+      device_class: data_size
+      unit_of_measurement: "kB"
+
+  - name: "Następne urodziny"
+    id: "sensor.next_birthday"
+    state: "2024-12-01"
+    attributes:
+      device_class: date
+
+  - name: "Przebieg samochodu"
+    id: "sensor.car_mileage"
+    state: "65536"
+    attributes:
+      device_class: distance
+      unit_of_measurement: "km"
+
+  - name: "Bieżący program zmywarki"
+    id: "sensor.dishwasher_program_duration"
+    state: "64"
+    attributes:
+      device_class: duration
+      unit_of_measurement: "min"
+
+  - name: "Produkcja słoneczna"
+    id: "sensor.solar_production"
+    state: "3.2"
+    attributes:
+      device_class: energy
+      unit_of_measurement: "kWh"
+
+  - name: "Energia magazynowana w EcoFlow"
+    id: "sensor.powerwall_stored_energy"
+    state: "6"
+    attributes:
+      device_class: energy_storage
+      unit_of_measurement: "kWh"
+
+  - name: "Częstotliwość prądu"
+    id: "sensor.grid_frequency"
+    state: "51"
+    attributes:
+      device_class: frequency
+      unit_of_measurement: "Hz"
+
+  - name: "Miesięczne zużycie gazu"
+    id: "sensor.monthly_gas_consumption"
+    state: "12"
+    attributes:
+      device_class: gas
+      unit_of_measurement: "m³"
+
+  - name: "Wilgotność w salonie"
+    id: "sensor.living_room_humidity"
+    state: "48"
+    attributes:
+      device_class: humidity
+      unit_of_measurement: "%"
+
+  - name: "Natężenie oświetlenia w salonie"
+    id: "sensor.living_room_illuminance"
+    state: "438"
+    attributes:
+      device_class: illuminance
+      unit_of_measurement: "lux"
+
+  - name: "Natężenie promieniowania grzejnika w salonie"
+    id: "sensor.living_room_heater_irradiance"
+    state: "155"
+    attributes:
+      device_class: irradiance
+      unit_of_measurement: "W/m²"
+
+  - name: "Kocioł warzelny"
+    id: "sensor.bewery_mixer_moisture"
+    state: "83"
+    attributes:
+      device_class: moisture
+      unit_of_measurement: "%"
+
+  - name: "Cena za kW"
+    id: "sensor.price_per_kW"
+    state: "1"
+    attributes:
+      device_class: monetary
+      unit_of_measurement: "EUR"
+
+  - name: "Czujnik NO2 pompy ciepła"
+    id: "sensor.heat_pump_no2"
+    state: "50"
+    attributes:
+      device_class: nitrogen_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Czujnik NO pompy ciepła"
+    id: "sensor.heat_pump_no"
+    state: "50"
+    attributes:
+      device_class: nitrogen_monoxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Czujnik N2O pompy ciepła"
+    id: "sensor.heat_pump_n2o"
+    state: "50"
+    attributes:
+      device_class: nitrous_oxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Czujnik ozonu w salonie"
+    id: "sensor.living_room_ozone"
+    state: "50"
+    attributes:
+      device_class: ozone
+      unit_of_measurement: "µg/m³"
+
+  - name: "Czujnik PM1 w salonie"
+    id: "sensor.living_room_pm1"
+    state: "50"
+    attributes:
+      device_class: pm1
+      unit_of_measurement: "µg/m³"
+
+  - name: "Czujnik PM2.5 w salonie"
+    id: "sensor.living_room_pm25"
+    state: "50"
+    attributes:
+      device_class: pm25
+      unit_of_measurement: "µg/m³"
+
+  - name: "Czujnik PM10 w salonie"
+    id: "sensor.living_room_pm10"
+    state: "50"
+    attributes:
+      device_class: pm10
+      unit_of_measurement: "µg/m³"
+
+  - name: "Współczynnik mocy wtyczki ściennej"
+    id: "sensor.wall_plug_power_factor"
+    state: "2"
+    attributes:
+      device_class: power_factor
+
+  - name: "Moc klimatyzacji"
+    id: "sensor.aircon_power"
+    state: "380"
+    attributes:
+      device_class: power
+      unit_of_measurement: "W"
+
+  - name: "Zewnętrzny czujnik deszczu"
+    id: "sensor.rain_sensor_total"
+    state: "29"
+    attributes:
+      device_class: precipitation
+      unit_of_measurement: "mm"
+
+  - name: "Zewnętrzny czujnik deszczu"
+    id: "sensor.rain_sensor_intensity"
+    state: "144"
+    attributes:
+      device_class: precipitation_intensity
+      unit_of_measurement: "mm/h"
+
+  - name: "Ciśnienie w oponach samochodu"
+    id: "sensor.tyre_pressure"
+    state: "2.1"
+    attributes:
+      device_class: pressure
+      unit_of_measurement: "bar"
+
+  - name: "Moc bierna pompy wodnej"
+    id: "sensor.water_pump_reactive_power"
+    state: "22"
+    attributes:
+      device_class: reactive_power
+      unit_of_measurement: "VAR"
+
+  - name: "Mój telefon sygnał GSM"
+    id: "sensor.my_phone_gsm_signal"
+    state: "-43"
+    attributes:
+      device_class: signal_strength
+      unit_of_measurement: "dBm"
+
+  - name: "Ciśnienie akustyczne w subwooferze"
+    id: "sensor.sound_bar_sound_pressure"
+    state: "62"
+    attributes:
+      device_class: sound_pressure
+      unit_of_measurement: "dB"
+
+  - name: "Prędkość jazdy"
+    id: "sensor.traveling_speed"
+    state: "67"
+    attributes:
+      device_class: speed
+      unit_of_measurement: "km/h"
+
+  - name: "Czujnik SO2 pompy ciepła"
+    id: "sensor.heat_pump_so2"
+    state: "50"
+    attributes:
+      device_class: sulphur_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Piekarnik"
+    id: "sensor.oven_temperature"
+    state: "380"
+    attributes:
+      device_class: temperature
       unit_of_measurement: "°C"
+
+  - name: "Czujnik odchodów"
+    id: "sensor.voc_sensor"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds
+      unit_of_measurement: "µg/m³"
+
+  - name: "Drugi czujnik odchodów"
+    id: "sensor.voc_sensor_parts"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds_parts
+      unit_of_measurement: "ppm"
+
+  - name: "Napięcie wejściowe"
+    id: "sensor.input_voltage"
+    state: "12"
+    attributes:
+      device_class: voltage
+      unit_of_measurement: "V"
+
+  - name: "Dzisiejsze użycie pompy wodnej"
+    id: "sensor.water_pump_usage_today"
+    state: "1356"
+    attributes:
+      device_class: volume
+      unit_of_measurement: "L"
+
+  - name: "Bufor pompy wodnej"
+    id: "sensor.water_pump_buffer"
+    state: "28"
+    attributes:
+      device_class: volume_storage
+      unit_of_measurement: "L"
+
+  - name: "Użycie pompy wodnej"
+    id: "sensor.water_pump_usage"
+    state: "5987"
+    attributes:
+      device_class: water
+      unit_of_measurement: "L"
+
+  - name: "Waga"
+    id: "sensor.sensor_weight"
+    state: "87"
+    attributes:
+      device_class: weight
+      unit_of_measurement: "kg"
+
+  - name: "Mistral"
+    id: "sensor.mistral_speed"
+    state: "33"
+    attributes:
+      device_class: wind_speed
+      unit_of_measurement: "km/h"
+
+  - name: "Pozna(ń|nia|niu)"
+    id: "weather.poznan"
+    state: "rainy"
+    attributes:
+      temperature: "8"
+      temperature_unit: "°C"
+
+  - name: "Wrocław[iu]"
+    id: "weather.wroclaw"
+    state: "cloudy"
+    attributes:
+      temperature: "21"
+      temperature_unit: "°C"
+
+  - name: "Warszaw(a|ie|y)"
+    id: "weather.warszawa"
+    state: "clear"
+    attributes:
+      temperature: "24"
+      temperature_unit: "°C"
+
+  - name: "Witold"
+    id: "person.witold"
+    state: "home"
+
+  - name: "Maria"
+    id: "person.maria"
+    state: "praca"
+
+  - name: "Zofia"
+    id: "person.zofia"
+    state: "not_home"
+
+  - name: "Kierowca Adam"
+    id: "todo.driver_adam"
+    state: ""
+
+  - name: "Zawór główny"
+    id: "valve.zawor_glowny"
+    state: "open"
+    attributes:
+      position: "100"
+
+  - name: "Telewizor[a|ze]"
+    id: "media_player.tv"
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
+  - name: "Odkurzacz"
+    id: "vacuum.odkurzacz"
+    state: "idle"

@@ -1,0 +1,24 @@
+language: nb
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'og klart',
+          'clear-night': 'og klart',
+          'cloudy': 'og skyet',
+          'exceptional': 'og ekstremvær',
+          'fog': 'med tåke',
+          'hail': 'med haglbyger',
+          'lightning': 'med torden',
+          'lightning-rainy': 'med regnbyger og torden',
+          'partlycloudy': 'og delvis skyet',
+          'pouring': 'og kraftig regn',
+          'rainy': 'og regn',
+          'snowy': 'og snø',
+          'snowy-rainy': 'og sludd',
+          'sunny': 'og sol',
+          'windy': 'og vind',
+          'windy-variant': 'med vind og skyer'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}

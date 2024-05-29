@@ -1,2 +1,59 @@
 language: hu
-tests: []
+tests:
+  - sentences:
+      - "a bal függöny zárva"
+      - "a bal függöny zárva van"
+      - "zárva van a bal függöny"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "bal függöny"
+        state: "closed"
+    response: "Nem"
+
+  - sentences:
+      - "Bármelyik függöny nyitva van a nappaliban?"
+      - "Valamelyik függöny nyitva a nappaliban?"
+      - "A nappaliban nyitva van bármelyik függöny?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "nappali"
+        device_class: curtain
+        state: "open"
+    response: "Igen, bal függöny"
+
+  - sentences:
+      - "Minden függöny nyitva van a nappaliban?"
+      - "Minden függöny nyitva a nappaliban?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "nappali"
+        device_class: curtain
+        state: "open"
+    response: "Nem, jobb függöny nincs ebben az állapotban"
+
+  - sentences:
+      - "Melyik függöny van zárva?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Egyik sem"
+
+  - sentences:
+      - "Mennyi függöny van zárva?"
+      - "Hány függöny van zárva?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "0"

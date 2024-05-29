@@ -1,0 +1,64 @@
+language: pl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<where_is> [<now>] <name>"
+          - "<where> [<now>] <is> <name>"
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+        response: "where"
+
+      - sentences:
+          - "[czy] <name> jest [<now>] {presence_states:state}"
+          - "[czy] <name> jest [<now>] [w] {zone:state}"
+          - "[czy] {presence_states:state} jest [<now>] <name>"
+          - "[czy] [w] {zone:state} jest [<now>] <name>"
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+        response: "one_yesno"
+
+      - sentences:
+          - "[czy] jest (ktoś|ktokolwiek) [<now>] {presence_states:state} [<now>]"
+          - "[czy] jest (ktoś|ktokolwiek) [<now>] [w] {zone:state} [<now>]"
+          - "[czy] (ktoś|ktokolwiek) jest [<now>] {presence_states:state} [<now>]"
+          - "[czy] (ktoś|ktokolwiek) jest [<now>] [w] {zone:state} [<now>]"
+          - "[czy] [<now>] jest (ktoś|ktokolwiek) {presence_states:state}"
+          - "[czy] [<now>] jest (ktoś|ktokolwiek) [w] {zone:state}"
+        slots:
+          domain: person
+        response: "any"
+
+      - sentences:
+          - "[czy] wszyscy (są|przebywają|znajdują się) [<now>] {presence_states:state}"
+          - "[czy] wszyscy (są|przebywają|znajdują się) [<now>] [w] {zone:state}"
+        slots:
+          domain: person
+        response: "all"
+
+      - sentences:
+          - "kto (jest|przebywają|znajduje się) [<now>] {presence_states:state}"
+          - "kto (jest|przebywają|znajduje się) [<now>] [w] {zone:state}"
+          - "kto [<now>] (jest|przebywają|znajduje się) {presence_states:state}"
+          - "kto [<now>] (jest|przebywają|znajduje się) [w] {zone:state}"
+        slots:
+          domain: person
+        response: "which"
+
+      - sentences:
+          - "il(e|u) (osób|ludzi) (jest|przebywa|znajduje się) [<now>] {presence_states:state}"
+          - "il(e|u) (osób|ludzi) (jest|przebywa|znajduje się) [<now>] [w] {zone:state}"
+          - "il(e|u) jest {presence_states:state} (osób|ludzi) [<now>]"
+          - "il(e|u) jest [w] {zone:state} (osób|ludzi) [<now>]"
+          - "il(e|u) [<now>] jest {presence_states:state} (osób|ludzi)"
+          - "il(e|u) [<now>] jest [w] {zone:state} (osób|ludzi)"
+          - "il(e|u) {presence_states:state} jest [<now>] (osób|ludzi)"
+          - "il(e|u) [w] {zone:state} [<now>] jest (osób|ludzi)"
+        slots:
+          domain: person
+        response: "how_many"

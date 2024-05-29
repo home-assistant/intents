@@ -3,9 +3,33 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "tắt <name> <area>"
-          - "tắt <name> [trong]  <area>"
-          - "tắt [tất cả | toàn bộ] <name> [trong] <area>"
+          - " tắt quạt [ở|trong|tại|của] <area>"
+          - " tắt [tất cả] [các] quạt [ở|trong|tại|của] <area>"
+          - " tắt [tất cả] [cái] quạt [ở|trong|tại|của] <area>"
+          - "dừng [tất cả] [cái] quạt [ở|trong|tại|của] <area>"
+          - "dừng [tất cả] quạt [ở|trong|tại|của|ở trong] <area>"
         slots:
           domain: "fan"
           name: "all"
+        response: fans_area
+
+      - sentences:
+          - "(tắt [hết|tất cả] quạt [ở mọi nơi])"
+          - "dừng (tất cả quạt|quạt ở mọi nơi)"
+        response: "light_all"
+        slots:
+          domain: "fan"
+          name: "all"
+
+      # - sentences:
+      #     - "tắt [tất cả] [các] quạt [<in_here>]"
+      #     - "[tất cả] [cái] quạt tắt[<in_here>]"
+      #     - " tắt[ tất cả][ cái] quạt"
+      #   response: "fans_area"
+      #   expansion_rules:
+      #     in_here: "[ở] đây"
+      #   slots:
+      #     domain: fan
+      #   requires_context:
+      #     area:
+      #       slot: true

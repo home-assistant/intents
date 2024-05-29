@@ -1,69 +1,93 @@
 language: pl
 tests:
+  # ---------- Blind ----------
   - sentences:
-      - otwórz garaż
+      - "Otwórz roletę"
+      - "Odsłoń roletę"
+      - "Podnieś roletę"
     intent:
       name: HassTurnOn
-      slots:
+      context:
         domain: cover
-        device_class: garage
-    response: Otwarto garaż
+        device_class: blind
+      slots:
+        name:
+          - "Roleta"
+          - "Roletę"
+    response: "Otwarto roletę"
   - sentences:
-      - otwórz drzwi garażowe
+      - "Otwórz roletę drzwi"
+      - "Odsłoń roletę drzwi"
+      - "Podnieś roletę drzwi"
     intent:
       name: HassTurnOn
-      slots:
+      context:
         domain: cover
-        device_class: garage
-    response: Otwarto garaż
+        device_class: blind
+      slots:
+        name:
+          - "Roleta drzwi"
+          - "Roletę drzwi"
+    response: "Otwarto roletę"
   - sentences:
-      - drzwi garażowe otwórz
+      - "Otwórz roletę w salonie"
+      - "Odsłoń roletę w salonie"
+      - "Podnieś roletę w salonie"
+      - "Otwórz w salonie roletę"
     intent:
       name: HassTurnOn
-      slots:
+      context:
         domain: cover
-        device_class: garage
-    response: Otwarto garaż
-  - sentences:
-      - otwórz drzwi od garażu
-    intent:
-      name: HassTurnOn
+        device_class: blind
       slots:
-        domain: cover
-        device_class: garage
-    response: Otwarto garaż
-  - sentences:
-      - otwórz rolety w kuchni
-    intent:
-      name: HassTurnOn
-      slots:
+        name:
+          - "Roleta"
+          - "Roletę"
         area:
-          - Kuchnia
-          - Kuchni
-        domain: cover
-    response: Otwarto rolety w kuchni
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Otwarto roletę"
   - sentences:
-      - otwórz wszystkie rolety w kuchni
+      - "Otwórz rolety w salonie"
+      - "Odsłoń rolety w salonie"
+      - "Podnieś rolety w salonie"
+      - "Otwórz wszystkie rolety w salonie"
+      - "Odsłoń wszystkie rolety w salonie"
+      - "Podnieś wszystkie rolety w salonie"
+      - "Otwórz w salonie wszystkie rolety"
+      - "W salonie otwórz wszystkie rolety"
     intent:
       name: HassTurnOn
-      slots:
-        area:
-          - Kuchni
-          - Kuchnia
+      context:
         domain: cover
-    response: Otwarto rolety w kuchni
+        device_class: blind
+      slots:
+        domain: cover
+        device_class: blind
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Otwarto rolety"
   - sentences:
-      - otwórz w kuchni wszystkie rolety
+      - "Otwórz rolety"
+      - "Otwórz wszystkie rolety"
     intent:
       name: HassTurnOn
-      slots:
-        area:
-          - Kuchni
-          - Kuchnia
+      context:
         domain: cover
-    response: Otwarto rolety w kuchni
+        device_class: blind
+      slots:
+        domain: cover
+        device_class: blind
+    response: "Otwarto rolety"
+
+  # ---------- Shutter ----------
   - sentences:
-      - otwórz roletę
+      - "Otwórz żaluzję"
+      - "Odsłoń żaluzję"
+      - "Podnieś żaluzję"
     intent:
       name: HassTurnOn
       context:
@@ -71,11 +95,14 @@ tests:
         device_class: shutter
       slots:
         name:
-          - Roleta
-          - Roletę
-    response: Otwarto roletę
+          - "Żaluzja"
+          - "Żaluzję"
+    response: "Otwarto żaluzję"
   - sentences:
-      - otwórz roletę w salonie
+      - "Otwórz żaluzję w salonie"
+      - "Odsłoń żaluzję w salonie"
+      - "Podnieś żaluzję w salonie"
+      - "Otwórz w salonie żaluzję"
     intent:
       name: HassTurnOn
       context:
@@ -83,22 +110,572 @@ tests:
         device_class: shutter
       slots:
         name:
-          - Roleta
-          - Roletę
+          - "Żaluzja"
+          - "Żaluzję"
         area:
-          - Salonie
-          - Salonu
-          - Salon
-    response: Otwarto roletę w salonie
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Otwarto żaluzję"
   - sentences:
-      - otwórz rolety
-      - otwórz wszystkie rolety
+      - "Otwórz żaluzje w salonie"
+      - "Odsłoń żaluzje w salonie"
+      - "Podnieś żaluzje w salonie"
+      - "Otwórz wszystkie żaluzje w salonie"
+      - "Odsłoń wszystkie żaluzje w salonie"
+      - "Podnieś wszystkie żaluzje w salonie"
+      - "Otwórz w salonie wszystkie żaluzje"
     intent:
       name: HassTurnOn
+      context:
+        domain: cover
+        device_class: shutter
       slots:
         domain: cover
-        device_class:
-          - curtain
-          - shutter
-          - curtain
-    response: Otwarto rolety
+        device_class: shutter
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Otwarto żaluzje"
+  - sentences:
+      - "Otwórz żaluzje"
+      - "Otwórz wszystkie żaluzje"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: shutter
+      slots:
+        domain: cover
+        device_class: shutter
+    response: "Otwarto żaluzje"
+
+  # ---------- Shade ----------
+  - sentences:
+      - "Otwórz osłonę"
+      - "Odsłoń osłonę"
+      - "Podnieś osłonę"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: shade
+      slots:
+        name:
+          - "Osłona"
+          - "Osłonę"
+    response: "Otwarto osłonę"
+  - sentences:
+      - "Otwórz osłonę w jadalni"
+      - "Odsłoń osłonę w jadalni"
+      - "Podnieś osłonę w jadalni"
+      - "Otwórz w jadalni osłonę"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: shade
+      slots:
+        name:
+          - "Osłona"
+          - "Osłonę"
+        area:
+          - "Jadalni"
+          - "Jadalnia"
+    response: "Otwarto osłonę"
+  - sentences:
+      - "Otwórz osłony w jadalni"
+      - "Odsłoń osłony w jadalni"
+      - "Podnieś osłony w jadalni"
+      - "Otwórz wszystkie osłony w jadalni"
+      - "Odsłoń wszystkie osłony w jadalni"
+      - "Podnieś wszystkie osłony w jadalni"
+      - "Otwórz w jadalni wszystkie osłony"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: shade
+      slots:
+        domain: cover
+        device_class: shade
+        area:
+          - "Jadalni"
+          - "Jadalnia"
+    response: "Otwarto osłony"
+  - sentences:
+      - "Otwórz osłony"
+      - "Otwórz wszystkie osłony"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: shade
+      slots:
+        domain: cover
+        device_class: shade
+    response: "Otwarto osłony"
+
+  # ---------- Curtain ----------
+  - sentences:
+      - "Otwórz zasłonę"
+      - "Odsłoń zasłonę"
+      - "Podnieś zasłonę"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        name:
+          - "Zasłona"
+          - "Zasłonę"
+    response: "Otwarto zasłonę"
+  - sentences:
+      - "Otwórz prawą zasłonę"
+      - "Odsłoń prawą zasłonę"
+      - "Podnieś prawą zasłonę"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        name:
+          - "Prawa zasłona"
+          - "Prawą zasłonę"
+    response: "Otwarto zasłonę"
+  - sentences:
+      - "Otwórz lewą zasłonę"
+      - "Odsłoń lewą zasłonę"
+      - "Podnieś lewą zasłonę"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        name:
+          - "Lewą zasłona"
+          - "Lewą zasłonę"
+    response: "Otwarto zasłonę"
+  - sentences:
+      - "Otwórz zasłonę w sypialni"
+      - "Odsłoń zasłonę w sypialni"
+      - "Podnieś zasłonę w sypialni"
+      - "Otwórz w sypialni zasłonę"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        name:
+          - "Zasłona"
+          - "Zasłonę"
+        area:
+          - "Sypialni"
+          - "Sypialnia"
+    response: "Otwarto zasłonę"
+  - sentences:
+      - "Otwórz zasłony w sypialni"
+      - "Odsłoń zasłony w sypialni"
+      - "Podnieś zasłony w sypialni"
+      - "Otwórz wszystkie zasłony w sypialni"
+      - "Odsłoń wszystkie zasłony w sypialni"
+      - "Podnieś wszystkie zasłony w sypialni"
+      - "Otwórz w sypialni wszystkie zasłony"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        domain: cover
+        device_class: curtain
+        area:
+          - "Sypialni"
+          - "Sypialnia"
+    response: "Otwarto zasłony"
+  - sentences:
+      - "Otwórz zasłony"
+      - "Otwórz wszystkie zasłony"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: curtain
+      slots:
+        domain: cover
+        device_class: curtain
+    response: "Otwarto zasłony"
+
+  # ---------- Garage door ----------
+  - sentences:
+      - "Otwórz drzwi od garażu"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: garage
+      slots:
+        name:
+          - "Drzwi od garażu"
+    response: "Otwarto garaż"
+  - sentences:
+      - "Otwórz garaż"
+      - "Otwórz drzwi garażowe"
+      - "Otwórz drzwi do garażu"
+      - "Otwórz bramę garażową"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: garage
+      slots:
+        domain: cover
+        device_class: garage
+    response: "Otwarto garaż"
+
+  # ---------- Gate ----------
+  - sentences:
+      - "Otwórz bramę wjazdową"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        name:
+          - "Brama wjazdowa"
+          - "Bramę wjazdową"
+    response: "Otwarto bramę"
+  - sentences:
+      - "Otwórz bramę wjazdową w ogrodzie"
+      - "Otwórz w ogrodzie bramę wjazdową"
+      - "W ogrodzie otwórz bramę wjazdową"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        name:
+          - "Brama wjazdowa"
+          - "Bramę wjazdową"
+        area:
+          - "Ogród"
+          - "Ogrodzie"
+    response: "Otwarto bramę"
+  - sentences:
+      - "Otwórz bramę w ogrodzie"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        domain: cover
+        device_class: gate
+        area:
+          - "Ogród"
+          - "Ogrodzie"
+    response: "Otwarto bramę"
+  - sentences:
+      - "Otwórz wszystkie bramy w ogrodzie"
+      - "Otwórz bramy w ogrodzie"
+      - "Otwórz w ogrodzie wszystkie bramy"
+      - "Otwórz w ogrodzie bramy"
+      - "W ogrodzie otwórz wszystkie bramy"
+      - "W ogrodzie otwórz bramy"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        domain: cover
+        device_class: gate
+        area:
+          - "Ogród"
+          - "Ogrodzie"
+    response: "Otwarto bramy"
+  - sentences:
+      - "Otwórz bramy"
+      - "Otwórz wszystkie bramy"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: gate
+      slots:
+        domain: cover
+        device_class: gate
+    response: "Otwarto bramy"
+
+  # ---------- Door ----------
+  - sentences:
+      - "Otwórz drzwi tarasowe"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: door
+      slots:
+        name:
+          - "Drzwi tarasowe"
+    response: "Otwarto drzwi"
+  - sentences:
+      - "Otwórz drzwi tarasowe w salonie"
+      - "Otwórz w salonie drzwi tarasowe"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: door
+      slots:
+        name:
+          - "Drzwi tarasowe"
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Otwarto drzwi"
+  - sentences:
+      - "Otwórz drzwi w salonie"
+      - "Otwórz wszystkie drzwi w salonie"
+      - "Otwórz w salonie wszystkie drzwi"
+      - "W salonie otwórz wszystkie drzwi"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: door
+      slots:
+        domain: cover
+        device_class: door
+        area:
+          - "Salonie"
+          - "Salonu"
+          - "Salon"
+    response: "Otwarto drzwi"
+  - sentences:
+      - "Otwórz drzwi"
+      - "Otwórz wszystkie drzwi"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: door
+      slots:
+        domain: cover
+        device_class: door
+    response: "Otwarto drzwi"
+
+  # ---------- Damper ----------
+  - sentences:
+      - "Otwórz klapę bagażnika"
+      - "Podnieś klapę bagażnika"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: damper
+      slots:
+        name:
+          - "Klapa bagażnika"
+          - "Klapę bagażnika"
+    response: "Otwarto klapę"
+  - sentences:
+      - "Otwórz klapę bagażnika w garażu"
+      - "Podnieś klapę bagażnika w garażu"
+      - "Otwórz w garażu klapę bagażnika"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: damper
+      slots:
+        name:
+          - "Klapa bagażnika"
+          - "Klapę bagażnika"
+        area:
+          - "Garaż"
+          - "Garażu"
+    response: "Otwarto klapę"
+  - sentences:
+      - "Otwórz klapy w garażu"
+      - "Podnieś klapy w garażu"
+      - "Otwórz wszystkie klapy w garażu"
+      - "Podnieś wszystkie klapy w garażu"
+      - "Otwórz w garażu wszystkie klapy"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: damper
+      slots:
+        domain: cover
+        device_class: damper
+        area:
+          - "Garaż"
+          - "Garażu"
+    response: "Otwarto klapy"
+  - sentences:
+      - "Otwórz klapy"
+      - "Otwórz wszystkie klapy"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: damper
+      slots:
+        domain: cover
+        device_class: damper
+    response: "Otwarto klapy"
+
+  # ---------- Awning ----------
+  - sentences:
+      - "Otwórz markizę balkonową"
+      - "Odsłoń markizę balkonową"
+      - "Podnieś markizę balkonową"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: awning
+      slots:
+        name:
+          - "Markiza balkonowa"
+          - "Markizę balkonową"
+    response: "Otwarto markizę"
+  - sentences:
+      - "Otwórz markizę balkonową na balkonie"
+      - "Odsłoń markizę balkonową na balkonie"
+      - "Podnieś markizę balkonową na balkonie"
+      - "Otwórz na balkonie markizę balkonową"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: awning
+      slots:
+        name:
+          - "Markiza balkonowa"
+          - "Markizę balkonową"
+        area:
+          - "Balkon"
+          - "Balkonie"
+          - "Balkonu"
+    response: "Otwarto markizę"
+  - sentences:
+      - "Otwórz markizy na balkonie"
+      - "Odsłoń markizy na balkonie"
+      - "Podnieś markizy na balkonie"
+      - "Otwórz wszystkie markizy na balkonie"
+      - "Odsłoń wszystkie markizy na balkonie"
+      - "Podnieś wszystkie markizy na balkonie"
+      - "Otwórz na balkonie wszystkie markizy"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: awning
+      slots:
+        domain: cover
+        device_class: awning
+        area:
+          - "Balkon"
+          - "Balkonie"
+          - "Balkonu"
+    response: "Otwarto markizy"
+  - sentences:
+      - "Otwórz markizy"
+      - "Otwórz wszystkie markizy"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: awning
+      slots:
+        domain: cover
+        device_class: awning
+    response: "Otwarto markizy"
+
+  # ---------- Window ----------
+  - sentences:
+      - "Otwórz okno dachowe"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: window
+      slots:
+        name: "Okno dachowe"
+    response: "Otwarto okno"
+  - sentences:
+      - "Otwórz okno dachowe w biurze"
+      - "Otwórz w biurze okno dachowe"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: window
+      slots:
+        name: "Okno dachowe"
+        area:
+          - "Biuro"
+          - "Biurze"
+    response: "Otwarto okno"
+  - sentences:
+      - "Otwórz okna w biurze"
+      - "Otwórz wszystkie okna w biurze"
+      - "Otwórz w biurze wszystkie okna"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: window
+      slots:
+        domain: cover
+        device_class: window
+        area:
+          - "Biuro"
+          - "Biurze"
+    response: "Otwarto okna"
+  - sentences:
+      - "Otwórz okna"
+      - "Otwórz wszystkie okna"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: cover
+        device_class: window
+      slots:
+        domain: cover
+        device_class: window
+    response: "Otwarto okna"
+
+  # ---------- Other ----------
+  # TODO: Add sentences
+
+  # ---------- Device_class ----------
+  # TODO: Add sentences
+
+  # ---------- Device_class here ----------
+  - sentences:
+      - "Otwórz tutaj rolety"
+      - "Otwórz wszystkie rolety tutaj"
+      - "Otwórz w tym pokoju rolety"
+      - "Otwórz rolety w tym pokoju"
+      - "Otwórz rolety w tym pomieszczeniu"
+    intent:
+      name: HassTurnOn
+      context:
+        area: "Salon"
+      slots:
+        domain: cover
+        device_class: blind
+        area: "Salon"
+    response: "Otwarto rolety"

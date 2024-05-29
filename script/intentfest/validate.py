@@ -1,4 +1,5 @@
 """Validate all intent files."""
+
 from __future__ import annotations
 
 import argparse
@@ -98,6 +99,9 @@ INTENTS_SCHEMA = vol.Schema(
             vol.Optional("slot_combinations"): {
                 str: [str],
             },
+            vol.Optional("slot_groups"): {
+                str: [str],
+            },
             vol.Optional("response_variables"): {
                 str: {
                     vol.Required("description"): str,
@@ -109,15 +113,39 @@ INTENTS_SCHEMA = vol.Schema(
 
 INTENT_ERRORS = {
     "no_intent",
-    "no_area",
-    "no_domain",
-    "no_device_class",
-    "no_entity",
     "handle_error",
+    "no_area",
+    "no_floor",
+    "no_domain",
+    "no_domain_in_area",
+    "no_domain_in_floor",
+    "no_device_class",
+    "no_device_class_in_area",
+    "no_device_class_in_floor",
+    "no_entity",
+    "no_entity_in_area",
+    "no_entity_in_floor",
+    "no_entity_exposed",
+    "no_entity_in_area_exposed",
+    "no_entity_in_floor_exposed",
+    "no_domain_exposed",
+    "no_domain_in_area_exposed",
+    "no_domain_in_floor_exposed",
+    "no_device_class_exposed",
+    "no_device_class_in_area_exposed",
+    "no_device_class_in_floor_exposed",
+    "duplicate_entities",
+    "duplicate_entities_in_area",
+    "duplicate_entities_in_floor",
+    "entity_wrong_state",
+    "feature_not_supported",
+    "timer_not_found",
+    "multiple_timers_matched",
+    "no_timer_support",
 }
 
 SENTENCE_MATCHER = vol.All(
-    match_unicode_regex(r"^[\w\p{M} :\-'\|\(\)\[\]\{\}\<\>]+$"),
+    match_unicode_regex(r"^[\w\p{M} :\-'\|\(\)\[\]\{\}\<\>;]+$"),
     msg="Sentences should only contain words and matching syntax. They should not contain punctuation.",
 )
 
@@ -128,6 +156,7 @@ SENTENCE_SCHEMA = vol.Schema(
             str: {
                 vol.Required("data"): [
                     {
+                        vol.Optional("expansion_rules"): {str: str},
                         vol.Required("sentences"): [SENTENCE_MATCHER],
                         vol.Optional("slots"): {
                             str: match_anything,
@@ -171,6 +200,7 @@ SENTENCE_COMMON_SCHEMA = vol.Schema(
                         vol.Required("to"): int,
                         vol.Optional("step", default=1): int,
                     },
+                    "wildcard": bool,
                 }
             )
         },
@@ -210,6 +240,7 @@ TESTS_FIXTURES = vol.Schema(
             {
                 vol.Required("name"): str,
                 vol.Required("id"): str,
+                vol.Optional("floor"): str,
             }
         ],
         vol.Optional("entities"): [
@@ -222,6 +253,20 @@ TESTS_FIXTURES = vol.Schema(
                     str, {vol.Required("in"): str, vol.Required("out"): str}
                 ),
                 vol.Optional("attributes"): {str: match_anything},
+            }
+        ],
+        vol.Optional("timers"): [
+            {
+                vol.Required(
+                    vol.Any("start_hours", "start_minutes", "start_seconds")
+                ): int,
+                vol.Required("total_seconds_left"): int,
+                vol.Required("rounded_hours_left"): int,
+                vol.Required("rounded_minutes_left"): int,
+                vol.Required("rounded_seconds_left"): int,
+                vol.Optional("name"): str,
+                vol.Optional("area"): str,
+                vol.Optional("is_active"): bool,
             }
         ],
     }
@@ -333,7 +378,7 @@ def _load_yaml_file(
     """Load a YAML file."""
     path = str(file_path.relative_to(ROOT))
     try:
-        content = yaml.safe_load(file_path.read_text())
+        content = yaml.safe_load(file_path.read_text(encoding="utf8"))
     except yaml.YAMLError as err:
         errors.append(f"{path}: invalid YAML: {err}")
         return None
@@ -430,7 +475,7 @@ def validate_language(
                 area = entity.get("area")
                 if (area is not None) and (area not in area_ids):
                     errors.append(
-                        f"{path}: Entity {entity['name']} references unknown area {entity['id']}"
+                        f"{path}: Entity {entity['name']} references unknown area {entity['area']}"
                     )
             continue
 
@@ -440,6 +485,20 @@ def validate_language(
 
         sentence_content = sentence_files.pop(test_file.name)
         _domain, intent = test_file.stem.rsplit("_", maxsplit=1)
+
+        # Ensure test file has the correct intent
+        has_correct_intent = True
+        for test in content["tests"]:
+            test_intent = test["intent"]["name"]
+            if test_intent != intent:
+                errors.append(
+                    f"{path}: expected intent {intent} but found {test_intent}"
+                )
+                has_correct_intent = False
+                break
+
+        if not has_correct_intent:
+            continue
 
         test_count = sum(len(test["sentences"]) for test in content["tests"])
 
@@ -504,10 +563,14 @@ def validate_language(
                 continue
 
             possible_response_keys: set[str] = set()
-            slots = {
+            slots: dict[str, Any] = {
                 slot_name: f"<{slot_name}>"
                 for slot_name in intent_schemas[intent_name].get("slots", {})
             }
+
+            # For timer intents
+            slots["timers"] = []
+
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)
                 if response_key not in used_intent_response_keys:
@@ -526,6 +589,7 @@ def validate_language(
                                 },
                                 "slots": slots,
                                 "query": {"matched": [], "unmatched": []},
+                                "state_attr": lambda *args: None,
                             }
                         )
                     except jinja2.exceptions.TemplateError as err:

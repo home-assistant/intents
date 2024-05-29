@@ -3,11 +3,15 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - <eteins> <name>
-          - <eteins> <name> <dans> <area>
-      - sentences:
-          - (ferme|baisse) <name>
-        response: cover
-      - sentences:
-          - (ferme|baisse) <name> <dans> <area>
-        response: cover_area
+          - <eteins> [<le>]{name}
+          - <eteins> [<le>]{name} <dans> [<le>]{area}
+        excludes_context:
+          domain:
+            - binary_sensor
+            - cover
+            - lock
+            - scene
+            - script
+            - sensor
+            - vacuum
+            - valve

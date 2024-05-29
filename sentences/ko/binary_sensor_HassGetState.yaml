@@ -1,0 +1,889 @@
+language: ko
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "[<area>] <name> {bs_battery_states:state}이야"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "[<area>에] {bs_battery_states:state}인게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "[<area>에] 모든 기기[가] {bs_battery_states:state}이야"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "[<area>에] 어떤 기기[가] {bs_battery_states:state}이야"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 기기[가] {bs_battery_states:state}이야"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "[<area>] <name> [배터리] {bs_battery_charging_states:state}이야"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "[<area>에] 배터리[가] {bs_battery_charging_states:state}인게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "[<area>에] 모든 배터리[가] {bs_battery_charging_states:state}이야"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "[<area>에] 어떤 배터리[가] {bs_battery_charging_states:state}이야"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 배터리[가] {bs_battery_charging_states:state}이야"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # Carbon monoxide
+      - sentences:
+          - "[<area>] <name> {bs_carbon_monoxide_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "[<area>에] 일산화탄소 센서[가] {bs_carbon_monoxide_states:state}된게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "<area>에 일산화탄소 센서[가] 감지됐어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+
+      - sentences:
+          - "[<area>에] 모든 일산화탄소 센서[가] {bs_carbon_monoxide_states:state}됐어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "[<area>에] (어떤|어디) 일산화탄소 센서[가] {bs_carbon_monoxide_states:state}됐어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 일산화탄소 센서[가] {bs_carbon_monoxide_states:state}됐어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "[<area>] <name> {bs_cold_states:state}워"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "[<area>에] {bs_cold_states:state}운게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "[<area>에] (어떤게|무엇이|뭐가) {bs_cold_states:state}워"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "[<area>에] {bs_cold_states:state}운게 얼마나 있어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Connectivity
+      - sentences:
+          - "[<area>] <name> {bs_connectivity_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "[<area>에] {bs_connectivity_states:state}된 (기기|장치)가 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "[<area>에] 모든 (기기|장치)가 {bs_connectivity_states:state}됐어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "[<area>에] 어떤 (기기|장치)가 {bs_connectivity_states:state}됐어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (기기|장치)가 {bs_connectivity_states:state}됐어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "[<area>] <name> {bs_door_states:state}있어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "[<area>] <name> {bs_garage_door_states:state}있어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "[<area>] <name> {bs_gas_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "[<area>에] 가스 센서[가] {bs_gas_states:state}된게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "<area>에 가스[가] 감지됐어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "[<area>에] 모든 가스 센서[가] {bs_gas_states:state}됐어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "[<area>에] (어떤|어디) 가스 센서[가] {bs_gas_states:state}됐어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 가스 센서[가] {bs_gas_states:state}됐어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Heat
+      - sentences:
+          - "[<area>] <name> {bs_heat_states:state}워"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "[<area>에] {bs_heat_states:state}운게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "[<area>에] (어떤게|무엇이|뭐가) {bs_heat_states:state}워"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "[<area>에] {bs_heat_states:state}운게 얼마나 있어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Light
+      - sentences:
+          - "[<area>] <name>[이] {bs_light_states:state}져있어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "[<area>에] 표시등[이] {bs_light_states:state}져있는게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "[<area>에] 모든 표시등[이] {bs_light_states:state}져있어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "[<area>에] 어떤 표시등[이] {bs_light_states:state}져있어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 표시등[이] {bs_light_states:state}져있어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      # Lock
+      - sentences:
+          - "[<area>] <name> {bs_lock_states:state}있어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+          device_class: lock
+
+      # Moisture
+      - sentences:
+          - "[<area>] <name> {bs_moisture_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "[<area>에] (누수|누수 감지) 센서[가] {bs_moisture_states:state}된게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "<area> 누수됐어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+          state: "on"
+
+      - sentences:
+          - "[<area>에] 모든 (누수|누수 감지) 센서[가] {bs_moisture_states:state}됐어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "[<area>에] (어떤|어디) (누수|누수 감지) 센서[가] {bs_moisture_states:state}됐어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (누수|누수 감지) 센서[가] {bs_moisture_states:state}됐어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      # Motion
+      - sentences:
+          - "[<area>] <name> {bs_motion_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "[<area>에] (모션|움직임) 센서[가] {bs_motion_states:state}된게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "[<area>에] (모션|움직임) 감지됐어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+          state: "on"
+
+      - sentences:
+          - "[<area>에] 모든 (모션|움직임) 센서[가] {bs_motion_states:state}됐어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "[<area>에] (어떤|어디) (모션|움직임) 센서[가] {bs_motion_states:state}됐어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (모션|움직임) 센서[가] {bs_motion_states:state}됐어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      # Occupancy
+      - sentences:
+          - "[<area>] <name> {bs_occupancy_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "[<area>에] (존재 감지|재실) 센서[가] {bs_occupancy_states:state}된게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "[<area>에] (존재 감지|재실) 감지됐어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+          state: "on"
+
+      - sentences:
+          - "[<area>에] 모든 (존재 감지|재실) 센서[가] {bs_occupancy_states:state}됐어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "[<area>에] (어떤|어디) (존재 감지|재실) 센서[가] {bs_occupancy_states:state}됐어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (존재 감지|재실) 센서[가] {bs_occupancy_states:state}됐어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      # Opening
+      - sentences:
+          - "[<area>] <name> {bs_opening_states:state}있어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: opening
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "[<area>에] 문이 {bs_opening_states:state}있는게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "[<area>에] 모든 문이 {bs_opening_states:state}있어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "[<area>에] (어떤|어디) 문이 {bs_opening_states:state}있어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 문이 {bs_opening_states:state}있어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      # Plug
+      - sentences:
+          - "[<area>] <name> {bs_plug_states:state}있어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "[<area>에] {bs_plug_states:state}있는 (기기|장치)가 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "[<area>에] 모든 (기기|장치)가 {bs_plug_states:state}있어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "[<area>에] 어떤 (기기|장치)가 {bs_plug_states:state}있어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (기기|장치)가 {bs_plug_states:state}있어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      # Power
+      - sentences:
+          - "[<area>] <name> {bs_power_states:state}있어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "[<area>에] {bs_power_states:state}있는 (기기|장치)가 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "[<area>에] 모든 (기기|장치)가 {bs_power_states:state}있어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "[<area>에] 어떤 (기기|장치)가 {bs_power_states:state}있어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (기기|장치)가 {bs_power_states:state}있어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      # Presence
+      - sentences:
+          - "[<area>] <name> {bs_presence_states:state}이야"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "[<area>에] {bs_presence_states:state}인 (기기|장치)가 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "[<area>에] 모든 (기기|장치)가 {bs_presence_states:state}이야"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "[<area>에] 어떤 (기기|장치)가 {bs_presence_states:state}이야"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (기기|장치)가 {bs_presence_states:state}이야"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      # Problem
+      - sentences:
+          - "[<area>] <name>에 문제가 있어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      # Running
+      - sentences:
+          - "[<area>] <name> {bs_running_states:state}이야"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "[<area>에] {bs_running_states:state} (기기|장치)가 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "[<area>에] 모든 (기기|장치)가 {bs_running_states:state}야"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "[<area>에] 어떤 (기기|장치)가 {bs_running_states:state}야"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (기기|장치)가 {bs_running_states:state}야"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      # Safety
+      - sentences:
+          - "[<area>] <name> {bs_safety_states:state}해"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      # Smoke
+      - sentences:
+          - "[<area>] <name> {bs_smoke_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: smoke
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "[<area>에] (연기 감지|연기) 센서[가] {bs_smoke_states:state}된게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "<area>에 연기 (있어|감지됐어)"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
+
+      - sentences:
+          - "[<area>에] 모든 (연기 감지|연기) 센서[가] {bs_smoke_states:state}됐어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "[<area>에] 어떤 (연기 감지|연기) 센서[가] {bs_smoke_states:state}됐어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (연기 감지|연기) 센서[가] {bs_smoke_states:state}됐어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      # Sound
+      - sentences:
+          - "[<area>] <name> {bs_sound_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: sound
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "[<area>에] (소리|소음|사운드|소리 감지) 센서[가] {bs_sound_states:state}된게 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "<area>에 (소리|소음|사운드|소리 감지) (들려|나|감지됐어)"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+          state: "on"
+
+      - sentences:
+          - "[<area>에] 모든 (소리|소음|사운드|소리 감지) 센서[가] {bs_sound_states:state}됐어"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "[<area>에] (어떤|어디) (소리|소음|사운드|소리 감지) 센서[가] {bs_sound_states:state}됐어"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 (소리|소음|사운드|소리 감지) 센서[가] {bs_sound_states:state}됐어"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      # Tamper
+      - sentences:
+          - "[<area>] <name> {bs_tamper_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: tamper
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      # Update
+      - sentences:
+          - "[<area>] <name> {bs_update_states:state}야"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+
+      - sentences:
+          - "[<area>에] {bs_update_states:state}한 기기가 있어"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "[<area>에] 어떤 기기가 {bs_update_states:state}해"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "[<area>에] 얼마나 많은 기기가 {bs_update_states:state}해"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      # Vibration
+      - sentences:
+          - "[<area>] <name> {bs_vibration_states:state}됐어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "[<area>에] {bs_vibration_states:state}된게 있어"
+        response: any
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+          state: "on"
+
+      # Window
+      - sentences:
+          - "[<area>] <name> {bs_window_states:state}있어"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window

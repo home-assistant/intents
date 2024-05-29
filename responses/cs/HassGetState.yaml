@@ -4,11 +4,16 @@ responses:
     HassGetState:
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
       one: |
         {{ slots.name | capitalize }} je {{ state.state_with_unit }}
 
       one_light: |
         Světlo {{ slots.name | capitalize }} je {{ state.state_with_unit }}
+
+      one_scene: |
+        Scéna {{ slots.name | capitalize }} je {{ state.state_with_unit }}
 
       one_cover: |
         {% set present_continuous = ('je', 'jí', 'rá') %}
@@ -21,9 +26,16 @@ responses:
         {% set present_simple = ('no', 'ná', 'né') %}
 
         {% if query.matched %}
-          Ano, {{ slots.name }} {{ 'se' if state.state_with_unit.endswith(present_continuous) else 'je' }} {{ state.state_with_unit }}
+          Ano
         {% else %}
-          Ne, {{ slots.name }} {{ 'se' if state.state_with_unit.endswith(present_continuous) else 'je' }} {{ state.state_with_unit }}
+          Ne, {{ state.state_with_unit }}
+        {% endif %}
+
+      bs_yesno: |
+        {% if query.matched %}
+          Ano
+        {% else %}
+          Ne
         {% endif %}
 
       any: |
@@ -48,19 +60,26 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Ne, {{ no_match[:3] | join(", ") }} a {{ (no_match | length - 3) }} další jsou {{ state.state_with_unit }}
+            Ne, {{ no_match[:3] | join(", ") }} a {{ (no_match | length - 3) }} další jsou {{ state.state_with_unit }}
           {%- else -%}
             Ne,
+            {% if state.state_with_unit == "home" %}
+              {% set state_with_unit = "doma" %}
+            {% elif state.state_with_unit == "not_home" %}
+              {% set state_with_unit = "mimo domov" %}
+            {% else %}
+              {% set state_with_unit = state.state_with_unit %}
+            {% endif %}
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} a {% endif -%}
               {{ name }}
-            {%- endfor %} {{ 'není' if no_match | length == 1 else 'nejou'}} {{ state.state_with_unit }}
+            {%- endfor %} {{ 'není' if no_match | length == 1 else 'nejsou'}} {{ state_with_unit }}
           {% endif %}
         {% endif %}
 
       which: |
         {% if not query.matched %}
-          žádné
+          Žádné
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
@@ -68,10 +87,19 @@ responses:
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} a {% endif -%}
-              {{ name }} {{ 'je' if match | length == 1 else 'jsou'}} {{ state.state_with_unit }}
+              {{ name }}
             {%- endfor -%}
           {% endif %}
         {% endif %}
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state.state == "not_home" %}
+          {{ slots.name | capitalize }} je mimo domov
+        {% elif state.state == "home" %}
+          {{ slots.name | capitalize }} je doma
+        {% else %}
+          {{ slots.name | capitalize }} je v zóně {{ state.state }}
+        {% endif %}

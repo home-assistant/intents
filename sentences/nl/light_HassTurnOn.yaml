@@ -3,14 +3,36 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "[<doe>|<zou>] [<alle>] <lamp> [<naar>] aan [[willen|kunnen] <doe>] (in|op) <area>"
-          - "Schakel [<alle>] <lamp> [<naar>] in (in|op) <area>"
-          - "[<doe>|<zou>] [<alle>] <lamp> <in> <area> [<naar>] aan [[willen|kunnen] <doe>]"
-          - "Schakel [<alle>] <lamp> <in> <area> in"
-          - "[<doe>|<zou>] [(<alle>|<in>)] <area>[ ]<lamp> aan [[willen|kunnen] <doe>]"
-          - "Schakel [(<alle>|<in>)] <area>[ ]<lamp> in"
-          - "[<zou>] [(<alle>|<in>)] [<area>[ ]]<lamp> [<in> <area>] [willen|kunnen] (aan[ ]zetten|inschakelen)"
+          - "[<doe>] [<alle>] <lamp> [<naar>] aan <in> <area>"
+          - "<zou> [<alle>] <lamp> [<naar>] (aan willen |aan kunnen |aan[ ])<doe> <in> <area>"
+          - "Schakel [<alle>] <lamp> [<naar>] in <in> <area>"
+          - "[<doe>] [<alle>] <lamp> <in> <area> [<naar>] aan"
+          - "<zou> [<alle>] <lamp> <in> <area> [<naar>] (aan willen |aan kunnen |aan[ ])<doe>"
+          - "Schakel [<alle>] <lamp> <in> <area> [<naar>] in"
+          - "[<doe>] [(<alle>|<in>)] <area> <lamp> [<naar>] aan"
+          - "<zou> [(<alle>|<in>)] <area> <lamp> [<naar>] (aan willen |aan kunnen |aan[ ])<doe>"
+          - "Schakel [(<alle>|<in>)] <area>[ ]<lamp> [<naar>] in"
+          - "[<zou>] [(<alle>|<in>)] [<area>[ ]]<lamp> [<in> <area>] [willen|kunnen] (aan[ ](zetten|doen)|inschakelen)"
         response: "lights_area"
         slots:
           domain: "light"
           name: "all"
+
+      # Turn on all lights in the same area as a satellite device
+      - sentences:
+          - "[<doe>] ([hier];[<alle>] <lamp>) [<naar>] aan"
+          - "[<doe>] [<alle>] <lamp> [<naar>] aan in deze (ruimte|kamer)"
+          - "<zou> ([hier];[<alle>] <lamp>) [<naar>] (aan willen |aan kunnen |aan[ ])<doe>"
+          - "<zou> ([<alle>] <lamp> [<naar>] (aan willen |aan kunnen |aan[ ])<doe>;in deze (ruimte|kamer))"
+          - "<zou> ([hier];[<alle>] <lamp>) [willen|kunnen] (aan[ ](zetten|doen)|inschakelen)"
+          - "<zou> ([<alle>] <lamp> [willen|kunnen] (aan[ ](zetten|doen)|inschakelen);in deze (ruimte|kamer))"
+          - "([hier];[<alle>] <lamp>) (aan[ ](zetten|doen)|inschakelen)"
+          - "[<alle>] <lamp> (aan[ ](zetten|doen)|inschakelen) in deze (ruimte|kamer)"
+        response: "lights_area"
+        expansion_rules:
+          hier: "[[ ]hier,[ ]in deze (ruimte|kamer)]"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true

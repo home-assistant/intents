@@ -1,12 +1,31 @@
 language: "de-CH"
 responses:
   errors:
+    # General errors
     no_intent: "Tschuldigung, das han i nid verstande"
-    no_area: "S'git ke Bereich {{area}}"
-    no_domain: "Im Bereich {{area}} git's kes Grät vor Kategorie {{domain}}"
-    no_device_class: "Im Bereich {{area}} het's kes Grät vor Klass {{device_class}}"
-    no_entity: "Ds Grät {{entity}} gids nid"
-    handle_error: "Es isch en unerwartete Fähler ufträte bi de Verarbeitig vom Befäu."
+    handle_error: "Es isch en unerwartete Fähler ufträte bi der Verarbeitig vom Befäu."
+
+    #unspecific errors, when user is not logged in
+    no_area: "I kenne ke Bereich {{ area }}"
+    no_domain: "I kenne ke Grätkategorie (domain) {{ domain }}"
+    no_domain_in_area: "I kenne kes Grät vor Kategorie {{ domain }} im Bereich {{area}}"
+    no_device_class: "I kenne ke Grätklass (device_class) {{ device_class }}"
+    no_device_class_in_area: "I kenne kes Grät vor Klass {{ device_class }} im Bereich {{ area }}"
+    no_entity: "I kenne ds Grät {{ entity }} nid"
+    no_entity_in_area: "I kenne kes Grät mit em Name {{ entity }} im Bereich {{ area }}"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "I ha ke Zuegriff uf {{ entity }}, ds Grät isch äuä nid freiggäh"
+    no_entity_in_area_exposed: "I ha ke Zuegriff uf {{ entity }} im Bereich {{ area }}, ds Grät isch äuä nid freiggäh"
+    no_domain_exposed: "I ha ke Zuegriff uf {{ domain }}, es isch äuä kes Grät vo dere Kategorie (domain) freiggäh"
+    no_domain_in_area_exposed: "I ha ke Zuegriff uf {{ domain }} im Bereich {{ area }}, es isch äuä kes Grät vo dere Kategorie (domain) im Bereich freiggäh"
+    no_device_class_exposed: "I ha ke Zuegriff uf {{ device_class }}, es isch äuä kes Grät vo dere Klass (device_class) freiggäh"
+    no_device_class_in_area_exposed: "I ha ke Zuegriff uf {{ device_class }} im Bereich {{ area }}, es isch äuä kes Grät vo dere Klass (device_class) im Bereich freiggäh"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Es git mehreri Grät mit em Name {{ entity }}"
+    duplicate_entities_in_area: "Es git im Bereich {{ area }} mehreri Grät mit em Name  {{ entity }}"
+
 lists:
   color:
     values:
@@ -16,13 +35,9 @@ lists:
         out: "black"
       - in: "rot"
         out: "red"
-      - in: "orange"
+      - in: "(orange|orangsch)"
         out: "orange"
-      - in: "gelb"
-        out: "yellow"
-      - in: "gälb"
-        out: "yellow"
-      - in: "gäub"
+      - in: "(gelb|gäub|gälb)"
         out: "yellow"
       - in: "grüen"
         out: "green"
@@ -30,9 +45,7 @@ lists:
         out: "blue"
       - in: "violett"
         out: "purple"
-      - in: "brun"
-        out: "brown"
-      - in: "bruun"
+      - in: "(brun|bruun)"
         out: "brown"
   brightness:
     range:
@@ -52,15 +65,9 @@ lists:
         out: "Fahrenheit"
   on_off_states:
     values:
-      - in: "a"
+      - in: "(a|aa|an|anne)"
         out: "on"
-      - in: "an"
-        out: "on"
-      - in: "anne"
-        out: "on"
-      - in: "ab"
-        out: "off"
-      - in: "us"
+      - in: "(ab|us|uus)"
         out: "off"
   on_off_domains:
     values:
@@ -72,9 +79,13 @@ lists:
         out: fan
       - in: "Scha(u|l)ter"
         out: switch
+      - in: "Skript"
+        out: script
+      - in: "Szene"
+        out: szene
   cover_states:
     values:
-      - in: "offe"
+      - in: "(uf|offe)"
         out: "open"
       - in: "zue"
         out: "closed"
@@ -90,38 +101,60 @@ lists:
         out: blind
       - in: "Vorh(a|ä)ng"
         out: curtain
-      - in: "Tür[e]"
+      - in: "Tü[ü]r[e]"
         out: door
-      - in: "Garagetor"
+      - in: "Gara(g|sch)[e]tor"
         out: garage
       - in: "Tor"
         out: gate
       - in: "shade[s]"
         out: shade
-      - in: "Fänschterlade"
+      - in: "Fäns[ch]terlade"
         out: shutter
-      - in: "Fänschter"
+      - in: "Fäns[ch]ter"
         out: window
   lock_states:
     values:
-      - in: "[(ab|zue)](gschlosse|bschlosse)"
+      - in: "[(ab|zue[ ])](gschlosse|bschlosse)"
         out: "locked"
-      - in: "((uf|und|nid )(gschlosse|bschlosse)|offe)"
+      - in: "((uf|un|nid )(gschlosse|bschlosse)|offe)"
         out: "unlocked"
+
+  list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
   name: "[(d'[ ]|d |de |dr |der |die |ds |s )]{name}"
   area: "[(idr|i dr|im|ir|ide|idä|i dä|i de|i dr|i der)] {area}"
-  a_y: "(a|y|ii|ih)"
+  a_y: "(a|aa|y|yy|ii|ih)"
   ab_us: "(ab|us|uus|uis)"
   cover: "[(d'[' ']|d |alli |aui )]([Sunne]s[ch]tore|Vorhang|Vorhäng|Tür[e]|Tor|Abdeckig[e]|Fänschter[l(a|ä)de])"
   what_is: "(was isch|wasch)"
-  brightness: "{brightness}[(%| %| Prozent)]"
+  brightness: "{brightness}[(%| %| Proz(e|ä)nt)]"
+  position: "{position}[[ ]%| %| Proz(e|ä)nt]"
   temp: "{temperature} [Grad] [{temperature_unit}]"
-  schliessen: "(tue {name} (zue|abe)|mach {name} (zue|abe)|schliess {name})"
+  #schliessen: "(tue {name} (zue|abe)|mach {name} (zue|abe)|schliess {name})"
+  steu: "(Scha(l|u)t|S[ch]te(ll|u)|Mach)"
   mach: "(mach|tue|la[s])"
   Liechter: "([(d'[ ]|d |alli |aui )]Liechter|[(d'[ ]|d |alli |aui )]Lampä|[(d'[ ]|d |alli |aui )]Lampe|[(d'[ ]|d |alli |aui )]Lampäne)"
   Liecht: "([(ds|s)] Liecht|[(d |d'[ ])]Lampe|[(d |d'[ ])]Lampä)"
   Geräte: "([(d'[ ]|d |alli |aui )](Grät|Entitäte|Entitätä))"
+  volume: "{volume:volume_level}[[ ]%| %| Proz(e|ä)nt]"
 
 skip_words:
   - "bitte"

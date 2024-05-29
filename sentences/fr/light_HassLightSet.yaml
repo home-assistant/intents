@@ -2,21 +2,140 @@ language: fr
 intents:
   HassLightSet:
     data:
+      # brightness (name)
       - sentences:
-          - <regle> [toutes] <lumieres> de <area> à <brightness>
-        slots:
-          name: all
-        response: brightness_area
+          # Règle la luminosité de la statue à 50%
+          - "(<regle>|<augmente>|<diminue>) [la] luminosité [<de>] [<le>]{name} [à] {brightness}<pourcent>"
+          # Allume la lumière du mirroir à 70%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>](<lumiere>|<lumieres>) [<de>] [<le>]{name} [à] {brightness}<pourcent>"
+          # Règle le mirrior à 50% de luminosité
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>]{name} [à] {brightness}<pourcent> [de] luminosité"
+          # Allume le sapin à 50%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>]{name} [à] {brightness}<pourcent>"
+          # Luminosité statue 40%
+          - "luminosité [<de>] [<le>]{name} [à] {brightness}<pourcent>"
+          # Sapin à 50%
+          - "[<le>]{name} [à] {brightness}<pourcent>"
+          # Mirroir à 20% de luminosité
+          - "[<le>]{name} [à] {brightness}<pourcent> [de] luminosité"
+          # Sapin luminosité 30%
+          - "[<le>]{name} luminosité [à] {brightness}<pourcent>"
+        requires_context:
+          domain: light
+        response: brightness
+
+      # brightness (area)
       - sentences:
-          - <regle> <name> [dans|du|de] <area> à <brightness>
-        response: brightness_area
+          # Baisse la luminosité du bureau à 40%
+          - "(<regle>|<augmente>|<diminue>) [la] luminosité [<dans>] [<le>]{area} [à] {brightness}<pourcent>"
+          # Allume la lumière du bureau à 70%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>](<lumiere>|<lumieres>)  [<dans>] [<le>]{area} [à] {brightness}<pourcent>"
+          # Règle le bureau à 50% de luminosité
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>]{area} [à] {brightness}<pourcent> [de] luminosité"
+          # Monte le bureau a 100%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>]{area} [à] {brightness}<pourcent>"
+          # Luminosité dans bureau à 50%
+          - "luminosité [<dans>] [<le>]{area} [à] {brightness}<pourcent>"
+          # Bureau luminosité 50%
+          - "[<le>]{area} luminosité [à] {brightness}<pourcent>"
+          # Bureau à 50 de luminosité
+          - "[<le>]{area} [à] {brightness}<pourcent> [de] luminosité"
+          # Règle les lumieres du bureau avec la luminosité à 50% (Too complex... We should think about removing that)
+          - "(<allume>|<regle>) [<tous>] [<le>][<lumieres>] [<de>] [<le>]{area} [avec la luminosité|avec la lumière] [à] {brightness}<pourcent>"
+        response: brightness
+
+      # brigtness (area + context awareness)
       - sentences:
-          - <regle> [la couleur] [de | des] [toutes] <lumieres> de <area> [avec la
-            couleur | de couleur | en] {color}
-        slots:
-          name: all
-        response: color_area
+          # Baisse la luminosité à 40%
+          - "(<regle>|<augmente>|<diminue>) [la] luminosité [à] {brightness}<pourcent>"
+          # Allume la lumière à 70%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>](<lumiere>|<lumieres>) [à] {brightness}<pourcent>"
+          # Règle à 50% de luminosité
+          - "(<allume>|<regle>|<augmente>|<diminue>) [à] {brightness}<pourcent> [de] luminosité"
+          # Luminosité à 50%
+          - "luminosité [à] {brightness}<pourcent>"
+          # 50% de luminosité
+          - "{brightness}<pourcent> [de] luminosité"
+        response: brightness
+        requires_context:
+          area:
+            slot: true
+
+      # brightness (name + area)
       - sentences:
-          - <regle> [la couleur de] <name> [dans|du|de] <area> [avec la couleur |
-            de couleur | en] {color}
-        response: color_area
+          # Baisse la luminosité du mirrior de la salle de bain à 20%
+          - "(<regle>|<augmente>|<diminue>) [la] luminosité [<de>] [<le>]{name} [<dans>] [<le>]{area} [à] {brightness}<pourcent>"
+          # Allume la lumière de la statue du jardin à 60%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>](<lumiere>|<lumieres>)  [<de>] [<le>]{name} [<dans>] [<le>]{area} [à] {brightness}<pourcent>"
+          # Règle les spots du salon à 60% de luminosité
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>]{name} [<dans>] [<le>]{area} [à] {brightness}<pourcent> [de] luminosité"
+          # Allume les spots du salon à 80%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>]{name} [<dans>] [<le>]{area} [à] {brightness}<pourcent>"
+          # Luminosité du mirrior de la salle de bain à 40%
+          - "luminosité [<de>] [<le>]{name} [<dans>] [<le>]{area} [à] {brightness}<pourcent>"
+          # Mirrior de la salle de bain à 40%
+          - "[<le>]{name} [<dans>] [<le>]{area} {brightness}<pourcent>"
+          # Mirrior de la salle de bain à 40% de luminosité
+          - "[<le>]{name} [<dans>] [<le>]{area} {brightness}<pourcent> [de] luminosité"
+          # Mirroir salle de bain luminosité 40%
+          - "[<le>]{name} [<dans>] [<le>]{area} luminosité {brightness}<pourcent>"
+        requires_context:
+          domain: light
+        response: brightness
+
+      # brightness (name + floor)
+      # To be done when it's supported in the slot_combinations
+
+      # brightness (floor)
+      # To be done when it's supported in the slot_combinations
+
+      # color (name)
+      - sentences:
+          # Règle la couleur du mirrior en vert
+          - "<regle> la couleur [<de>] [<le>]{name} [en] {color}"
+          # Règle le mirrior en vert
+          - "(<regle>|<allume>) [<le>]{name} [avec la couleur | de couleur | en] {color}"
+        requires_context:
+          domain: light
+        response: color
+
+      # color (area)
+      - sentences:
+          # Règle la couleur du salon en vert
+          - "<regle> la couleur [<de>] [<le>]{area} [en] {color}"
+          # Règle la couleur des lumières du salon en vert
+          - "<regle> la couleur <de> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{area} [en] {color}"
+          # Allume les lumières du salon en rouge
+          - "(<regle>|<allume>) [<tous>] [<le>](<lumiere>|<lumieres>) [<de>] [<le>]{area} [avec la couleur | de couleur | en] {color}"
+          # Allume le salon en rouge
+          - "(<regle>|<allume>) [<le>]{area} [avec la couleur | de couleur | en] {color}"
+        response: color
+
+      # color (area + context awareness)
+      - sentences:
+          # Règle la couleur en vert
+          - "<regle> la couleur [en] {color}"
+          # Règle la couleur des lumières en vert
+          - "<regle> la couleur <de> [<tous>] [<le>](<lumiere>|<lumieres>) [en] {color}"
+          # Allume les lumières en rouge
+          - "(<regle>|<allume>) [<tous>] [<le>](<lumiere>|<lumieres>) [avec la couleur | de couleur | en] {color}"
+        response: color
+        requires_context:
+          area:
+            slot: true
+
+      # color (name + area)
+      - sentences:
+          # Règle la couleur du sapin dans le salon en rouge
+          - "<regle> la couleur [<de>] [<le>]{name} [<dans>] [<le>]{area} [en] {color}"
+          # Allume le sapin de l'exterieur en vert
+          - (<regle>|<allume>) [<le>]{name} [<dans>] [<le>]{area} [avec la couleur | de couleur | en] {color}
+        requires_context:
+          domain: light
+        response: color
+
+      # color (name + floor)
+      # To be done when it's supported in the slot_combinations
+
+      # color (floor)
+      # To be done when it's supported in the slot_combinations

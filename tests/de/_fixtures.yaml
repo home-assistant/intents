@@ -2,18 +2,28 @@ language: de
 areas:
   - name: Küche
     id: kitchen
+    floor: "Erdgeschoss"
   - name: Flur
     id: corridor
+    floor: "Erdgeschoss"
   - name: Wohnzimmer
     id: living_room
+    floor: "Erdgeschoss"
   - name: Schlafzimmer
     id: bedroom
+    floor: "Obergeschoss"
   - name: Garage
     id: garage
   - name: Garten
     id: garden
   - name: Eingang
     id: entrance
+    floor: "Erdgeschoss"
+  - name: Büro
+    id: office
+    floor: "Keller"
+  - name: Auffahrt
+    id: driveway
 entities:
   - name: Schlafzimmerlampe
     id: light.bedroom_lamp
@@ -43,9 +53,27 @@ entities:
   - name: Wohnzimmerthermostat
     id: climate.living_room
     area: living_room
-    state: "22"
+    state: "heat"
     attributes:
-      unit_of_measurement: "°C"
+      current_temperature: 22
+  - name: Küchenthermostat
+    id: climate.kitchen
+    area: kitchen
+    state: "heat"
+    attributes:
+      current_temperature: 24
+  - name: "Vorhang links"
+    id: "cover.wohnzimmer_vorhang_links"
+    area: living_room
+    state: open
+    attributes:
+      device_class: blind
+  - name: "Vorhang rechts"
+    id: "cover.wohnzimmer_vorhang_links"
+    area: living_room
+    state: open
+    attributes:
+      device_class: blind
   - name: "Rollo links"
     id: "cover.wohnzimmer_rollo_links"
     area: living_room
@@ -64,6 +92,7 @@ entities:
     state: closed
     attributes:
       device_class: blind
+      position: "0"
   - name: "Außentemperatur"
     id: "sensor.outside_temperature"
     area: "garage"
@@ -81,3 +110,160 @@ entities:
     id: "scene.party_mode"
   - name: "Batteriewarnung"
     id: "script.battery_warning"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: "Handy"
+    id: "binary_sensor.phone_battery"
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "Handy"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "lädt"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "CO"
+    id: "binary_sensor.co"
+    area: kitchen
+    state:
+      in: "sicher"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "Wasserleitung"
+    id: "binary_sensor.computer_cold"
+    area: office
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "Handy"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "verbunden"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "Bürotelefon"
+    id: "binary_sensor.phone_connectivity"
+    area: office
+    state:
+      in: "getrennt"
+      out: "off"
+    attributes:
+      device_class: connectivity
+
+  - name: "Wohnungstür"
+    id: "binary_sensor.apartment_door"
+    area: entrance
+    state:
+      in: "geschlossen"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "Garagentor"
+    id: "binary_sensor.garage_door"
+    area: driveway
+    state:
+      in: "geschlossen"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "Gas"
+    id: "binary_sensor.gas"
+    area: kitchen
+    state:
+      in: "sicher"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "Computer"
+    id: "binary_sensor.computer_heat"
+    area: office
+    state:
+      in: "heiß"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "Licht"
+    id: "binary_sensor.light"
+    area: office
+    state:
+      in: "kein Licht"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "Futterspender"
+    id: "binary_sensor.problem"
+    area: kitchen
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "Straße"
+    id: "binary_sensor.road_safety"
+    area: driveway
+    state:
+      in: "sicher"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "Server"
+    id: "binary_sensor.server_safety_group"
+    state:
+      in: "sicher"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "Haushalt"
+    id: "todo.haushalt"
+    state: ""
+
+  - name: "Berlin"
+    id: "weather.berlin"
+    state: "rainy"
+    attributes:
+      temperature: "8"
+      temperature_unit: "°C"
+
+  - name: "Los Angeles"
+    id: "weather.los_angeles"
+    state: "clear"
+    attributes:
+      temperature: "25"
+      temperature_unit: "°C"
+
+  - name: "Hauptventil"
+    id: "valve.hauptventil"
+    state: "open"
+    attributes:
+      position: "100"
+
+  - name: "TV"
+    id: "media_player.tv"
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
+  - name: "Rover"
+    id: "vacuum.rover"
+    state: "idle"

@@ -1,2 +1,98 @@
 language: gl
-tests: []
+tests:
+  - sentences:
+      - "dime cal é a Temperatura exterior"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Temperatura exterior"
+    response: "17 °C"
+
+  - sentences:
+      - "por favor, está a Lámpada do Dormitorio acendida?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Lámpada"
+        state: "on"
+        area: "Dormitorio"
+    response: "Non, apagada"
+
+  - sentences:
+      - "está algún interrutor acendido na Cociña?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Cociña"
+        domain: "switch"
+        state: "on"
+    response: "Si, Lavalouzas"
+
+  - sentences:
+      - "todos os interrutores están apagados?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "off"
+    response: "Non, Lavalouzas e TV non están apagados"
+
+  - sentences:
+      - "están todos os interrutores da Cociña apagados?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Cociña
+        domain: "switch"
+        state: "off"
+    response: "Non, Lavalouzas non está apagados"
+
+  - sentences:
+      - "están todas as luces apagadas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Non, Aplique e Luz da Cociña non están apagadas"
+
+  - sentences:
+      - "que luces están acendidas?"
+      - "dígame cales luces están acendidas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Aplique e Luz da Cociña"
+
+  - sentences:
+      - "Cantas luces están acendidas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "2"
+
+  - sentences:
+      - "Cantas luces están acendidas na Cociña, por favor?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Cociña
+        domain: "light"
+        state: "on"
+    response: "1"
+
+  - sentences:
+      - "Está algunha luz acendida? Grazas"
+      - "Está algunha lámpada acendida?"
+      - "Existe algunha luz acendida?"
+      - "Hai algunha luz acendida?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Si, Aplique e Luz da Cociña"

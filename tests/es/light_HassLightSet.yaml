@@ -2,17 +2,19 @@ language: es
 tests:
   # brightness
   - sentences:
-      - pon el brillo de la lámpara al 50%
-      - ponga brillo de la lámpara al 50%
-      - poner brillo lámpara 50 porciento
-      - configura lámpara con brillo al 50%
-      - configure lámpara al 50 por ciento
-      - establece lámpara al 50%
+      - pon el brillo de la lámpara de la mesilla al 50%
+      - ponga brillo de la lámpara de la mesilla al 50%
+      - poner brillo lámpara de la mesilla 50 porciento
+      - configura lámpara de la mesilla con brillo al 50%
+      - configure lámpara de la mesilla al 50 por ciento
+      - establece lámpara de la mesilla al 50%
     intent:
       name: HassLightSet
       slots:
         brightness: 50
-        name: Lámpara
+        name: Lámpara de la mesilla
+    response: Brillo establecido
+
   - sentences:
       - establece el brillo del dormitorio al 50%
       - establezca brillo del dormitorio al 50 por ciento
@@ -25,16 +27,111 @@ tests:
       slots:
         brightness: 50
         area: Dormitorio
-      # color
+        name: all
+    response: Brillo establecido
+
   - sentences:
-      - configura la lámpara en color rojo
-      - configure color de lámpara a rojo
-      - configurar lámpara a color rojo
-      - pon la lámpara en rojo
-      - ponga lámpara en color rojo
-      - poner el color de la lámpara en rojo
+      - "establece el brillo al 50%"
+      - "cambia el brillo en la habitación al 50 por ciento"
+      - "ajustar brillo al 50% aquí"
+    intent:
+      name: HassLightSet
+      context:
+        area: Dormitorio
+      slots:
+        brightness: 50
+        area: Dormitorio
+    response: "Brillo establecido"
+
+  - sentences:
+      - "sube el brillo de la lámpara de la mesilla al máximo"
+      - "cambia el brillo de la lámpara de la mesilla a tope"
+      - "poner lámpara de la mesilla al brillo máximo"
+      - "lámpara de la mesilla a máximo brillo"
+      - "lámpara de la mesilla brillo máximo"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 100
+        name: Lámpara de la mesilla
+    response: "Brillo establecido"
+
+  - sentences:
+      - "subir brillo de dormitorio al máximo"
+      - "poner brillo del dormitorio a tope"
+      - "establece en el dormitorio el brillo al máximo"
+      - "cambiar el dormitorio a máximo brillo"
+      - "dormitorio a brillo máximo"
+      - "dormitorio máximo brillo"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 100
+        area: Dormitorio
+        name: all
+    response: "Brillo establecido"
+
+  - sentences:
+      - "baja brillo de lámpara de la mesilla al mínimo"
+      - "cambia el brillo de la lámpara de la mesilla al mínimo"
+      - "poner lámpara de la mesilla a mínimo brillo"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 1
+        name: Lámpara de la mesilla
+    response: "Brillo establecido"
+
+  - sentences:
+      - "bajar brillo en el dormitorio al mínimo"
+      - "cambia el brillo del dormitorio al mínimo"
+      - "establece brillo de dormitorio al mínimo"
+      - "dormitorio mínimo brillo"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 1
+        area: Dormitorio
+        name: all
+    response: "Brillo establecido"
+
+  - sentences:
+      - "subir brillo al tope"
+      - "cambiar el brillo de la habitación a lo más alto"
+      - "configurá brillo al máximo acá"
+    intent:
+      name: HassLightSet
+      context:
+        area: Dormitorio
+      slots:
+        brightness: 100
+        area: Dormitorio
+    response: "Brillo establecido"
+
+  # color
+  - sentences:
+      - configura la lámpara de la mesilla en color rojo
+      - configure color de lámpara de la mesilla a rojo
+      - configurar lámpara de la mesilla a color rojo
+      - pon la lámpara de la mesilla en rojo
+      - ponga lámpara de la mesilla en color rojo
+      - poner el color de la lámpara de la mesilla en rojo
     intent:
       name: HassLightSet
       slots:
         color: red
-        name: Lámpara
+        name: Lámpara de la mesilla
+    response: Color establecido
+
+  - sentences:
+      - "pon las luces en rojo"
+      - "configurar color de todas las luces acá a rojo"
+      - "cambia todas las luces a rojo aquí"
+    intent:
+      name: HassLightSet
+      context:
+        area: Dormitorio
+      slots:
+        color: red
+        area: Dormitorio
+    response: "Color establecido"

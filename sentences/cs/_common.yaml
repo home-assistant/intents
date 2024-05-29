@@ -1,10 +1,10 @@
 language: cs
 responses:
   errors:
-    no_intent: "Omlouvám se, ale nerozuměl jsem tomu"
-    no_area: "Oblast {{ area }} jsem nenašel"
-    no_domain: "{{ area }} neobsahuje {{ domain }}"
-    no_device_class: "{{ area }} neobsahuje {{ device_class }}"
+    no_intent: "Omlouvám se, ale nerozumím"
+    no_area: "Oblast {{ area }} nenalezena"
+    no_domain_in_area: "{{ area }} neobsahuje {{ domain }}"
+    no_device_class_in_area: "{{ area }} neobsahuje {{ device_class }}"
     no_entity: "Žádné zařízení ani entita se nejmenuje {{ entity }}"
     handle_error: "Při zpracování došlo k neočekávané chybě"
 lists:
@@ -119,16 +119,16 @@ lists:
 
   bs_door_states:
     values:
-      - in: "otevřené"
+      - in: "otevřen(é|á|ý)"
         out: "on"
-      - in: "zavřené"
+      - in: "zavřen(é|á|ý)"
         out: "off"
 
   bs_garage_door_states:
     values:
-      - in: "otevřené"
+      - in: "otevřen(é|á|ý)"
         out: "on"
-      - in: "zavřené"
+      - in: "zavřen(é|á|ý)"
         out: "off"
 
   bs_gas_states:
@@ -161,9 +161,9 @@ lists:
 
   bs_moisture_states:
     values:
-      - in: "vlhké"
+      - in: "vlhk(é|ý)"
         out: "on"
-      - in: "suché"
+      - in: "such(é|ý)"
         out: "off"
 
   bs_motion_states:
@@ -175,16 +175,16 @@ lists:
 
   bs_occupancy_states:
     values:
-      - in: "přítomný"
+      - in: "přítomn(ý|ost)"
         out: "on"
-      - in: "nepřítomný"
+      - in: "nepřítomn(ý|ost)"
         out: "off"
 
   bs_opening_states:
     values:
-      - in: "otevřený"
+      - in: "otevřen(ý|ých|y|o|é)"
         out: "on"
-      - in: "zavřený"
+      - in: "zavřen(ý|ých|y|o|é)"
         out: "off"
 
   bs_plug_states:
@@ -292,6 +292,16 @@ lists:
       type: "temperature"
       from: 0
       to: 100
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   temperature_unit:
     values:
       - "celsia"
@@ -300,23 +310,44 @@ lists:
       - "fahrenheita"
       - in: "(f|fahrenhait[a])"
         out: fahrenheita
+  shopping_list_item:
+    wildcard: true
+  zone:
+    wildcard: true
+
 expansion_rules:
   area: "[(na|v|ve)] {area}"
   zapnout: "(zapni|zapnout)"
   vypnout: "(vypni|vypnout|zastavit|zastav)"
   rozsvitit: "(rozsviť|rozsvítit|rožn(i|out))" #some dialect to be served for users :)
   zhasnout: "(zhasni|zhasnout)"
+  svetla: "(svět(lo|el)|[všech[na] ]svět(la|el))"
   nastavit: "(nastav|nastavit)"
   zmenit: "(změň|změnit)"
   ztlumit: "(ztlu(m|it)|snížit|sniž)"
   zvysit: "zv(yš|ýšit)"
   teplota: "{temperature}[°| stupňů] [{temperature_unit}]"
+  pozice: "{position}[[ ]%| procent]"
+  volume: "{volume:volume_level}[[ ]%| procent]"
+
   brightness: "[na] {brightness}[%| procent]"
   zavrit: "(zavři|zavřít)"
   otevrit: "(otevři|otevřít)"
   roztahnout: "(roz|vy|od)táhn(out|i)"
   zatahnout: "zatáhn(out|i)"
   ktere: "(kter(á|é)|jak(é|á))"
+  prejit: "(přejít|přejdi)"
+  je_jsou: "(je|jsou)"
+  v: "(v|ve|na)"
+  y_ej: "(ý|ej)"
+  y_e: "(ý|é)"
+  koncentrace: "(úroveň|množství|koncentrace)"
+  jaky_je: "(jak<y_e> (je|bude)|jaká (je|bude)|jakou|jaká|jak|kolik|kolik (je|bude))"
+  jaka_je_class_of_name: >
+    (
+       <jaky_je> <class> [(je|byla)] [[(na|z)]měřen(á|ý|é)] [(na|na sen(z|s)oru|sen(z|s)orem)] {name} [<area>]
+       |<jaky_je> <area> <class> (na|z)měřen(á|ý) [(na sen(z|s)oru|sen(z|s)orem)] {name}
+     )
 
 skip_words:
   - "prosím"

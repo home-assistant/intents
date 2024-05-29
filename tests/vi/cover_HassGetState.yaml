@@ -1,17 +1,17 @@
 language: vi
 tests:
   - sentences:
-      - "rèm cửa sổ đang đóng phải không"
+      - "rèm cửa bên trái đóng chưa"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        name: "rèm cửa sổ"
+        name: "rèm cửa bên trái"
         state: "closed"
-    # response: "không, rèm cửa sổ đang mở"
+    response: "không, mở"
 
   - sentences:
-      - "tất cả rèm trong phòng khách đang mở có phải không?"
+      - "có rèm nào đang được mở trong phòng khách không"
     intent:
       name: HassGetState
       slots:
@@ -19,10 +19,10 @@ tests:
         area: "phòng khách"
         device_class: curtain
         state: "open"
-    # response: "đúng, rèm đã mở hết"
+    response: "có, rèm cửa bên trái"
 
   - sentences:
-      - "tất cả rèm phòng khách đang mở phải không?"
+      - "liệu rèm nào đang mở trong phòng khách không"
     intent:
       name: HassGetState
       slots:
@@ -30,7 +30,18 @@ tests:
         area: "phòng khách"
         device_class: curtain
         state: "open"
-    # response: "không, rèm cửa sổ đang đóng"
+    response: "có, rèm cửa bên trái"
+
+  - sentences:
+      - "tất cả các rèm trong phòng khách đều đã mở chưa"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "phòng khách"
+        device_class: curtain
+        state: "open"
+    response: "không, rèm cửa bên phải không mở"
 
   - sentences:
       - "những rèm nào đang đóng?"
@@ -40,7 +51,7 @@ tests:
         domain: cover
         device_class: curtain
         state: "closed"
-    # response: "rèm cửa sổ"
+    response: "rèm cửa bên phải và rèm cửa phòng ngủ"
 
   - sentences:
       - "có bao nhiêu rèm đang đóng?"
@@ -50,4 +61,4 @@ tests:
         domain: cover
         device_class: curtain
         state: "closed"
-    # response: "2"
+    response: "2"
