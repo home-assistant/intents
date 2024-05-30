@@ -3,9 +3,17 @@ intents:
   HassMediaPrevious:
     data:
       - sentences:
-          - "go back[ to the (previous|last) (song|track)] on <name>"
+          - "(go back[ to the (previous|last) (song|track)];[on ] <name>)"
           - "replay[ the (previous|last) (song|track)] on <name>"
-          - "<name> go back[ to the (previous|last)[ (song|track)]]"
           - "<name> (play|replay) [the ](previous|last)[ (song|track)][ again]"
         requires_context:
           domain: media_player
+      - sentences:
+          - "go back[ to the (previous|last) (song|track)]"
+          - "(play|replay)[ the (previous|last) (song|track)][ again]"
+        requires_context:
+          area:
+            slot: true
+      - sentences:
+          - "go back[ to the (previous|last) (song|track)] [in ]<area>"
+          - "((play|replay)[ the (previous|last) (song|track)][ again];[in ]<area>)"
