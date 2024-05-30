@@ -337,14 +337,6 @@ HassMediaPause:
     area:
       description: "Name of an area"
       required: false
-  slot_combinations:
-    name_only:
-      - "name"
-    area_only:
-      - "area"
-    area_name:
-      - "name"
-      - "area"
 
 HassMediaUnpause:
   supported: true
@@ -357,14 +349,6 @@ HassMediaUnpause:
     area:
       description: "Name of an area"
       required: false
-  slot_combinations:
-    name_only:
-      - "name"
-    area_only:
-      - "area"
-    area_name:
-      - "name"
-      - "area"
 
 HassMediaNext:
   supported: true
@@ -377,14 +361,6 @@ HassMediaNext:
     area:
       description: "Name of an area"
       required: false
-  slot_combinations:
-    name_only:
-      - "name"
-    area_only:
-      - "area"
-    area_name:
-      - "name"
-      - "area"
 
 HassSetVolume:
   supported: true
@@ -400,11 +376,187 @@ HassSetVolume:
     volume_level:
       description: "Volume level from 0 to 100"
       required: true
-  slot_combinations:
-    name_only:
-      - "name"
-    area_only:
-      - "area"
-    area_name:
-      - "name"
-      - "area"
+
+# -----------------------------------------------------------------------------
+# timers
+# -----------------------------------------------------------------------------
+
+HassStartTimer:
+  supported: true
+  domain: intent
+  description: "Starts a timer"
+  slots:
+    hours:
+      description: "Number of hours"
+      required: false
+    minutes:
+      description: "Number of minutes"
+      required: false
+    seconds:
+      description: "Number of seconds"
+      required: false
+    name:
+      description: "Name attached to the timer"
+      required: false
+    conversation_command:
+      description: "Command to execute when timer finishes"
+      required: false
+  slot_groups:
+    duration:
+      - "hours"
+      - "minutes"
+      - "seconds"
+
+HassCancelTimer:
+  supported: true
+  domain: intent
+  description: "Cancels a timer"
+  slots:
+    start_hours:
+      description: "Hours the timer was started with"
+      required: false
+    start_minutes:
+      description: "Minutes the timer was started with"
+      required: false
+    start_seconds:
+      description: "Seconds the timer was started with"
+      required: false
+    name:
+      description: "Name attached to the timer"
+      required: false
+    area:
+      description: "Area of the device used to start the timer"
+      required: false
+
+HassIncreaseTimer:
+  supported: true
+  domain: intent
+  description: "Adds time to a timer"
+  slots:
+    hours:
+      description: "Number of hours"
+      required: false
+    minutes:
+      description: "Number of minutes"
+      required: false
+    seconds:
+      description: "Number of seconds"
+      required: false
+    start_hours:
+      description: "Hours the timer was started with"
+      required: false
+    start_minutes:
+      description: "Minutes the timer was started with"
+      required: false
+    start_seconds:
+      description: "Seconds the timer was started with"
+      required: false
+    name:
+      description: "Name attached to the timer"
+      required: false
+    area:
+      description: "Area of the device used to start the timer"
+      required: false
+  slot_groups:
+    duration:
+      - "hours"
+      - "minutes"
+      - "seconds"
+
+HassDecreaseTimer:
+  supported: true
+  domain: intent
+  description: "Adds time to a timer"
+  slots:
+    hours:
+      description: "Number of hours"
+      required: false
+    minutes:
+      description: "Number of minutes"
+      required: false
+    seconds:
+      description: "Number of seconds"
+      required: false
+    start_hours:
+      description: "Hours the timer was started with"
+      required: false
+    start_minutes:
+      description: "Minutes the timer was started with"
+      required: false
+    start_seconds:
+      description: "Seconds the timer was started with"
+      required: false
+    name:
+      description: "Name attached to the timer"
+      required: false
+    area:
+      description: "Area of the device used to start the timer"
+      required: false
+  slot_groups:
+    duration:
+      - "hours"
+      - "minutes"
+      - "seconds"
+
+HassPauseTimer:
+  supported: true
+  domain: intent
+  description: "Pauses a running timer"
+  slots:
+    start_hours:
+      description: "Hours the timer was started with"
+      required: false
+    start_minutes:
+      description: "Minutes the timer was started with"
+      required: false
+    start_seconds:
+      description: "Seconds the timer was started with"
+      required: false
+    name:
+      description: "Name attached to the timer"
+      required: false
+    area:
+      description: "Area of the device used to start the timer"
+      required: false
+
+HassUnpauseTimer:
+  supported: true
+  domain: intent
+  description: "Resumes a paused timer"
+  slots:
+    start_hours:
+      description: "Hours the timer was started with"
+      required: false
+    start_minutes:
+      description: "Minutes the timer was started with"
+      required: false
+    start_seconds:
+      description: "Seconds the timer was started with"
+      required: false
+    name:
+      description: "Name attached to the timer"
+      required: false
+    area:
+      description: "Area of the device used to start the timer"
+      required: false
+
+HassTimerStatus:
+  supported: true
+  domain: intent
+  description: "Reports status of one or more timers"
+  slots:
+    start_hours:
+      description: "Hours the timer was started with"
+      required: false
+    start_minutes:
+      description: "Minutes the timer was started with"
+      required: false
+    start_seconds:
+      description: "Seconds the timer was started with"
+      required: false
+    name:
+      description: "Name attached to the timer"
+      required: false
+    area:
+      description: "Area of the device used to start the timer"
+      required: false
