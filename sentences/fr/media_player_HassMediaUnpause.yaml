@@ -5,7 +5,58 @@ intents:
       - sentences:
           # Lire sur la TV
           - "<lis> sur [<le>]{name}"
+          # Lecture sur la TV
+          - "<lecture> sur [<le>]{name}"
+          # Reprend la musique sur les enceintes
+          - "<reprends> [<le>]<media> sur [<le>]{name}"
+          # Remets la musique en route sur la TV
+          - "<reprends> [<le>]<media> <en_route> sur [<le>]{name}"
+          # Reprend la lecture de l'episode sur la TV
+          - "<reprends> <le> <lecture> <de> [<le>]<media> sur [<le>]{name}"
+          # Remets la lecture de l'episode en marche sur la TV
+          - "<reprends> <le> <lecture> <de> [<le>]<media> <en_route> sur [<le>]{name}"
           # Reprend la lecture sur la TV
-          - "<reprends> [la lecture] sur [<le>]{name}"
+          - "<reprends> <le> <lecture> sur [<le>]{name}"
+          # Remets la lecture en marche sur la TV
+          - "<reprends> <le> <lecture> <en_route> sur [<le>]{name}"
+          # Remets la TV en marche
+          - "<reprends> [<le>]{name} <en_route>"
         requires_context:
           domain: media_player
+
+      # Area (Context awarenes)
+      - sentences:
+          # Lecture
+          - "<lecture>"
+          # Reprend la musique
+          - "<reprends> [<le>]<media>"
+          # Remets la musique en route
+          - "<reprends> [<le>]<media> <en_route>"
+          # Reprend la lecture de l'episode
+          - "<reprends> <le> <lecture> <de> [<le>]<media>"
+          # Remets la lecture de l'episode en marche
+          - "<reprends> <le> <lecture> <de> [<le>]<media> <en_route>"
+          # Reprend la lecture
+          - "<reprends> <le> <lecture>"
+          # Remets la lecture en marche
+          - "<reprends> <le> <lecture> <en_route>"
+        requires_context:
+          area:
+            slot: true
+
+      # Area
+      - sentences:
+          # Lecture dans la chambre
+          - "<lecture> <dans> [<le>]{area}"
+          # Reprend la musique dans le salon
+          - "<reprends> [<le>]<media> <dans> [<le>]{area}"
+          # Remets la musique en route dans la cuisine
+          - "<reprends> [<le>]<media> <en_route> <dans> [<le>]{area}"
+          # Reprend la lecture de l'episode sur le palier
+          - "<reprends> <le> <lecture> <de> [<le>]<media> <dans> [<le>]{area}"
+          # Remets la lecture de l'episode en marche dans le garage
+          - "<reprends> <le> <lecture> <de> [<le>]<media> <en_route> <dans> [<le>]{area}"
+          # Reprend la lecture dans le bureau
+          - "<reprends> <le> <lecture> <dans> [<le>]{area}"
+          # Remets la lecture en marche dans le caveau
+          - "<reprends> <le> <lecture> <en_route> <dans> [<le>]{area}"
