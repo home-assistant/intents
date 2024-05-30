@@ -1,0 +1,86 @@
+---
+language: nl
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Geen timers.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {{ num_paused_timers }} gepauzeerde timer{{ 's' if num_paused_timers > 1 }}.
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} actieve timers.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 gepauzeerde timer.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} gepauzeerde timers.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 uur en {{ next_timer.rounded_minutes_left }} minuten
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 uur
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} uur en {{ next_timer.rounded_minutes_left }} minuten
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} uur
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 minuut en {{ next_timer.rounded_seconds_left }} seconden
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 minuut
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} minuten en {{ next_timer.rounded_seconds_left }} seconden
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} minuten
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 seconde
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} seconden
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            over op
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} uur en {{ next_timer.start_minutes }} minuten
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} uur
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} minuten en {{ next_timer.start_seconds }} seconde
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} minuten
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} seconde
+            {% endif %}
+
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              {{ next_timer.area }}
+            {% endif %}
+
+            timer.
+          {% else: %}
+            resterend.
+          {% endif %}
+        {% endif %}

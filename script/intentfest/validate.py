@@ -137,6 +137,11 @@ INTENT_ERRORS = {
     "duplicate_entities",
     "duplicate_entities_in_area",
     "duplicate_entities_in_floor",
+    "entity_wrong_state",
+    "feature_not_supported",
+    "timer_not_found",
+    "multiple_timers_matched",
+    "no_timer_support",
 }
 
 SENTENCE_MATCHER = vol.All(
