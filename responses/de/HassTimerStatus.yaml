@@ -65,9 +65,9 @@ responses:
 
           {% if num_timers > 1: %}
             {# Give some extra information to disambiguate #}
-            {% set hoursSingularPlural = iif ((next_timer.start_hours > 1), "Stunden", "Stunde") %}
-            {% set minutesSingularPlural = iif ((next_timer.start_minutes > 1), "Minuten", "Minute") %}
-            {% set secondsSingularPlural = iif ((next_timer.start_seconds > 1), "Sekunden", "Sekunde") %}
+            {% set hoursSingularPlural = "Stunden" if (next_timer_start_hours > 1) else "Stunde" %}
+            {% set minutesSingularPlural = "Minuten" if (next_timer_start_minutes > 1) else "Minute" %}
+            {% set secondsSingularPlural = "Sekunden" if (next_timer_start_seconds > 1) else "Sekunde" %}
             verbleiben auf
             {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
               {{ next_timer.start_hours }} {{ hoursSingularPlural }} und {{ next_timer.start_minutes }} {{ minutesSingularPlural }}
