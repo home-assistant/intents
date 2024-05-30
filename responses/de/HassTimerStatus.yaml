@@ -65,19 +65,21 @@ responses:
 
           {% if num_timers > 1: %}
             {# Give some extra information to disambiguate #}
+            {% set hoursSingularPlural = iif ((next_timer.start_hours > 1), "Stunden", "Stunde") %}
+            {% set minutesSingularPlural = iif ((next_timer.start_minutes > 1), "Minuten", "Minute") %}
+            {% set secondsSingularPlural = iif ((next_timer.start_seconds > 1), "Sekunden", "Sekunde") %}
             verbleiben auf
             {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
-              {{ next_timer.start_hours }} Stunde und {{ next_timer.start_minutes }} Minuten
+              {{ next_timer.start_hours }} {{ hoursSingularPlural }} und {{ next_timer.start_minutes }} {{ minutesSingularPlural }}
             {% elif (next_timer.start_hours > 0): %}
-              {{ next_timer.start_hours }} Stunde
+              {{ next_timer.start_hours }} {{ hoursSingularPlural }}
             {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
-              {{ next_timer.start_minutes }} Minute und {{ next_timer.start_seconds }} Sekunde
+              {{ next_timer.start_minutes }} {{ minutesSingularPlural }} und {{ next_timer.start_seconds }} {{ secondsSingularPlural }}
             {% elif (next_timer.start_minutes > 0): %}
-              {{ next_timer.start_minutes }} Minute
+              {{ next_timer.start_minutes }} {{ minutesSingularPlural }}
             {% elif (next_timer.start_seconds > 0): %}
-              {{ next_timer.start_seconds }} Sekunde
+              {{ next_timer.start_seconds }} {{ secondsSingularPlural }}
             {% endif %}
-              verbleiben auf
             {% if next_timer.name: %}
               {{ next_timer.name }}
             {% elif next_timer.area: %}
