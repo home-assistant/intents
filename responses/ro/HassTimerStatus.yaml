@@ -67,13 +67,7 @@ responses:
 
           {% if num_timers > 1: %}
             {# Give some extra information to disambiguate #}
-            până la finele temporizatorului
-
-            {% if next_timer.name: %}
-              {{ next_timer.name }}
-            {% elif next_timer.area: %}
-              din {{ next_timer.area }}
-            {% endif %}
+            până la finele temporizatorului de
 
             {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
               {{ next_timer.start_hours }} ore și {{ next_timer.start_minutes }} {{ 'de ' if next_timer.start_minutes > 0 and next_timer.start_minutes % 100 | abs >= 20 }}minute
@@ -85,6 +79,12 @@ responses:
               {{ next_timer.start_minutes }}  {{ 'de ' if next_timer.start_minutes > 0 and next_timer.start_minutes % 100 | abs >= 20 }}minute
             {% elif (next_timer.start_seconds > 0): %}
               {{ next_timer.start_seconds }} {{ 'de ' if next_timer.start_seconds > 0 and next_timer.start_seconds % 100 | abs >= 20 }}secunde
+            {% endif %}
+
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              din {{ next_timer.area }}
             {% endif %}
           {% endif %}
         {% endif %}
