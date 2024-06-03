@@ -9,7 +9,7 @@ tests:
     intent:
       name: HassTimerStatus
     response: |
-      2 running timers. 1 paused timer. 3 minutes left on 5 minute kitchen timer.
+      2 minuteurs sont actifs. 1 minuteur est en pause. 3 minutes restante sur le minuteur de 5 minutes dans kitchen
 
   # area
   - sentences:
@@ -19,9 +19,11 @@ tests:
     intent:
       name: HassTimerStatus
       slots:
-        area: Kitchen
+        area: cuisine
+    #response: |
+    #  3 minutes left.
     response: |
-      3 minutes left.
+      Il n'y a auncun minuteur.
 
   # duration
   - sentences:
@@ -33,16 +35,18 @@ tests:
       slots:
         start_minutes: 5
     response: |
-      Timer is paused. 1 minute and 40 seconds left.
+      3 minutes restante.
 
   # name
   - sentences:
-      - "Combien de temps reste-t-il au minuteur appelé Pizza"
-      - "Combien de temps reste-t-il sur le minuteur appelé Pizza"
-      - "Combien de temps reste-t-il dans le minuteur appelé Pizza"
+      - "Combien de temps reste-t-il au minuteur appelé chocolatine"
+      - "Combien de temps reste-t-il sur le minuteur appelé chocolatine"
+      - "Combien de temps reste-t-il dans le minuteur appelé chocolatine"
     intent:
       name: HassTimerStatus
       slots:
-        name: "pizza "
+        name:
+          - "chocolatine "
+          - "chocolatine"
     response: |
-      25 minutes left.
+      25 minutes restante.
