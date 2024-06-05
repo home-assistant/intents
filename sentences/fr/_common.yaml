@@ -149,6 +149,17 @@ responses:
         Désolé, je n'ai rien trouvé de correspondant dans cet étage
       {%- endif %}
     no_entity_in_floor: "Désolé, je ne connais pas l'appareil {{ entity }}"
+    entity_wrong_state: |
+      {% set translations = {
+        "paused": "en pause",
+        "playing": "en cours de lecture",
+        } %}
+      {% if device_class in translations -%}
+        Désolé, je n'ai pas trouvé d'appareil {{ translations[state] }}
+      {%- else -%}
+        Désolé, je n'ai rien trouvé de correspondant
+      {%- endif %}
+    feature_not_supported: Désolé, je n'ai pas trouvé d'appareil qui supporte cette fonctionnalité
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
     no_entity_in_area_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
@@ -296,6 +307,11 @@ responses:
     duplicate_entities: "Désolé, plusieurs appareils sont nommés {{entity}}"
     duplicate_entities_in_area: "Désolé, plusieurs appareils de cette pièce sont nommés {{entity}}"
     duplicate_entities_in_floor: "Désolé, plusieurs appareils de cet étage sont nommés {{entity}}"
+
+    # Errors for timers
+    timer_not_found: Désole, je n'ai pas trouvé ce minuteur
+    multiple_timers_matched: Désole, je ne peux pas cibler plusieurs minutuers
+    no_timer_support: Désolé, cet appareil ne supporte pas les fonctions lié aux minuteurs.
 
 lists:
   color:
