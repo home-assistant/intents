@@ -423,6 +423,12 @@ def get_timers(fixtures: dict[str, Any]) -> List[Timer]:
 
         timer_area = timer.get("area")
         if timer_area:
+            # Resolve area id to name
+            for area in fixtures.get("areas", []):
+                if area["id"] == timer_area:
+                    timer_area = area["name"]
+                    break
+
             timer_area = _normalize_name(timer_area)
 
         timers.append(

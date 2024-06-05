@@ -16,6 +16,8 @@ responses:
     no_entity: "{{ entity }} existiert nicht"
     no_entity_in_area: "{{ entity }} ist im Bereich {{ area }} nicht vorhanden"
     no_entity_in_floor: "{{ entity }} ist in der Etage {{ floor }} nicht vorhanden"
+    entity_wrong_state: "Kein Gerät hat den Status {{ state | lower }}"
+    feature_not_supported: "Kein Gerät unterstützt die benötigte Funktion"
 
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "{{ entity }} ist nicht freigegeben"
@@ -32,6 +34,11 @@ responses:
     duplicate_entities: "Es wurden mehrere {{ entity }} gefunden"
     duplicate_entities_in_area: "Im Bereich {{ area }} wurden mehrere {{ entity }} gefunden"
     duplicate_entities_in_floor: "In der Etage {{ floor }} wurden mehrere {{ entity }} gefunden"
+
+    # Errors for timers
+    timer_not_found: "Diesen Timer konnte ich nicht finden"
+    multiple_timers_matched: "Es können nicht mehrere Timer gesteuert werden"
+    no_timer_support: "Timer werden auf diesem Gerät nicht unterstützt"
 
 lists:
   color:
@@ -231,6 +238,23 @@ lists:
       - in: (min[imal[e]|imum]|niedrigste)
         out: 1
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   artikel_bestimmt: "[(der|die|das|dem|der|den|des)]"
   artikel_unbestimmt: "[(ein|eine|eines|einer|einem|einen)]"
@@ -288,6 +312,24 @@ expansion_rules:
   sind_wurden: "(sind|wurden)"
   position: "{position} [Prozent|%]"
   volume: "{volume_level} [Prozent|%]"
+
+  # Timers
+  timer_set: "(starte|setze|stelle|erstelle)"
+  timer_cancel: "(beende|stoppe)"
+  timer_duration_seconds: "{timer_seconds:seconds} Sekunde[n]"
+  timer_duration_minutes: "{timer_minutes:minutes} Minute[n] [[und]{timer_seconds:seconds} Sekunde[n]]"
+  timer_duration_hours: "{timer_hours:hours} Stunde[n] [[und]{timer_minutes:minutes} Minute[n]] [[und]{timer_seconds:seconds} Sekunde[n]]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} Sekunde[n]"
+  timer_start_minutes: "{timer_minutes:start_minutes} Minute[n] [[und]{timer_seconds:start_seconds} Sekunde[n]]"
+  timer_start_hours: "{timer_hours:start_hours} Stunde[n] [[und]{timer_minutes:start_minutes} Minute[n]] [[und]{timer_seconds:start_seconds} Sekunde[n]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
+  starte: (starte|spiele)
+  song: "(Titel|Lied|Song|Track|Stück)"
+  media_type: "(musik|[fernseh]sendung|gerät[e])"
+
 skip_words:
   - "bitte"
   - "danke"
