@@ -12,6 +12,7 @@ tests:
 
   - sentences:
       - "are any curtains open in the living room?"
+      - "are any living room curtains open?"
     intent:
       name: HassGetState
       slots:
@@ -22,7 +23,19 @@ tests:
     response: "Yes, Curtain Left"
 
   - sentences:
+      - "are any shades open upstairs?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Upstairs"
+        device_class: shade
+        state: "open"
+    response: "Yes, Shade Left"
+
+  - sentences:
       - "are all curtains open in the living room?"
+      - "are all living room curtains open?"
     intent:
       name: HassGetState
       slots:
@@ -43,6 +56,17 @@ tests:
     response: "Bedroom Curtain and Curtain Right"
 
   - sentences:
+      - "which bedroom curtains are closed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Bedroom"
+        device_class: curtain
+        state: "closed"
+    response: "Bedroom Curtain"
+
+  - sentences:
       - "how many curtains are closed?"
     intent:
       name: HassGetState
@@ -51,3 +75,14 @@ tests:
         device_class: curtain
         state: "closed"
     response: "2"
+
+  - sentences:
+      - "how many bedroom curtains are closed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area: "Bedroom"
+        state: "closed"
+    response: "1"
