@@ -12,14 +12,7 @@ tests:
 
   - sentences:
       - "are any doors unlocked?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: lock
-        state: "unlocked"
-    response: "Yes, Back Door"
-
-  - sentences:
+      - "do I have any unlocked doors?"
       - "are there any unlocked doors?"
     intent:
       name: HassGetState
@@ -30,6 +23,7 @@ tests:
 
   - sentences:
       - "are all the doors locked?"
+      - "are all the doors securely locked?"
     intent:
       name: HassGetState
       slots:
@@ -38,7 +32,7 @@ tests:
     response: "No, Back Door is not locked"
 
   - sentences:
-      - "which doors are locked?"
+      - "which doors are currently locked?"
     intent:
       name: HassGetState
       slots:
@@ -54,3 +48,12 @@ tests:
         domain: lock
         state: "locked"
     response: "2"
+
+  - sentences:
+      - "tell me the status of Front Door"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Front Door"
+    response: "Locked"
