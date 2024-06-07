@@ -1,0 +1,93 @@
+---
+language: de
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Es laufen keine Timer.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Timer ist pausiert.
+          {% else: %}
+            {{ num_paused_timers }} pausierte Timer.
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} laufende Timer.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 pausierter Timer.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} pausierte Timer.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 Stunde und {{ next_timer.rounded_minutes_left }} Minuten
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 Stunde
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} Stunden und {{ next_timer.rounded_minutes_left }} Minuten
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} Stunden
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 Minute und {{ next_timer.rounded_seconds_left }} Sekunden
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 Minute
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} Minuten und {{ next_timer.rounded_seconds_left }} Sekunden
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} Minuten
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 Sekunde
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} Sekunden
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            {% set hoursSingularPlural = "Stunden" if (next_timer.start_hours > 1) else "Stunde" %}
+            {% set minutesSingularPlural = "Minuten" if (next_timer.start_minutes > 1) else "Minute" %}
+            {% set secondsSingularPlural = "Sekunden" if (next_timer.start_seconds > 1) else "Sekunde" %}
+            verbleiben auf
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} {{ hoursSingularPlural }} und {{ next_timer.start_minutes }} {{ minutesSingularPlural }}
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} {{ hoursSingularPlural }}
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} {{ minutesSingularPlural }} und {{ next_timer.start_seconds }} {{ secondsSingularPlural }}
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} {{ minutesSingularPlural }}
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} {{ secondsSingularPlural }}
+            {% endif %}
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              {{ next_timer.area }}
+            {% endif %}
+
+            Timer.
+          {% else: %}
+            verbleiben.
+          {% endif %}
+        {% endif %}
