@@ -1,0 +1,36 @@
+language: el
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "είναι <articles> <name> {lock_states:state} [<articles> <area>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "έίναι κάποι(α|ες) (πόρτ(α|ες)|κλειδαρι(ά|ες)) {lock_states:state} [<articles> <area>]"
+          - "έίναι κάποι(α|ες) {lock_states:state} (πόρτ(α|ες)|κλειδαρι(ά|ες)) [<articles> <area>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "είναι όλες οι (πόρτες|κλειδαριές) {lock_states:state} [<articles> <area>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "ποι(ές|α) (πόρτ(α|ες)|κλειδαρι(ά|ες)) (είναι|βρίσκονται|υπάρχουν) {lock_states:state} [<articles> <area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "πόσες  (πόρτ(α|ες)|κλειδαρι(ά|ες)) (είναι|βρίσκονται|υπάρχουν) {lock_states:state} [<articles> <area>]"
+        response: how_many
+        slots:
+          domain: lock

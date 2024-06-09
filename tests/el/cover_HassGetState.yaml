@@ -1,2 +1,53 @@
 language: el
-tests: []
+tests:
+  - sentences:
+      - "είναι η κουρτίνα αριστερά κλειστή;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "κουρτίνα αριστερά"
+        state: "closed"
+    response: "Όχι, ανοιχτή"
+
+  - sentences:
+      - "υπάρχουν κουρτίνες ανοιχτές στο καθιστικό;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "καθιστικό"
+        device_class: curtain
+        state: "open"
+    response: "Ναι, κουρτίνα αριστερά"
+
+  - sentences:
+      - "είναι όλες οι κουρτίνες ανοιχτές στο καθιστικό;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "καθιστικό"
+        device_class: curtain
+        state: "open"
+    response: "Όχι, κουρτίνα δεξιά είναι ανοιχτή"
+
+  - sentences:
+      - "ποιές κουρτίνες είναι κλειστές;"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Kουρτίνα στο υπνοδωμάτιο και στο καθιστικό δεξιά"
+
+  - sentences:
+      - "πόσες κουρτίνες είναι κλειστές"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"
