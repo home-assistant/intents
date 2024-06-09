@@ -1,12 +1,30 @@
 language: pl
 responses:
   errors:
+    # General errors
     no_intent: "Wybacz, niestety nie mogę tego zrozumieć"
-    no_area: "Brak obszaru nazwanego {{ area }}"
-    no_domain_in_area: "W obszarze {{ area }} nie ma {{ domain }}"
-    no_device_class_in_area: "Obszar {{ area }} nie zawiera {{ device_class }}"
-    no_entity: "Brak urządzenia lub encji nazwanej {{ entity }}"
     handle_error: "Podczas przetwarzania zapytania wystąpił nieoczekiwany błąd"
+
+    # Errors for when user is not logged in
+    no_area: "Brak obszaru o nazwie {{ area }}"
+    no_domain: "Brak {{ domain }} domeny"
+    no_domain_in_area: "W obszarze {{ area }} nie ma {{ domain }}"
+    no_device_class: "Brak urzadzenia {{ device_class }}"
+    no_device_class_in_area: "Obszar {{ area }} nie zawiera {{ device_class }}"
+    no_entity: "Brak urządzenia lub encji o nazwie {{ entity }}"
+    no_entity_in_area: "Obszar {{ area }} nie zawiera urządzenia lub encji o nazwie {{ entity }}"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Encja {{ entity }} nie została udostępniona"
+    no_entity_in_area_exposed: "W obszarze {{ area }} {{ entity }} nie została udostępniona"
+    no_domain_exposed: "Domena {{ domena }} nie została udostępniona"
+    no_domain_in_area_exposed: "W obszarze {{ area }} domena {{ domena }} nie została udostępniona"
+    no_device_class_exposed: "Urządzenie {{ device_class }} nie zostało udostępnione"
+    no_device_class_in_area_exposed: "W obszarze {{ area }} urządzenie {{ device_class }} nie zostało udostępnione"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Przykro mi, ale istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
+    duplicate_entities_in_area: "Przykro mi, ale w obszarze {{ area }} istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
 lists:
   color:
     values:
@@ -40,15 +58,15 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - in: "c|celsjusza"
+      - in: "c|celsjusza|celcjusza"
         out: "celsius"
       - in: "f|fahrenheita"
         out: "fahrenheit"
   brightness_level:
     values:
-      - in: (maksymalny | najjaśniej | maksa)
+      - in: "(maksymalny | maksymalną | maksymalnie | najjaśniej | maksa)"
         out: 100
-      - in: (minimalnie | najciemniej | minimum)
+      - in: "(minimalnie | minimalną | najciemniej | minimum)"
         out: 1
   on_off_states:
     values:
@@ -58,12 +76,12 @@ lists:
         out: "off"
   on_off_domains:
     values:
-      - in: świat(ło|ła|eł)|lamp(a|y)
-        out: light
-      - in: wentylator[y|ów]|wiatrak[i|ów]
-        out: fan
-      - in: przełącznik[i|ów]|kontakt[y|ów]
-        out: switch
+      - in: "świat(ło|ła|eł)|lamp[a|y]"
+        out: "light"
+      - in: "wentylator[y|ów]|wiatrak[i|ów]"
+        out: "fan"
+      - in: "przełącznik[i|ów]|kontakt[y|ów]"
+        out: "switch"
   cover_states:
     values:
       - in: "(otw(órz|arta|arte|artych)|odsunięt(e|ych)|odsłonięt(e|ych))"
@@ -76,22 +94,26 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: (drzwi garażowe|drzwi w garażu)
-        out: garage
-      - in: bram(a|y)
-        out: gate
-      - in: zasłon(a|y)
-        out: curtain
-      - in: markiz(a|y)
-        out: awning
-      - in: rolet(a|y)
-        out: blind
-      - in: rolet(a|y)
-        out: shade
-      - in: żaluzj(a|e)
-        out: shutter
-      # - in: okn(o|a)
-      #   out: window
+      - in: "markiz[a|y]"
+        out: "awning"
+      - in: "rolet[a|y]"
+        out: "blind"
+      - in: "zasłon[a|y]"
+        out: "curtain"
+      - in: "drzwi"
+        out: "door"
+      - in: "(garaż(e)|brama garażowa|(drzwi|bramy) garażowe|(drzwi|brama|bramy) do garażu)"
+        out: "garage"
+      - in: "bram[a|y]"
+        out: "gate"
+      - in: "osłon[a|y]"
+        out: "shade"
+      - in: "żaluzj(i|a|e)"
+        out: "shutter"
+      - in: "ok(ien|no|na)"
+        out: "window"
+      - in: "klap[a|y]"
+        out: "damper"
   lock_states:
     values:
       - in: "zablokowan(e|y|ych)|zamknięt(y|e|ych)"
@@ -99,15 +121,232 @@ lists:
       - in: "odblokowan(e|y|ych)|otwart(e|y|ych)"
         out: "unlocked"
 
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "niski"
+        out: "on"
+      - in: "normalny"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "ładuje się"
+        out: "on"
+      - in: "nie ładuje się"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "zimno"
+        out: "on"
+      - in: "normalnie"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "połączony"
+        out: "on"
+      - in: "rozłączony"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "otwarte"
+        out: "on"
+      - in: "zamknięte"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "otwarty"
+        out: "on"
+      - in: "zamknięty"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "gorący"
+        out: "on"
+      - in: "normalny"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "świecący"
+        out: "on"
+      - in: "brak światła"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "odblokowany"
+        out: "on"
+      - in: "zablokowany"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "mokro"
+        out: "on"
+      - in: "sucho"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "otwarty"
+        out: "on"
+      - in: "zamknięty"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "podłączony"
+        out: "on"
+      - in: "odłączony"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(zasilany|podłaczony)"
+        out: "on"
+      - in: "(nie zasilany|wyłączony)"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(w domu|obecny)"
+        out: "on"
+      - in: "(poza domem|nieobecny)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "wykryty"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "uruchomiony"
+        out: "on"
+      - in: "zatrzymany"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "zabezpieczony"
+        out: "on"
+      - in: "niezabezpieczony"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(wykryty|wyzwolony|włączony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(wykryty|wyzwolony)"
+        out: "on"
+      - in: "brak"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "dostępna aktualizacja"
+        out: "on"
+      - in: "aktualny"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(wykryto|wibruje)"
+        out: "on"
+      - in: "(brak|nie wibruje)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "otwarte"
+        out: "on"
+      - in: "zamknięte"
+        out: "closed"
+
   shopping_list_item:
     wildcard: true
+
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  presence_states:
+    values:
+      - in: "w domu"
+        out: "home"
+      - in: "poza domem"
+        out: "not_home"
 
 expansion_rules:
   name: "{name}"
   set: "(ustaw|zmień|przestaw|nastaw)"
   area: "[w|na] {area}"
-  what_is: "Jak[a|i] jest"
-  all: "(wszystkie|każde)"
+  where: "Gdzie"
+  now: "teraz|obecnie|w tej chwili"
+  is: "jest|przebywa|znajduje się"
+  what_is: "Jak(a jest|i jest|ie są| jest)"
+  where_is: "<where> [<is>]"
+  in_here: "(tutaj|w tym miejscu|w tym pokoju|w tym pomieszczeniu)"
+  all: "(wszystkie|wszystkich|każde|całe)"
   how_many_is: "Ile jest"
   activate: "(aktywuj|uaktywnij|rozpocznij|zacznij|uruchom)"
   lock: "zablokuj"
@@ -123,8 +362,25 @@ expansion_rules:
   close_blind: "(zasłoń|opuść)"
   close_curtain: "(zasunięte|zasłonięte)"
   brightness: "{brightness}[%| procent]"
+  light: "(światło|lamp(a|ę)|oświetleni(a|e)|żarów(ka|kę))"
+  lights: "(świat(ła|eł)|lamp[y]|oświetleni(a|e)|żarów(ki|ek))"
   temp: "temperatur(a|ę|y)|stopni|zimno|gorąco"
   temperature: "{temperature}[°| stopni] [{temperature_unit}]"
+  numeric_value_set: "(ustaw|zmień|przestaw|nastaw|zwiększ|zmniejsz)"
+  position: "{position}[[ ]%| procent]"
+  volume: "{volume:volume_level}[[ ]%| procent]"
+  # Questions
+  what_is_the_class_of_name: "(<what_is> <class> (w|z|wskaz(any|ywana przez)|wymierzon(a|y)) <name> [<area>]|<what_is> <name> <class> [<area>]|<what_is> <area> <name> <class>)"
+
 skip_words:
   - "Proszę"
   - "Poproszę"
+  - "Możesz"
+  - "Czy możesz"
+  - "Powiedz mi"
+  - "Sprawdź"
+  - "Sprawdź mi"
+  - "Sprawdź proszę"
+  - "Zerknij"
+  - "Podaj"
+  - "Podaj mi"

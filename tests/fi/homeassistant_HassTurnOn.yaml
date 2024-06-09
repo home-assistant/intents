@@ -1,16 +1,21 @@
 language: fi
 tests:
+  # Sentences with area
   - sentences:
-      - "kytke päälle kattotuuletin"
-      - "kytke kattotuuletin päälle"
-      - "käynnistä kattotuuletin"
-      - "kattotuuletin päälle"
+      - "kytke päälle kattotuuletin alueella olohuone"
+      - "kytke päälle alueen olohuone kattotuuletin"
+      - "käynnistä huoneen olohuone kattotuuletin"
+      - "kytke kattotuuletin päälle huoneessa olohuone"
+      - "laita kattotuuletin päälle huoneessa olohuone"
+      - "käynnistä kattotuuletin alueessa olohuone"
+      - "laita kattotuuletin alueella olohuone päälle"
     intent:
       name: HassTurnOn
       slots:
         name: Kattotuuletin
+        area: Olohuone
     response: "Kytkettiin päälle kattotuuletin"
-
+  # Sentences without area
   - sentences:
       - "kytke päälle keittiön katto"
       - "kytke keittiön katto päälle"
@@ -21,3 +26,13 @@ tests:
       slots:
         name: Keittiön katto
     response: "Kytkettiin päälle keittiön katto"
+
+  - sentences:
+      - "kytke päälle alueen keittiö työpöytä"
+      - "kytke päälle työpöytä huoneesta keittiö"
+    intent:
+      name: HassTurnOn
+      slots:
+        name: Työpöytä
+        area: Keittiö
+    response: "Kytkettiin päälle työpöytä"

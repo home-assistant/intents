@@ -71,6 +71,7 @@ def do_test_language_sentences(
     # Add placeholder slots that HA will generate
     language_sentences.slot_lists["area"] = TextSlotList(values=[])
     language_sentences.slot_lists["name"] = TextSlotList(values=[])
+    language_sentences.slot_lists["floor"] = TextSlotList(values=[])
 
     # Lint sentences
     for intent_name, intent in language_sentences.intents.items():
@@ -81,6 +82,7 @@ def do_test_language_sentences(
         intent_schema = intent_schemas[intent_name]
         slot_schema = intent_schema.get("slots", {})
         slot_combinations = intent_schema.get("slot_combinations")
+        slot_groups = intent_schema.get("slot_groups")
 
         for data in intent.data:
             if not data.sentences:
@@ -124,6 +126,13 @@ def do_test_language_sentences(
                         assert (
                             slot_name in found_slots
                         ), f"Missing required slot: '{slot_name}', intent='{intent_name}', sentence='{sentence.text}'"
+
+                if slot_groups:
+                    # Verify one member of each group is present
+                    for group_name, group_slots in slot_groups.items():
+                        assert found_slots.intersection(
+                            group_slots
+                        ), f"Slot group not matched: group='{group_name}' intent='{intent_name}', slots={found_slots}, sentence='{sentence.text}'"
 
                 if slot_combinations:
                     # Verify one of the combinations is matched
@@ -197,29 +206,32 @@ def _flatten(expression: Expression) -> Iterable[Expression]:
         yield expression
 
 
-def gen_test(test_file: Path) -> None:
+def gen_test(test_file: str) -> None:
     def test_func(
         intent_schemas: dict[str, Any],
         language_sentences_yaml: dict[str, Any],
         language_sentences_common: Intents,
     ) -> None:
         do_test_language_sentences(
-            test_file.name,
+            test_file,
             intent_schemas,
             language_sentences_yaml,
             language_sentences_common,
         )
 
-    test_func.__name__ = f"test_{test_file.stem}"
+    test_func.__name__ = f"test_{test_file.rsplit('.', 1)[0]}"
     setattr(sys.modules[__name__], test_func.__name__, test_func)
 
 
 def gen_tests() -> None:
-    lang_dir = SENTENCES_DIR / "en"
+    names = {
+        test_file.name
+        for test_file in SENTENCES_DIR.glob("*/*.yaml")
+        if test_file.name != "_common.yaml"
+    }
 
-    for test_file in lang_dir.glob("*.yaml"):
-        if test_file.name != "_common.yaml":
-            gen_test(test_file)
+    for name in sorted(names):
+        gen_test(name)
 
 
 gen_tests()

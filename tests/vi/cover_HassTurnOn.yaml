@@ -1,23 +1,75 @@
 language: vi
 tests:
   - sentences:
-      - mở cửa cuốn
+      - "mở cửa garage"
     intent:
       name: HassTurnOn
       slots:
-        device_class: garage_door
         domain: cover
-    response: Đã mở garage_door
+        device_class: garage
+    response: "đã mở cửa garage"
+
   - sentences:
-      - mở rèm cuốn trong trong phòng bếp
+      - "mở cửa sổ trong bếp"
     intent:
       name: HassTurnOn
       slots:
-        area: phòng bếp
-        device_class:
-          - window
-          - blind
-          - curtain
-          - shutter
+        area: bếp
         domain: cover
-    response: Đã mở toàn bộ rèm [trong] phòng bếp
+        device_class: window
+    response: "đã mở cửa sổ"
+
+  - sentences:
+      - "mở cửa sổ bếp"
+    intent:
+      name: HassTurnOn
+      slots:
+        area: bếp
+        domain: cover
+        device_class: window
+    response: "đã mở cửa sổ"
+
+  - sentences:
+      - "mở rèm cửa bên trái"
+    intent:
+      name: HassTurnOn
+      slots:
+        name: rèm cửa bên trái
+      context:
+        domain: cover
+        device_class: curtain
+    response: "đã mở"
+
+  - sentences:
+      - "mở rèm cửa bên trái trong phòng khách"
+    intent:
+      name: HassTurnOn
+      slots:
+        name: rèm cửa bên trái
+        area: phòng khách
+      context:
+        domain: cover
+        device_class: curtain
+    response: "đã mở"
+
+  - sentences:
+      - "mở rèm cuốn trong bếp"
+    intent:
+      name: HassTurnOn
+      slots:
+        area: bếp
+        domain: cover
+        device_class: blind
+    response: "đã mở rèm cuốn"
+
+  - sentences:
+      - "mở rèm kéo trong phòng này"
+    intent:
+      name: HassTurnOn
+      context:
+        area: phòng khách
+      slots:
+        domain: cover
+        area: phòng khách
+        device_class: shade
+    response: "đã mở rèm kéo"
