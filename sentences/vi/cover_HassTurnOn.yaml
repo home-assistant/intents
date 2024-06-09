@@ -3,18 +3,32 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - mở cửa cuốn
-        response: cover_device_class
-        slots:
-          device_class: garage_door
+          - "<mở> <name> [trong <area>]"
+        requires_context:
           domain: cover
+        response: cover
+
       - sentences:
-          - mở rèm cuốn trong <area>
-        response: cover_area
+          - "<mở> cửa ga ra"
         slots:
-          device_class:
-            - window
-            - blind
-            - curtain
-            - shutter
           domain: cover
+          device_class: garage
+        response: cover_device_class
+
+      - sentences:
+          - "<mở> {cover_classes:device_class} [trong <area>]"
+          - "<mở> {cover_classes:device_class} <area>"
+        slots:
+          domain: cover
+        response: cover_device_class
+
+      - sentences:
+          - "<mở> {cover_classes:device_class}[<in_here>]"
+        expansion_rules:
+          in_here: "[trong phòng] này"
+        slots:
+          domain: cover
+        response: cover_device_class
+        requires_context:
+          area:
+            slot: true

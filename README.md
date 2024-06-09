@@ -2,11 +2,11 @@
 
 This repository contains training data for Home Assistant's local voice control.
 
- - [Progress per language and intent](https://home-assistant.github.io/intents/)
- - [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
- - [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
- - [Supported intents](https://developers.home-assistant.io/docs/intent_builtin/)
- - [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages/)
+- [Progress per language and intent](https://home-assistant.github.io/intents/)
+- [How to contribute](https://developers.home-assistant.io/docs/voice/intent-recognition/contributing/)
+- [Language leaders](https://developers.home-assistant.io/docs/voice/language-leaders/)
+- [Supported intents](https://developers.home-assistant.io/docs/intent_builtin/)
+- [Supported languages](https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages/)
 
 Repository layout:
 
@@ -22,7 +22,7 @@ Repository layout:
   - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/test-syntax/)
 - `tests/<language>`
   - YAML files for `<language>` with test sentences and corresponding intents.
-  - [File format](tests/README.md#file-format)
+  - [File format](https://developers.home-assistant.io/docs/voice/intent-recognition/test-syntax/)
 
 See the [documentation](docs/README.md) for more information.
 
@@ -46,7 +46,7 @@ Run the tests. This will parse the sentences and verifies them with the test sen
 pytest tests --language nl -k fan_HassTurnOn
 ```
 
-Leave off `--language` to test all languages. Leave off `-k` to test all files.
+Leave off `--language` to test all languages. Leave off `-k` to test all files. Add `-n auto` to use test parallelization.
 
 ## Test parsing sentences
 

@@ -1,12 +1,51 @@
 language: vi
 tests:
   - sentences:
-      - tắt toàn bộ đèn trong phòng khách
-      - tắt đèn bên trong phòng khách
-      - tắt đèn phòng khách
-      - tắt toàn bộ đèn phòng khách
+      - "tắt tất cả đèn trong bếp"
+      - "tắt đèn trong bếp"
+      - "tắt ánh sáng trong bếp"
+      - "tắt tất cả đèn bếp"
+      - "tắt đèn bếp"
+      - "tắt ánh sáng bếp"
+      - "vô hiệu hóa đèn bếp"
     intent:
       name: HassTurnOff
       slots:
-        area: phòng khách
+        area: bếp
         domain: light
+    response: "đã tắt đèn"
+
+  - sentences:
+      - "Tắt đèn ở mọi nơi"
+      # - "Tắt tất cả ánh sáng"
+      - "Vô hiệu hóa tất cả đèn mọi nơi"
+      - "Vô hiệu hóa đèn ở mọi nơi"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        # name: tất cả
+
+  - sentences:
+      - "tắt đèn"
+      - "tắt đèn ở đây"
+    intent:
+      name: HassTurnOff
+      context:
+        area: phòng khách
+      slots:
+        domain: light
+        area: phòng khách
+    response: "đã tắt đèn"
+
+  - sentences:
+      - "tắt tất cả đèn"
+      - "tắt tất cả ánh sáng ở đây"
+    intent:
+      name: HassTurnOff
+      context:
+        area: phòng khách
+      slots:
+        domain: light
+        area: phòng khách
+    response: "đã tắt đèn"

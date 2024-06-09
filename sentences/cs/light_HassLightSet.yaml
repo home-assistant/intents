@@ -2,6 +2,7 @@ language: cs
 intents:
   HassLightSet:
     data:
+      # Brightness
       - sentences:
           - "(<nastavit>|<zmenit>) jas {name} <brightness>"
           - "(<ztlumit>|<zvysit>) [jas] {name} <brightness>"
@@ -16,40 +17,61 @@ intents:
 
       # max intents
       - sentences:
-          - "(<nastavit>|<zvysit>|<zmenit>) [jas] <area> na {max:brightness}"
+          - "(<nastavit>|<zvysit>|<zmenit>) [jas] <area> [jas] na {max:brightness}"
           - "(<nastavit>|<zvysit>|<zmenit>) [na] {max:brightness} [jas] <area>"
           - "[jas] <area> (<zvysit>|<nastavit>|<zmenit>) [jas] [na] [{max:brightness}] [jas] [{max:brightness}]"
         slots:
           name: all
         response: brightness
       - sentences:
+          - "(<nastavit>|<zmenit>|<zvysit>) {max:brightness} [jas] [u] {name}"
           - "(<nastavit>|<zmenit>|<zvysit>) [jas] [na] {max:brightness} [jas] [u] {name}"
+          - "(<nastavit>|<zmenit>|<zvysit>) [jas] [u] {name} [na] {max:brightness}"
           - "[jas] [u] {name} (<nastavit>|<zvysit>|<zmenit>) [jas] [na] {max:brightness} [jas]"
         response: brightness
 
         #min intents
       - sentences:
-          - "(<nastavit>|<zmenit>|<ztlumit>) [jas] <area> na {min:brightness}"
+          - "(<nastavit>|<zmenit>|<ztlumit>) [jas] <area> [jas] na {min:brightness}"
           - "(<nastavit>|<zmenit>|<ztlumit>) [na] {min:brightness} [jas] <area>"
           - "[jas] <area> (<nastavit>|<zmenit>|<ztlumit>) [jas] [na] [{min:brightness}] [jas] [{min:brightness}]"
         slots:
           name: all
         response: brightness
       - sentences:
+          - "(<nastavit>|<zmenit>|<ztlumit>) {min:brightness} [jas] [u] {name}"
           - "(<nastavit>|<zmenit>|<ztlumit>) [jas] [na] {min:brightness} [jas] [u] {name}"
+          - "(<nastavit>|<zmenit>|<ztlumit>) [jas] [u] {name} [na] {min:brightness}"
           - "[jas] [u] {name} (<nastavit>|<ztlumit>|<zmenit>) [jas] [na] {min:brightness} [jas]"
         response: brightness
 
       - sentences:
-          - "(<nastavit>|<zmenit>) {color} [barvu] [na] {name}"
+          - "(<nastavit>|<zmenit>) [jas] <svetla> na <brightness>"
+        response: "brightness"
+        slots:
+          brightness:
+        requires_context:
+          area:
+            slot: true
+
+      # Color
+      - sentences:
+          - "(<nastavit>|<zmenit>) [barvu] {name} [na] {color}"
           - "(<nastavit>|<zmenit>) {name} na {color} [barvu]"
           - "{name} (<zmenit>|<nastavit>) na {color} [barvu]"
           - "Barvu {name} (<zmenit>|<nastavit>) na {color} [barvu]"
         response: color
       - sentences:
           - "(<nastavit>|<zmenit>) {color} [barvu] <area>"
-          - "(<nastavit>|<zmenit>) <area> na {color} [barvu]"
-          - "<area> (<zmenit>|<nastavit>) [na] {color} [barvu]"
+          - "(<nastavit>|<zmenit>) [barvu] <area> na {color} [barvu]"
           - "<area> (<zmenit>|<nastavit>) barvu na {color}"
-          - "Barvu <area> (<zmenit>|<nastavit>) na {color} [barvu]"
+          - "<area> (<zmenit>|<nastavit>) [na] {color} [barvu]"
+          - "Barvu <area> (<zmenit>|<nastavit>) [na] {color} [barvu]"
         response: color
+
+      - sentences:
+          - "(<nastavit>|<zmenit>) [barvu] <svetla> na {color}"
+        response: "color"
+        requires_context:
+          area:
+            slot: true

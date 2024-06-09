@@ -1,0 +1,24 @@
+language: sv
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'och klart',
+          'clear-night': 'och klart',
+          'cloudy': 'och mulet',
+          'exceptional': 'och strålande solsken', 
+          'fog': 'och dimma',
+          'hail': 'och hagel',
+          'lightning': 'och åska',
+          'lightning-rainy': 'och åska med regn',
+          'partlycloudy': 'och delvis mulet',
+          'pouring': 'och skyfall',
+          'rainy': 'och regn',
+          'snowy': 'och snö',
+          'snowy-rainy': 'och snöblandat regn',
+          'sunny': 'och sol',
+          'windy': 'och blåst',
+          'windy-variant': 'och mulet med blåst'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}

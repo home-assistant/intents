@@ -1,5 +1,6 @@
 language: es
 tests:
+  # Turn on all lights in an area
   - sentences:
       - enciende todas las luces de la cocina
       - encienda las luces en la cocina
@@ -12,6 +13,7 @@ tests:
       - activar las luces cocina
       - prende luces cocina
       - prenda las luces en cocina
+      - enciende la cocina
     intent:
       name: HassTurnOn
       slots:
@@ -28,6 +30,7 @@ tests:
       - puedes activar las luces de dormitorio
       - prende las luces dormitorio
       - prender luces dormitorio
+      - enciende dormitorio
     intent:
       name: HassTurnOn
       slots:
@@ -35,13 +38,25 @@ tests:
         domain: light
     response: Luces encendidas
 
+  # Turn on all lights in the home
+  - sentences:
+      - enciende todas las luces de la casa
+      - prende todos los bombillos del apartamento
+      - conecta cada llave de la luz del departamento
+      - activa cada una de las bombillas de todas las habitaciones del piso
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+
+  # Turn on lights in the same area as a satellite device
   - sentences:
       - enciende la luz
       - enciende todas las luces de aquí
       - podrías encender la luz
       - conecta las luces
       - puedes activar las luces aquí
-      - prende todas las luces
+      - prende las luces
     intent:
       name: HassTurnOn
       context:
@@ -49,4 +64,16 @@ tests:
       slots:
         domain: light
         area: Salón
+    response: Luces encendidas
+
+  # Turn on all lights on a floor
+  - sentences:
+      - prender todas las luces de la planta baja
+      - podrías encender las luces de la planta baja
+      - enciende planta baja
+    intent:
+      name: HassTurnOn
+      slots:
+        floor: Planta baja
+        domain: light
     response: Luces encendidas
