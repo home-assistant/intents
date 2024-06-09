@@ -2,12 +2,52 @@ language: fr
 intents:
   HassMediaPause:
     data:
+      # name
       - sentences:
           # Mets la TV sur pause
           - "<mets> [<le>]{name} (sur|en) pause"
           # Mettre en pause la TV
           - "<mets> (sur|en) pause [<le>]{name} "
+          # Mets la chanson en pause sur la TV
+          - "<mets> [<le>]<media> (sur|en) pause sur [<le>]{name} "
           # Pause sur la TV
           - "Pause sur [<le>]{name}"
+          # TV en pause
+          - "[<le>]{name} en pause"
+          # Arrête le film sur la TV
+          - "<eteins>  [<le>]<media> sur [<le>]{name}"
+          # Arrête le visionnage du film sur la TV
+          - "<eteins> <le> <lecture> <de> [<le>]<media> sur [<le>]{name}"
+          # Arrête le visionnage sur la TV
+          - "<eteins> <le> <lecture> sur [<le>]{name}"
         requires_context:
           domain: media_player
+
+      # Area (Context awarenes)
+      - sentences:
+          # Arrête la musique
+          - "<eteins> [<le>]<media>"
+          # Arrête la lecture de la musique
+          - "<eteins> <le> <lecture> <de> [<le>]<media>"
+          # Arrête la lecture
+          - "<eteins> <le> <lecture>"
+          # Pause
+          - "pause"
+          # Mets la chanson en pause
+          - "<mets> [<le>]<media> (sur|en) pause"
+        requires_context:
+          area:
+            slot: true
+
+      # Area
+      - sentences:
+          # Arrête l'épisode dans la chambre
+          - "<eteins> [<le>]<media> <dans> [<le>]{area}"
+          # Arrête la lecture de l'épisode dans la chambre
+          - "<eteins> <le> <lecture> <de> [<le>]<media> <dans> [<le>]{area}"
+          # Arrête la lecture de l'épisode dans la chambre
+          - "<eteins> <le> <lecture> <dans> [<le>]{area}"
+          # Pause dans le salon
+          - "pause <dans> [<le>]{area}"
+          # Mets la chanson en pause dans la cuisine
+          - "<mets> [<le>]<media> (sur|en) pause <dans> [<le>]{area}"
