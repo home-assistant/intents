@@ -4,22 +4,22 @@ responses:
     HassGetWeather:
       default: >
         {% set weather_condition = {
-          'clear': 'és derült',
-          'clear-night': 'és derült',
-          'cloudy': 'és felhős',
-          'exceptional': 'és kivételes',
-          'fog': 'köddel',
-          'hail': 'jégesővel',
-          'lightning': 'villámlással',
-          'lightning-rainy': 'villámlással és esővel',
-          'partlycloudy': 'és részben felhős',
-          'pouring': 'és szakadó eső',
-          'rainy': 'és esik',
-          'snowy': 'és havazik',
-          'snowy-rainy': 'hóval és esővel',
-          'sunny': 'és napos',
-          'windy': 'és szeles',
-          'windy-variant': 'széllel és felhőkkel'
+          'Tiszta': 'és derült',
+          'Tiszta, éjszaka': 'és derült',
+          'Felhős': 'és felhős',
+          'Rendkívüli': 'és rendkívüli az időjárás',
+          'Köd': 'köddel',
+          'Jégeső': 'jégesővel',
+          'Vihar': 'és viharos',
+          'Viharos, esős': 'vihar esővel',
+          'Részben felhős': 'és részben felhős',
+          'Szakad': 'és szakadó eső',
+          'Esős': 'és esik',
+          'Havazás': 'és havazik',
+          'Havas, esős': 'hóval és esővel',
+          'Napos': 'és napos',
+          'Szeles': 'és szeles',
+          'Szeles, felhős': 'széllel és felhőkkel'
         } %}
         {% set temperature = state.attributes.get('temperature') | float %}
         {% if temperature < 0 %}
@@ -27,4 +27,4 @@ responses:
         {% else %}
           {% set temperature_string = temperature | string | replace('.', ',') %}
         {% endif %}
-        {{ temperature_string }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {{ temperature_string }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), state.state | string) }}

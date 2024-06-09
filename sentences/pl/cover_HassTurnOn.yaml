@@ -2,37 +2,244 @@ language: pl
 intents:
   HassTurnOn:
     data:
+      # ---------- Blind ----------
       - sentences:
-          - "(<open>|<open_blind>) <name>"
+          - "(<open>|<open_blind>) <name> [<area>]"
+          - "(<open>|<open_blind>) [<area>] <name>"
+          - "[<area>] (<open>|<open_blind>) <name>"
         requires_context:
           domain: cover
-        response: cover
+          device_class: blind
+        response: "cover_blind"
 
       - sentences:
-          - "(<open>|<open_blind>) <name> <area>"
-        requires_context:
-          domain: cover
-        response: cover_area_blind
-
-      - sentences:
-          - <open> garaż
-          - <open> (drzwi|bramę) (garażowe|garażową| od garażu)
-          - (Drzwi|Bramę) (garażowe|garażową| od garażu) <open>
+          - "(<open>|<open_blind>) [<all>] rolety [<area>]"
+          - "(<open>|<open_blind>) [<area>] [<all>] rolety"
+          - "[<area>] (<open>|<open_blind>) [<all>] rolety"
         slots:
           domain: cover
-          device_class: garage
-        response: cover_garage
+          device_class: blind
+        response: "cover_blinds"
+
+      # ---------- Shutter ----------
+      - sentences:
+          - "(<open>|<open_blind>) <name> [<area>]"
+          - "(<open>|<open_blind>) [<area>] <name>"
+          - "[<area>] (<open>|<open_blind>) <name>"
+        requires_context:
+          domain: cover
+          device_class: shutter
+        response: "cover_shutter"
 
       - sentences:
-          - "(<open>|<open_blind>) [<all>] rolety"
+          - "(<open>|<open_blind>) [<all>] żaluzje [<area>]"
+          - "(<open>|<open_blind>) [<area>] [<all>] żaluzje"
+          - "[<area>] (<open>|<open_blind>) [<all>] żaluzje"
+        slots:
+          domain: cover
+          device_class: shutter
+        response: "cover_shutters"
+
+      # ---------- Shade ----------
+      - sentences:
+          - "(<open>|<open_blind>) <name> [<area>]"
+          - "(<open>|<open_blind>) [<area>] <name>"
+          - "[<area>] (<open>|<open_blind>) <name>"
+        requires_context:
+          domain: cover
+          device_class: shade
+        response: "cover_shade"
+
+      - sentences:
+          - "(<open>|<open_blind>) [<all>] osłony [<area>]"
+          - "(<open>|<open_blind>) [<area>] [<all>] osłony"
+          - "[<area>] (<open>|<open_blind>) [<all>] osłony"
+        slots:
+          domain: cover
+          device_class: shade
+        response: "cover_shades"
+
+      # ---------- Curtain ----------
+      - sentences:
+          - "(<open>|<open_blind>|<open_curtain>) <name> [<area>]"
+          - "(<open>|<open_blind>|<open_curtain>) [<area>] <name>"
+          - "[<area>] (<open>|<open_blind>|<open_curtain>) <name>"
+        requires_context:
+          domain: cover
+          device_class: curtain
+        response: "cover_curtain"
+
+      - sentences:
+          - "(<open>|<open_blind>) [<all>] zasłony [<area>]"
+          - "(<open>|<open_blind>) [<area>] [<all>] zasłony"
+          - "[<area>] (<open>|<open_blind>) [<all>] zasłony"
         slots:
           domain: cover
           device_class: curtain
-        response: cover_blind
+        response: "cover_curtains"
+
+      # ---------- Garage door ----------
+      - sentences:
+          - "<open> <name> [<area>]"
+          - "<open> [<area>] <name>"
+          - "[<area>] <open> <name>"
+        requires_context:
+          domain: cover
+          device_class: garage
+        response: "cover_garage"
 
       - sentences:
-          - "(<open>|<open_blind>) [<all>] rolety <area>"
-          - "(<open>|<open_blind>) <area> [<all>] rolety"
+          - "<open> (garaż|drzwi garażowe|drzwi do garażu|bramę garażową|bramę do garażu)"
         slots:
           domain: cover
-        response: cover_area_blinds
+          device_class: garage
+        response: "cover_garage"
+
+      # ---------- Gate ----------
+      - sentences:
+          - "<open> <name> [<area>]"
+          - "<open> [<area>] <name>"
+          - "[<area>] <open> <name>"
+        requires_context:
+          domain: cover
+          device_class: gate
+        response: "cover_gate"
+
+      - sentences:
+          - "<open> bramę [<area>]"
+          - "<open> [<area>] bramę"
+          - "[<area>] <open> bramę"
+        slots:
+          domain: cover
+          device_class: gate
+        response: "cover_gate"
+
+      - sentences:
+          - "<open> [<all>] bramy [<area>]"
+          - "<open> [<area>] [<all>] bramy"
+          - "[<area>] <open> [<all>] bramy"
+        slots:
+          domain: cover
+          device_class: gate
+        response: "cover_gates"
+
+      # ---------- Door ----------
+      - sentences:
+          - "<open> <name> [<area>]"
+          - "<open> [<area>] <name>"
+          - "[<area>] <open> <name>"
+        requires_context:
+          domain: cover
+          device_class: door
+        response: "cover_door"
+
+      - sentences:
+          - "<open> [<all>] drzwi [<area>]"
+          - "<open> [<area>] [<all>] drzwi"
+          - "[<area>] <open> [<all>] drzwi"
+        slots:
+          domain: cover
+          device_class: door
+        response: "cover_door"
+
+      # ---------- Damper ----------
+      - sentences:
+          - "(<open>|podnieś) <name> [<area>]"
+          - "(<open>|podnieś) [<area>] <name>"
+          - "[<area>] (<open>|podnieś) <name>"
+        requires_context:
+          domain: cover
+          device_class: damper
+        response: "cover_damper"
+
+      - sentences:
+          - "(<open>|podnieś) [<all>] klapy [<area>]"
+          - "(<open>|podnieś) [<area>] [<all>] klapy"
+          - "[<area>] (<open>|podnieś) [<all>] klapy"
+        slots:
+          domain: cover
+          device_class: damper
+        response: "cover_dampers"
+
+      # ---------- Awning ----------
+      - sentences:
+          - "(<open>|<open_blind>) <name> [<area>]"
+          - "(<open>|<open_blind>) [<area>] <name>"
+          - "[<area>] (<open>|<open_blind>) <name>"
+        requires_context:
+          domain: cover
+          device_class: awning
+        response: "cover_awning"
+
+      - sentences:
+          - "(<open>|<open_blind>) [<all>] markizy [<area>]"
+          - "(<open>|<open_blind>) [<area>] [<all>] markizy"
+          - "[<area>] (<open>|<open_blind>) [<all>] markizy"
+        slots:
+          domain: cover
+          device_class: awning
+        response: "cover_awnings"
+
+      # ---------- Window ----------
+      - sentences:
+          - "<open> <name> [<area>]"
+          - "<open> [<area>] <name>"
+          - "[<area>] <open> <name>"
+        requires_context:
+          domain: cover
+          device_class: window
+        response: "cover_window"
+
+      - sentences:
+          - "<open> [<all>] okna [<area>]"
+          - "<open> [<area>] [<all>] okna"
+          - "[<area>] <open> [<all>] okna"
+        slots:
+          domain: cover
+          device_class: window
+        response: "cover_windows"
+
+      # ---------- Other ----------
+      - sentences:
+          - "<open> <name> [<area>]"
+          - "<open> [<area>] <name>"
+          - "[<area>] <open> <name>"
+        requires_context:
+          domain: cover
+        excludes_context:
+          device_class:
+            - blind
+            - shutter
+            - shade
+            - curtain
+            - garage
+            - gate
+            - door
+            - damper
+            - awning
+            - window
+        response: "cover"
+
+      # Assist doesn't support translations of answers using {{ slots.device_class }} and/or {{ state.domain }}. We have two ways to properly support Polish responses:
+      # 1. Create separate sentences for each {{ slots.device_class }} and/or {{ state.domain }} (I chose this way)
+      # 2. Create many conditions in one answer to correctly translate the specific name {{{slots.device_class}} and/or {{state.domain}}
+
+      # ---------- Device_class ----------
+      - sentences:
+          - "<open> {cover_classes:device_class} [<area>]"
+          - "<open> [<area>] {cover_classes:device_class}"
+          - "[<area>] <open> {cover_classes:device_class}"
+        slots:
+          domain: cover
+        response: "cover_device_class"
+
+      # ---------- Device_class here ----------
+      - sentences:
+          - "<open> [<in_here>] [<all>] {cover_classes:device_class}"
+          - "<open> [<all>] {cover_classes:device_class} [<in_here>]"
+        slots:
+          domain: cover
+        requires_context:
+          area:
+            slot: true
+        response: "cover_device_class"

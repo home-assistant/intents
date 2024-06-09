@@ -1,0 +1,15 @@
+language: bg
+intents:
+  HassListAddItem:
+    data:
+      - sentences:
+          - "добави <item> (в|към) <my_list>"
+          - "сложи <item> (в|към) <my_list>"
+          - "прибави <item> (в|към) <my_list>"
+          - "запиши <item> (в|към) <my_list>"
+        response: item_added
+        requires_context:
+          domain: todo
+        expansion_rules:
+          my_list: "[ моя| моите] [ списък| списъка| списъка ми] [с|със|за] {name} [ми]"
+          item: "{shopping_list_item:item}"
