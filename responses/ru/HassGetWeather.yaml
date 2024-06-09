@@ -21,4 +21,22 @@ responses:
           'windy': ', ветренно',
           'windy-variant': ', ветренно и облачно'
         } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }}{{ weather_condition.get((state.state | string).lower(), "") }}
+
+          {% set temperature = state.attributes.get('temperature') | float %}
+          {% if temperature.is_integer() %}
+              {% if temperature == 0 %}
+                {% set temperature_string = 0 | string %}
+              {% elif temperature < 0 %}
+                {% set temperature_string = 'минус ' ~ (temperature | abs | int ) | string %}
+              {% else %}
+                {% set temperature_string = 'плюс ' ~ (temperature | int) | string %}
+              {% endif %}
+          {% else %}
+              {% if temperature < 0 %}
+                {% set temperature_string = 'минус ' ~ (temperature | abs) | string | replace('.', ',') %}
+              {% else %}
+                {% set temperature_string = 'плюс ' ~ temperature | string | replace('.', ',') %}
+              {% endif %}
+          {% endif %}
+
+        {{ "Сейчас " ~ temperature_string}}{{ weather_condition.get((state.state | string).lower(), state.state | string) }}

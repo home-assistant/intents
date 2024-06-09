@@ -1,0 +1,24 @@
+language: lv
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'skaidrs laiks',
+          'clear-night': 'skaidrs laiks',
+          'cloudy': 'mākoņains',
+          'exceptional': 'ārkārtējs',
+          'fog': 'migla',
+          'hail': 'krusa',
+          'lightning': 'pērkons',
+          'lightning-rainy': 'pēŗkons un lietus',
+          'partlycloudy': 'daļēji mākoņains',
+          'pouring': 'lietusgāzes',
+          'rainy': 'līst',
+          'snowy': 'snieg',
+          'snowy-rainy': 'slapjš sniegs',
+          'sunny': 'saulains',
+          'windy': 'vējains',
+          'windy-variant': 'ar vēju un lietu'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}

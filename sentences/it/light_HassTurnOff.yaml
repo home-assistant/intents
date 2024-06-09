@@ -3,7 +3,20 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> [tutte] [l(a|e)] (luc(e|i)) [(<of>|<in>)] <area>"
-          - "<turn_off> [<in>] <area> [tutte] [l(a|e)] (luc(e|i))"
+          - "<turn_off> [<all>] [<the>] <light> [(<of>|<in>)]<area>"
+          - "<turn_off> [<in>]<area> [<all>] [<the>] <light>"
+          - "[<in>]<area> [<all>] [<the>] <light> <turn_off>"
+          - "[<in>]<area> <turn_off> [<all>] [<the>] <light>"
         slots:
           domain: light
+        response: "lights_area"
+
+      # Frase per spegnere luci nell'area dov'è localizzato Assist
+      - sentences:
+          - "<turn_off> [<the>] <light> [<in_here>]"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
+        response: "lights_area"
