@@ -3,10 +3,29 @@ responses:
   errors:
     no_intent: "Jeg skjønte dessverre ikke det"
     no_area: "Det er ingen områder som heter {{ area }}"
+    no_floor: "Det er ingen etasje som heter {{ floor }}"
     no_domain_in_area: "{{ area }} har ingen {{ domain }}"
+    no_domain_in_floor: "{{ floor }} har ingen {{ domain }}"
     no_device_class_in_area: "{{ area }} har ingen {{ device_class }}"
+    no_device_class_in_floor: "{{ floor }} har ingen {{ device_class }}"
     no_entity: "Finner ingen enhet som heter {{ entity }}"
+    no_entity_in_area: "Finner ingen enhet som heter {{ entity }} i {{ area }}"
+    no_entity_in_floor: "Finner ingen enhet som heter {{ entity }} i {{ floor }}"
     handle_error: "Det oppsto en uventet feil"
+
+    no_entity_exposed: "{{ entity }} er ikke eksponert"
+    no_entity_in_area_exposed: "{{ entity }} i {{ area }} er ikke eksponert"
+    no_entity_in_floor_exposed: "{{ entity }} i {{ floor }} er ikke eksponert"
+    no_domain_exposed: "{{ domain }} er ikke eksponert"
+    no_domain_in_area_exposed: "{{ domain }} i {{ area }} er ikke eksponert"
+    no_domain_in_floor_exposed: "{{ domain }} i {{ floor }} er ikke eksponert"
+    no_device_class_exposed: "{{ device_class }} er ikke eksponert"
+    no_device_class_in_area_exposed: "{{ device_class }} i {{ area }} er ikke eksponert"
+    no_device_class_in_floor_exposed: "{{ device_class }} i {{ floor }} er ikke eksponert"
+
+    duplicate_entities: "Det finnes flere enheter som heter {{ entity }}"
+    duplicate_entities_in_area: "Det finnes flere enheter som heter {{ entity }} i {{ area }}"
+    duplicate_entities_in_floor: "Det finnes flere enheter som heter {{ entity }} i {{ floor }}"
 
 lists:
   brightness:
@@ -304,12 +323,25 @@ lists:
       - in: "lukket"
         out: "closed"
 
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
   shopping_list_item:
     wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
 
 expansion_rules:
   navn: "{name}[(en[e]|et|n[s])]"
   område: "{area}[(n[s]|en|et[s]|met[s])]"
+  etasje: "{floor}[(en[e]|et|n[s])][ etasje[n]]"
   sensor: "(sensor[er|en[e]])"
 
   #determinatives
@@ -331,6 +363,8 @@ expansion_rules:
   kaldt_varmt: "(<kald>|<varm>)"
   åpen: "(åpen|åpnet [opp]|rullet opp|lukket opp)"
   lukket: "(lukket [igjen]|stengt|senket|rullet ned)"
+  volum: "{volume:volume_level}[[ ]%| prosent]"
+  position: "{position}[[ ]%| prosent]"
 
   #actions
   endre: "(endre|sett|juster|skru (opp|ned)|vri|dimm[e]|still [inn]|øk|senk|dim[me])"

@@ -24,7 +24,6 @@ intents:
       # Turn on all lights in the same area as a satellite device
       - sentences:
           - "<vključi> [vse] luči <in_here>"
-          #- "<turn>[ the] lights( on;<in_here>)"
         response: "lights_area"
         expansion_rules:
           in_here: "[[ v] tu[kaj]]|[v [tem] prostoru]"
@@ -33,3 +32,12 @@ intents:
         requires_context:
           area:
             slot: true
+
+      # Turn on all lights on a floor
+      - sentences:
+          - "<vključi> [vse] luči (v|na) <floor>"
+          - "<vklopi> [vse] luči (v|na) <floor>"
+          - "<prižgi> [vse] luči (v|na) <floor>"
+        response: "lights_floor"
+        slots:
+          domain: "light"

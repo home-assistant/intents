@@ -1,0 +1,942 @@
+language: ru
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "[батаре[йк](я|и|a)] [у ]<name> {bs_battery_states:state} [<area>]"
+          - "{bs_battery_states:state}[ ли] [батаре[йк](я|и|a)] [у ]<name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "есть[ ли] [как(ая|ие)-(нибудь|либо)] {bs_battery_states:state} батаре[йк](я|и|a) [<area>]"
+          - "как(ая|ие)-(нибудь|либо) батаре[йк](я|и|a) {bs_battery_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "все[ ли] батаре[йк]и {bs_battery_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "как(ая|ие)[ из] батаре[йк](я|и|a|й|ек) {bs_battery_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "(как много|сколько) батаре[ек][й] {bs_battery_states:state} [<area>]"
+          - "(как много|сколько) {bs_battery_states:state} батаре[ек][й] [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "<name> {bs_battery_charging_states:state} [<area>]"
+          - "{bs_battery_charging_states:state}[ ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "{bs_battery_charging_states:state}[ ли] [как(ая|ое|ие)-(либо|нибудь)] (батаре[йк](я|и|a)|устройств(о|а)) [<area>]"
+          - "есть[ ли] [как(ая|ое|ие)-(либо|нибудь)] {bs_battery_charging_states:state} (батаре[йк](я|и|a)|устройств(о|а))  [<area>]"
+          - "как(ая|ие)-(либо|нибудь) (батаре[йк](я|и|a)|устройств(о|а)) {bs_battery_charging_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "все[ ли] (батаре[йк]и|устройства) {bs_battery_charging_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "как(ое|ая|ие) (батаре[йк](я|и|a)|устройств(о|а)) {bs_battery_charging_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "(сколько|как много) (батаре(й|ек)|устройств) {bs_battery_charging_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # Carbon monoxide
+      - sentences:
+          - "<name> {bs_carbon_monoxide_states:state} [угарный газ] [<area>]"
+          - "{bs_carbon_monoxide_states:state}[ ли] <name> [угарный газ] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] (датчик[и]|сенсор[ы])  {bs_carbon_monoxide_states:state} угарный газ [<area>]"
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] {bs_carbon_monoxide_states:state} (датчик[и]|сенсор[ы]) угарного газа [<area>]"
+          - "как(ой|ие)-(нибудь|либо) (датчик[и]|сенсор[ы]) угарного газа {bs_carbon_monoxide_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "[где-нибудь] (есть[ ли]|обнаружен) угарный газ <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+
+      - sentences:
+          - "все[ ли] (датчики|сенсоры) ({bs_carbon_monoxide_states:state} угарный газ|угарного газа {bs_carbon_monoxide_states:state}) [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "как(ой|ие)[ из] (датчик[и|ов]|сенсор[ы|ов]) (угарного газа {bs_carbon_monoxide_states:state}|{bs_carbon_monoxide_states:state} угарный газ) [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "(сколько|как много) (датчиков|сенсоров) (угарного газа {bs_carbon_monoxide_states:state}|{bs_carbon_monoxide_states:state} угарный газ) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "{bs_cold_states:state}[ ли] <name> [<area>]"
+          - " <name> {bs_cold_states:state}[ ли] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)]  холодны(й|е) (объект|сенсор)[ы] [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "как(ие|ой)[ из] (объект|сенсор)[ы|ов] [<area>] холодны(й|е)"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "(сколько|как много) холодных (объектов|сенсоров)  [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Connectivity
+      - sentences:
+          - "<name> {bs_connectivity_states:state} [<area>]"
+          - "{bs_connectivity_states:state}[ ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "[есть ли] [как(ое|ие)-(нибудь|либо)]  {bs_connectivity_states:state} устройств(а|о) [<area>]"
+          - "[как(ое|ие)-(нибудь|либо)] устройств(а|о) {bs_connectivity_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "все[ ли] устройства {bs_connectivity_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "как(ие|ое)[ из] устройств[а|о] {bs_connectivity_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "(сколько|как много) устройств {bs_connectivity_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "{bs_door_states:state}[ ли] <name> [<area>]"
+          - "<name> {bs_door_states:state}[ ли] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "{bs_garage_door_states:state}[ ли] <name> [<area>]"
+          - "<name> {bs_door_states:state}[ ли] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "<name> {bs_gas_states:state} [природный ]газ [<area>]"
+          - "{bs_gas_states:state}[ ли] <name> [природный газ] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] (датчик[и]|сенсор[ы]) {bs_gas_states:state} [природный ]газ [<area>]"
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] {bs_gas_states:state} (датчик[и]|сенсор[ы]) [природного ]газа [<area>]"
+          - "как(ой|ие)-(нибудь|либо) (датчик[и]|сенсор[ы]) [природного ]газа {bs_gas_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "[где-нибудь] (есть|обнаружен)[ ли] [природный ]газ <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "все[ ли] (датчики|сенсоры) ({bs_gas_states:state} [природный ]газ|[природного ]газа {bs_carbon_monoxide_states:state}) [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "как(ой|ие)[ из] (датчик[и|ов]|сенсор[ы|ов]) ([природного ]газа {bs_gas_states:state}|{bs_gas_states:state} [природный ]газ) [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "(сколько|как много) (датчиков|сенсоров) ([природного ]газа {bs_gas_states:state}|{bs_gas_states:state} [природный ]газ) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Heat
+      - sentences:
+          - "{bs_heat_states:state}[ ли] <name> [<area>]"
+          - " <name> {bs_heat_states:state}[ ли] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)]  горячи(й|е) (объект|сенсор)[ы] [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "как(ие|ой)[ из] (объект|сенсор)[ы|ов] [<area>] горячи(й|е)"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      - sentences:
+          - "(сколько|как много) горячих (объектов|сенсоров) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Light
+      - sentences:
+          - "<name> {bs_light_states:state} [<area>]"
+          - "{bs_light_states:state}[ ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "[как(ой|ая|ие)-(нибудь|либо)] [датчик[и]|сенсор[ы]] (свет[а]|освещенност(и|ь)) {bs_light_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "Все ли[ ли] (датчики|сенсоры) {bs_light_states:state} [свет|освещенность] [<area>]"
+          - "везде[ ли] {bs_light_states:state} (свет|освещенность) [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "как(ая|ой|ие)[ из] [датчик[и|ов]|сенсор[ы|ов]] (свет[а]|освещенност(и|ь)) {bs_light_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "(сколько|как много) [датчиков|сенсоров] (света|освещенности)  {bs_light_states:state} [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      # Lock
+      - sentences:
+          - "{bs_lock_states:state}[ ли] <name> [<area>]"
+          - "<name> {bs_lock_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+          device_class: lock
+
+      # Moisture
+      - sentences:
+          - "<name> {bs_moisture_states:state}[ ли] [<area>]"
+          - "{bs_moisture_states:state}[ ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] {bs_moisture_states:state} (датчик[и]|сенсор[ы]) протечки [<area>]"
+          - "как(ой|ие)-(нибудь|либо) (датчик[и]|сенсор[ы]) протечки {bs_moisture_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "есть[ ли] [(где|какая)-(нибудь|либо)] протечка [<area>]"
+          - "затоплен[а|о][ ли] <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+          state: "on"
+
+      - sentences:
+          - "все[ ли] (датчики|сенсоры) протечки {bs_moisture_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "как(ие|ой)[ из] (датчик[и|ов]|сенсор[ы|ов]) протечки {bs_moisture_states:state}  [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "(сколько|как много) (датчиков|сенсоров) протечки {bs_moisture_states:state} [<area>]"
+          - "(сколько|как много) {bs_moisture_states:state} (датчиков|сенсоров) протечки  [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      # Motion
+      - sentences:
+          - "<name> {bs_motion_states:state} [движение] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] {bs_motion_states:state} (датчик[и]|сенсор[ы]) движения [<area>]"
+          - "как(ой|ие)-(нибудь|либо) (датчик[и]|сенсор[ы]) движения {bs_motion_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "есть[ ли] [какое-(нибудь|либо)] движение [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+          state: "on"
+
+      - sentences:
+          - "все[ ли] (датчики|сенсоры) движения {bs_motion_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "как(ие|ой)[ из] (датчик[и|ов]|сенсор[ы|ов]) движения {bs_motion_states:state}  [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "(сколько|как много) (датчиков|сенсоров) (движения {bs_motion_states:state}|{bs_motion_states:state} движение) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      # Occupancy
+      - sentences:
+          - "<name> {bs_occupancy_states:state} [присутствие] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] {bs_occupancy_states:state} (датчик[и]|сенсор[ы]) присутствия [<area>]"
+          - "как(ой|ие)-(нибудь|либо) (датчик[и]|сенсор[ы]) присутствия {bs_occupancy_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "есть[ ли] [какое-(нибудь|либо)] присутствие [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+          state: "on"
+
+      - sentences:
+          - "все[ ли] (датчики|сенсоры) присутствия {bs_occupancy_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "как(ие|ой)[ из] (датчик[и|ов]|сенсор[ы|ов]) присутствия {bs_occupancy_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "(сколько|как много) (датчиков|сенсоров) (присутствия {bs_occupancy_states:state}|{bs_occupancy_states:state} присутствие) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      # Opening
+      - sentences:
+          - "<name> {bs_opening_states:state} [<area>]"
+          - "{bs_opening_states:state}[ ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: opening
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] {bs_opening_states:state} (датчик[и]|сенсор[ы]) открытия [<area>]"
+          - "как(ой|ие)-(нибудь|либо) (датчик[и]|сенсор[ы]) открытия {bs_opening_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "все[ ли] (датчики|сенсоры) открытия {bs_opening_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "как(ие|ой)[ из] (датчик[и|ов]|сенсор[ы|ов]) открытия {bs_opening_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "(сколько|как много) (датчиков|сенсоров) открытия {bs_opening_states:state} [<area>]"
+          - "(сколько|как много) {bs_opening_states:state} (датчиков|сенсоров) открытия [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      # Plug
+      - sentences:
+          - "<name> {bs_plug_states:state} [<area>]"
+          - "{bs_plug_states:state}[ ли] <name>  [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "есть[ ли] [как(ой|ое|ие)-(нибудь|либо)] {bs_plug_states:state} ((объект|прибор)[ы]|устройств(о|а)) [<area>]"
+          - "как(ой|ое|ие)-(нибудь|либо) ((объект|прибор)[ы]|устройств(о|а)) {bs_plug_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "все[ ли] (объекты|приборы|устройства) {bs_plug_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "как(ие|ое|ой)[ из] ((объект|прибор)[ы|ов]|устройств[о|а]) {bs_plug_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "(сколько|как много) ((объект|прибор)ов|устройств) {bs_plug_states:state} [<area>]"
+          - "(сколько|как много) {bs_plug_states:state} ((объект|прибор)ов|устройств) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      # Power
+      - sentences:
+          - "<name> {bs_power_states:state} [<area>]"
+          - "{bs_power_states:state}[ ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "есть[ ли] [как(ой|ое|ие)-(нибудь|либо)] {bs_power_states:state} ((объект|прибор)[ы]|устройств(о|а)) [<area>]"
+          - "как(ой|ое|ие)-(нибудь|либо) ((объект|прибор)[ы]|устройств(о|а)) {bs_power_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "все[ ли] (объекты|приборы|устройства) {bs_power_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "как(ие|ой|ое)[ из] ((объект|прибор)[ы|ов]|устройств[о|а]) {bs_power_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "(сколько|как много) ((объект|прибор)ов|устройств) {bs_power_states:state} [<area>]"
+          - "(сколько|как много) {bs_power_states:state} ((объект|прибор)ов|устройств) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      # Presence
+      - sentences:
+          - "<name> {bs_presence_states:state} [<area>]"
+          - "{bs_presence_states:state}[ ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "есть[ ли] [как(ой|ое|ие)-(нибудь|либо)] {bs_presence_states:state} (объект[ы]|устройств(о|а)|люди) [<area>]"
+          - "есть[ ли] [как(ой|ое|ие)-(нибудь|либо)] (объект[ы]|устройств(о|а)) {bs_presence_states:state} [<area>]"
+          - "как(ой|ое|ие)-(нибудь|либо) (объект[ы]|устройств(о|а)) {bs_presence_states:state} [<area>]"
+          - "кто-нибудь {bs_presence_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "все[ ли] (объекты|устройства|люди) {bs_presence_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "как(ие|ой|ое)[ из] (объект[ы|ов]|устройств[о|а]) {bs_presence_states:state} [<area>]"
+          - "кто[ из (людей|семьи|жильцов)] {bs_presence_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "(сколько|как много) (объектов|устройств|людей) {bs_presence_states:state} [<area>]"
+          - "(сколько|как много) {bs_presence_states:state} (объектов|устройств|людей) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      # Problem
+      - sentences:
+          - "есть ли [как(ая|ие)-(нибудь|либо)] проблем[а|ы] с <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      # Running
+      - sentences:
+          - "<name> {bs_running_states:state} [<area>]"
+          - "{bs_running_states:state}[ ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "есть[ ли] [как(ой|ое|ие)-(нибудь|либо)] {bs_running_states:state} ((объект|прибор)[ы]|устройств(о|а)) [<area>]"
+          - "как(ой|ое|ие)-(нибудь|либо) ((объект|прибор)[ы]|устройств(о|а)) {bs_running_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "все[ ли] ((объект|прибор)ы|устройства) {bs_running_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "как(ие|ой|ое)[ из] ((объект|прибор)[ы|ов]|устройств[о|а]) {bs_running_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "(сколько|как много) ((объект|прибор)ов|устройств) {bs_running_states:state} [<area>]"
+          - "(сколько|как много) {bs_running_states:state} ((объект|прибор)ов|устройств) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      # Safety
+      - sentences:
+          - "<name> {bs_safety_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      # Smoke
+      - sentences:
+          - "<name> {bs_smoke_states:state} (дым|задымленность) [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: smoke
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] (датчик[и]|сенсор[ы]) {bs_smoke_states:state} (дым|задымленность) [<area>]"
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] {bs_smoke_states:state} (датчик[и]|сенсор[ы]) (дыма|задымленности) [<area>]"
+          - "как(ой|ие)-(нибудь|либо) (датчик[и]|сенсор[ы]) (дыма|задымленности) {bs_smoke_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "(Есть|обноружен[а]) ли (дым|задымленность) <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
+
+      - sentences:
+          - "все[ ли] (датчики|сенсоры) ({bs_smoke_states:state} (дым|задымленность)|(дыма|задымленности) {bs_smoke_states:state}) [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "как(ой|ие)[ из] (датчик[и|ов]|сенсор[ы|ов]) ((дыма|задымленности) {bs_smoke_states:state}|{bs_smoke_states:state} (дым|задымленность)) [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "(сколько|как много) (датчиков|сенсоров) ((дыма|задымленности) {bs_smoke_states:state}|{bs_smoke_states:state} (дым|задымленность)) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      # Sound
+      - sentences:
+          - "<name> {bs_sound_states:state} (шум|звук) [<area>]"
+          - "{bs_sound_states:state}[ ли] <name> (шум|звук) [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: sound
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] (датчик[и]|сенсор[ы]) {bs_sound_states:state} (шум|звук) [<area>]"
+          - "есть[ ли] [как(ой|ие)-(нибудь|либо)] {bs_sound_states:state} (датчик[и]|сенсор[ы]) (шума|звука) [<area>]"
+          - "как(ой|ие)-(нибудь|либо) (датчик[и]|сенсор[ы]) (шума|звука) {bs_sound_states:state} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "(есть|обнаружен)[ ли] (шум|звук) <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+          state: "on"
+
+      - sentences:
+          - "все[ ли] (датчики|сенсоры) ({bs_sound_states:state} (шум|звук)|(шума|звука) {bs_sound_states:state}) [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "как(ой|ие)[ из] (датчик[и|ов]|сенсор[ы|ов]) ((шума|звука) {bs_sound_states:state}|{bs_sound_states:state} (шум|звук)) [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "(сколько|как много) (датчиков|сенсоров) ((шума|звука) {bs_sound_states:state}|{bs_sound_states:state} (шум|звук)) [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      # Tamper
+      - sentences:
+          - "<name> {bs_tamper_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: tamper
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      # Update
+      - sentences:
+          - "{bs_update_states:state}[ ли] <name> [<area>]"
+          - "<name> {bs_update_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+
+      - sentences:
+          - "(есть|доступны)[ ли] [какие-(нибудь|либо)] обновлени[е|я] [(прошивк(и|ок)|программ[ы])] [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "для как(ого|их) устройств[а] доступн[о|ы] обновлени(е|я) [(прошивки|программы)] [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "сколько обновлений [(прошивк(и|ок)|программ)] доступно [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      # Vibration
+      - sentences:
+          - "{bs_vibration_states:state}[ ли] <name> [<area>]"
+          - "<name>  {bs_vibration_states:state}[ ли] [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "что-(то|либо) (вибрирует|трясется) [<area>]"
+        response: any
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+          state: "on"
+
+      # Window
+      - sentences:
+          - "<name> {bs_window_states:state}[ ли] [<area>]"
+          - "{bs_window_states:state}[ ли] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window

@@ -1,5 +1,6 @@
 language: es
 tests:
+  # Turn off all lights in an area
   - sentences:
       - apaga todas las luces de la cocina
       - apague luces de la cocina
@@ -36,14 +37,20 @@ tests:
         domain: light
     response: Luces apagadas
 
+  # Turn off all lights in the home
   - sentences:
       - "apaga todas las luces"
+      - "desconecta las luces del apartamento"
+      - "desactiva todas y cada una de las luces de la casa"
+      - "apaga las luces de la casa"
+      - "apaga los bombillos de cada pieza"
     intent:
       name: HassTurnOff
       slots:
         domain: light
         name: all
 
+  # Turn off lights in the same area as a satellite device
   - sentences:
       - "apaga la luz"
       - "apaga las luces"
@@ -59,3 +66,13 @@ tests:
         domain: light
         area: Salón
     response: "Luces apagadas"
+
+  # Turn off all lights on a floor
+  - sentences:
+      - "apaga las luces de la planta baja"
+      - "desactiva todas las bombillas de la planta baja"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        floor: Planta baja
