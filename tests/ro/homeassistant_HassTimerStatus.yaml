@@ -1,0 +1,53 @@
+language: ro
+tests:
+  - sentences:
+      - "care e statusul temporizatorului?"
+      - "status cronometru"
+      - "cat mai are temporizarea?"
+      - "cat timp a mai ramas pe temporizator?"
+      - "cat mai este din cronometru?"
+    intent:
+      name: HassTimerStatus
+    response: |
+      2 temporizatoare pornite. Un temporizator oprit temporar. Mai durează 3 minute până la finele temporizatorului de 5 minute din bucatarie
+
+  - sentences:
+      - "care e statusul temporizatorului de 2 ore?"
+      - "status cronometru de 2 ore"
+      - "cat mai are temporizarea de 2 ore?"
+      - "cat timp a mai ramas pe temporizatorul de 2 ore?"
+      - "cat mai este din cronometrul de 2 ore?"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 2
+    response: |
+      Temporizatorul este în pauză. Mai durează Un minut și 40 de secunde
+
+  - sentences:
+      - "care e statusul temporizatorului pentru pizza?"
+      - "status cronometru pizza"
+      - "cat mai are temporizarea numita pizza?"
+      - "cat timp a mai ramas pe temporizatorul cu numele pizza?"
+      - "cat mai este din cronometrul pizza?"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name:
+          - "pizza "
+          - "pizza"
+    response: |
+      Mai durează 25 de minute
+
+  - sentences:
+      - "care e statusul temporizatorului din bucatarie?"
+      - "status cronometru in bucatarie"
+      - "cat mai are temporizarea din bucatarie?"
+      - "cat timp a mai ramas pe temporizatorul de la bucatarie?"
+      - "cat mai este din cronometrul din bucatarie?"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: Bucatarie
+    response: |
+      Mai durează 3 minute
