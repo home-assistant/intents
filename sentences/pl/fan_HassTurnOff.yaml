@@ -3,12 +3,26 @@ intents:
   HassTurnOff:
     data:
       - sentences:
+          - "<turn_off> <name>"
+        requires_context:
+          domain: fan
+        response: "fan"
+
+      - sentences:
+          - "<turn_off> <name> <area>"
+          - "<turn_off> <area> <name>"
+          - "<area> <turn_off> <name>"
+        requires_context:
+          domain: fan
+        response: "fan_area"
+
+      - sentences:
           - "<turn_off> (wentylator|wiatrak) <area>"
           - "<turn_off> <area> (wentylator|wiatrak)"
         slots:
           domain: fan
           name: all
-        response: fan_area
+        response: "fan_area"
 
       - sentences:
           - "<turn_off> [<all>] (wentylatory|wiatraki) <area>"
@@ -16,11 +30,41 @@ intents:
         slots:
           domain: fan
           name: all
-        response: fans_area
+        response: "fans_area"
 
       - sentences:
           - "<turn_off> <all> (wentylatory|wiatraki)"
         slots:
           domain: fan
           name: all
-        response: fans_all
+        response: "fans_all"
+
+      - sentences:
+          - "<turn_off> [<in_here>] (wentylator|wiatrak)"
+          - "<turn_off> (wentylator|wiatrak) [<in_here>]"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+            slot: true
+        response: "fan_area"
+
+      - sentences:
+          - "<turn_off> [<in_here>] (wentylatory|wiatraki)"
+          - "<turn_off> (wentylatory|wiatraki) [<in_here>]"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+            slot: true
+        response: "fans_area"
+
+      - sentences:
+          - "<turn_off> [<in_here>] <all> (wentylatory|wiatraki)"
+          - "<turn_off> <all> (wentylatory|wiatraki) [<in_here>]"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+            slot: true
+        response: "fans_all"

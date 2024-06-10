@@ -1,0 +1,89 @@
+---
+language: fr
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Il n'y a auncun minuteur.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Le minuteur est en pause.
+          {% else: %}
+            {{ num_paused_timers }} minuteurs sont en pause.
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} minuteurs sont actifs.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 minuteur est en pause.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} minuteurs sont en pause.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 heure et {{ next_timer.rounded_minutes_left }} minutes
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 heure
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} heures et {{ next_timer.rounded_minutes_left }} minutes
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} heures
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 minute et {{ next_timer.rounded_seconds_left }} secondes
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 minute
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} minutes et {{ next_timer.rounded_seconds_left }} secondes
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} minutes
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 seconde
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} secondes
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            restante sur le minuteur
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              de {{ next_timer.start_hours }} heures et {{ next_timer.start_minutes }} minutes
+            {% elif (next_timer.start_hours > 0): %}
+              de {{ next_timer.start_hours }} heures
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              de {{ next_timer.start_minutes }} minutes et {{ next_timer.start_seconds }} secondes
+            {% elif (next_timer.start_minutes > 0): %}
+              de {{ next_timer.start_minutes }} minutes
+            {% elif (next_timer.start_seconds > 0): %}
+              de {{ next_timer.start_seconds }} secondes
+            {% endif %}
+
+            {% if next_timer.name: %}
+              appelé {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              dans {{ next_timer.area }}
+            {% endif %}
+          {% else: %}
+            restante.
+          {% endif %}
+        {% endif %}
