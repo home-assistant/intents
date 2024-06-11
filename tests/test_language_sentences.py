@@ -238,7 +238,7 @@ def gen_tests() -> None:
         if test_file.name != "_fixtures.yaml"
     }
 
-    for name in names:
+    for name in sorted(names):
         gen_test(name)
 
 

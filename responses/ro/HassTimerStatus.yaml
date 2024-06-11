@@ -1,0 +1,90 @@
+---
+language: ro
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Nu există temporizatoare.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Temporizatorul este în pauză.
+          {% else: %}
+            {{ num_paused_timers }} temporizatoare oprit temporar.
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} temporizatoare pornite.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            Un temporizator oprit temporar.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} temporizatoare oprite temporar.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          Mai durează
+
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            O oră și {{ next_timer.rounded_minutes_left }} {{ 'de ' if next_timer.rounded_minutes_left > 0 and next_timer.rounded_minutes_left % 100 | abs >= 20 }}minute
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            O oră
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} ore și {{ next_timer.rounded_minutes_left }} {{ 'de ' if next_timer.rounded_minutes_left > 0 and next_timer.rounded_minutes_left % 100 | abs >= 20 }}minute
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} ore
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            Un minut și {{ next_timer.rounded_seconds_left }} {{ 'de ' if next_timer.rounded_seconds_left > 0 and next_timer.rounded_seconds_left % 100 | abs >= 20 }}secunde
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            Un minut
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} {{ 'de ' if next_timer.rounded_minutes_left > 0 and next_timer.rounded_minutes_left % 100 | abs >= 20 }}minute și {{ next_timer.rounded_seconds_left }} {{ 'de ' if next_timer.rounded_seconds_left > 0 and next_timer.rounded_seconds_left % 100 | abs >= 20 }}secunde
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} {{ 'de ' if next_timer.rounded_minutes_left > 0 and next_timer.rounded_minutes_left % 100 | abs >= 20 }}minute
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            O secundă
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} {{ 'de ' if next_timer.rounded_seconds_left > 0 and next_timer.rounded_seconds_left % 100 | abs >= 20 }}secunde
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            până la finele temporizatorului de
+
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} ore și {{ next_timer.start_minutes }} {{ 'de ' if next_timer.start_minutes > 0 and next_timer.start_minutes % 100 | abs >= 20 }}minute
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} ore
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} {{ 'de ' if next_timer.start_minutes > 0 and next_timer.start_minutes % 100 | abs >= 20 }}minute și {{ next_timer.start_seconds }} {{ 'de ' if next_timer.start_seconds > 0 and next_timer.start_seconds % 100 | abs >= 20 }}secunde
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }}  {{ 'de ' if next_timer.start_minutes > 0 and next_timer.start_minutes % 100 | abs >= 20 }}minute
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} {{ 'de ' if next_timer.start_seconds > 0 and next_timer.start_seconds % 100 | abs >= 20 }}secunde
+            {% endif %}
+
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              din {{ next_timer.area }}
+            {% endif %}
+          {% endif %}
+        {% endif %}
