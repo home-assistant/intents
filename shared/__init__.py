@@ -117,7 +117,7 @@ def get_matched_states(
     if device_class_entity is not None:
         device_class = device_class_entity.value
 
-    state_name: Optional[str] = None
+    state_name: Optional[str | List[str]] = None
     state_entity = result.entities.get("state")
     if state_entity is not None:
         state_name = state_entity.value
@@ -163,7 +163,9 @@ def get_matched_states(
 
         if state_name is not None:
             # Match state
-            if state.hass_state == state_name:
+            if isinstance(state_name, str) and state.hass_state == state_name:
+                matched.append(state)
+            elif isinstance(state_name, list) and state.hass_state in state_name:
                 matched.append(state)
             else:
                 unmatched.append(state)
