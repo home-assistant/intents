@@ -15,11 +15,11 @@ responses:
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Jā, {{ match[:3] | join(", ") }} un vēl {{ (match | length - 3) }} citi
+            Jā, {{ match[:3] | join(", ") }} un vēl {{ match | length - 3 }} citi
           {%- else -%}
             Jā,
             {% for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} un {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} un {% endif %}
               {{ name }}
             {%- endfor -%}
           {% endif %}
@@ -33,11 +33,11 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            Nē, {{ no_match[:3] | join(", ") }} un {{ (no_match | length - 3) }} citi nav
+            Nē, {{ no_match[:3] | join(", ") }} un {{ no_match | length - 3 }} citi nav
           {%- else -%}
             Nē,
             {% for name in no_match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} un {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} un {% endif %}
               {{ name }}
             {%- endfor %} nav
           {% endif %}
@@ -45,7 +45,7 @@ responses:
 
       which: |
         {% if not query.matched %}
-          {% if slots.device_class == "battery" or slots.device_class == "cold" or slots.device_class == "presence" or slots.device_class == "light" %}
+          {% if slots.device_class in ["battery", "cold", "presence", "light"] %}
             Neviena
           {% else %}
             Neviens
@@ -56,7 +56,7 @@ responses:
             {{ match[:3] | join(", ") }} un {{ (match | length - 3) }} citi
           {% else %}
             {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} un {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} un {% endif %}
               {{ name }}
             {%- endfor -%}
           {% endif %}
