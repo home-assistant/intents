@@ -8,6 +8,7 @@ intents:
         slots:
           device_class: garage
           domain: cover
+
       - sentences:
           - <fecha>  [as|os|a|o] [(cortina|cortinas|cortinado|cortinados|estore|estores|persiana|persianas)] <na_zona>
         response: cover
@@ -17,3 +18,17 @@ intents:
             - curtain
             - shutter
           domain: cover
+
+      # fechar estores na mesma divisão que um dispositivo de voz
+      - sentences:
+          - <fecha>  [as|os|a|o] [(cortina|cortinas|cortinado|cortinados|estore|estores|persiana|persianas)] [aqui]
+        response: cover
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover
+        requires_context:
+          area:
+            slot: true
