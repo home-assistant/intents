@@ -3,7 +3,7 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "is <name> {cover_states:state} [in <area>]"
+          - "is <name> {cover_states:state} [[(in|on) ](<area>|<floor>)]"
         response: one_yesno
         requires_context:
           domain: cover
@@ -11,25 +11,29 @@ intents:
           domain: cover
 
       - sentences:
-          - "(is|are) any {cover_classes:device_class} {cover_states:state} [in <area>]"
+          - "(is|are) any {cover_classes:device_class} {cover_states:state} [[(in|on) ](<area>|<floor>)]"
+          - "(is|are) any (<area>|<floor>) {cover_classes:device_class} {cover_states:state}"
         response: any
         slots:
           domain: cover
 
       - sentences:
-          - "are all [the] {cover_classes:device_class} {cover_states:state} [in <area>]"
+          - "are all [the] {cover_classes:device_class} {cover_states:state} [[(in|on) ](<area>|<floor>)]"
+          - "are all [the] (<area>|<floor>) {cover_classes:device_class} {cover_states:state}"
         response: all
         slots:
           domain: cover
 
       - sentences:
-          - "(which|what) {cover_classes:device_class} (is|are) {cover_states:state} [in <area>]"
+          - "(which|what) {cover_classes:device_class} (is|are) {cover_states:state} [[(in|on) ](<area>|<floor>)]"
+          - "(which|what) (<area>|<floor>) {cover_classes:device_class} (is|are) {cover_states:state}"
         response: which
         slots:
           domain: cover
 
       - sentences:
-          - "how many {cover_classes:device_class} (is|are) {cover_states:state} [in <area>]"
+          - "how many {cover_classes:device_class} (is|are) {cover_states:state} [[(in|on) ](<area>|<floor>)]"
+          - "how many (<area>|<floor>) {cover_classes:device_class} (is|are) {cover_states:state}"
         response: how_many
         slots:
           domain: cover
