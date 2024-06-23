@@ -4,27 +4,42 @@ responses:
     # General errors
     no_intent: "Îmi pare rău, nu am înțeles cererea. Poți, te rog, să repeți?"
     handle_error: "Îmi pare rău, a intervenit o eroare în timpul procesării cererii"
+    entity_wrong_state: "Îmi pare rău, niciun dispozitiv nu este {{ state | lower }}"
+    feature_not_supported: "Îmi pare rău, niciun dispozitiv nu permite operațiunea"
 
     # Errors for when user is not logged in
     no_area: "Îmi pare rău, nu cunosc niciun spațiu numit {{ area }}"
+    no_floor: "Îmi pare rău, nu cunosc niciun nivel numit {{ floor }}"
     no_domain: "Îmi pare rău, nu știu să existe {{ domain }}"
     no_domain_in_area: "Îmi pare rău, nu știu să existe {{ domain }} în spațiul {{ area }}"
+    no_domain_in_floor: "Îmi pare rău, nu știu să existe {{ domain }} la nivelul {{ floor }}"
     no_device_class: "Îmi pare rău, nu știu să existe {{ device_class }}"
     no_device_class_in_area: "Îmi pare rău, nu știu să existe {{ device_class }} în spațiul {{ area }}"
+    no_device_class_in_floor: "Îmi pare rău, nu știu să existe {{ device_class }} la nivelul {{ floor }}"
     no_entity: "Îmi pare rău, nu cunosc nicio entitate numită {{ entity }}"
     no_entity_in_area: "Îmi pare rău, nu cunosc nicio entitate numită {{ entity }} în spațiul {{ area }}"
+    no_entity_in_floor: "Îmi pare rău, nu cunosc nicio entitate numită {{ entity }} la nivelul {{ floor }}"
 
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "Îmi pare rău, mai întâi trebuie sa expui {{ entity }}"
     no_entity_in_area_exposed: "Îmi pare rău, mai întâi trebuie să expui {{ entity }} din spațiul {{ area }}"
+    no_entity_in_floor_exposed: "Îmi pare rău, mai întâi trebuie să expui {{ entity }} de la nivelul {{ floor }}"
     no_domain_exposed: "Îmi pare rău, nu există dispozitive expuse de tip {{ domain }}"
     no_domain_in_area_exposed: "Îmi pare rău, nu există dispozitive expuse de tip {{ domain }} în spațiul {{ area }}"
+    no_domain_in_floor_exposed: "Îmi pare rău, nu există dispozitive expuse de tip {{ domain }} la nivelul {{ floor }}"
     no_device_class_exposed: "Îmi pare rău, nu există dispozitive expuse de tip {{ device_class }}"
     no_device_class_in_area_exposed: "Îmi pare rău, nu există dispozitive expuse de tip {{ device_class }} în spațiul {{ area }}"
+    no_device_class_in_floor_exposed: "Îmi pare rău, nu există dispozitive expuse de tip {{ device_class }} la nivelul {{ floor }}"
 
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Îmi pare rău, există mai multe entități numite {{ entity }}"
     duplicate_entities_in_area: "Îmi pare rău, există mai multe entități numite {{ entity }} în spațiul {{ area }}"
+    duplicate_entities_in_floor: "Îmi pare rău, există mai multe entități numite {{ entity }} la nivelul {{ floor }}"
+
+    # Errors for timers
+    timer_not_found: "Îmi pare rău, nu am găsit acel temporizator"
+    multiple_timers_matched: "Îmi pare rău, nu pot opera doar cu mai multe temporizatoare deodată"
+    no_timer_support: "Îmi pare rău, acest dispozitiv nu admite temporizatoare"
 lists:
   # Attributes
   color:
@@ -463,9 +478,27 @@ lists:
       from: 0
       to: 100
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   # Placeholders
   area: "[(zona|regiunea|spa(ț|t)iul) ]{area}"
+  floor: "[(etajul|nivelul) ]{floor}"
   brightness: "{brightness}<la_suta>"
   brightness_percent: "{brightness}<la_suta>"
   temperature: "{temperature}[ ][[de ]grad[e]][[ ]{temperature_unit}]"
@@ -487,6 +520,21 @@ expansion_rules:
   minimum: "(minim[(ă|a|um)][ posibil[(ă|a)]])"
   toti: "(toate|to(ț|t)i)"
   la_suta: "[ ][(%|la sut(ă|a)|[de ]procent[e])]"
+  temporar: "(temporar|pu(ț|t)in|un pic|pentru moment|deocamdat(ă|a))"
+
+  # Timers
+  ore: "([de ]ore|or(ă|a))"
+  minute: "([de ]minute|minut)"
+  secunde: "([de ]secunde|secund(ă|a))"
+  timer_duration_seconds: "{timer_seconds:seconds} <secunde>"
+  timer_duration_minutes: "{timer_minutes:minutes} <minute>[ [(ș|s)i ]{timer_seconds:seconds} <secunde>]"
+  timer_duration_hours: "{timer_hours:hours} <ore>[ [(ș|s)i ]{timer_minutes:minutes} <minute>][ [(ș|s)i ]{timer_seconds:seconds} <secunde>]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} <secunde>"
+  timer_start_minutes: "{timer_minutes:start_minutes} <minute>[ [(ș|s)i ]{timer_seconds:start_seconds} <secunde>]"
+  timer_start_hours: "{timer_hours:start_hours} <ore>[ [(ș|s)i ]{timer_minutes:start_minutes} <minute>][ [(ș|s)i ]{timer_seconds:start_seconds} <secunde>]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
   # Verbs
   este: "e[ste]"
@@ -494,6 +542,9 @@ expansion_rules:
   exista_vreun: "<exista> <vreun>"
   porneste: "(start|porne(ș|s)te|deschide|aprinde|activeaz(ă|a))"
   opreste: "(stop|opre(ș|s)te|(î|i)nchide|stinge|dezactiveaz(ă|a))"
+  porneste_timer: "(start|porne(ș|s)te|activeaz(ă|a))"
+  opreste_timer: "(stop|opre(ș|s)te|dezactiveaz(ă|a)|anuleaz(ă|a))"
+  reia_timer: "(re<porneste_timer>|reia)"
   seteaza: "(seteaz(ă|a)|pune|a[d]justeaz(ă|a)|schimb(ă|a)|modific(ă|a))"
   deschide: "(deschide|ridic(ă|a))"
   inchide: "((î|i)nchide|coboar(ă|a))"
@@ -509,7 +560,8 @@ expansion_rules:
   in: "((î|i)n)"
   din: "(din|(î|i)n|pentru|[de ]la|[de ]pe|de)" # used particularly for areas
   la: "(la|(î|i)n)" # used particularly for zones
-  pana_la: "([p(â|a)n(ă|a) ]la)" # used particularly for quantities
+  pana_la: "([p(â|a)n(ă|a) ]la)" # used particularly for quantity targets
+  de: "([(î|i)n valoare ]de|pentru)" # used for quantities
 
   # Adjectives
   pornit: "(pornit[(ă|a)]|deschis[(ă|a)]|aprins[(ă|a)]|activat[(ă|a)])"
@@ -539,6 +591,8 @@ expansion_rules:
   ventilatoarele: "(ventilatoare[le]|aerisiri[le])"
   intrerupatorul: "((î|i)ntrerup(ă|a)tor[ul]|comutator[ul])"
   intrerupatoarele: "((î|i)ntrerup(ă|a)toare[le]|comutatoare[le])"
+  temporizatorul: "(un temporizator|temporizator[ul]|o temporizare|temporizare[a]|un cronometru|cronometru[l])"
+  temporizatorului: "(temporizatorului|temporiz(ă|a)rii|cronometrului)"
 
   # Attributes
   luminozitatea: "(luminozitate[a])"
@@ -564,8 +618,13 @@ expansion_rules:
   din_zona: "<din> <area>"
   urmatorul: "(urm(a|ă)to(are[a]|r[ul]))"
   precedentul: "(precedent(a|ă|[ul]))"
+  numit: "(numit[(ă|a)]|cu numele|pe nume|intitulat[(ă|a)])"
 
   # Sentences
+  suspenda_timer: "((opre(ș|s)te|dezactiveaz(ă|a)) <temporar> <object>|suspend(ă|a) <object>|pune [<temporar> ][pe ]pauz(ă|a) [la ]<object>)"
+  adauga_amount_la_complement: "(adaug(ă|a) (<amount>;<la> <object>)|(cre(ș|s)te|m(ă|a)re(ș|s)te) (cu <amount>;<object>))"
+  scade_amount_din_complement: "(scade (<amount>;<din> <object>)|(mic(ș|s)oreaz(ă|a)|redu) (cu <amount>;<object>))"
+
   name_dinZona_verbState: "(<name>[ <din_zona>]; <verb_state>)"
   name_dinZona_este_state: "(<name>[ <din_zona>]; (<este> <state_singular>|sunt <state_plural>))"
   name_class_dinZona_verbState: "([<class>[ <din>] ]<name>[ <din_zona>]; <verb_state>)"

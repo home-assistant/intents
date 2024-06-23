@@ -52,4 +52,21 @@ responses:
         {% endif %}
         {{ slots.name ~ " закрыт" ~ ending }}
       cover_area: "Закрытие в {{ slots.area }} выполнено"
-      cover_device_class: "Закрытие выполнено"
+      cover_device_class: |
+        {% set cover_class = slots.device_class %}
+        {% set translations = {
+            "awning": "навесов",
+            "blind": "жалюзи",
+            "curtain": "штор",
+            "door": "дверей",
+            "garage": "гаража",
+            "gate": "ворот",
+            "shade": "рулонных штор",
+            "shutter": "ставней",
+            "window": "окон"
+          } %}
+        {% if cover_class in translations -%}
+          Закрытие {{ translations[cover_class] }} выполнено
+        {%- else -%}
+          Закрытие {{ slots.device_class }} выполнено
+        {%- endif %}
