@@ -1,0 +1,414 @@
+language: "ja"
+responses:
+  errors:
+    # General errors
+    no_intent: "すみません、理解できませんでした"
+    handle_error: "予期しないエラーが発生しました"
+
+    # Errors for when user is not logged in
+    no_area: "すみません、{{ area }}というエリアが見つかりません"
+    no_floor: "すみません、{{ floor }}というフロアが見つかりません"
+    no_domain: "すみません、{{ domain }}というドメインが見つかりません"
+    no_domain_in_area: "すみません、{{ area }}に{{ domain }}というドメインが見つかりません"
+    no_domain_in_floor: "すみません、{{ floor }}に{{ domain }}というドメインが見つかりません"
+    no_device_class: "すみません、{{ device_class }}というデバイスクラスが見つかりません"
+    no_device_class_in_area: "すみません、{{ area }}に{{ device_class }}というデバイスクラスが見つかりません"
+    no_device_class_in_floor: "すみません、{{ floor }}に{{ device_class }}というデバイスクラスが見つかりません"
+    no_entity: "すみません、{{ entity }}というエンティティが見つかりません"
+    no_entity_in_area: "すみません、{{ area }}に{{ entity }}というエンティティが見つかりません"
+    no_entity_in_floor: "すみません、{{ floor }}に{{ entity }}というエンティティが見つかりません"
+    entity_wrong_state: "すみません、{{ state | lower }}を持つデバイスが見つかりません"
+    feature_not_supported: "すみません、必要な機能を持ったデバイスが見つかりません"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "すみません、{{ entity }}は公開の登録がされていません"
+    no_entity_in_area_exposed: "すみません、{{ entity }}は{{ area }}に公開の登録がされていません"
+    no_entity_in_floor_exposed: "すみません、{{ entity }}は{{ floor }}に公開の登録がされていません"
+    no_domain_exposed: "すみません、{{ domain }}は公開の登録がされていません"
+    no_domain_in_area_exposed: "すみません、{{ domain }}は{{ area }}に公開の登録がされていません"
+    no_domain_in_floor_exposed: "すみません、{{ domain }}は{{ floor }}に公開の登録がされていません"
+    no_device_class_exposed: "すみません、{{ device_class }}は公開の登録がされていません"
+    no_device_class_in_area_exposed: "すみません、{{ device_class }}は{{ area }}に公開の登録がされていません"
+    no_device_class_in_floor_exposed: "すみません、{{ device_class }}は{{ floor }}に公開の登録がされていません"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "すみません、{{ entity }}が複数見つかりました"
+    duplicate_entities_in_area: "すみません、{{ entity }}が{{ area }}で複数見つかりました"
+    duplicate_entities_in_floor: "すみません、{{ entity }}が{{ floor }}で複数見つかりました"
+
+    # Errors for timers
+    timer_not_found: "すみません、タイマーが見つかりませんでした"
+    multiple_timers_matched: "すみません、複数のタイマーが見つかりました"
+    no_timer_support: "すみません、このデバイスではタイマーがサポートされていません"
+lists:
+  color:
+    values:
+      - in: "(ホワイト|白)"
+        out: "white"
+      - in: "(ブラック|黒)"
+        out: "black"
+      - in: "(レッド|赤|赤色)"
+        out: "red"
+      - in: "オレンジ"
+        out: "orange"
+      - in: "(イエロー|黄色)"
+        out: "yellow"
+      - in: "(グリーン|緑色|緑)"
+        out: "green"
+      - in: "(ブルー|青色|青)"
+        out: "blue"
+      - in: "(パープル|紫色|紫)"
+        out: "purple"
+      - in: "(茶色|茶)"
+        out: "brown"
+      - in: "ピンク"
+        out: "pink"
+      - in: "水色"
+        out: "turquoise"
+
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: (摂氏|℃|度)
+        out: "celsius"
+      - "fahrenheit"
+      - in: (華氏||℉)
+        out: "fahrenheit"
+  brightness_level:
+    values:
+      - in: (最大|全灯|マックス)
+        out: 100
+      - in: (最小|最低|ミニマム)
+        out: 1
+  on_off_states:
+    values:
+      - in: "オン"
+        out: "on"
+      - in: "オフ"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "ライト"
+        out: light
+      - in: "ファン"
+        out: fan
+      - in: "スイッチ"
+        out: switch
+  cover_states:
+    values:
+      - in: "オープン"
+        out: "open"
+      - in: "クローズ"
+        out: "closed"
+      - in: "オープン中"
+        out: "opening"
+      - in: "クローズ中"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: 日よけ
+        out: awning
+      - in: ブラインド
+        out: blind
+      - in: カーテン
+        out: curtain
+      - in: ドア
+        out: door
+      - in: ガレージドア
+        out: garage
+      - in: ゲート
+        out: gate
+      - in: シェード
+        out: shade
+      - in: シャッター
+        out: shutter
+      - in: 窓
+        out: window
+  lock_states:
+    values:
+      - in: "施錠"
+        out: "locked"
+      - in: "開錠"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "低下して"
+        out: "on"
+      - in: "充電されて"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "充電中"
+        out: "on"
+      - in: "非充電中"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(検出して|検知して|オンになって)"
+        out: "on"
+      - in: "クリア"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "寒い"
+        out: "on"
+      - in: "寒くない"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "接続中"
+        out: "on"
+      - in: "切断中"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "開いて"
+        out: "on"
+      - in: "閉じて"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "開いて"
+        out: "on"
+      - in: "閉まって"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(検出して|検知して|オンになって)"
+        out: "on"
+      - in: "クリア"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "暑い"
+        out: "on"
+      - in: "暑くない"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "点灯"
+        out: "on"
+      - in: "消灯"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "開錠"
+        out: "on"
+      - in: "施錠"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "ウェット"
+        out: "on"
+      - in: "ドライ"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(検出|検知|オン)"
+        out: "on"
+      - in: "検知をしていない"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(検出|検知|オン)"
+        out: "on"
+      - in: "検知していない"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "オープン"
+        out: "on"
+      - in: "クローズ"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "差し込み"
+        out: "on"
+      - in: "取り外し"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(電源オン|電源が入っている)"
+        out: "on"
+      - in: "(電源オフ|電源がきれている)"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(自宅いにる|在宅)"
+        out: "on"
+      - in: "(外出している|不在)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "検出"
+        out: "on"
+      - in: "ＯＫ"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "動作中"
+        out: "on"
+      - in: "停止中"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "安全ではない"
+        out: "on"
+      - in: "安全"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(検出|煙検知|オン)"
+        out: "on"
+      - in: "未検出"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(検出|騒音検知|オン)"
+        out: "on"
+      - in: "未検出"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(偽造検知|改ざん検出)"
+        out: "on"
+      - in: "正常検出"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "アップデート可能"
+        out: "on"
+      - in: "(最新)"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(振動検知|振動している)"
+        out: "on"
+      - in: "(未検出|振動していない)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "オープン"
+        out: "on"
+      - in: "クローズ"
+        out: "closed"
+
+  shopping_list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
+expansion_rules:
+  name: "{name}"
+  area: "{area}"
+  floor: "{floor}"
+  what_is: "(何ですか|何)"
+  where_is: "(どこですか|どこ)"
+  brightness: "{brightness}[[ ](％|%)| パーセント]"
+  light: "(ライト|照明|電気)"
+  turn: "(スイッチ)"
+  temp: "(温度)"
+  temperature: "{温度}[ ][℃|度][ ][{temperature_unit}]"
+  open: "(オープン|開く|開ける)"
+  close: "(クローズ|閉じる|閉める)"
+  set: "(セット|変更)"
+  numeric_value_set: "(セット|変更|戻|加算|減算)"
+  in: "(イン|オン)"
+  position: "{現在|状態}[[ ]％| パーセント]"
+  volume: "{音量|音}[[ ]％| パーセント]"
+
+  # Context awareness expansion rules
+  all: "(すべて|すべての|全部|全部の)"
+  home: "(家|マンション|アパート)"
+  everywhere: "(すべての場所|すべての部屋|全部の部屋|家じゅう)"
+  here: "(ここ|ここの|部屋の|この部屋の)"
+
+  # Questions
+  #  what_is_the_class_of_name: "(<what_is> the <class> (of|in|from|(indicated|measured) by) <name> [in <area>]|<what_is> <name>['s] <class> [in <area>]|<what_is> <area> <name>['s] <class>)"
+
+  # Timers
+  timer_set: "(スタート|セット)"
+  timer_cancel: "(キャンセル|ストップ)"
+  timer_duration_seconds: "{timer_seconds:seconds} 秒"
+  timer_duration_minutes: "{timer_minutes:minutes} 分[ {timer_seconds:seconds} 秒]"
+  timer_duration_hours: "{timer_hours:hours} 時[ {timer_minutes:minutes} 分[ {timer_seconds:seconds} 秒]]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} 秒"
+  timer_start_minutes: "{timer_minutes:start_minutes} 分[ {timer_seconds:start_seconds} 秒]"
+  timer_start_hours: "{timer_hours:start_hours} 時間[ {timer_minutes:start_minutes} 分][ {timer_seconds:start_seconds} 秒]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
+skip_words:
+  - "してください"
+  - "できますか"
+  - "やってくれませんか"
+  - "やって"
