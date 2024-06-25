@@ -1,0 +1,24 @@
+language: ja
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - "[<area>の]<name>[の<light>][を](けして|消して|きって|切って|オフ[に][して])"
+          - "[<area>の][<light>][の]<name>[を](けして|消して|きって|切って|オフ[に][して])"
+        excludes_context:
+          domain:
+            - switch
+            - fan
+        requires_context:
+          domain:
+            - light
+        slots:
+          domain: light
+        response: "lights_area"
+
+      # Turn off all lights on a area
+      - sentences:
+          - "[<area>の][すべての|全部の][<light>][を](けして|消して|きって|切って|オフ[に][して])"
+        response: "light_all"
+        slots:
+          domain: "light"
