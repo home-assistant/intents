@@ -9,7 +9,7 @@ from typing import Any, Dict
 
 import yaml
 from hassil.intents import Intents
-from hassil.recognize import recognize
+from hassil.recognize import recognize_all
 from hassil.util import merge_dict, normalize_whitespace
 
 from shared import (
@@ -49,6 +49,11 @@ def get_arguments() -> argparse.Namespace:
         metavar=("key", "value"),
         help="Add key/value pair to context",
     )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="List all possible matches instead of just the first one",
+    )
     return parser.parse_args()
 
 
@@ -81,28 +86,33 @@ def run() -> int:
 
     # Parse sentences
     for sentence in args.sentence:
-        result = recognize(
+        for result in recognize_all(
             sentence, intents, slot_lists=slot_lists, intent_context=intent_context
-        )
-        output_dict = {"text": sentence, "match": result is not None}
-        if result is not None:
-            output_dict["intent"] = result.intent.name
-            output_dict["slots"] = {
-                entity.name: entity.value for entity in result.entities_list
-            }
-            output_dict["context"] = result.context
+        ):
+            output_dict = {"text": sentence, "match": result is not None}
+            if result is not None:
+                output_dict["intent"] = result.intent.name
+                output_dict["slots"] = {
+                    entity.name: entity.value for entity in result.entities_list
+                }
+                output_dict["context"] = result.context
+                output_dict["text_chunks_matched"] = result.text_chunks_matched
 
-            # Response
-            matched, unmatched = get_matched_states(states, areas, result)
-            output_dict["response_key"] = result.response
-            response_template = responses.get(result.intent.name, {}).get(
-                result.response
-            )
-            output_dict["response"] = normalize_whitespace(
-                render_response(response_template, result, matched, unmatched)
-            ).strip()
+                # Response
+                matched, unmatched = get_matched_states(states, areas, result)
+                output_dict["response_key"] = result.response
+                response_template = responses.get(result.intent.name, {}).get(
+                    result.response
+                )
+                output_dict["response"] = normalize_whitespace(
+                    render_response(response_template, result, matched, unmatched)
+                ).strip()
 
-        json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)
+            json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)
+            print("")
+            if not args.all:
+                break
+
         print("")
 
     return 0
