@@ -1,3 +1,5 @@
+Repo used for adding Swedish translation and usage.
+
 # Intents for Home Assistant
 
 This repository contains training data for Home Assistant's local voice control.
