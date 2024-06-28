@@ -149,6 +149,17 @@ responses:
         Désolé, je n'ai rien trouvé de correspondant dans cet étage
       {%- endif %}
     no_entity_in_floor: "Désolé, je ne connais pas l'appareil {{ entity }}"
+    entity_wrong_state: |
+      {% set translations = {
+        "paused": "en pause",
+        "playing": "en cours de lecture",
+        } %}
+      {% if device_class in translations -%}
+        Désolé, je n'ai pas trouvé d'appareil {{ translations[state] }}
+      {%- else -%}
+        Désolé, je n'ai rien trouvé de correspondant
+      {%- endif %}
+    feature_not_supported: Désolé, je n'ai pas trouvé d'appareil qui supporte cette fonctionnalité
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
     no_entity_in_area_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
@@ -296,6 +307,11 @@ responses:
     duplicate_entities: "Désolé, plusieurs appareils sont nommés {{entity}}"
     duplicate_entities_in_area: "Désolé, plusieurs appareils de cette pièce sont nommés {{entity}}"
     duplicate_entities_in_floor: "Désolé, plusieurs appareils de cet étage sont nommés {{entity}}"
+
+    # Errors for timers
+    timer_not_found: "Désolé, je n'ai pas trouvé ce minuteur"
+    multiple_timers_matched: "Désolé, je ne peux pas cibler plusieurs minuteurs"
+    no_timer_support: "Désolé, cet appareil ne supporte pas les fonctions lié aux minuteurs"
 
 lists:
   color:
@@ -604,6 +620,42 @@ lists:
       from: 0
       to: 100
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+
+  timer_words_seconds:
+    values:
+      - in: "un|une"
+        out: "1"
+
+  timer_words_minutes:
+    values:
+      - in: "un|une"
+        out: "1"
+
+  timer_words_hours:
+    values:
+      - in: "un|une"
+        out: "1"
+
+  timer_name:
+    wildcard: true
+
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   #Common rules
   pourcent: "(%| %| pourcent| pour cent)"
@@ -627,16 +679,23 @@ expansion_rules:
   eclaire: "(éclaire|éclairer|illumine|illuminer)"
   eteins: "(éteint|eteint|éteins|eteins|éteindre|eteindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper|<eteins_dirty>)"
   ferme: "(ferme|fermer|baisse|baisser)"
-  lis: "(lis|lire|lecture)"
-  mets: "(mets|mettre|passe|passer|mets_dirty)"
+  lis: "(lis|lire)"
+  mets: "(mets|mettre|passe|passer|<mets_dirty>)"
   ouvre: "(ouvre|ouvrir|monte|monter)"
-  regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer|mets_dirty)"
+  regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer|<mets_dirty>)"
   renvoie: "(renvoie|renvoyer|arrête|arrêter|stop[pe]|stopper)"
-  reprends: "(reprends|reprendre|reprise)"
-  # We have some heavy STT limitations today. "Éteins" is often misunderstood as a different word. Because it's such a commun action, we're willing to support this hack for now. Ideally this should be removed once we have a better STT engine. Hence the fact that we decided to put it on a different expansion rules. The goal of this expansion rule is to be removed in the future.
+  reprends: "(remets|remettre|reprends|reprend|reprendre|reprise|relance|relancer)"
+  cree: "(créer|crée)"
+  supprime: "(supprime|supprimer)"
+  enleve: "(enlève|enlever|soustrais|soustrait|soustraire|retranche|retrancher)"
+  ajoute: "(ajoute|ajouter|rajoute|rajotuer)"
+
+  # Dirty Verbs. We have some heavy STT limitations today. We're willing to support this hack for now. Ideally this should be removed once we have a better STT engine. Hence the fact that we decided to put it on a different expansion rules. The goal of this expansion rule is to be removed in the future.
+  # Éteins
   eteins_dirty: "(étant|étends|étend|étendre|état|et tant|et teins|et teint|et teints|et t'as|été|étais|était)"
-  # We have some heavy STT limitations today. "mets|met|mettre" is often misunderstood as a different word. Because it's such a commun action, we're willing to support this hack for now. Ideally this should be removed once we have a better STT engine. Hence the fact that we decided to put it on a different expansion rules. The goal of this expansion rule is to be removed in the future.
+  # Mets
   mets_dirty: "(mais|maître)"
+
   # Domains and Things
   lumiere: "(lumière|lampe|ampoule)"
   lumieres: "(lumières|lampes|ampoules)"
@@ -645,7 +704,41 @@ expansion_rules:
   fenetre: "(fenetre[s]|fenêtre[s]|baie[s]|velux|vélux|lucarne[s])"
   appareil: "(appareil|machine|équipement)[s]"
   capteur: "(capteur|sonde|détecteur)[s]"
-  media: "(morceau|chanson|élément|podcast|film|vidéo|épisode|média)"
+  media: "(morceau|chanson|musique|son|élément|podcast|film|vidéo|épisode|radio|média)"
+  lecture: "(lecture|visionnage)"
+  volume: "(volume|son|watt[s])"
+  minuteur: "(compte a rebours)|(compte à rebours)|(minuteur)|(décompte)"
+
+  ### Timers ###
+  # mix numerical and litteral value for seconds, minutes and hours for the setting of the duration of the timmer
+  nb_seconds_duration: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
+  nb_minutes_duration: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
+  nb_hours_duration: "({timer_hours:hours}|{timer_words_hours:hours})"
+
+  # mix numerical and litteral value for seconds, minutes and hours for the request of the status of a timmer by its initial duration
+  nb_seconds_start: "({timer_seconds:start_seconds}|{timer_words_seconds:start_seconds})"
+  nb_minutes_start: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
+  nb_hours_start: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
+
+  # definition of the units for seconds, minutes and hours
+  second_unit: "(seconde|secondes|sec|s)"
+  minute_unit: "(minute|minutes|min|m)"
+  hour_unit: "(heure|heures|h)"
+
+  # definition of all possible values for the setting of the duration of the timmer
+  timer_duration_seconds: "<nb_seconds_duration>[ ]<second_unit>"
+  timer_duration_minutes: "<nb_minutes_duration>[ ]<minute_unit>[[ ][et][ ]<nb_seconds_duration>[ ][<second_unit>]]"
+  timer_duration_hours: "<nb_hours_duration>[ ]<hour_unit>[[ ][et][ ]<nb_minutes_duration>[ ][<minute_unit>]][[ ][et][ ]<nb_seconds_duration>[ ][<second_unit>]]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  # definition of all possible values for the request of the status of a timmer by its initial duration
+  timer_start_seconds: "<nb_seconds_start>[ ]<second_unit>"
+  timer_start_minutes: "<nb_minutes_start>[ ]<minute_unit>[[ ][et][ ]<nb_seconds_start>[ ][<second_unit>]]"
+  timer_start_hours: "<nb_hours_start>[ ]<hour_unit>[[ ][et][ ]<nb_minutes_start>[ ][<minute_unit>]][[ ][et][ ]<nb_seconds_start>[ ][<second_unit>]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
+  # Others
+  en_route: (en route)|(en marche)
 
   # Questions
   yatil: "(y a[-][ ]t[-][']il|il y a)"
