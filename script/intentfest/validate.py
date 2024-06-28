@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter, defaultdict
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -51,10 +52,10 @@ def match_unicode_regex(pattern: str):
     return inner_match
 
 
-def single_key_dict_validator(schemas: dict[str, Any]) -> vol.Schema:
+def single_key_dict_validator(schemas: dict[str, Any]) -> Callable[[Any], vol.Schema]:
     """Create a validator for a single key dict."""
 
-    def validate(value):
+    def validate(value) -> vol.Schema:
         if not isinstance(value, dict):
             raise vol.Invalid("Expected a dict")
 
@@ -137,6 +138,11 @@ INTENT_ERRORS = {
     "duplicate_entities",
     "duplicate_entities_in_area",
     "duplicate_entities_in_floor",
+    "entity_wrong_state",
+    "feature_not_supported",
+    "timer_not_found",
+    "multiple_timers_matched",
+    "no_timer_support",
 }
 
 SENTENCE_MATCHER = vol.All(
@@ -368,7 +374,7 @@ def run() -> int:
 
 
 def _load_yaml_file(
-    errors: list, language: str | None, file_path: Path, schema: vol.Schemna
+    errors: list, language: str | None, file_path: Path, schema: vol.Schema
 ) -> dict | None:
     """Load a YAML file."""
     path = str(file_path.relative_to(ROOT))

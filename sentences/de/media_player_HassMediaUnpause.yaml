@@ -3,7 +3,14 @@ intents:
   HassMediaUnpause:
     data:
       - sentences:
-          - "<name> weiter [<machen>|laufen lassen]"
-          - "<name> fortsetzen"
+          - "[<artikel> ]<name> weiter[ (<machen>|laufen lassen)]"
+          - "[<artikel> ]<name> fortsetzen"
         requires_context:
           domain: media_player
+      - sentences:
+          - "fortsetzen|weiter[ (<machen>|laufen lassen)]"
+        requires_context:
+          area:
+            slot: true
+      - sentences:
+          - "[(<artikel_bestimmt>|mein|meine) ](musik|[fernseh]sendung|gerät[e])[ (im|in[ <artikel>])] <area> (fortsetzen|weiter[ (<machen>|laufen lassen)])"
