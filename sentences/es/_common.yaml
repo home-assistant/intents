@@ -507,7 +507,7 @@ lists:
         out: 1
   timer_half:
     values:
-      - in: "medi[oa]"
+      - in: "medi(o|a)"
         out: 30
       - in: "1/2"
         out: 30
@@ -528,7 +528,7 @@ lists:
 expansion_rules:
   abre: "(abr(a|e|ir|í)|<sube>)"
   ahora: "[ahora [mismo]|actual[mente]|en este momento]"
-  anterior: "(anterior|última)"
+  anterior: "(anterior|últim(o|a))"
   añadir: "(añad(a|e|ir|í)|apunt[a|e|ar|á]|pon[ga|er|é]|sum(e|a|ar|á))"
   apaga: "(apag(a|ue|ar|á)|desconect(a|e|ar|á)|desactiv(a|e|ar|á))"
   area: "[en|del|de] [el|la] {area}"
@@ -562,13 +562,13 @@ expansion_rules:
   posición: "{position}[ ][%|por[ ]cien[to]]"
   puerta: "[el|la] (puerta|portón|cancela|verja|reja|compuerta|portillo)"
   quita: "quit(a|e|ar|á)"
-  reproduce: "(reprodu(ce|cir|cí|zca)|escuchar|oir|ver|visualizar)"
+  reproduce: "(reprodu(ce|cir|cí|zca)|escuchar|o(i|í)r|ver|visualizar)"
   resta: "(rest(a|e|ar|á))"
   salta: "(salt(a|e|ar|á))"
   se_encuentra: "(se (encuentra|localiza|ubica)|está|mora)"
   sube: "(sub(a|e|ir|í)|levant(a|e|ar|á)|aument(a|e|ar|á)|increment(a|e|ar|á))"
   temp: "[el|la] (temperatura|calor|grados)"
-  temperature: "{temperature}[([ ]°[ ][{temperature_unit}])|( grados[ {temperature_unit}])]"
+  temperature: "{temperature}[([ ]°[ ][{temperature_unit}])|( {temperature_unit})|( grados[ {temperature_unit}])]"
   temporizador: "[el |la ](temporizador|cuenta atrás)"
   temporizadores: "[el |la |l(o|a)s ](temporizador[es]|cuenta[s] atrás)"
   volumen: "{volume:volume_level}[ ][%|por[ ]cien[to]]"
@@ -597,8 +597,8 @@ expansion_rules:
   nb_start_hours: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
 
   timer_duration_seconds: "<nb_seconds> segundo[s]"
-  timer_duration_minutes: "(<nb_minutes> minuto[s][[,] [y ]<timer_duration_seconds>])|(<nb_minutes> minuto[s] y {timer_half:seconds})|({timer_half:seconds} minuto)"
-  timer_duration_hours: "(<nb_hours> hora[s][[,] [y ]<timer_duration_minutes>]|(<nb_hours> hora[s] y {timer_half:minutes})|({timer_half:minutes} hora[[,] [y ]<timer_duration_seconds>]"
+  timer_duration_minutes: "((<nb_minutes> minuto[s][[,] [y ]<timer_duration_seconds>])|(<nb_minutes> minuto[s] y {timer_half:seconds})|({timer_half:seconds} minuto))"
+  timer_duration_hours: "(<nb_hours> hora[s][[,] [y ]<timer_duration_minutes>]|(<nb_hours> hora[s] y {timer_half:minutes}[[,] y (<timer_duration_seconds>|{timer_half:seconds} minuto)])|({timer_half:minutes} hora[[,] y (<timer_duration_seconds>|{timer_half:seconds} minuto)]))"
   timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
 
   timer_start_seconds: "[el |los ]<nb_start_seconds> segundo[s]"
