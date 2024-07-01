@@ -3,33 +3,51 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - (do you know|tell me|<what_is>) [the [current] (state|value) of] <name> [in <area>]
+          - (is|are)[ there] any {on_off_domains:domain} {on_off_states:state}
+          - (is|are)[ there] any {on_off_domains:domain} ({on_off_states:state};in <area>)
+          - (is|are)[ there] any <area> {on_off_domains:domain} {on_off_states:state}
+          - (do you know|tell me) if there are any {on_off_domains:domain} {on_off_states:state}
+          - (do you know|tell me) if there are any {on_off_domains:domain} ({on_off_states:state};in <area>)
+          - (do you know|tell me) if there are any <area> {on_off_domains:domain} {on_off_states:state}
+        response: any
+
+      - sentences:
+          - are [all ][[of ]the ]{on_off_domains:domain} [(switched|turned|set[ to]) ]{on_off_states:state}
+          - are [all ][of ]<area> {on_off_domains:domain} [(switched|turned|set[ to]) ]{on_off_states:state}
+          - are [all ][[of ]the ]{on_off_domains:domain} ([(switched|turned|set[ to]) ]{on_off_states:state};in <area>)
+        response: all
+
+      - sentences:
+          - is the light [(switched|turned|set[ to]) ]{on_off_states:state}
+          - is the light ([(switched|turned|set[ to]) ]{on_off_states:state};in <area>)
+          - is <area> light [(switched|turned|set[ to]) ]{on_off_states:state}
+        slots:
+          domain: light
+        response: all
+
+      - sentences:
+          - "[do you know ](which|what) {on_off_domains:domain} (is|are) {on_off_states:state}"
+          - "[do you know ](which|what) {on_off_domains:domain} ((is|are) {on_off_states:state};in <area>)"
+          - "[do you know ](which|what) <area> {on_off_domains:domain} (is|are) {on_off_states:state}"
+        response: which
+
+      - sentences:
+          - "[tell me ]how many {on_off_domains:domain} (is|are) {on_off_states:state}"
+          - "[tell me ]how many {on_off_domains:domain} ((is|are) {on_off_states:state};in <area>)"
+          - "[tell me ]how many <area> {on_off_domains:domain} (is|are) {on_off_states:state}"
+        response: how_many
+
+      - sentences:
+          - (do you know|tell me|<what_is>) [the [current ](state|value) of ]<name>[ in <area>]
         response: one
         excludes_context:
           domain:
             - scene
             - script
       - sentences:
-          - is [the] [state of] <name> {on_off_states:state} [in <area>]
+          - is [the ][state of ]<name> {on_off_states:state}
+          - is [the ][state of ]<name> (({on_off_states:state};in <area>))
         response: one_yesno
         excludes_context:
           domain:
             - cover
-
-      - sentences:
-          - (is|are) [there] any {on_off_domains:domain} {on_off_states:state} [in <area>]
-          - (do you know|tell me) if there are any {on_off_domains:domain} {on_off_states:state} [in <area>]
-        response: any
-
-      - sentences:
-          - are all [the] {on_off_domains:domain} [(switched|turned|set[ to])] {on_off_states:state} [in <area>]
-          - are all [the] {on_off_domains:domain} in <area> [(switched|turned|set[ to])] {on_off_states:state}
-        response: all
-
-      - sentences:
-          - "[do you know] (which|what) {on_off_domains:domain} (is|are) {on_off_states:state} [in <area>]"
-        response: which
-
-      - sentences:
-          - "[tell me] how many {on_off_domains:domain} (is|are) {on_off_states:state} [in <area>]"
-        response: how_many
