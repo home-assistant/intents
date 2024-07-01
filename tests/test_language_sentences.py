@@ -96,7 +96,7 @@ def do_test_language_sentences_file(
                     intent.get("context", {}).get("domain") == testing_domain
                 ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
 
-        intent_context = intent.get("context", {})
+        intent_context = test.get("context", {})
         expected_response_texts = test.get("response")
         if expected_response_texts:
             if isinstance(expected_response_texts, str):
@@ -107,10 +107,12 @@ def do_test_language_sentences_file(
                 )
 
         for sentence in test["sentences"]:
+            sentence_unique_id = sentence + str(test.get("context", ""))
+
             assert (
-                sentence not in seen_sentences
+                sentence_unique_id not in seen_sentences
             ), f"Duplicate sentence found: {sentence}"
-            seen_sentences.add(sentence)
+            seen_sentences.add(sentence_unique_id)
 
             result = recognize(
                 sentence,
