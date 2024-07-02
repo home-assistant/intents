@@ -1,0 +1,813 @@
+language: lv
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_battery_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+      - sentences:
+          - "vai kāda [no] baterij(a|ām) [<area>] [ir] {bs_battery_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+      - sentences:
+          - "vai visas baterijas [<area>] [ir] {bs_battery_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+      - sentences:
+          - "kura[s] baterija[s] [<area>] [ir] {bs_battery_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+      - sentences:
+          - "cik [daudz] baterij(u|as) [<area>] [ir] {bs_battery_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_battery_charging_states:state} [procesā]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+      - sentences:
+          - "vai kāda [no] baterij(a|ām) [<area>] [ir] {bs_battery_charging_states:state} [procesā]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+      - sentences:
+          - "vai visas baterijas [<area>] [ir] {bs_battery_charging_states:state} [procesā]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+      - sentences:
+          - "(kura|kuras) [no] baterij(a|as|ām) [<area>] [ir] {bs_battery_charging_states:state} [procesā]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+      - sentences:
+          - "cik [daudz] baterij(u|as) [<area>] [ir] {bs_battery_charging_states:state} [procesā]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # Carbon monoxide
+      - sentences:
+          - "vai <name> [<area>] [CO2] [sensor(s|i)] [ir] {bs_carbon_monoxide_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+      - sentences:
+          - "vai kād(s|a|i|as) [no] CO2 sensor(s|i|iem) [<area>] [ir] {bs_carbon_monoxide_states:state}"
+          - "vai CO2 [ir] {bs_carbon_monoxide_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+      - sentences:
+          - "vai [<area>] CO2 [sensor(s|i)] [ir] {bs_carbon_monoxide_states:state}"
+          - "vai [<area>] [ir] {bs_carbon_monoxide_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+      - sentences:
+          - "vai visi CO2 sensori [<area>] [ir] {bs_carbon_monoxide_states:state}"
+          - "vai visur [<area>] [ir] {bs_carbon_monoxide_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+      - sentences:
+          - "kur(š|a|i|as) [no] CO2 sensor(s|i|iem) [<area>] [ir] {bs_carbon_monoxide_states:state}"
+          - "kur CO2 [<area>] [ir] {bs_carbon_monoxide_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+      - sentences:
+          - "cik [daudz] CO2 sensor(i|u) [<area>] [ir] {bs_carbon_monoxide_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_cold_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+      - sentences:
+          - "vai kād(s|a|i|as) [no] (liet(a|as|ām)|sensor(s|i|iem)|ierīc(e|ēm)) [<area>] [ir] {bs_cold_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+      - sentences:
+          - "kur(š|a|i|as) [no] (liet(a|as|ām)|sensor(s|i|iem)|ierīc(e|es|ēm)) [<area>] [ir] {bs_cold_states:state}"
+          - "kas [<area>] [ir] auksts"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+      - sentences:
+          - "cik [daudz] (liet(as|u)|sensor(i|u)|ierī(ču|ces)) [<area>] [ir] {bs_cold_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Connectivity
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_connectivity_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+      - sentences:
+          - "vai [kāda] [no] ierīc(e|ēm) [<area>] [ir] {bs_connectivity_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+      - sentences:
+          - "vai visas ierīces [<area>] [ir] {bs_connectivity_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+      - sentences:
+          - "kura[s] ierīce[s] [<area>] [ir] {bs_connectivity_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+      - sentences:
+          - "cik [daudz] ierī(ču|ces|cēs) [<area>] [ir] {bs_connectivity_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_door_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_garage_door_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "vai <name> [<area>] [gāze[s]] [sensors] [ir] {bs_gas_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+      - sentences:
+          - "vai kād(s|a|i|as) [no] gāzes sensor(s|i|iem) [<area>] [ir] {bs_gas_states:state}"
+          - "vai gāze [ir] {bs_gas_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+      - sentences:
+          - "vai [<area>] gāze[s] [sensor(s|i)] [ir] {bs_gas_states:state}"
+          - "vai [<area>] [ir] {bs_gas_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+      - sentences:
+          - "vai visi gāzes sensori [<area>] [ir] {bs_gas_states:state}"
+          - "vai visur [<area>] [ir] {bs_gas_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+      - sentences:
+          - "kur(š|a|i|as) [no] gāzes sensor(s|i|iem) [<area>] [ir] {bs_gas_states:state}"
+          - "kur gāze [<area>] [ir] {bs_gas_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: gas
+      - sentences:
+          - "cik [daudz] gāzes sensor(i|u) [<area>] [ir] {bs_gas_states:state}"
+          - "cik (viet|istab)(as|ās) gāze [ir] {bs_gas_states:state}"
+          - "cik (viet|istab)(as|ās) [ir] {bs_gas_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Heat
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_heat_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+      - sentences:
+          - "vai kād(s|a|i|as) [no] (liet(a|as|ām)|sensor(s|i|iem)|ierīc(e|ēm)) [<area>] [ir] {bs_heat_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+      - sentences:
+          - "kur(š|a|i|as) [no] (liet(a|as|ām)|sensor(s|i|iem)|ierīc(e|es|ēm)) [<area>] [ir] {bs_heat_states:state}"
+          - "kas [<area>] [ir] karsts"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+      - sentences:
+          - "cik [daudz] (liet(as|u)|sensor(i|u)|ierī(ču|ces)) [<area>] [ir] {bs_heat_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+          state: "on"
+
+      # Light
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_light_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+      - sentences:
+          - "vai [(kaut kur|kād(a|ā|as|ās))] [(viet|istab)(a|ā)] [<area>] [ir] {bs_light_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+      - sentences:
+          - "vai (visur|visās (viet|istab)(as|ās)) [<area>] [gaisma] [ir] {bs_light_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+      - sentences:
+          - "kur(š|a|ā|i|as) (viet|istab)(a|ā|as) [<area>] [ir] {bs_light_states:state}"
+          - "kur [<area>] [ir] {bs_light_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: light
+      - sentences:
+          - "cik [daudz] (viet|istab)(as|ās) [<area>] [gaisma] [ir] {bs_light_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      # Lock
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_lock_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+          device_class: lock
+
+      # Moisture
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_moisture_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+      - sentences:
+          - "vai [kād(s|a)] [no] ūdens sensor(s|i|iem) [<area>] [ir] {bs_moisture_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+      - sentences:
+          - "vai [<area>] [ir] {bs_moisture_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+          state: "on"
+      - sentences:
+          - "vai visi ūdens sensori [<area>] [ir] {bs_moisture_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+      - sentences:
+          - "kur(š|a|i|as) [no] ūdens sensor(s|i|iem) [<area>] [ir] {bs_moisture_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+      - sentences:
+          - "cik [daudz] ūdens [noplūdes] sensor(i|u) [<area>] [ir] {bs_moisture_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      # Motion
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_motion_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+      - sentences:
+          - "vai [kāds] [no] kustīb(a|u|as) [sensor(s|i|iem)] [<area>] [ir] {bs_motion_states:state}"
+          - "vai [kaut kur] [<area>] {bs_motion_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+      - sentences:
+          - "vai visi kustīb(u|as) sensori [<area>] [ir] {bs_motion_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+          state: "on"
+      - sentences:
+          - "kur(š|a|i|as) [no] kustīb(u|as) sensor(s|i|iem) [<area>] [ir] {bs_motion_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: motion
+      - sentences:
+          - "cik [daudz] kustīb(u|as) sensor(i|u) [<area>] [ir] {bs_motion_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      # Occupancy
+      - sentences:
+          - "vai (<name> [<area>]|<area>) [ir] [kād(s|a|i|as)] {bs_occupancy_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+      - sentences:
+          - "vai [kāds] [no] (klātbūtnes|aizņemtības) [sensor(s|a|i|iem)] [<area>] [ir] {bs_occupancy_states:state}"
+          - "vai [kaut kur] [<area>] {bs_occupancy_states:state} [ir] [detektēt(s|a|i|as)]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+      - sentences:
+          - "vai visi (klātbūtnes|aizņemtības) sensori [<area>] [ir] {bs_occupancy_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+      - sentences:
+          - "kur(š|a|i|as) [no] (klātbūtnes|aizņemtības) sensor(s|i|iem) [<area>] [ir] {bs_occupancy_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+      - sentences:
+          - "cik [daudz] (klātbūtnes|aizņemtības) sensor(i|u) [<area>] [ir] {bs_occupancy_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      # Opening
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_opening_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: opening
+        slots:
+          domain: binary_sensor
+          device_class: opening
+      - sentences:
+          - "vai [kād(s|a|i|as)] [no] (durv|log|atvērum)(is|i|s|iem) [<area>] [ir] {bs_opening_states:state}"
+          - "vai [kaut kas] [<area>] {bs_opening_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: opening
+      - sentences:
+          - "vai vis(i|as) (durv|log|atvērum)(is|i|s|iem) [<area>] [ir] {bs_opening_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: opening
+      - sentences:
+          - "kur(š|a|i|as) [no] (durv|log|atvērum)(is|i|s|iem) [<area>] [ir] {bs_opening_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: opening
+      - sentences:
+          - "cik [daudz] (durv|log|atvērum)(is|i|s|iem) [<area>] [ir] {bs_opening_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      # Plug
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_plug_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
+      - sentences:
+          - "vai [kād(s|a|i|as)] [no] ierīc(e|es|ēm) [<area>] [ir] {bs_plug_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: plug
+      - sentences:
+          - "vai visas ierīces [<area>] [ir] {bs_plug_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: plug
+      - sentences:
+          - "kur(š|a|i|as) ierīc(e|es) [<area>] [ir] {bs_plug_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: plug
+      - sentences:
+          - "cik [daudz] ierī(ču|ces|cēs) [<area>] [ir] {bs_plug_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      # Power
+      - sentences:
+          - "vai <name> [<area>] {bs_power_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+      - sentences:
+          - "vai [kād(ai|ām)] [no] ierīc(ei|ēm) [<area>] {bs_power_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
+      - sentences:
+          - "vai visām ierīcēm [<area>] {bs_power_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: power
+      - sentences:
+          - "kur(ai|ās|ām) [no] ierīc(ei|ēs|ēm) [<area>] {bs_power_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
+      - sentences:
+          - "cik [daudz] ierī(ču|ces|cēs) [<area>] {bs_power_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      # Presence
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_presence_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
+      - sentences:
+          - "vai kāda [no] ierīc(e|ēm) [<area>] [ir] {bs_presence_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: presence
+      - sentences:
+          - "vai visas ierīces [<area>] [ir] {bs_presence_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: presence
+      - sentences:
+          - "kura[s] ierīce[s] [<area>] [ir] {bs_presence_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: presence
+      - sentences:
+          - "cik [daudz] ierī(ču|ces|cēs) [<area>] [ir] {bs_presence_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      # Problem
+      - sentences:
+          - "vai <name> [<area>] {bs_problem_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+          state: "on"
+
+      # Running
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_running_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
+      - sentences:
+          - "vai kāda [no] ierīc(e|ēm) [<area>] [ir] {bs_running_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: running
+      - sentences:
+          - "vai visas [no] ierīc(es|ēm) [<area>] [ir] {bs_running_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: running
+      - sentences:
+          - "kura[s] ierīce[s] [<area>] [ir] {bs_running_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: running
+      - sentences:
+          - "cik [daudz] ierī(ču|ces|cēs) [<area>] [ir] {bs_running_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      # Safety
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_safety_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      # Smoke
+      - sentences:
+          - "vai <name> [<area>] [dūm(u|i)] [(detektor|sensor)(s|i)] [ir] {bs_smoke_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: smoke
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+      - sentences:
+          - "vai kād(s|a|i|as) [no] dūmu (detektor|sensor)(s|i|iem) [<area>] [ir] {bs_smoke_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+      - sentences:
+          - "vai visi dūmu (detektor|sensor)(s|i) [<area>] [ir] {bs_smoke_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+      - sentences:
+          - "vai dūmu (detektor|sensor)(s|i) [<area>] [ir] {bs_smoke_states:state}"
+          - "vai [<area>] [ir] dūmi"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
+      - sentences:
+          - "kur(š|i) [no] dūmu (detektor|sensor)(s|i|iem) [<area>] [ir] {bs_smoke_states:state}"
+          - "kur dūmi [<area>] [ir] {bs_smoke_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+      - sentences:
+          - "cik [daudz] dūmu (detektor|sensor)(u|i) [<area>] [ir] {bs_smoke_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      # Sound
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_sound_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: sound
+        slots:
+          domain: binary_sensor
+          device_class: sound
+      - sentences:
+          - "vai kād(s|a|i|as) [no] skaņ(as|u) sensor(s|i|iem) [<area>] [ir] {bs_sound_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+      - sentences:
+          - "vai [visi] skaņ(as|u) sensor(s|i) [<area>] [ir] {bs_sound_states:state}"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: sound
+      - sentences:
+          - "vai [<area>] [ir] skaņa"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: sound
+          state: "on"
+      - sentences:
+          - "kur(š|a|i|as) skaņ(as|u) (sensor(s|i)|ierīc(e|es)) [<area>] [ir] {bs_sound_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: sound
+      - sentences:
+          - "cik [daudz] skaņ(as|u) (sensor(i|u)|ierī(ces|ču)) [<area>] [ir] {bs_sound_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      # Tamper
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_tamper_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: tamper
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      # Update
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_update_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+      - sentences:
+          - "vai [kād(s|a|u|i|as|ai)] [no] ierīc(i|e|ei|ēm) [<area>] [ir] {bs_update_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+      - sentences:
+          - "(kād|kur)(u|a|i|as) [ierīc(i|es|ēs)] [<area>] [ir] {bs_update_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+      - sentences:
+          - "cik [daudz] ierī(ču|ces|cēs) [<area>] [ir] {bs_update_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      # Vibration
+      - sentences:
+          - "vai <name> [<area>] {bs_vibration_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+      - sentences:
+          - "vai [kāda] [no] ierīc(e|ēm) [<area>] {bs_vibration_states:state}"
+        response: any
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+          state: "on"
+
+      # Window
+      - sentences:
+          - "vai <name> [<area>] [ir] {bs_window_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
