@@ -13,9 +13,6 @@ intents:
           - "<minuteur> de <timer_duration>"
           # Minuteur d'une heure
           - "<minuteur> d'<timer_duration>"
-        requires_context:
-          area:
-            slot: false
 
       # No name / Verb
       - sentences:
@@ -37,9 +34,6 @@ intents:
           - "<mets> un <minuteur> d'<timer_duration>"
           # Mets un minuteur pour 5 minute
           - "<mets> un <minuteur> pour <timer_duration>"
-        requires_context:
-          area:
-            slot: false
 
       # Name / No Verb
       - sentences:
@@ -59,9 +53,6 @@ intents:
           - "<minuteur> de <timer_duration> <appele> {timer_name:name}"
           # Minuteur d'une heure appelé Pizza
           - "<minuteur> d'<timer_duration> <appele> {timer_name:name}"
-        requires_context:
-          area:
-            slot: false
         expansion_rules:
           appele: "(appelé|nommé|surnomé)"
 
@@ -103,8 +94,12 @@ intents:
           - "<mets> un <minuteur> d'<timer_duration> <appele> {timer_name:name}"
           # Mets un minuteur pour 5 minute appelé Pizza
           - "<mets> un <minuteur> pour <timer_duration> <appele> {timer_name:name}"
-        requires_context:
-          area:
-            slot: false
         expansion_rules:
           appele: "(appelé|nommé|surnomé)"
+
+      - sentences:
+          # "Ouvre les volets du salon dans 5 minutes"
+          - "{timer_command:conversation_command} dans <timer_duration>"
+          # "Dans 5 minutes allume la lumière du salon"
+          - "Dans <timer_duration> {timer_command:conversation_command}"
+        response: command
