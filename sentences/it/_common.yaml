@@ -342,12 +342,49 @@ lists:
       from: 0
       to: 100
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+
+  timer_words_seconds:
+    values:
+      - in: "un|uno"
+        out: "1"
+
+  timer_words_minutes:
+    values:
+      - in: "un|uno"
+        out: "1"
+
+  timer_words_hours:
+    values:
+      - in: "un|una|un'"
+        out: "1"
+
+  timer_name:
+    wildcard: true
+
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   # Parti del discorso
   the: "(l(o |a |e )|i[l] |gli |l(`|’|')[ ]|in |a |(a|ne)(l |llo |lla |lle |ll(`|’|')[ ]|gli ))"
   in: "(all'interno |dentro |in | ne[l |i |gli |llo |lla |lle |ll(`|’|')[ ]])"
   of: "(de[l |llo |lla |lle |ll(`|’|')[ ]|i |gli ]|di )"
   to: "(a[l |llo |lla |lle |ll(`|’|')[ ]|gli ])"
+  onto: "(su[l |llo |lla |lle |ll(`|’|')[ ]|gli |[ ]])"
   some: "(qualche | qualcun(o|a) | un[(o |a |(`|’|')[ ])] | de[i |gli |lle ] | alcun(o|a) | nessun(o|a))"
   what_is: "(qual[e] è | quant(o |(`|’|'))è | com(e |(`|’|'))è | che)"
   there_is: "(c'è|c(`|’|')e(`|’|')|ci sta[nno]|ci sono)"
@@ -393,6 +430,37 @@ expansion_rules:
   closed: "chius(o|a|e|i)"
   locked: "(chius|serrat|sbarrat|bloccat)(o|a|e|i)"
   unlocked: "(apert|sbloccat)(o|a|e|i)"
+
+  # Timers
+  timer_set: "(avvia|imposta|crea|attiva)"
+  timer_cancel: "(cancella|stoppa|annulla|disattiva|arresta|ferma)"
+
+  # mix numerical and litteral value for seconds, minutes and hours for the setting of the duration of the timer
+  nb_seconds_duration: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
+  nb_minutes_duration: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
+  nb_hours_duration: "({timer_hours:hours}|{timer_words_hours:hours})"
+
+  # mix numerical and litteral value for seconds, minutes and hours for the request of the status of a timer by its initial duration
+  nb_seconds_start: "({timer_seconds:start_seconds}|{timer_words_seconds:start_seconds})"
+  nb_minutes_start: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
+  nb_hours_start: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
+
+  # definition of the units for seconds, minutes and hours
+  second_unit: "(secondo|secondi|sec|s)"
+  minute_unit: "(minuto|minuti|min|m)"
+  hour_unit: "(ora|ore|h)"
+
+  # definition of all possible values for the setting of the duration of the timer
+  timer_duration_seconds: "<nb_seconds_duration>[ ]<second_unit>"
+  timer_duration_minutes: "<nb_minutes_duration>[ ]<minute_unit>[[ ][e][ ]<nb_seconds_duration>[ ][<second_unit>]]"
+  timer_duration_hours: "<nb_hours_duration>[ ]<hour_unit>[[ ][e][ ]<nb_minutes_duration>[ ][<minute_unit>]][[ ][e][ ]<nb_seconds_duration>[ ][<second_unit>]]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  # definition of all possible values for the request of the status of a timer by its initial duration
+  timer_start_seconds: "<nb_seconds_start>[ ]<second_unit>"
+  timer_start_minutes: "<nb_minutes_start>[ ]<minute_unit>[[ ][e][ ]<nb_seconds_start>[ ][<second_unit>]]"
+  timer_start_hours: "<nb_hours_start>[ ]<hour_unit>[[ ][e][ ]<nb_minutes_start>[ ][<minute_unit>]][[ ][e][ ]<nb_seconds_start>[ ][<second_unit>]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - "grazie"

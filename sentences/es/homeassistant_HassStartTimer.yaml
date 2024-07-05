@@ -1,0 +1,16 @@
+---
+language: "es"
+intents:
+  HassStartTimer:
+    data:
+      - sentences:
+          - "[<timer_set> ][un[a] |mi]<temporizador>[[ dentro] de| en| para] <timer_duration>"
+          - "[<timer_set> ][un[a] |mi]<temporizador>[ de| con nombre| llamad(o|a)| denominad(o|a)| para] {timer_name:name}[[ dentro] de| en| para] <timer_duration>"
+          - "[<timer_set> ][un[a] |mi]<temporizador>[[ dentro] de| en| para] <timer_duration>[ de| con nombre| llamad(o|a)| denominad(o|a)| para] {timer_name:name}"
+        requires_context:
+          area:
+            slot: false
+      - sentences:
+          - "{timer_command:conversation_command} (en|dentro de) <timer_duration>"
+          - "(dentro de|en) <timer_duration> {timer_command:conversation_command}"
+        response: command
