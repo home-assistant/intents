@@ -9,6 +9,14 @@ responses:
       one: |
         {{ slots.name | capitalize }} is {{ state.state_with_unit }}
 
+      alternate_state: |
+        {{ slots.name | capitalize }} is {{ slots.actual_state }}, but it is
+        {% if state.state in slots.alternate_state %}
+          {{ slots.alternate_state[state.state] }}
+        {% else %}
+          {{ state.state }}
+        {% endif %}
+
       one_yesno: |
         {% if query.matched %}
           Yes

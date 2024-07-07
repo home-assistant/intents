@@ -1,0 +1,125 @@
+language: en
+tests:
+  - sentences:
+      - "is the TV on?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "TV"
+        actual_state: "on"
+        alternate_state:
+          "on": "in an unknown state"
+          idle: "not playing"
+          standby: "in standby"
+      context:
+        domain: media_player
+        volume_level: "50"
+    response: "Tv is on, but it is not playing"
+
+  - sentences:
+      - "is the TV off?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "TV"
+        state:
+          - "on"
+          - "idle"
+          - "paused"
+          - "standby"
+          - "buffering"
+        actual_state: "not off"
+        alternate_state:
+          "on": "in an unknown state"
+          idle: "not playing anything"
+          standby: "in standby"
+      context:
+        domain: media_player
+        volume_level: "50"
+    response: "Tv is not off, but it is not playing anything"
+
+  - sentences:
+      - "is the TV playing?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "TV"
+        state: "playing"
+      context:
+        domain: media_player
+        volume_level: "50"
+    response: "No, idle"
+
+  - sentences:
+      - "is the TV standing by?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "TV"
+        state:
+          - "on"
+          - "idle"
+          - "standby"
+          - "buffering"
+      context:
+        domain: media_player
+        volume_level: "50"
+    response: "Yes"
+
+  - sentences:
+      - "are any media players on in the kitchen?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Kitchen"
+        domain: "media_player"
+        state: "playing"
+    response: "No"
+
+  - sentences:
+      - "are all media players on?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "media_player"
+        state: "playing"
+    response: "No, TV is not on"
+
+  - sentences:
+      - "are all media players off?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "media_player"
+        state: "off"
+    response: "No, TV is not off"
+
+  - sentences:
+      - "which media players are on?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "media_player"
+        state: "playing"
+    response: "Not any"
+
+  - sentences:
+      - "how many media players are on?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "media_player"
+        state: "playing"
+    response: "0"
+
+  - sentences:
+      - "are all the media players on in the living room"
+      - "are all media players on in the living room?"
+      - "are all media players in the living room on?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "media_player"
+        state: "playing"
+        area: "Living Room"
+    response: "No, TV is not on"

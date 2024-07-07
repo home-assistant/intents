@@ -1,0 +1,75 @@
+language: en
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - is [the ][state of ]<name> [turned ]on[ in <area>]
+        slots:
+          actual_state: "on"
+          alternate_state:
+            "on": "in an unknown state"
+            idle: "not playing"
+            standby: "in standby"
+        response: alternate_state
+        requires_context:
+          domain: media_player
+        excludes_context:
+          state:
+            - "playing"
+            - "off"
+
+      - sentences:
+          - is [the ][state of ]<name> [turned ]off[ in <area>]
+        slots:
+          state:
+            - "on"
+            - "idle"
+            - "paused"
+            - "standby"
+            - "buffering"
+          actual_state: "not off"
+          alternate_state:
+            "on": "in an unknown state"
+            idle: "not playing anything"
+            standby: "in standby"
+        response: alternate_state
+        requires_context:
+          domain: media_player
+
+      - sentences:
+          - is [the] [state of] <name> {media_player_states:state} [in <area>]
+        response: one_yesno
+        requires_context:
+          domain: media_player
+
+      - sentences:
+          - (is|are) [there] any <media_players> {media_player_states:state} [in <area>]
+          - (do you know|tell me) if there are any <media_players> {media_player_states:state} [in <area>]
+        slots:
+          domain: media_player
+        response: any
+      - sentences:
+          - (is|are) [there] any <media_players> {media_player_states:state} [in <area>]
+          - (do you know|tell me) if there are any <media_players> {media_player_states:state} [in <area>]
+        slots:
+          domain: media_player
+        response: any
+
+      - sentences:
+          - are all [the] <media_players> {media_player_states:state} [in <area>]
+          - are all [the] <media_players> in <area> {media_player_states:state}
+        slots:
+          domain: media_player
+        response: all
+
+      - sentences:
+          - "[do you know] (which|what) <media_players> (is|are) {media_player_states:state} [in <area>]"
+        slots:
+          domain: media_player
+        response: which
+
+      - sentences:
+          - "[tell me] how many <media_players> (is|are) {media_player_states:state} [in <area>]"
+        slots:
+          domain: media_player
+        response: how_many
