@@ -1,0 +1,47 @@
+language: ja
+tests:
+  # Turn on lights
+  - sentences:
+      - "ライト1の照明をつけて"
+      - "ライト1をつけて"
+      - "ライト1オンにして"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        name: "ライト1"
+
+  - sentences:
+      - "リビングのライト1をつけて"
+      - "リビングのライト1オンにして"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        area: "リビング"
+        name: "ライト1"
+
+  # Turn on all lights in a area
+  - sentences:
+      - "リビングのすべてのライトをつけて"
+      - "リビングの全てのライトをつけて"
+      - "リビングの全部のライトをつけて"
+      - "リビングのライトをつけて"
+      - "リビングの照明をつけて"
+    intent:
+      name: HassTurnOn
+      context:
+        area: "リビング"
+      slots:
+        domain: light
+        area: "リビング"
+
+  # Turn on all lights
+  - sentences:
+      - "すべてのライトをつけて"
+    intent:
+      name: HassTurnOn
+      context:
+        area: "リビング"
+      slots:
+        domain: light

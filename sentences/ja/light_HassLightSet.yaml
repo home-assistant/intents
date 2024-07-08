@@ -1,0 +1,32 @@
+language: "ja"
+intents:
+  HassLightSet:
+    data:
+      # brightness
+      - sentences:
+          - "<name>[の明るさ][を|お]<brightness>に[<numeric_value_set>]して"
+        requires_context:
+          domain: light
+        response: "brightness"
+
+      - sentences:
+          - "[ここの]明るさ[を|お]<brightness>に[<numeric_value_set>]して"
+          - "[ここの]明るさ[を|お]{brightness_level:brightness}に[<numeric_value_set>]して"
+        requires_context:
+          area:
+            slot: true
+        response: "brightness"
+
+      # Max/Min brightness
+      - sentences:
+          - "<name>[の明るさ][を|お]{brightness_level:brightness}に[<numeric_value_set>]して"
+        requires_context:
+          domain: light
+        response: "brightness"
+
+      # color
+      - sentences:
+          - "<name>[の色][を|お]{color}[に|へ][<set>][して]"
+        requires_context:
+          domain: light
+        response: "color"

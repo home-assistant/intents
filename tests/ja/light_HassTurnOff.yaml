@@ -1,0 +1,47 @@
+language: ja
+tests:
+  # Turn off lights
+  - sentences:
+      - "ライト1の照明をけして"
+      - "ライト1を切って"
+      - "ライト1オフにして"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        name: "ライト1"
+
+  - sentences:
+      - "リビングのライト1を切って"
+      - "リビングのライト1オフにして"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        area: "リビング"
+        name: "ライト1"
+
+  # Turn off all lights in a area
+  - sentences:
+      - "リビングのすべてのライトを切って"
+      - "リビングの全てのライトをけして"
+      - "リビングの全部のライトをオフ"
+      - "リビングのライトを切って"
+      - "リビングの照明をオフして"
+    intent:
+      name: HassTurnOff
+      context:
+        area: "リビング"
+      slots:
+        domain: light
+        area: "リビング"
+
+  # Turn off all lights
+  - sentences:
+      - "ぜんぶのライトをけして"
+    intent:
+      name: HassTurnOff
+      context:
+        area: "リビング"
+      slots:
+        domain: light

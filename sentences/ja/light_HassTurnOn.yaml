@@ -1,0 +1,33 @@
+language: ja
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "[<area>の]<name>[の<light>][を|お](つけて|付けて|いれて|入れて|オン[に][して])"
+        excludes_context:
+          domain:
+            - switch
+            - fan
+        requires_context:
+          domain:
+            - light
+        slots:
+          domain: light
+
+      # Turn on all lights in a area
+      - sentences:
+          - "<area>の[<all>の]<light>[を|お](つけて|付けて|いれて|入れて|オン[に][して])"
+        excludes_context:
+          domain:
+            - switch
+            - fan
+        slots:
+          domain: "light"
+        response: "lights_area"
+
+      # Turn on all lights in the home
+      - sentences:
+          - "<all><light>[を|お](つけて|付けて|いれて|入れて|オン[に][して])"
+        slots:
+          domain: "light"
+        response: "light_all"
