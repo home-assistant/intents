@@ -356,7 +356,7 @@ lists:
       to: 100
   timer_half:
     values:
-      - in: "[in] pol"
+      - in: "pol"
         out: 30
       - in: "1/2"
         out: 30
@@ -401,16 +401,18 @@ expansion_rules:
   luč: "luč[i|ke|ko|ki|k]|svetil[a|i|o]|razsvetljav[e|o|a]|svetilk[e|o|a]"
   position: "{position}[[ ]%| odstotkov|procentov]"
   volume: "{volume:volume_level}[[ ]%| (procent(a|ov)|odsotk(a|ov))]"
-
+  pol: "30 (minut|sekund)"
   # Questions
   kaksna_je_vrednost_senzorja: "((kakšna je) [vrednost [senzorja]] [za] <class> [v|na|za] [senzor[ju|ja]] <name> [[v|na] <area>] | (kakšna je) [vrednost [senzorja]] [za] <name> [[v|na] <area>] | (kakšen je|kakšna je) [vrednost] [napolnjenost|koncentracija|stopnja] [<class>] [v|na|za] [senzor[ju|ja]] <name> [[v|na] <area>] | kateri <class> [je|bo|bil] <name> )"
 
   # Timers
-  timer_set: "(zaženi|sproži|začni|nastavi|ustvari|kreiraj|štartaj|start)"
+  timer_set: "(zaženi|sproži|začni|nastavi|ustvari|kreiraj|štartaj|start|startaj)"
   timer_cancel: "(prekliči|ustavi|stop|štop)"
   timer_duration_seconds: "{timer_seconds:seconds} sekund[a|i|e]"
-  timer_duration_minutes: "{timer_minutes:minutes} minut[ [in ]{timer_seconds:seconds} sekund[a|i|e]]"
-  timer_duration_hours: "{timer_hours:hours} ur[a|i|e][ [in ]{timer_minutes:minutes} minut[a|i|e]][ [in ]{timer_seconds:seconds} sekund[a|i|e]]"
+  #timer_duration_minutes: "{timer_minutes:minutes} minut[ [in ]{timer_seconds:seconds} sekund[a|i|e]]"
+  timer_duration_minutes: "({timer_minutes:minutes} minut[e|i|o|a][ [in ]{timer_seconds:seconds} sekund[e|o|i|a]])|({timer_minutes:minutes} minut[e|o|i|a] in {timer_half:seconds})|({timer_half:seconds} minut[e|o|i|a])"
+  timer_duration_hours: "{timer_hours:hours} ur[a|i|e|o][ [in ]{timer_minutes:minutes} minut[a|i|e]][ [in ]{timer_seconds:seconds} sekund[a|i|e]]|({timer_hours:hours} [ur[i|o|a|e]] [in ] {timer_half:minutes} [ur[e|o|a|i]])|({timer_half:minutes} ur[e])"
+  #timer_duration_hours: "({timer_hours:hours} hour[s][ [and ]{timer_minutes:minutes} minute[s]][ [and ]{timer_seconds:seconds} second[s]])
   timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
 
   timer_start_seconds: "{timer_seconds:start_seconds} sekund[a|i|e|ni]"
