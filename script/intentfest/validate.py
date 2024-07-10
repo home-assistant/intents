@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from collections import Counter, defaultdict
 from collections.abc import Callable
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -571,6 +572,9 @@ def validate_language(
 
             # For timer intents
             slots["timers"] = []
+
+            # For date/time intents
+            slots["date"] = slots["time"] = datetime.now()
 
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)

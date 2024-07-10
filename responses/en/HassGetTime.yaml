@@ -1,0 +1,11 @@
+language: en
+responses:
+  intents:
+    HassGetTime:
+      default: >
+        {% set time_str = slots.time.strftime('%I:%M %p') %}
+        {% if time_str.startswith('0'): -%}
+        {{ time_str[1:] }}
+        {% else: %}
+        {{ time_str }}
+        {% endif %}
