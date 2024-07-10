@@ -3,6 +3,20 @@ responses:
   intents:
     HassGetCurrentDate:
       default: >
+        {% set months = {
+           1: 'January',
+           2: 'February',
+           3: 'March',
+           4: 'April',
+           5: 'May',
+           6: 'June',
+           7: 'July',
+           8: 'August',
+           9: 'September',
+           10: 'October',
+           11: 'November',
+           12: 'December',
+        } %}
         {% set ordinal = {
            1: '1st',
            2: '2nd',
@@ -36,4 +50,4 @@ responses:
            30: '30th',
            31: '31st',
          } %}
-        {{ slots.date.strftime('%B') }} {{ ordinal[slots.date.day] }}, {{ slots.date.year }}
+        {{ months[slots.date.month] }} {{ ordinal[slots.date.day] }}, {{ slots.date.year }}
