@@ -574,7 +574,8 @@ def validate_language(
             slots["timers"] = []
 
             # For date/time intents
-            slots["date"] = slots["time"] = datetime.now()
+            slots["date"] = datetime.now().date()
+            slots["time"] = datetime.now().time()
 
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)
