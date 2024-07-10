@@ -278,8 +278,8 @@ def render_response(
         slots["timers"] = []
 
     # For date/time intents
-    slots["date"] = _TEST_DATETIME
-    slots["time"] = _TEST_DATETIME
+    slots["date"] = _TEST_DATETIME.date()
+    slots["time"] = _TEST_DATETIME.time()
 
     return env.from_string(response_template).render(
         {
