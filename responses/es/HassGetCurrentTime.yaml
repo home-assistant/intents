@@ -4,19 +4,20 @@ responses:
     HassGetCurrentTime:
       default: >
         {% set next_hour = 0 %}
+        {% set minute_str = "" %}
         {% if slots.time.minute > 0: %}
             {% if slots.time.minute == 15: %}
                 {% set minute_str = "y cuarto" %}
             {% elif slots.time.minute == 30: %}
                 {% set minute_str = "y media" %}
             {% elif slots.time.minute < 30: %}
-                {% set minute_str = "y {{slots.time.minute}}" %}
-            {% else:: %}
+                {% set minute_str = 'y {0:01d}'.format(slots.time.minute) %}
+            {% else: %}
                 {% set next_hour = 1 %}
-                {% if slots.time.minute == 45: }
+                {% if slots.time.minute == 45: %}
                    {% set minute_str = "menos cuarto" %}
                 {% else: %}
-                    {% set minute_str = "menos {{60 - slots.time.minute}}" %}
+                    {% set minute_str = 'menos {0:01d}'.format(60 - slots.time.minute) %}
                 {% endif %}
             {% endif %}
         {% endif %}
