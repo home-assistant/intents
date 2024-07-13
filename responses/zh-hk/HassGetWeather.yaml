@@ -1,0 +1,24 @@
+language: zh-hk
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': '同晴朗',
+          'clear-night': '同晴朗',
+          'cloudy': '同多雲',
+          'exceptional': '同異常',
+          'fog': '有霧',
+          'hail': '有冰雹',
+          'lightning': '有閃電',
+          'lightning-rainy': '有閃電和雨',
+          'partlycloudy': '有時多雲',
+          'pouring': '有傾盆大雨',
+          'rainy': '有雨',
+          'snowy': '有雪',
+          'snowy-rainy': '有雪雨',
+          'sunny': '有陽光',
+          'windy': '有風',
+          'windy-variant': '有風同有雲'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
