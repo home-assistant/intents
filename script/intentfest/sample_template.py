@@ -10,6 +10,7 @@ from hassil.expression import Sentence
 from hassil.intents import RangeSlotList, SlotList, TextSlotList
 from hassil.sample import sample_expression
 
+from .const import LANGUAGES
 from .util import get_base_arg_parser
 
 
@@ -42,6 +43,12 @@ def get_arguments() -> argparse.Namespace:
         metavar=("name", "body"),
         help="Add expansion rule",
     )
+    parser.add_argument(
+        "--language",
+        type=str,
+        choices=LANGUAGES,
+        help="The language to validate.",
+    )
     return parser.parse_args()
 
 
@@ -63,7 +70,7 @@ def run() -> int:
                 int(name_and_args[1]),
                 int(name_and_args[2]),
             )
-            slot_lists[name] = RangeSlotList(start, stop)
+            slot_lists[name] = RangeSlotList(name, start, stop)
 
     if args.rule:
         for name, body in args.rule:
@@ -71,7 +78,10 @@ def run() -> int:
 
     template = parse_sentence(args.template)
     for sentence in sample_expression(
-        template, slot_lists=slot_lists, expansion_rules=expansion_rules
+        template,
+        slot_lists=slot_lists,
+        expansion_rules=expansion_rules,
+        language=args.language,
     ):
         print(sentence.strip())
 

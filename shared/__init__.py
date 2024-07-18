@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import datetime
 from functools import partial
 from typing import Any, Dict, Optional, List, Set, Tuple
 
@@ -7,6 +8,8 @@ from hassil.intents import SlotList, TextSlotList, is_template
 from hassil.recognize import RecognizeResult
 from hassil.sample import sample_expression
 from jinja2 import BaseLoader, Environment, StrictUndefined
+
+_TEST_DATETIME = datetime(year=2013, month=9, day=17, hour=1, minute=2)
 
 
 @dataclass
@@ -273,6 +276,10 @@ def render_response(
         slots["timers"] = [t.asdict() for t in timers]
     else:
         slots["timers"] = []
+
+    # For date/time intents
+    slots["date"] = _TEST_DATETIME.date()
+    slots["time"] = _TEST_DATETIME.time()
 
     return env.from_string(response_template).render(
         {
