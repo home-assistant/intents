@@ -309,9 +309,9 @@ responses:
     duplicate_entities_in_floor: "Désolé, plusieurs appareils de cet étage sont nommés {{entity}}"
 
     # Errors for timers
-    timer_not_found: Désole, je n'ai pas trouvé ce minuteur
-    multiple_timers_matched: Désole, je ne peux pas cibler plusieurs minutuers
-    no_timer_support: Désolé, cet appareil ne supporte pas les fonctions lié aux minuteurs.
+    timer_not_found: "Désolé, je n'ai pas trouvé ce minuteur"
+    multiple_timers_matched: "Désolé, je ne peux pas cibler plusieurs minuteurs"
+    no_timer_support: "Désolé, cet appareil ne supporte pas les fonctions lié aux minuteurs"
 
 lists:
   color:
@@ -624,16 +624,35 @@ lists:
     range:
       from: 1
       to: 100
+
   timer_minutes:
     range:
       from: 1
       to: 100
+
   timer_hours:
     range:
       from: 1
       to: 100
+
+  timer_words_seconds:
+    values:
+      - in: "un|une"
+        out: "1"
+
+  timer_words_minutes:
+    values:
+      - in: "un|une"
+        out: "1"
+
+  timer_words_hours:
+    values:
+      - in: "un|une"
+        out: "1"
+
   timer_name:
     wildcard: true
+
   timer_command:
     wildcard: true
 
@@ -659,11 +678,11 @@ expansion_rules:
   diminue: "(diminue|diminuer|baisse|baisser)"
   eclaire: "(éclaire|éclairer|illumine|illuminer)"
   eteins: "(éteint|eteint|éteins|eteins|éteindre|eteindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper|<eteins_dirty>)"
-  ferme: "(ferme|fermer|baisse|baisser)"
+  ferme: "(ferme|fermer|baisse|baisser|<ferme_dirty>)"
   lis: "(lis|lire)"
-  mets: "(mets|mettre|passe|passer|mets_dirty)"
+  mets: "(mets|mettre|passe|passer|<mets_dirty>)"
   ouvre: "(ouvre|ouvrir|monte|monter)"
-  regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer|mets_dirty)"
+  regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer|<mets_dirty>)"
   renvoie: "(renvoie|renvoyer|arrête|arrêter|stop[pe]|stopper)"
   reprends: "(remets|remettre|reprends|reprend|reprendre|reprise|relance|relancer)"
   cree: "(créer|crée)"
@@ -676,6 +695,8 @@ expansion_rules:
   eteins_dirty: "(étant|étends|étend|étendre|état|et tant|et teins|et teint|et teints|et t'as|été|étais|était)"
   # Mets
   mets_dirty: "(mais|maître)"
+  # ferme
+  ferme_dirty: "faire"
 
   # Domains and Things
   lumiere: "(lumière|lampe|ampoule)"
@@ -690,15 +711,32 @@ expansion_rules:
   volume: "(volume|son|watt[s])"
   minuteur: "(compte a rebours)|(compte à rebours)|(minuteur)|(décompte)"
 
-  # Timers
-  timer_duration_seconds: "{timer_seconds:seconds} seconde[s]"
-  timer_duration_minutes: "{timer_minutes:minutes} minute[s][ [et ]{timer_seconds:seconds} seconde[s]]"
-  timer_duration_hours: "{timer_hours:hours} heure[s][ [et ]{timer_minutes:minutes} minute[s]][ [et ]{timer_seconds:seconds} seconde[s]]"
+  ### Timers ###
+  # mix numerical and litteral value for seconds, minutes and hours for the setting of the duration of the timmer
+  nb_seconds_duration: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
+  nb_minutes_duration: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
+  nb_hours_duration: "({timer_hours:hours}|{timer_words_hours:hours})"
+
+  # mix numerical and litteral value for seconds, minutes and hours for the request of the status of a timmer by its initial duration
+  nb_seconds_start: "({timer_seconds:start_seconds}|{timer_words_seconds:start_seconds})"
+  nb_minutes_start: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
+  nb_hours_start: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
+
+  # definition of the units for seconds, minutes and hours
+  second_unit: "(seconde|secondes|sec|s)"
+  minute_unit: "(minute|minutes|min|m)"
+  hour_unit: "(heure|heures|h)"
+
+  # definition of all possible values for the setting of the duration of the timmer
+  timer_duration_seconds: "<nb_seconds_duration>[ ]<second_unit>"
+  timer_duration_minutes: "<nb_minutes_duration>[ ]<minute_unit>[[ ][et][ ]<nb_seconds_duration>[ ][<second_unit>]]"
+  timer_duration_hours: "<nb_hours_duration>[ ]<hour_unit>[[ ][et][ ]<nb_minutes_duration>[ ][<minute_unit>]][[ ][et][ ]<nb_seconds_duration>[ ][<second_unit>]]"
   timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
 
-  timer_start_seconds: "{timer_seconds:start_seconds} seconde[s]"
-  timer_start_minutes: "{timer_minutes:start_minutes} minute[s][ [et ]{timer_seconds:start_seconds} seconde[s]]"
-  timer_start_hours: "{timer_hours:start_hours} heure[s][ [et ]{timer_minutes:start_minutes} minute[s]][ [et ]{timer_seconds:start_seconds} seconde[s]]"
+  # definition of all possible values for the request of the status of a timmer by its initial duration
+  timer_start_seconds: "<nb_seconds_start>[ ]<second_unit>"
+  timer_start_minutes: "<nb_minutes_start>[ ]<minute_unit>[[ ][et][ ]<nb_seconds_start>[ ][<second_unit>]]"
+  timer_start_hours: "<nb_hours_start>[ ]<hour_unit>[[ ][et][ ]<nb_minutes_start>[ ][<minute_unit>]][[ ][et][ ]<nb_seconds_start>[ ][<second_unit>]]"
   timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
   # Others

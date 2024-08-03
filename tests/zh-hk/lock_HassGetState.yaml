@@ -1,0 +1,66 @@
+language: zh-hk
+#tests: []
+tests:
+  - sentences:
+      - "前門鎖咗？"
+      - "前門係唔係鎖咗？"
+      - "前門有冇鎖著？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "前門"
+        state: locked
+    response: "係呀"
+
+  - sentences:
+      - "有無門無鎖？"
+      - "有門係無鎖？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: unlocked
+    response: "係呀，後門無鎖"
+
+  - sentences:
+      - "所有門都鎖著嗎？"
+      - "門係唔係都鎖著？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response: "唔係呀，後門除外"
+
+  - sentences:
+      - "邊個門鎖咗？"
+      - "邊一道門係鎖著？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response:
+      - "側門、前門鎖咗"
+      - "側門、前門鎖著"
+
+  - sentences:
+      - "有幾道門係鎖著？"
+      - "有幾道門係鎖了？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response: "2"
+
+  - sentences:
+      - "玄關門鎖有幾道係鎖咗？"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+        area: "玄關"
+    response: "1"
