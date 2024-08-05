@@ -69,9 +69,9 @@ def do_test_language_sentences(
     )
 
     # Add placeholder slots that HA will generate
-    language_sentences.slot_lists["area"] = TextSlotList(values=[])
-    language_sentences.slot_lists["name"] = TextSlotList(values=[])
-    language_sentences.slot_lists["floor"] = TextSlotList(values=[])
+    language_sentences.slot_lists["area"] = TextSlotList(name="area", values=[])
+    language_sentences.slot_lists["name"] = TextSlotList(name="name", values=[])
+    language_sentences.slot_lists["floor"] = TextSlotList(name="floor", values=[])
 
     # Lint sentences
     for intent_name, intent in language_sentences.intents.items():

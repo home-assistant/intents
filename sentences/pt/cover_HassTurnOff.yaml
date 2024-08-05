@@ -8,12 +8,19 @@ intents:
         slots:
           device_class: garage
           domain: cover
+
       - sentences:
-          - <fecha>  [as|os|a|o] [(cortina|cortinas|cortinado|cortinados|estore|estores|persiana|persianas)] <na_zona>
+          - <fecha> <estores> <na_zona>
         response: cover
         slots:
-          device_class:
-            - blind
-            - curtain
-            - shutter
           domain: cover
+
+      # fechar estores na mesma divisão que um dispositivo de voz
+      - sentences:
+          - <fecha> <estores> [aqui]
+        response: cover
+        slots:
+          domain: cover
+        requires_context:
+          area:
+            slot: true
