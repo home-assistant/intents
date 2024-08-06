@@ -1,0 +1,116 @@
+---
+language: bg
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Няма таймери.
+        {% elif num_active_timers == 0: %}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Таймерът е паузиран.
+          {% else: %}
+            {{ num_paused_timers }} таймера са паузирани.
+          {% endif %}
+        {% else: %}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} работещи таймера.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 паузиран таймер.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} паузирани таймера.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          Остават
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 час и {{ next_timer.rounded_minutes_left }} минути
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 час
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} часа и {{ next_timer.rounded_minutes_left }} минути
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} часа
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 минута и {{ next_timer.rounded_seconds_left }} секунди
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 минута
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} минути и {{ next_timer.rounded_seconds_left }} секунди
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} минути
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 секунда
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} секунди
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            от таймера за
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+            {% if (next_timer.start_hours == 1) %}
+              1 час
+            {% else: %}
+              {{ next_timer.start_hours }} часа
+            {% endif %}
+            {% if (next_timer.start_minutes == 1) %}
+              и 1 минута
+            {% else: %}
+              и {{ next_timer.start_minutes }} минути
+            {% endif %}
+            {% elif (next_timer.start_hours > 0): %}
+            {% if (next_timer.start_hours == 1) %}
+              1 час
+            {% else: %}
+              {{ next_timer.start_hours }} часа
+            {% endif %}
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+            {% if (next_timer.start_minutes == 1) %}
+              1 минута
+            {% else: %}
+              {{ next_timer.start_minutes }} минути
+            {% endif %}
+            {% if (next_timer.start_seconds == 1) %}
+              и 1 секунда
+            {% else: %}
+              и {{ next_timer.start_seconds }} секунди
+            {% endif %}
+
+            {% elif (next_timer.start_minutes > 0): %}
+            {% if (next_timer.start_minutes == 1) %}
+              1 минута
+            {% else: %}
+              {{ next_timer.start_minutes }} минути
+            {% endif %}
+            {% elif (next_timer.start_seconds > 0): %}
+            {% if (next_timer.start_seconds == 1) %}
+              1 секунда
+            {% else: %}
+              {{ next_timer.start_seconds }} секунди
+            {% endif %}
+            {% endif %}
+
+            {% if next_timer.name: %}
+            с име {{ next_timer.name }}.
+            {% elif next_timer.area: %}
+            в {{ next_timer.area }}.
+            {% endif %}
+          {% else: %}
+          .
+          {% endif %}
+        {% endif %}
