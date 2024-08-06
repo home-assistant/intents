@@ -2,4 +2,6 @@ language: ca
 responses:
   intents:
     HassClimateGetTemperature:
-      default: "{{ state.state | float | abs | round(2) }} {{ 'grau' if state.state | float | abs == 1 else 'graus' }} {{ 'sota zero' if state.state | float < 0 else '' }}"
+      default: >
+        {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
+        {{ temperature | float | abs | round(1) | replace('.0', '') | replace('.',',') }} {{ 'grau' if temperature | float | abs == 1 else 'graus' }} {{ 'sota zero' if temperature | float < 0 else '' }}
