@@ -1,0 +1,29 @@
+language: nl
+responses:
+  intents:
+    HassGetCurrentDate:
+      default: >
+        {% set months = {
+           1: 'januari',
+           2: 'februari',
+           3: 'maart',
+           4: 'april',
+           5: 'mei',
+           6: 'juni',
+           7: 'juli',
+           8: 'augustus',
+           9: 'september',
+           10: 'oktober',
+           11: 'november',
+           12: 'december',
+        } %}
+        {% set weekday = [
+          'maandag',
+          'dinsdag',
+          'woensdag',
+          'donderdag',
+          'vrijdag',
+          'zaterdag',
+          'zondag'
+        ] %}
+        Het is {{ weekday[slots.date.weekday()] }} {{ slots.date.day }} {{ months[slots.date.month] }} {{ slots.date.year }}
