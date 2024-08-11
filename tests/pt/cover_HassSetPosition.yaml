@@ -1,0 +1,38 @@
+language: pt
+tests:
+  - sentences:
+      - "abre a persiana da cozinha para 50%"
+      - "fecha a persiana da cozinha para 50%"
+      - "muda a persiana da cozinha para 50%"
+    intent:
+      name: HassSetPosition
+      slots:
+        domain: cover
+        name: "Persiana da Cozinha"
+        position: 50
+    response: "Posição alterada"
+
+  - sentences:
+      - "abre na cozinha a persiana para 60%"
+      - "abre a persiana para 60% na cozinha"
+    intent:
+      name: HassSetPosition
+      slots:
+        domain: cover
+        device_class: shutter
+        area: Cozinha
+        position: 60
+    response: "Posição alterada"
+
+  # set na mesma divisão que um dispositivo de voz
+  - sentences:
+      - abre a persiana para 80%
+    intent:
+      name: HassSetPosition
+      context:
+        area: Cozinha
+      slots:
+        domain: cover
+        area: Cozinha
+        position: 80
+    response: "Posição alterada"
