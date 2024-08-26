@@ -2,7 +2,7 @@ language: sl
 responses:
   intents:
     HassGetState:
-      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+      default: "{{ state.state_with_unit | replace('.', ',') }}" # Uporabi vejico namesto pike
 
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
@@ -149,7 +149,7 @@ responses:
 
       # sensor_value is SL variation of response for sensor
       sensor_value: |
-        Vrednost senzorja je {{ state.state_with_unit }}
+        Vrednost senzorja je {{ state.state_with_unit | replace('.', ',') }}
 
       sensor_value_temperature: |
-        Temperatura je {{ state.state_with_unit }}
+        Temperatura je {{ state.state_with_unit | replace('.', ',') }}
