@@ -180,6 +180,12 @@ lists:
         out: "on"
       - in: "(zu|geschlossen|unten)"
         out: "off"
+  bs_window_states:
+    values:
+      - in: "(auf|offen|geöffnet|gekippt)"
+        out: "on"
+      - in: "(zu|geschlossen)"
+        out: "off"
   bs_gas_states:
     values:
       - in: "<erkannt>"
@@ -267,6 +273,7 @@ expansion_rules:
   auf: "(auf|hoch|rauf|nach oben)"
   zu: "(zu|[he]runter|nach unten)"
   von_dem: "(von[ dem]|vom)"
+  zu_dem: "(zu[ dem]|zum)"
   alle: "((alle|sämtliche)[r]|jede[r|s|n]|<artikel> (ganze|komplette|sämtliche)[n])[ der]"
   schliessen: "(schlie(ß|ss)[e|en]|zumachen|zu machen)"
   öffnen: "(öffne[n]|aufmachen|auf machen)"
@@ -300,7 +307,7 @@ expansion_rules:
   batterie: "<artikel> (Batterie[n]|Akku[s])"
   irgend: "(irgend(<artikel_unbestimmt>[s]|welche[s]|wo)|(einige|manche)[s]|<artikel_unbestimmt>[s]) <artikel_bestimmt>"
   etwas: "[irgend][et]was"
-  welche: "(welche[r|s]|was für[ <artikel_unbestimmt>[s]]) <artikel_bestimmt>"
+  welche: "(welche[r|s|n]|was für[ <artikel_unbestimmt>[s]]) <artikel_bestimmt>"
   wieviel: "(wie[ ]viel[e]|welche Anzahl[ (an|von)])"
   ladestand: "<artikel>[ Lade][zu]Stand"
   co: "Kohlen[stoff]monoxid"
@@ -326,7 +333,11 @@ expansion_rules:
   timer_start_hours: "{timer_hours:start_hours} Stunde[n][ [und]{timer_minutes:start_minutes} Minute[n]][ [und]{timer_seconds:start_seconds} Sekunde[n]]"
   timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
+  # Media Players
+  naechster: "nächste[r|s|n]"
+  vorheriger_letzter: "(vorherige|letzte)[r|s|n]"
   starte: (starte|spiele)
+  wiederhole: (wiederhole[ <artikel_bestimmt>]|zurück <zu_dem>)
   song: "(Titel|Lied|Song|Track|Stück)"
   media_type: "(musik|[fernseh]sendung|gerät[e])"
 
