@@ -1,0 +1,74 @@
+---
+language: sv
+tests:
+  - sentences:
+      - "timer status"
+      - "status på mina timers"
+      - "hur mycket tid är det kvar på mina timers"
+      - "hur lång tid är det kvar på mina timers"
+    intent:
+      name: HassTimerStatus
+    response: |
+      4 pågående timers. 2 pausade timers. 3 minuter kvar på 5 minuters kökstimer
+
+  - sentences:
+      - "Hur lång tid är det kvar på timern på 5 timmar"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 5
+    response: Timern är pausad. 1 timme och 1 minut kvar
+  - sentences:
+      - "Hur lång tid är det kvar på timern på 7 timmar"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 7
+    response: 1 timme kvar
+  - sentences:
+      - "Hur lång tid är det kvar på timern på 6 timmar"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 6
+    response: 2 timmar och 2 minuter kvar
+  - sentences:
+      - "1 timmes timer status"
+      - "tid kvar på 1 timmes timer"
+      - "status på 1 timmes timer"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 1
+    response: |
+      Timern är pausad. 1 minut och 40 sekunder kvar
+
+  - sentences:
+      - "pizza timer status"
+      - "pizzatidur status"
+      - "status på pizzatimer"
+      - "status på pizza timer"
+      - "hur lång tid är det kvar på pizzatimern"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name:
+          - "pizza "
+          - "pizza"
+    response: |
+      25 minuter kvar
+
+  - sentences:
+      - "Kökstimer status"
+      - "status på kökstimer"
+      - "status på timern i köket"
+      - "status kökstimers"
+      - "hur mycket tid är det kvar på mina kökstimers"
+      - "hur lång tid är det kvar på kökstimern"
+      - "hur lång tid är det kvar på tiduren i köket"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: Kök
+    response: |
+      3 minuter kvar
