@@ -25,6 +25,11 @@ responses:
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Det finns flera enheter med namnet {{ entity }}"
     duplicate_entities_in_area: "Det finns flera enheter med namnet {{ entity }} i {{ area }}"
+    # Errors for timers
+    timer_not_found: "Jag kan inte hitta den timern"
+    multiple_timers_matched: "Jag kan inte kontrollera flera timers samtidigt"
+    no_timer_support: "Den här enheten hanterar inte timers"
+
 lists:
   color:
     values:
@@ -290,6 +295,34 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "halv"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_quart:
+    values:
+      - in: "trekvart"
+        out: 45
+      - in: "kvart"
+        out: 15
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
 
 expansion_rules:
   name: "{name}[s|n|ns|en]"
