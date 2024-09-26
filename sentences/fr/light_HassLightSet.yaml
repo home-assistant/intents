@@ -87,7 +87,24 @@ intents:
       # To be done when it's supported in the slot_combinations
 
       # brightness (floor)
-      # To be done when it's supported in the slot_combinations
+      - sentences:
+          # Baisse la luminosité du rez-de-chaussée à 40%
+          - "(<regle>|<augmente>|<diminue>) [la] luminosité [<dans>] [<le>]{floor} [à] {brightness}<pourcent>"
+          # Allume la lumière du rez-de-chaussée à 70%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>](<lumiere>|<lumieres>)  [<dans>] [<le>]{floor} [à] {brightness}<pourcent>"
+          # Règle le rez-de-chaussée à 50% de luminosité
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>]{floor} [à] {brightness}<pourcent> [de] luminosité"
+          # Monte le rez-de-chaussée a 100%
+          - "(<allume>|<regle>|<augmente>|<diminue>) [<le>]{floor} [à] {brightness}<pourcent>"
+          # Luminosité dans rez-de-chaussée à 50%
+          - "luminosité [<dans>] [<le>]{floor} [à] {brightness}<pourcent>"
+          # Rez-de-chaussée luminosité 50%
+          - "[<le>]{floor} luminosité [à] {brightness}<pourcent>"
+          # Rez-de-chaussée à 50 de luminosité
+          - "[<le>]{floor} [à] {brightness}<pourcent> [de] luminosité"
+          # Règle les lumieres du rez-de-chaussée avec la luminosité à 50% (Too complex... We should think about removing that)
+          - "(<allume>|<regle>) [<tous>] [<le>][<lumieres>] [<de>] [<le>]{floor} [avec la luminosité|avec la lumière] [à] {brightness}<pourcent>"
+        response: brightness
 
       # color (name)
       - sentences:
@@ -138,4 +155,13 @@ intents:
       # To be done when it's supported in the slot_combinations
 
       # color (floor)
-      # To be done when it's supported in the slot_combinations
+      - sentences:
+          # Règle la couleur du rez-de-chaussée en vert
+          - "<regle> la couleur [<de>] [<le>]{floor} [en] {color}"
+          # Règle la couleur des lumières du rez-de-chaussée en vert
+          - "<regle> la couleur <de> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{floor} [en] {color}"
+          # Allume les lumières du rez-de-chaussée en rouge
+          - "(<regle>|<allume>) [<tous>] [<le>](<lumiere>|<lumieres>) [<de>] [<le>]{floor} [avec la couleur | de couleur | en] {color}"
+          # Allume le rez-de-chaussée en rouge
+          - "(<regle>|<allume>) [<le>]{floor} [avec la couleur | de couleur | en] {color}"
+        response: color
