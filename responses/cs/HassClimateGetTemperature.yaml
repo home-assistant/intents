@@ -4,4 +4,10 @@ responses:
     HassClimateGetTemperature:
       default: >
         {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
-        {{ temperature }} {{ 'stupeň' if temperature | int | abs == 1 else 'stupně' if temperature | int | abs in [2,3,4] else 'stupňů' }}
+        {% if temperature is not none %}
+          {% set rounded_temp = (temperature | int) if temperature % 1 == 0 else (temperature | float | round(1)) %}
+          {% set degree_word = 'stupeň' if rounded_temp == 1 else 'stupně' if rounded_temp in [2,3,4] or rounded_temp % 1 != 0 else 'stupňů' %}
+          {{ rounded_temp }} {{ degree_word }}
+        {% else %}
+          Omlouvám se, ale nemohu zjistit aktuální teplotu.
+        {% endif %}
