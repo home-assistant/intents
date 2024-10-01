@@ -1,4 +1,66 @@
 language: lv
 responses:
   intents:
-    HassGetState: {}
+    HassGetState:
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
+      one_yesno: |
+        {% if query.matched %}
+          Jā
+        {% else %}
+          Nē
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Jā, {{ match[:3] | join(", ") }} un vēl {{ match | length - 3 }} citi
+          {%- else -%}
+            Jā,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} un {% endif %}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Nē
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Jā
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nē, {{ no_match[:3] | join(", ") }} un {{ no_match | length - 3 }} citi nav
+          {%- else -%}
+            Nē,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} un {% endif %}
+              {{ name }}
+            {%- endfor %} nav
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          {% if slots.device_class in ["battery", "cold", "presence", "light"] %}
+            Neviena
+          {% else %}
+            Neviens
+          {% endif %}
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} un {{ (match | length - 3) }} citi
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} un {% endif %}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}
