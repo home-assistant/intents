@@ -1,0 +1,120 @@
+language: pl
+responses:
+  intents:
+    HassGetCurrentDate:
+      # this is not for viewing but for reading
+      # convert the year to 4 characters, e.g. 99 year -> 0099 to read the year correctly
+      default: >
+        {% set year = '{0:04d}'.format(slots.date.year) %}
+        {% set first_number = year[-4]|int %}
+        {% set second_number = year[-3]|int %}
+        {% set third_number = year[-2]|int %}
+        {% set fourth_number = year[-1]|int %}
+        {% set last_two_number = year[-2:]|int %}
+        {% set year_1 = {
+          0: '',
+          1: 'tysiąc',
+          2: 'dwutysięcznego'
+        } %}
+        {% set year_2 = {
+          0: '',
+          1: 'sto',
+          2: 'dwieście',
+          3: 'trzysta',
+          4: 'czterysta',
+          5: 'pięćset',
+          6: 'sześćset',
+          7: 'siedemset',
+          8: 'osiemset',
+          9: 'dziewięćset'
+        } %}
+        {% set year_3 = {
+          0: '',
+          2: 'dwudziestego',
+          3: 'trzydziestego',
+          4: 'czterdziestego',
+          5: 'pięćdziesiątego',
+          6: 'sześciesiątego',
+          7: 'siedemdziesiątego',
+          8: 'osiemdziesiątego',
+          9: 'dziewiędziesiątego'
+        } %}
+        {% set year_4 = {
+          0: '',
+          1: 'pierwszego',
+          2: 'drugiego',
+          3: 'trzeciego',
+          4: 'czwartego',
+          5: 'piątego',
+          6: 'szóstego',
+          7: 'siódmego',
+          8: 'ósmego',
+          9: 'dziewiątego',
+          10: 'dziesiątego',
+          11: 'jedenastego',
+          12: 'dwunastego',
+          13: 'trzynastego',
+          14: 'czternastego',
+          15: 'piętnastego',
+          16: 'szesnastego',
+          17: 'siedemnastego',
+          18: 'osiemnastego',
+          19: 'dziewiętnastego'
+        } %}
+        {% set months = {
+          1: 'stycznia',
+          2: 'lutego',
+          3: 'marca',
+          4: 'kwietnia',
+          5: 'maja',
+          6: 'czerwca',
+          7: 'lipca',
+          8: 'sierpnia',
+          9: 'września',
+          10: 'października',
+          11: 'listopada',
+          12: 'grudnia',
+        } %}
+        {% set weekday = [
+          'poniedziałek',
+          'wtorek',
+          'środa',
+          'czwartek',
+          'piątek',
+          'sobota',
+          'niedziela'
+        ] %}
+        {% set day = {
+          1: 'pierwszy',
+          2: 'drugi',
+          3: 'trzeci',
+          4: 'czwarty',
+          5: 'piąty',
+          6: 'szósty',
+          7: 'siódmy',
+          8: 'ósmy',
+          9: 'dziewiąty',
+          10: 'dziesiąty',
+          11: 'jedenastego',
+          12: 'dwunasty',
+          13: 'trzynasty',
+          14: 'czternasty',
+          15: 'piętnasty',
+          16: 'szesnasty',
+          17: 'siedemnasty',
+          18: 'osiemnasty',
+          19: 'dziewiętnasty',
+          20: 'dwudziesty',
+          21: 'dwudziesty pierwszy',
+          22: 'dwudziesty drugi',
+          23: 'dwudziesty trzeci',
+          24: 'dwudziesty czwarty',
+          25: 'dwudziesty piąty',
+          26: 'dwudziesty szósty',
+          27: 'dwudziesty siódmy',
+          28: 'dwudziesty ósmy',
+          29: 'dwudziesty dziewiąty',
+          30: 'trzydziesty',
+          31: 'trzydziesty pierwszy',
+        } %}
+        Jest {{ weekday[slots.date.weekday()] }}, {{ day[slots.date.day] }} {{ months[slots.date.month] }} {% if first_number > 0 %}{{ year_1[first_number] }} {% endif%}{% if second_number > 0 %}{{ year_2[second_number] }} {% endif%}{% if third_number >= 2 %}{{ year_3[third_number] }} {{ year_4[fourth_number] }} {% else %}{{ year_4[last_two_number] }} {% endif %}roku.
