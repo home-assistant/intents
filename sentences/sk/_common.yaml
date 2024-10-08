@@ -1,12 +1,41 @@
-language: "sk"
+language: sk
 responses:
   errors:
+    # Všeobecné
     no_intent: "Prepáč, nerozumel som tomu"
-    no_area: "Žiadna oblasť s názvom {{ area }}"
-    no_domain_in_area: "{{ area }} neobsahuje {{ domain }}"
-    no_device_class_in_area: "{{ area }} neobsahuje {{ device_class }}"
-    no_entity: "Žiadne zariadenie alebo entita s názvom {{ entity }}"
     handle_error: "Pri spracovaní došlo k neočakávanej chybe"
+    # Ostatné
+    no_area: "Prepáč, nepoznám žiadnu oblasť s názvom {{ area }}"
+    no_floor: "Prepáč, nepoznám žiadne poschodie s názvom {{ floor }}"
+    no_domain: "Prepáč, nepoznám {{ domain }}"
+    no_domain_in_area: "Prepáč, nepoznám {{ domain }} v oblasti {{ area }}"
+    no_domain_in_floor: "Prepáč, nepoznám {{ domain }} na poschodí {{ floor }}"
+    no_device_class: "Prepáč, nepoznám {{ domain }}"
+    no_device_class_in_area: "Prepáč, nepoznám {{ device_class }} v oblasti {{ area }}"
+    no_device_class_in_floor: "Prepáč, nepoznám {{ device_class }} na poschodí {{ floor }}"
+    no_entity: "Prepáč, nepoznám žiadne zariadenie ani entitu s názvom {{ entity }}"
+    no_entity_in_area: "Prepáč, nepoznám žiadne zariadenie ani entitu s názvom {{ entity }} v oblasti {{ area }}"
+    no_entity_in_floor: "Prepáč, nepoznám žiadne zariadenie ani entitu s názvom {{ entity }} na poschodí {{ floor }}"
+    feature_not_supported: "Prepáč, žiadne zariadenie nepodporuje požadovanú schopnosť"
+
+    no_entity_exposed: "Prepáč, {{ entity }} nie je zverejnená"
+    no_entity_in_area_exposed: "Prepáč, {{ entity }} v oblasti {{ area }} nie je zverejnená"
+    no_entity_in_floor_exposed: "Prepáč, {{ entity }} na poschodí {{ floor }} nie je zverejnená"
+    no_domain_exposed: "Prepáč, žiadna {{ domain }} nie je zverejnená"
+    no_domain_in_area_exposed: "Prepáč, žiadna {{ domain }} v oblasti {{ area }} nie je zverejnená"
+    no_domain_in_floor_exposed: "Prepáč, žiadna {{ domain }} na poschodí {{ floor }} nie je zverejnená"
+    no_device_class_exposed: "Prepáč, žiadna {{ device_class }} nie je zverejnená"
+    no_device_class_in_area_exposed: "Prepáč, žiadna {{ device_class }} v oblasti {{ area }} nie je zverejnená"
+    no_device_class_in_floor_exposed: "Prepáč, žiadna {{ device_class }} na poschodí {{ floor }} nie je zverejnená"
+
+    duplicate_entities: "Prepáč, existuje viacero zariadení s názvom {{ entity }}"
+    duplicate_entities_in_area: "Prepáč, existuje viacero zariadení s názvom {{ entity }} v oblasti {{ area }}"
+    duplicate_entities_in_floor: "Prepáč, existuje viacero zariadení s názvom {{ entity }} na poschodí {{ floor }}"
+
+    timer_not_found: "Prepáč, nemohol som nájsť daný časovač"
+    multiple_timers_matched: "Prepáč, nemôžem reagovať s viacerými časovačmi naraz"
+    no_timer_support: "Prepáč, časovače nie sú podporované na tomto zariadení"
+
 lists:
   color:
     values:
@@ -28,21 +57,34 @@ lists:
         out: "purple"
       - in: "hned(á|é|ý|o|ú)"
         out: "brown"
+      - in: "ružov(á|é|ý|o|ú)"
+        out: "pink"
+      - in: "tyrkysov(á|é|ý|o|ú)"
+        out: "turquoise"
   brightness:
     range:
       type: "percentage"
       from: 0
       to: 100
-  position:
+  temperature:
     range:
-      type: "percentage"
+      type: "temperature"
       from: 0
       to: 100
-  volume:
-    range:
-      type: "percentage"
-      from: 0
-      to: 100
+  temperature_unit:
+    values:
+      - "celsius"
+      - in: "c|Celzia"
+        out: "Celsius"
+      - "fahrenheit"
+      - in: "f|Fahrenheita"
+        out: "Fahrenheit"
+  brightness_level:
+    values:
+      - in: (max|maximum|(najvyšš|najväčš(ie|í|iu)))
+        out: 100
+      - in: (min|minimum|(namenš|najnižš(ie|í|iu)))
+        out: 1
   on_off_states:
     values:
       - in: "(zapnut(ý|á|é|ých)|zasvieten(ý|á|é|ých)|otvoren(ý|á|é|ých))"
@@ -57,19 +99,16 @@ lists:
         out: fan
       - in: vypínač[e|ov]
         out: switch
-  temperature:
+  position:
     range:
-      type: "temperature"
+      type: "percentage"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - "celsius"
-      - in: "c|Celzia"
-        out: "Celsius"
-      - "fahrenheit"
-      - in: "f|Fahrenheita"
-        out: "Fahrenheit"
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   shopping_list_item:
     wildcard: true
 expansion_rules:
@@ -89,9 +128,9 @@ expansion_rules:
   turn_off: "(vypni|vypnúť)"
   turn_on_light: "(zasvieť|zažni|rozžni|rozsvieť)"
   turn_off_light: "(zahas|zhasni)"
-  set: "(nastav|prestav|zmeň|zvýš|zníž)"
-  open: "(otvor|odostri|(roz|vy)tiahni)"
-  close: "(zatvor|zavri|zastri|(s|za)tiahni)"
+  set: "(nastav[iť]|prestav[iť]|zme(ň|niť)|zvýš[iť]|zníž[iť])"
+  open: "(otvor[iť]|odostri[eť]|(roz|vy)tiahn[i|uť])"
+  close: "(zatvor[iť]|zavri[eť]|zatvor[iť]|zastri[eť]|(s|za)tiahn(i|uť))"
   position: "{position}[[ ]%| percent]"
   volume: "{volume:volume_level}[[ ]%| percent]"
 skip_words:
