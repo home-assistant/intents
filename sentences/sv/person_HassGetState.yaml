@@ -1,0 +1,44 @@
+language: sv
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<var> <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "är <name> [i|vid|på] {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "är någon [i|vid|på] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "är alla [i|vid|på] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "vem är [i|vid|på] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "hur många är [i|vid|på] {zone:state}"
+        response: how_many
+        slots:
+          domain: person
