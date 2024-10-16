@@ -3,22 +3,31 @@ intents:
   HassTurnOff:
     data:
       - sentences:
+          - "<turn_off> (<area> <name>|<name> <area>)"
+        requires_context:
+          domain: "light"
+      - sentences:
           - "<turn_off> [весь] свет <area>"
           - "<turn_off> <area> [весь] свет"
-          - "<turn_off> <area> <name>"
-          - "<turn_off> <name> <area>"
         slots:
           domain: "light"
         response: "lights_area"
 
       # Turn on all lights in the same area as a satellite device
       - sentences:
-          - "<turn_off> весь свет"
-          - "<turn_off> [весь] свет здесь"
-          - "<turn_off> здесь [весь] свет"
+          - "<turn_off> [весь] свет [здесь|в (комнате|помещении)]"
+          - "<turn_off> [здесь|в (комнате|помещении)] [весь] свет"
         response: "lights_area"
         slots:
           domain: "light"
         requires_context:
           area:
             slot: true
+
+      # Turn on all lights in the home
+      - sentences:
+          - "<turn_off> [весь] свет (дома|в (доме|квартире))"
+          - "<turn_off> (дома|в (доме|квартире)) [весь] свет"
+        response: "light_all"
+        slots:
+          domain: "light"

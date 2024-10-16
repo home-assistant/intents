@@ -2,20 +2,26 @@ language: de
 areas:
   - name: Küche
     id: kitchen
+    floor: "Erdgeschoss"
   - name: Flur
     id: corridor
+    floor: "Erdgeschoss"
   - name: Wohnzimmer
     id: living_room
+    floor: "Erdgeschoss"
   - name: Schlafzimmer
     id: bedroom
+    floor: "Obergeschoss"
   - name: Garage
     id: garage
   - name: Garten
     id: garden
   - name: Eingang
     id: entrance
+    floor: "Erdgeschoss"
   - name: Büro
     id: office
+    floor: "Keller"
   - name: Auffahrt
     id: driveway
 entities:
@@ -175,6 +181,15 @@ entities:
     attributes:
       device_class: garage_door
 
+  - name: "Küchenfenster"
+    id: "binary_sensor.kitchen_window"
+    area: kitchen
+    state:
+      in: "geschlossen"
+      out: "off"
+    attributes:
+      device_class: window
+
   - name: "Gas"
     id: "binary_sensor.gas"
     area: kitchen
@@ -261,3 +276,23 @@ entities:
   - name: "Rover"
     id: "vacuum.rover"
     state: "idle"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: pizza
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: wohnzimmer
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

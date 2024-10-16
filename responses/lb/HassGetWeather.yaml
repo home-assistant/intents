@@ -1,0 +1,24 @@
+language: lb
+responses:
+  intents:
+    HassGetWeather:
+      default: >
+        {% set weather_condition = {
+          'clear': 'a kloer',
+          'clear-night': 'a kloer Nuecht',
+          'cloudy': 'a Wolleken',
+          'exceptional': 'an aussergewéinlech',
+          'fog': 'mat Niwwel',
+          'hail': 'mat Knëppelsteng',
+          'lightning': 'mat Wiederen',
+          'lightning-rainy': 'mat Wiederen a Reen',
+          'partlycloudy': 'and partly cloudy',
+          'pouring': 'and pouring rain',
+          'rainy': 'a Reen',
+          'snowy': 'a Schnéi',
+          'snowy-rainy': 'mat Schnéi a Reen',
+          'sunny': 'a sonneg',
+          'windy': 'a lëfteg',
+          'windy-variant': 'mat Wand a Wolleken'
+        } %}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}

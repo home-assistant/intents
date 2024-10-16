@@ -1,0 +1,159 @@
+---
+language: fr
+tests:
+  # No name / No Verb
+  - sentences:
+      - "Minuteur 5 min"
+      - "Minuteur pour 5 minutes"
+      - "Minuteur de 5 min"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        minutes: 5
+    response: Minuteur lancé
+  - sentences:
+      - "Minuteur d'une heure"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        hours: "1"
+    response: Minuteur lancé
+  - sentences:
+      - "Minuteur 02h16" # Real and problematic STT output for HA Cloud (To be kept in the test suit)
+      - "Minuteur 2 h et 16 Min"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        hours: 2
+        minutes: 16
+    response: Minuteur lancé
+  - sentences:
+      - "Minuteur 01h30" # Real and problematic STT output for HA Cloud (To be kept in the test suit)
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        hours: 1
+        minutes: 30
+    response: Minuteur lancé
+  # No name / Verb
+  - sentences:
+      - "Crée un minuteur de 5 minutes"
+      - "Crée un minuteur pour 5 min"
+      - "Démarre un minuteur de 5 minutes"
+      - "Démarre un minuteur pour 5 minutes"
+      - "Mets un minuteur de 5 min"
+      - "Mets un minuteur pour 5 minutes"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        minutes: 5
+    response: Minuteur lancé
+  - sentences:
+      - "Crée un minuteur d'une heure"
+      - "Démarre un minuteur d'une heure"
+      - "Mets un minuteur d'une heure"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        hours: "1"
+    response: Minuteur lancé
+
+  # Name / No Verb
+  - sentences:
+      # - "Minuteur chocolatine 5 minutes"
+      - "Minuteur chocolatine pour 5 minutes"
+      - "Minuteur chocolatine de 5 min"
+      - "Minuteur 5 minutes appelé chocolatine"
+      - "Minuteur pour 5 minutes appelé chocolatine"
+      - "Minuteur de 5 minutes appelé chocolatine"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        minutes: 5
+        name:
+          - "chocolatine "
+          - "chocolatine"
+    response: Minuteur lancé
+  - sentences:
+      # - "Minuteur chocolatine 1 heure"
+      - "Minuteur chocolatine d'une heure"
+      - "Minuteur d'une heure appelé chocolatine"
+      - "Minuteur une heure appelé chocolatine"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        hours: "1"
+        name:
+          - "chocolatine "
+          - "chocolatine"
+    response: Minuteur lancé
+
+  # Name / Verb
+  - sentences:
+      - "Crée un minuteur chocolatine de 5 minutes"
+      - "Crée un minuteur chocolatine pour 5 minutes"
+      - "Démarre un minuteur chocolatine de 5 min"
+      - "Démarre un minuteur chocolatine pour 5 minutes"
+      - "Mets un minuteur chocolatine de 5 minutes"
+      - "Mets un minuteur chocolatine pour 5 minutes"
+      - "Crée un minuteur de 5 min appelé chocolatine"
+      - "Crée un minuteur pour 5 minutes appelé chocolatine"
+      - "Démarre un minuteur de 5 minutes appelé chocolatine"
+      - "Démarre un minuteur pour 5 min appelé chocolatine"
+      - "Mets un minuteur de 5 minutes appelé chocolatine"
+      - "Mets un minuteur pour 5 min appelé chocolatine"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        minutes: 5
+        name:
+          - "chocolatine "
+          - "chocolatine"
+    response: Minuteur lancé
+  - sentences:
+      - "Crée un minuteur chocolatine d'une heure"
+      - "Démarre un minuteur chocolatine d'une heure"
+      - "Mets un minuteur chocolatine d'une heure"
+      - "Crée un minuteur d'une heure appelé chocolatine"
+      - "Démarre un minuteur d'une heure appelé chocolatine"
+      - "Mets un minuteur d'une heure appelé chocolatine"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Cuisine
+      slots:
+        hours: "1"
+        name:
+          - "chocolatine "
+          - "chocolatine"
+    response: Minuteur lancé
+
+  - sentences:
+      - "Ouvre les volets du salon dans 5 minutes"
+      - "Dans 5 min, ouvre les volets du salon"
+    intent:
+      name: HassStartTimer
+      slots:
+        minutes: 5
+        conversation_command:
+          - "ouvre les volets du salon"
+          - "ouvre les volets du salon "
+    response: Commande reçue

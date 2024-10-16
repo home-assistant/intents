@@ -6,24 +6,39 @@ responses:
 
     # Errors for when user is not logged in
     no_area: "Kein Bereich mit dem Namen {{ area }} vorhanden"
+    no_floor: "Keine Etage mit dem Namen {{ floor }} vorhanden"
     no_domain: "Kein {{ domain }} vorhanden"
     no_domain_in_area: "Im Bereich {{ area }} ist kein {{ domain }} vorhanden"
+    no_domain_in_floor: "In der Etage {{ floor }} ist kein {{ domain }} vorhanden"
     no_device_class: "Kein {{ device_class }} vorhanden"
     no_device_class_in_area: "Im Bereich {{ area }} ist kein {{ device_class }} vorhanden"
+    no_device_class_in_floor: "In der Etage {{ floor }} ist kein {{ device_class }} vorhanden"
     no_entity: "{{ entity }} existiert nicht"
     no_entity_in_area: "{{ entity }} ist im Bereich {{ area }} nicht vorhanden"
+    no_entity_in_floor: "{{ entity }} ist in der Etage {{ floor }} nicht vorhanden"
+    entity_wrong_state: "Kein Gerät hat den Status {{ state | lower }}"
+    feature_not_supported: "Kein Gerät unterstützt die benötigte Funktion"
 
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "{{ entity }} ist nicht freigegeben"
     no_entity_in_area_exposed: "{{ entity }} ist im Bereich {{ area }} nicht freigegeben"
+    no_entity_in_floor_exposed: "{{ entity }} ist in der Etage {{ floor }} nicht freigegeben"
     no_domain_exposed: "Es ist kein {{ domain }} freigegeben"
     no_domain_in_area_exposed: "Im Bereich {{ area }} ist kein {{ domain }} freigegeben"
+    no_domain_in_floor_exposed: "In der Etage {{ floor }} ist kein {{ domain }} freigegeben"
     no_device_class_exposed: "Es ist kein {{ device_class }} freigegeben"
     no_device_class_in_area_exposed: "Im Bereich {{ area }} ist kein {{ device_class }} freigegeben"
+    no_device_class_in_floor_exposed: "In der Etage {{ floor }} ist kein {{ device_class }} freigegeben"
 
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Es wurden mehrere {{ entity }} gefunden"
     duplicate_entities_in_area: "Im Bereich {{ area }} wurden mehrere {{ entity }} gefunden"
+    duplicate_entities_in_floor: "In der Etage {{ floor }} wurden mehrere {{ entity }} gefunden"
+
+    # Errors for timers
+    timer_not_found: "Diesen Timer konnte ich nicht finden"
+    multiple_timers_matched: "Es können nicht mehrere Timer gesteuert werden"
+    no_timer_support: "Timer werden auf diesem Gerät nicht unterstützt"
 
 lists:
   color:
@@ -63,9 +78,9 @@ lists:
         out: "open"
       - in: "(geschlossen|zu|unten)"
         out: "closed"
-      - in: "([am] öffnen|öffnet)"
+      - in: "([am ]öffnen|öffnet)"
         out: "opening"
-      - in: "([am] schlie(ß|ss)en|schlie(ß|ss)t)"
+      - in: "([am ]schlie(ß|ss)en|schlie(ß|ss)t)"
         out: "closing"
   cover_classes:
     values:
@@ -131,9 +146,9 @@ lists:
         out: "off"
   bs_battery_charging_states:
     values:
-      - in: "(lädt|[auf][ge]laden) [auf]"
+      - in: "(lädt|[auf][ge]laden)[ auf]"
         out: "on"
-      - in: "(lädt nicht|nicht [auf][ge]laden|laden nicht) [auf]"
+      - in: "(lädt nicht|nicht[ auf][ge]laden|laden nicht)[ auf]"
         out: "off"
   bs_carbon_monoxide_states:
     values:
@@ -164,6 +179,12 @@ lists:
       - in: "(auf|offen|geöffnet|oben)"
         out: "on"
       - in: "(zu|geschlossen|unten)"
+        out: "off"
+  bs_window_states:
+    values:
+      - in: "(auf|offen|geöffnet|gekippt)"
+        out: "on"
+      - in: "(zu|geschlossen)"
         out: "off"
   bs_gas_states:
     values:
@@ -223,18 +244,37 @@ lists:
       - in: (min[imal[e]|imum]|niedrigste)
         out: 1
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   artikel_bestimmt: "[(der|die|das|dem|der|den|des)]"
   artikel_unbestimmt: "[(ein|eine|eines|einer|einem|einen)]"
   artikel: "[<artikel_bestimmt>|<artikel_unbestimmt>]"
   name: "<artikel> {name}"
-  area: "[in|an|auf|bei] [<artikel>|im|am|<von_dem>] {area}[s]"
+  area: "[in|an|auf|bei][ (<artikel>|im|am|<von_dem>)] {area}[s]"
+  floor: "[in|auf][ (<artikel>|im|<von_dem>)] {floor}[ Geschoss]"
   an: "(an|ein|auf)"
   aus: "(aus|ab|zu)"
   auf: "(auf|hoch|rauf|nach oben)"
   zu: "(zu|[he]runter|nach unten)"
-  von_dem: "(von [dem]|vom)"
-  alle: "((alle|sämtliche)[r]|jede[r|s|n]|<artikel> (ganze|komplette|sämtliche)[n]) [der]"
+  von_dem: "(von[ dem]|vom)"
+  zu_dem: "(zu[ dem]|zum)"
+  alle: "((alle|sämtliche)[r]|jede[r|s|n]|<artikel> (ganze|komplette|sämtliche)[n])[ der]"
   schliessen: "(schlie(ß|ss)[e|en]|zumachen|zu machen)"
   öffnen: "(öffne[n]|aufmachen|auf machen)"
   schalten: "(schalt[e|en|et])"
@@ -248,11 +288,11 @@ expansion_rules:
   alle_tore: "<alle> (Tore|Garagentore)"
   luefter: "<artikel> (Ventilator[en]|Lüfter)"
   alle_luefter: "<alle> (Ventilatoren|Lüfter)"
-  brightness: "{brightness} [Prozent|%]"
+  brightness: "{brightness}[ (Prozent|%)]"
   temperature: "{temperature}[ ][°|Grad][ ][{temperature_unit}]"
   licht: "<artikel> (Licht|Lampe|Beleuchtung)"
-  lichter: "[die|der|von den] (Lichter|Lichtern|Lampen|Leuchten|Beleuchtungen)"
-  alle_lichter: "(<alle> (<lichter>|Beleuchtung)|von allen [Lichtern|Lampen|Leuchten|Beleuchtungen])"
+  lichter: "[(die|der|von den) ](Lichter|Lichtern|Lampen|Leuchten|Beleuchtungen)"
+  alle_lichter: "(<alle> (<lichter>|Beleuchtung)|von allen[ (Lichtern|Lampen|Leuchten|Beleuchtungen)])"
   leuchten_lassen: "([er]leuchten lassen|[ein]färben)"
   tuer: "<artikel> Tür[e|en]"
   schloss: "<artikel> (Schloss|Schlösser)"
@@ -267,9 +307,9 @@ expansion_rules:
   batterie: "<artikel> (Batterie[n]|Akku[s])"
   irgend: "(irgend(<artikel_unbestimmt>[s]|welche[s]|wo)|(einige|manche)[s]|<artikel_unbestimmt>[s]) <artikel_bestimmt>"
   etwas: "[irgend][et]was"
-  welche: "(welche[r|s]|was für [<artikel_unbestimmt>[s]]) <artikel_bestimmt>"
-  wieviel: "(wie[ ]viel[e]|welche Anzahl [an|von])"
-  ladestand: "<artikel> [Lade][zu]Stand"
+  welche: "(welche[r|s|n]|was für[ <artikel_unbestimmt>[s]]) <artikel_bestimmt>"
+  wieviel: "(wie[ ]viel[e]|welche Anzahl[ (an|von)])"
+  ladestand: "<artikel>[ Lade][zu]Stand"
   co: "Kohlen[stoff]monoxid"
   co_sensor: "<co>[-]Sensor[en]"
   gas_sensor: "Gas[-]Sensor[en]"
@@ -277,8 +317,30 @@ expansion_rules:
   erkannt: "(entdeckt|ausgelöst|erkannt|an)"
   ist_wurde: "(ist|wurde)"
   sind_wurden: "(sind|wurden)"
-  position: "{position} [Prozent|%]"
-  volume: "{volume_level} [Prozent|%]"
+  position: "{position}[ (Prozent|%)]"
+  volume: "{volume_level}[ (Prozent|%)]"
+
+  # Timers
+  timer_set: "(starte|setze|stelle|erstelle)"
+  timer_cancel: "(beende|stoppe)"
+  timer_duration_seconds: "{timer_seconds:seconds} Sekunde[n]"
+  timer_duration_minutes: "{timer_minutes:minutes} Minute[n][ [und]{timer_seconds:seconds} Sekunde[n]]"
+  timer_duration_hours: "{timer_hours:hours} Stunde[n][ [und]{timer_minutes:minutes} Minute[n]][ [und]{timer_seconds:seconds} Sekunde[n]]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} Sekunde[n]"
+  timer_start_minutes: "{timer_minutes:start_minutes} Minute[n][ [und]{timer_seconds:start_seconds} Sekunde[n]]"
+  timer_start_hours: "{timer_hours:start_hours} Stunde[n][ [und]{timer_minutes:start_minutes} Minute[n]][ [und]{timer_seconds:start_seconds} Sekunde[n]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
+  # Media Players
+  naechster: "nächste[r|s|n]"
+  vorheriger_letzter: "(vorherige|letzte)[r|s|n]"
+  starte: (starte|spiele)
+  wiederhole: (wiederhole[ <artikel_bestimmt>]|zurück <zu_dem>)
+  song: "(Titel|Lied|Song|Track|Stück)"
+  media_type: "(musik|[fernseh]sendung|gerät[e])"
+
 skip_words:
   - "bitte"
   - "danke"

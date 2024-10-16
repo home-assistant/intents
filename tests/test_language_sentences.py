@@ -14,10 +14,13 @@ from jinja2 import BaseLoader, Environment
 from shared import (
     AreaEntry,
     State,
+    Timer,
     get_areas,
     get_matched_states,
+    get_matched_timers,
     get_slot_lists,
     get_states,
+    get_timers,
     render_response,
 )
 
@@ -45,13 +48,22 @@ def areas_fixture(language: str) -> List[AreaEntry]:
     return get_areas(fixtures)
 
 
+@pytest.fixture(name="timers", scope="session")
+def timers_fixture(language: str) -> List[Timer]:
+    """Loads test timers for the language."""
+    fixtures = load_test(language, "_fixtures")
+    return get_timers(fixtures)
+
+
 def do_test_language_sentences_file(
     language: str,
     test_file: str,
+    *,
     intent_schemas: dict[str, Any],
     slot_lists: dict[str, SlotList],
     states: List[State],
     areas: List[AreaEntry],
+    timers: List[Timer],
     language_sentences: Intents,
     language_responses: dict[str, Any],
 ) -> None:
@@ -89,9 +101,11 @@ def do_test_language_sentences_file(
         expected_response_texts = test.get("response")
         if expected_response_texts:
             if isinstance(expected_response_texts, str):
-                expected_response_texts = {expected_response_texts}
+                expected_response_texts = {expected_response_texts.strip()}
             else:
-                expected_response_texts = set(expected_response_texts)
+                expected_response_texts = set(
+                    t.strip() for t in expected_response_texts
+                )
 
         for sentence in test["sentences"]:
             assert (
@@ -176,7 +190,12 @@ def do_test_language_sentences_file(
 
                 matched, unmatched = get_matched_states(states, areas, result)
                 actual_response_text = render_response(
-                    response_template_str, result, matched, unmatched, env=template_env
+                    response_template_str,
+                    result,
+                    matched,
+                    unmatched,
+                    env=template_env,
+                    timers=get_matched_timers(timers, result),
                 )
                 actual_response_text = normalize_whitespace(
                     actual_response_text
@@ -189,22 +208,25 @@ def do_test_language_sentences_file(
 def gen_test(test_file_stem: str) -> None:
     def test_func(
         language: str,
+        *,
         intent_schemas: dict[str, Any],
         slot_lists: dict[str, SlotList],
         states: List[State],
         areas: List[AreaEntry],
+        timers: List[Timer],
         language_sentences: Intents,
         language_responses: dict[str, Any],
     ) -> None:
         do_test_language_sentences_file(
             language,
             test_file_stem,
-            intent_schemas,
-            slot_lists,
-            states,
-            areas,
-            language_sentences,
-            language_responses,
+            intent_schemas=intent_schemas,
+            slot_lists=slot_lists,
+            states=states,
+            areas=areas,
+            timers=timers,
+            language_sentences=language_sentences,
+            language_responses=language_responses,
         )
 
     test_func.__name__ = f"test_{test_file_stem}"
@@ -218,7 +240,7 @@ def gen_tests() -> None:
         if test_file.name != "_fixtures.yaml"
     }
 
-    for name in names:
+    for name in sorted(names):
         gen_test(name)
 
 

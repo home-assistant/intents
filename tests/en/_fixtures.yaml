@@ -1,75 +1,98 @@
 language: "en"
 areas:
+  - name: "Guest Room"
+    id: "guest_room_id"
+    # prepositional floor
+    floor: "Upstairs"
+
+  - name: "Outside"
+    # prepositional area
+    id: "outside_id"
+    floor: "Ground Floor"
+
   - name: "Kitchen"
-    id: "kitchen"
+    id: "kitchen_id"
+    floor: "First Floor"
 
   - name: "Living Room"
-    id: "living_room"
+    id: "living_room_id"
+    floor: "First Floor"
 
   - name: "Bedroom"
-    id: "bedroom"
+    id: "bedroom_id"
+    floor: "Second Floor"
 
   - name: "Garage"
-    id: "garage"
+    id: "garage_id"
+    floor: "First Floor"
 
   - name: "Entrance"
-    id: "entrance"
+    id: "entrance_id"
+    floor: "First Floor"
 
   - name: "Office"
-    id: "office"
+    id: "office_id"
+    floor: "Basement"
 entities:
   - name: "Bedroom Lamp"
     id: "light.bedroom_lamp"
-    area: "bedroom"
+    area: "bedroom_id"
     state: "off"
 
   - name: "Bedroom Switch"
     id: "switch.bedroom"
-    area: "bedroom"
+    area: "bedroom_id"
     state: "off"
 
   - name: "Kitchen Switch"
     id: "switch.kitchen"
-    area: "kitchen"
+    area: "kitchen_id"
     state: "on"
 
   - name: "Kitchen countertop"
     id: "light.kitchen_countertop"
-    area: "kitchen"
+    area: "kitchen_id"
     state: "on"
 
   - name: "Kitchen ceiling"
     id: "light.kitchen_ceiling"
-    area: "kitchen"
+    area: "kitchen_id"
     state: "on"
 
   - name: "Kitchen cabinets"
     id: "light.kitchen_cabinets"
-    area: "kitchen"
+    area: "kitchen_id"
     state: "on"
 
   - name: "Ceiling Fan"
     id: "fan.ceiling"
-    area: "living_room"
+    area: "living_room_id"
     state: "off"
 
   - name: "Curtain Left"
     id: "cover.curtain_left"
-    area: "living_room"
+    area: "living_room_id"
     state: "open"
     attributes:
       device_class: curtain
 
+  - name: "Shade Left"
+    id: "cover.shade_left"
+    area: "guest_room_id"
+    state: "open"
+    attributes:
+      device_class: shade
+
   - name: "Curtain Right"
     id: "cover.curtain_right"
-    area: "living_room"
+    area: "living_room_id"
     state: "closed"
     attributes:
       device_class: curtain
 
   - name: "Bedroom Curtain"
     id: "cover.bedroom"
-    area: "bedroom"
+    area: "bedroom_id"
     state: "closed"
     attributes:
       device_class: curtain
@@ -77,43 +100,43 @@ entities:
 
   - name: "Outside Temperature"
     id: "sensor.outside_temperature"
-    area: "garage"
+    area: "garage_id"
     state: "42"
     attributes:
       unit_of_measurement: "°F"
 
   - name: "Living Room Lamp"
     id: "light.living_room_lamp"
-    area: "living_room"
+    area: "living_room_id"
     state: "on"
 
   - name: "Garage Light"
     id: "light.garage"
-    area: "garage"
+    area: "garage_id"
     state: "on"
 
   - name: Play Corner
     id: light.play_corner
-    area: living_room
+    area: "living_room_id"
     state: "on"
 
   - name: "Thermostat"
     id: "climate.thermostat"
-    area: "living_room"
+    area: "living_room_id"
     state: "heat"
     attributes:
       current_temperature: 68
 
   - name: "Office Thermostat"
     id: "climate.office_thermostat"
-    area: "office"
+    area: "office_id"
     state: "heat"
     attributes:
       current_temperature: 1
 
   - name: "Front Door"
     id: "lock.front_door"
-    area: "entrance"
+    area: "entrance_id"
     state: "locked"
 
   - name: "Back Door"
@@ -122,6 +145,10 @@ entities:
 
   - name: "Side Door"
     id: "lock.side_door"
+    state: "locked"
+
+  - name: "Sliding Doors"
+    id: "lock.sliding_doors"
     state: "locked"
 
   - name: "Party Mode"
@@ -147,9 +174,9 @@ entities:
     attributes:
       device_class: battery_charging
 
-  - name: "CO2"
-    id: "binary_sensor.co2"
-    area: "kitchen"
+  - name: "CO"
+    id: "binary_sensor.co"
+    area: "kitchen_id"
     state:
       in: "clear"
       out: "off"
@@ -190,7 +217,7 @@ entities:
 
   - name: "Gas"
     id: "binary_sensor.gas"
-    area: "kitchen"
+    area: "kitchen_id"
     state:
       in: "clear"
       out: "off"
@@ -223,7 +250,7 @@ entities:
 
   - name: "Kitchen leak sensor"
     id: "binary_sensor.water_sensor"
-    area: kitchen
+    area: "kitchen_id"
     state:
       in: "dry"
       out: "off"
@@ -232,7 +259,7 @@ entities:
 
   - name: "Motion sensor"
     id: "binary_sensor.garage_motion"
-    area: "garage"
+    area: "garage_id"
     state:
       in: "detected"
       out: "on"
@@ -241,7 +268,7 @@ entities:
 
   - name: "Occupancy"
     id: "binary_sensor.kitchen_occupancy"
-    area: "kitchen"
+    area: "kitchen_id"
     state:
       in: "detected"
       out: "on"
@@ -282,7 +309,7 @@ entities:
 
   - name: "Pet Feeder"
     id: "binary_sensor.problem"
-    area: "kitchen"
+    area: "kitchen_id"
     state:
       in: "ok"
       out: "off"
@@ -307,7 +334,7 @@ entities:
 
   - name: "Kitchen Smoke"
     id: "binary_sensor.kitchen_smoke"
-    area: "kitchen"
+    area: "kitchen_id"
     state:
       in: "clear"
       out: "off"
@@ -316,7 +343,7 @@ entities:
 
   - name: "Siren"
     id: "binary_sensor.sound"
-    area: "garage"
+    area: "garage_id"
     state:
       in: "detected"
       out: "on"
@@ -718,6 +745,7 @@ entities:
 
   - name: "TV"
     id: "media_player.tv"
+    area: "living_room_id"
     state: "idle"
     attributes:
       volume_level: "50"
@@ -725,3 +753,22 @@ entities:
   - name: "Rover"
     id: "vacuum.rover"
     state: "idle"
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen_id"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

@@ -17,6 +17,7 @@ intents:
           - "[<turn>] [all] <light> [in] <area> on"
           - "activate [all] <light> [in] <area>"
           - "activate [all] <area> <light>"
+          - "<light> on in <area>"
         slots:
           domain: "light"
         response: "lights_area"
@@ -49,9 +50,23 @@ intents:
           - "<turn> <light> on"
           - "<turn> on <light>"
           - "activate <light>"
+          - "<light> on"
         response: "lights_area"
         slots:
           domain: "light"
         requires_context:
           area:
             slot: true
+
+      # Turn on all lights on a floor
+      - sentences:
+          - "<turn> on <all> <light> (on|in) <floor>"
+          - "<turn> on <all> <light> <floor>"
+          - "<turn> on <all> <floor> <light>"
+          - "<turn> <floor> <light> on"
+          - "<floor> <light> on"
+          - "activate <all> <floor> <light>"
+          - "activate <all> <light> (on|in) <floor>"
+        response: "lights_floor"
+        slots:
+          domain: "light"

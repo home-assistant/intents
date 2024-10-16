@@ -7,24 +7,32 @@ responses:
 
     # Errori per quando un utente non ha effettuato l'accesso
     no_area: "Non conosco nessuna area chiamata {{ area }}"
+    no_floor: "Mi dispiace, non conosco nessun piano chiamato {{ floor }}"
     no_domain: "Mi dispiace, non conosco nessun dispositivo appartenente al dominio {{ domain }}"
     no_domain_in_area: "Mi dispiace, nell'area {{ area }} non conosco nessun dispositivo appartenente al dominio {{ domain }}"
+    no_domain_in_floor: "Mi dispiace, nel piano {{ floor }} non conosco nessun dispositivo appartenente al dominio {{ domain }}"
     no_device_class: "Mi dispiace, non conosco nessun dispositivo appartenente alla classe {{ device_class }}"
     no_device_class_in_area: "Mi dispiace, nell'area {{ area }} non conosco nessun dispositivo appartenente alla classe {{ device_class }}"
-    no_entity: "Mi dispiace, non sconosco nessun dispositivo chiamato {{ entity }}"
-    no_entity_in_area: "Mi dispiace, nell'area {{ area }} non sconosco nessun dispositivo chiamato {{ entity }}"
+    no_device_class_in_floor: "Mi dispiace, nel piano {{ floor }} non conosco nessun dispositivo appartenente alla classe {{ device_class }}"
+    no_entity: "Mi dispiace, non conosco nessun dispositivo chiamato {{ entity }}"
+    no_entity_in_area: "Mi dispiace, nell'area {{ area }} non conosco nessun dispositivo chiamato {{ entity }}"
+    no_entity_in_floor: "Mi dispiace, nel piano {{ floor }} non conosco nessun dispositivo chiamato {{ entity }}"
 
     # Errori per quando un utente ha effettuato l'accesso ed è quindi possibile dare più informazioni
     no_entity_exposed: "Mi dispiace, il dispositivo {{ entity }} non è stato esposto"
     no_entity_in_area_exposed: "Mi dispiace, il dispositivo {{ entity }} nell'area {{ area }} non è stato esposto"
+    no_entity_in_floor_exposed: "Mi dispiace, il dispositivo {{ entity }} nel piano {{ floor }} non è stato esposto"
     no_domain_exposed: "Mi dispiace, il dominio {{ domain }} non è stato esposto"
     no_domain_in_area_exposed: "Mi dispiace, nell'area {{ area }} il dominio {{ domain }} non è stato esposto"
+    no_domain_in_floor_exposed: "Mi dispiace, nel piano {{ floor }} il dominio {{ domain }} non è stato esposto"
     no_device_class_exposed: "Mi dispiace, nessun dispositivo appartenente alla classe {{ device_class }} è stato esposto"
     no_device_class_in_area_exposed: "Mi dispiace, nell'area {{ area }} nessun dispositivo appartenente alla classe {{ device_class }} è stato esposto"
+    no_device_class_in_floor_exposed: "Mi dispiace, nel piano {{ floor }} nessun dispositivo appartenente alla classe {{ device_class }} è stato esposto"
 
     # Errori quando più di un dispositivo esposto ha lo stesso nome
     duplicate_entities: "Mi dispiace, esistono più dispositivi chiamati {{ entity }}"
     duplicate_entities_in_area: "Mi dispiace, nell'area {{ area }} esistono più dispositivi chiamati {{ entity }}"
+    duplicate_entities_in_floor: "Mi dispiace, nel piano {{ floor }} esistono più dispositivi chiamati {{ entity }}"
 
 lists:
   color:
@@ -58,11 +66,11 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: "massimo"
+      - in: "[al] massimo"
         out: 100
-      - in: "minimo"
+      - in: "[al] minimo"
         out: 1
-      - in: "metà"
+      - in: "[a] metà"
         out: 50
   temperature:
     range:
@@ -71,11 +79,9 @@ lists:
       to: 100
   temperature_unit:
     values:
-      - "(celsius | centigradi)"
-      - in: "c"
+      - in: "([ ]°|[ ][°][ ](C|c|celsius|Celsius)| [gradi] centigradi)"
         out: "celsius"
-      - "fahrenheit"
-      - in: "f"
+      - in: "([ ][°][ ](F|f|Fahreneit|fahreneit)| [gradi] fahrenheit)"
         out: "fahrenheit"
   on_off_states:
     values:
@@ -85,21 +91,21 @@ lists:
         out: "off"
   on_off_domains:
     values:
-      - in: "luc(e|i)"
+      - in: "<light>"
         out: light
-      - in: "(ventol(a|e)|ventilator(e|i)|ventilazione|climatizzator(e|i)|condizionator(e|i))"
+      - in: "<fan>"
         out: fan
       - in: "(interruttor(e|i)|pres(a|e))"
         out: switch
   cover_states:
     values:
-      - in: "apert(a|o|e|i)"
+      - in: "<opened>|alzat(a|o|e|i)|tirat(a|o|e|i) su"
         out: "open"
-      - in: "chius(a|o|e|i)"
+      - in: "<closed>|abbassat(a|o|e|i)|tirat(a|o|e|i) giù"
         out: "closed"
-      - in: "in apertura"
+      - in: "(in apertura | [si sta[nno]] (aprendo | alzando | tirando su))"
         out: "opening"
-      - in: "in chiusura"
+      - in: "(in chiusura | [si sta[nno]] (chiudendo | abbassando | tirando giù))"
         out: "closing"
   cover_classes:
     values:
@@ -111,7 +117,7 @@ lists:
         out: curtain
       - in: "port(a|e)"
         out: door
-      - in: <garage>
+      - in: "<garage>"
         out: garage
       - in: "cancell(o|i)"
         out: gate
@@ -123,34 +129,31 @@ lists:
         out: window
   lock_states:
     values:
-      - in: "chius(o|a|e|i)"
+      - in: "<locked>"
         out: "locked"
-      - in: "apert(o|a|e|i)"
+      - in: "<unlocked>"
         out: "unlocked"
-
-  shopping_list_item:
-    wildcard: true
 
   # binary_sensor
   bs_battery_states:
     values:
-      - in: "bass(o|a|e|i)"
+      - in: "bass(o|a|e|i)|scaric(o|a|he|hi)|per scaricar(e|si)"
         out: "on"
-      - in: "normale"
+      - in: "normale|caric(o|a|he|hi)"
         out: "off"
 
   bs_battery_charging_states:
     values:
-      - in: "[in] carica"
+      - in: "(in carica|caricando)"
         out: "on"
       - in: "non in carica"
         out: "off"
 
   bs_carbon_monoxide_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
-      - in: "non rilevat(o|a|e|i)"
+      - in: "non <triggered>"
         out: "off"
 
   bs_cold_states:
@@ -169,23 +172,23 @@ lists:
 
   bs_door_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<opened>"
         out: "on"
-      - in: "chius(o|a|e|i)"
+      - in: "<closed>"
         out: "off"
 
   bs_garage_door_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<opened>"
         out: "on"
-      - in: "chus(o|a|e|i)"
+      - in: "<closed>"
         out: "off"
 
   bs_gas_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
-      - in: "non rilevat(o|a|e|i)"
+      - in: "non <triggered>"
         out: "off"
 
   bs_heat_states:
@@ -197,16 +200,16 @@ lists:
 
   bs_light_states:
     values:
-      - in: "(rilevat|attiv[at]|acces)(o|a|e|i)"
+      - in: "<triggered>|acces(o|a|e|i)"
         out: "on"
       - in: "no luce"
         out: "off"
 
   bs_lock_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<unlocked>"
         out: "on"
-      - in: "chius(o|a|e|i)"
+      - in: "<locked>"
         out: "off"
 
   bs_moisture_states:
@@ -218,37 +221,37 @@ lists:
 
   bs_motion_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
       - in: "liber(o|a|e|i)"
         out: "off"
 
   bs_occupancy_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
       - in: "(liber|sgombr)(o|a|e|i)"
         out: "off"
 
   bs_opening_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<opened>"
         out: "on"
-      - in: "chius(o|a|e|i)"
+      - in: "<closed>"
         out: "off"
 
   bs_plug_states:
     values:
-      - in: "(attaccat|collegat)(o|a|e|i)"
+      - in: "(attaccat|collegat|alimentat)(o|a|e|i)"
         out: "on"
-      - in: "(staccat|non attaccat|scollegat|non collegat)(o|a|e|i)"
+      - in: "(staccat|scollegat|non (attaccat|collegat|alimentat)(o|a|e|i))"
         out: "off"
 
   bs_power_states:
     values:
-      - in: "(attaccat|collegat)(o|a|e|i)"
+      - in: "(attaccat|collegat|alimentat)(o|a|e|i)"
         out: "on"
-      - in: "(staccat|non attaccat|scollegat|non collegat)(o|a|e|i)"
+      - in: "(staccat|scollegat|non (attaccat|collegat|alimentat)(o|a|e|i))"
         out: "off"
 
   bs_presence_states:
@@ -262,7 +265,7 @@ lists:
     values:
       - in: "rilevat(o|i)"
         out: "on"
-      - in: "ok"
+      - in: "ok|a posto"
         out: "off"
 
   bs_running_states:
@@ -281,69 +284,184 @@ lists:
 
   bs_smoke_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
-      - in: "liber(o|a|e|i)"
+      - in: "non <triggered>"
         out: "off"
 
   bs_sound_states:
     values:
-      - in: "(rilevat|attiv[at])(o|a|e|i)"
+      - in: "<triggered>"
         out: "on"
-      - in: "liber(o|a|e|i)"
+      - in: "non <triggered>"
         out: "off"
 
   bs_tamper_states:
     values:
-      - in: "(rilevat|attiv[at]|manomess|alterat)(o|a|e|i)"
+      - in: "<triggered>|(manomess|alterat)(o|a|e|i)"
         out: "on"
-      - in: "liber(o|a|e|i)"
+      - in: "non (<triggered>|(manomess|alterat)(o|a|e|i))"
         out: "off"
 
   bs_update_states:
     values:
-      - in: "aggiornamento disponibile"
+      - in: "aggiornamento disponibile|da aggiornare|non aggiornato"
         out: "on"
-      - in: "aggornato"
+      - in: "aggiornato"
         out: "off"
 
   bs_vibration_states:
     values:
-      - in: "(rilevat(a|a|e|i)|[in ]vibrazione)"
+      - in: "(<triggered>|[in ]vibrazione|[sta[nno]] vibrando)"
         out: "on"
-      - in: "(liber(a|a|e|i)|non [in ]vibrazione)"
+      - in: "(liber(a|a|e|i)|non (<triggered>|[in ]vibrazione|[sta[nno] vibrando]))"
         out: "off"
 
   bs_window_states:
     values:
-      - in: "apert(o|a|e|i)"
+      - in: "<opened>"
         out: "on"
-      - in: "chius(o|a|e|i)"
+      - in: "<closed>"
         out: "closed"
 
+  shopping_list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+
+  timer_words_seconds:
+    values:
+      - in: "un|uno"
+        out: "1"
+
+  timer_words_minutes:
+    values:
+      - in: "un|uno"
+        out: "1"
+
+  timer_words_hours:
+    values:
+      - in: "un|una|un'"
+        out: "1"
+
+  timer_name:
+    wildcard: true
+
+  timer_command:
+    wildcard: true
+
 expansion_rules:
-  the: "(l(o|a|e) | i[l] | gli | l'| in | ne(l|llo|lla|lle|ll'|gli) | a[(l|llo|lla|lle|ll'|gli)])"
-  in: "(in | ne[i |gli |l[lo |la |le |l'| ]])"
-  of: "(de[l[lo |la |le |l'| ]]|i |gli |di )"
-  to: "a[l[lo |la |le |l'] | gli ]"
-  name: "{name}"
-  area: "{area}"
-  what_is: "(qual[e] è|quant(o |')è|com(e |')è|che)"
-  brightness: "{brightness}[%| percento]"
-  turn_on: "(accend(i|ere) | attiv(a|are))"
-  turn_off: "((spegn|speng)(i|ere) | disattiv(a|are))"
-  open: "(apr(i|ire) | alz(a|are))"
-  close: "(chiud(i|ere) | abbass(a|are))"
-  set: "(impost(a|are) | cambi(a|are) | mett(i|ere) | modific(a|are))"
-  temperature: "{temperature}[°| gradi] [{temperature_unit}]"
+  # Parti del discorso
+  the: "(l(o |a |e )|i[l] |gli |l(`|’|')[ ]|in |a |(a|ne)(l |llo |lla |lle |ll(`|’|')[ ]|gli ))"
+  in: "(all'interno |dentro |in | ne[l |i |gli |llo |lla |lle |ll(`|’|')[ ]])"
+  of: "(de[l |llo |lla |lle |ll(`|’|')[ ]|i |gli ]|di )"
+  to: "(a[l |llo |lla |lle |ll(`|’|')[ ]|gli ])"
+  onto: "(su[l |llo |lla |lle |ll(`|’|')[ ]|gli |[ ]])"
+  some: "(qualche | qualcun(o|a) | un[(o |a |(`|’|')[ ])] | de[i |gli |lle ] | alcun(o|a) | nessun(o|a))"
+  what_is: "(qual[e] è | quant(o |(`|’|'))è | com(e |(`|’|'))è | che)"
+  there_is: "(c'è|c(`|’|')e(`|’|')|ci sta[nno]|ci sono)"
+  which: "(qual[e|i] sono | che)"
+  how_many: "quant(i|e) [sono]"
+
+  # Dispositivi
+  all: "(tutt(o|e|i|a) [quant(i|e)] | ogni)"
+  lock: "(port(a|e) | blocch(o|hi) | serratur(a|e) | lucchett(o|i))"
   cover: "(tend(a|e)[ da sole]|serrand(a|e)|tapparell(a|e)|persian(a|e)|port(a|e)|saracinesc(a|he)|venezian(a|e)|cancell(o|i)|finestr(a|e)|oscurant(e|i))"
   climate: "(clima|climatizzator(e|i)|condizionator(e|i)|aria condizionata)"
   fan: "(ventol(a|e) | ventilator(e|i) | ventilazione | climatizzator(e|i) | condizionator(e|i))"
-  all: "(tutt(o|e|i|a) [quant(i|e)] | ogni)"
   garage: "(serrand(a|e) | port(a|e) [basculant(e|i)|de(l|i) garage] | saracinesc(a|he))"
-  light: "luc(e|i)"
+  light: "( [punt(o|i)] luce | luci | lampad[in](a|e) | lampadari[o])"
+
+  # Verbi
+  turn_on: "[fa(`|’|'|i|re)](accend(i|ere) | attiv(a|are) | esegu(i|ire) | avvi(a|are))"
+  turn_off: "((spegn|speng)(i|ere) | disattiv(a|are))"
+  open: "(apr(i|ire) | alz(a|are))"
+  close: "(chiud(i|ere) | abbass(a|are))"
+  set: "( (impost|mett|modific|cambi|sett)(a|are) | rend(i|ere) )"
+  numeric_value_set: "(<set> | [fa(`|’|'|i|re) ]((alz|aument|increment|abbass)(a|are) | ridu(ci|rre)) | fa(`|’|'|i|re) (salire|scendere))"
+  to_lock: "(chiud[i|ere]|blocca[re])"
+  unlock: "(apri[re]|sblocca[re]|schiud[i|ere])"
+
+  # Posti, aree e luoghi
   in_here: "(qu(a|i)|in questa (stanza|camera))"
   home: "(casa|appartamento)"
+  area: "[<the>][area ]{area}"
+  floor: "[<the>][floor ]{floor}"
+
+  # Altro
+  name: "[<the>]{name}"
+  brightness: "{brightness}[[ ]<percent>]"
+  temperature: "{temperature}[ ][{temperature_unit}]"
+  position: "{position}[[ ]<percent>]"
+  volume: "{volume:volume_level}[[ ]<percent>]"
+  percent: "(%|percento|per cento|su cento)"
+
+  # Stati
+  triggered: "(rilevat|attiv[at])(o|a|e|i)"
+  opened: "(apert|spalancat)(o|a|e|i)"
+  closed: "chius(o|a|e|i)"
+  locked: "(chius|serrat|sbarrat|bloccat)(o|a|e|i)"
+  unlocked: "(apert|sbloccat)(o|a|e|i)"
+
+  # Timers
+  timer_set: "(avvia|imposta|crea|attiva)"
+  timer_cancel: "(cancella|stoppa|annulla|disattiva|arresta|ferma)"
+
+  # mix numerical and litteral value for seconds, minutes and hours for the setting of the duration of the timer
+  nb_seconds_duration: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
+  nb_minutes_duration: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
+  nb_hours_duration: "({timer_hours:hours}|{timer_words_hours:hours})"
+
+  # mix numerical and litteral value for seconds, minutes and hours for the request of the status of a timer by its initial duration
+  nb_seconds_start: "({timer_seconds:start_seconds}|{timer_words_seconds:start_seconds})"
+  nb_minutes_start: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
+  nb_hours_start: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
+
+  # definition of the units for seconds, minutes and hours
+  second_unit: "(secondo|secondi|sec|s)"
+  minute_unit: "(minuto|minuti|min|m)"
+  hour_unit: "(ora|ore|h)"
+
+  # definition of all possible values for the setting of the duration of the timer
+  timer_duration_seconds: "<nb_seconds_duration>[ ]<second_unit>"
+  timer_duration_minutes: "<nb_minutes_duration>[ ]<minute_unit>[[ ][e][ ]<nb_seconds_duration>[ ][<second_unit>]]"
+  timer_duration_hours: "<nb_hours_duration>[ ]<hour_unit>[[ ][e][ ]<nb_minutes_duration>[ ][<minute_unit>]][[ ][e][ ]<nb_seconds_duration>[ ][<second_unit>]]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  # definition of all possible values for the request of the status of a timer by its initial duration
+  timer_start_seconds: "<nb_seconds_start>[ ]<second_unit>"
+  timer_start_minutes: "<nb_minutes_start>[ ]<minute_unit>[[ ][e][ ]<nb_seconds_start>[ ][<second_unit>]]"
+  timer_start_hours: "<nb_hours_start>[ ]<hour_unit>[[ ][e][ ]<nb_minutes_start>[ ][<minute_unit>]][[ ][e][ ]<nb_seconds_start>[ ][<second_unit>]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
 skip_words:
   - "grazie"
   - "per favore"

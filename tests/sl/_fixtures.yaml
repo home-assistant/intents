@@ -2,10 +2,13 @@ language: sl
 areas:
   - name: "spalnic(i|a|o|e)"
     id: bedroom
+    floor: "drug(o|em) nadstropj(e|u)"
   - name: "garaž(a|e|i|o|na|ne|ni)"
     id: garage
+    floor: "pritlič(ju|e)"
   - name: "pisarn(a|i|o)|kabinet(a|u)"
     id: office
+    floor: "klet[i]"
   - name: "balkon(u)"
     id: balcony
   - name: "teras(a|i|o)"
@@ -22,18 +25,22 @@ areas:
     id: wardrobe
   - name: "stranišč(e|u|ih)|(v|w)c[ju]"
     id: wc
-  - name: "stopnišč(e|u|ih)|stipnic(e|ah|i)"
+  - name: "stopnišč(e|u|ih)|stopnic(e|ah|i)"
     id: staircase
   - name: "kuhinj(o|a|i|ska|sko|ski|ske)"
     id: kitchen
+    floor: "prv(o|em) nadstropj(u|e)"
   - name: "dnevna soba|dnevni sobi|dnevne sobe|dnevn(a|i)"
     id: living_room
+    floor: "prv(o|em) nadstropj(u|e)"
   - name: "kopalni(ca|ci|co|cah|cama|ška|ški|ške)"
     id: bathroom
+    floor: "drug(o|em) nadstropj(u|e)"
   - name: "utility"
     id: utility
+    floor: "klet[i]"
 entities:
-  - name: "spaln(a|o|e) luč[ka|ko|i]"
+  - name: "luč[ko|i] v spalnici"
     id: light.bedroom_lamp
     area: bedroom
     state: "off"
@@ -48,7 +55,7 @@ entities:
     area: terrace
     state: "closed"
 
-  - name: "luč[i|ke|ki] na balkonu"
+  - name: "balkon"
     id: light.balcony
     area: balcony
     state: "off"
@@ -187,21 +194,21 @@ entities:
     area: "living_room"
     state: "heat"
     attributes:
-      current_temperature: 21
+      current_temperature: 21.2
 
   - name: "Kuhinja temperatura"
     id: "sensor.kitchen_temperature"
     state: "21"
     area: "kitchen"
     attributes:
-      current_temperature: 21
+      current_temperature: 21.2
 
   - name: "termostat"
     id: "climate.thermostat"
     area: "living_room"
     state: "heat"
     attributes:
-      current_temperature: 21
+      current_temperature: 2
   #locks
   - name: "vhodna vrata"
     id: "lock.front_door"
@@ -229,10 +236,10 @@ entities:
 
   - name: "v Mariboru"
     id: "weather.maribor"
-    state: "deževno"
+    state: "rainy"
     attributes:
-      temperature: "21"
-      temperature_unit: "stopinj"
+      temperature: "2"
+      temperature_unit: "°C"
 
   - name: "opravila|opravilom"
     id: "todo.opravila"
@@ -240,10 +247,10 @@ entities:
 
   - name: "v Benetkah"
     id: "weather.benetke"
-    state: "jasno"
+    state: "clear"
     attributes:
-      temperature: "28"
-      temperature_unit: "stopinj"
+      temperature: "-1.3"
+      temperature_unit: "°C"
 
   - name: "Lev"
     id: "person.Lev"
@@ -787,7 +794,7 @@ entities:
 
   - name: "kamin[u|a]"
     id: "sensor.furnace_temperature"
-    state: "380"
+    state: "380,1"
     attributes:
       device_class: temperature
       unit_of_measurement: "°C"
@@ -847,3 +854,23 @@ entities:
     attributes:
       device_class: wind_speed
       unit_of_measurement: "km/h"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: pizza|pizzo
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen_id"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

@@ -1,0 +1,50 @@
+---
+language: fr
+tests:
+  # No name
+  - sentences:
+      - "Combien de temps reste-t-il au minuteur"
+      - "Combien de temps reste-t-il sur le minuteur"
+      - "Combien de temps reste-t-il dans le minuteur"
+    intent:
+      name: HassTimerStatus
+    response: |
+      2 minuteurs sont actifs. 1 minuteur est en pause. 3 minutes restante sur le minuteur de 5 minutes dans cuisine
+
+  # area
+  - sentences:
+      - "Combien de temps reste-t-il au minuteur de la cuisine"
+      - "Combien de temps reste-t-il sur le minuteur de la cuisine"
+      - "Combien de temps reste-t-il dans le minuteur de la cuisine"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: cuisine
+    response: |
+      3 minutes restante.
+
+  # duration
+  - sentences:
+      - "Combien de temps reste-t-il au minuteur de 5 minutes"
+      - "Combien de temps reste-t-il sur le minuteur de 5 min"
+      - "Combien de temps reste-t-il dans le minuteur de 5 minutes"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_minutes: 5
+    response: |
+      3 minutes restante.
+
+  # name
+  - sentences:
+      - "Combien de temps reste-t-il au minuteur appelé chocolatine"
+      - "Combien de temps reste-t-il sur le minuteur appelé chocolatine"
+      - "Combien de temps reste-t-il dans le minuteur appelé chocolatine"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name:
+          - "chocolatine "
+          - "chocolatine"
+    response: |
+      25 minutes restante.

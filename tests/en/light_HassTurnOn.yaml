@@ -1,5 +1,6 @@
 language: en
 tests:
+  # Turn on all lights in an area
   - sentences:
       - "turn on all the lights in the living room"
       - "turn on all the lights in living room"
@@ -24,6 +25,7 @@ tests:
       - "activate living room lights"
       - "lights living room on"
       - "living room lighting on"
+      - "light on in the living room"
     intent:
       name: HassTurnOn
       slots:
@@ -51,7 +53,7 @@ tests:
       slots:
         domain: light
 
-    # Turn on lights in the same area as a satellite device
+  # Turn on lights in the same area as a satellite device
   - sentences:
       - Turn every light on in this room
       - Turn the lights on here
@@ -64,6 +66,7 @@ tests:
       - Turn the lights on
       - Turn on the lights
       - Activate the lights
+      - Lights on
     intent:
       name: HassTurnOn
       context:
@@ -71,4 +74,20 @@ tests:
       slots:
         domain: light
         area: Living Room
+    response: "Turned on the lights"
+
+  # Turn on all lights on a floor
+  - sentences:
+      - Turn on all the lights on the first floor
+      - Turn on all the lights first floor
+      - Switch on all first floor lights
+      - Turn first floor lights on
+      - First floor lights on
+      - Activate all first floor lights
+      - Activate all lights on the first floor
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        floor: First Floor
     response: "Turned on the lights"

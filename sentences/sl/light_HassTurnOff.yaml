@@ -7,7 +7,7 @@ intents:
           - "<ugasni> [vs[a|e|o]] <light_devices> [[v|na] <area>]"
           - "<izklopi> [vs[a|e|o]] <light_devices> [[v] <area>]"
           - "<izključi> [vs[a|e|o]] <light_devices> [[v|na] <area>]"
-          - "<izklopi> [vs[a|e|o]] [razsvetljavo] [[v|na] <area>]"
+          #- "<izklopi> [vs[a|e|o]] [razsvetljavo] [[v|na] <area>]"
         expansion_rules:
           light_devices: "([luč[i]]|[svetil[a|ke|ko|i]]|[razsvetljav[a|e|o]]|stikal[a|o] [za] luč[i|ke|ko])"
         requires_context:
@@ -41,7 +41,6 @@ intents:
           - "<izključi> [vse] luči <in_here>"
           - "<izklopi> [vse] luči <in_here>"
           - "<ugasni> [vse] luči <in_here>"
-          #- "<turn>[ the] lights( off;<in_here>)"
         response: "lights_area"
         expansion_rules:
           in_here: "[[ v] tu[kaj]]|[v [tem] prostoru]"
@@ -50,3 +49,13 @@ intents:
         requires_context:
           area:
             slot: true
+
+      # Turn off all lights on a floor
+      - sentences:
+          - "<izključi> [vse] luči (v|na) <floor>"
+          - "<izklopi> [vse] luči (v|na) <floor>"
+          - "<ugasni> [vse] luči (v|na) <floor>"
+
+        response: "lights_floor"
+        slots:
+          domain: "light"

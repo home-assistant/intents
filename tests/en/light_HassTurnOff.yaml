@@ -1,5 +1,6 @@
 language: en
 tests:
+  # Turn off all lights in an area
   - sentences:
       - "turn off all the lights in the kitchen"
       - "turn off all the lights in kitchen"
@@ -22,6 +23,8 @@ tests:
       - "turn the kitchen lights off"
       - "kitchen lighting off"
       - "deactivate kitchen lights"
+      - "light off in the kitchen"
+      - "kitchen lights out"
     intent:
       name: HassTurnOff
       slots:
@@ -29,7 +32,7 @@ tests:
         domain: light
     response: "Turned off the lights"
 
-    # Turn off all lights in the home
+  # Turn off all lights in the home
   - sentences:
       - Turn all lights off in the appartment
       - Switch off every light in the home
@@ -49,7 +52,7 @@ tests:
       slots:
         domain: light
 
-    # Turn off lights in the same area as a satellite device
+  # Turn off lights in the same area as a satellite device
   - sentences:
       - Turn every light off in this room
       - Turn the lights off here
@@ -62,6 +65,7 @@ tests:
       - Turn the lights off
       - Turn off the lights
       - Deactivate the lights
+      - Lights out
     intent:
       name: HassTurnOff
       context:
@@ -69,4 +73,20 @@ tests:
       slots:
         domain: light
         area: Living Room
+    response: "Turned off the lights"
+
+  # Turn off all lights on a floor
+  - sentences:
+      - Turn off all the lights on the first floor
+      - Turn off all the lights first floor
+      - Switch off all first floor lights
+      - Turn first floor lights off
+      - First floor lights off
+      - Deactivate all first floor lights
+      - Deactivate all lights on the first floor
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        floor: First Floor
     response: "Turned off the lights"

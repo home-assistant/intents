@@ -25,6 +25,11 @@ responses:
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Det finns flera enheter med namnet {{ entity }}"
     duplicate_entities_in_area: "Det finns flera enheter med namnet {{ entity }} i {{ area }}"
+    # Errors for timers
+    timer_not_found: "Jag kan inte hitta den timern"
+    multiple_timers_matched: "Jag kan inte kontrollera flera timers samtidigt"
+    no_timer_support: "Den här enheten hanterar inte timers"
+
 lists:
   color:
     values:
@@ -282,6 +287,40 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "halv"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_quart:
+    values:
+      - in: "trekvart"
+        out: 45
+      - in: "kvart"
+        out: 15
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   name: "{name}[s|n|ns|en]"
   area: "{area}[e|me][t|n][s]"
@@ -306,6 +345,26 @@ expansion_rules:
   varmt_kallt: "(varmt | varm | kallt | kall | het | svalt )"
   temperature: "{temperature}[°| grader] [{temperature_unit}]"
   färga: "(färga | ändra | byt)"
+  volym: "{volume:volume_level}[[ ]%| procent]"
+  # Timers
+  timer: "(timer[n]|äggklocka[n]|tidur[et])"
+  timers: "(timer[s]|äggklock(a|or)|tidur[en])"
+  time_left: "hur (lång|mycket)"
+  timer_duration_seconds: "{timer_seconds:seconds} sekund[er]"
+  timer_duration_minutes: "({timer_minutes:minutes} minut[er][[ och] {timer_seconds:seconds} sekund[er]])|([{timer_minutes:minutes} och][ en] {timer_half:seconds} minut[er])|({timer_minutes:minutes} minut[er])|([en ]{timer_quart:seconds}[s] minut)"
+  timer_duration_hours: "({timer_hours:hours} timm(e|ar)[[ och] <timer_duration_minutes>])|({timer_hours:hours}[ [och ] [en ]{timer_half:minutes}] timm(e|ar))|([en ]{timer_half:minutes}timme)|({timer_hours:hours} timm(e|ar) [och ]{timer_seconds:seconds} sekund[er])|([{timer_hours:hours} timm(e|ar) [och ]][en ]{timer_quart:minutes})"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+  timer_start_seconds: "{timer_seconds:start_seconds} sekund[er]"
+  timer_start_minutes: "({timer_minutes:start_minutes} minut[er][[ och] {timer_seconds:start_seconds} sekund[er]])|([{timer_minutes:start_minutes} och][ en] {timer_half:start_seconds} minut[er])|({timer_minutes:start_minutes} minut[er])|([en ]{timer_quart:start_seconds}[s] minut)"
+  timer_start_hours: "({timer_hours:start_hours} timm(e|ar)[[ och] <timer_start_minutes>])|({timer_hours:start_hours}[ [och ] [en ]{timer_half:start_minutes}] timm(e|ar))|([en ]{timer_half:start_minutes}timme)|({timer_hours:start_hours} timm(e|ar) [och ]{timer_seconds:start_seconds} sekund[er])|([{timer_hours:start_hours} timm(e|ar) [och ]][en ]{timer_quart:start_minutes})"
+  timer_start_time: "(<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>)"
+  timer_start: "(starta|sätt)"
+  timer_resume: "(fortsätt|återuppta)"
+  timer_cancel: "(avbryt|stoppa)"
+  timer_increase: "(förläng|öka)"
+  timer_remove: "(ta bort|dra [av|bort])"
+  timer_decrease: "(minska|korta[ av])"
+  timer_named: "som heter"
 skip_words:
   - "snälla"
   - "tack"

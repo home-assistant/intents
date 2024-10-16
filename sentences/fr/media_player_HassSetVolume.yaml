@@ -2,10 +2,24 @@ language: fr
 intents:
   HassSetVolume:
     data:
+      # Name
       - sentences:
           # Règle la TV à 50%
           - "<regle> [<le>]{name} [à|sur] {volume:volume_level}<pourcent>"
           # Règle le volume des enceintes sur 50%
-          - "<regle> le volume [<de>] [<le>]{name} [à|sur] {volume:volume_level}<pourcent>"
+          - "<regle> [<le>]<volume> [<de>] [<le>]{name} [à|sur] {volume:volume_level}<pourcent>"
         requires_context:
           domain: media_player
+
+      # Area (Context awarenes)
+      - sentences:
+          # Règle les watts à 50%
+          - "<regle> [<le>]<volume> [à|sur] {volume:volume_level}<pourcent>"
+        requires_context:
+          area:
+            slot: true
+
+      # Area
+      - sentences:
+          # Règle le son à 50% dans le salon
+          - "<regle> [<le>]<volume> [à|sur] {volume:volume_level}<pourcent> <dans> [<le>]{area}"
