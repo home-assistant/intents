@@ -2,18 +2,25 @@ language: ro
 areas:
   - name: "Bucatarie"
     id: kitchen
+    floor: Parter
   - name: "Sufragerie"
     id: living_room
+    floor: Parter
   - name: "Dormitor"
     id: bedroom
+    floor: Primul etaj
   - name: "Garaj"
     id: garage
+    floor: Afara
   - name: "Hol"
     id: hall
+    floor: Primul etaj
   - name: "Intrare"
     id: entrance
+    floor: Primul etaj
   - name: "Curte"
     id: frontyard
+    floor: Afara
 entities:
   # Lights
   - name: "lustra"
@@ -95,6 +102,7 @@ entities:
     id: cover.bedroom_window_left
     attributes:
       device_class: window
+      position: 100
     area: bedroom
     state:
       in: "deschis"
@@ -395,3 +403,46 @@ entities:
   - name: "Claudiu"
     id: "person.claudiu"
     state: "not_home"
+
+  # Valve
+  - name: "Valva principala"
+    id: "valve.main_valve"
+    state:
+      in: "deschis"
+      out: "open"
+    attributes:
+      position: "100"
+
+  # Media player
+  - name: "Televizorul"
+    id: "media_player.tv"
+    area: living_room
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
+  # Vacuum
+  - name: "Aspiratorul"
+    id: "vacuum.rover"
+    state: "idle"
+
+  # Timer
+timers:
+  - is_active: false
+    start_hours: 2
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: pizza
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: Bucatarie #TODO https://github.com/home-assistant/intents/discussions/2193#discussioncomment-9617522
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

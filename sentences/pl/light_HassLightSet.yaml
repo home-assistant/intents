@@ -2,17 +2,82 @@ language: pl
 intents:
   HassLightSet:
     data:
+      # brightness
       - sentences:
-          - <set> [jasność] <name> na <brightness>
-        response: brightness
+          - "<numeric_value_set> [jasność] <name> na <brightness>"
+        requires_context:
+          domain: light
+        response: "brightness"
+
       - sentences:
-          - <set> [jasność] <area> na <brightness>
+          - "<numeric_value_set> [jasność] <area> na <brightness>"
+          - "<numeric_value_set> [jasność] [<all>] [<light>|<lights>] <area> na <brightness>"
         slots:
           name: all
-        response: brightness_area
+        response: "brightness_area"
+
       - sentences:
-          - <set> [kolor] <name> na {color}
-        response: color
+          - "[<numeric_value_set>] [<in_here>] jasność na <brightness>"
+          - "[<numeric_value_set>] jasność [<in_here>] na <brightness>"
+        requires_context:
+          area:
+            slot: true
+        response: "brightness"
+
+      # Max/Min brightness
       - sentences:
-          - <set> [wszystkie kolory|kolory] <area> na {color}
-        response: color_area
+          - "[<numeric_value_set>] {brightness_level:brightness} <name>"
+          - "[<numeric_value_set>] {brightness_level:brightness} jasność <name>"
+          - "[<numeric_value_set>] jasność na {brightness_level:brightness} <name>"
+          - "[<numeric_value_set>] <name> na {brightness_level:brightness} jasność"
+        requires_context:
+          domain: light
+        response: "brightness"
+
+      - sentences:
+          - "[<numeric_value_set>] {brightness_level:brightness} [<light>|<lights>] <area>"
+          - "[<numeric_value_set>] {brightness_level:brightness} jasność [<light>|<lights>] <area>"
+          - "[<numeric_value_set>] jasność na {brightness_level:brightness} <area>"
+          - "[<numeric_value_set>] <area> {brightness_level:brightness} jasność"
+        slots:
+          name: all
+        response: "brightness_area"
+
+      - sentences:
+          - "[<numeric_value_set>] [<in_here>] jasność na {brightness_level:brightness}"
+          - "[<numeric_value_set>] [<in_here>] {brightness_level:brightness} jasność"
+          - "[<numeric_value_set>] jasność [<in_here>] na {brightness_level:brightness}"
+        requires_context:
+          area:
+            slot: true
+        response: "brightness_area"
+
+      # color
+      - sentences:
+          - "<set> [kolor] <name> na {color}"
+          - "<set> <name> na [kolor] {color}"
+          - "<set> <name> na {color} [kolor]"
+        requires_context:
+          domain: light
+        response: "color"
+
+      - sentences:
+          - "<set> [<all>] [<color>] [<light>|<lights>] <area> na {color}"
+          - "<set> [<color>] [<all>] [<light>|<lights>] <area> na {color}"
+          - "<set> [<color>] {color} [<light>|<lights>] <area>"
+          - "<set> [<all>] [<light>|<lights>] <area> na [kolor] {color}"
+          - "<set> [<all>] [<light>|<lights>] <area> na {color} [kolor]"
+        expansion_rules:
+          color: "(kolor|kolory)"
+        slots:
+          name: all
+        response: "color_area"
+
+      - sentences:
+          - "[<set>] [<in_here>] kolor [<light>|<lights>] na {color}"
+          - "[<set>] [<in_here>] {color} kolor [<light>|<lights>]"
+          - "[<set>] kolor [<light>|<lights>] [<in_here>] na {color}"
+        requires_context:
+          area:
+            slot: true
+        response: "color"

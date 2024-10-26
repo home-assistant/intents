@@ -3,36 +3,34 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "<name> [<din_zona>] <este> {on_off_states_singular:state}"
-          - "<este> {on_off_states_singular:state} <name> [<din_zona>]"
+          - "(<name>[ <din_zona>];<este> {on_off_states_singular:state})"
         response: one_yesno
         requires_context:
           domain: light
 
       - sentences:
-          - "<exista> [<vreun>] <lumina> {on_off_states_singular:state} [<in> <area>]"
-          - "(sunt | exist(ă|a)) <luminile> {on_off_states_plural:state} [<in> <area>]"
+          - "<exista> [<vreun> ]<lumina> {on_off_states_singular:state}[ <din_zona>]"
+          - "(sunt|exist(ă|a)) <luminile> {on_off_states_plural:state}[ <din_zona>]"
         response: any
         requires_context:
           domain: light
 
       - sentences:
           # every light domain alias is either feminine or neutral, so "toate" is the only option for plural
-          - "sunt toate <luminile> {on_off_states_plural:state} [<in> <area>]"
-          - "toate <luminile> sunt {on_off_states_plural:state} [<in> <area>]"
+          - "(sunt;toate <luminile>) {on_off_states_plural:state}[ <din_zona>]"
         response: all
         requires_context:
           domain: light
 
       - sentences:
-          - "<care> <lumina> <este> {on_off_states_singular:state} [<in> <area>]"
-          - "<care> <luminile> sunt {on_off_states_plural:state} [<in> <area>]"
+          - "<care> <lumina> <este> {on_off_states_singular:state}[ <din_zona>]"
+          - "<care> <luminile> sunt {on_off_states_plural:state}[ <din_zona>]"
         response: which
         requires_context:
           domain: light
 
       - sentences:
-          - "<cate> <luminile> sunt {on_off_states_plural:state} [<in> <area>]"
+          - "<cate> <luminile> sunt {on_off_states_plural:state}[ <din_zona>]"
         response: how_many
         requires_context:
           domain: light

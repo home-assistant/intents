@@ -25,6 +25,11 @@ responses:
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Det finns flera enheter med namnet {{ entity }}"
     duplicate_entities_in_area: "Det finns flera enheter med namnet {{ entity }} i {{ area }}"
+    # Errors for timers
+    timer_not_found: "Jag kan inte hitta den timern"
+    multiple_timers_matched: "Jag kan inte kontrollera flera timers samtidigt"
+    no_timer_support: "Den här enheten hanterar inte timers"
+
 lists:
   color:
     values:
@@ -89,7 +94,231 @@ lists:
       - in: "f"
         out: "fahrenheit"
 
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "låg[t|a]"
+        out: "on"
+      - in: "normal[t]"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "laddar"
+        out: "on"
+      - in: "laddar inte"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(detekterar|utlöst|larm[ar])"
+        out: "on"
+      - in: "klart"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "kall[t]"
+        out: "on"
+      - in: "normal[t]"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "ansluten"
+        out: "on"
+      - in: "frånkopplad"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "öppen"
+        out: "on"
+      - in: "stängd"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "öppen"
+        out: "on"
+      - in: "stängd"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(detektera(r|d)|utlöst|larm[ar])"
+        out: "on"
+      - in: "klart"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "varmt"
+        out: "on"
+      - in: "normal[t]"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "detektera(r|d)|aktiverad"
+        out: "on"
+      - in: "Inget ljus"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "upplåst|olåst"
+        out: "on"
+      - in: "låst"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "vått"
+        out: "on"
+      - in: "torrt"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(detektera(r|d)|utlöst|larm[ar])"
+        out: "on"
+      - in: "klart"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(detektera(r|d)|utlöst|larm[ar])"
+        out: "on"
+      - in: "klart|tomt"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "öppe(n|t)"
+        out: "on"
+      - in: "stäng(d|t)"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "inkoppla(t|d)|ansluten"
+        out: "on"
+      - in: "urkoppla(t|d)"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "på[slagen]"
+        out: "on"
+      - in: "av"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(hemma|närvarande)"
+        out: "on"
+      - in: "(borta|inte närvarande)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "detekterat"
+        out: "on"
+      - in: "ok"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "igång|kör"
+        out: "on"
+      - in: "av"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "osäker[t]"
+        out: "on"
+      - in: "säker[t]"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(detekterar|utlöst|larm[ar])"
+        out: "on"
+      - in: "klart"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(detekterar|utlöst|larm[ar])"
+        out: "on"
+      - in: "klart|tyst"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(detekterar|manipulerad|modifierad)"
+        out: "on"
+      - in: "klart"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "uppdatering tillgänglig"
+        out: "on"
+      - in: "uppdaterad"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(detekterar|vibrerar)"
+        out: "on"
+      - in: "(klart|stilla|vibrerar inte)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "öppet"
+        out: "on"
+      - in: "stängt"
+        out: "closed"
+
   shopping_list_item:
+    wildcard: true
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "halv"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_quart:
+    values:
+      - in: "trekvart"
+        out: 45
+      - in: "kvart"
+        out: 15
+  timer_name:
+    wildcard: true
+  timer_command:
     wildcard: true
 
 expansion_rules:
@@ -116,6 +345,26 @@ expansion_rules:
   varmt_kallt: "(varmt | varm | kallt | kall | het | svalt )"
   temperature: "{temperature}[°| grader] [{temperature_unit}]"
   färga: "(färga | ändra | byt)"
+  volym: "{volume:volume_level}[[ ]%| procent]"
+  # Timers
+  timer: "(timer[n]|äggklocka[n]|tidur[et])"
+  timers: "(timer[s]|äggklock(a|or)|tidur[en])"
+  time_left: "hur (lång|mycket)"
+  timer_duration_seconds: "{timer_seconds:seconds} sekund[er]"
+  timer_duration_minutes: "({timer_minutes:minutes} minut[er][[ och] {timer_seconds:seconds} sekund[er]])|([{timer_minutes:minutes} och][ en] {timer_half:seconds} minut[er])|({timer_minutes:minutes} minut[er])|([en ]{timer_quart:seconds}[s] minut)"
+  timer_duration_hours: "({timer_hours:hours} timm(e|ar)[[ och] <timer_duration_minutes>])|({timer_hours:hours}[ [och ] [en ]{timer_half:minutes}] timm(e|ar))|([en ]{timer_half:minutes}timme)|({timer_hours:hours} timm(e|ar) [och ]{timer_seconds:seconds} sekund[er])|([{timer_hours:hours} timm(e|ar) [och ]][en ]{timer_quart:minutes})"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+  timer_start_seconds: "{timer_seconds:start_seconds} sekund[er]"
+  timer_start_minutes: "({timer_minutes:start_minutes} minut[er][[ och] {timer_seconds:start_seconds} sekund[er]])|([{timer_minutes:start_minutes} och][ en] {timer_half:start_seconds} minut[er])|({timer_minutes:start_minutes} minut[er])|([en ]{timer_quart:start_seconds}[s] minut)"
+  timer_start_hours: "({timer_hours:start_hours} timm(e|ar)[[ och] <timer_start_minutes>])|({timer_hours:start_hours}[ [och ] [en ]{timer_half:start_minutes}] timm(e|ar))|([en ]{timer_half:start_minutes}timme)|({timer_hours:start_hours} timm(e|ar) [och ]{timer_seconds:start_seconds} sekund[er])|([{timer_hours:start_hours} timm(e|ar) [och ]][en ]{timer_quart:start_minutes})"
+  timer_start_time: "(<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>)"
+  timer_start: "(starta|sätt)"
+  timer_resume: "(fortsätt|återuppta)"
+  timer_cancel: "(avbryt|stoppa)"
+  timer_increase: "(förläng|öka)"
+  timer_remove: "(ta bort|dra [av|bort])"
+  timer_decrease: "(minska|korta[ av])"
+  timer_named: "som heter"
 skip_words:
   - "snälla"
   - "tack"

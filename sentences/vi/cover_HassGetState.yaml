@@ -3,7 +3,7 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - <name> [trong | ở trong <area>] đang {cover_states:state} [phải không | hay không | đúng không]
+          - "<name> [ [đã];[có];[đang];[được] ] {cover_states:state} ([hay]không|chưa) [(ở|trong|của|tại) <area>]"
         response: one_yesno
         requires_context:
           domain: cover
@@ -11,25 +11,27 @@ intents:
           domain: cover
 
       - sentences:
-          - (có phải | kiểm tra) {cover_classes:device_class} [đang] {cover_states:state} [trong | ở trong <area>]
+          - "(có | liệu) [bất kỳ] {cover_classes:device_class} nào [ [đã];[có];[đang];[được] ] {cover_states:state}  (không ;(ở|trong|của|tại) <area> )"
         response: any
         slots:
           domain: cover
 
       - sentences:
-          - tất cả {cover_classes:device_class} [trong | ở trong] [<area>] đang {cover_states:state} [có phải không | phải không]
+          - "[có phải] (tất cả|mọi) [các] {cover_classes:device_class}  [đều] [ [đã];[có];[đang];[được] ] {cover_states:state} ( (chưa| [đúng|phải] không) ; [(ở|trong|của|tại) <area>] )"
+          - "[có phải] (tất cả|mọi) [các] {cover_classes:device_class} [(ở|trong|của|tại) <area>] [đều] [ [đã];[có];[đang];[được] ] {cover_states:state} (chưa | [đúng|phải] không) "
         response: all
         slots:
           domain: cover
 
       - sentences:
-          - (những | cái) {cover_classes:device_class} [nào] đang {cover_states:state} [trong | ở trong <area>]
+          - " [những] [cái] {cover_classes:device_class} [nào] ( [ [đã];[có];[đang];[được] ] {cover_states:state} ; [(ở|trong|của|tại) <area>] )"
+          # - "(cái nào | những cái nào) là {cover_classes:device_class} (đang | là) {cover_states:state} [(ở|trong|của|tại) <area>]"
         response: which
         slots:
           domain: cover
 
       - sentences:
-          - (bao nhiêu | có bao nhiêu | số lượng) {cover_classes:device_class} đang {cover_states:state} [trong | ở trong <area>]
+          - "có bao nhiêu {cover_classes:device_class} (đang | là) {cover_states:state} [(ở|trong|của|tại) <area>]"
         response: how_many
         slots:
           domain: cover

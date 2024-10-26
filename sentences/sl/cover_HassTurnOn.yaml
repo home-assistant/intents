@@ -36,7 +36,7 @@ intents:
         response: cover_single
 
       - sentences:
-          - "<odpri> <name> [v|na] [<area>]"
+          - "<odpri> <name> [v|na] <area>"
         requires_context:
           domain: cover
         slots:
@@ -51,3 +51,15 @@ intents:
             - shutter
             - window
         response: cover_single
+
+      - sentences:
+          - "<odpri> {cover_classes:device_class} [<in_here>]"
+          - "[<in_here>] <odpri> {cover_classes:device_class}"
+        expansion_rules:
+          in_here: "v tem prostoru| tukaj| tu"
+        slots:
+          domain: cover
+        response: cover_device_class
+        requires_context:
+          area:
+            slot: true

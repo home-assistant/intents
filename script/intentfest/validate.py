@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter, defaultdict
+from collections.abc import Callable
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -51,10 +53,10 @@ def match_unicode_regex(pattern: str):
     return inner_match
 
 
-def single_key_dict_validator(schemas: dict[str, Any]) -> vol.Schema:
+def single_key_dict_validator(schemas: dict[str, Any]) -> Callable[[Any], vol.Schema]:
     """Create a validator for a single key dict."""
 
-    def validate(value):
+    def validate(value) -> vol.Schema:
         if not isinstance(value, dict):
             raise vol.Invalid("Expected a dict")
 
@@ -99,6 +101,9 @@ INTENTS_SCHEMA = vol.Schema(
             vol.Optional("slot_combinations"): {
                 str: [str],
             },
+            vol.Optional("slot_groups"): {
+                str: [str],
+            },
             vol.Optional("response_variables"): {
                 str: {
                     vol.Required("description"): str,
@@ -112,20 +117,33 @@ INTENT_ERRORS = {
     "no_intent",
     "handle_error",
     "no_area",
+    "no_floor",
     "no_domain",
     "no_domain_in_area",
+    "no_domain_in_floor",
     "no_device_class",
     "no_device_class_in_area",
+    "no_device_class_in_floor",
     "no_entity",
     "no_entity_in_area",
+    "no_entity_in_floor",
     "no_entity_exposed",
     "no_entity_in_area_exposed",
+    "no_entity_in_floor_exposed",
     "no_domain_exposed",
     "no_domain_in_area_exposed",
+    "no_domain_in_floor_exposed",
     "no_device_class_exposed",
     "no_device_class_in_area_exposed",
+    "no_device_class_in_floor_exposed",
     "duplicate_entities",
     "duplicate_entities_in_area",
+    "duplicate_entities_in_floor",
+    "entity_wrong_state",
+    "feature_not_supported",
+    "timer_not_found",
+    "multiple_timers_matched",
+    "no_timer_support",
 }
 
 SENTENCE_MATCHER = vol.All(
@@ -224,6 +242,7 @@ TESTS_FIXTURES = vol.Schema(
             {
                 vol.Required("name"): str,
                 vol.Required("id"): str,
+                vol.Optional("floor"): str,
             }
         ],
         vol.Optional("entities"): [
@@ -236,6 +255,20 @@ TESTS_FIXTURES = vol.Schema(
                     str, {vol.Required("in"): str, vol.Required("out"): str}
                 ),
                 vol.Optional("attributes"): {str: match_anything},
+            }
+        ],
+        vol.Optional("timers"): [
+            {
+                vol.Required(
+                    vol.Any("start_hours", "start_minutes", "start_seconds")
+                ): int,
+                vol.Required("total_seconds_left"): int,
+                vol.Required("rounded_hours_left"): int,
+                vol.Required("rounded_minutes_left"): int,
+                vol.Required("rounded_seconds_left"): int,
+                vol.Optional("name"): str,
+                vol.Optional("area"): str,
+                vol.Optional("is_active"): bool,
             }
         ],
     }
@@ -342,7 +375,7 @@ def run() -> int:
 
 
 def _load_yaml_file(
-    errors: list, language: str | None, file_path: Path, schema: vol.Schemna
+    errors: list, language: str | None, file_path: Path, schema: vol.Schema
 ) -> dict | None:
     """Load a YAML file."""
     path = str(file_path.relative_to(ROOT))
@@ -455,6 +488,20 @@ def validate_language(
         sentence_content = sentence_files.pop(test_file.name)
         _domain, intent = test_file.stem.rsplit("_", maxsplit=1)
 
+        # Ensure test file has the correct intent
+        has_correct_intent = True
+        for test in content["tests"]:
+            test_intent = test["intent"]["name"]
+            if test_intent != intent:
+                errors.append(
+                    f"{path}: expected intent {intent} but found {test_intent}"
+                )
+                has_correct_intent = False
+                break
+
+        if not has_correct_intent:
+            continue
+
         test_count = sum(len(test["sentences"]) for test in content["tests"])
 
         # Happens if the sentence file is invalid
@@ -518,10 +565,18 @@ def validate_language(
                 continue
 
             possible_response_keys: set[str] = set()
-            slots = {
+            slots: dict[str, Any] = {
                 slot_name: f"<{slot_name}>"
                 for slot_name in intent_schemas[intent_name].get("slots", {})
             }
+
+            # For timer intents
+            slots["timers"] = []
+
+            # For date/time intents
+            slots["date"] = datetime.now().date()
+            slots["time"] = datetime.now().time()
+
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)
                 if response_key not in used_intent_response_keys:
