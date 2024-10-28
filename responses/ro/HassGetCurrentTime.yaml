@@ -1,0 +1,12 @@
+language: ro
+responses:
+  intents:
+    HassGetCurrentTime:
+      default: >
+        {{ slots.time.hour }}
+        {% if slots.time.minute == 0: %}
+        fix
+        {% else: %}
+        și
+        {{ slots.time.minute }} {{ 'minut' if slots.time.minute == 1 else 'minute' if slots.time.minute < 20 else 'de minute' }}
+        {% endif %}

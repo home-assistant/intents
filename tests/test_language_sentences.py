@@ -58,6 +58,7 @@ def timers_fixture(language: str) -> List[Timer]:
 def do_test_language_sentences_file(
     language: str,
     test_file: str,
+    *,
     intent_schemas: dict[str, Any],
     slot_lists: dict[str, SlotList],
     states: List[State],
@@ -207,6 +208,7 @@ def do_test_language_sentences_file(
 def gen_test(test_file_stem: str) -> None:
     def test_func(
         language: str,
+        *,
         intent_schemas: dict[str, Any],
         slot_lists: dict[str, SlotList],
         states: List[State],
@@ -218,13 +220,13 @@ def gen_test(test_file_stem: str) -> None:
         do_test_language_sentences_file(
             language,
             test_file_stem,
-            intent_schemas,
-            slot_lists,
-            states,
-            areas,
-            timers,
-            language_sentences,
-            language_responses,
+            intent_schemas=intent_schemas,
+            slot_lists=slot_lists,
+            states=states,
+            areas=areas,
+            timers=timers,
+            language_sentences=language_sentences,
+            language_responses=language_responses,
         )
 
     test_func.__name__ = f"test_{test_file_stem}"
@@ -238,7 +240,7 @@ def gen_tests() -> None:
         if test_file.name != "_fixtures.yaml"
     }
 
-    for name in names:
+    for name in sorted(names):
         gen_test(name)
 
 

@@ -115,6 +115,9 @@ HassGetState:
     area:
       description: "Name of an area"
       required: false
+    floor:
+      description: "Name of a floor"
+      required: false
     domain:
       description: "Domain of devices/entities in an area"
       required: false
@@ -177,6 +180,16 @@ HassSetPosition:
       - "domain"
       - "device_class"
 
+HassGetCurrentDate:
+  supported: true
+  domain: homeassistant
+  description: "Gets the current date"
+
+HassGetCurrentTime:
+  supported: true
+  domain: homeassistant
+  description: "Gets the current time"
+
 # -----------------------------------------------------------------------------
 # light
 # -----------------------------------------------------------------------------
@@ -191,6 +204,9 @@ HassLightSet:
       required: false
     area:
       description: "Name of an area"
+      required: false
+    floor:
+      description: "Name of a floor"
       required: false
     brightness:
       description: "Brightness percentage from 0 to 100"
@@ -362,6 +378,18 @@ HassMediaNext:
       description: "Name of an area"
       required: false
 
+HassMediaPrevious:
+  supported: true
+  domain: media_player
+  description: "Skips a media player back to the previous item"
+  slots:
+    name:
+      description: "Name of a device or entity"
+      required: false
+    area:
+      description: "Name of an area"
+      required: false
+
 HassSetVolume:
   supported: true
   domain: media_player
@@ -466,7 +494,7 @@ HassIncreaseTimer:
 HassDecreaseTimer:
   supported: true
   domain: intent
-  description: "Adds time to a timer"
+  description: "Removes time from a timer"
   slots:
     hours:
       description: "Number of hours"

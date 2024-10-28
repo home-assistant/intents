@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter, defaultdict
+from collections.abc import Callable
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -51,10 +53,10 @@ def match_unicode_regex(pattern: str):
     return inner_match
 
 
-def single_key_dict_validator(schemas: dict[str, Any]) -> vol.Schema:
+def single_key_dict_validator(schemas: dict[str, Any]) -> Callable[[Any], vol.Schema]:
     """Create a validator for a single key dict."""
 
-    def validate(value):
+    def validate(value) -> vol.Schema:
         if not isinstance(value, dict):
             raise vol.Invalid("Expected a dict")
 
@@ -373,7 +375,7 @@ def run() -> int:
 
 
 def _load_yaml_file(
-    errors: list, language: str | None, file_path: Path, schema: vol.Schemna
+    errors: list, language: str | None, file_path: Path, schema: vol.Schema
 ) -> dict | None:
     """Load a YAML file."""
     path = str(file_path.relative_to(ROOT))
@@ -570,6 +572,10 @@ def validate_language(
 
             # For timer intents
             slots["timers"] = []
+
+            # For date/time intents
+            slots["date"] = datetime.now().date()
+            slots["time"] = datetime.now().time()
 
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)

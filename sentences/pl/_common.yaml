@@ -7,24 +7,39 @@ responses:
 
     # Errors for when user is not logged in
     no_area: "Brak obszaru o nazwie {{ area }}"
-    no_domain: "Brak {{ domain }} domeny"
-    no_domain_in_area: "W obszarze {{ area }} nie ma {{ domain }}"
+    no_floor: "Brak piętra o nazwie {{ floor }}"
+    no_domain: "Brak domeny {{ domain }}"
+    no_domain_in_area: "W obszarze {{ area }} nie ma domeny {{ domain }}"
+    no_domain_in_floor: "Brak domeny {{ domain }} dla piętra {{ floor}}"
     no_device_class: "Brak urzadzenia {{ device_class }}"
     no_device_class_in_area: "Obszar {{ area }} nie zawiera {{ device_class }}"
+    no_device_class_in_floor: "Piętro {{ floor }} nie zawiera {{ device_class }}"
     no_entity: "Brak urządzenia lub encji o nazwie {{ entity }}"
     no_entity_in_area: "Obszar {{ area }} nie zawiera urządzenia lub encji o nazwie {{ entity }}"
+    no_entity_in_floor: "Piętro {{ floor }} nie zawiera urządzenia lub encji o nazwie {{ entity }}"
+    entity_wrong_state: "Niestety, żadne urządzenie nie jest {{ state | lower }}"
+    feature_not_supported: "Przepraszam, żadne urządzenie nie obsługuje wymaganych funkcji"
 
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "Encja {{ entity }} nie została udostępniona"
-    no_entity_in_area_exposed: "W obszarze {{ area }} {{ entity }} nie została udostępniona"
-    no_domain_exposed: "Domena {{ domena }} nie została udostępniona"
-    no_domain_in_area_exposed: "W obszarze {{ area }} domena {{ domena }} nie została udostępniona"
+    no_entity_in_area_exposed: "W obszarze {{ area }} encja {{ entity }} nie została udostępniona"
+    no_entity_in_floor_exposed: "Na piętrze {{ floor }} encja {{ entity }} nie została udostępniona"
+    no_domain_exposed: "Domena {{ domain }} nie została udostępniona"
+    no_domain_in_area_exposed: "W obszarze {{ area }} domena {{ domain }} nie została udostępniona"
+    no_domain_in_floor_exposed: "Na piętrze {{ floor }} domena {{ domain }} nie została udostępniona"
     no_device_class_exposed: "Urządzenie {{ device_class }} nie zostało udostępnione"
     no_device_class_in_area_exposed: "W obszarze {{ area }} urządzenie {{ device_class }} nie zostało udostępnione"
+    no_device_class_in_floor_exposed: "Na piętrze {{ floor }} urządzenie {{ device_class }} nie zostało udostępnione"
 
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Przykro mi, ale istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
     duplicate_entities_in_area: "Przykro mi, ale w obszarze {{ area }} istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
+    duplicate_entities_in_floor: "Przykro mi, ale na piętrze {{ floor }} istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
+
+    # Errors for timers
+    timer_not_found: "Nie znaleziono takiego minutnika"
+    multiple_timers_matched: "Nie monżna ustawić wielu minutników jednocześnie"
+    no_timer_support: "To urządzenie nie obsługuje minutników"
 lists:
   color:
     values:
@@ -94,19 +109,19 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: "markiz[a|y]"
+      - in: "markiz[a|e|ę|y]"
         out: "awning"
-      - in: "rolet[a|y]"
+      - in: "rolet[e|ę|a|y]"
         out: "blind"
-      - in: "zasłon[a|y]"
+      - in: "zasłon[a|e|ę|y]"
         out: "curtain"
       - in: "drzwi"
         out: "door"
       - in: "(garaż(e)|brama garażowa|(drzwi|bramy) garażowe|(drzwi|brama|bramy) do garażu)"
         out: "garage"
-      - in: "bram[a|y]"
+      - in: "bram[a|e|ę|y]"
         out: "gate"
-      - in: "osłon[a|y]"
+      - in: "osłon[a|e|ę|y]"
         out: "shade"
       - in: "żaluzj(i|a|e)"
         out: "shutter"
@@ -311,9 +326,11 @@ lists:
       - in: "zamknięte"
         out: "closed"
 
+  # Shopping list
   shopping_list_item:
     wildcard: true
 
+  # Zone
   zone:
     wildcard: true
 
@@ -336,17 +353,46 @@ lists:
       - in: "poza domem"
         out: "not_home"
 
+  # Timer
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+
+  timer_half:
+    values:
+      - in: "pół"
+        out: 30
+      - in: "półtor[a|ej]"
+        out: 90
+
+  timer_name:
+    wildcard: true
+
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   name: "{name}"
-  set: "(ustaw|zmień|przestaw|nastaw)"
-  area: "[w|na] {area}"
+  set: "(ustaw|zmień|przestaw|nastaw|obróć)"
+  area: "[w|na|z] {area}"
+  floor: "[w|na|z] {floor}"
   where: "Gdzie"
   now: "teraz|obecnie|w tej chwili"
   is: "jest|przebywa|znajduje się"
-  what_is: "Jak(a jest|i jest|ie są| jest)"
+  what_is: "Jak(a jest|i jest|ie [jest|są]|ą| jest)"
   where_is: "<where> [<is>]"
   in_here: "(tutaj|w tym miejscu|w tym pokoju|w tym pomieszczeniu)"
-  all: "(wszystkie|wszystkich|każde|całe)"
   how_many_is: "Ile jest"
   activate: "(aktywuj|uaktywnij|rozpocznij|zacznij|uruchom)"
   lock: "zablokuj"
@@ -367,10 +413,40 @@ expansion_rules:
   temp: "temperatur(a|ę|y)|stopni|zimno|gorąco"
   temperature: "{temperature}[°| stopni] [{temperature_unit}]"
   numeric_value_set: "(ustaw|zmień|przestaw|nastaw|zwiększ|zmniejsz)"
+  in: "(w|na)"
   position: "{position}[[ ]%| procent]"
   volume: "{volume:volume_level}[[ ]%| procent]"
+  currently: "(obecnie|w tej chwili)"
+
+  # Context awareness expansion rules
+  all: "(wszys[cy|tkie|tkich]|każd[y|a|e]|całe)"
+  home: "(dom[u]|mieszkani[e|u]|apartamen[t|cie])"
+  everywhere: "(wszędzie|we wszystkich pokojach|w każdym pokoju|w <home>)"
+  here: "(tutaj|w tym pokoju|w pokoju|w tym pomieszczeniu|w pomieszczeniu)"
+
   # Questions
-  what_is_the_class_of_name: "(<what_is> <class> (w|z|wskaz(any|ywana przez)|wymierzon(a|y)) <name> [<area>]|<what_is> <name> <class> [<area>]|<what_is> <area> <name> <class>)"
+  what_is_the_class_of_name: "(<what_is> <class> [z [urzadzenia]|w [urządzeniu]|urządzenia|czujnika|wskaz(uje|any|ywan[a|e|y|ego] [przez])|zmierzone przez [czujnik]] <name> [<area>]|<what_is> <name> <class> [<area>]|<what_is> <area> <name> <class>)"
+
+  # Timers
+  timer: "(minutnik[a|i|u|ów]|zegar[a|ze|y|ów]|tajmer[a|ze|y|ów]|licznik[a|u|i|ów]|czasomierz[a|u|e|y]|stoper[a|ze|y|ów])"
+  timer_plural: "(minutnik[ów|ach]|zegar[ów|ach]|tajmer[ów|ach]|licznik[ów|ach]|czasomierz[y|ach]|stoper[ów|ach])"
+  timer_set: "(uruchom|ustaw|utwórz|rozpocznij|zacznij|włącz|nastaw)"
+  timer_stop: "(zatrzymaj|zastopuj|uśpij|wstrzymaj)"
+  timer_resume: "(wznów|kontynuuj|przywróć|reaktywuj)"
+  timer_remove: "(usu(ń|nąć)|zmniejsz[yć]|odjąć|odejmij|skró(ć|cić)|zreduk(uj|ować))"
+  timer_add: "(doł(óż|ożyć)|zwiększ[yć]|doda(ć|j)|wydłuż[yć]|powiększ[ać])"
+  timer_cancel: "(wyłącz|anuluj|przerwij|zakończ)"
+  timer_state: "(stan|status|podsumowanie)"
+
+  timer_duration_seconds: "{timer_seconds:seconds} sekund[a|ę|y|owy]"
+  timer_duration_minutes: "({timer_minutes:minutes} minut[a|ę|y|owy][ [i |oraz ]{timer_seconds:seconds} sekund[a|ę|y|owy]])|({timer_minutes:minutes} i {timer_half:seconds} minut[a|ę|y|owy])|({timer_half:seconds} minut[a|ę|y|owy])"
+  timer_duration_hours: "({timer_hours:hours} godzin[a|ę|y|ny][ [i |oraz ]{timer_minutes:minutes} minut[a|ę|y|owy]][ [i |oraz ]{timer_seconds:seconds} sekund[a|ę|y|owy]])|({timer_hours:hours} i {timer_half:minutes} godzin[a|ę|y|ny])|({timer_half:minutes} godzin[a|ę|y|ny])"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} sekund[a|ę|y|owy|owym]"
+  timer_start_minutes: "{timer_minutes:start_minutes} minut[a|ę|y|owy|owym][ [i |oraz ]{timer_seconds:start_seconds} sekund[a|ę|y|owy|owym]]"
+  timer_start_hours: "{timer_hours:start_hours} godzin[a|ę|y|ny|nym|nego][ [i |oraz ]{timer_minutes:start_minutes} minut[a|ę|y|owy|owym]][ [i |oraz ]{timer_seconds:start_seconds} sekund[a|ę|y|owy|owym]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - "Proszę"
@@ -382,5 +458,4 @@ skip_words:
   - "Sprawdź mi"
   - "Sprawdź proszę"
   - "Zerknij"
-  - "Podaj"
-  - "Podaj mi"
+  - "Zerknij czy"
