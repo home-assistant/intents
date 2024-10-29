@@ -316,38 +316,43 @@ lists:
     wildcard: true
 
 expansion_rules:
-  area: "[(na|v|ve)] {area}"
-  zapnout: "(zapni|zapnout)"
-  vypnout: "(vypni|vypnout|zastavit|zastav)"
+  v: "(v|ve|na)"
+  area: "[<v>] {area}"
+  tady: "(tady|tu|zde)"
+  zapnout: "zapn(i|out)"
+  spustit: "[s]pus(ť|tit)"
+  vypnout: "(vypn(i|out)|zastav[it])"
   rozsvitit: "(rozsviť|rozsvítit|rožn(i|out))" #some dialect to be served for users :)
-  zhasnout: "(zhasni|zhasnout)"
-  svetla: "(svět(lo|el)|[všech[na] ]svět(la|el))"
-  nastavit: "(nastav|nastavit)"
-  zmenit: "(změň|změnit)"
+  zhasnout: "zhasn(i|out)"
+  svetla: "[všech[na] ]svět(lo|la|el)"
+  nastavit: "nastav[it]"
+  zmenit: "změ(ň|nit)"
   ztlumit: "(ztlu(m|it)|snížit|sniž)"
   zvysit: "zv(yš|ýšit)"
-  teplota: "{temperature}[°| stupňů] [{temperature_unit}]"
+  upravit: "uprav[it]"
+  obecne_zmenit: "(<nastavit>|<zvysit>|<ztlumit>|<zmenit>|<upravit>)"
+  teplota: "{temperature}[ ][°|stupňů][ ][{temperature_unit}]"
   pozice: "{position}[[ ]%| procent]"
   volume: "{volume:volume_level}[[ ]%| procent]"
-
   brightness: "[na] {brightness}[%| procent]"
-  zavrit: "(zavři|zavřít)"
-  otevrit: "(otevři|otevřít)"
+  zavrit: "zavř(i|ít)"
+  otevrit: "otevř(i|ít)"
   roztahnout: "(roz|vy|od)táhn(out|i)"
-  zatahnout: "zatáhn(out|i)"
-  ktere: "(kter(á|é)|jak(é|á))"
-  prejit: "(přejít|přejdi)"
-  je_jsou: "(je|jsou)"
-  v: "(v|ve|na)"
-  y_ej: "(ý|ej)"
-  y_e: "(ý|é)"
+  zatahnout: "(za|s)táhn(out|i)"
+  prejit: "přej(ít|di)"
   koncentrace: "(úroveň|množství|koncentrace)"
-  jaky_je: "(jak<y_e> (je|bude)|jaká (je|bude)|jakou|jaká|jak|kolik|kolik (je|bude))"
+
+  y_e: "(ý|ej|á|é|ých|ejch)"
+  ktere: "(kter<y_e>|jak[<y_e>])"
+  je_jsou: "(byl[(a|o|i|y)]|je|jsou|bud(e|ou))"
+  jaky_je: "((<ktere>|kolik)[  <je_jsou>])"
   jaka_je_class_of_name: >
     (
-       <jaky_je> <class> [(je|byla)] [[(na|z)]měřen(á|ý|é)] [(na|na sen(z|s)oru|sen(z|s)orem)] {name} [<area>]
-       |<jaky_je> <area> <class> (na|z)měřen(á|ý) [(na sen(z|s)oru|sen(z|s)orem)] {name}
+       <jaky_je> (<class>;[<je_jsou>];[[(na|z)]měřen<y_e>]) ([(na|na sen(z|s)oru|sen(z|s)orem) ]{name};[<area>])
+       |<jaky_je> <area> <class> [(na|z)měřen(á|ý) ][(na sen(z|s)oru|sen(z|s)orem) ]{name}
      )
 
 skip_words:
   - "prosím"
+  - "můžeš"
+  - "mohl bys"
