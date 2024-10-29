@@ -99,8 +99,8 @@ responses:
       {%- else -%}
         Désolé, je n'ai rien trouvé de correspondant dans cette pièce
       {%- endif %}
-    no_entity: "Désolé, je ne connais pas l'appareil {{ entity }}"
-    no_entity_in_area: "Désolé, je ne connais pas l'appareil {{ entity }}"
+    no_entity: "Désolé, je ne connais pas cet appareil"
+    no_entity_in_area: "Désolé, je ne connais pas cet appareil"
     no_floor: "Désolé, je ne connais pas l'étage {{ floor }}"
     no_domain_in_floor: |
       {% set translations = {
@@ -148,7 +148,7 @@ responses:
       {%- else -%}
         Désolé, je n'ai rien trouvé de correspondant dans cet étage
       {%- endif %}
-    no_entity_in_floor: "Désolé, je ne connais pas l'appareil {{ entity }}"
+    no_entity_in_floor: "Désolé, je ne connais pas cet appareil"
     entity_wrong_state: |
       {% set translations = {
         "paused": "en pause",
@@ -161,8 +161,8 @@ responses:
       {%- endif %}
     feature_not_supported: Désolé, je n'ai pas trouvé d'appareil qui supporte cette fonctionnalité
     # Errors for when user is logged in and we can give more information
-    no_entity_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
-    no_entity_in_area_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
+    no_entity_exposed: "Désolé, cet appareil n'est pas exposé"
+    no_entity_in_area_exposed: "Désolé, cet appareil n'est pas exposé"
     no_domain_exposed: |
       {% set translations = {
         "button": "aucun bouton n'est exposé",
@@ -255,7 +255,7 @@ responses:
       {%- else -%}
         Désolé, aucun appareil de ce type n'est exposé
       {%- endif %}
-    no_entity_in_floor_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
+    no_entity_in_floor_exposed: "Désolé, cet appareil n'est pas exposé"
     no_domain_in_floor_exposed: |
       {% set translations = {
         "button": "aucun bouton de cet étage n'est exposé",
@@ -678,7 +678,7 @@ expansion_rules:
   diminue: "(diminue|diminuer|baisse|baisser)"
   eclaire: "(éclaire|éclairer|illumine|illuminer)"
   eteins: "(éteint|eteint|éteins|eteins|éteindre|eteindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper|<eteins_dirty>)"
-  ferme: "(ferme|fermer|baisse|baisser)"
+  ferme: "(ferme|fermer|baisse|baisser|<ferme_dirty>)"
   lis: "(lis|lire)"
   mets: "(mets|mettre|passe|passer|<mets_dirty>)"
   ouvre: "(ouvre|ouvrir|monte|monter)"
@@ -688,17 +688,20 @@ expansion_rules:
   cree: "(créer|crée)"
   supprime: "(supprime|supprimer)"
   enleve: "(enlève|enlever|soustrais|soustrait|soustraire|retranche|retrancher)"
-  ajoute: "(ajoute|ajouter|rajoute|rajotuer)"
+  ajoute: "(ajoute|ajouter|rajoute|rajouter)"
+  verrouille: "(verrouiller|verrouille|barre|barrer)"
+  deverrouille: "(déverrouiller|déverrouille)"
 
   # Dirty Verbs. We have some heavy STT limitations today. We're willing to support this hack for now. Ideally this should be removed once we have a better STT engine. Hence the fact that we decided to put it on a different expansion rules. The goal of this expansion rule is to be removed in the future.
   # Éteins
   eteins_dirty: "(étant|étends|étend|étendre|état|et tant|et teins|et teint|et teints|et t'as|été|étais|était)"
   # Mets
   mets_dirty: "(mais|maître)"
+  # ferme
+  ferme_dirty: "faire"
 
   # Domains and Things
-  lumiere: "(lumière|lampe|ampoule)"
-  lumieres: "(lumières|lampes|ampoules)"
+  lumiere: "(lumière[s]|lampe[s]|ampoule[s])"
   ventilateur: "[le ](ventilateur|brasseur d'air)"
   ventilateurs: "[les ](ventilateurs|brasseurs d'air)"
   fenetre: "(fenetre[s]|fenêtre[s]|baie[s]|velux|vélux|lucarne[s])"
@@ -708,6 +711,7 @@ expansion_rules:
   lecture: "(lecture|visionnage)"
   volume: "(volume|son|watt[s])"
   minuteur: "(compte a rebours)|(compte à rebours)|(minuteur)|(décompte)"
+  serrure: "(verrou[s]|serrure[s]|loquet[s]|porte[s])"
 
   ### Timers ###
   # mix numerical and litteral value for seconds, minutes and hours for the setting of the duration of the timmer
