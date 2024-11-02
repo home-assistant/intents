@@ -26,12 +26,26 @@ tests:
       - "bedroom brightness 50%"
       - "bedroom 50%"
       - "turn bedroom to 50%"
+      - "set all the lights in the bedroom to 50%"
+      - "set the lights of the bedroom to 50% brightness"
     intent:
       name: HassLightSet
       slots:
         brightness: 50
         area: Bedroom
-        name: all
+    response: "Brightness set"
+
+  - sentences:
+      - "set the brightness to 50%"
+      - "change the brightness in here to 50 percent"
+      - "turn brightness to 50% in here"
+    intent:
+      name: HassLightSet
+      context:
+        area: Bedroom
+      slots:
+        brightness: 50
+        area: Bedroom
     response: "Brightness set"
 
   - sentences:
@@ -59,13 +73,13 @@ tests:
       slots:
         brightness: 100
         area: Bedroom
-        name: all
     response: "Brightness set"
 
   - sentences:
       - "set the bedroom lamp brightness to the lowest"
       - "change the brightness of bedroom lamp to lowest"
       - "set the bedroom lamp to minimum brightness"
+      - "set the bedroom lamp to min brightness"
     intent:
       name: HassLightSet
       slots:
@@ -78,12 +92,34 @@ tests:
       - "change the brightness of bedroom to lowest"
       - "set the bedroom brightness to the minimum"
       - "change the bedroom to minimum brightness"
+      - "change the bedroom to min brightness"
     intent:
       name: HassLightSet
       slots:
         brightness: 1
         area: Bedroom
-        name: all
+    response: "Brightness set"
+
+  - sentences:
+      - "set the brightness to the max"
+      - "change the brightness in here to highest"
+      - "turn brightness to maximum in here"
+    intent:
+      name: HassLightSet
+      context:
+        area: Bedroom
+      slots:
+        brightness: 100
+        area: Bedroom
+    response: "Brightness set"
+
+  - sentences:
+      - "set the first floor brightness to 50%"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 50
+        floor: First Floor
     response: "Brightness set"
 
   # color
@@ -107,10 +143,33 @@ tests:
       - "change the color of the bedroom to red"
       - "bedroom color red"
       - "bedroom red"
+      - "set the color of all the lights in the bedroom to red"
     intent:
       name: HassLightSet
       slots:
         color: red
         area: Bedroom
-        name: all
+    response: "Color set"
+
+  - sentences:
+      - "make the lights red"
+      - "set the color of all lights in here to red"
+      - "make all the lights red in here"
+    intent:
+      name: HassLightSet
+      context:
+        area: Bedroom
+      slots:
+        color: red
+        area: Bedroom
+    response: "Color set"
+
+  - sentences:
+      - "set the first floor color to red"
+      - "set the first floor to red"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        floor: First Floor
     response: "Color set"

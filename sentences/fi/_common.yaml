@@ -1,12 +1,34 @@
 language: "fi"
 responses:
   errors:
-    no_intent: "Olen pahoillani, en ymmärrä mitä tarkoitat"
-    no_area: "Ei ole aluetta nimellä {{ area }}"
-    no_domain: "{{ area }} ei sisällä {{ domain }}"
-    no_device_class: "{{ area }} ei sisällä {{ device_class }}"
-    no_entity: "Ei laitetta tai kohdetta nimellä {{ entity }}"
-    handle_error: "Asian käsittelyssä tapahtui odottamaton ongelma"
+    # General errors
+    no_intent: "Pahoittelut, en ymmärtänyt"
+    handle_error: "Odottamaton virhe tapahtui"
+
+    # Errors for when user is not logged in
+    no_area: "Aluetta {{ area }} ei löydy"
+    no_domain: "Pahoittelut, yhtäkään {{ domain }} ei löydy"
+    no_domain_in_area: "Pahoittelut, yhtäkään {{ domain }} ei löydy alueelta {{ area }}"
+    no_device_class: "Pahoittelut, yhtäkään {{ device_class }} ei löydy"
+    no_device_class_in_area: "Pahoittelut, yhtäkään {{ device_class }} ei löydy alueelta {{ area }}"
+    no_entity: "Pahoittelut, en löydä laitetta tai kohdetta nimellä {{ entity }}"
+    no_entity_in_area: "Pahoittelut, en löydä laitetta nimellä {{ entity }} alueelta {{ area }}"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Pahoittelut, {{ entity }} ei ole asetettu näkyviin"
+    no_entity_in_area_exposed: "Pahoittelut, {{ entity }} alueella {{ area }} ei ole asetettu näkyviin"
+    no_domain_exposed: "Pahoittelut, yhtäkään {{ domain }} ei ole asetettu näkyviin"
+    no_domain_in_area_exposed: "Pahoittelut, yhtäkään {{ domain }} alueella {{ area }} ei ole asetettu näkyviin"
+    no_device_class_exposed: "Pahoittelut, yhtäkään {{ device_class }} ei ole asetettu näkyviin"
+    no_device_class_in_area_exposed: "Pahoittelut, yhtäkään {{ device_class }} alueella {{ area }} ei ole asetettu näkyviin"
+    no_entity_in_floor_exposed: "Pahoittelut, {{ entity }} ei ole asetettu näkyviin kerroksessa {{ floor }}"
+    no_domain_in_floor_exposed: "Pahoittelut, yhtäkään {{ domain }} ei ole asetettu näkyviin kerroksessa {{ floor }}"
+    no_device_class_in_floor_exposed: "Pahoittelut, yhtäkään {{ device_class }} ei ole asetettu näkyviin kerroksessa {{ floor }}"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Pahoittelut, useita laitteita nimellä {{ entity }} löytyi"
+    duplicate_entities_in_area: "Pahoittelut, useita laitteita nimellä {{ entity }} löytyi alueelta {{ area }}"
+
 lists:
   color:
     values:
@@ -104,6 +126,21 @@ lists:
         out: "locked"
       - in: "(auki|avoinna|lukitsematta)"
         out: "unlocked"
+  shopping_list_item:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
   # On off states
   päälle: "päälle" # on
@@ -126,13 +163,22 @@ expansion_rules:
   # Actions / Verbs
   kerro: "(kerro|näytä|sano)" # tell|show|say
   kytke: "(kytke|laita|aseta)" # toggle|put|set
-  käynnistä: "(käynnistä|starttaa)" # run|start
+  käynnistä: "(käynnistä|starttaa|aja)" # run|start
   pysäytä: "(pysäytä|sammuta|stoppaa)" # stop|turn off|stop
+
   avaa: "(avaa|aukaise|nosta)" # open|open|raise
   sulje: "(sulje|laske)" # close|lower
-  laita: "(kytke|aseta|käännä|säädä|pistä|muuta|laita)" # toggle|set|turn|adjust|put|change (for brightness)
+  laita: "(kytke|aseta|käännä|säädä|pistä|muuta|laita|siirrä)" # toggle|set|turn|adjust|put|change (for brightness, volume and covers)
 
-  kuinka: "(kuinka|miten)" # how..
+  # Position - covers and valves
+  asento: "{position}[[ ]%| prosenttia]"
+  a_prosentti: "{volume:volume_level}[[ ]%| prosentti]"
+  a_prosenttiin: "{volume:volume_level}[[ ]%| prosenttiin]"
+  a_prosenttia: "{volume:volume_level}[[ ]%| prosenttia]"
+  a_prosentiksi: "{volume:volume_level}[[ ]%| prosentiksi]"
+  a_prosentille: "{volume:volume_level}[[ ]%| prosentille]"
+
+  kuinka: "(kuinka|miten|millainen|minkälainen)" # how..
   onko: "(onko|onhan|onkohan|oliko)" # are singular
   ovatko: "(ovatko|olivatko)" # are plural
   paljonko: "(paljonko|mikä|<kuinka> paljon)" # how much|what
@@ -225,6 +271,8 @@ expansion_rules:
   # väreittä: "(väreittä|[väri]sävyittä|värivivahteitta)"
 
   huone: "{area}" # Room, this Finnish version helps when reading sentences
+  paikka: "(kaupunki|kaupungissa|paikka|paikassa|kaupungin|paikan)"
+  nimi: "{name}"
 
   jokin: "(jokin|mikään|joku|ainutkaan|yksikään)" # any - singular
   jotkut: "(jotkut|mitkään|yhdetkään)" # any - plural

@@ -2,21 +2,27 @@ language: nb
 areas:
   - name: Kjøkken
     id: kitchen
+    floor: Første etasje
 
   - name: Stue
     id: living_room
+    floor: Første etasje
 
   - name: Soverom
     id: bedroom
+    floor: Andre etasje
 
   - name: Garasje
     id: garage
+    floor: Kjeller
 
   - name: Bad
     id: bathroom
+    floor: Andre etasje
 
   - name: Inngang
     id: entrance
+    floor: Første etasje
 
 entities:
   - name: Soveromlampe
@@ -135,6 +141,13 @@ entities:
       out: "off"
     attributes:
       device_class: battery
+
+  - name: "Telefon"
+    id: "sensor.phone_battery"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
 
   - name: "Telefon"
     id: "binary_sensor.phone_battery_charging"
@@ -351,3 +364,74 @@ entities:
       out: "on"
     attributes:
       device_class: window
+
+  - name: "Luftfuktighetssensor bad"
+    id: "sensor.bathroom_humidity"
+    area: bathroom
+    state: "55"
+    attributes:
+      device_class: humidity
+      unit_of_measurement: "%"
+
+  - name: "Dagligvarer"
+    id: "todo.dagligvarer"
+    state: ""
+
+  - name: "Oslo"
+    id: "weather.oslo"
+    state: "clear"
+    attributes:
+      temperature: "15"
+      temperature_unit: "°C"
+
+  - name: "Bergen"
+    id: "weather.bergen"
+    state: "rainy"
+    attributes:
+      temperature: "10"
+      temperature_unit: "°C"
+
+  - name: "Hytta"
+    id: "weather.hytta"
+    state: "snowy"
+    attributes:
+      temperature: "-2"
+      temperature_unit: "°C"
+
+  - name: "Dusty"
+    id: "vacuum.dusty"
+    state: "idle"
+
+  - name: "TV"
+    id: "media_player.tv"
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
+  - name: "Hovedkrana"
+    id: "valve.hovedkrana"
+    state: "open"
+    attributes:
+      position: "100"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+
+  - name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+
+  - area: "kitchen"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

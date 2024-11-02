@@ -1,0 +1,64 @@
+---
+language: fr
+tests:
+  # No name
+  - sentences:
+      - "Combien de temps reste-t-il"
+      - "Combien de temps reste-t-il au minuteur"
+      - "Combien de temps reste-t-il sur mon minuteur"
+      - "Combien de temps reste-t-il dans le minuteur"
+      - "Il reste combien de temps"
+      - "Il reste combien de temps au minuteur"
+      - "Il reste combien sur mon minuteur"
+      - "Il reste combien de temps dans le minuteur"
+    intent:
+      name: HassTimerStatus
+    response: |
+      2 minuteurs sont actifs. 1 minuteur est en pause. 3 minutes restante sur le minuteur de 5 minutes dans cuisine
+
+  # area
+  - sentences:
+      - "Combien de temps reste-t-il au minuteur de la cuisine"
+      - "Combien de temps reste-t-il sur le minuteur de la cuisine"
+      - "Combien de temps reste-t-il dans le minuteur de la cuisine"
+      - "Il reste combien de temps au minuteur de la cuisine"
+      - "Il reste combien sur mon minuteur de la cuisine"
+      - "Il reste combien de temps dans le minuteur de la cuisine"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: cuisine
+    response: |
+      3 minutes restante.
+
+  # duration
+  - sentences:
+      - "Combien de temps reste-t-il au minuteur de 5 minutes"
+      - "Combien de temps reste-t-il sur le minuteur de 5 min"
+      - "Combien de temps reste-t-il dans le minuteur de 5 minutes"
+      - "Il reste combien de temps au minuteur de 5 minutes"
+      - "Il reste combien sur mon minuteur de 5 min"
+      - "Il reste combien de temps dans le minuteur de 5 minutes"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_minutes: 5
+    response: |
+      3 minutes restante.
+
+  # name
+  - sentences:
+      - "Combien de temps reste-t-il au minuteur appelé chocolatine"
+      - "Combien de temps reste-t-il sur le minuteur appelé chocolatine"
+      - "Combien de temps reste-t-il dans le minuteur appelé chocolatine"
+      - "Il reste combien de temps au minuteur appelé chocolatine"
+      - "Il reste combien sur mon minuteur appelé chocolatine"
+      - "Il reste combien de temps dans le minuteur appelé chocolatine"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name:
+          - "chocolatine "
+          - "chocolatine"
+    response: |
+      25 minutes restante.

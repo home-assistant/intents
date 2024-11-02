@@ -3,24 +3,57 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<schalten> (<licht>|<lichter>) <area> <an>"
-          - "<schalten> <area> (<licht>|<lichter>) <an>"
-          - "(<licht>|<lichter>) <area> <an>[<schalten>]"
-          - "(<licht>|<lichter>) <an>[<schalten>] <area>"
-          - "<area> (<licht>|<lichter>) <an>[<schalten>]"
-          - "<machen> <area> (<licht>|<lichter>) <an>"
-          - "<machen> (<licht>|<lichter>) <area> <an>"
-          - "<area> (<licht>|<lichter>) <an><machen>"
-          - "(<licht>|<lichter>) <area> <an><machen>"
+          - "<schalten> (<licht>|<lichter>|<alle_lichter>) <area> <an>"
+          - "<schalten> <area> (<licht>|<lichter>|<alle_lichter>) <an>"
+          - "(<licht>|<lichter>|<alle_lichter>) <area> <an>[<schalten>]"
+          - "(<licht>|<lichter>|<alle_lichter>) <an>[<schalten>] <area>"
+          - "<area> (<licht>|<lichter>|<alle_lichter>) <an>[<schalten>]"
+          - "<machen> <area> (<licht>|<lichter>|<alle_lichter>) <an>"
+          - "<machen> (<licht>|<lichter>|<alle_lichter>) <area> <an>"
+          - "(<licht>|<lichter>|<alle_lichter>) <area> <an><machen>"
+          - "<area> (<licht>|<lichter>|<alle_lichter>) <an><machen>"
 
-          - "<schalten> [<lichter>|<alle_lichter>] [<area>] <an>"
-          - "<schalten> [<area>] [<lichter>|<alle_lichter>] <an>"
-          - "[<lichter>|<alle_lichter>] [<area>] <an>[<schalten>]"
-          - "[<area>] [<lichter>|<alle_lichter>] <an>[<schalten>]"
-          - "<machen> [<area>] [<lichter>|<alle_lichter>] <an>"
-          - "<machen> [<lichter>|<alle_lichter>] [<area>] <an>"
-          - "[<area>] [<lichter>|<alle_lichter>] <an><machen>"
-          - "[<lichter>|<alle_lichter>] [<area>] <an><machen>"
+          - "<schalten> <alle_lichter>[ <area>] <an>"
+          - "<schalten>[ <area>] <alle_lichter> <an>"
+          - "<alle_lichter>[ <area>] <an>[<schalten>]"
+          - "[<area> ]<alle_lichter> <an>[<schalten>]"
+          - "<machen>[ <area>] <alle_lichter> <an>"
+          - "<machen> <alle_lichter>[ <area>] <an>"
+          - "[<area> ]<alle_lichter> <an><machen>"
+          - "<alle_lichter>[ <area>] <an><machen>"
+
+        response: "light"
         slots:
           domain: "light"
-        response: light
+
+      # Turn on all lights in the same area as a satellite device
+      - sentences:
+          - "<schalten> (<licht>|<lichter>)[ hier] <an>"
+          - "<schalten>[ hier] (<licht>|<lichter>) <an>"
+          - "(<licht>|<lichter>)[ hier] <an>[<schalten>]"
+          - "[hier ](<licht>|<lichter>) <an>[<schalten>]"
+          - "<machen>[ hier] (<licht>|<lichter>) <an>"
+          - "<machen> (<licht>|<lichter>)[ hier] <an>"
+          - "[hier ](<licht>|<lichter>) <an><machen>"
+          - "(<licht>|<lichter>)[ hier] <an><machen>"
+        response: "light"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
+
+      # Turn on all lights on a floor
+      - sentences:
+          - "<schalten> (<licht>|<lichter>|<alle_lichter>) <floor> <an>"
+          - "<schalten> <floor> (<licht>|<lichter>|<alle_lichter>) <an>"
+          - "(<licht>|<lichter>|<alle_lichter>) <floor> <an>[<schalten>]"
+          - "(<licht>|<lichter>|<alle_lichter>) <an>[<schalten>] <floor>"
+          - "<floor> (<licht>|<lichter>|<alle_lichter>) <an>[<schalten>]"
+          - "<machen> <floor> (<licht>|<lichter>|<alle_lichter>) <an>"
+          - "<machen> (<licht>|<lichter>|<alle_lichter>) <floor> <an>"
+          - "(<licht>|<lichter>|<alle_lichter>) <floor> <an><machen>"
+          - "<floor> (<licht>|<lichter>|<alle_lichter>) <an><machen>"
+        response: "light"
+        slots:
+          domain: "light"

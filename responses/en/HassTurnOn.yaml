@@ -2,11 +2,34 @@ language: en
 responses:
   intents:
     HassTurnOn:
-      default: "Turned on {{ state.domain }}"
-      lights_area: "Turned on lights"
-      fans_area: "Turned on fans"
+      default: >-
+        {% set translations = {
+          "button": "the button",
+          "camera": "the camera",
+          "input_button": "the button",
+          "alarm_control_panel": "the alarm",
+          "automation": "the automation",
+          "fan": "the fan",
+          "climate": "the thermostat",
+          "humidifier": "the humidifier",
+          "input_boolean": "the switch",
+          "siren": "the siren",
+          "water_heater": "the water heater",
+          "light": "the light",
+          "switch": "the switch",
+          "remote": "the remote",
+          "vacuum": "the vacuum cleaner",
+          "media_player": "the media player",
+          "lawn_mower": "the lawn mower"
+        } %}
+        Turned on {{ translations.get(state.domain) }}
+      lights_area: "Turned on the lights"
+      lights_floor: "Turned on the lights"
+      light_all: "Turned on all of the lights"
+      fans_area: "Turned on the fans"
       cover: "Opened"
-      cover_device_class: "Opened {{ slots.device_class }}"
+      cover_device_class: "Opened the {{ slots.device_class }}"
       scene: "Activated"
       script: "Started"
       lock: "Locked"
+      valve: "Opened"

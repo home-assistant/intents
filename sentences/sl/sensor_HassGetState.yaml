@@ -1,0 +1,623 @@
+language: sl
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/sensor/
+      # Apparent power
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: apparent_power
+        slots:
+          domain: sensor
+          device_class: apparent_power
+        expansion_rules:
+          class: "navidezna moč"
+
+      # AQI
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: aqi
+        slots:
+          domain: sensor
+          device_class: aqi
+        expansion_rules:
+          class: "(AQI|[indeks] kakovost[i] zraka|kvalitet(e|a) zraka)"
+
+      # Atmospheric pressure
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: atmospheric_pressure
+        slots:
+          domain: sensor
+          device_class: atmospheric_pressure
+        expansion_rules:
+          class: "(zračnega tlaka|zračni tlak) [zraka]"
+
+      # Battery
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "koliko [preostale] baterije [še] ima <name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: battery
+        slots:
+          domain: sensor
+          device_class: battery
+        expansion_rules:
+          class: "[preostal(a|e)] [raven] baterij(a|e) | napolnjenost baterije"
+
+      # CO2
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: carbon_dioxide
+        slots:
+          domain: sensor
+          device_class: carbon_dioxide
+        expansion_rules:
+          class: "[koncentracija|raven|stopnja] (oglikov[ega] dioksid[a]|CO2|co2)"
+
+      # CO
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: sensor
+          device_class: carbon_monoxide
+        expansion_rules:
+          class: "[koncentracija|raven|stopnja] (oglikov[ega] monoksid[a]|CO|co)"
+
+      # Current
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: current
+        slots:
+          domain: sensor
+          device_class: current
+        expansion_rules:
+          class: "[količina|vrednost] [električn[i|ega]] tok[a]"
+
+      # Data rate
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: data_rate
+        slots:
+          domain: sensor
+          device_class: data_rate
+        expansion_rules:
+          class: "[([hitrost] prenosa [podatkov]|[hitrost] nalaganj(a|e) [podatkov])]"
+
+      # Data size
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: data_size
+        slots:
+          domain: sensor
+          device_class: data_size
+        expansion_rules:
+          class: "(velikost [datoteke]|(velikost) podatk(ov|a))"
+
+      # Date
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "(kdaj|katerega) ((je|bo|je bil) <name>|se (bo|je) [zgodil[o|a|i]] <name>)"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: date
+        slots:
+          domain: sensor
+          device_class: date
+        expansion_rules:
+          class: "[koledar[ski]] dogodek| termin| datum"
+
+      # Distance
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "(kakšna je) <class> [na|v] <name>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: distance
+        slots:
+          domain: sensor
+          device_class: distance
+        expansion_rules:
+          class: "[prevožena|prehojena|prekolesarjena|preletena|narejena|opravljena] razdalja"
+
+      # Duration
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "(kakšno je) <class> [v|na] <name>"
+        response: one_sensor
+        requires_context:
+          domain: sensor
+          device_class: duration
+        slots:
+          domain: sensor
+          device_class: duration
+        expansion_rules:
+          class: "trajanje|čas do konca"
+
+      # Energy
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: energy
+        slots:
+          domain: sensor
+          device_class: energy
+        expansion_rules:
+          class: "[količina] energij(a|e)"
+
+      # Energy storage
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: energy_storage
+        slots:
+          domain: sensor
+          device_class: energy_storage
+        expansion_rules:
+          class: "[[skupna] količina] [energije] [shranjene] [energij(a|e)]"
+
+      # Frequency
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: frequency
+        slots:
+          domain: sensor
+          device_class: frequency
+        expansion_rules:
+          class: "frekvenca"
+
+      # Gas
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: gas
+        slots:
+          domain: sensor
+          device_class: gas
+        expansion_rules:
+          class: "(količina|volumen) plina"
+
+      # Humidity
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+          - "kakšna <class> je [v|na] <name>"
+
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: humidity
+        slots:
+          domain: sensor
+          device_class: humidity
+        expansion_rules:
+          class: "[([relativna] vlažnost [v zraku])] [zraka]"
+
+      # Illuminance
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: illuminance
+        slots:
+          domain: sensor
+          device_class: illuminance
+        expansion_rules:
+          class: "([stopnja] (osvetljenost[i] | osvetlit(ve|ev) | svetlob(a|e) | svetlost[i]))"
+
+      # Irradiance
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: irradiance
+        slots:
+          domain: sensor
+          device_class: irradiance
+        expansion_rules:
+          class: "([količina|stopnja] [ob]sevan(ja|je|ost[i]))"
+
+      # Moisture
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: moisture
+        slots:
+          domain: sensor
+          device_class: moisture
+        expansion_rules:
+          class: "([relativna] vlaga|(procent|odstotek|razmerje) vode)"
+
+      # Monetary
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: monetary
+        slots:
+          domain: sensor
+          device_class: monetary
+        expansion_rules:
+          class: "strošek"
+
+      # Nitrogen dioxide
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: nitrogen_dioxide
+        slots:
+          domain: sensor
+          device_class: nitrogen_dioxide
+        expansion_rules:
+          class: "[koncentracija|stopnja] (dušikov[ega] dioksid[a]|NO2)"
+
+      # Nitrogen monoxide
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: nitrogen_monoxide
+        slots:
+          domain: sensor
+          device_class: nitrogen_monoxide
+        expansion_rules:
+          class: "[koncentracija|stopnja|vrednost] (dušikov[ega] monoksid[a]|NO)"
+
+      # Nitrous oxide
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: nitrous_oxide
+        slots:
+          domain: sensor
+          device_class: nitrous_oxide
+        expansion_rules:
+          class: "[koncentracija|stopnja|vrednost] (dušikov[ega] oksid[a]|[koncentracija|stopnja|vrednost] N2O)"
+
+      # Ozone
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: ozone
+        slots:
+          domain: sensor
+          device_class: ozone
+        expansion_rules:
+          class: "[koncentracija|stopnja|vrednost] [za] (ozon(a))|[koncentracija|stopnja|vrednost] O3"
+
+      # PM1
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: pm1
+        slots:
+          domain: sensor
+          device_class: pm1
+        expansion_rules:
+          class: "((stopnja|koncentracija|vrednost) PM1 [delcev]|PM1 [delci])"
+
+      # PM2.5
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: pm25
+        slots:
+          domain: sensor
+          device_class: pm25
+        expansion_rules:
+          class: "((stopnja|koncentracija|vrednost) (PM2.5|pe em dva cela pet|PM dva cela pet|PM 2,5) [delcev]|(PM2.5|PM2,5|pe em dva cela pet|PM dva cela pet) [delci])"
+
+      # PM10
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: pm10
+        slots:
+          domain: sensor
+          device_class: pm10
+        expansion_rules:
+          class: "((stopnja|koncentracija|vrednost) (PM10|pe em 10|PM 10|PM deset) [delcev]|(PM10|PM10|pe em dest|PM 10) [delci])"
+
+      # Power factor
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: power_factor
+        slots:
+          domain: sensor
+          device_class: power_factor
+        expansion_rules:
+          class: "faktor moči"
+
+      # Power
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: power
+        slots:
+          domain: sensor
+          device_class: power
+        expansion_rules:
+          class: "moč"
+
+      # Precipitation
+      - sentences:
+          - "kakšna je <class> [ki jo [je]] [ki je] (prikazuje|prikazana|zaznal|zaznava|detektiral|detektira) [na] <name> [[v|na] <area>]"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: precipitation
+        slots:
+          domain: sensor
+          device_class: precipitation
+        expansion_rules:
+          class: "[[skupna] količina] padavin"
+
+      # Precipitation intensity
+      - sentences:
+          - "kakšna je <class> [ki jo [je]] [ki je] (prikazuje|prikazana|zaznal|zaznava|detektiral|detektira) [na] <name> [[v|na] <area>]"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: precipitation_intensity
+        slots:
+          domain: sensor
+          device_class: precipitation_intensity
+        expansion_rules:
+          class: "(intenziteta|jakost|stopnja) (padavin|dežja|snega)"
+
+      # Pressure
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: pressure
+        slots:
+          domain: sensor
+          device_class: pressure
+        expansion_rules:
+          class: "tlak"
+
+      # Reactive power
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: reactive_power
+        slots:
+          domain: sensor
+          device_class: reactive_power
+        expansion_rules:
+          class: "jalov(e|a) moč[i]"
+
+      # Signal strength
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: signal_strength
+        slots:
+          domain: sensor
+          device_class: signal_strength
+        expansion_rules:
+          class: "moč signala"
+
+      # Sound pressure
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: sound_pressure
+        slots:
+          domain: sensor
+          device_class: sound_pressure
+        expansion_rules:
+          class: "(zvočni|akustični) tlak"
+
+      # Speed
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: speed
+        slots:
+          domain: sensor
+          device_class: speed
+        expansion_rules:
+          class: "hitrost"
+
+      # Sulphur dioxide
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: sulphur_dioxide
+        slots:
+          domain: sensor
+          device_class: sulphur_dioxide
+        expansion_rules:
+          class: "((koncentracija|stopnja) (žveplov[ega] dioksid[a]|SO2))"
+
+      # Temperature
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value_temperature
+        requires_context:
+          domain: sensor
+          device_class: temperature
+        slots:
+          domain: sensor
+          device_class: temperature
+        expansion_rules:
+          class: "temperatura"
+
+      # Skipping Timestamp
+
+      # Volatile organic compounds
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: volatile_organic_compounds
+        slots:
+          domain: sensor
+          device_class: volatile_organic_compounds
+        expansion_rules:
+          class: "([kocentracija|stopnja|indeks] (VOC[ja]|[hlapljiv(ih|e)] organsk(e|ih) spojin[e]))"
+
+      # Volatile organic compounds
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: volatile_organic_compounds_parts
+        slots:
+          domain: sensor
+          device_class: volatile_organic_compounds_parts
+        expansion_rules:
+          class: "([kocentracija|stopnja|indeks] (VOC[ja]|[hlapljiv(ih|e)] organsk(e|ih) spojin[e]))"
+
+      # Voltage
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: voltage
+        slots:
+          domain: sensor
+          device_class: voltage
+        expansion_rules:
+          class: "[padec] napetost[i]"
+
+      # Volume
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: volume
+        slots:
+          domain: sensor
+          device_class: volume
+        expansion_rules:
+          class: "(volumen|prostornina|količina)"
+
+      # Volume storage
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: volume_storage
+        slots:
+          domain: sensor
+          device_class: volume_storage
+        expansion_rules:
+          class: "[skupna] (količina|prostornina|volumen) [shranjena]"
+
+      # Water
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: water
+        slots:
+          domain: sensor
+          device_class: water
+        expansion_rules:
+          class: "([skupna] [količina] [porabljene] vode|[skupna] poraba vode)"
+
+      # Weight
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: weight
+        slots:
+          domain: sensor
+          device_class: weight
+        expansion_rules:
+          class: "(utež|masa|teža)"
+
+      # Wind speed
+      - sentences:
+          - "<kaksna_je_vrednost_senzorja>"
+        response: sensor_value
+        requires_context:
+          domain: sensor
+          device_class: wind_speed
+        slots:
+          domain: sensor
+          device_class: wind_speed
+        expansion_rules:
+          class: "hitrost [vetra]"

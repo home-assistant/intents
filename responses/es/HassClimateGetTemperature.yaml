@@ -4,4 +4,4 @@ responses:
     HassClimateGetTemperature:
       default: >
         {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
-        {{ temperature | float | abs | round(1) }} {{ 'grado' if temperature | float | abs == 1 else 'grados' }} {{ 'bajo cero' if temperature | float < 0 else '' }}
+        {{ temperature | float | abs | round(1) | replace('.0', '') | replace('.',',') }} {{ 'grado' if temperature | float | abs == 1 else 'grados' }} {{ 'bajo cero' if temperature | float < 0 else '' }}

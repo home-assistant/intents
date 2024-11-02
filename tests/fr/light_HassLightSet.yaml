@@ -13,6 +13,9 @@ tests:
       - "lampe de chevet 50% luminosité"
       - "lampe de chevet luminosité 50%"
       - "Baisse la lumière de lampe de chevet à 50%"
+      - "Monte la lampe de chevet à 50%"
+      - "Baisse la lampe de chevet à 50 %"
+
     intent:
       name: HassLightSet
       slots:
@@ -32,12 +35,30 @@ tests:
       - "cuisine 50% luminosité"
       - "cuisine luminosité 50%"
       - "Augmente la lumière de la cuisine à 50%"
+      - "Monter la cuisine à 50 %"
+      - "Baisser la cuisine à 50 %"
+
     intent:
       name: HassLightSet
       slots:
         brightness: 50
         area: cuisine
-        name: all
+    response: Luminosité réglée
+
+    # brightness (area + context awareness)
+  - sentences:
+      - Baisse la luminosité à 40%
+      - Allumer la lumière à 40%
+      - Allume à 40% de luminosité
+      - Luminosité 40%
+      - 40% de luminosité
+    intent:
+      name: HassLightSet
+      context:
+        area: bureau
+      slots:
+        brightness: 40
+        area: bureau
     response: Luminosité réglée
 
   # brightness (name + area)
@@ -53,12 +74,34 @@ tests:
       - "lampe de chevet chambre 50% luminosité"
       - "lampe de chevet chambre luminosité 50%"
       - "Augmente la luminosité de la lampe de chevet dans la chambre à 50%"
+      - "Allume la lampe de chevet de la chambre à 50 %"
     intent:
       name: HassLightSet
       slots:
         brightness: 50
         name: lampe de chevet
         area: chambre
+    response: Luminosité réglée
+
+  # brightness (floor)
+  - sentences:
+      - "règle la luminosité du rez-de-chaussée à 50%"
+      - "règle la luminosité du rez-de-chaussée à 50 pourcent"
+      - "règle la luminosité dans le rez-de-chaussée à 50%"
+      - "changer luminosité rez-de-chaussée à 50%"
+      - "met le rez-de-chaussée à 50% de luminosité"
+      - "luminosité du rez-de-chaussée à 50%"
+      - "luminosité rez-de-chaussée 50%"
+      - "rez-de-chaussée 50% luminosité"
+      - "rez-de-chaussée luminosité 50%"
+      - "Augmente la lumière du rez-de-chaussée à 50%"
+      - "Monter le rez-de-chaussée à 50 %"
+      - "Baisser le rez-de-chaussée à 50 %"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 50
+        floor: Rez-De-Chaussée
     response: Luminosité réglée
 
   # color (name)
@@ -86,7 +129,20 @@ tests:
       slots:
         color: red
         area: cuisine
-        name: all
+    response: Couleur réglée
+
+  # color (area + context awareness)
+  - sentences:
+      - mets la couleur en vert
+      - régler la couleur des lumières en vert
+      - allume les lumières en vert
+    intent:
+      name: HassLightSet
+      context:
+        area: salle de bains
+      slots:
+        color: green
+        area: salle de bains
     response: Couleur réglée
 
   # color (name + area)
@@ -130,5 +186,18 @@ tests:
       slots:
         area: chambre
         color: red
-        name: all
+    response: Couleur réglée
+
+  # color (floor)
+  - sentences:
+      - "règle le rez-de-chaussée en rouge"
+      - "allume le rez-de-chaussée en rouge"
+      - "régler le rez-de-chaussée en rouge"
+      - "règle les lumières du rez-de-chaussée en rouge"
+      - "allume les lumières du rez-de-chaussée en rouge"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        floor: Rez-De-Chaussée
     response: Couleur réglée

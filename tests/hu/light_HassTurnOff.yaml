@@ -1,15 +1,43 @@
 language: hu
 tests:
   - sentences:
-      - kapcsold le a lámpát a nappaliban
-      - kapcsold ki a lámpákat a nappaliban
-      - kapcsold ki a nappaliban a lámpát
-      - kapcsold le a nappaliban a lámpákat
-      - oltsd le a lámpát a nappaliban
-      - oltsd el a nappaliban a lámpát
+      - kapcsold ki a nappali lámpákat
+      - kapcsolj ki minden lámpát a nappaliban
+      - kapcsold ki a világítást a nappaliban
+      - oltsd el az összes lámpát a nappaliban
+      - Az összes lámpát kapcsold le a nappaliban
+      - A nappaliban minden lámpát kapcsolj le
+      - A nappali lámpákat kapcsold le
+      - nappali lámpák ki
     intent:
       name: HassTurnOff
       slots:
-        area: Nappali
+        area: nappali
         domain: light
         name: all
+    response: "A nappali lámpák kikapcsolva"
+
+  - sentences:
+      - Kapcsold le mindenütt a lámpákat
+      - A lámpákat kapcsold le mindenhol
+      - Mindenütt kapcsold le az összes lámpát
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        name: all
+    response: "Az összes lámpa kikapcsolva"
+
+  - sentences:
+      - "Kapcsold ki az összes lámpát"
+      - "Kapcsold le az összes lámpát itt"
+      - "Kapcsold ki az összes lámpát ahol vagyok"
+      - "Ahol vagyok kapcsold le a lámpákat"
+    intent:
+      name: HassTurnOff
+      context:
+        area: nappali
+      slots:
+        domain: light
+        area: nappali
+    response: "A nappali lámpák kikapcsolva"

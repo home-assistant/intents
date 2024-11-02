@@ -3,11 +3,18 @@ intents:
   HassTurnOff:
     data:
       - sentences:
+          - "<zapri> <name> [[v|na] <area>]"
+        requires_context:
+          domain: cover
+        response: cover
+
+      - sentences:
           - "<zapri> {cover_classes:device_class} [v|na] [<area>]"
           - "<zapri> [<area>] {cover_classes:device_class}"
         slots:
           domain: cover
         response: cover_device_class
+
       - sentences:
           - "<zapri> <name>"
         requires_context:
@@ -25,7 +32,7 @@ intents:
             - window
         response: cover_single
       - sentences:
-          - "<zapri> <name> [v|na] [<area>]"
+          - "<zapri> <name> [v|na] <area>"
         requires_context:
           domain: cover
         slots:
@@ -40,3 +47,15 @@ intents:
             - shutter
             - window
         response: cover_single
+
+      - sentences:
+          - "<zapri> {cover_classes:device_class} [<in_here>]"
+          - "[<in_here>] <zapri> {cover_classes:device_class}"
+        expansion_rules:
+          in_here: "v tem prostoru| tukaj| tu"
+        slots:
+          domain: cover
+        response: cover_device_class
+        requires_context:
+          area:
+            slot: true

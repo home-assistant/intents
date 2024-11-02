@@ -1,11 +1,14 @@
 language: sl
 areas:
-  - name: "spalnic(i|a)"
+  - name: "spalnic(i|a|o|e)"
     id: bedroom
-  - name: "garaž(a|i|o|na|ne|ni)"
+    floor: "drug(o|em) nadstropj(e|u)"
+  - name: "garaž(a|e|i|o|na|ne|ni)"
     id: garage
+    floor: "pritlič(ju|e)"
   - name: "pisarn(a|i|o)|kabinet(a|u)"
     id: office
+    floor: "klet[i]"
   - name: "balkon(u)"
     id: balcony
   - name: "teras(a|i|o)"
@@ -22,18 +25,22 @@ areas:
     id: wardrobe
   - name: "stranišč(e|u|ih)|(v|w)c[ju]"
     id: wc
-  - name: "stopnišč(e|u|ih)|stipnic(e|ah|i)"
+  - name: "stopnišč(e|u|ih)|stopnic(e|ah|i)"
     id: staircase
-  - name: "kuhinj(o|a|i|ska|sko|ski)"
+  - name: "kuhinj(o|a|i|ska|sko|ski|ske)"
     id: kitchen
+    floor: "prv(o|em) nadstropj(u|e)"
   - name: "dnevna soba|dnevni sobi|dnevne sobe|dnevn(a|i)"
     id: living_room
+    floor: "prv(o|em) nadstropj(u|e)"
   - name: "kopalni(ca|ci|co|cah|cama|ška|ški|ške)"
     id: bathroom
+    floor: "drug(o|em) nadstropj(u|e)"
   - name: "utility"
     id: utility
+    floor: "klet[i]"
 entities:
-  - name: "nočn(a|e|i|o) (svetil(ka|ke|a|o)|nočn(a|o|e|i) razsvetljav(a|i|o)|nočn(a|e|i|o) luč[ka|i|ke|ki|ko])"
+  - name: "luč[ko|i] v spalnici"
     id: light.bedroom_lamp
     area: bedroom
     state: "off"
@@ -48,7 +55,7 @@ entities:
     area: terrace
     state: "closed"
 
-  - name: "luč[i|ke|ki] na balkonu"
+  - name: "balkon"
     id: light.balcony
     area: balcony
     state: "off"
@@ -99,13 +106,16 @@ entities:
     state: "open"
     attributes:
       device_class: curtain
-  - name: "zaves(a|i|o|e)"
-    id: cover.curtain
-    area: living_room
+
+  - name: "zaves(a|o) v spalnici"
+    id: "cover.bedroom"
+    area: "bedroom"
     state: "closed"
     attributes:
       device_class: curtain
-  - name: "žaluzij(a|e|i|o)"
+      position: "0"
+
+  - name: "prv(a|o)"
     id: cover.blinds
     area: living_room
     state: "open"
@@ -118,7 +128,7 @@ entities:
     attributes:
       device_class: gate
 
-  - name: "garaž(a|na|ne|i|o)"
+  - name: "garažo"
     id: cover.garage_doors
     area: "garage"
     state: "closed"
@@ -139,7 +149,7 @@ entities:
     attributes:
       device_class: window
 
-  - name: "strešn(a|o|i) okn(o|i|a)"
+  - name: "strešno okno"
     id: cover.ceiling_window
     area: "kitchen"
     state: "open"
@@ -184,21 +194,21 @@ entities:
     area: "living_room"
     state: "heat"
     attributes:
-      current_temperature: 21
+      current_temperature: 21.2
 
-  - name: "zunanja | zunaj | balkonu"
-    id: "sensor.outside_temperature"
-    state: "17"
-    area: "balcony"
-    attributes:
-      current_temperature: 17
-
-  - name: "temperatura dnevna soba"
-    id: "sensor.living_room"
+  - name: "Kuhinja temperatura"
+    id: "sensor.kitchen_temperature"
     state: "21"
-    area: "living_room"
+    area: "kitchen"
     attributes:
-      unit_of_measurement: "stopinj"
+      current_temperature: 21.2
+
+  - name: "termostat"
+    id: "climate.thermostat"
+    area: "living_room"
+    state: "heat"
+    attributes:
+      current_temperature: 2
   #locks
   - name: "vhodna vrata"
     id: "lock.front_door"
@@ -226,25 +236,30 @@ entities:
 
   - name: "v Mariboru"
     id: "weather.maribor"
-    state: "deževno"
+    state: "rainy"
     attributes:
-      temperature: "21"
-      temperature_unit: "stopinj"
-  - name: "opravila"
+      temperature: "2"
+      temperature_unit: "°C"
+
+  - name: "opravila|opravilom"
     id: "todo.opravila"
     state: ""
+
   - name: "v Benetkah"
     id: "weather.benetke"
-    state: "jasno"
+    state: "clear"
     attributes:
-      temperature: "28"
-      temperature_unit: "stopinj"
+      temperature: "-1.3"
+      temperature_unit: "°C"
+
   - name: "Lev"
     id: "person.Lev"
     state: "doma"
+
   - name: "Arya"
     id: "person.arya"
     state: "v službi"
+
   - name: "Jon"
     id: "person.jon"
     state: "ni doma"
@@ -301,7 +316,7 @@ entities:
   - name: "telefon"
     id: "binary_sensor.phone_connectivity"
     state:
-      in: "priključen"
+      in: "povezan"
       out: "on"
     attributes:
       device_class: connectivity
@@ -321,3 +336,541 @@ entities:
       out: "off"
     attributes:
       device_class: garage_door
+
+  - name: "plin"
+    id: "binary_sensor.gas"
+    area: "kitchen"
+    state:
+      in: "čisto"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "računalnik"
+    id: "binary_sensor.computer_heat"
+    state:
+      in: "vroč[i|e|ih]|top[el|li|lo|le|ih]"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "svetloba"
+    id: "binary_sensor.light"
+    state:
+      in: "ni svetlobe"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "vrata za hišne ljubljenčke"
+    id: "binary_sensor.pet_door_lock"
+    state:
+      in: "odklenjena"
+      out: "on"
+    attributes:
+      device_class: lock
+
+  - name: "kuhinjski senzor puščanja vode"
+    id: "binary_sensor.water_sensor"
+    area: kitchen
+    state:
+      in: "suho"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "[senzor] gibanj(a|e)"
+    id: "binary_sensor.garage_motion"
+    area: "garage"
+    state:
+      in: "vključen"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "senzor zasedenosti"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "kitchen"
+    state:
+      in: "vključen"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "vrata lope"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "zaprta"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "telefon"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "priključen"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "razdeliln[a|e] omaric[a|e]"
+    id: "binary_sensor.power"
+    state:
+      in: "napajano"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "iPhone"
+    id: "binary_sensor.presence"
+    state:
+      in: "odsoten"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "hranilnik[om] za psa"
+    id: "binary_sensor.problem"
+    area: "kitchen"
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "pralni stroj"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "running"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "cest(a|e)"
+    id: "binary_sensor.road_safety"
+    state:
+      in: "varn(o|a|e|i)"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "kuhinjski dim"
+    id: "binary_sensor.kitchen_smoke"
+    area: "kitchen"
+    state:
+      in: "čisto"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "trobilka"
+    id: "binary_sensor.sound"
+    area: "garage"
+    state:
+      in: "vključena"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "shramba piškotov"
+    id: "binary_sensor.cookie_stash_tamper"
+    state:
+      in: "clear"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "telefon"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "posodobitev je na voljo"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "telefon"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "ne vibrira"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "okno lope"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "odprto"
+      out: "on"
+    attributes:
+      device_class: window
+
+  - name: "glavni ventil"
+    id: "valve.main_valve"
+    state: "open"
+    attributes:
+      position: "100"
+
+  - name: "TV"
+    id: "media_player.tv"
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
+  - name: "Rover"
+    id: "vacuum.rover"
+    state: "idle"
+
+  # https://www.home-assistant.io/integrations/sensor/
+  - name: "zamrzovalnik[a]"
+    id: "sensor.appliance_apparent_power"
+    state: "2"
+    attributes:
+      device_class: apparent_power
+      unit_of_measurement: "VA"
+
+  - name: "kuhinjsk(ega|i) senzor[ja] kakovosti zraka"
+    id: "sensor.kitchen_aqi_sensor"
+    state: "50"
+    attributes:
+      device_class: aqi
+
+  - name: "spalnici"
+    id: "sensor.bedroom_aqi_sensor"
+    state: "30"
+    area: "bedroom"
+    attributes:
+      device_class: aqi
+
+  - name: "[zunanj(i|ega)] [senzor[ja]] [zraka] | (zračni tlak zunaj)"
+    id: "sensor.outside_pressure"
+    state: "1000"
+    area: "balcony"
+    attributes:
+      device_class: atmospheric_pressure
+      unit_of_measurement: "hPa"
+
+  - name: "moj[ega] telefon[a]"
+    id: "sensor.my_phone_battery"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "spalnici"
+    id: "sensor.bedroom_co2"
+    state: "50"
+    attributes:
+      device_class: carbon_dioxide
+      unit_of_measurement: "ppm"
+
+  - name: "kotlovnici"
+    id: "sensor.heat_pump_co"
+    state: "48"
+    attributes:
+      device_class: carbon_monoxide
+      unit_of_measurement: "ppm"
+
+  - name: "hišni omarici"
+    id: "sensor.house_current"
+    state: "19"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"
+
+  - name: "Macrotorrent[a]"
+    id: "sensor.macrotorrent_download_speed"
+    state: "22.9"
+    attributes:
+      device_class: data_rate
+      unit_of_measurement: "MB/s"
+
+  - name: "Datotek(e|a) dnevnik[a]"
+    id: "sensor.log_file_size"
+    state: "106"
+    attributes:
+      device_class: data_size
+      unit_of_measurement: "kB"
+
+  - name: "Naslednji rojstni dan"
+    id: "sensor.next_birthday"
+    state: "2024-04-01"
+    attributes:
+      device_class: date
+
+  - name: "Odomet(ra|er|ru)"
+    id: "sensor.car_mileage"
+    state: "65536"
+    attributes:
+      device_class: distance
+      unit_of_measurement: "km"
+
+  - name: "Trenutn(i|ega) program[a] pomivalnega stroja"
+    id: "sensor.dishwasher_program_duration"
+    state: "64"
+    attributes:
+      device_class: duration
+      unit_of_measurement: "min"
+
+  - name: "Proizvodnj(a|e) iz sonca"
+    id: "sensor.solar_production"
+    state: "3.2"
+    attributes:
+      device_class: energy
+      unit_of_measurement: "kWh"
+
+  - name: "hranilnik[u]"
+    id: "sensor.powerwall_stored_energy"
+    state: "6"
+    attributes:
+      device_class: energy_storage
+      unit_of_measurement: "kWh"
+
+  - name: "omrežj(a|e) AC"
+    id: "sensor.grid_frequency"
+    state: "51"
+    attributes:
+      device_class: frequency
+      unit_of_measurement: "Hz"
+
+  - name: "mesečne porabe"
+    id: "sensor.monthly_gas_consumption"
+    state: "12"
+    attributes:
+      device_class: gas
+      unit_of_measurement: "m³"
+
+  - name: "dnevni sobi"
+    id: "sensor.living_room_humidity"
+    state: "48"
+    attributes:
+      device_class: humidity
+      unit_of_measurement: "%"
+
+  - name: "dnevni sobi"
+    id: "sensor.living_room_illuminance"
+    state: "438"
+    attributes:
+      device_class: illuminance
+      unit_of_measurement: "lux"
+
+  - name: "dnevni sobi"
+    id: "sensor.living_room_heater_irradiance"
+    state: "155"
+    attributes:
+      device_class: irradiance
+      unit_of_measurement: "W/m²"
+
+  - name: "pivovarnišk(em|i) mešalnik[u]"
+    id: "sensor.bewery_mixer_moisture"
+    state: "83"
+    attributes:
+      device_class: moisture
+      unit_of_measurement: "%"
+
+  - name: "cen(e|a) na kw"
+    id: "sensor.price_per_kW"
+    state: "1"
+    attributes:
+      device_class: monetary
+      unit_of_measurement: "EUR"
+
+  - name: "črpalk(a|i)"
+    id: "sensor.heat_pump_no2"
+    state: "50"
+    attributes:
+      device_class: nitrogen_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "črpalk(a|i|e)"
+    id: "sensor.heat_pump_no"
+    state: "50"
+    attributes:
+      device_class: nitrogen_monoxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "črpalk(a|i|e)"
+    id: "sensor.heat_pump_n2o"
+    state: "50"
+    attributes:
+      device_class: nitrous_oxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "senzor(ju) ozona v dnevni sobi"
+    id: "sensor.living_room_ozone"
+    state: "50"
+    attributes:
+      device_class: ozone
+      unit_of_measurement: "µg/m³"
+
+  - name: "PM1 delc(i|ev) v dnevni sobi"
+    id: "sensor.living_room_pm1"
+    state: "50"
+    attributes:
+      device_class: pm1
+      unit_of_measurement: "µg/m³"
+
+  - name: "PM2.5 delc(i|ev) v dnevni sobi"
+    id: "sensor.living_room_pm25"
+    state: "50"
+    attributes:
+      device_class: pm25
+      unit_of_measurement: "µg/m³"
+
+  - name: "PM10 delc(i|ev) v dnevni sobi"
+    id: "sensor.living_room_pm10"
+    state: "50"
+    attributes:
+      device_class: pm10
+      unit_of_measurement: "µg/m³"
+
+  - name: "[Faktor moči] stenske vtičnice"
+    id: "sensor.wall_plug_power_factor"
+    state: "2"
+    attributes:
+      device_class: power_factor
+
+  - name: "klimatske naprave"
+    id: "sensor.aircon_power"
+    state: "380"
+    attributes:
+      device_class: power
+      unit_of_measurement: "W"
+
+  - name: "zunanji senzor za dež"
+    id: "sensor.rain_sensor_total"
+    state: "29"
+    attributes:
+      device_class: precipitation
+      unit_of_measurement: "mm"
+
+  - name: "zunanji senzor za dež"
+    id: "sensor.rain_sensor_intensity"
+    state: "144"
+    attributes:
+      device_class: precipitation_intensity
+      unit_of_measurement: "mm/h"
+
+  - name: "pnevmatikah poltovornjaka"
+    id: "sensor.tyre_pressure"
+    state: "2.1"
+    attributes:
+      device_class: pressure
+      unit_of_measurement: "bar"
+
+  - name: "vodne črpalke"
+    id: "sensor.water_pump_reactive_power"
+    state: "22"
+    attributes:
+      device_class: reactive_power
+      unit_of_measurement: "VAR"
+
+  - name: "moj[ega] telefon[a]"
+    id: "sensor.my_phone_gsm_signal"
+    state: "-43"
+    attributes:
+      device_class: signal_strength
+      unit_of_measurement: "dBm"
+
+  - name: "zvočn(ega|em|i) sistem[a|u]"
+    id: "sensor.sound_bar_sound_pressure"
+    state: "62"
+    attributes:
+      device_class: sound_pressure
+      unit_of_measurement: "dB"
+
+  - name: "poltovornjaka"
+    id: "sensor.traveling speed"
+    state: "67"
+    attributes:
+      device_class: speed
+      unit_of_measurement: "km/h"
+
+  - name: "črpalk(a|i|e)"
+    id: "sensor.heat_pump_so2"
+    state: "50"
+    attributes:
+      device_class: sulphur_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "kamin[u|a]"
+    id: "sensor.furnace_temperature"
+    state: "380,1"
+    attributes:
+      device_class: temperature
+      unit_of_measurement: "°C"
+
+  - name: "sračkalice"
+    id: "sensor.voc_sensor"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds
+      unit_of_measurement: "µg/m³"
+
+  - name: "sračkalice 2"
+    id: "sensor.voc_sensor_parts"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds_parts
+      unit_of_measurement: "ppm"
+
+  - name: "vhodne napetosti"
+    id: "sensor.input_voltage"
+    state: "12"
+    attributes:
+      device_class: voltage
+      unit_of_measurement: "V"
+
+  - name: "porabe vodne črpalke danes"
+    id: "sensor.water_pump_usage_today"
+    state: "1356"
+    attributes:
+      device_class: volume
+      unit_of_measurement: "L"
+
+  - name: "hranilniku vode"
+    id: "sensor.water_pump_buffer"
+    state: "28"
+    attributes:
+      device_class: volume_storage
+      unit_of_measurement: "L"
+
+  - name: "vodn(e|i) črpalk(e|i)"
+    id: "sensor.water_pump_usage"
+    state: "5987"
+    attributes:
+      device_class: water
+      unit_of_measurement: "L"
+
+  - name: "postelje"
+    id: "sensor.bed_sensor_weight"
+    state: "87"
+    attributes:
+      device_class: weight
+      unit_of_measurement: "kg"
+
+  - name: "anemometra"
+    id: "sensor.mistral_speed"
+    state: "33"
+    attributes:
+      device_class: wind_speed
+      unit_of_measurement: "km/h"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: pizza|pizzo
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen_id"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

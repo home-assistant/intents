@@ -347,6 +347,143 @@ tests:
         state: "on"
     response: "0"
 
+  # Connectivity
+  - sentences:
+      - "ist das Handy verbunden?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "connectivity"
+        name: "Handy"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "ist das Bürotelefon im Büro verbunden?"
+      - "ist im Büro das Bürotelefon verbunden?"
+      - "ist das Bürotelefon verbunden im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: "binary_sensor"
+        device_class: "connectivity"
+        name: "Bürotelefon"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist irgendein Sensor verbunden?"
+      - "ist irgendeiner der Gegenstände verbunden?"
+      - "sind irgendwelche Geräte verbunden?"
+      - "sind Dinge verbunden?"
+      - "ist etwas verbunden?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "Ja, Handy"
+
+  - sentences:
+      - "ist irgendein Sensor im Büro getrennt?"
+      - "ist irgendein Sensor getrennt im Büro?"
+      - "ist im Büro irgendeiner der Sensoren getrennt?"
+      - "sind irgendwelche Geräte im Büro getrennt?"
+      - "sind irgendwelche der Geräte getrennt im Büro?"
+      - "sind im Büro irgendwelche Geräte getrennt?"
+      - "ist irgendetwas im Büro getrennt?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Büro
+        domain: binary_sensor
+        device_class: connectivity
+        state: "off"
+    response: "Ja, Bürotelefon"
+
+  - sentences:
+      - "sind alle Geräte verbunden?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "Nein, Bürotelefon ist es nicht"
+
+  - sentences:
+      - "sind alle Geräte im Büro verbunden?"
+      - "sind alle Sensoren verbunden im Büro?"
+      - "sind im Büro alle Geräte verbunden?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Büro
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "Nein, Bürotelefon ist es nicht"
+
+  - sentences:
+      - "welche Geräte sind verbunden?"
+      - "was für Sensoren sind verbunden?"
+      - "welcher Sensor ist verbunden?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "Handy"
+
+  - sentences:
+      - "welcher Sensor ist im Büro verbunden?"
+      - "welcher Sensor im Büro ist verbunden?"
+      - "welcher Sensor ist verbunden im Büro?"
+      - "welche Geräte sind im Büro verbunden?"
+      - "welche Geräte im Büro sind verbunden?"
+      - "was für Sensoren sind verbunden im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Büro
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "Keins"
+
+  - sentences:
+      - "Wie viele Geräte sind verbunden?"
+      - "Wieviele Geräte sind verbunden?"
+      - "Welche Anzahl Geräte sind verbunden?"
+      - "Welche Anzahl an Geräten sind verbunden?"
+      - "Welche Anzahl von Geräten sind verbunden?"
+      - "Welche Anzahl an Dingen sind verbunden?"
+      - "Welche Anzahl an Gegenständen sind verbunden?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "1"
+
+  - sentences:
+      - "Wie viele Geräte im Büro sind verbunden?"
+      - "Wie viele Geräte sind im Büro verbunden?"
+      - "Wie viele Geräte sind verbunden im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Büro
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "0"
+
   # Door
   - sentences:
       - "ist die Wohnungstür offen?"
@@ -437,6 +574,55 @@ tests:
         name: "Garagentor"
         state: "on"
     response: "Nein"
+
+  # Window
+  - sentences:
+      - "ist das Küchenfenster offen?"
+      - "steht das Küchenfenster offen?"
+      - "ist das Küchenfenster auf?"
+      - "ist das Küchenfenster geöffnet?"
+      - "ist das Küchenfenster gekippt?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "Küchenfenster"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist das Küchenfenster in der Küche offen?"
+      - "ist in der Küche das Küchenfenster offen?"
+      - "ist das Küchenfenster offen in der Küche?"
+      - "ist das Küchenfenster in der Küche gekippt?"
+      - "ist in der Küche das Küchenfenster gekippt?"
+      - "ist das Küchenfenster gekippt in der Küche?"
+      - "steht das Küchenfenster in der Küche offen?"
+      - "steht in der Küche das Küchenfenster offen?"
+      - "steht das Küchenfenster offen in der Küche?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Küche"
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "Küchenfenster"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist das Küchenfenster zu?"
+      - "steht das Küchenfenster zu?"
+      - "ist das Küchenfenster geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "Küchenfenster"
+        state: "off"
+    response: "Ja"
 
   # Gas
   - sentences:
@@ -649,3 +835,164 @@ tests:
         device_class: heat
         state: "on"
     response: "1"
+
+  # Light
+  - sentences:
+      - "wurde Licht erkannt?"
+      - "ist Licht ausgelöst?"
+      - "ist Licht an?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "light"
+        name: "Licht"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "wurde Licht im Büro erkannt?"
+      - "ist im Büro Licht ausgelöst?"
+      - "ist Licht an im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: "binary_sensor"
+        device_class: "light"
+        name: "Licht"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "wurde irgendwelches Licht im Büro erkannt?"
+      - "wurde im Büro irgendwelches Licht erkannt?"
+      - "ist irgendwo im Büro Licht ausgelöst?"
+      - "sind irgendwo Lichter an im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "sind im Büro alle Lichter erkannt?"
+      - "wurden alle Lichter im Büro erkannt?"
+      - "wurden alle Lichter erkannt im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Nein, Licht ist es nicht"
+
+  - sentences:
+      - "welche Lichter wurden im Büro erkannt?"
+      - "welches Licht im Büro ist an?"
+      - "welches Licht ist an im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Keins"
+
+  - sentences:
+      - "wieviele Lichter wurden im Büro erkannt?"
+      - "wie viel Licht im Büro ist an?"
+      - "wieviele Lichter wurden erkannt im Büro?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Büro"
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "0"
+
+  # Problem
+  - sentences:
+      - "Gibt es Probleme mit dem Futterspender"
+      - "Gibt es ein Problem mit dem Futterspender"
+      - "Gibt es irgendwelche Probleme mit dem Futterspender"
+      - "Hat der Futterspender irgendein Problem"
+      - "Hat der Futterspender Probleme"
+      - "Hat der Futterspender irgendwelche Probleme"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "problem"
+        name: "Futterspender"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "Gibt es ein Problem mit dem Futterspender in der Küche"
+      - "Hat der Futterspender in der Küche Probleme"
+    intent:
+      name: HassGetState
+      slots:
+        area: Küche
+        domain: "binary_sensor"
+        device_class: "problem"
+        name: "Futterspender"
+        state: "on"
+    response: "Nein"
+
+  # Safety
+  - sentences:
+      - "ist die Straße sicher?"
+      - "ist die Straße ungefährlich?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Straße"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "ist die Straße unsicher?"
+      - "ist die Straße gefährlich?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Straße"
+        state: "on"
+    response: "Nein"
+
+  - sentences:
+      - "ist die Straße an der Auffahrt sicher?"
+      - "ist bei der Auffahrt die Straße ungefährlich?"
+      - "ist die Straße sicher bei der Auffahrt?"
+    intent:
+      name: HassGetState
+      slots:
+        area: Auffahrt
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Straße"
+        state: "off"
+    response: "Ja"
+
+  - sentences:
+      - "sind die Server sicher?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "safety"
+        name: "Server"
+        state: "off"
+    response: "Ja"

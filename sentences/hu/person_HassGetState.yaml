@@ -1,0 +1,44 @@
+language: hu
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "<where_is> <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<name> [a[z]] {zone:state}[ zónában| helyen] van"
+        response: one_yesno_where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "<valaki> van [a[z]] {zone:state}[ zónában| helyen]"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "Mindenki [a[z]] {zone:state}[ zónában| helyen] van"
+        response: all_where
+        slots:
+          domain: person
+
+      - sentences:
+          - "Ki[k] van[nak] [a[z]] {zone:state}[ zónában| helyen]"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "<mennyi> [ember] van[nak] [a[z]] {zone:state}[ zónában| helyen]"
+        response: how_many
+        slots:
+          domain: person

@@ -1,36 +1,62 @@
-language: sl
+language: "sl"
 intents:
   HassLightSet:
     data:
       # brightness
       - sentences:
-          - "<spremeni> [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [na] <brightness>"
+          - "[<numeric_value_set>] <name> [na] <brightness> [svetlosti]"
+
+        response: "brightness"
+        requires_context:
+          domain: light
+
+      - sentences:
+          - "[<numeric_value_set>] svetlost [v|na] <area> [na] <brightness>"
+          #- "[<numeric_value_set>] svetlost [na] <brightness>"
+          - "[<numeric_value_set>] [v|na] <area> [na] <brightness>"
+        slots:
+          name: "all"
         response: "brightness"
 
       - sentences:
-          - "<spremeni> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <area> [na] <brightness>"
-          - "<spremeni> <area> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] na {brightness_level:brightness}"
+          - "[<numeric_value_set>] svetlost [na] <brightness>"
+          - "[<numeric_value_set>] svetlost (<in_here>; [na] <brightness>)"
+        expansion_rules:
+          in_here: "tu[kaj] | v tem prostoru | v tej sobi"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
+
+      # Max/Min brightness
+      - sentences:
+          - "[<numeric_value_set>] <name> [na] {brightness_level:brightness} [svetlost[i]]"
+          - "[<numeric_value_set>] [svetlost] <name> [na] {brightness_level:brightness} [svetlost]"
+        requires_context:
+          domain: light
+        response: "brightness"
+
+      - sentences:
+          - "[<numeric_value_set>] svetlost [v|na] <area> [na] {brightness_level:brightness}"
+          - "[<numeric_value_set>] [svetlost] [v|na] <area> [na] {brightness_level:brightness} [svetlost]"
+          - "{brightness_level:brightness} [svetlost] [v|na] <area>"
+        slots:
+          name: "all"
         response: "brightness"
 
       # color
       - sentences:
-          - "<spremeni> [barv[e|o|i]|odtenek] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <color>"
-          - "<spremeni> [barv[e|o|i|ni]|odtenek] [barv[e|o|i]|odtenek] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <area> [v|na] <color>"
-          - "<spremeni> <area> [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlit[ve|ev]|razsvetljave] [v|na] <color>"
-          - "<spremeni> <area> [v|na] <color>"
+          - "[<set>] [barvo] <name> [na] {color} [barvo]"
+          - "[<set>] {color} <name>"
+        requires_context:
+          domain: light
         response: "color"
 
-      # min/max brightness
       - sentences:
-          - "<spremeni> [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [na] {brightness_level:brightness}"
-          - "<spremeni> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [v|na] <area> na {brightness_level:brightness}"
-          - "<spremeni> [svetlost|osvetlitev|jakost|moč|intenziteto] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] na {brightness_level:brightness}"
+          - "[<set>] [barvo] [v|na] <area> [na|v] {color} [barvo]"
+          - "[<set>] [barvo] [<luč>] [vs[o|eh|e]] [<luč>] [v|na] <area> [na|v] {color} [barvo]"
+          - "[<set>] {color} [<luč>] [v|na] <area>"
+          - "[<set>] [v|na] <area> [na|v] {color} [barvo]"
         slots:
-          brightness: 100
-        response: brightness
-
-      - sentences:
-          - "<spremeni> [nočn[e|i||o]] [luč[ke|i|ko]|svetil[ke|a|ko]|osvetlitev|razsvetljavo] [na] {brightness_level:brightness}"
-        slots:
-          brightness: 1
-        response: brightness
+          name: "all"
+        response: "color"
