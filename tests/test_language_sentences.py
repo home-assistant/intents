@@ -6,7 +6,7 @@ import sys
 from typing import Any, List
 
 import pytest
-from hassil import Intents, recognize
+from hassil import Intents, recognize_best
 from hassil.intents import SlotList
 from hassil.util import normalize_whitespace
 from jinja2 import BaseLoader, Environment
@@ -113,11 +113,12 @@ def do_test_language_sentences_file(
             ), f"Duplicate sentence found: {sentence}"
             seen_sentences.add(sentence)
 
-            result = recognize(
+            result = recognize_best(
                 sentence,
                 language_sentences,
                 slot_lists=slot_lists,
                 intent_context=intent_context,
+                best_slot_name="name",
             )
             assert result is not None, f"Recognition failed for '{sentence}'"
             assert (
