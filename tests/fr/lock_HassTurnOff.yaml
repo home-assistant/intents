@@ -1,31 +1,88 @@
 language: fr
 tests:
+  # name
   - sentences:
-      - "déverrouille la porte d'entrée"
+      - déverrouille la porte d'entrée
+      - déverrouiller porte d'entrée
     intent:
       name: HassTurnOff
       context:
         domain: lock
       slots:
-        name: "porte d'entrée"
-    response: "Ouvert"
+        name: porte d'entrée
+    response: "Déverrouillé"
 
+  # area
   - sentences:
-      - "déverrouille toutes les serrures du garage"
-      - "déverrouille le garage"
-      - "déverrouille tout dans le garage"
+      - déverrouiller le salon
+      - déverrouille les serrures du salon
     intent:
       name: HassTurnOff
       slots:
-        area: garage
+        area: salon
         domain: lock
-    response: "Ouvert"
+    response: "Déverrouillé"
 
+  # name and area
   - sentences:
-      - "déverrouille l'entrée"
+      - déverrouille la serrure Aqara de la cuisine
+      - déverrouiller la serrure Aqara dans cuisine
+    intent:
+      name: HassTurnOff
+      context:
+        domain: lock
+      slots:
+        name: serrure Aqara
+        area: cuisine
+    response: "Déverrouillé"
+
+  # Context area awareness
+  - sentences:
+      - déverrouille le loquet
+      - déverrouille les loquets
+      - déverrouille toutes les serrures dans cette pièce
+      - déverrouille toutes les portes ici
+    intent:
+      name: HassTurnOff
+      context:
+        area: salon
+      slots:
+        area: salon
+        domain: lock
+    response: "Déverrouillé"
+
+  # floor
+  - sentences:
+      - déverrouille le premier étage
+      - déverrouille les loquets du premier étage
+      - déverrouille tous les loquets du premier étage
     intent:
       name: HassTurnOff
       slots:
-        area: entrée
+        floor: Premier Étage
         domain: lock
-    response: "Ouvert"
+    response: "Déverrouillé"
+
+  # name and floor
+  - sentences:
+      - déverrouille la serrure Aqara du rez-de-chaussée
+    intent:
+      name: HassTurnOff
+      context:
+        domain: lock
+      slots:
+        name: serrure Aqara
+        floor: Rez-De-Chaussée
+    response: "Déverrouillé"
+
+  # the whole house
+  - sentences:
+      - déverrouille les portes dans toute la maison
+      - déverrouiller toutes les serrures
+      - déverrouiller toutes les portes
+      - déverrouiller toutes les serrures dans toute la maison
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: lock
+    response: "Déverrouillé"

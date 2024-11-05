@@ -28,9 +28,9 @@ See the [documentation](docs/README.md) for more information.
 
 # Development
 
-Checkout the repository and get a development environment with `script/setup`. This will create a new virtual environment in the `venv` directory of the repository, and install all necessary requirements.
-
-Before developing, always activate your virtual environment with `source venv/bin/activate`.
+The easiest way to start contributing is by using [devcontainers](https://containers.dev/). 
+The repository is configured for devcontainer support.
+Please, check how you can use devcontainers with your favourite IDE.
 
 ## Run tests
 
