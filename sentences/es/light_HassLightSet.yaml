@@ -15,8 +15,6 @@ intents:
           - <establece_sube_baja> [el] brillo <area> [a|al] <brightness>
           - <establece_sube_baja> <area> [a|al] brillo <brightness>
           - <establece_sube_baja> <area> [a|al] <brightness>
-        slots:
-          name: "all"
         response: "brightness"
 
       - sentences:
@@ -40,8 +38,6 @@ intents:
           - "[<establece_sube_baja>] [el] brillo <area> [a[l]] {brightness_level:brightness}"
           - "[<establece_sube_baja>] <area> [a[l]|el] brillo [a[l]] {brightness_level:brightness}"
           - "[<establece_sube_baja>] <area> [a[l]|el] {brightness_level:brightness} [de] brillo"
-        slots:
-          name: "all"
         response: "brightness"
 
       - sentences:
@@ -51,6 +47,12 @@ intents:
         requires_context:
           area:
             slot: true
+
+      - sentences:
+          - "[<establece_sube_baja>] [el] brillo <planta> [a[l]] {brightness_level:brightness}"
+          - "[<establece_sube_baja>] <planta> [a[l]|el] brillo [a[l]] {brightness_level:brightness}"
+          - "[<establece_sube_baja>] <planta> [a[l]|el] {brightness_level:brightness} [de] brillo"
+        response: "brightness"
 
       # color
       - sentences:
@@ -63,8 +65,6 @@ intents:
       - sentences:
           - <establece> [[el] color de] (<area> | [todas] las luces <area>) [a | al | en] {color}
           - <establece> (<area> | [todas] las luces <area>) [a | al | en] [color] {color}
-        slots:
-          name: "all"
         response: "color"
 
       - sentences:
@@ -74,3 +74,8 @@ intents:
         requires_context:
           area:
             slot: true
+
+      - sentences:
+          - <establece> [[el] color de] (<planta> | [todas] las luces <area>) [a | al | en] {color}
+          - <establece> (<planta> | [todas] las luces <planta>) [a | al | en] [color] {color}
+        response: "color"
