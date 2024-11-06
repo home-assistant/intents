@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from functools import partial
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, Optional, List, Set, Tuple
 
 from hassil import parse_sentence
 from hassil.intents import SlotList, TextSlotList, is_template
