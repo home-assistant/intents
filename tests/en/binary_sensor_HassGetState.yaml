@@ -13,6 +13,18 @@ tests:
     response: "No, normal"
 
   - sentences:
+      - "is the phone battery normal?"
+      - "is the phone battery charged?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery"
+        name: "Phone"
+        state: "off"
+    response: "Yes"
+
+  - sentences:
       - "are any batteries low?"
     intent:
       name: HassGetState
@@ -277,6 +289,7 @@ tests:
   # Garage door
   - sentences:
       - "is the secondary garage door closed?"
+      - "is the secondary garage door shut?"
     intent:
       name: HassGetState
       slots:
@@ -655,6 +668,18 @@ tests:
     response: "No, closed"
 
   - sentences:
+      - "is the shed door closed?"
+      - "is the shed door shut?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "opening"
+        name: "Shed Door"
+        state: "off"
+    response: "Yes"
+
+  - sentences:
       - "are any openings open?"
     intent:
       name: HassGetState
@@ -809,6 +834,17 @@ tests:
         name: "Phone"
         state: "on"
     response: "No, away"
+
+  - sentences:
+      - "is the phone gone?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "presence"
+        name: "Phone"
+        state: "off"
+    response: "Yes"
 
   - sentences:
       - "are any devices home?"
@@ -1142,3 +1178,15 @@ tests:
         name: "Shed Window"
         state: "on"
     response: "Yes"
+
+  - sentences:
+      - "is the shed window shut?"
+      - "is the shed window closed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "Shed Window"
+        state: "off"
+    response: "No, open"

@@ -2,14 +2,71 @@ language: fr
 intents:
   HassTurnOff:
     data:
+      # name
       - sentences:
-          - "déverrouille[(z|r)] [<le>]{name} [<dans> [<le>]{area}]"
+          # Déverrouiller la porte d'entrée
+          - <deverrouille> [<le>]{name}
         requires_context:
           domain: lock
         response: lock
 
+      # area
       - sentences:
-          - "déverrouille[(z|r)] [<tous>] [(la|le[s])] [(porte[s]|serrure[s]|verrou[s])] [<dans>] [<le>]{area}"
+          # Déverrouiller le salon
+          - <deverrouille> [<le>]{area}
+          # Déverrouille les serrures du jardin
+          - <deverrouille> [<tous>] [<le>] <serrure> [<dans>] [<le>]{area}
         slots:
-          domain: "lock"
+          domain: lock
+        response: lock
+
+      # name and area
+      - sentences:
+          # Déverrouille la serrure Aqara du jardin
+          - <deverrouille> [<le>]{name} [<dans>] [<le>]{area}
+        requires_context:
+          domain: lock
+        response: lock
+
+      # context area awareness
+      - sentences:
+          # Déverrouille le loquet
+          - <deverrouille> [<le>] <serrure>
+          # Déverrouille toutes les serrures dans cette pièce
+          - <deverrouille> [<tous>] [<le>] <serrure> <ici>
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: lock
+        response: lock
+
+      # floor
+      - sentences:
+          # Déverrouille le premier étage
+          - <deverrouille> [<le>]{floor}
+          # Déverrouille les loquets du premier étage
+          - <deverrouille> [<tous>] [<le>] <serrure> [<dans>] [<le>]{floor}
+        slots:
+          domain: lock
+        response: lock
+
+      # name and floor
+      - sentences:
+          # Déverrouille la serrure Aqara du rez-de-chaussée
+          - <deverrouille> [<le>]{name} [<dans>] [<le>]{floor}
+        requires_context:
+          domain: lock
+        response: lock
+
+      # the whole house
+      - sentences:
+          # Déverrouille les portes dans toute la maison
+          - <deverrouille> [<le>] <serrure> <partout>
+          # Déverrouiller toutes les serrures dans toute la maison
+          - <deverrouille> <tous> [<le>] <serrure> <partout>
+          # Déverrouiller toutes les serrures
+          - <deverrouille> <tous> [<le>] <serrure>
+        slots:
+          domain: lock
         response: lock
