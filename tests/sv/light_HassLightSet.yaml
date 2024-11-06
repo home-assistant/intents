@@ -105,6 +105,48 @@ tests:
         area: Garage
         name: all
 
+  # color
+  - sentences:
+      - "ändra kökslampan till röd"
+      - "ändra kökslampan till röd färg"
+      - "gör kökslampan röd"
+      - "ändra färgen på kökslampan till röd"
+      - "gör färgen på kökslampan röd"
+      - "kökslampa röd"
+      - "Gör kökslampan röd"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        name: Kökslampan
+    response: "Färgen ändrad"
+
+  - sentences:
+      - "ändra kökets färger till rött"
+      - "gör kökets färg röd"
+      - "kök färg röd"
+      - "kök röd"
+      - "ändra färgen på alla lampor i köket till rött"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        area: Bedroom
+    response: "Color set"
+
+  - sentences:
+      - "gör lamporna röda"
+      - "ändra färgen på alla lampor här röda"
+      - "göra alla lampor röda härinnne"
+    intent:
+      name: HassLightSet
+      context:
+        area: Kök
+      slots:
+        color: red
+        area: Köket
+    response: "Färgen ändrad"
+
   - sentences:
       - rött ljus i garaget
     intent:
@@ -128,3 +170,13 @@ tests:
       slots:
         color: red
         name: garagelampa
+
+  - sentences:
+      - "ändra köket till röd"
+      - "ändra färgen i köket till röd"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        floor: Kök
+    response: "Färgen ändrad"
