@@ -1,0 +1,15 @@
+language: ca
+intents:
+  HassListAddItem:
+    data:
+      - sentences:
+          - <add> <item> (a|en) <my_list>
+          - <add> <item> al cistell [de|del] {name}
+          - <add> (a|en) <my_list> <item>
+        response: item_added
+        requires_context:
+          domain: todo
+        expansion_rules:
+          my_list: "[ la][ meva] llista [de|del] {name}"
+          item: "{shopping_list_item:item}"
+          add: "(afeg[e]ix|posa)"

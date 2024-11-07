@@ -1,0 +1,25 @@
+---
+language: "fi"
+intents:
+  HassStartTimer:
+    data:
+      - sentences:
+          - "(ajastin|ajastus) <timer_duration>"
+          - "(ajastin|ajastus) <timer_duration> (nimeltä|nimelle|nimellä) {timer_name:name}"
+          - "<timer_duration> (ajastin|ajastus)"
+          - "<timer_duration> (ajastin|ajastus) (nimeltä|nimelle|nimellä) {timer_name:name}"
+          - "<timer_set> <timer_duration> (ajastin|ajastus)"
+          - "<timer_set> (ajastin|ajastus) <timer_duration>"
+          - "<timer_set> <timer_duration> (ajastin|ajastus) (nimellä|nimeltä|nimelle) {timer_name:name}"
+          - "<timer_set> (ajastin|ajastus) (nimellä|nimeltä|nimelle) {timer_name:name} <timer_duration>"
+          - "<timer_set> (ajastin|ajastus) <timer_duration> (nimellä|nimeltä|nimelle) {timer_name:name}"
+          - "<timer_set> (ajastin|ajastus) (nimellä|nimeltä|nimelle) {timer_name:name} ajalle <timer_duration>"
+      - sentences:
+          # The ones below won't work because it has two wildcards after each other - saved for using after a possible fix
+          #- "{timer_command:conversation_command} <timer_duration> [kuluttua|päästä|jälkeen]"
+          #- "ajasta {timer_command:conversation_command} <timer_duration> [kuluttua|päästä|jälkeen]"
+          - "<timer_duration> (kuluttua|päästä|jälkeen) {timer_command:conversation_command}"
+          - "{timer_command:conversation_command} kun on (kulunut|mennyt) <timer_duration>"
+          - "jälkeen <timer_duration> {timer_command:conversation_command}"
+          - "komento {timer_command:conversation_command} (ajastus|ajasta) <timer_duration>"
+        response: command
