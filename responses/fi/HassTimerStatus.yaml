@@ -1,0 +1,91 @@
+---
+language: fi
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Ei ajastimia.
+        {% elif num_active_timers == 0: %}
+          {# Ei aktiivisia ajastimia #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Ajastin on keskeytetty.
+          {% else: %}
+            {{ num_paused_timers }} keskeytettyä ajastinta.
+          {% endif %}
+        {% else: %}
+          {# Ainakin yksi aktiivinen ajastin #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} käynnissä olevaa ajastinta.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 keskeytetty ajastin.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} keskeytettyä ajastinta.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 tunti ja {{ next_timer.rounded_minutes_left }} minuuttia
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 tunti
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} tuntia ja {{ next_timer.rounded_minutes_left }} minuuttia
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} tuntia
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 minuutti ja {{ next_timer.rounded_seconds_left }} sekuntia
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 minuutti
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} minuuttia ja {{ next_timer.rounded_seconds_left }} sekuntia
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} minuuttia
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 sekunti
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} sekuntia
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            jäljellä
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} tuntia ja {{ next_timer.start_minutes }} minuuttia
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} tuntia
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} minuuttia ja {{ next_timer.start_seconds }} sekuntia
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} minuutin
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} sekuntia
+            {% endif %}
+
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              {{ next_timer.area }}
+            {% endif %}
+
+            ajastimessa.
+          {% else: %}
+            jäljellä.
+          {% endif %}
+        {% endif %}
