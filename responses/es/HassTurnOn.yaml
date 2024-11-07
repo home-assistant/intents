@@ -2,7 +2,27 @@ language: es
 responses:
   intents:
     HassTurnOn:
-      default: "{{ slots.name }} se ha activado"
+      default: >-
+        {% set translations = {
+          "button": "el botón",
+          "camera": "la cámara",
+          "input_button": "el botón",
+          "alarm_control_panel": "la alarma",
+          "automation": "la automatización",
+          "fan": "el ventilador",
+          "climate": "el termostato",
+          "humidifier": "el humidificador",
+          "input_boolean": "el interruptor",
+          "siren": "la sirena",
+          "water_heater": "el calentador de agua",
+          "light": "la luz",
+          "switch": "el interruptor",
+          "remote": "el control remoto",
+          "vacuum": "la aspiradora",
+          "media_player": "el reproductor",
+          "lawn_mower": "el cortacésped"
+        } %}
+        Se ha activado {{ translations.get(state.domain) }}
       light: "{{ slots.name }} se ha encendido"
       lights_area: "Luces encendidas"
       lights_floor: "Luces encendidas"
