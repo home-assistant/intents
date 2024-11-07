@@ -1,8 +1,10 @@
 language: "it"
 tests:
+  # Position
   - sentences:
       - "Imposta tapparella camera al 50%"
       - "apri tapparella camera a 50"
+      - "imposta la posizione della tapparella camera al 50%"
     intent:
       name: HassSetPosition
       slots:
@@ -10,9 +12,12 @@ tests:
         name: "Tapparella camera"
         position: 50
     response: "Posizione {slots.name} impostata"
+  # Position Area
   - sentences:
       - "Imposta la tapparella in camera da letto al 50%"
-      - "apri la tapparella al 50% nella camera da letto"
+      - "apri la tapparella in camera da letto al 50"
+      - "Imposta l'apertura della tapparella al 50% in camera da letto"
+      - "Imposta al 50% l'apertura della tapparella in camera da letto"
     intent:
       name: HassSetPosition
       slots:
@@ -20,4 +25,29 @@ tests:
         device_class: "shutter"
         area: "Camera da Letto"
         position: 50
+    response: "Posizione {slots.name} impostata"
+  # Max/Min/Medium position
+  - sentences:
+      - "Alza la tapparella camera al massimo"
+      - "Imposta l'apertura della tapparella camera al massimo"
+    intent:
+      name: HassSetPosition
+      slots:
+        domain: cover
+        name: "Tapparella camera"
+        position: 100
+    response: "Posizione {slots.name} impostata"
+  # Max/Min/Medium position Area
+  - sentences:
+      - "Imposta la tapparella in camera da letto al massimo"
+      - "apri la tapparella in camera da letto al massimo"
+      - "Imposta l'apertura della tapparella al massimo in camera da letto"
+      - "Imposta al massimo l'apertura della tapparella in camera da letto"
+    intent:
+      name: HassSetPosition
+      slots:
+        domain: cover
+        device_class: "shutter"
+        area: "Camera da Letto"
+        position: 100
     response: "Posizione {slots.name} impostata"

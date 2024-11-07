@@ -2,15 +2,29 @@ language: it
 intents:
   HassSetPosition:
     data:
+      # Position
       - sentences:
-          - "(<numeric_value_set>|<open>|<close>|<set>) <name> [position] a[l] <position>"
+          - "(<numeric_value_set>|<open>|<close>|<set>) [<the>] [(posizione | apertura)] [<of>] <name> <to> <position>"
         requires_context:
           domain: cover
         slots:
           domain: cover
-
+      # Position area
       - sentences:
-          - "(<numeric_value_set>|<open>|<close>|<set>) [<the>] {cover_classes:device_class} [position] (<to> <position>;<in> <area>)"
-          - "(<numeric_value_set>|<open>|<close>|<set>) <area> {cover_classes:device_class} [position] a <position>"
+          - "(<numeric_value_set>|<open>|<close>|<set>) [<the>] [(posizione | apertura)] [<of>] {cover_classes:device_class}  (<to> <position>;[<in>] <area>)"
+          - "(<numeric_value_set>|<open>|<close>|<set>) <to> <position> [<the>] [(posizione | apertura)] [<the>] {cover_classes:device_class}  [<in>] <area>"
+        slots:
+          domain: cover
+      # Max/Min/Medium position
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>|<set>) [<the>] [(posizione | apertura)] [<of>] <name> {position_level:position}"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+      # Max/Min/Medium position Area
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>|<set>) [<the>] [(posizione | apertura)] [<of>] {cover_classes:device_class}  (<to> {position_level:position};[<in>] <area>)"
+          - "(<numeric_value_set>|<open>|<close>|<set>) <to> {position_level:position} [<the>] [(posizione | apertura)] [<the>] {cover_classes:device_class}  [<in>] <area>"
         slots:
           domain: cover
