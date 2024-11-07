@@ -1,4 +1,36 @@
 language: pt-br
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "<nome> está {cover_states:state} [<na_zona>]"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<algum> {cover_classes:device_class} <esta> {cover_states:state} [<na_zona>]"
+          - "(tem|há) <algum> {cover_classes:device_class} {cover_states:state} [na] [<na_zona>]"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "todas [as] {cover_classes:device_class} <esta> {cover_states:state} [<na_zona>]"
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "<qual> {cover_classes:device_class} <esta> {cover_states:state} [<na_zona>]"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(quantas|quantos) {cover_classes:device_class} estão {cover_states:state} [<na_zona>]"
+        response: how_many
+        slots:
+          domain: cover
