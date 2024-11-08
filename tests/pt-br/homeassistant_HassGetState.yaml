@@ -1,2 +1,77 @@
 language: pt-br
-tests: []
+tests:
+  - sentences:
+      - "Qual é a Temperatura exterior?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Temperatura exterior"
+    response: "25 °C"
+
+  - sentences:
+      - "a Luz do Quarto está ligada?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Luz do Quarto"
+        state: "on"
+    response: "Não, off"
+
+  - sentences:
+      - "tem algum interruptor ligado na Cozinha?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Cozinha"
+        domain: "switch"
+        state: "on"
+    response: "Sim, Interruptor da Cozinha"
+
+  - sentences:
+      - "todos interruptores estão ligados?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Não, Aquecedor Quarto e Maquina de Cafe não"
+
+  - sentences:
+      - "todas as luzes estão desligadas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Não, Luz Cozinha e Luz da Garagem não"
+
+  - sentences:
+      - "Quais luzes estão ligadas?"
+      - "Que luzes estão ligadas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Luz Cozinha e Luz da Garagem"
+
+  - sentences:
+      - "Quantas luzes estão ligadas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "2"
+
+  - sentences:
+      - "Tem alguma luz ligada?"
+      - "Tem alguma lâmpada ligada?"
+      - "Existe alguma luz ligada?"
+      - "Existe alguma lâmpada ligada?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Sim, Luz Cozinha e Luz da Garagem"
