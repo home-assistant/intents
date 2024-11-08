@@ -978,48 +978,6 @@ intents:
           domain: binary_sensor
           device_class: tamper
 
-      # # Update
-      - sentences:
-          - "[<le>]{name} <estil> {bs_update_states:state} [<dans> [<le>]{area}]"
-          - "[<le>]{name} [<dans> [<le>]{area}] <estil> {bs_update_states:state}"
-        response: one_yesno
-        requires_context:
-          domain: binary_sensor
-          device_class: update
-        slots:
-          domain: binary_sensor
-          device_class: update
-
-      - sentences:
-          - "[<yatil>] (une|des) mise[s] à jour [de (firmware|driver|pilote|logiciel)[s]] [de] {bs_update_states:state} [<dans> [<le>]{area}]"
-          - "(une|des) mise[s] à jour [de (firmware|driver|pilote|logiciel)[s]] <estil> {bs_update_states:state} [<dans> [<le>]{area}]"
-          - "[<yatil> une] {bs_update_states:state} [<dans> [<le>]{area}]"
-
-        response: any
-        slots:
-          domain: binary_sensor
-          device_class: update
-          state: "on"
-
-      - sentences:
-          - "<quel> [sont les] mise[s] à jour [de (firmware|logiciel)] {bs_update_states:state} [<dans> [<le>]{area}]"
-          - "<quel> mise[s] à jour [de (firmware[s]|logiciel[le][s])] <estil> {bs_update_states:state} [<dans> [<le>]{area}]"
-          - "liste les mises à jour [de (firmware[s]|logiciel[le][s])] [qui sont] {bs_update_states:state} [<dans> [<le>]{area}]"
-        response: which
-        slots:
-          domain: binary_sensor
-          device_class: update
-          state: "on"
-
-      - sentences:
-          - "combien de mises à jour [de (firmware[s]|logiciel[le][s])] [<estil>] {bs_update_states:state} [<dans> [<le>]{area}]"
-          - "compte (les |le nombre de) mises à jour [de (firmware[s]|logiciel[le][s])] [qui sont] {bs_update_states:state} [<dans> [<le>]{area}]"
-        response: how_many
-        slots:
-          domain: binary_sensor
-          device_class: update
-          state: "on"
-
       # # Vibration
       - sentences:
           - "[<le>]{name} {bs_vibration_states:state}[-t-(il|elle)] [<dans> [<le>]{area}]"
