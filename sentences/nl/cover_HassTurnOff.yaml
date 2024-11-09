@@ -3,34 +3,27 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "sluit <name>"
-          - "<name> sluiten"
-          - "[<doe>] <name> <dicht>"
-          - "<zou> <name> ((<dicht> willen | <dicht> kunnen | <dicht>[ ])<doe>|sluiten)"
-          - "<zou> <name> (willen|kunnen) [<dicht>[ ]<doe>|sluiten]"
+          - "sluit <name>[[ ]<afdekking>]"
+          - "<name>[[ ]<afdekking>] (sluiten|dicht doen)"
+          - "[<doe>] <name>[[ ]<afdekking>] <dicht>"
         response: "cover"
         requires_context:
           domain: cover
 
       - sentences:
           - "sluit [de] garage[ ][deur]"
-          - "[de] garage[ ][deur] sluiten"
+          - "[de] garage[ ][deur] (sluiten|dicht doen)"
           - "[<doe>] [de] garage[ ][deur] <dicht>"
-          - "<zou> [de] garage[ ][deur] ((<dicht> willen | <dicht> kunnen | <dicht>[ ])<doe>|sluiten)"
-          - "<zou> [de] garage[ ][deur] (kunnen|willen) [<dicht>[ ]<doe>|sluiten]"
         response: "cover_device_class"
         slots:
           device_class: "garage"
           domain: "cover"
 
       - sentences:
-          - sluit <name> <in> <area>
-          - <name> <in> <area> sluiten
-          - "[<doe>] <name> (<dicht> <in> <area>|<in> <area> <dicht>)"
-          - "<zou> <name> <in> <area> ((<dicht> willen | <dicht> kunnen | <dicht>[ ])<doe>|sluiten)"
-          - "<zou> <name> ((<dicht> willen | <dicht> kunnen | <dicht>[ ])<doe>|sluiten) <in> <area>"
-          - "<zou> <name> <in> <area> (willen|kunnen) [<dicht>[ ]<doe>|sluiten]"
-          - "<zou> <name> (willen|kunnen) [<dicht>[ ]<doe>|sluiten] <in> <area>"
+          - "sluit (<name>[[ ]<afdekking>];<in> (<area>|<floor>))"
+          - "(<name>[[ ]<afdekking>];<in> (<area>|<floor>)) (sluiten|dicht doen)"
+          - "[<doe>] <in> (<area>|<floor>) <name>[[ ]<afdekking>] <dicht>"
+          - "[<doe>] <name>[[ ]<afdekking>] (<dicht>;<in> (<area>|<floor>))"
         response: "cover"
         requires_context:
           device_class:
@@ -41,25 +34,20 @@ intents:
           domain: "cover"
 
       - sentences:
-          - sluit [de|het] <curtain> <in> <area>
-          - "[de|het] <curtain> <in> <area> sluiten"
-          - "[<doe>] [de|het] <curtain> (<dicht> <in> <area>|<in> <area> <dicht>)"
-          - "<zou> [de|het] <curtain> <in> <area> ((<dicht> willen | <dicht> kunnen | <dicht>[ ])<doe>|sluiten)"
-          - "<zou> [de|het] <curtain> ((<dicht> willen | <dicht> kunnen | <dicht>[ ])<doe>|sluiten) <in> <area>"
-          - "<zou> [de|het] <curtain> <in> <area> (willen|kunnen) [<dicht>[ ]<doe>|sluiten]"
-          - "<zou> [de|het] <curtain> (willen|kunnen) [<dicht>[ ]<doe>|sluiten] <in> <area>"
+          - "sluit ([de|het] <curtain>;<in> (<area>|<floor>))"
+          - "([de|het] <curtain>;<in> (<area>|<floor>)) (sluiten|dicht doen)"
+          - "[<doe>] <in> (<area>|<floor>) [de|het] <curtain> <dicht>"
+          - "[<doe>] [de|het] <curtain> (<dicht>;<in> (<area>|<floor>))"
         response: "cover"
         slots:
           device_class: "curtain"
           domain: "cover"
 
       - sentences:
-          - sluit [de|het] (<blind>|<shutter>|<shade>) <in> <area>
-          - "[<doe>] [de|het] (<blind>|<shutter>|<shade>) (<dicht> <in> <area>|<in> <area> <dicht>)"
-          - "<zou> [de|het] (<blind>|<shutter>|<shade>) <in> <area> ((<dicht> willen | <dicht> kunnen | <dicht>[ ])<doe>|sluiten)"
-          - "<zou> [de|het] (<blind>|<shutter>|<shade>) ((<dicht> willen | <dicht> kunnen | <dicht>[ ])<doe>|sluiten) <in> <area>"
-          - "<zou> [de|het] (<blind>|<shutter>|<shade>) <in> <area> (willen|kunnen) [<dicht>[ ]<doe>|sluiten]"
-          - "<zou> [de|het] (<blind>|<shutter>|<shade>) (willen|kunnen) [<dicht>[ ]<doe>|sluiten] <in> <area>"
+          - "sluit [de|het] (<blind>|<shutter>|<shade>) <in> (<area>|<floor>)"
+          - "([de|het] (<blind>|<shutter>|<shade>);<in> (<area>|<floor>)) (sluiten|dicht doen)"
+          - "[<doe>] <in> (<area>|<floor>) [de|het] (<blind>|<shutter>|<shade>) <dicht>"
+          - "[<doe>] [de|het] (<blind>|<shutter>|<shade>) (<dicht>;<in> (<area>|<floor>))"
         response: "cover"
         slots:
           device_class:
@@ -67,3 +55,36 @@ intents:
             - "shutter"
             - "shade"
           domain: "cover"
+
+      - sentences:
+          - "sluit [de|het] <curtain>"
+          - "sluit ([de|het] <curtain>;<hier>)"
+          - "[de|het] <curtain> (sluiten|dicht doen)"
+          - "([de|het] <curtain>;<hier>) (sluiten|dicht doen)"
+          - "[<doe>] [de|het] <curtain> [<hier>] <dicht>"
+          - "[<doe>] ([de|het] <curtain> <dicht>;<hier>)"
+        response: "cover"
+        slots:
+          device_class: "curtain"
+          domain: "cover"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "sluit [de|het] (<blind>|<shutter>|<shade>)"
+          - "sluit ([de|het] (<blind>|<shutter>|<shade>);<hier>)"
+          - "[de|het] (<blind>|<shutter>|<shade>) (sluiten|dicht doen)"
+          - "([de|het] (<blind>|<shutter>|<shade>);<hier>) (sluiten|dicht doen)"
+          - "[<doe>] [de|het] (<blind>|<shutter>|<shade>) [<hier>] <dicht>"
+          - "[<doe>] ([de|het] (<blind>|<shutter>|<shade>) <dicht>;<hier>)"
+        response: "cover"
+        slots:
+          device_class:
+            - "blind"
+            - "shutter"
+            - "shade"
+          domain: "cover"
+        requires_context:
+          area:
+            slot: true
