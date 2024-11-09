@@ -8,12 +8,145 @@ responses:
     # Errors for when user is not logged in
     no_area: "Não existe nenhuma área chamada {{ area }}"
     no_floor: "Desculpe, não existe nenhum piso chamado {{ floor }}"
-    no_domain: "Desculpe, eu não conheço nenhum {{ domain }}"
-    no_domain_in_area: "{{ area }} não contem {{ domain }}"
-    no_domain_in_floor: "Desculpe, não existe nenhum(a) {{ domain }} no piso {{ floor }}."
-    no_device_class: "Desculpe, eu não conheço nenhuma {{ device_class }}"
-    no_device_class_in_area: "{{ area }} não contém {{ device_class }}"
-    no_device_class_in_floor: "Desculpe, não existe nenhum(a) {{ device_class }} no piso {{ floor }}."
+    no_domain: |
+      {% set translations = {
+        "button": "nenhum botão",
+        "camera": "nenhuma câmera",
+        "input_button": "nenhum botão de entrada",
+        "alarm_control_panel": "nenhum alarme",
+        "automation": "nenhuma automação",
+        "fan": "nenhum ventilador",
+        "climate": "nenhum termostato",
+        "humidifier": "nenhum umidificador",
+        "input_boolean": "nenhum interruptor",
+        "siren": "nenhuma sirene",
+        "water_heater": "nenhum aquecedor de água",
+        "light": "nenhuma luz",
+        "switch": "nenhum interruptor",
+        "script": "nenhum script",
+        "remote": "nenhum controle remoto",
+        "lock": "nenhuma fechadura",
+        "vacuum": "nenhum aspirador",
+        "scene": "nenhuma cena",
+        "media_player": "nenhum reprodutor de mídia",
+        "lawn_mower": "nenhum cortador de grama",
+        "valve": "nenhuma válvula"
+        } %}
+      {% if domain in translations -%}
+        Desculpe, eu não conheço {{ translations[domain] }}
+      {%- else -%}
+        Desculpe, eu não conheço nenhum domínio com este nome
+      {%- endif %}
+    no_domain_in_area: |
+      {% set translations = {
+        "button": "nenhum botão",
+        "camera": "nenhuma câmera",
+        "input_button": "nenhum botão de entrada",
+        "alarm_control_panel": "nenhum alarme",
+        "automation": "nenhuma automação",
+        "fan": "nenhum ventilador",
+        "climate": "nenhum termostato",
+        "humidifier": "nenhum umidificador",
+        "input_boolean": "nenhum interruptor",
+        "siren": "nenhuma sirene",
+        "water_heater": "nenhum aquecedor de água",
+        "light": "nenhuma luz",
+        "switch": "nenhum interruptor",
+        "script": "nenhum script",
+        "remote": "nenhum controle remoto",
+        "lock": "nenhuma fechadura",
+        "vacuum": "nenhum aspirador",
+        "scene": "nenhuma cena",
+        "media_player": "nenhum reprodutor de mídia",
+        "lawn_mower": "nenhum cortador de grama",
+        "valve": "nenhuma válvula"
+        } %}
+      {% if domain in translations -%}
+        Desculpe, não conheço {{ translations[domain] }} na área {{ area }}
+      {%- else -%}
+        Desculpe, não conheço nenhum elemento do tipo {{ domain }} na área {{ area }}
+      {%- endif %}
+    no_domain_in_floor: |
+      {% set translations = {
+        "button": "nenhum botão",
+        "camera": "nenhuma câmera",
+        "input_button": "nenhum botão de entrada",
+        "alarm_control_panel": "nenhum alarme",
+        "automation": "nenhuma automação",
+        "fan": "nenhum ventilador",
+        "climate": "nenhum termostato",
+        "humidifier": "nenhum umidificador",
+        "input_boolean": "nenhum interruptor",
+        "siren": "nenhuma sirene",
+        "water_heater": "nenhum aquecedor de água",
+        "light": "nenhuma luz",
+        "switch": "nenhum interruptor",
+        "script": "nenhum script",
+        "remote": "nenhum controle remoto",
+        "lock": "nenhuma fechadura",
+        "vacuum": "nenhum aspirador",
+        "scene": "nenhuma cena",
+        "media_player": "nenhum reprodutor de mídia",
+        "lawn_mower": "nenhum cortador de grama",
+        "valve": "nenhuma válvula"
+        } %}
+      {% if domain in translations -%}
+        Desculpe, não conheço {{ translations[domain] }} no andar {{ floor }}
+      {%- else -%}
+        Desculpe, não conheço nenhum elemento do tipo {{ domain }} no andar {{ floor }}
+      {%- endif %}
+    no_device_class: |
+      {% set translations = {
+        "awning": "nenhum toldo",
+        "blind": "nenhuma persiana",
+        "curtain": "nenhuma cortina",
+        "door": "nenhuma porta",
+        "garage": "nenhuma porta de garagem",
+        "gate": "nenhuma porta",
+        "shade": "nenhum estore",
+        "shutter": "nenhuma veneziana",
+        "window": "nenhuma janela"
+        } %}
+      {% if device_class in translations -%}
+        Desculpe, não conheço {{ translations[device_class] }}
+      {%- else -%}
+        Desculpe, não conheço nenhum elemento da classe {{ device_class }}
+      {%- endif %}
+    no_device_class_in_area: |
+      {% set translations = {
+        "awning": "nenhum toldo",
+        "blind": "nenhuma persiana",
+        "curtain": "nenhuma cortina",
+        "door": "nenhuma porta",
+        "garage": "nenhuma porta de garagem",
+        "gate": "nenhuma porta",
+        "shade": "nenhum estore",
+        "shutter": "nenhuma veneziana",
+        "window": "nenhuma janela"
+        } %}
+      {% if device_class in translations -%}
+        Desculpe, não conheço {{ translations[device_class] }} na área {{ area }}
+      {%- else -%}
+        Desculpe, não conheço nenhum elemento da classe {{ device_class }} na área {{ area }}
+      {%- endif %}
+    no_device_class_in_floor: |
+      {% set translations = {
+        "awning": "nenhum toldo",
+        "blind": "nenhuma persiana",
+        "curtain": "nenhuma cortina",
+        "door": "nenhuma porta",
+        "garage": "nenhuma porta de garagem",
+        "gate": "nenhuma porta",
+        "shade": "nenhum estore",
+        "shutter": "nenhuma veneziana",
+        "window": "nenhuma janela"
+        } %}
+      {% if device_class in translations -%}
+        Desculpe, não conheço {{ translations[device_class] }} no andar {{ floor }}
+      {%- else -%}
+        Desculpe, não conheço nenhum elemento da classe {{ device_class }} no andar {{ floor }}
+      {%- endif %}
+
     no_entity: "Não existe nenhum dispositivo ou entidade com o nome {{ entity }}"
     no_entity_in_area: "Desculpe, eu não conheço nenhum dispositivo chamado {{ entity }} na área {{ area }}"
     no_entity_in_floor: "Desculpe, não existe nenhum dispositivo chamado {{ entity }} no piso {{ floor }}."
@@ -106,7 +239,7 @@ lists:
         out: "off"
   on_off_domains:
     values:
-      - in: luz[es]
+      - in: (luz[es]|lâmpada[s])
         out: light
       - in: ventilador[es]
         out: fan
@@ -144,9 +277,9 @@ lists:
         out: window
   lock_states:
     values:
-      - in: "trancada"
+      - in: "trancad(a|o)"
         out: "locked"
-      - in: "destrancada"
+      - in: "destrancad(a|o)"
         out: "unlocked"
   shopping_list_item:
     wildcard: true
@@ -212,7 +345,7 @@ expansion_rules:
   brilho: "{brightness}[%| porcento]"
   colocar: "(coloque|coloca[r]|pôr|põe)"
   cade: "(onde está [a|o]|cadê [a|o])"
-  cancela: "(cancele|cancela[r])"
+  cancela: "(cancele|cancela[r]|para[r]|pare)"
   desligar: "(desliga|desligue|apaga|apague|desligar|apagar|desativa[r]|desative)"
   esta: "(está|estão|existe|existem)"
   fecha: "(fecha|feche|fechar)"
@@ -228,13 +361,15 @@ expansion_rules:
   temperatura: "{temperature}[°| graus] [{temperature_unit}]"
   volume: "{volume:volume_level}[[ ]%| por cento]"
   zona: "[(o|os|a|as)] {area}"
-
+  falta: "(falta|resta)"
+  alarme: "(alarme[s]|cronômetro[s]|timer[s]|temporizador[es])"
+  pausar: "(pausa[r]|pause)"
   # Context awareness expansion rules
   casa: "(casa|apartamento)"
 
   # Timers
-  temporizador: "[o ][meu ](alarme|cronômetro|timer)"
-  temporizadores: "[os ][meus ](alarmes|cronômetros|timers)"
+  temporizador: "[(no|do|o)] [meu ]<alarme>"
+  temporizadores: "[(nos|dos|os) ][meus ]<alarme>"
 
   nb_seconds: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
   nb_minutes: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
@@ -243,7 +378,7 @@ expansion_rules:
   nb_start_minutes: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
   nb_start_hours: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
 
-  timer_set: "(alarme|inicia[r])"
+  timer_set: "<alarme>"
   timer_cancel: "(<desligar>|<cancela>)"
   timer_duration_seconds: "<nb_seconds> segundo[s]"
   timer_duration_minutes: "<nb_minutes> minuto[s][ [e ]<timer_duration_seconds>]"
