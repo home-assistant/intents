@@ -1,0 +1,52 @@
+language: ca
+responses:
+  intents:
+    HassGetCurrentTime:
+      default: >
+        {% set next_hour = 0 %}
+        {% set minute_str = "" %}
+        {% set start_str = "Son" %}
+        {% if slots.time.minute > 0: %}
+            {% if slots.time.minute == 15: %}
+                {% set start_str = "És" %}
+                {% set minute_str = "un quart" %}
+                {% set next_hour = 1 %}
+            {% elif slots.time.minute == 30: %}
+                {% set minute_str = "dos quarts" %}
+                {% set next_hour = 1 %}
+            {% elif slots.time.minute == 45: %}
+                {% set minute_str = "tres quarts" %}
+                {% set next_hour = 1 %}
+            {% endif %}
+        {% endif %}
+        {% if slots.time.hour + next_hour > 12: %}
+            {% set hour12 = slots.time.hour + next_hour - 12 %}
+        {% elif slots.time.hour + next_hour == 0: %}
+            {% set hour12 = 12 %}
+        {% else: %}
+            {% set hour12 = slots.time.hour + next_hour %}
+        {% endif %}
+        {% if minute_str != "": %}
+           {{start_str}} {{minute_str}} de {{hour12}}
+        {% elif hour12 == 1 : %}
+           Es la {{hour12}}
+           {% if slots.time.minute > 0: %}
+             i {{slots.time.minute}}
+           {% endif %}
+        {% else: %}
+           Son les {{hour12}}
+           {% if slots.time.minute > 0: %}
+             i {{slots.time.minute}}
+           {% endif %}
+        {% endif %}
+        {% if slots.time.hour == 0: %}
+            de la nit
+        {% elif slots.time.hour < 12: %}
+            del matí
+        {% elif slots.time.hour == 12: %}
+            del migdia
+        {% elif slots.time.hour < 21: %}
+            de la tarda
+        {% else: %}
+            de la nit
+        {% endif %}
