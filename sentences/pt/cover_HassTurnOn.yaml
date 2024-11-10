@@ -10,11 +10,17 @@ intents:
           domain: cover
 
       - sentences:
-          - <abre>  [as|os|a|o] [(cortina|cortinas|cortinado|cortinados|estore|estores|persiana|persianas)] <na_zona>
+          - <abre> <estores> <na_zona>
         response: cover
         slots:
-          device_class:
-            - blind
-            - curtain
-            - shutter
           domain: cover
+
+      # abrir estores na mesma divisão que um dispositivo de voz
+      - sentences:
+          - <abre> <estores> [aqui]
+        response: cover
+        slots:
+          domain: cover
+        requires_context:
+          area:
+            slot: true

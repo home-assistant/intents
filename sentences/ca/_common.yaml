@@ -114,7 +114,31 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "mitja"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
+  actual: "(ara|actual[ment])"
   pronom_singular: "(el|la|l')[ ]"
   pronom_plural: "(els|les)[ ]"
   pronom: "(<pronom_singular>|<pronom_plural>)"
@@ -138,9 +162,25 @@ expansion_rules:
   percent: "[ ](%|per[ ]cent)"
   cancela: "cancel[·l]a[r]"
   seguent: "(següent|proper[a]|pròxim[a])"
+  anterior: "[l']anterior"
   element: "(element|ítem|pista|cançó|tema|tonada|mitjà|canal|recurs|vídeo|clip|film)"
   reproduir: "(reprodu(ir|eix)|posa[r]|fica[r]|salta[r]|passa[r]|canvia[r])"
   reactiva: "(reactiva[r]|continua[r]|segu(ir|eix))"
+  hora: "hor(a|es)"
+
+  # Timers
+  timer_set: "(posa|crea|comença|inicia|activa)[r]"
+  timer_cancel: "(cancel·la|atura|para|deixa|elimina)[r]"
+  timer_duration_seconds: "{timer_seconds:seconds} segon[s]"
+  timer_duration_minutes: "({timer_minutes:minutes} minut[s][ [i ]{timer_seconds:seconds} segon[s]])|({timer_minutes:minutes} i[ a] {timer_half:seconds} minut[s])|({timer_half:seconds} a minut[s])"
+  timer_duration_hours: "({timer_hours:hours} <hora> [i ]{timer_minutes:minutes} minut[s][ [i ]{timer_seconds:seconds} segon[s]])|({timer_hours:hours} <hora> i {timer_half:minutes})|({timer_half:minutes} <hora>)"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} segon[s]"
+  timer_start_minutes: "{timer_minutes:start_minutes} minut[s][ [i ]{timer_seconds:start_seconds} segon[s]]"
+  timer_start_hours: "{timer_hours:start_hours} <hora> [i ]{timer_minutes:start_minutes} minut[s][ [i ]{timer_seconds:start_seconds} segon[s]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
 skip_words:
   - si us plau
   - vinga

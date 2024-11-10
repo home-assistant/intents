@@ -1,8 +1,8 @@
 language: ar
 responses:
   errors:
-    no_intent: "عفوا، لم أفهم هذا"
-    no_area: "عفوا، لا توجد منطقة بالإسم {{ area }}"
+    no_intent: "عفوا، لم أفهم (هذا|ذلك))"
+    no_area: "عفوا، (ليس هناك|لا توجد) منطقة بالإسم {{ area }}"
     no_domain_in_area: "عفوا، النطاق {{ domain }} غير موجود بالمنطقة {{ area }}"
     no_device_class_in_area: "عفوا، المنطقة {{ area }} لا تحتوى على فئة الأجهزة {{ device_class }}"
     no_entity: "عفوا، لا يوجد جهاز او خاصية بالإسم {{ entity }}"
@@ -81,6 +81,7 @@ lists:
         out: "opening"
       - in: "يغلق"
         out: "closing"
+
   cover_classes:
     values:
       - in: <awning>
@@ -96,6 +97,12 @@ lists:
       - in: <window>
         out: window
 
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
   name: "[ال]{name}"
   area: "[ال]{area}"
@@ -104,20 +111,37 @@ expansion_rules:
   script: "[ال](برنامج|برامج|مسار|مسارات|سيناريو)"
   scene: "[ال](مشهد|مشاهد|اعدادات)"
 
+  hello: "(مرحبا|اهلا)"
+  home_assistant: "[ال]بيت [(الذكي|المساعد)]"
+
   what_is: "(ما هو|ما هي|ماذا يكون|ماذا تكون|كم هي|كم هو)"
   is_it: "(هل [هي]|هل [هو]|هل هناك)"
   how_many: "كم عدد"
+  where: "[(ل|<to> )](اين|وين|فين)"
+  go: "[ب][(ت|ي)](ذهب|روح|تجه)"
+  what: "(ما|ماذا|شو)"
+  can: "(ممكن|يمكن)[ني]"
 
-  brightness: "{brightness}[% | بالمائة]"
+  brightness: "{brightness}[[ ]%| بالمائة]"
   temperature: "{temperature}[°| درجة] [{temperature_unit}]"
+  position: "{position}[[ ]%| بالمائة]"
 
   light: "[ال](اضواء|اضاءة|ضوء|مصابيح|مصباح|انوار|نور|لمبة|لمبات|انوار)"
   switch: "[ال](مفتاح|مفاتيح)"
   fan: "[ال](مروحة|مراوح|مروحات)"
 
-  turn: "(غير|اضبط|أضبط|إضبط|ضبط)"
+  turn: "(اضبط|أضبط|إضبط|ضبط|[ت]غير|تعيين)"
   turn_on: "(افتح|إفتح|شغل|اشعل|أشعل|اشغل|أشغل|ابدأ|إبدأ|شعل|فعل|تفعيل|تشغيل|فعل)"
   turn_off: "(أغلق|اغلق|اطفئ|أطفئ|طفي)"
+
+  turn_up: "(علي|[ا]رفع)"
+  turn_down: "(اخفض|[ا]نزل|تخفيض|خفض)"
+
+  increase: "(زيادة|زيد|<turn_up>|كتر|كثر)"
+  decrease: "(تقليل|قلل|تنقيص|نقص|وطي|<turn_down>)"
+
+  unlock: "(افتح)"
+  lock: "(اقفل)"
 
   temp: "(باردة|دافئة|لطيفة|حارة|درجة [ال]حرارة)"
   intensity: "[ال](درجة [ال]سطوع|[شدة] [ال]سطوع|قوة|شدة)"
@@ -125,11 +149,13 @@ expansion_rules:
 
   in: "(في|داخل)"
   all: "(كل|جميع)"
-  to: "(على|الى)"
+  to: "(على|الى|لل)"
   any: "(أي)"
 
-  open: "(افتح|إفتح|إرفع|ارفع)"
-  close: "(أغلق|اغلق|اقفل|اخفض|انزل|نزل)"
+  open: "(<unlock>|<turn_up>)"
+  close: "(اغلق|سكر|<lock>|<turn_down>)"
+
+  numeric_value_set: "(<turn>|<open>|<close>|)"
 
   awning: "[ال](مظلة|مظلات)"
   curtain: "[ال](ستائر|ستارة|ستارات)"
@@ -137,7 +163,6 @@ expansion_rules:
   garage: "[ال](باب|ابواب|بوابة|بوابات) [ال]جراج"
   gate: "[ال](بوابة|بوابات)"
   window: "[ال](نافذة|نوافذ|نافذات|شباك|شبابيك)"
-  lock: "[ال](اقفال|قفل)"
 
 skip_words:
   - "(من فضلك|لو سمحت)"
