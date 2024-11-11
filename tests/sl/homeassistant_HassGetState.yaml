@@ -1,6 +1,68 @@
 language: sl
 tests:
   - sentences:
+      - "kakšna je zunanja temperatura?"
+      #- "what's the current value of outside temperature?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Zunanja temperatura"
+    response: "Zunanja temperatura je 13 °C"
+
+  - sentences:
+      - "ali je luč v spalnici vključena?"
+      - "ali je vključena luč v spalnici?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "luč v spalnici"
+        state: "on"
+    response: "Ne, off" #state is not translating - > https://github.com/home-assistant/intents/issues/1070
+
+  - sentences:
+      - "ali je kakšno stikalo vključeno v kuhinji?"
+      - "ali je v kuhinji kakšno stikalo prižgano?"
+      - "je v kuhinji katero stikalo vklopljeno?"
+      - "povej mi katero stikalo je vklopljeno v kuhinji?"
+      - "ali veš katera stikala so vklopljena v kuhinji?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "kuhinji"
+        domain: "switch"
+        state: "on"
+    response: "Da, kuhinjsko stikalo"
+
+  - sentences:
+      - "ali so vsa stikala vključena?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Da"
+
+  - sentences:
+      - "ali so vse luči izklopljene?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Ne, niso božična lučke, lestenec in talno svetilka"
+
+  - sentences:
+      - "katere luči so vklopljene?"
+      - "ali veš katere luči so vključene?"
+      - "povej katere luči so prižgane?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Da, božična lučke, lestenec in talno svetilka"
+
+  - sentences:
       - "koliko luči je vklopljenih?"
       - "povej koliko svetilk je prižganih?"
     intent:
