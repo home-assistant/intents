@@ -278,6 +278,10 @@ TESTS_FIXTURES = vol.Schema(
     }
 )
 
+TESTS_FAILURES = vol.Schema(
+    {vol.Required("language"): str, vol.Required("sentences"): [str]}
+)
+
 
 RESPONSE_SCHEMA = vol.Schema(
     {
@@ -467,6 +471,8 @@ def validate_language(
 
         if test_file.name == "_fixtures.yaml":
             schema = TESTS_FIXTURES
+        elif test_file.name == "_test_failures.yaml":
+            schema = TESTS_FAILURES
         else:
             schema = TESTS_SCHEMA
 
@@ -483,6 +489,9 @@ def validate_language(
                     errors.append(
                         f"{path}: Entity {entity['name']} references unknown area {entity['area']}"
                     )
+            continue
+
+        if test_file.name == "_test_failures.yaml":
             continue
 
         if test_file.name not in sentence_files:
