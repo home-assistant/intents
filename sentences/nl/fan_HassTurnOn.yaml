@@ -3,17 +3,32 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "[<doe>] [<alle>] <ventilator> [<naar>] aan <in> <area>"
-          - "<zou> [<alle>] <ventilator> [<naar>] [[aan willen |aan kunnen |aan[ ]]<doe>] <in> <area>"
-          - "Schakel [<alle>] <ventilator> [<naar>] in <in> <area>"
-          - "[<doe>] [<alle>] <ventilator> <in> <area> [<naar>] aan"
-          - "<zou> [<alle>] <ventilator> <in> <area> [<naar>] [[aan willen |aan kunnen |aan[ ]]<doe>]"
-          - "Schakel [<alle>] <ventilator> <in> <area> [<naar>] in"
-          - "[<doe>] [(<alle>|<in>)] <area> <ventilator> [<naar>] aan"
-          - "<zou> [(<alle>|<in>)] <area> <ventilator> [<naar>] [[aan willen |aan kunnen |aan[ ]]<doe>]"
-          - "Schakel [(<alle>|<in>)] <area>[ ]<ventilator> [<naar>] in"
-          - "[<zou>] [(<alle>|<in>)] [<area>[ ]]<ventilator> [<in> <area>] [willen|kunnen] (aan[ ](zetten|doen)|inschakelen)"
+          - "[<doe>] [<alle>] <ventilator> ([<naar>] aan;<in> (<area>|<floor>))"
+          - "Schakel [<alle>] <ventilator> ([<naar>] in;<in> (<area>|<floor>))"
+          - "[<doe>] [<alle>] <ventilator> (<in> (<area>|<floor>);[<naar>] aan)"
+          - "Schakel [<alle>] <ventilator> (<in> (<area>|<floor>);[<naar>] in)"
+          - "[<doe>] [(<alle>|<in>)] (<area>|<floor>)[ ]<ventilator> [<naar>] aan"
+          - "Schakel [(<alle>|<in>)] (<area>|<floor>)[ ]<ventilator> [<naar>] in"
+          - "[<alle>] (<area>|<floor>)[ ]<ventilator> (aan[ ](zetten|doen)|inschakelen)"
+          - "([<in>] (<area>|<floor>);[<alle>] <ventilator>) (aan[ ](zetten|doen)|inschakelen)"
+          - "[<alle>] <ventilator> [<in>] (<area>|<floor>) (aan[ ](zetten|doen)|inschakelen)"
         response: fans_area
         slots:
           domain: "fan"
-          name: "all"
+
+      - sentences:
+          - "[<doe>] <ventilator> [<naar>] aan"
+          - "schakel <ventilator> [<naar>] in"
+          - "[<doe>] (<hier>;[alle] <ventilator>) [<naar>] aan"
+          - "schakel (<hier>;[alle] <ventilator>) [<naar>] in"
+          - "[<doe>] [alle] <ventilator> [<naar>] aan <hier>"
+          - "schakel [alle] <ventilator> [<naar>] in <hier>"
+          - "[alle] <ventilator> (<hier>;(aan[ ](zetten|doen)|inschakelen))"
+          - "<hier> [alle] <ventilator> (aan[ ](zetten|doen)|inschakelen)"
+          - "<ventilator> (aan[ ](zetten|doen)|inschakelen)"
+        response: "fans_area"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+            slot: true
