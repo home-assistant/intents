@@ -6,7 +6,7 @@ import json
 
 import yaml
 
-from .const import INTENTS_FILE, LANGUAGES, LANGUAGES_FILE, IMPORTANT_INTENTS
+from .const import IMPORTANT_INTENTS, INTENTS_FILE, LANGUAGES, LANGUAGES_FILE
 from .util import load_merged_responses, load_merged_sentences
 
 
