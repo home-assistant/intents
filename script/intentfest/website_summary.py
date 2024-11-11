@@ -56,17 +56,20 @@ def run() -> int:
         )
 
         usable = (
-            all(intent_sentence_count[key] for key in (
-                "HassTurnOn",
-                "HassTurnOff",
-                "HassNevermind",
-                "HassLightSet",
-                "HassClimateGetTemperature",
-                "HassListAddItem",
-                "HassStartTimer",
-                "HassCancelTimer",
-                "HassTimerStatus",
-            ))
+            all(
+                intent_sentence_count[key]
+                for key in (
+                    "HassTurnOn",
+                    "HassTurnOff",
+                    "HassNevermind",
+                    "HassLightSet",
+                    "HassClimateGetTemperature",
+                    "HassListAddItem",
+                    "HassStartTimer",
+                    "HassCancelTimer",
+                    "HassTimerStatus",
+                )
+            )
             and errors_translated
         )
 
