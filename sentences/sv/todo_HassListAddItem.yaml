@@ -1,0 +1,13 @@
+language: "sv"
+intents:
+  HassListAddItem:
+    data:
+      - sentences:
+          - lägg till <item> på <my_list>
+          - sätt <item> (på|i) <my_list>
+        response: item_added
+        requires_context:
+          domain: todo
+        expansion_rules:
+          my_list: "[min|den] {name} [lista[n]]"
+          item: "{shopping_list_item:item}"
