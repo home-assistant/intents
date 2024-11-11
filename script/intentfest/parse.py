@@ -5,11 +5,12 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from typing import Any, Dict
+from collections.abc import Iterable
+from typing import Any, Dict, Optional
 
 import yaml
 from hassil.intents import Intents
-from hassil.recognize import recognize_all, recognize_best
+from hassil.recognize import RecognizeResult, recognize_all, recognize_best
 from hassil.util import merge_dict, normalize_whitespace
 
 from shared import (
@@ -87,7 +88,7 @@ def run() -> int:
     # Parse sentences
     for sentence in args.sentence:
         if args.all:
-            results = recognize_all(
+            results: Iterable[Optional[RecognizeResult]] = recognize_all(
                 sentence, intents, slot_lists=slot_lists, intent_context=intent_context
             )
         else:
