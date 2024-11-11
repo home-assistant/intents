@@ -6,7 +6,7 @@ import json
 
 import yaml
 
-from .const import INTENTS_FILE, LANGUAGES, LANGUAGES_FILE
+from .const import INTENTS_FILE, LANGUAGES, LANGUAGES_FILE, IMPORTANT_INTENTS
 from .util import load_merged_responses, load_merged_sentences
 
 
@@ -58,17 +58,7 @@ def run() -> int:
         usable = (
             all(
                 intent_sentence_count[key]
-                for key in (
-                    "HassTurnOn",
-                    "HassTurnOff",
-                    "HassNevermind",
-                    "HassLightSet",
-                    "HassClimateGetTemperature",
-                    "HassListAddItem",
-                    "HassStartTimer",
-                    "HassCancelTimer",
-                    "HassTimerStatus",
-                )
+                for key in IMPORTANT_INTENTS
             )
             and errors_translated
         )
@@ -105,6 +95,7 @@ def run() -> int:
     for intent, info in intent_info.items():
         intents[intent] = {
             "file_name": f"{info['domain']}_{intent}.yaml",
+            "important": intent in IMPORTANT_INTENTS,
         }
 
     print(

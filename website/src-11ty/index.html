@@ -8,8 +8,24 @@ Cell format:
   >&lt;template&nbsp;sentence&nbsp;count&gt; + &lt;used&nbsp;responses&gt; /
   &lt;defined&nbsp;responses&gt;</code
 ><br>
-Green means language implements important intents (HassTurnOn, HassTurnOff, HassNevermind, HassLightSet, HassClimateGetTemperature, HassListAddItem, HassStartTimer, HassCancelTimer, HassTimerStatus)<br>
-⭐️ means all intents covered
+<table>
+  <tr>
+    <td class="usable"> </td>
+    <td>Important intents covered</td>
+  </tr>
+  <tr>
+    <td class="zero"> </td>
+    <td>Uncovered intent</td>
+  </tr>
+  <tr>
+    <td class="zero important"> </td>
+    <td>Uncovered important intent</td>
+  </tr>
+  <tr>
+    <td>⭐️</td>
+    <td>Complete coverage</td>
+  </tr>
+</table>
 <table>
   <thead>
     <tr>
@@ -35,7 +51,7 @@ Green means language implements important intents (HassTurnOn, HassTurnOff, Hass
       </td>
 
       {% for intent in summary.intents %}
-      <td class="multiple {% if intent[1] == 0 %}zero{% endif %}">
+      <td class="multiple {% if intent[1] == 0 %}zero{% endif %} {% if intentSummary.intents[intent[0]].important %}important{% endif %}">
         <a
           href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/{{ intentSummary.intents[intent[0]].file_name }}"
           target="_blank"
