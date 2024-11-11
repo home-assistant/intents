@@ -56,6 +56,21 @@ def run() -> int:
         )
 
         usable = (
+            all(intent_sentence_count[key] for key in (
+                "HassTurnOn",
+                "HassTurnOff",
+                "HassNevermind",
+                "HassLightSet",
+                "HassClimateGetTemperature",
+                "HassListAddItem",
+                "HassStartTimer",
+                "HassCancelTimer",
+                "HassTimerStatus",
+            ))
+            and errors_translated
+        )
+
+        complete = (
             all(value > 0 for value in intent_sentence_count.values())
             and all(len(value) > 0 for value in used_responses_per_intent.values())
             and errors_translated
@@ -79,6 +94,7 @@ def run() -> int:
                 "intent_responses_translated": intent_responses_translated,
                 "errors_translated": errors_translated,
                 "usable": usable,
+                "complete": complete,
             }
         )
 
