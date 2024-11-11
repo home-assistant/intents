@@ -3,7 +3,9 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "<is> [er] <name_area> {cover_states:state} [<in> <area>]"
+          - "<is> [er] <name>[[ ]<afdekking>] {cover_states:state} [<in> (<area>|<floor>)]"
+          - "<is> [er] (<in> (<area>|<floor>)[ ];<name>[[ ]<afdekking>]) {cover_states:state}"
+          - "<is> <name>[[ ]<afdekking>] {cover_states:state} [<in> (<area>|<floor>)] "
         response: one_yesno
         requires_context:
           domain: cover
@@ -11,25 +13,30 @@ intents:
           domain: cover
 
       - sentences:
-          - <is> [er] [<in> <area>|ergens|nog] [een] {cover_classes:device_class} [<in> <area>] {cover_states:state} [<in> <area>]
+          - "<is> [er] [<in> <area>|<floor>|ergens|nog] [een] {cover_classes:device_class} {cover_states:state}"
+          - "<is> [er] [ergens|nog] [een] {cover_classes:device_class} (<in> <area>;{cover_states:state})"
+          - "<is> [er] {cover_classes:device_class} ({cover_states:state};<in> (<area>|<floor>))"
         response: any
         slots:
           domain: cover
 
       - sentences:
-          - <is> [<in> <area>] [<alle>] [de] {cover_classes:device_class} [<in> <area>] {cover_states:state} [<in> <area>]
+          - "<is> [<in> (<area>|<floor>)] [<alle>|de] {cover_classes:device_class} {cover_states:state}"
+          - "<is> [<alle>|de] {cover_classes:device_class} (<in> (<area>|<floor>);{cover_states:state})"
         response: all
         slots:
           domain: cover
 
       - sentences:
-          - Welk[e] {cover_classes:device_class} [<in> <area>] <is> {cover_states:state} [<in> <area>]
+          - "Welk[e] {cover_classes:device_class} <is> {cover_states:state}"
+          - "Welk[e] {cover_classes:device_class} ([<in> (<area>|<floor>)];<is> {cover_states:state})"
         response: which
         slots:
           domain: cover
 
       - sentences:
-          - Hoe[ ]veel {cover_classes:device_class} [<in> <area>] <is> [er] [<in> <area>] {cover_states:state} [<in> <area>]
+          - "Hoe[ ]veel {cover_classes:device_class} [<in> (<area>|<floor>)] <is> [er]  {cover_states:state}"
+          - "Hoe[ ]veel {cover_classes:device_class} <is> [er] (<in> (<area>|<floor>);{cover_states:state})"
         response: how_many
         slots:
           domain: cover

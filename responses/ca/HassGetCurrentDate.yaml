@@ -1,0 +1,27 @@
+language: ca
+responses:
+  intents:
+    HassGetCurrentDate:
+      default: >
+        {% set months = {
+           1: 'gener',
+           2: 'febrer',
+           3: 'març',
+           4: 'abril',
+           5: 'maig',
+           6: 'juny',
+           7: 'juliol',
+           8: 'agost',
+           9: 'setembre',
+           10: 'octubre',
+           11: 'novembre',
+           12: 'desembre',
+        } %}
+        {% set weekday = [ 'dilluns', 'dimarts', 'dimecres', 'dijous', 'divendres', 'dissabte', 'diumenge' ] %}
+        És {{ weekday[slots.date.weekday()] }}, {{slots.date.day}}
+        {% if slots.date.month in [4,8,10]: %}
+          d'{{ months[slots.date.month] }}
+        {% else %}
+          de {{ months[slots.date.month] }}
+        {% endif %}
+        del {{ slots.date.year }}
