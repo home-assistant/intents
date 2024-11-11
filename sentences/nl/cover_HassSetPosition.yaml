@@ -3,14 +3,23 @@ intents:
   HassSetPosition:
     data:
       - sentences:
-          - "[<doe>|open|sluit] <name> [positie ][<naar>] <position>"
+          - "[<numeric_value_set> |open |sluit] <name>[[ ]<afdekking>][[ ](positie|stand)] [<naar>] <position>"
+          - "[<numeric_value_set> |open |sluit] [de] (positie|stand) [van] <name>[[ ]<afdekking>] [<naar>] <position>"
+          - "[<doe>] <name>[[ ]<afdekking>][[ ](positie|stand)] ([<naar>] <position>;(omhoog|omlaag))"
+          - "[<doe>] [de] (positie|stand) [van] <name>[[ ]<afdekking>] ([<naar>] <position>;(omhoog|omlaag))"
         requires_context:
           domain: cover
         slots:
           domain: cover
 
       - sentences:
-          - "(<doe>|open|sluit) [de |het ]{cover_classes:device_class}[ positie] ((op|naar) <position>;<in> <area>)"
-          - "(<doe>|open|sluit) <area>[ ]{cover_classes:device_class}[ positie] (op|naar) <position>"
+          - "(<numeric_value_set>|open|sluit) [de |het] {cover_classes:device_class}[[ ](positie|stand)] (<naar> <position>;<in> <area>)"
+          - "(<numeric_value_set>|open|sluit) [de] (positie|stand) [van] [de |het] {cover_classes:device_class} (<naar> <position>;<in> <area>)"
+          - "(<numeric_value_set>|open|sluit) <area>[ ]{cover_classes:device_class}[[ ](positie|stand)] <naar> <position>"
+          - "(<numeric_value_set>|open|sluit) [de] (positie|stand) [van] <area>[ ]{cover_classes:device_class} <naar> <position>"
+          - "[<doe>] [de |het] <area>[ ]{cover_classes:device_class}[[ ](positie|stand)] ([<naar>] <position>;(omhoog|omlaag))"
+          - "[<doe>] [de] (positie|stand) [van] [de |het] <area>[ ]{cover_classes:device_class} ([<naar>] <position>;(omhoog|omlaag))"
+          - "[<doe>] (<in> <area>;[de |het] {cover_classes:device_class}[[ ](positie|stand)]) ([<naar>] <position>;(omhoog|omlaag))"
+          - "[<doe>] (<in> <area>;[de] (positie|stand) [van] [de |het] {cover_classes:device_class}) ([<naar>] <position>;(omhoog|omlaag))"
         slots:
           domain: cover
