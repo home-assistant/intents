@@ -56,10 +56,7 @@ def run() -> int:
         )
 
         usable = (
-            all(
-                intent_sentence_count[key]
-                for key in IMPORTANT_INTENTS
-            )
+            all(intent_sentence_count[key] for key in IMPORTANT_INTENTS)
             and errors_translated
         )
 
