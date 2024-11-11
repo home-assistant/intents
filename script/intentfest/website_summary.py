@@ -6,7 +6,7 @@ import json
 
 import yaml
 
-from .const import INTENTS_FILE, LANGUAGES, LANGUAGES_FILE
+from .const import IMPORTANT_INTENTS, INTENTS_FILE, LANGUAGES, LANGUAGES_FILE
 from .util import load_merged_responses, load_merged_sentences
 
 
@@ -56,6 +56,11 @@ def run() -> int:
         )
 
         usable = (
+            all(intent_sentence_count[key] for key in IMPORTANT_INTENTS)
+            and errors_translated
+        )
+
+        complete = (
             all(value > 0 for value in intent_sentence_count.values())
             and all(len(value) > 0 for value in used_responses_per_intent.values())
             and errors_translated
@@ -79,6 +84,7 @@ def run() -> int:
                 "intent_responses_translated": intent_responses_translated,
                 "errors_translated": errors_translated,
                 "usable": usable,
+                "complete": complete,
             }
         )
 
@@ -86,6 +92,7 @@ def run() -> int:
     for intent, info in intent_info.items():
         intents[intent] = {
             "file_name": f"{info['domain']}_{intent}.yaml",
+            "important": intent in IMPORTANT_INTENTS,
         }
 
     print(
