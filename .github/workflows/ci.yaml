@@ -51,7 +51,7 @@ jobs:
           echo $CHANGED_FILES
           echo "::endgroup::"
           # Check if any files outside language directories were changed
-          if echo "$CHANGED_FILES" | jq -r '.[]' | grep -qvE '^(sentences|responses|tests)/'; then
+          if echo "$CHANGED_FILES" | jq -r '.[]' | grep -v '.github/' | grep -qvE '^(sentences|responses|tests)/'; then
             echo "Running full tests due to changes outside language directories"
             exit 0
           fi
