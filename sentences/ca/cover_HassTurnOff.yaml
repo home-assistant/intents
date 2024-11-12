@@ -3,22 +3,19 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - (<tanca>|<baixar>) [(la|les)] port(a|es) [del] garatge
+          - (<tanca>|<baixar>) <name> [<area>]
+        response: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - (<tanca>|<baixar>) [<pronom>] {cover_classes:device_class}
         response: cover_device_class
         slots:
-          device_class: garage
           domain: cover
+
       - sentences:
-          - (<tanca>|<baixar>) [(la|les)] persian(a|es) <area>
-        response: cover_area
+          - (<tanca>|<baixar>) [<pronom>] {cover_classes:device_class} <area>
+        response: cover_device_area
         slots:
-          device_class:
-            - blind
-            - shutter
-          domain: cover
-      - sentences:
-          - (<tanca>|<baixar>) [(la|les)] cortin(a|es) <area>
-        response: cover_area
-        slots:
-          device_class: curtain
           domain: cover
