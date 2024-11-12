@@ -5,9 +5,10 @@ tests:
     intent:
       name: HassTurnOn
       slots:
-        device_class: garage
         domain: cover
-    response: Obro garage
+        device_class: door
+        area: Garatge
+    response: Obro porta a garatge
   - sentences:
       - obre la persiana de la cuina
       - puja la persiana de la cuina
@@ -19,7 +20,7 @@ tests:
           - blind
           - shutter
         domain: cover
-    response: Obro cuina
+    response: Obro persiana a cuina
   - sentences:
       - obre la cortina de la cuina
       - puja la cortina de la cuina
@@ -29,4 +30,39 @@ tests:
         area: Cuina
         device_class: curtain
         domain: cover
-    response: Obro cuina
+    response: Obro cortina a cuina
+  - sentences:
+      - Obre les persianes del dormitori
+    intent:
+      name: HassTurnOn
+      slots:
+        area: Dormitori
+        device_class:
+          - blind
+          - shutter
+        domain: cover
+  - sentences:
+      - Obre la cortina esquerra
+    intent:
+      name: HassTurnOn
+      slots:
+        name: Cortina esquerra
+        domain: cover
+  - sentences:
+      - Obre la cortina esquerra del menjador
+    intent:
+      name: HassTurnOn
+      slots:
+        name: Cortina esquerra
+        area: Menjador
+        domain: cover
+  - sentences:
+      - Obre la cortina
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: cover
+        device_class: curtain
+      context:
+        area: Dormitori
+    response: Obro cortina
