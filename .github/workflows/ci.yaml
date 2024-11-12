@@ -47,7 +47,7 @@ jobs:
         env:
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          echo "::group::Extract affected languages"
+          echo "::group::Get changed files"
           echo $CHANGED_FILES
           echo "::endgroup::"
           # Check if any files outside language directories were changed
@@ -62,14 +62,13 @@ jobs:
             cut -d'/' -f2 | sort -u | tr '\n' ',' | sed 's/,$//')
 
           if [ -n "$LANGUAGES" ]; then
-            echo "languages=$LANGUAGES" >> $GITHUB_OUTPUT
+            echo "languages=$LANGUAGES" | tee -a $GITHUB_OUTPUT
           fi
 
       - name: Run tests
         env:
           is_pr: ${{ github.event_name == 'pull_request' }}
         run: |
-          exit 1
           if [ "$is_pr" = "true" ] && [ -n "${{ steps.extract-languages.outputs.languages }}" ]; then
             script/test --language ${{ steps.extract-languages.outputs.languages }}
           else
