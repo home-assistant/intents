@@ -51,13 +51,13 @@ jobs:
           echo $CHANGED_FILES
           echo "::endgroup::"
           # Check if any files outside language directories were changed
-          if echo "$CHANGED_FILES" | grep -qvE '^(sentences|responses|tests)/'; then
+          if echo "$CHANGED_FILES" | jq -r '.[]' | grep -qvE '^(sentences|responses|tests)/'; then
             echo "Running full tests due to changes outside language directories"
             exit 0
           fi
 
           # Get unique language codes from changed files
-          LANGUAGES=$(echo "$CHANGED_FILES" | \
+          LANGUAGES=$(echo "$CHANGED_FILES" | jq -r '.[]' | \
             grep -oE '/(sentences|responses|tests)/([^/ ]+)/' | \
             cut -d'/' -f3 | sort -u | tr '\n' ',' | sed 's/,$//')
 
