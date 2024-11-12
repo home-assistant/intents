@@ -3,4 +3,24 @@ language: nl
 responses:
   intents:
     HassStartTimer:
-      default: "Timer gestart"
+      default: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ ' uur' if h else '' %}
+        {% set m_text = (30 if m in ['half', 'halve', '1/2', '1/2e'] else 90 if m in ['anderhalf', 'anderhalve'] else m) ~ (' minuut' if m in [ '1', 'een', 'één'] else ' minuten') if m else '' %}
+        {% set s_text = (30 if s in ['half', 'halve', '1/2', '1/2e'] else 90 if s in ['anderhalf', 'anderhalve'] else s) ~ (' seconde' if s in [ '1', 'een', 'één'] else ' seconden') if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' en ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' en ') %}
+        {% set name = (' met de naam ' ~ slots.name | trim) if slots.name is defined else '' %}
+        Timer gezet voor {{ text }}{{ name }}
+      command: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ ' uur' if h else '' %}
+        {% set m_text = (30 if m in ['half', 'halve', '1/2', '1/2e'] else 90 if m in ['anderhalf', 'anderhalve'] else m) ~ (' minuut' if m in [ '1', 'een', 'één'] else ' minuten') if m else '' %}
+        {% set s_text = (30 if s in ['half', 'halve', '1/2', '1/2e'] else 90 if s in ['anderhalf', 'anderhalve'] else s) ~ (' seconde' if s in [ '1', 'een', 'één'] else ' seconden') if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' en ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' en ') %}
+        Opdracht wordt uitgevoerd over {{ text }}

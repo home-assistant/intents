@@ -3,34 +3,27 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "open <name>"
-          - "<name> openen"
-          - "[<doe>] <name> <open>"
-          - "<zou> <name> ((<open> willen | <open> kunnen | <open>[ ])<doe>|openen)"
-          - "<zou> <name> (willen|kunnen) [<open>[ ]<doe>|openen]"
+          - "open <name>[[ ]<afdekking>]"
+          - "<name>[[ ]<afdekking>] (openen|open doen)"
+          - "[<doe>] <name>[[ ]<afdekking>] <open>"
         response: "cover"
         requires_context:
           domain: cover
 
       - sentences:
           - "open [de] garage[ ][deur]"
-          - "[de] garage[ ][deur] openen"
+          - "[de] garage[ ][deur] (openen|open doen)"
           - "[<doe>] [de] garage[ ][deur] <open>"
-          - "<zou> [de] garage[ ][deur] ((<open> willen | <open> kunnen | <open>[ ])<doe>|openen)"
-          - "<zou> [de] garage[ ][deur] (kunnen|willen) [<open>[ ]<doe>|openen]"
         response: "cover_device_class"
         slots:
           device_class: "garage"
           domain: "cover"
 
       - sentences:
-          - open <name> <in> <area>
-          - <name> <in> <area> openen
-          - "[<doe>] <name> (<open> <in> <area>|<in> <area> <open>)"
-          - "<zou> <name> <in> <area> ((<open> willen | <open> kunnen | <open>[ ])<doe>|openen)"
-          - "<zou> <name> ((<open> willen | <open> kunnen | <open>[ ])<doe>|openen) <in> <area>"
-          - "<zou> <name> <in> <area> (willen|kunnen) [<open>[ ]<doe>|openen]"
-          - "<zou> <name> (willen|kunnen) [<open>[ ]<doe>|openen] <in> <area>"
+          - "open (<name>[[ ]<afdekking>];<in> (<area>|<floor>))"
+          - "(<name>[[ ]<afdekking>];<in> (<area>|<floor>)) (openen|open doen)"
+          - "[<doe>] <in> (<area>|<floor>) <name>[[ ]<afdekking>] <open>"
+          - "[<doe>] <name>[[ ]<afdekking>] (<open>;<in> (<area>|<floor>))"
         response: "cover"
         requires_context:
           device_class:
@@ -41,25 +34,20 @@ intents:
           domain: "cover"
 
       - sentences:
-          - open [de|het] <curtain> <in> <area>
-          - "[de|het] <curtain> <in> <area> openen"
-          - "[<doe>] [de|het] <curtain> (<open> <in> <area>|<in> <area> <open>)"
-          - "<zou> [de|het] <curtain> <in> <area> ((<open> willen | <open> kunnen | <open>[ ])<doe>|openen)"
-          - "<zou> [de|het] <curtain> ((<open> willen | <open> kunnen | <open>[ ])<doe>|openen) <in> <area>"
-          - "<zou> [de|het] <curtain> <in> <area> (willen|kunnen) [<open>[ ]<doe>|openen]"
-          - "<zou> [de|het] <curtain> (willen|kunnen) [<open>[ ]<doe>|openen] <in> <area>"
+          - "open ([de|het] <curtain>;<in> (<area>|<floor>))"
+          - "([de|het] <curtain>;<in> (<area>|<floor>)) (openen|open doen)"
+          - "[<doe>] <in> (<area>|<floor>) [de|het] <curtain> <open>"
+          - "[<doe>] [de|het] <curtain> (<open>;<in> (<area>|<floor>))"
         response: "cover"
         slots:
           device_class: "curtain"
           domain: "cover"
 
       - sentences:
-          - open [de|het] (<blind>|<shutter>|<shade>) <in> <area>
-          - "[<doe>] [de|het] (<blind>|<shutter>|<shade>) (<open> <in> <area>|<in> <area> <open>)"
-          - "<zou> [de|het] (<blind>|<shutter>|<shade>) <in> <area> ((<open> willen | <open> kunnen | <open>[ ])<doe>|openen)"
-          - "<zou> [de|het] (<blind>|<shutter>|<shade>) ((<open> willen | <open> kunnen | <open>[ ])<doe>|openen) <in> <area>"
-          - "<zou> [de|het] (<blind>|<shutter>|<shade>) <in> <area> (willen|kunnen) [<open>[ ]<doe>|openen]"
-          - "<zou> [de|het] (<blind>|<shutter>|<shade>) (willen|kunnen) [<open>[ ]<doe>|openen] <in> <area>"
+          - "open [de|het] (<blind>|<shutter>|<shade>) <in> (<area>|<floor>)"
+          - "([de|het] (<blind>|<shutter>|<shade>);<in> (<area>|<floor>)) (openen|open doen)"
+          - "[<doe>] <in> (<area>|<floor>) [de|het] (<blind>|<shutter>|<shade>) <open>"
+          - "[<doe>] [de|het] (<blind>|<shutter>|<shade>) (<open>;<in> (<area>|<floor>))"
         response: "cover"
         slots:
           device_class:
@@ -67,3 +55,36 @@ intents:
             - "shutter"
             - "shade"
           domain: "cover"
+
+      - sentences:
+          - "open [de|het] <curtain>"
+          - "open ([de|het] <curtain>;<hier>)"
+          - "[de|het] <curtain> (openen|open doen)"
+          - "([de|het] <curtain>;<hier>) (openen|open doen)"
+          - "[<doe>] [de|het] <curtain> [<hier>] <open>"
+          - "[<doe>] ([de|het] <curtain> <open>;<hier>)"
+        response: "cover"
+        slots:
+          device_class: "curtain"
+          domain: "cover"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "open [de|het] (<blind>|<shutter>|<shade>)"
+          - "open ([de|het] (<blind>|<shutter>|<shade>);<hier>)"
+          - "[de|het] (<blind>|<shutter>|<shade>) (openen|open doen)"
+          - "([de|het] (<blind>|<shutter>|<shade>);<hier>) (openen|open doen)"
+          - "[<doe>] [de|het] (<blind>|<shutter>|<shade>) [<hier>] <open>"
+          - "[<doe>] ([de|het] (<blind>|<shutter>|<shade>) <open>;<hier>)"
+        response: "cover"
+        slots:
+          device_class:
+            - "blind"
+            - "shutter"
+            - "shade"
+          domain: "cover"
+        requires_context:
+          area:
+            slot: true
