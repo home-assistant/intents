@@ -36,7 +36,7 @@ jobs:
       - name: Get changed files
         if: github.event_name == 'pull_request'
         id: changed-files
-        uses: tj-actions/changed-files@v42
+        uses: tj-actions/changed-files@v45
         with:
           files_separator: " "
           json: true
@@ -44,9 +44,13 @@ jobs:
       - name: Extract affected languages
         if: github.event_name == 'pull_request'
         id: extract-languages
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
+          echo "::group::Extract affected languages"
+          echo $CHANGED_FILES
+          echo "::endgroup::"
           # Check if any files outside language directories were changed
-          CHANGED_FILES='${{ steps.changed-files.outputs.all_changed_files }}'
           if echo "$CHANGED_FILES" | grep -qvE '^(sentences|responses|tests)/'; then
             echo "Running full tests due to changes outside language directories"
             exit 0
@@ -61,18 +65,16 @@ jobs:
             echo "languages=$LANGUAGES" >> $GITHUB_OUTPUT
           fi
 
-      - name: Run tests (PR)
-        if: github.event_name == 'pull_request'
+      - name: Run tests
+        env:
+          is_pr: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [ -n "${{ steps.extract-languages.outputs.languages }}" ]; then
+          exit 1
+          if [ "$is_pr" = "true" ] && [ -n "${{ steps.extract-languages.outputs.languages }}" ]; then
             script/test --language ${{ steps.extract-languages.outputs.languages }}
           else
             script/test
           fi
-
-      - name: Run tests (main)
-        if: github.event_name != 'pull_request'
-        run: script/test
 
       - run: python3 -m script.intentfest parse --language en --sentence 'turn on the lights in the kitchen'
       - run: python3 -m script.intentfest codeowners --check
