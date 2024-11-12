@@ -58,8 +58,8 @@ jobs:
 
           # Get unique language codes from changed files
           LANGUAGES=$(echo "$CHANGED_FILES" | jq -r '.[]' | \
-            grep -oE '/(sentences|responses|tests)/([^/ ]+)/' | \
-            cut -d'/' -f3 | sort -u | tr '\n' ',' | sed 's/,$//')
+            grep -oE '^(sentences|responses|tests)/([^/ ]+)/' | \
+            cut -d'/' -f2 | sort -u | tr '\n' ',' | sed 's/,$//')
 
           if [ -n "$LANGUAGES" ]; then
             echo "languages=$LANGUAGES" >> $GITHUB_OUTPUT
