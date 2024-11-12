@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   # yamllint disable-line rule:line-length
@@ -32,6 +33,41 @@ jobs:
         run: |
           echo "::add-matcher::.github/workflows/matchers/intentfest.json"
       - run: script/lint
-      - run: script/test
+      - name: Get changed files
+        if: github.event_name == 'pull_request'
+        id: changed-files
+        uses: tj-actions/changed-files@v42
+        with:
+          files: |
+            sentences/**
+            responses/**
+            tests/**
+
+      - name: Extract affected languages
+        if: github.event_name == 'pull_request'
+        id: extract-languages
+        run: |
+          # Get unique language codes from changed files
+          LANGUAGES=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | \
+            grep -oE '(sentences|responses|tests)/[^/]+/' | \
+            cut -d'/' -f2 | sort -u | tr '\n' ',' | sed 's/,$//')
+
+          if [ -n "$LANGUAGES" ]; then
+            echo "languages=$LANGUAGES" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run tests (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ -n "${{ steps.extract-languages.outputs.languages }}" ]; then
+            script/test --language ${{ steps.extract-languages.outputs.languages }}
+          else
+            script/test
+          fi
+
+      - name: Run tests (main)
+        if: github.event_name != 'pull_request'
+        run: script/test
+
       - run: python3 -m script.intentfest parse --language en --sentence 'turn on the lights in the kitchen'
       - run: python3 -m script.intentfest codeowners --check
