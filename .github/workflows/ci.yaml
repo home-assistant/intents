@@ -38,19 +38,24 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v42
         with:
-          files: |
-            sentences/**
-            responses/**
-            tests/**
+          files_separator: " "
+          json: true
 
       - name: Extract affected languages
         if: github.event_name == 'pull_request'
         id: extract-languages
         run: |
+          # Check if any files outside language directories were changed
+          CHANGED_FILES='${{ steps.changed-files.outputs.all_changed_files }}'
+          if echo "$CHANGED_FILES" | grep -qvE '^(sentences|responses|tests)/'; then
+            echo "Running full tests due to changes outside language directories"
+            exit 0
+          fi
+
           # Get unique language codes from changed files
-          LANGUAGES=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | \
-            grep -oE '(sentences|responses|tests)/[^/ ]+/' | \
-            cut -d'/' -f2 | sort -u | tr '\n' ',' | sed 's/,$//')
+          LANGUAGES=$(echo "$CHANGED_FILES" | \
+            grep -oE '/(sentences|responses|tests)/([^/ ]+)/' | \
+            cut -d'/' -f3 | sort -u | tr '\n' ',' | sed 's/,$//')
 
           if [ -n "$LANGUAGES" ]; then
             echo "languages=$LANGUAGES" >> $GITHUB_OUTPUT
