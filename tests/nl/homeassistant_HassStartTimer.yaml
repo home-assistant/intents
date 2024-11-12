@@ -13,11 +13,12 @@ tests:
         area: Woonkamer
       slots:
         hours: 1
-    response: Timer gestart
+    response: Timer gezet voor 1 uur
 
   - sentences:
       - "start een 1 uur en 15 minuten timer"
       - "timer van 1 uur en 15 minuten"
+      - "zet timer voor 1 uurtje en 15 minuten"
       - "zet timer voor 1 uur en 15 minuten"
     intent:
       name: HassStartTimer
@@ -26,7 +27,7 @@ tests:
       slots:
         hours: 1
         minutes: 15
-    response: Timer gestart
+    response: Timer gezet voor 1 uur en 15 minuten
 
   - sentences:
       - "start een 1 uur en 30 seconde timer"
@@ -39,7 +40,7 @@ tests:
       slots:
         hours: 1
         seconds: 30
-    response: Timer gestart
+    response: Timer gezet voor 1 uur en 30 seconden
 
   - sentences:
       - "start een 1 uur 15 minuten en 30 seconden timer"
@@ -53,7 +54,7 @@ tests:
         hours: 1
         minutes: 15
         seconds: 30
-    response: Timer gestart
+    response: Timer gezet voor 1 uur, 15 minuten en 30 seconden
 
   - sentences:
       - "start een 5 minuten timer"
@@ -65,7 +66,7 @@ tests:
         area: Woonkamer
       slots:
         minutes: 5
-    response: Timer gestart
+    response: Timer gezet voor 5 minuten
 
   - sentences:
       - "start een 5 minuten timer genaamd pizza"
@@ -81,11 +82,11 @@ tests:
         name:
           - "pizza "
           - "pizza"
-    response: Timer gestart
+    response: Timer gezet voor 5 minuten met de naam pizza
 
   - sentences:
       - "start een 5 minuten en 10 seconde timer"
-      - "timer voor 5 minuten en 10 seconden"
+      - "timer op 5 minuten en 10 seconden"
       - "5 minuten 10 secondes timer"
     intent:
       name: HassStartTimer
@@ -94,7 +95,7 @@ tests:
       slots:
         minutes: 5
         seconds: 10
-    response: Timer gestart
+    response: Timer gezet voor 5 minuten en 10 seconden
 
   - sentences:
       - "start een 45 seconde timer"
@@ -106,4 +107,53 @@ tests:
         area: Woonkamer
       slots:
         seconds: 45
-    response: Timer gestart
+    response: Timer gezet voor 45 seconden
+
+  - sentences:
+      - "timer voor 5 en een half uur"
+      - "timer voor 5 en 1/2 uurtje"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Woonkamer
+      slots:
+        hours: 5
+        minutes: 30
+    response: Timer gezet voor 5 uur en 30 minuten
+
+  - sentences:
+      - "timer voor 5 uur en een halve minuut"
+      - "timer voor 5 uur en een 1/2e minuut"
+      - "timer voor 5 uur en een half minuutje"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Woonkamer
+      slots:
+        hours: 5
+        seconds: 30
+    response: Timer gezet voor 5 uur en 30 seconden
+
+  - sentences:
+      - "timer voor anderhalf minuutje"
+      - "timer op anderhalf minuutje"
+      - "timer van anderhalve minuut"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Woonkamer
+      slots:
+        seconds: 90
+    response: Timer gezet voor 90 seconden
+
+  - sentences:
+      - "open de garagedeur over 5 minuten"
+      - "over 5 minuten open de garagedeur"
+    intent:
+      name: HassStartTimer
+      slots:
+        minutes: 5
+        conversation_command:
+          - "open de garagedeur"
+          - "open de garagedeur "
+    response: Opdracht wordt uitgevoerd over 5 minuten
