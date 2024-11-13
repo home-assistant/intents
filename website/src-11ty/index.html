@@ -111,8 +111,17 @@ List of languages that are missing important intent coverage.
     </tr>
   </thead>
   {% for language in intentSummary.improvements %}
+  {% assign summary = intentSummary.languages[language] %}
   <tr>
-    <td>{{ language }}</td>
+    <td>
+      <a
+        href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/"
+        target="_blank"
+      >
+        <code>{{summary.language}}</code> {{summary.native_name}}
+      </a>
+
+    </td>
     <td>{{ intentSummary.languages[language].missing_intents | size }}</td>
     <td style="text-align: left; padding-left: 16px;">
       {% for intent in intentSummary.languages[language].missing_intents %}
