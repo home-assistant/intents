@@ -2,4 +2,10 @@ language: eu
 responses:
   intents:
     HassClimateGetTemperature:
-      default: "{{ state_attr(state.entity_id, 'current_temperature') }}"
+      default: >
+        {% set temp = state_attr(state.entity_id, 'current_temperature') %}
+        {% if temp is not none %}
+          {{ temp | round(1) }}°C
+        {% else %}
+          Ez dago tenperatura eskuragarri
+        {% endif %}
