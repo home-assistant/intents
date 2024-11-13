@@ -12,6 +12,7 @@ from .util import load_merged_responses, load_merged_sentences
 
 def run() -> int:
     language_summaries = {}
+    empty_languages = []
 
     language_info = yaml.safe_load(LANGUAGES_FILE.read_text())
 
@@ -54,6 +55,18 @@ def run() -> int:
             translation.startswith("TODO ")
             for translation in merged_sentences["responses"]["errors"].values()
         )
+
+        completely_empty = sum(intent_sentence_count.values()) == 0
+
+        if completely_empty:
+            empty_languages.append(
+                {
+                    "language": language,
+                    "native_name": language_info[language]["nativeName"],
+                    "leaders": language_info[language].get("leaders"),
+                }
+            )
+            continue
 
         missing_intents = [
             intent for intent in IMPORTANT_INTENTS if not intent_sentence_count[intent]
@@ -108,6 +121,7 @@ def run() -> int:
                     )
                     if info["missing_intents"]
                 ],
+                "empty_languages": empty_languages,
             },
             indent=2,
         )
