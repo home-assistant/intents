@@ -30,7 +30,7 @@ Cell format:
   <thead>
     <tr>
       <th>Language</th>
-      {% for intent in intentSummary.languages[0].intents %}
+      {% for intent in intentSummary.languages.en.intents %}
       <th>{{intent[0] | remove_first: "Hass"}}</th>
       {% endfor %}
       <th>Errors translated</th>
@@ -38,7 +38,8 @@ Cell format:
     </tr>
   </thead>
   <tbody>
-    {% for summary in intentSummary.languages %}
+    {% for item in intentSummary.languages %}
+    {% assign summary = item[1] %}
     <tr class="{% if summary.usable %}usable{% endif %}">
       <td>
         <a
@@ -98,3 +99,23 @@ Cell format:
   </tbody>
 </table>
 <p><i>Every cell in the table links to the relevant file.</i></p>
+<h2>Road to Team 💚</h2>
+List of languages that are missing important intent coverage.
+<table>
+  <tr>
+    <th>Language</th>
+    <th>Missing</th>
+    <th>Intents</th>
+  </tr>
+  {% for language in intentSummary.improvements %}
+  <tr>
+    <td>{{ language }}</td>
+    <td>{{ intentSummary.languages[language].missing_intents | size }}</td>
+    <td style="text-align: left; padding-left: 16px;">
+      {% for intent in intentSummary.languages[language].missing_intents %}
+        {{ intent }}{% if forloop.last == false %}, {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
