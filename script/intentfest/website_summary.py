@@ -55,7 +55,9 @@ def run() -> int:
             for translation in merged_sentences["responses"]["errors"].values()
         )
 
-        missing_intents = [intent for intent in IMPORTANT_INTENTS if not intent_sentence_count[intent]]
+        missing_intents = [
+            intent for intent in IMPORTANT_INTENTS if not intent_sentence_count[intent]
+        ]
 
         usable = not missing_intents and errors_translated
 
@@ -73,19 +75,18 @@ def run() -> int:
         }
 
         language_summaries[language] = {
-                "language": language,
-                "native_name": language_info[language]["nativeName"],
-                "leaders": language_info[language].get("leaders"),
-                "intents": intent_sentence_count,
-                "used_responses": used_responses_count,
-                "responses": response_sentence_count,
-                "intent_responses_translated": intent_responses_translated,
-                "errors_translated": errors_translated,
-                "usable": usable,
-                "complete": complete,
-                "missing_intents": missing_intents,
-            }
-
+            "language": language,
+            "native_name": language_info[language]["nativeName"],
+            "leaders": language_info[language].get("leaders"),
+            "intents": intent_sentence_count,
+            "used_responses": used_responses_count,
+            "responses": response_sentence_count,
+            "intent_responses_translated": intent_responses_translated,
+            "errors_translated": errors_translated,
+            "usable": usable,
+            "complete": complete,
+            "missing_intents": missing_intents,
+        }
 
     intents = {}
     for intent, info in intent_info.items():
@@ -94,17 +95,19 @@ def run() -> int:
             "important": intent in IMPORTANT_INTENTS,
         }
 
-
     print(
         json.dumps(
             {
                 "intents": intents,
                 "languages": language_summaries,
                 "improvements": [
-                    info['language']
-                    for info in sorted(language_summaries.values(), key=lambda x: (len(x['missing_intents']), x['language']))
-                    if info['missing_intents']
-                ]
+                    info["language"]
+                    for info in sorted(
+                        language_summaries.values(),
+                        key=lambda x: (len(x["missing_intents"]), x["language"]),
+                    )
+                    if info["missing_intents"]
+                ],
             },
             indent=2,
         )
