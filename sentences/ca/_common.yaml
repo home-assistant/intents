@@ -76,31 +76,37 @@ lists:
         out: lock
   cover_states:
     values:
-      - in: obert
+      - in: obert[a|es]
         out: open
-      - in: tancat
+      - in: tanca(t|r|da|des)
         out: closed
-      - in: obrint
+      - in: obrint[-se]
         out: opening
-      - in: tancant
+      - in: tancant[-se]
         out: closing
   cover_classes:
     values:
+      - in: tendal[s]
+        out: awning
+      - in: persian(a|es)
+        out: blind
       - in: cortin(a|es)
         out: curtain
+      - in: port(a|es) de(l|s) (garatge|pàrquing)
+        out: garage
       - in: port(a|es)
         out: door
-      - in: port(a|es) (del|des) (garatge|pàrquing)
-        out: garage
-      - in: persian(a|es)
+      - in: reixat
+        out: gate
+      - in: portic(ó|ons)
         out: shutter
       - in: finestr(a|es)
         out: window
   lock_states:
     values:
-      - in: bloquejat
+      - in: bloqueja(t|da)
         out: locked
-      - in: desbloquejat
+      - in: desbloqueja(t|da)
         out: unlocked
   shopping_list_item:
     wildcard: true
@@ -169,16 +175,17 @@ expansion_rules:
   hora: "hor(a|es)"
 
   # Timers
+  temporitzador: "(temporitzador|compte enrere|minuter)"
   timer_set: "(posa|crea|comença|inicia|activa)[r]"
   timer_cancel: "(cancel·la|atura|para|deixa|elimina)[r]"
   timer_duration_seconds: "{timer_seconds:seconds} segon[s]"
-  timer_duration_minutes: "({timer_minutes:minutes} minut[s][ [i ]{timer_seconds:seconds} segon[s]])|({timer_minutes:minutes} i[ a] {timer_half:seconds} minut[s])|({timer_half:seconds} a minut[s])"
+  timer_duration_minutes: "({timer_minutes:minutes} minut[s][ [i ]{timer_seconds:seconds} segon[s]])|({timer_minutes:minutes} minut[s] i {timer_half:seconds})|({timer_half:seconds} a minut[s])"
   timer_duration_hours: "({timer_hours:hours} <hora> [i ]{timer_minutes:minutes} minut[s][ [i ]{timer_seconds:seconds} segon[s]])|({timer_hours:hours} <hora> i {timer_half:minutes})|({timer_half:minutes} <hora>)"
   timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
 
   timer_start_seconds: "{timer_seconds:start_seconds} segon[s]"
   timer_start_minutes: "{timer_minutes:start_minutes} minut[s][ [i ]{timer_seconds:start_seconds} segon[s]]"
-  timer_start_hours: "{timer_hours:start_hours} <hora> [i ]{timer_minutes:start_minutes} minut[s][ [i ]{timer_seconds:start_seconds} segon[s]]"
+  timer_start_hours: "{timer_hours:start_hours} <hora> [[i ]{timer_minutes:start_minutes} minut[s][ [i ]{timer_seconds:start_seconds} segon[s]]]"
   timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
