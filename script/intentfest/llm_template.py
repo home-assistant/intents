@@ -2,22 +2,20 @@
 
 from __future__ import annotations
 
-from pprint import pprint
 import argparse
-import json
 
 import yaml
 
 from .const import (
-    ROOT,
-    RESPONSE_DIR,
-    SENTENCE_DIR,
     INTENTS_FILE,
     LANGUAGES,
     LANGUAGES_FILE,
+    RESPONSE_DIR,
+    ROOT,
+    SENTENCE_DIR,
     TESTS_DIR,
 )
-from .util import load_merged_responses, load_merged_sentences, get_base_arg_parser
+from .util import get_base_arg_parser
 
 # Sort intent info by (domain, intent)
 INTENT_INFO = yaml.safe_load(INTENTS_FILE.read_text())
