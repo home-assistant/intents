@@ -581,13 +581,6 @@ lists:
       - in: "(ok|non détecté[e][s])"
         out: "off"
 
-  bs_update_states:
-    values:
-      - in: "[mise[s] à jour ]disponible[s]"
-        out: "on"
-      - in: "à jour"
-        out: "off"
-
   bs_vibration_states:
     values:
       - in: "(détecté[e][s]|vibre[s][r])"
@@ -635,21 +628,6 @@ lists:
       from: 1
       to: 100
 
-  timer_words_seconds:
-    values:
-      - in: "un|une"
-        out: "1"
-
-  timer_words_minutes:
-    values:
-      - in: "un|une"
-        out: "1"
-
-  timer_words_hours:
-    values:
-      - in: "un|une"
-        out: "1"
-
   timer_name:
     wildcard: true
 
@@ -664,11 +642,14 @@ expansion_rules:
   dans: "(dans|du|de|des|à|au|aux|sur)"
   de: "(du|de|des)"
   tous: "(tout|tous|toute[s])"
+  completement: "(complètement|totalement|entièrement)"
 
   # Context awareness
   maison: maison|domicile|appartement|appart|logement
-  ici: "(<dans> (cette|la) pièce)|(ici)"
-  partout: ([de] partout)|(<dans> [<tous>] [<le>]<maison>)|(<dans> toutes les pièces)
+  piece: (pièce|endroit) [(actuelle|actuel|courant|courante)]
+  ou_je_suis: (où je suis)|(où je me trouve)|(où je me situe)|(où nous sommes)|(où nous nous trouvons)|(où nous nous situons)|(où on est)|(où on se trouve)|(où on se situe)
+  ici: "([<dans>] (cet |cette |<le>)<piece>)|(ici)|(ici même)|<ou_je_suis>"
+  partout: ([de] partout)|([<dans>] [<tous>] [<le>]<maison>)|([<dans>] toutes les pièces)
 
   # Verbs
   active: "(active|activer|joue|jouer|exécute|exécuter|démarre|démarrer|lance|lancer)"
@@ -701,7 +682,7 @@ expansion_rules:
   ferme_dirty: "faire"
 
   # Domains and Things
-  lumiere: "(lumière[s]|lampe[s]|ampoule[s])"
+  lumiere: "(lumière[s]|lampe[s]|ampoule[s]|éclairage[s])"
   ventilateur: "[le ](ventilateur|brasseur d'air)"
   ventilateurs: "[les ](ventilateurs|brasseurs d'air)"
   fenetre: "(fenetre[s]|fenêtre[s]|baie[s]|velux|vélux|lucarne[s])"
@@ -715,14 +696,14 @@ expansion_rules:
 
   ### Timers ###
   # mix numerical and litteral value for seconds, minutes and hours for the setting of the duration of the timmer
-  nb_seconds_duration: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
-  nb_minutes_duration: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
-  nb_hours_duration: "({timer_hours:hours}|{timer_words_hours:hours})"
+  nb_seconds_duration: "{timer_seconds:seconds}"
+  nb_minutes_duration: "{timer_minutes:minutes}"
+  nb_hours_duration: "{timer_hours:hours}"
 
   # mix numerical and litteral value for seconds, minutes and hours for the request of the status of a timmer by its initial duration
-  nb_seconds_start: "({timer_seconds:start_seconds}|{timer_words_seconds:start_seconds})"
-  nb_minutes_start: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
-  nb_hours_start: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
+  nb_seconds_start: "{timer_seconds:start_seconds}"
+  nb_minutes_start: "{timer_minutes:start_minutes}"
+  nb_hours_start: "{timer_hours:start_hours}"
 
   # definition of the units for seconds, minutes and hours
   second_unit: "(seconde|secondes|sec|s)"

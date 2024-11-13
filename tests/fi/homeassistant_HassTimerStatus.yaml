@@ -1,0 +1,55 @@
+---
+language: fi
+tests:
+  - sentences:
+      - "mikä on ajastuksen tilanne"
+      - "ajastimen tila"
+      - "ajastimien tila"
+      - "paljonko aikaa on jäljellä ajastimessani"
+      - "kuinka paljon on aikaa jäljellä ajastimissani"
+      - "paljonko on jäljellä ajastimessani"
+    intent:
+      name: HassTimerStatus
+    response: |
+      2 käynnissä olevaa ajastinta. 1 keskeytetty ajastin. 3 minuuttia jäljellä 5 minuutin keittiö ajastimessa.
+
+  - sentences:
+      - "1 tunnin ajastimen jäljellä oleva tilanne"
+      - "1 tunnin ajastuksen tila"
+      - "aikaa jäljellä 1 tunnin ajastimessa"
+      - "jäljellä oleva aika 1 tunnin ajastimessani"
+      - "mikä on 1 tunnin ajastimen tila"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 1
+    response: |
+      Ajastin on keskeytetty. 1 minuutti ja 40 sekuntia jäljellä.
+
+  - sentences:
+      - "pizza nimisen ajastimen status"
+      - "mikä on pizza nimisen ajastimen tilanne"
+      - "paljonko aikaa on jäljellä pizza ajastimessa"
+      - "kauanko on jäljellä pizza nimisessä ajastimessa"
+      - "ajastuksen pizza status"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name: "pizza"
+    response: |
+      25 minuuttia jäljellä.
+
+  - sentences:
+      - "mikä on huoneen keittiö ajastimen tilanne"
+      - "mikä on alueen keittiö ajastuksen tilanne"
+      - "paljonko on jäljellä keittiö ajastimessa"
+      - "paljonko on jäljellä huoneen keittiö ajastuksessa"
+      - "jäljellä oleva aika keittiö ajastimessa"
+      - "kuinka paljon on jäljellä keittiö ajastimessa"
+
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: Keittiö
+    response: |
+      3 minuuttia jäljellä.

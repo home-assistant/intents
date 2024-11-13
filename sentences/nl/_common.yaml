@@ -1,4 +1,6 @@
 language: nl
+settings:
+  filter_with_regex: false
 responses:
   errors:
     # General errors
@@ -370,20 +372,36 @@ lists:
     range:
       from: 1
       to: 100
+  timer_half:
+    values:
+      - in: "half"
+        out: 30
+      - in: "halve"
+        out: 30
+      - in: "1/2"
+        out: 30
+      - in: "1/2e"
+        out: 30
+  timer_one_and_a_half:
+    values:
+      - in: "anderhalf"
+        out: 90
+      - in: "anderhalve"
+        out: 90
   timer_name:
+    wildcard: true
+  timer_command:
     wildcard: true
 
 expansion_rules:
   # generic expansion rules for sentences
   name: "[de|het] {name}"
   area: "[de|het] {area}"
+  floor: "[de|het] {floor}"
   in: "[in|op|van|bij]"
   met: "(door|met|bij)"
-  name_area: >
-    (
-      [[<in> de|het|een] {area}][ ]<name>
-      |[de|het|een] {name}[ ][<type>] [[in|op|van|bij] <area>]
-    )
+  hier: "(hier|in deze (kamer|ruimte))"
+  name_area: "(<name>[[ ]<type>] <in> <area>|[<in> <area>[ ]]<name>[[ ]<type>])"
   sensor_name_area: >
     (
       [[door|met|bij] [de|het|een] {area}][ ]{name}
@@ -438,7 +456,7 @@ expansion_rules:
     )
 
   numeric_value_set: "(zet|doe|mag|verander|draai|verhoog|verlaag)"
-  media_item: "[lied[je]|nummer|track|item|aflevering|video|film[pje]]"
+  media_item: "(lied[je[s]]|nummer[s]|track[s]|item[s]|aflevering[en]|video[s]|film[pje][s]|muziek[je[s]]|playlist[s]|afspeellijst[en])"
   volume: "{volume:volume_level}[[ ]%| procent]"
   position: "{position}[[ ]%| procent]"
 
@@ -455,10 +473,22 @@ expansion_rules:
   timer_set: "(start|zet|maak|creëer)"
   timer_cancel: "(annuleer|stop)"
   timer_duration_seconds: "{timer_seconds:seconds} seconde[s|n]"
-  timer_duration_minutes: "{timer_minutes:minutes} (minuut|minuten)[ [en ]{timer_seconds:seconds} seconde[s|n]]"
-  timer_duration_hours: "{timer_hours:hours} (uur|uren)[ [en ]{timer_minutes:minutes} (minuut|minuten)][ [en ]{timer_seconds:seconds} seconde[s|n]]"
+  timer_duration_minutes: >
+    (
+      {timer_minutes:minutes} (minuut[je[s]]|minuten) [[en] {timer_seconds:seconds} seconde[s|n]]
+      |{timer_minutes:minutes} [en] [een] {timer_half:seconds} minuut[je]
+      |{timer_half:seconds} minuut[je]
+      |{timer_one_and_a_half:seconds} minuut[je]
+    )
+  timer_duration_hours: >
+    (
+      {timer_hours:hours} (uur[tje]|uren|uurtjes)[ [en ]{timer_minutes:minutes} (minuut[je[s]]|minuten)][ [en ]{timer_seconds:seconds} seconde[s|n]]
+      |{timer_hours:hours} (uur[tje]|uren|uurtjes) en een {timer_half:seconds} minuut[je]
+      |{timer_hours:hours} [en] [een] {timer_half:minutes} uur[tje]
+      |{timer_half:minutes} uur[tje]
+      |{timer_one_and_a_half:minutes} uur[tje]
+    )
   timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
-
   timer_start_seconds: "{timer_seconds:start_seconds} seconde[s|n]"
   timer_start_minutes: "{timer_minutes:start_minutes} (minuut|minuten)[ [en ]{timer_seconds:start_seconds} seconde[n|s]]"
   timer_start_hours: "{timer_hours:start_hours} (uur|uren)[ [en ]{timer_minutes:start_minutes} (minuut|minuten)][ [en ]{timer_seconds:start_seconds} seconde[s|n]]"

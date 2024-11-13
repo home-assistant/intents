@@ -10,23 +10,23 @@ responses:
 lists:
   color:
     values:
-      - in: blanc
+      - in: (blanc|blanca|blancs|blanques)
         out: white
-      - in: negre
+      - in: (negre|negra|negres)
         out: black
-      - in: vermell
+      - in: (vermell|vermella|vermells|vermelles|roig|roja|roigs|rojos|roges)
         out: red
-      - in: taronja
+      - in: (taronja|taronges|carbassa|carbasses|carabassa|carabasses)
         out: orange
-      - in: groc
+      - in: (groc|groga|grocs|grogues)
         out: yellow
-      - in: verd
+      - in: (verd|verda|verds|verdes)
         out: green
-      - in: blau
+      - in: (blau|blava|blaus|blaves)
         out: blue
-      - in: "(lila|morat|porpre)"
+      - in: "(lila|morat|morada|porpra|púrpura|liles|morats|morades|porpres|púrpures)"
         out: purple
-      - in: marró
+      - in: (marró|marrona|marrons|marrones)
         out: brown
   brightness:
     range:
@@ -76,31 +76,37 @@ lists:
         out: lock
   cover_states:
     values:
-      - in: obert
+      - in: obert[a|es]
         out: open
-      - in: tancat
+      - in: tanca(t|r|da|des)
         out: closed
-      - in: obrint
+      - in: obrint[-se]
         out: opening
-      - in: tancant
+      - in: tancant[-se]
         out: closing
   cover_classes:
     values:
+      - in: tendal[s]
+        out: awning
+      - in: persian(a|es)
+        out: blind
       - in: cortin(a|es)
         out: curtain
+      - in: port(a|es) de(l|s) (garatge|pàrquing)
+        out: garage
       - in: port(a|es)
         out: door
-      - in: port(a|es) del garatge
-        out: garage
-      - in: persian(a|es)
+      - in: reixat
+        out: gate
+      - in: portic(ó|ons)
         out: shutter
       - in: finestr(a|es)
         out: window
   lock_states:
     values:
-      - in: bloquejat
+      - in: bloqueja(t|da)
         out: locked
-      - in: desbloquejat
+      - in: desbloqueja(t|da)
         out: unlocked
   shopping_list_item:
     wildcard: true
@@ -114,35 +120,78 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "mitja"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
-  pronom_singular: "(el|la|l')[ ]"
-  pronom_plural: "(els|les)[ ]"
+  actual: "(ara|actual[ment])"
+  pronom_singular: "(el|la|es|sa|l'|s')[ ]"
+  pronom_plural: "(els|les|es|ses)[ ]"
   pronom: "(<pronom_singular>|<pronom_plural>)"
-  preposicio_singular: "(en|de|a)[l|ls][ <pronom_singular>][ ]"
-  preposicio: "(en|de|a)[l|ls][ <pronom>][ ]"
+  preposicio_singular: "(en|de|a)[l|ls|s][ <pronom_singular>][ ]"
+  preposicio: "(en|de|a)[l|ls|s][ <pronom>][ ]"
   name: "[<pronom_singular>]{name}"
   area: "[<preposicio_singular>]{area}"
-  quin_es: "(quin és|quina és|que es)"
+  quin_es: "(quin és|quina és|què és)"
   lluentor: "{brightness} [per cent]"
-  engega: "(encén|encendre|engega[r]|posa|activa[r])"
+  engega: "(encén|encendre|engega[r]|posa[r]|activa[r])"
   apaga: "(apaga[r]|atura[r]|desconnecta[r]|para[r])"
-  tanca: "(tanca[r])"
-  obre: "(obr[e|ir])"
-  llums: "(la llum|les llums|el llum|els llums)"
+  tanca: "tanca[r]"
+  obre: "(obr[e|i|ir]|òbriga)"
+  llums: "((el|la|es|sa) llum|(els|les|es|ses) llums)"
   temp: "(temperatura)"
   graus: "{temperature} [graus] [{temperature_unit}]"
-  pujar: "(puja|aixeca)[r]"
-  baixar: "([a]baixa[r])"
-  configura: "(posa[r]|configura[r]|ajusta[r]|canvia[r]|establ(ir|eix))"
+  pujar: "([a]puja|aixeca)[r]"
+  baixar: "[a]baixa[r]"
+  configura: "(posa[r]|configura[r]|ajusta[r]|canvia[r]|establ(ir|eix|ix))"
   posició: "{position}[ ][%|per[ ]cent]"
   percent: "[ ](%|per[ ]cent)"
   cancela: "cancel[·l]a[r]"
   seguent: "(següent|proper[a]|pròxim[a])"
-  element: "(element|ítem|pista|cançó|tema|tonada|mitjà|canal|recurs|vídeo|clip|film)"
-  reproduir: "(reprodu(ir|eix)|posa[r]|fica[r]|salta[r]|passa[r]|canvia[r])"
-  reactiva: "(reactiva[r]|continua[r]|segu(ir|eix))"
+  anterior: "([l'|s']anterior|enrere)"
+  element: "(element|ítem|pista|peça|cançó|tema|tonada|mitjà|canal|recurs|vídeo|clip|film)"
+  reproduir: "(reprodu(ir|eix|ix)|posa[r]|fica[r]|salta[r]|passa[r]|canvia[r])"
+  reactiva: "(reactiva[r]|continua[r]|segu(ir|eix|ix))"
+  hora: "hor(a|es)"
+
+  # Timers
+  temporitzador: "(temporitzador|compte enrere|minuter)"
+  timer_set: "(posa|crea|comença|inicia|activa)[r]"
+  timer_cancel: "(cancel·la|atura|para|deixa|elimina)[r]"
+  timer_duration_seconds: "{timer_seconds:seconds} segon[s]"
+  timer_duration_minutes: "({timer_minutes:minutes} minut[s][ [i ]{timer_seconds:seconds} segon[s]])|({timer_minutes:minutes} minut[s] i {timer_half:seconds})|({timer_half:seconds} a minut[s])"
+  timer_duration_hours: "({timer_hours:hours} <hora> [i ]{timer_minutes:minutes} minut[s][ [i ]{timer_seconds:seconds} segon[s]])|({timer_hours:hours} <hora> i {timer_half:minutes})|({timer_half:minutes} <hora>)"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} segon[s]"
+  timer_start_minutes: "{timer_minutes:start_minutes} minut[s][ [i ]{timer_seconds:start_seconds} segon[s]]"
+  timer_start_hours: "{timer_hours:start_hours} <hora> [[i ]{timer_minutes:start_minutes} minut[s][ [i ]{timer_seconds:start_seconds} segon[s]]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
 skip_words:
   - si us plau
   - vinga
-  - Sisplau
+  - sisplau
   - Per favor
+  - Gràcies
+  - Moltes gràcies

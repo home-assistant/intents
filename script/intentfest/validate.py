@@ -166,6 +166,7 @@ SENTENCE_SCHEMA = vol.Schema(
                         vol.Optional("requires_context"): {str: match_anything},
                         vol.Optional("excludes_context"): {str: match_anything},
                         vol.Optional("response"): str,
+                        vol.Optional("required_keywords"): [str],
                     }
                 ]
             }
@@ -178,7 +179,10 @@ SENTENCE_SCHEMA = vol.Schema(
 SENTENCE_COMMON_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
-        vol.Optional("settings"): {vol.Any("ignore_whitespace"): bool},
+        vol.Optional("settings"): {
+            vol.Optional("ignore_whitespace"): bool,
+            vol.Optional("filter_with_regex"): bool,
+        },
         vol.Optional("responses"): {
             vol.Optional("errors"): {
                 vol.In(INTENT_ERRORS): str,
@@ -272,6 +276,10 @@ TESTS_FIXTURES = vol.Schema(
             }
         ],
     }
+)
+
+TESTS_FAILURES = vol.Schema(
+    {vol.Required("language"): str, vol.Required("sentences"): [str]}
 )
 
 
@@ -463,6 +471,8 @@ def validate_language(
 
         if test_file.name == "_fixtures.yaml":
             schema = TESTS_FIXTURES
+        elif test_file.name == "_test_failures.yaml":
+            schema = TESTS_FAILURES
         else:
             schema = TESTS_SCHEMA
 
@@ -479,6 +489,9 @@ def validate_language(
                     errors.append(
                         f"{path}: Entity {entity['name']} references unknown area {entity['area']}"
                     )
+            continue
+
+        if test_file.name == "_test_failures.yaml":
             continue
 
         if test_file.name not in sentence_files:

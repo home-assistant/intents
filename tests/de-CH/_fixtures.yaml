@@ -2,18 +2,26 @@ language: de-CH
 areas:
   - name: "Chuchi"
     id: kitchen
+    floor: "Parterre"
   - name: "Stub(e|ä)"
     id: living_room
+    floor: "Parterre"
   - name: "Salon"
     id: living_room
+    floor: "Parterre"
   - name: "Wohnz(i|e)mmer"
     id: living_room
+    floor: "Parterre"
   - name: "Schl(a|o)fz(i|e)mmer"
     id: bedroom
+    floor: "Obergschoss"
   - name: "Garage"
     id: garage
+    floor: "Garte"
   - name: "(Ygang|I[i]gang)"
     id: entrance
+    floor: "Parterre"
+
 entities:
   - name: "Deck(e|i|ä)-Venti[lator]"
     id: fan.ceiling
@@ -42,6 +50,10 @@ entities:
     id: light.bedroom_lamp
     area: bedroom
     state: "off"
+  - name: "Wohnzimmer Lampe"
+    id: light.livingroom_lamp
+    area: living_room
+    state: "off"
   - name: "Chuchi Lampe"
     id: light.kitchen
     area: kitchen
@@ -62,12 +74,12 @@ entities:
     attributes:
       unit_of_measurement: "°C"
   - name: "Wohnzimmer Thermostat"
-    id: temperature.living_room
-    device_class: temperature
+    id: climate.living_room
     area: living_room
-    state: "20"
+    state: "heat"
     attributes:
       unit_of_measurement: "°C"
+      current_temperature: "20"
 
   - name: "Party"
     id: "scene.party"
@@ -117,3 +129,23 @@ entities:
   - name: "Schtoubsuger"
     id: "vacuum.rover"
     state: "idle"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

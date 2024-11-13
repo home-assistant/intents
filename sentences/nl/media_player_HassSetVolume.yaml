@@ -5,8 +5,24 @@ intents:
       - sentences:
           - "<numeric_value_set> <name> volume (naar|op) <volume>"
           - "zet <name> [volume][ omhoog| omlaag] (op|naar) <volume>"
-          - "<numeric_value_set> het volume ([omhoog |omlaag ](naar|op) <volume>;[van |op ]<name>)"
-          - "zet [het ]volume (omhoog|omlaag) ((naar|op) <volume>;[van |op ]<name>)"
+          - "<numeric_value_set> [het] volume ([omhoog|omlaag] (naar|op) <volume>;[van|op] <name>)"
+          - "zet [het] volume (omhoog|omlaag) ((naar|op) <volume>;[van|op] <name>)"
           - "(<name>;volume) <volume>"
+          - "(<volume>;volume) [op] <name>"
         requires_context:
           domain: media_player
+      - sentences:
+          - "<numeric_value_set> [het] volume (naar|op) <volume>"
+          - "<numeric_value_set> [het] volume [omhoog|omlaag] (naar|op) <volume>"
+          - "zet [het] volume (omhoog|omlaag) (naar|op) <volume>"
+          - "(<volume>;volume)"
+        requires_context:
+          area:
+            slot: true
+      - sentences:
+          - "<numeric_value_set> <in> <area> [het] volume (naar|op) <volume>"
+          - "zet <in> <area> [volume][ omhoog| omlaag] (op|naar) <volume>"
+          - "<numeric_value_set> [het] volume ([omhoog|omlaag] (naar|op) <volume>;<in> <area>)"
+          - "zet [het] volume (omhoog|omlaag) ((naar|op) <volume>;<in> <area>)"
+          - "(<in> <area>;volume) <volume>"
+          - "(<volume>;volume) <in> <area>"
