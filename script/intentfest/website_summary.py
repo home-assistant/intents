@@ -11,7 +11,7 @@ from .util import load_merged_responses, load_merged_sentences
 
 
 def run() -> int:
-    language_summaries = []
+    language_summaries = {}
 
     language_info = yaml.safe_load(LANGUAGES_FILE.read_text())
 
@@ -55,10 +55,11 @@ def run() -> int:
             for translation in merged_sentences["responses"]["errors"].values()
         )
 
-        usable = (
-            all(intent_sentence_count[key] for key in IMPORTANT_INTENTS)
-            and errors_translated
-        )
+        missing_intents = [
+            intent for intent in IMPORTANT_INTENTS if not intent_sentence_count[intent]
+        ]
+
+        usable = not missing_intents and errors_translated
 
         complete = (
             all(value > 0 for value in intent_sentence_count.values())
@@ -73,20 +74,19 @@ def run() -> int:
             for intent, response_set in used_responses_per_intent.items()
         }
 
-        language_summaries.append(
-            {
-                "language": language,
-                "native_name": language_info[language]["nativeName"],
-                "leaders": language_info[language].get("leaders"),
-                "intents": intent_sentence_count,
-                "used_responses": used_responses_count,
-                "responses": response_sentence_count,
-                "intent_responses_translated": intent_responses_translated,
-                "errors_translated": errors_translated,
-                "usable": usable,
-                "complete": complete,
-            }
-        )
+        language_summaries[language] = {
+            "language": language,
+            "native_name": language_info[language]["nativeName"],
+            "leaders": language_info[language].get("leaders"),
+            "intents": intent_sentence_count,
+            "used_responses": used_responses_count,
+            "responses": response_sentence_count,
+            "intent_responses_translated": intent_responses_translated,
+            "errors_translated": errors_translated,
+            "usable": usable,
+            "complete": complete,
+            "missing_intents": missing_intents,
+        }
 
     intents = {}
     for intent, info in intent_info.items():
@@ -100,6 +100,14 @@ def run() -> int:
             {
                 "intents": intents,
                 "languages": language_summaries,
+                "improvements": [
+                    info["language"]
+                    for info in sorted(
+                        language_summaries.values(),
+                        key=lambda x: (len(x["missing_intents"]), x["language"]),
+                    )
+                    if info["missing_intents"]
+                ],
             },
             indent=2,
         )
