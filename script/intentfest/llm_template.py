@@ -77,6 +77,8 @@ def run() -> int:
         )
     )
 
+    return 0
+
 
 TEMPLATE = """
 You are going to translate a voice assistant intent from English to {language_name}.
