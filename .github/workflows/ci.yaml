@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   # yamllint disable-line rule:line-length
@@ -32,6 +33,47 @@ jobs:
         run: |
           echo "::add-matcher::.github/workflows/matchers/intentfest.json"
       - run: script/lint
-      - run: script/test
+      - name: Get changed files
+        if: github.event_name == 'pull_request'
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          json: true
+          escape_json: false
+
+      - name: Extract affected languages
+        if: github.event_name == 'pull_request'
+        id: extract-languages
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          echo "::group::Get changed files"
+          echo $CHANGED_FILES
+          echo "::endgroup::"
+          # Check if any files outside language directories were changed
+          if echo "$CHANGED_FILES" | jq -r '.[]' | grep -qvE '^(sentences|responses|tests)/'; then
+            echo "Running full tests due to changes outside language directories"
+            exit 0
+          fi
+
+          # Get unique language codes from changed files
+          LANGUAGES=$(echo "$CHANGED_FILES" | jq -r '.[]' | \
+            grep -oE '^(sentences|responses|tests)/([^/ ]+)/' | \
+            cut -d'/' -f2 | sort -u | tr '\n' ',' | sed 's/,$//')
+
+          if [ -n "$LANGUAGES" ]; then
+            echo "languages=$LANGUAGES" | tee -a $GITHUB_OUTPUT
+          fi
+
+      - name: Run tests
+        env:
+          is_pr: ${{ github.event_name == 'pull_request' }}
+        run: |
+          if [ "$is_pr" = "true" ] && [ -n "${{ steps.extract-languages.outputs.languages }}" ]; then
+            script/test --language ${{ steps.extract-languages.outputs.languages }}
+          else
+            script/test
+          fi
+
       - run: python3 -m script.intentfest parse --language en --sentence 'turn on the lights in the kitchen'
       - run: python3 -m script.intentfest codeowners --check
