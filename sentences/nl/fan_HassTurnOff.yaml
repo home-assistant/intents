@@ -3,25 +3,33 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "[<doe>] [<alle>] <ventilator> [<naar>] uit <in> <area>"
-          - "<zou> [<alle>] <ventilator> [<naar>] (uit willen |uit kunnen |uit[ ])<doe> <in> <area>"
-          - "[<doe>] [<alle>] <ventilator> <in> <area> [<naar>] uit"
-          - "<zou> [<alle>] <ventilator> <in> <area> [<naar>] (uit willen |uit kunnen |uit[ ])<doe>"
-          - "[<doe>] [(<alle>|<in>)] <area>[ ]<ventilator> [<naar>] uit"
-          - "<zou> [(<alle>|<in>)] <area>[ ]<ventilator> [<naar>] (uit willen |uit kunnen |uit[ ])<doe>"
-          - "<zou> [(<alle>|<in>)] [<area>[ ]]<ventilator> [<in> <area>] [willen|kunnen] (uit[ ](zetten|doen)|uitschakelen)"
-          - "[(<alle>|<in>)] [<area>[ ]]<ventilator> [<in> <area>] (uit[ ](zetten|doen)|uitschakelen)"
+          - "[<doe>] [<alle>] <ventilator> ([<naar>] uit;<in> (<area>|<floor>))"
+          - "[<doe>] [<alle>] <ventilator> (<in> (<area>|<floor>);[<naar>] uit)"
+          - "[<doe>] [(<alle>|<in>)] (<area>|<floor>)[ ]<ventilator> [<naar>] uit"
+          - "[<alle>] (<area>|<floor>)[ ]<ventilator> (uit[ ](zetten|doen)|uitschakelen)"
+          - "([<in>] (<area>|<floor>);[<alle>] <ventilator>) (uit[ ](zetten|doen)|uitschakelen)"
+          - "[<alle>] <ventilator> [<in>] (<area>|<floor>) (uit[ ](zetten|doen)|uitschakelen)"
         response: fans_area
         slots:
           domain: "fan"
-          name: "all"
 
       - sentences:
           - "[<doe>] ((overal|<alle>) <ventilator>|<ventilator> overal) uit"
-          - "<zou> ((overal|<alle>) <ventilator>|<ventilator> overal) (uit willen |uit kunnen |uit[ ])<doe>"
-          - "<zou> ((overal|<alle>) <ventilator>|<ventilator> overal) [willen|kunnen] (uit[ ](zetten|doen)|uitschakelen)"
           - "((overal|<alle>) <ventilator>|<ventilator> overal) (uit[ ](zetten|doen)|uitschakelen)"
         response: "fan_all"
         slots:
           domain: "fan"
-          name: "all"
+
+      - sentences:
+          - "[<doe>] <ventilator> [<naar>] uit"
+          - "[<doe>] (<hier>;[alle] <ventilator>) [<naar>] uit"
+          - "[<doe>] [alle] <ventilator> [<naar>] uit <hier>"
+          - "[alle] <ventilator> (<hier>;(uit[ ](zetten|doen)|uitschakelen))"
+          - "<hier> [alle] <ventilator> (uit[ ](zetten|doen)|uitschakelen)"
+          - "<ventilator> (uit[ ](zetten|doen)|uitschakelen)"
+        response: "fans_area"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+            slot: true

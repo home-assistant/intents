@@ -3,9 +3,37 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "[povej [mi]] koliko {on_off_domains:domain} (je) {on_off_states:state} [[v|na] <area>]"
+          - "(kakšna je) [vrednost| stanje| status] <name> [[v|na] <area>]"
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+      - sentences:
+          - "[ali] je <name> [[v|na] <area>] {on_off_states:state}"
+          - "[ali] je {on_off_states:state} <name> [[v|na] <area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+            - binary_sensor
 
+      - sentences:
+          - "[[ali] (je|so) [[v|na] <area>]] [povej [mi]|povej|[ali] [morda] veš] (kater(e|a|o)|kakšn(e|a|i|o)) ({on_off_domains:domain} [so|je] {on_off_states:state}|{on_off_states:state} [so|je] {on_off_domains:domain}) [[v|na] <area>]"
+        response: any
+
+      - sentences:
+          - "[ali] so vs(a|e|i) {on_off_domains:domain} {on_off_states:state} [[v|na] <area>]"
+        response: all
+
+      - sentences:
+          - "[[ali] veš|povej] (kater(i|e|a|o)) {on_off_domains:domain} (je|so) {on_off_states:state} [[v|na] <area>]"
+        response: which
+
+      - sentences:
+          - "[povej [mi]] koliko {on_off_domains:domain} (je) {on_off_states:state} [[v|na] <area>]"
         response: how_many
+
       - sentences:
           - "[povej mi] <kakšna_je> <name> [[v|na] <area>]"
         response: one

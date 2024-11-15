@@ -3,20 +3,51 @@ intents:
   HassTurnOn:
     data:
       - sentences:
+          - "<odpri> garažna vrata"
+        response: "cover_device_class"
+        slots:
+          device_class: "garage"
+          domain: "cover"
+
+      - sentences:
+          - "<odpri> {cover_classes:device_class} [v|na] <area>"
           - "<odpri> <area> {cover_classes:device_class}"
-          - "<odpri> {cover_classes:device_class} [v|na] [<area>]"
-          - "<odpri> <name> [v|na] [<area>]"
         slots:
           domain: cover
         response: cover_device_class
 
       - sentences:
-          - "<odpri> <name>"
-          - "<odpri> garaž[o|i|e]"
-        slots:
+          - "<odpri> <name> [[v|na] <area>]"
+        requires_context:
           domain: cover
-          device_class: garage
         response: cover_device_class
+
+      # # - sentences:
+      # #     - "<odpri> [the] {cover_classes:device_class} [<in_here>]"
+      # #   expansion_rules:
+      # #     in_here: "[in] here"
+      # #   slots:
+      # #     domain: cover
+      # #   response: cover_device_class
+      # #   requires_context:
+      # #     area:
+      # #       slot: true
+      # - sentences:
+      #     #- "<odpri> <area> {cover_classes:device_class}"
+      #     - "<odpri> {cover_classes:device_class} [[v|na] <area>]"
+      #     #- "<odpri> <name> [[v|na] <area>]"
+      #     #- "<open> <name> [in <area>]"
+      #   requires_context:
+      #     domain: cover
+      #   response: cover
+
+      # # - sentences:
+      # #     - "<odpri> <name>"
+      # #     - "<odpri> garaž[o|i|e]"
+      # #   slots:
+      # #     domain: cover
+      # #     device_class: garage
+      # #   response: cover_device_class
 
       - sentences:
           - "<odpri> <name>"
@@ -33,7 +64,7 @@ intents:
             - shade
             - shutter
             - window
-        response: cover_single
+        response: cover
 
       - sentences:
           - "<odpri> <name> [v|na] <area>"
@@ -50,7 +81,7 @@ intents:
             - shade
             - shutter
             - window
-        response: cover_single
+        response: cover
 
       - sentences:
           - "<odpri> {cover_classes:device_class} [<in_here>]"

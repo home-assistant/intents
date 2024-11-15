@@ -350,6 +350,16 @@ lists:
     range:
       from: 1
       to: 100
+  timer_half:
+    values:
+      - in: "[en |et ]halv[t]"
+        out: 30
+  timer_quarter:
+    values:
+      - in: "(1|et|ett) kvarter"
+        out: 15
+      - in: "(3|tre) kvarter"
+        out: 45
   timer_name:
     wildcard: true
   timer_command:
@@ -421,8 +431,8 @@ expansion_rules:
   timer_set: "(sett|start|lag|opprett)[ en]"
   timer_cancel: "(stopp|avbryt|slett|fjern)"
   timer_duration_seconds: "{timer_seconds:seconds} sekund[er]"
-  timer_duration_minutes: "{timer_minutes:minutes} minutt[er][ [og |, ]{timer_seconds:seconds} sekund[er]]"
-  timer_duration_hours: "{timer_hours:hours} time[r][ [og |, ]{timer_minutes:minutes} minutt[er]][ [og |, ]{timer_seconds:seconds} sekund[er]]"
+  timer_duration_minutes: "({timer_minutes:minutes} minutt[er][ [og |, ]{timer_seconds:seconds} sekund[er]])|({timer_minutes:minutes} og {timer_half:seconds} minutt[er])|({timer_quarter:minutes})|({timer_half:seconds} minutt)"
+  timer_duration_hours: "({timer_hours:hours} time[r][ [og |, ]{timer_minutes:minutes} minutt[er]][ [og |, ]{timer_seconds:seconds} sekund[er]])|({timer_hours:hours} time[r] og {timer_quarter:minutes})|({timer_hours:hours} og {timer_half:minutes} time[r])|({timer_half:minutes} time)|({timer_hours:hours} og {timer_quarter:minutes})"
   timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
 
   timer_start_seconds: "{timer_seconds:start_seconds} sekund[er]"
