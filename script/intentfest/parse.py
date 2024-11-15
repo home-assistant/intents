@@ -125,6 +125,9 @@ def run() -> int:
                     render_response(response_template, result, matched, unmatched)
                 ).strip()
 
+                if result.intent_sentence is not None:
+                    output_dict["template"] = result.intent_sentence.text
+
             json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)
             print("")
 
