@@ -153,7 +153,7 @@ responses:
       {% else %}
         {% set nevelo = "a" %}
       {% endif %}
-      Sajnálom, {{ nevelo }} {{ entity }} eszköz még nincs beállítva
+      Sajnálom, {{ nevelo }} {{ entity }} eszköz nincs engedélyezve az asszisztens számára. Kérjük engedélyezze.
     no_entity_in_area_exposed: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
       {% set elso_betu = entity[0].lower() %}
@@ -169,7 +169,7 @@ responses:
       {% else %}
         {% set nevelo_area = "a" %}
       {% endif %}
-      Sajnálom, {{ nevelo_device }} {{ entity }} eszköz még nincs beállítva {{ nevelo_area }} {{ area }} területén
+      Sajnálom, {{ nevelo_device }} {{ entity }} eszköz nincs engedélyezve az asszisztens számára. {{ nevelo_area }} {{ area }} területén. Kérjük engedélyezze.
     no_domain_exposed: |
       {% set translations = {
         "button": "gomb",
@@ -195,9 +195,9 @@ responses:
         "valve": "szelep"
         } %}
       {% if domain in translations -%}
-        Sajnálom, nincs beállított {{ translations[domain] }}
+        Sajnálom, nincs az asszisztens számára engedélyezett {{ translations[domain] }}. Kérjük engedélyezze.
       {%- else -%}
-        Sajnálom, ez a típusú eszköz még nincs beállítva
+        Sajnálom, ez a tartomány nincs engedélyezve az asszisztens számára. Kérjük engedélyezze.
       {%- endif %}
     no_domain_in_area_exposed: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
@@ -230,9 +230,9 @@ responses:
         "valve": "szelep"
         } %}
       {% if domain in translations -%}
-        Sajnálom, nincs beállított {{ translations[domain] }} {{ nevelo_area }} {{ area }} területén
+        Sajnálom, nincs az asszisztens számra engedélyezett {{ translations[domain] }} {{ nevelo_area }} {{ area }} területén
       {%- else -%}
-        Sajnálom, ez a típusú eszköz még nincs beállítva {{ nevelo_area }} {{ area }} területén
+        Sajnálom, nincs az asszisztens számára engedélyezve ez a tartomány {{ nevelo_area }} {{ area }} területén.
       {%- endif %}
     no_device_class_exposed: |
       {% set translations = {
@@ -247,9 +247,9 @@ responses:
         "window": "ablak"
         } %}
       {% if device_class in translations -%}
-        Sajnálom, nincs beállított {{ translations[device_class] }}
+        Sajnálom, nincs az asszisztens számra engedélyezett {{ translations[device_class] }}
       {%- else -%}
-        Sajnálom, ilyen típusú eszköz még nincs beállítva
+        Sajnálom, ilyen típusú eszköz nincs az asszisztens számra engedélyezve.
       {%- endif %}
     no_device_class_in_area_exposed: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
@@ -270,9 +270,9 @@ responses:
         "window": "ablak"
         } %}
       {% if device_class in translations -%}
-        Sajnálom, nincs beállított {{ translations[device_class] }} {{ nevelo_area }} {{ area }} területén.
+        Sajnálom, nincs az asszisztens számra engedélyezett {{ translations[device_class] }} {{ nevelo_area }} {{ area }} területén.
       {%- else -%}
-        Sajnálom, ez a típusú eszköz még nincs beállítva {{ nevelo_area }} {{ area }} területén
+        Sajnálom, ilyen eszköz nincs az asszisztens számra engedélyezve {{ nevelo_area }} {{ area }} területén
       {%- endif %}
     duplicate_entities: "Sajnálom, több {{ entity }} nevű eszköz is van"
     duplicate_entities_in_area: |
@@ -455,6 +455,13 @@ lists:
       - in: "(aktív|érzékel|jelez)"
         out: "on"
       - in: "(tiszta|rendben|nem (érzékel|jelez))"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "(aktív|érzékel|jelez|észlelhető)"
+        out: "on"
+      - in: "(nincs fény|nem (jelez|érzékel|észlehető))"
         out: "off"
 
   bs_heat_states:
@@ -645,6 +652,8 @@ expansion_rules:
   area: "[a |az ]{area}[<area_ragok>|<area_szavak>]"
   area_ragok: "(b(a|e)[n]|(o|e|ö)n|t|i)"
   area_szavak: "([ ](szob(a|á)[ba[n]|t|i]|hely[i]ség[be[n]|en|et]))"
+  floor: "[a |az ]{floor}[en|i| szint[en]| emelet[en|i]]"
+  area_floor: "(<area>|<floor>)"
   what_is: "((mi|mennyi)[ a| az])"
   where_is: "(hol van [a|az]|hol (a|az))"
   brightness: "{brightness}[[ ]%[ ]| százalék][os][r(a|e)]"
