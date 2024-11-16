@@ -6,12 +6,13 @@ import json
 
 import yaml
 
-from .const import INTENTS_FILE, LANGUAGES, LANGUAGES_FILE
+from .const import IMPORTANT_INTENTS, INTENTS_FILE, LANGUAGES, LANGUAGES_FILE
 from .util import load_merged_responses, load_merged_sentences
 
 
 def run() -> int:
-    language_summaries = []
+    language_summaries = {}
+    empty_languages = []
 
     language_info = yaml.safe_load(LANGUAGES_FILE.read_text())
 
@@ -55,7 +56,25 @@ def run() -> int:
             for translation in merged_sentences["responses"]["errors"].values()
         )
 
-        usable = (
+        completely_empty = sum(intent_sentence_count.values()) == 0
+
+        if completely_empty:
+            empty_languages.append(
+                {
+                    "language": language,
+                    "native_name": language_info[language]["nativeName"],
+                    "leaders": language_info[language].get("leaders"),
+                }
+            )
+            continue
+
+        missing_intents = [
+            intent for intent in IMPORTANT_INTENTS if not intent_sentence_count[intent]
+        ]
+
+        usable = not missing_intents and errors_translated
+
+        complete = (
             all(value > 0 for value in intent_sentence_count.values())
             and all(len(value) > 0 for value in used_responses_per_intent.values())
             and errors_translated
@@ -68,24 +87,25 @@ def run() -> int:
             for intent, response_set in used_responses_per_intent.items()
         }
 
-        language_summaries.append(
-            {
-                "language": language,
-                "native_name": language_info[language]["nativeName"],
-                "leaders": language_info[language].get("leaders"),
-                "intents": intent_sentence_count,
-                "used_responses": used_responses_count,
-                "responses": response_sentence_count,
-                "intent_responses_translated": intent_responses_translated,
-                "errors_translated": errors_translated,
-                "usable": usable,
-            }
-        )
+        language_summaries[language] = {
+            "language": language,
+            "native_name": language_info[language]["nativeName"],
+            "leaders": language_info[language].get("leaders"),
+            "intents": intent_sentence_count,
+            "used_responses": used_responses_count,
+            "responses": response_sentence_count,
+            "intent_responses_translated": intent_responses_translated,
+            "errors_translated": errors_translated,
+            "usable": usable,
+            "complete": complete,
+            "missing_intents": missing_intents,
+        }
 
     intents = {}
     for intent, info in intent_info.items():
         intents[intent] = {
             "file_name": f"{info['domain']}_{intent}.yaml",
+            "important": intent in IMPORTANT_INTENTS,
         }
 
     print(
@@ -93,6 +113,15 @@ def run() -> int:
             {
                 "intents": intents,
                 "languages": language_summaries,
+                "improvements": [
+                    info["language"]
+                    for info in sorted(
+                        language_summaries.values(),
+                        key=lambda x: (len(x["missing_intents"]), x["language"]),
+                    )
+                    if info["missing_intents"]
+                ],
+                "empty_languages": empty_languages,
             },
             indent=2,
         )

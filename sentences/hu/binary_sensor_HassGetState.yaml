@@ -313,6 +313,45 @@ intents:
           device_class: heat
           state: "on"
 
+      # # Light
+      - sentences:
+          - "{bs_light_states:state} fény[t] <name> [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "{bs_light_states:state} [bárhol] fény [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "<minden> fény[ ]<szenzor> {bs_light_states:state} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "<melyik> fény[ ]<szenzor> {bs_light_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "<mennyi> fény[ ]<szenzor> {bs_light_states:state} [in <area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: light
+
       # Lock
       - sentences:
           - "<name> <zár> {bs_lock_states:state} van [<area>]"
