@@ -144,7 +144,6 @@ responses:
       {% else %}
         Sajnálom, nem találtam megfelelő eszközt {{ nevelo }} {{ area }} területén
       {% endif %}
-    # Hibák, amikor a felhasználó be van jelentkezve, és több információt tudunk adni
     no_entity_exposed: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
       {% set elso_betu = entity[0].lower() %}
@@ -153,7 +152,7 @@ responses:
       {% else %}
         {% set nevelo = "a" %}
       {% endif %}
-      Sajnálom, {{ nevelo }} {{ entity }} eszköz még nincs beállítva
+      Sajnálom, {{ nevelo }} {{ entity }} eszköz nincs engedélyezve az asszisztens számára. Kérjük engedélyezze.
     no_entity_in_area_exposed: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
       {% set elso_betu = entity[0].lower() %}
@@ -169,7 +168,7 @@ responses:
       {% else %}
         {% set nevelo_area = "a" %}
       {% endif %}
-      Sajnálom, {{ nevelo_device }} {{ entity }} eszköz még nincs beállítva {{ nevelo_area }} {{ area }} területén
+      Sajnálom, {{ nevelo_device }} {{ entity }} eszköz nincs engedélyezve az asszisztens számára {{ nevelo_area }} {{ area }} területén. Kérjük engedélyezze.
     no_domain_exposed: |
       {% set translations = {
         "button": "gomb",
@@ -195,9 +194,9 @@ responses:
         "valve": "szelep"
         } %}
       {% if domain in translations -%}
-        Sajnálom, nincs beállított {{ translations[domain] }}
+        Sajnálom, nincs az asszisztens számára engedélyezett {{ translations[domain] }}. Kérjük engedélyezze.
       {%- else -%}
-        Sajnálom, ez a típusú eszköz még nincs beállítva
+        Sajnálom, ez a tartomány nincs engedélyezve az asszisztens számára. Kérjük engedélyezze.
       {%- endif %}
     no_domain_in_area_exposed: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
@@ -230,9 +229,9 @@ responses:
         "valve": "szelep"
         } %}
       {% if domain in translations -%}
-        Sajnálom, nincs beállított {{ translations[domain] }} {{ nevelo_area }} {{ area }} területén
+        Sajnálom, nincs az asszisztens számra engedélyezett {{ translations[domain] }} {{ nevelo_area }} {{ area }} területén
       {%- else -%}
-        Sajnálom, ez a típusú eszköz még nincs beállítva {{ nevelo_area }} {{ area }} területén
+        Sajnálom, nincs az asszisztens számára engedélyezve ez a tartomány {{ nevelo_area }} {{ area }} területén.
       {%- endif %}
     no_device_class_exposed: |
       {% set translations = {
@@ -247,9 +246,9 @@ responses:
         "window": "ablak"
         } %}
       {% if device_class in translations -%}
-        Sajnálom, nincs beállított {{ translations[device_class] }}
+        Sajnálom, nincs az asszisztens számra engedélyezett {{ translations[device_class] }}
       {%- else -%}
-        Sajnálom, ilyen típusú eszköz még nincs beállítva
+        Sajnálom, ilyen típusú eszköz nincs az asszisztens számra engedélyezve.
       {%- endif %}
     no_device_class_in_area_exposed: |
       {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
@@ -270,9 +269,9 @@ responses:
         "window": "ablak"
         } %}
       {% if device_class in translations -%}
-        Sajnálom, nincs beállított {{ translations[device_class] }} {{ nevelo_area }} {{ area }} területén.
+        Sajnálom, nincs az asszisztens számra engedélyezett {{ translations[device_class] }} {{ nevelo_area }} {{ area }} területén.
       {%- else -%}
-        Sajnálom, ez a típusú eszköz még nincs beállítva {{ nevelo_area }} {{ area }} területén
+        Sajnálom, ilyen eszköz nincs az asszisztens számra engedélyezve {{ nevelo_area }} {{ area }} területén
       {%- endif %}
     duplicate_entities: "Sajnálom, több {{ entity }} nevű eszköz is van"
     duplicate_entities_in_area: |
@@ -457,6 +456,13 @@ lists:
       - in: "(tiszta|rendben|nem (érzékel|jelez))"
         out: "off"
 
+  bs_light_states:
+    values:
+      - in: "(aktív|érzékel|jelez|észlelhető)"
+        out: "on"
+      - in: "(nincs fény|nem (jelez|érzékel|észlehető))"
+        out: "off"
+
   bs_heat_states:
     values:
       - in: "meleg[et]"
@@ -596,6 +602,48 @@ lists:
       - in: "Távol"
         out: "not_home"
 
+  position_level:
+    values:
+      - in: (maximum[ra]|legnagyobb[ra])
+        out: 100
+      - in: (minimum[ra]|legkisebb[re]|legalacsonyabb[ra])
+        out: 1
+
+  volume_level:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  volume_mapping:
+    values:
+      - in: (maximum[ra]|legnagyobb[ra])
+        out: 100
+      - in: (minimum[ra]|legkisebb[re]|legalacsonyabb[ra])
+        out: 1
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "fél"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   name: "[a |az ]{name}[<name_ragok>| <name_szavak>]"
   name_ragok: "(n(a|e)k|[o|e]t|r(a|e)|[o|e|ö]n)"
@@ -603,6 +651,8 @@ expansion_rules:
   area: "[a |az ]{area}[<area_ragok>|<area_szavak>]"
   area_ragok: "(b(a|e)[n]|(o|e|ö)n|t|i)"
   area_szavak: "([ ](szob(a|á)[ba[n]|t|i]|hely[i]ség[be[n]|en|et]))"
+  floor: "[a |az ]{floor}[en|i| szint[en]| emelet[en|i]]"
+  area_floor: "(<area>|<floor>)"
   what_is: "((mi|mennyi)[ a| az])"
   where_is: "(hol van [a|az]|hol (a|az))"
   brightness: "{brightness}[[ ]%[ ]| százalék][os][r(a|e)]"
@@ -647,6 +697,18 @@ expansion_rules:
   helyen: "(zónában|helyen)"
   #kérédések
   what_is_the_class_of_name: "(<what_is> <class> [amit] <name>[a|e|n(a|e)k] [szenzor[a|nak|on]|érzékelő[je|nek|n]|eszköz[e|nek|ön]|esemény[nek]] [mér[t]|mutat[ott]] [<area>]|<what_is> (<name> [szenzor[a|on]|érzékelő[je|n]|eszköz[ön]] [által] [mért|mutatott] <class> [értéke]; [<area>]))"
+
+  timer_set: "(indíts[d][ el]|állíts[d][ be]|hozz létre)"
+  timer_cancel: "(töröld[ ki]|állítsd le|törlése)"
+  timer_duration_seconds: "{timer_seconds:seconds} másodperc[re|es|et|cel]"
+  timer_duration_minutes: "(({timer_minutes:minutes} perc[re|es|et|cel][ [és ]{timer_seconds:seconds} másodperc[re|es|et|cel]])|({timer_minutes:minutes} és {timer_half:seconds} perc[re|es|et|cel])|({timer_half:seconds} perc[re|es|et|cel]))"
+  timer_duration_hours: "({timer_hours:hours} ór(a|ás|ára|át|ával)[ [és ]{timer_minutes:minutes} perc[re|es|et|cel]][ [és ]{timer_seconds:seconds} másodperc[re|es|et|cel]])|({timer_hours:hours} és {timer_half:minutes} ór(a|ás|ára|át|ával))|({timer_half:minutes} ór(a|ás|ára|át|ával))"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} másodperc[re|es]"
+  timer_start_minutes: "{timer_minutes:start_minutes} perc[re|es][ [és ]{timer_seconds:start_seconds} másodperc[re|es]]"
+  timer_start_hours: "{timer_hours:start_hours} ór(a|ás|ára)[ [és ]{timer_minutes:start_minutes} perc[re|es]][ [és ]{timer_seconds:start_seconds} másodperc[re|es]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - "kérem [szépen]"

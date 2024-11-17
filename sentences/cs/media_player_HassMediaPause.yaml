@@ -3,6 +3,16 @@ intents:
   HassMediaPause:
     data:
       - sentences:
-          - "(přeruš[it]|počkat|pozastav[it]) {name}"
+          - "pauza [<v>] {name}"
+          - "(přeruš[it]|[po]zastav[it]|[za]pauz[uj|ovat]) {name}"
         requires_context:
           domain: media_player
+      - sentences:
+          - "pauza"
+          - "([po]zastav[it]|[za]pauz[uj|ovat]) (písničk[u|y]|stopu|skladbu|program)"
+        requires_context:
+          area:
+            slot: true
+      - sentences:
+          - "pauza <area>"
+          - "([po]zastav[it]|[za]pauz[uj|ovat]) (písničk[u|y]|stopu|skladbu|program) <area>"
