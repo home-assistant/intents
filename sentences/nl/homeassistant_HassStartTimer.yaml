@@ -4,18 +4,17 @@ intents:
   HassStartTimer:
     data:
       - sentences:
-          - "[<timer_set>] [een] <timer_duration> timer"
-          - "[<timer_set>] [een] timer (van|voor|op) <timer_duration>"
-          - "[<timer_set>] [een] <timer_duration> timer <timer_named> {timer_name:name}"
-          - "[<timer_set>] [een] {timer_name:name}[ ]timer (van|voor|op) <timer_duration>"
-          - "[<timer_set>] [een] timer <timer_named> {timer_name:name} (van|voor|op) <timer_duration>"
-          - "[<timer_set>] [een] timer (van|voor|op) <timer_duration> <timer_named> {timer_name:name}"
-          - "[<would>] [een] <timer_duration> timer (zetten|starten|instellen)"
-          - "[<would>] [een] timer (van|voor|op) <timer_duration> (zetten|starten|instellen)"
-          - "[<would>] [een] {timer_name:name}[ ]timer (van|voor|op) <timer_duration> (zetten|starten|instellen)"
-          - "[<would>] [een] <timer_duration> timer <timer_named> {timer_name:name} (zetten|starten|instellen)"
-          - "[<would>] [een] timer <timer_named> {timer_name:name} (van|voor|op) <timer_duration> (zetten|starten|instellen)"
-          - "[<would>] [een] timer (van|voor|op) <timer_duration> <timer_named> {timer_name:name} (zetten|starten|instellen)"
+          - "[<timer_set>] <start_timer>"
+          - "[<would>] <start_timer> (zetten|starten|instellen)"
+        expansion_rules:
+          timer_set: "(start|zet|maak|creëer)"
+          new_timer: ([{timer_name:name}[ ]](timer|kookwekker)|(timer|kookwekker) <timer_named> {timer_name:name})
+          start_timer: >
+            [een] (
+              <timer_duration> <new_timer>
+             |<new_timer> (van|voor|op) <timer_duration>
+             |(timer|kookwekker) (van|voor|op) <timer_duration> <timer_named> {timer_name:name}
+             )
       - sentences:
           - "{timer_command:conversation_command} over <timer_duration>"
           - "[<would>] over <timer_duration> {timer_command:conversation_command}"
