@@ -103,7 +103,61 @@ lists:
       from: 0
       to: 100
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_three_quarters:
+    values:
+      - in: "ثلاثة أرباع"
+        out: 45
+      - in: "3/4"
+        out: 45
+  timer_half:
+    values:
+      - in: "نصف"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_quarter:
+    values:
+      - in: "ربع"
+        out: 15
+      - in: "1/4"
+        out: 15
+
+  timer_hour:
+    values:
+      - in: "ساعة"
+        out: 1
+      - in: "ساعاتين"
+        out: 2
+  timer_minute:
+    values:
+      - in: "دقيقة"
+        out: 1
+      - in: "دقيقتان"
+        out: 2
+  timer_second:
+    values:
+      - in: "ثانية"
+        out: 1
+      - in: "ثانيتين"
+        out: 2
+
   shopping_list_item:
+    wildcard: true
+  timer_name:
+    wildcard: true
+  timer_command:
     wildcard: true
 
 expansion_rules:
@@ -118,26 +172,32 @@ expansion_rules:
   home_assistant: "[ال]بيت [(الذكي|المساعد)]"
 
   tell_me: "(قل لي|[ا]خبرني)"
-  what_is: "((شو|ما|ماذا|كيف|كم|شقد)[ ][هو|هي|بكون|يكون|تكون])"
+  what_is: "((شو|ما|ماذا|كيف|كم|شقد|قديش)[ ][هو|هي|بكون|يكون|تكون])"
   is_it: "(هل[ ][هو|هي|هناك])"
   how_many: "كم عدد"
   where: "[(ل|<to> )](اين|وين|فين)"
   go: "[ب][(ت|ي)](ذهب|روح|تجه)"
   can: "(ممكن|يمكن)[ني]"
+  remains: "[ال](تبقى|متبقي|بقى|بقي|باقي|لسه)"
+
+  in: "[[ال]موجود ](في|بي|داخل)"
+  all: "(كل|جميع)"
+  to: "(على |الى |لل|ل)"
+  any: "(أي)"
 
   brightness: "{brightness}[[ ]%| بالمائة]"
   temperature: "{temperature}[°| درجة] [{temperature_unit}]"
   position: "{position}[[ ]%| بالمائة]"
 
   turn: "(اضبط|أضبط|إضبط|ضبط|[ت]غير|تعيين)"
-  turn_on: "(افتح|إفتح|شغل|اشعل|أشعل|اشغل|أشغل|ابدأ|إبدأ|شعل|فعل|تفعيل|تشغيل|فعل)"
+  turn_on: "(افتح|إفتح|شغل|اشعل|أشعل|اشغل|أشغل|ابدا|إبدأ|شعل|فعل|تفعيل|تشغيل|فعل)"
   turn_off: "(أغلق|اغلق|اطفئ|أطفئ|طفي)"
 
   turn_up: "(علي|[ا]رفع)"
   turn_down: "(اخفض|[ا]نزل|تخفيض|خفض)"
 
-  increase: "(زيادة|زيد|<turn_up>|كتر|كثر)"
-  decrease: "(تقليل|قلل|تنقيص|نقص|وطي|<turn_down>)"
+  increase: "(زيادة|زيد|زود|كتر|كثر|<turn_up>|<add>)"
+  decrease: "(تقليل|قلل|تنقيص|نقص|وطي|ازالة|شيل|امسح|<turn_down>)"
 
   unlock: "(افتح)"
   lock: "(اقفل)"
@@ -147,14 +207,11 @@ expansion_rules:
 
   add: "(اضف|ضيف|ضع|حط|زيد)"
 
+  create: "(إنشاء|اصنع|ساوي|[ا]عميل)"
+
   temp: "(باردة|دافئة|لطيفة|حارة|درجة [ال]حرارة)"
   intensity: "[ال](درجة [ال]سطوع|[شدة] [ال]سطوع|قوة|شدة)"
   color: "[ال](لون|الوان)"
-
-  in: "(في|بي|داخل)"
-  all: "(كل|جميع)"
-  to: "(على|الى|لل)"
-  any: "(أي)"
 
   numeric_value_set: "(<turn>|<open>|<close>|)"
 
@@ -170,6 +227,43 @@ expansion_rules:
   fan: "[ال](مروحة|مراوح|مروحات)"
   weather: "[ال](طقس|طقوس|جو|اجواء)"
   time: "[ال](وقت|ساعة)"
+  timer: "[ال](مؤقتي|مؤقت|منبه|منبهي|مؤقتات|منبهات|منبهاتي|مؤقتاتي|عداد)"
+  called: "(يسمى|تدعى|يدعى|باسم|اسمه|[ال]مسمى)"
+  duration: "(ل|الى|لمدة|لفترة|بطول|يطول|طوله)"
+
+  # Timers
+  timer_set: "(<turn_on>|<turn>|<create>)"
+  timer_cancel: "(إلغاء|[ا]حذف|[ا]مسح|الغي)"
+  timer_pause: "(اوقفة|وقفة|وقف|اوقف|توقف مؤقتًا|اوقف مؤقتًا|اوقفة مؤقتًا)"
+  timer_resume: "(استمر|متابعة|اكمل|كمل|تكملة|استئنف|استئناف|إعادة تنشيط|إعادة تفعيل)"
+
+  # Timer Duration
+  timer_seconds_short: "({timer_three_quarters:seconds}|{timer_half:seconds}|{timer_quarter:seconds})"
+  timer_minutes_short: "({timer_three_quarters:minutes}|{timer_half:minutes}|{timer_quarter:minutes})"
+
+  timer_duration_seconds: "([ال]{timer_second:seconds}|[ال]{timer_seconds:seconds} <second>|[ال]<timer_seconds_short> [<minute>])"
+  timer_duration_minutes: "([ال]{timer_minute:minutes}|[ال]{timer_minutes:minutes} <minute>|[ال]<timer_minutes_short> [<hour>])"
+  timer_duration_hours: "([ال]{timer_hour:hours}|[ال]{timer_hours:hours} <hour>)"
+
+  timer_duration_minutes_seconds: "<timer_duration_minutes>[ [و ]<timer_duration_seconds>]"
+  timer_duration_hours_minutes_seconds: "<timer_duration_hours>[ [و ]<timer_duration_minutes>][ [و ]<timer_duration_seconds>]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes_seconds>|<timer_duration_hours_minutes_seconds>"
+
+  # timer Start
+  timer_start_seconds_short: "({timer_three_quarters:start_seconds}|{timer_half:start_seconds}|{timer_quarter:start_seconds})"
+  timer_start_minutes_short: "({timer_three_quarters:start_minutes}|{timer_half:start_minutes}|{timer_quarter:start_minutes})"
+
+  timer_start_seconds: "([ال]{timer_second:start_seconds}|[ال]{timer_seconds:start_seconds} <second>|[ال]<timer_start_seconds_short> [<minute>])"
+  timer_start_minutes: "([ال]{timer_minute:start_minutes}|[ال]{timer_minutes:start_minutes} <minute>|[ال]<timer_start_minutes_short> [<hour>])"
+  timer_start_hours: "([ال]{timer_hour:start_hours}|[ال]{timer_hours:start_hours} <hour>)"
+
+  timer_start_minutes_seconds: "<timer_start_minutes>[ [و ]<timer_start_seconds>]"
+  timer_start_hours_minutes_seconds: "<timer_start_hours>[ [و ]<timer_start_minutes>][ [و ]<timer_start_seconds>]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes_seconds>|<timer_start_hours_minutes_seconds>"
+
+  second: "(ثانية|ثواني)"
+  minute: "(دقيقة|دقائق)"
+  hour: "(ساعة|ساعات)"
 
 skip_words:
   - "(من فضلك|لو سمحت)"
