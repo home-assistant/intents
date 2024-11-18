@@ -479,8 +479,6 @@ expansion_rules:
     )
 
   # Timers
-  timer_set: "(start|zet|maak|creëer)"
-  timer_cancel: "(annuleer|stop)"
   timer_duration_seconds: "{timer_seconds:seconds} seconde[s|n]"
   timer_duration_minutes: >
     (
@@ -502,6 +500,16 @@ expansion_rules:
   timer_start_minutes: "{timer_minutes:start_minutes} (minuut|minuten) [[en] {timer_seconds:start_seconds} seconde[n|s]]"
   timer_start_hours: "{timer_hours:start_hours} (uur|uren) [[en] {timer_minutes:start_minutes} (minuut|minuten)] [[en] {timer_seconds:start_seconds} seconde[s|n]]"
   timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+  timer_named: (genaamd|met [de] naam|voor [de|het|een])
+  timer_prefix: (<timer_start> |{area}[ ]|{timer_name:name}[ ]|)
+  timer_suffix: >
+    (
+      (van|voor) <timer_start>
+      |[<in>] <area>
+      |<timer_named> {timer_name:name}
+    )
+  my_timer: "[de|mijn|m'n] ([<timer_prefix>](timer|kookwekker)|(timer|kookwekker) <timer_suffix>)"
+  area_timer: "<in> <area> [de|mijn|m'n] (timer|kookwekker)"
 
 skip_words:
   - "alstublieft"
@@ -509,3 +517,6 @@ skip_words:
   - "aub"
   - "ajb"
   - "graag"
+  - "ik wil"
+  - "voor mij"
+  - "voor me"

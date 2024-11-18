@@ -1,12 +1,45 @@
 language: "he"
 responses:
   errors:
-    no_intent: "סליחה, לא הבנתי את זה"
-    no_area: "אין שטח בשם {{ area }}"
-    no_domain_in_area: "אין {{ domain }} ב{{ area }}"
-    no_device_class_in_area: "אין {{ device_class }} ב{{ area }}"
-    no_entity: "אין התקן או יישות בשם {{ entity }}"
-    handle_error: "שגיאה בלתי צפויה בעת עיבוד הבקשה"
+    # General errors
+    no_intent: "מצטער, לא הצלחתי להבין את הבקשה"
+    handle_error: "אירעה שגיאה בלתי צפויה"
+
+    # Errors for when user is not logged in
+    no_area: "מצטער, אני לא מודע לאזור שנקרא {{ area }}"
+    no_floor: "מצטער, אני לא מודע לקומה שנקראת {{ floor }}"
+    no_domain: "מצטער, אני לא מודע ל{{ domain }}"
+    no_domain_in_area: "מצטער, אני לא מודע ל{{ domain }} באזור {{ area }}"
+    no_domain_in_floor: "מצטער, אני לא מודע ל{{ domain }} בקומה {{ floor }}"
+    no_device_class: "מצטער, אני לא מודע לסוג מכשיר {{ device_class }}"
+    no_device_class_in_area: "מצטער, אני לא מודע לסוג מכשיר {{ device_class }} באזור {{ area }}"
+    no_device_class_in_floor: "מצטער, אני לא מודע לסוג מכשיר {{ device_class }} בקומה {{ floor }}"
+    no_entity: "מצטער, אני לא מודע למכשיר שנקרא {{ entity }}"
+    no_entity_in_area: "מצטער, אני לא מודע למכשיר שנקרא {{ entity }} באזור {{ area }}"
+    no_entity_in_floor: "מצטער, אני לא מודע למכשיר שנקרא {{ entity }} בקומה {{ floor }}"
+    entity_wrong_state: "מצטער, אין מכשיר שנמצא במצב {{ state | lower }}"
+    feature_not_supported: "מצטער, אין מכשיר שתומך בתכונות הנדרשות"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "מצטער, {{ entity }} אינו נחשף"
+    no_entity_in_area_exposed: "מצטער, {{ entity }} באזור {{ area }} אינו נחשף"
+    no_entity_in_floor_exposed: "מצטער, {{ entity }} בקומה {{ floor }} אינו נחשף"
+    no_domain_exposed: "מצטער, אף {{ domain }} אינו נחשף"
+    no_domain_in_area_exposed: "מצטער, אף {{ domain }} באזור {{ area }} אינו נחשף"
+    no_domain_in_floor_exposed: "מצטער, אף {{ domain }} בקומה {{ floor }} אינו נחשף"
+    no_device_class_exposed: "מצטער, אף סוג מכשיר {{ device_class }} אינו נחשף"
+    no_device_class_in_area_exposed: "מצטער, אף סוג מכשיר {{ device_class }} באזור {{ area }} אינו נחשף"
+    no_device_class_in_floor_exposed: "מצטער, אף סוג מכשיר {{ device_class }} בקומה {{ floor }} אינו נחשף"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "מצטער, קיימים מספר מכשירים שנקראים {{ entity }}"
+    duplicate_entities_in_area: "מצטער, קיימים מספר מכשירים שנקראים {{ entity }} באזור {{ area }}"
+    duplicate_entities_in_floor: "מצטער, קיימים מספר מכשירים שנקראים {{ entity }} בקומה {{ floor }}"
+
+    # Errors for timers
+    timer_not_found: "מצטער, לא הצלחתי למצוא את הטיימר"
+    multiple_timers_matched: "מצטער, איני יכול להתייחס למספר טיימרים בו זמנית"
+    no_timer_support: "מצטער, הטיימרים אינם נתמכים במכשיר זה"
 lists:
   color:
     values:
@@ -156,18 +189,330 @@ lists:
         out: window
       - in: חלונות
         out: window
+
+  lock_states:
+    values:
+      - in: "[נעול] היטב"
+        out: "נעול"
+      - in: "לא נעול"
+        out: "לא נעול"
+
+  bs_battery_states:
+    values:
+      - in: "נמוך"
+        out: "פועל"
+      - in: "(רגיל|טעון)"
+        out: "כבוי"
+
+  bs_battery_charging_states:
+    values:
+      - in: "בטעינה"
+        out: "פועל"
+      - in: "לא בטעינה"
+        out: "כבוי"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(מזוהה|מופעל|פועל)"
+        out: "פועל"
+      - in: "נקה"
+        out: "כבוי"
+
+  bs_cold_states:
+    values:
+      - in: "קר"
+        out: "פועל"
+      - in: "רגיל"
+        out: "כבוי"
+
+  bs_connectivity_states:
+    values:
+      - in: "מחובר"
+        out: "פועל"
+      - in: "מנותק"
+        out: "כבוי"
+
+  bs_door_states:
+    values:
+      - in: "פתוח"
+        out: "פועל"
+      - in: "(סגור|נעול)"
+        out: "כבוי"
+
+  bs_garage_door_states:
+    values:
+      - in: "פתוח"
+        out: "פועל"
+      - in: "(סגור|נעול)"
+        out: "כבוי"
+
+  bs_gas_states:
+    values:
+      - in: "(מזוהה|מופעל|פועל)"
+        out: "פועל"
+      - in: "נקה"
+        out: "כבוי"
+
+  bs_heat_states:
+    values:
+      - in: "חם"
+        out: "פועל"
+      - in: "רגיל"
+        out: "כבוי"
+
+  bs_light_states:
+    values:
+      - in: "מזוהה"
+        out: "פועל"
+      - in: "אין אור"
+        out: "כבוי"
+
+  bs_lock_states:
+    values:
+      - in: "לא נעול"
+        out: "פועל"
+      - in: "נעול"
+        out: "כבוי"
+
+  bs_moisture_states:
+    values:
+      - in: "רטוב"
+        out: "פועל"
+      - in: "יבש"
+        out: "כבוי"
+
+  bs_motion_states:
+    values:
+      - in: "(מזוהה|מופעל|פועל)"
+        out: "פועל"
+      - in: "נקה"
+        out: "כבוי"
+
+  bs_occupancy_states:
+    values:
+      - in: "(מזוהה|מופעל|פועל)"
+        out: "פועל"
+      - in: "נקה"
+        out: "כבוי"
+
+  bs_opening_states:
+    values:
+      - in: "פתוח"
+        out: "פועל"
+      - in: "(סגור|נעול)"
+        out: "כבוי"
+
+  bs_plug_states:
+    values:
+      - in: "מחובר לחשמל"
+        out: "פועל"
+      - in: "מנותק"
+        out: "כבוי"
+
+  bs_power_states:
+    values:
+      - in: "(מופעל|יש זרם חשמל)"
+        out: "פועל"
+      - in: "(כבוי|אין זרם חשמל)"
+        out: "כבוי"
+
+  bs_presence_states:
+    values:
+      - in: "(בבית|נמצא)"
+        out: "פועל"
+      - in: "(לא בבית|לא נמצא|הרחק)"
+        out: "כבוי"
+
+  bs_problem_states:
+    values:
+      - in: "מזוהה"
+        out: "פועל"
+      - in: "תקין"
+        out: "כבוי"
+
+  bs_running_states:
+    values:
+      - in: "פועל"
+        out: "פועל"
+      - in: "לא פועל"
+        out: "כבוי"
+
+  bs_safety_states:
+    values:
+      - in: "לא בטוח"
+        out: "פועל"
+      - in: "בטוח"
+        out: "כבוי"
+
+  bs_smoke_states:
+    values:
+      - in: "(מזוהה|מופעל|פועל)"
+        out: "פועל"
+      - in: "נקה"
+        out: "כבוי"
+
+  bs_sound_states:
+    values:
+      - in: "(מזוהה|מופעל|פועל)"
+        out: "פועל"
+      - in: "נקה"
+        out: "כבוי"
+
+  bs_tamper_states:
+    values:
+      - in: "(מזוהה|ניסיון חבלה)"
+        out: "פועל"
+      - in: "נקה"
+        out: "כבוי"
+
+  bs_update_states:
+    values:
+      - in: "עדכון זמין"
+        out: "פועל"
+      - in: "(מעודכן|הכל מעודכן)"
+        out: "כבוי"
+
+  bs_vibration_states:
+    values:
+      - in: "(מזוהה|רוטט)"
+        out: "פועל"
+      - in: "(נקה|לא רוטט)"
+        out: "כבוי"
+
+  bs_window_states:
+    values:
+      - in: "פתוח"
+        out: "פועל"
+      - in: "(סגור|נעול)"
+        out: "כבוי"
+
+  shopping_list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  timer_words_seconds:
+    values:
+      - in: "אחד|אחת"
+        out: 1
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+
+  timer_words_minutes:
+    values:
+      - in: "אחד|אחת"
+        out: 1
+
+  timer_words_hours:
+    values:
+      - in: "אחד|אחת"
+        out: 1
+
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+
+  timer_half:
+    values:
+      - in: "חצי"
+        out: 30
+      - in: "1/2"
+        out: 30
+
+  timer_start:
+    values:
+      - "התתחל"
+      - "הפעל"
+
+  timer_name:
+    wildcard: true
+
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   name: "[ה]{name}"
-  area: "[ה][ב]{area}"
-  what_is: "(מה|מהו|מהי|מהם|מהן)"
-  brightness: "{brightness}[%| אחוז | אחוזים]"
-  open: "(פתח[י] | לפתוח | תפתח[י] | תעל[ה|י] | העל[ה|י] | הרם | הרימי | להרים | תרים | תרימי)"
-  close: "(סגור | סגרי | סיגרי | לסגור | תסגור | תסגרי | הנמך | הנמיכי | תנמיך | תנמיכי | הורד | הורידי | להוריד | תוריד[י])"
-  #turn: "(הפעל | הדלק)"
-  temp: "(מעלות|טמפרטורה|טמפרטורת)"
-  temperature: "{temperature} [{temperature_unit}] [°| מעלות]"
-  set: "(כוון|שנה|קבע)"
-  window: "(חלון | חלונות | תריס | תריסים | וילון | וילונות | סוכך | סוכחים)"
+  area: "[ה]{area}"
+  floor: "[ה]{floor}[ קומה]"
+  area_floor: "(<area>|<floor>)"
+  in_area_floor: "[<ב>] <area_floor>"
+  what_is: "(מהו|מה זה|תגיד לי|מה)[ ה]"
+  lockable: "[(ה|שלי) ](מנעול|דלת|חלון|שער|דלת מוסך|תריס)[ים]"
+  where_is: "(איפה|היכן נמצא)"
+  which: "(איזה|מה)[ מתוך ה]"
+  is: "(האם|יש[ (ה|ב)])"
+  are: "<is>"
+  any: "(משהו|כלשהו|כל)[ מתוך ה]"
+  are_any: "[<are> ]<any>"
+  how_many: "כמה[ מתוך ה]"
+  brightness: "{brightness}[[ ]%| אחוז]"
+  light: "[ה]אור[ות]|מנורה[ות]"
+  turn: "(הפעל|כבה|שנה)"
+  temp: "(טמפ|טמפרטורה)"
+  temperature: "{temperature}[[ ]°[ ]{temperature_unit}]|( מעלות[ {temperature_unit}])"
+  open: "(פתח|הרם|העלה)[ למעלה]"
+  close: "(סגור|הורד|הנמך)[ (למעלה|למטה)]"
+  set: "(קבע|הגדר|שנה|שנה)"
+  numeric_value_set: "(קבע|שנה|העלה|הורד|הגדל|הקטן|עשה)"
+  in: "(ב|על|של|בתוך)"
+  position: "{position}[[ ]%| אחוז]"
+  volume: "{volume:רמת_ווליום}[[ ]%| אחוז]"
+  currently: "(כרגע|עכשיו|נכון לעכשיו|ברגע זה)"
+  state: "[(מצב|סטטוס) ](נוכחי|עדכני)"
+
+  # Context awareness expansion rules
+  all: "(הכל|כל[ [של] ה]|כל אחד)"
+  are_all: "[<are> ]<all>"
+  home: "(בית|דירה|בניין|מקום מגורים)"
+  everywhere: "(בכל מקום|בכל חדר[ים]|בכל אחד מהחדרים|בבית)"
+  here: "(כאן|פה|בחדר הזה|בחדר)"
+
+  # Questions
+  what_is_the_class_of_name: "(<what_is> הסוג (של|ב|שמוצג על ידי) <name> [ב<area>]|<what_is> הסוג של <name> [ב<area>]|<what_is> הסוג של <name> ב<area>)"
+
+  # timers
+  timer_set: "(התחל|קבע|צור)"
+  timer_cancel: "(בטל|עצור|הפסק)"
+
+  nb_seconds: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
+  nb_minutes: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
+  nb_hours: "({timer_hours:hours}|{timer_words_hours:hours})"
+  nb_start_seconds: "({timer_seconds:nb_start_seconds}|{timer_words_seconds:nb_start_seconds})"
+  nb_start_minutes: "({timer_minutes:nb_start_minutes}|{timer_words_minutes:nb_start_minutes})"
+  nb_start_hours: "({timer_hours:nb_start_hours}|{timer_words_hours:nb_start_hours})"
+
+  timer_duration_seconds: "{timer_seconds:seconds} שניות"
+  timer_duration_minutes: "{timer_minutes:minutes} [דקה|דקות]"
+  timer_duration_hours: "(<nb_hours> שעה[ות][[,] [ו]<timer_duration_minutes>]|(<nb_hours> שעה[ות] ו {timer_half:minutes}[[,] ו (<timer_duration_seconds>|{timer_half:seconds} דקה)])|({timer_half:minutes} שעה[[,] ו (<timer_duration_seconds>|{timer_half:seconds} דקה)]))"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:seconds} שניות"
+  timer_start_minutes: "({timer_minutes:minutes} דקה[ות])"
+  timer_start_hours: "[ה|הם]<nb_start_hours> שעה[ות][[,] [ו]<nb_start_minutes> דקה[ות]][[,] [ו]<nb_start_seconds> שנייה[ות]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
 skip_words:
   - "אנא"
   - "נא"
