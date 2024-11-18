@@ -96,9 +96,57 @@ responses:
       {%- else -%}
         In der Etage {{ floor }} wurde keine Übereinstimmung gefunden
       {%- endif %}
-    no_device_class: "Kein {{ device_class }} vorhanden"
-    no_device_class_in_area: "Im Bereich {{ area }} ist kein {{ device_class }} vorhanden"
-    no_device_class_in_floor: "In der Etage {{ floor }} ist kein {{ device_class }} vorhanden"
+    no_device_class: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousie",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "kein Tor",
+        "shade": "kein Rolle",
+        "shutter": "kein Rollladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        Es wurde {{ translations[device_class] }} gefunden
+      {%- else -%}
+        Es wurde keine Übereinstimmung gefunden
+      {%- endif %}
+    no_device_class_in_area: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousie",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "kein Tor",
+        "shade": "kein Rolle",
+        "shutter": "kein Rollladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        Im Bereich {{ area }} wurde {{ translations[device_class] }} gefunden
+      {%- else -%}
+        Im Bereich {{ area }} wurde keine Übereinstimmung gefunden
+      {%- endif %}
+    no_device_class_in_floor: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousie",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "kein Tor",
+        "shade": "kein Rolle",
+        "shutter": "kein Rollladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        In der Etage {{ floor }} wurde {{ translations[device_class] }} gefunden
+      {%- else -%}
+        In der Etage {{ floor }} wurde keine Übereinstimmung gefunden
+      {%- endif %}
     no_entity: "{{ entity }} existiert nicht"
     no_entity_in_area: "{{ entity }} ist im Bereich {{ area }} nicht vorhanden"
     no_entity_in_floor: "{{ entity }} ist in der Etage {{ floor }} nicht vorhanden"
@@ -136,7 +184,7 @@ responses:
       {% if domain in translations -%}
         Es ist {{ translations[domain] }} freigegeben
       {%- else -%}
-        Keine Übereinstimmung gefunden
+        Es wurde keine Übereinstimmung gefunden
       {%- endif %}
     no_domain_in_area_exposed: |
       {% set translations = {
@@ -196,9 +244,57 @@ responses:
       {%- else -%}
         In der Etage {{ floor }} wurde keine Übereinstimmung gefunden
       {%- endif %}
-    no_device_class_exposed: "Es ist kein {{ device_class }} freigegeben"
-    no_device_class_in_area_exposed: "Im Bereich {{ area }} ist kein {{ device_class }} freigegeben"
-    no_device_class_in_floor_exposed: "In der Etage {{ floor }} ist kein {{ device_class }} freigegeben"
+    no_device_class_exposed: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousie",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "kein Tor",
+        "shade": "kein Rolle",
+        "shutter": "kein Rollladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        Es ist {{ translations[device_class] }} freigegeben
+      {%- else -%}
+        Es wurde keine Übereinstimmung gefunden
+      {%- endif %}
+    no_device_class_in_area_exposed: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousie",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "kein Tor",
+        "shade": "kein Rolle",
+        "shutter": "kein Rollladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        Im Bereich {{ area }} ist {{ translations[device_class] }} freigegeben
+      {%- else -%}
+        Im Bereich {{ area }} wurde keine Übereinstimmung gefunden
+      {%- endif %}
+    no_device_class_in_floor_exposed: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousie",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "kein Tor",
+        "shade": "kein Rolle",
+        "shutter": "kein Rollladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        In der Etage {{ floor }} ist {{ translations[device_class] }} freigegeben
+      {%- else -%}
+        In der Etage {{ floor }} wurde keine Übereinstimmung gefunden
+      {%- endif %}
 
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Es wurden mehrere {{ entity }} gefunden"
