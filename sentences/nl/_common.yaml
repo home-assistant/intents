@@ -699,14 +699,19 @@ expansion_rules:
   cover: "[de|het] (<awning>|<blind>|<curtain>|<door>|<garage>|<gate>|<shade>|<shutter>|<window>)"
   # lock specific
   lock: "[de|het|een] ([deur]slot[en]|vergrendeling[en])"
-  locked: "<to> (slot|vergrendeld|dicht)"
+  locked: "(<to> slot|[<to>] vergrendeld)"
   unlocked: "[<to>] (van [het] slot|ontgrendeld)"
+  lock_name: >
+    (
+      <lock> [van] <name>
+     |<name>[ ]([deur]slot[en]|vergrendeling[en])
+    )
   lock_name_area: >
     (
       <lock> [van] [{area}[ ]]<name>
-      |<name>[ ]([deur]slot[en]|vergrendeling[en]) [<in> <area>]
-      |[<in> <area>] <name>[ ]([deur]slot[en]|vergrendeling[en])
-      |<area>[ ]<name>[ ]([deur]slot[en]|vergrendeling[en])
+      |<lock_name> [<in> <area>]
+      |[<in> <area>] <lock_name>)
+      |<area>[ ]<name>[ ]([deur]slot[en]|vergrendeling[en]
     )
   # combination of device/entity types
   type: (<light>|<fan>|<cover>|<switch>)
