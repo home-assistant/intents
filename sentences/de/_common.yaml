@@ -9,12 +9,147 @@ responses:
     # Errors for when user is not logged in
     no_area: "Kein Bereich mit dem Namen {{ area }} vorhanden"
     no_floor: "Keine Etage mit dem Namen {{ floor }} vorhanden"
-    no_domain: "Kein {{ domain }} vorhanden"
-    no_domain_in_area: "Im Bereich {{ area }} ist kein {{ domain }} vorhanden"
-    no_domain_in_floor: "In der Etage {{ floor }} ist kein {{ domain }} vorhanden"
-    no_device_class: "Kein {{ device_class }} vorhanden"
-    no_device_class_in_area: "Im Bereich {{ area }} ist kein {{ device_class }} vorhanden"
-    no_device_class_in_floor: "In der Etage {{ floor }} ist kein {{ device_class }} vorhanden"
+    no_domain: |
+      {% set translations = {
+        "weather": "Kein Wetter",
+        "button": "Keine Tasten",
+        "camera": "Keine Kameras",
+        "input_button": "Keine Tasten",
+        "alarm_control_panel": "Keine Alarme",
+        "automation": "Keine Automatisierungen",
+        "fan": "Keine Ventilatoren",
+        "climate": "Keine Thermostate",
+        "humidifier": "Keine Luftbefeuchter",
+        "input_boolean": "Keine Schalter",
+        "siren": "Keine Sirenen",
+        "water_heater": "Keine Warmwasserspeicher",
+        "light": "Keine Lichter",
+        "switch": "Keine Schalter",
+        "script": "Keine Skripte",
+        "remote": "Keine Fernbedienungen",
+        "lock": "Keine Schlösser",
+        "vacuum": "Keine Staubsauger",
+        "scene": "Keine Szenen",
+        "media_player": "Keine Mediaplayer",
+        "lawn_mower": "Keine Rasenmäher",
+        "valve": "Keine Ventile",
+        } %}
+      {% if domain in translations -%}
+        {{ translations[domain] }} vorhanden
+      {%- else -%}
+        Diese Domäne ist nicht vorhanden
+      {%- endif %}
+    no_domain_in_area: |
+      {% set translations = {
+        "weather": "ist kein Wetter",
+        "button": "sind keine Tasten",
+        "camera": "sind keine Kameras",
+        "input_button": "sind keine Tasten",
+        "alarm_control_panel": "sind keine Alarme",
+        "automation": "sind keine Automatisierungen",
+        "fan": "sind keine Ventilatoren",
+        "climate": "sind keine Thermostate",
+        "humidifier": "sind keine Luftbefeuchter",
+        "input_boolean": "sind keine Schalter",
+        "siren": "sind keine Sirenen",
+        "water_heater": "sind keine Warmwasserspeicher",
+        "light": "sind keine Lichter",
+        "switch": "sind keine Schalter",
+        "script": "sind keine Skripte",
+        "remote": "sind keine Fernbedienungen",
+        "lock": "sind keine Schlösser",
+        "vacuum": "sind keine Staubsauger",
+        "scene": "sind keine Szenen",
+        "media_player": "sind keine Mediaplayer",
+        "lawn_mower": "sind keine Rasenmäher",
+        "valve": "sind keine Ventile",
+        } %}
+      {% if domain in translations -%}
+        Im Bereich {{ area }} {{ translations[domain] }} vorhanden
+      {%- else -%}
+        Im Bereich {{ area }} ist diese Domäne nicht vorhanden
+      {%- endif %}
+    no_domain_in_floor: |
+      {% set translations = {
+        "weather": "ist kein Wetter",
+        "button": "sind keine Tasten",
+        "camera": "sind keine Kameras",
+        "input_button": "sind keine Tasten",
+        "alarm_control_panel": "sind keine Alarme",
+        "automation": "sind keine Automatisierungen",
+        "fan": "sind keine Ventilatoren",
+        "climate": "sind keine Thermostate",
+        "humidifier": "sind keine Luftbefeuchter",
+        "input_boolean": "sind keine Schalter",
+        "siren": "sind keine Sirenen",
+        "water_heater": "sind keine Warmwasserspeicher",
+        "light": "sind keine Lichter",
+        "switch": "sind keine Schalter",
+        "script": "sind keine Skripte",
+        "remote": "sind keine Fernbedienungen",
+        "lock": "sind keine Schlösser",
+        "vacuum": "sind keine Staubsauger",
+        "scene": "sind keine Szenen",
+        "media_player": "sind keine Mediaplayer",
+        "lawn_mower": "sind keine Rasenmäher",
+        "valve": "sind keine Ventile",
+        } %}
+      {% if domain in translations -%}
+        In der Etage {{ floor }} {{ translations[domain] }} vorhanden
+      {%- else -%}
+        In der Etage {{ floor }} ist diese Domäne nicht vorhanden
+      {%- endif %}
+    no_device_class: |
+      {% set translations = {
+        "awning": "Keine Markise",
+        "blind": "Keine Jalousien",
+        "curtain": "Kein Vorhang",
+        "door": "Keine Tür",
+        "garage": "Kein Garagentor",
+        "gate": "Kein Tor",
+        "shade": "Keine Rollo",
+        "shutter": "Kein Rolladen",
+        "window": "Kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        {{ translations[device_class] }} vorhanden
+      {%- else -%}
+        Diese Geräteklasse ist nicht vorhanden
+      {%- endif %}
+    no_device_class_in_area: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousien",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "Kein Tor",
+        "shade": "keine Rollo",
+        "shutter": "kein Rolladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        Im Bereich {{ area }} ist {{ translations[device_class] }} vorhanden
+      {%- else -%}
+        Im Bereich {{ area }} ist diese Geräteklasse ist nicht vorhanden
+      {%- endif %}
+    no_device_class_in_floor: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousien",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "Kein Tor",
+        "shade": "keine Rollo",
+        "shutter": "kein Rolladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        In der Etage {{ floor }} ist {{ translations[device_class] }} vorhanden
+      {%- else -%}
+        In der Etage {{ floor }} ist diese Geräteklasse ist nicht vorhanden
+      {%- endif %}
     no_entity: "{{ entity }} existiert nicht"
     no_entity_in_area: "{{ entity }} ist im Bereich {{ area }} nicht vorhanden"
     no_entity_in_floor: "{{ entity }} ist in der Etage {{ floor }} nicht vorhanden"
@@ -25,12 +160,147 @@ responses:
     no_entity_exposed: "{{ entity }} ist nicht freigegeben"
     no_entity_in_area_exposed: "{{ entity }} ist im Bereich {{ area }} nicht freigegeben"
     no_entity_in_floor_exposed: "{{ entity }} ist in der Etage {{ floor }} nicht freigegeben"
-    no_domain_exposed: "Es ist kein {{ domain }} freigegeben"
-    no_domain_in_area_exposed: "Im Bereich {{ area }} ist kein {{ domain }} freigegeben"
-    no_domain_in_floor_exposed: "In der Etage {{ floor }} ist kein {{ domain }} freigegeben"
-    no_device_class_exposed: "Es ist kein {{ device_class }} freigegeben"
-    no_device_class_in_area_exposed: "Im Bereich {{ area }} ist kein {{ device_class }} freigegeben"
-    no_device_class_in_floor_exposed: "In der Etage {{ floor }} ist kein {{ device_class }} freigegeben"
+    no_domain_exposed: |
+      {% set translations = {
+        "weather": "ist kein Wetter",
+        "button": "sind keine Tasten",
+        "camera": "sind keine Kameras",
+        "input_button": "sind keine Tasten",
+        "alarm_control_panel": "sind keine Alarme",
+        "automation": "sind keine Automatisierungen",
+        "fan": "sind keine Ventilatoren",
+        "climate": "sind keine Thermostate",
+        "humidifier": "sind keine Luftbefeuchter",
+        "input_boolean": "sind keine Schalter",
+        "siren": "sind keine Sirenen",
+        "water_heater": "sind keine Warmwasserspeicher",
+        "light": "sind keine Lichter",
+        "switch": "sind keine Schalter",
+        "script": "sind keine Skripte",
+        "remote": "sind keine Fernbedienungen",
+        "lock": "sind keine Schlösser",
+        "vacuum": "sind keine Staubsauger",
+        "scene": "sind keine Szenen",
+        "media_player": "sind keine Mediaplayer",
+        "lawn_mower": "sind keine Rasenmäher",
+        "valve": "sind keine Ventile",
+        } %}
+      {% if domain in translations -%}
+        Es {{ translations[domain] }} für Assist freigegeben
+      {%- else -%}
+        Es ist keines dieser Geräte für Assist freigegeben
+      {%- endif %}
+    no_domain_in_area_exposed: |
+      {% set translations = {
+        "weather": "ist kein Wetter",
+        "button": "sind keine Tasten",
+        "camera": "sind keine Kameras",
+        "input_button": "sind keine Tasten",
+        "alarm_control_panel": "sind keine Alarme",
+        "automation": "sind keine Automatisierungen",
+        "fan": "sind keine Ventilatoren",
+        "climate": "sind keine Thermostate",
+        "humidifier": "sind keine Luftbefeuchter",
+        "input_boolean": "sind keine Schalter",
+        "siren": "sind keine Sirenen",
+        "water_heater": "sind keine Warmwasserspeicher",
+        "light": "sind keine Lichter",
+        "switch": "sind keine Schalter",
+        "script": "sind keine Skripte",
+        "remote": "sind keine Fernbedienungen",
+        "lock": "sind keine Schlösser",
+        "vacuum": "sind keine Staubsauger",
+        "scene": "sind keine Szenen",
+        "media_player": "sind keine Mediaplayer",
+        "lawn_mower": "sind keine Rasenmäher",
+        "valve": "sind keine Ventile",
+        } %}
+      {% if domain in translations -%}
+        Im Bereich {{ area }} {{ translations[domain] }} für Assist freigegeben
+      {%- else -%}
+        Im Bereich {{ area }} ist keines dieser Geräte für Assist freigegeben
+      {%- endif %}
+    no_domain_in_floor_exposed: |
+      {% set translations = {
+        "weather": "ist kein Wetter",
+        "button": "sind keine Tasten",
+        "camera": "sind keine Kameras",
+        "input_button": "sind keine Tasten",
+        "alarm_control_panel": "sind keine Alarme",
+        "automation": "sind keine Automatisierungen",
+        "fan": "sind keine Ventilatoren",
+        "climate": "sind keine Thermostate",
+        "humidifier": "sind keine Luftbefeuchter",
+        "input_boolean": "sind keine Schalter",
+        "siren": "sind keine Sirenen",
+        "water_heater": "sind keine Warmwasserspeicher",
+        "light": "sind keine Lichter",
+        "switch": "sind keine Schalter",
+        "script": "sind keine Skripte",
+        "remote": "sind keine Fernbedienungen",
+        "lock": "sind keine Schlösser",
+        "vacuum": "sind keine Staubsauger",
+        "scene": "sind keine Szenen",
+        "media_player": "sind keine Mediaplayer",
+        "lawn_mower": "sind keine Rasenmäher",
+        "valve": "sind keine Ventile",
+        } %}
+      {% if domain in translations -%}
+        In der Etage {{ floor }} {{ translations[domain] }} für Assist freigegeben
+      {%- else -%}
+        In der Etage {{ floor }} ist keines dieser Geräte für Assist freigegeben
+      {%- endif %}
+    no_device_class_exposed: |
+      {% set translations = {
+        "awning": "Keine Markise",
+        "blind": "Keine Jalousien",
+        "curtain": "Kein Vorhang",
+        "door": "Keine Tür",
+        "garage": "Kein Garagentor",
+        "gate": "Kein Tor",
+        "shade": "Keine Rollo",
+        "shutter": "Kein Rolladen",
+        "window": "Kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        {{ translations[device_class] }} für Assist freigegeben
+      {%- else -%}
+        Diese Geräteklasse ist nicht für Assist freigegeben
+      {%- endif %}
+    no_device_class_in_area_exposed: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousien",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "kein Tor",
+        "shade": "keine Rollo",
+        "shutter": "kein Rolladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        Im Bereich {{ area }} ist {{ translations[device_class] }} für Assist freigegeben
+      {%- else -%}
+        Im Bereich {{ area }} ist diese Geräteklasse nicht für Assist freigegeben
+      {%- endif %}
+    no_device_class_in_floor_exposed: |
+      {% set translations = {
+        "awning": "keine Markise",
+        "blind": "keine Jalousien",
+        "curtain": "kein Vorhang",
+        "door": "keine Tür",
+        "garage": "kein Garagentor",
+        "gate": "kein Tor",
+        "shade": "keine Rollo",
+        "shutter": "kein Rolladen",
+        "window": "kein Fenster"
+        } %}
+      {% if device_class in translations -%}
+        In der Etage {{ floor }} ist {{ translations[device_class] }} für Assist freigegeben
+      {%- else -%}
+        In der Etage {{ floor }} ist diese Geräteklasse nicht für Assist freigegeben
+      {%- endif %}
 
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Es wurden mehrere {{ entity }} gefunden"
