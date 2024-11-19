@@ -173,7 +173,7 @@ def run() -> int:
             }
             for data_idx, data_count in counts_by_data.items():
                 data = intent.data[data_idx]
-                print(f"---- data {data_idx+1}:", f"{data_count:,}")
+                print(f"---- data {data_idx + 1}:", f"{data_count:,}")
                 for count in counts:
                     if (count[0] != intent_name) or (count[1] != data_idx):
                         continue
