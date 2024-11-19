@@ -41,25 +41,15 @@ responses:
 
         {% if next_timer: %}
           {# Legalább egy aktív időzítő van #}
-          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
-            1 óra {{ next_timer.rounded_minutes_left }} perc
-          {% elif (next_timer.rounded_hours_left == 1): %}
-            1 óra van hátra
-          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
-            {{ next_timer.rounded_hours_left }} óra {{ next_timer.rounded_minutes_left }} perc van hátra
-          {% elif (next_timer.rounded_hours_left > 1): %}
+          {% if (next_timer.rounded_hours_left > 0) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} óra {{ next_timer.rounded_minutes_left }} perc
+          {% elif (next_timer.rounded_hours_left > 0): %}
             {{ next_timer.rounded_hours_left }} óra
-          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
-            1 perc {{ next_timer.rounded_seconds_left }} másodperc
-          {% elif (next_timer.rounded_minutes_left == 1): %}
-            1 perc
-          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+          {% elif (next_timer.rounded_minutes_left > 0) and (next_timer.rounded_seconds_left > 0): %}
             {{ next_timer.rounded_minutes_left }} perc {{ next_timer.rounded_seconds_left }} másodperc
-          {% elif (next_timer.rounded_minutes_left > 1): %}
+          {% elif (next_timer.rounded_minutes_left > 0): %}
             {{ next_timer.rounded_minutes_left }} perc
-          {% elif (next_timer.rounded_seconds_left == 1): %}
-            1 másodperc
-          {% elif (next_timer.rounded_seconds_left > 1): %}
+          {% elif (next_timer.rounded_seconds_left > 0): %}
             {{ next_timer.rounded_seconds_left }} másodperc
           {% endif %}
 
