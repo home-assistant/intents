@@ -2,20 +2,28 @@ language: hu
 areas:
   - name: konyha
     id: kitchen
+    floor: "első emelet"
   - name: nappali
     id: living_room
+    floor: "első emelet"
   - name: háló
     id: bedroom
+    floor: "első emelet"
   - name: garázs
     id: garage
+    floor: "első emelet"
   - name: terasz
     id: terrace
+    floor: "első emelet"
   - name: kint
     id: outdoor
+    floor: "földszint"
   - name: iroda
     id: office
+    floor: "pince"
   - name: bejárat
     id: entrance
+    floor: "földszint"
 
 entities:
   - name: éjjeli lámpa 1
@@ -134,6 +142,14 @@ entities:
       out: "on"
     attributes:
       device_class: heat
+
+  - name: "fény szenzor"
+    id: "binary_sensor.light"
+    state:
+      in: "no light"
+      out: "off"
+    attributes:
+      device_class: light
 
   - name: "macska ajtó"
     id: "binary_sensor.pet_door_lock"
@@ -329,21 +345,21 @@ entities:
 
   - name: "Budapest"
     id: "weather.budapest"
-    state: "és esik"
+    state: "Esős"
     attributes:
       temperature: "23"
       temperature_unit: "°C"
 
   - name: "Szolnok"
     id: "weather.szolnok"
-    state: "és tiszta"
+    state: "Tiszta"
     attributes:
       temperature: "26"
       temperature_unit: "°C"
 
   - name: "Teszt város"
     id: "weather.teszt"
-    state: "és tiszta"
+    state: "Tiszta"
     attributes:
       temperature: "-2.2"
       temperature_unit: "°C"
@@ -356,7 +372,7 @@ entities:
 
   - name: "Jóska"
     id: "person.joska"
-    state: "otthon "
+    state: "otthon"
 
   - name: "Marika"
     id: "person.marika"
@@ -716,3 +732,23 @@ entities:
   - name: "consuela"
     id: "vacuum.consuela"
     state: "idle"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

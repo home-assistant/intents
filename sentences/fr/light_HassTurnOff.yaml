@@ -8,7 +8,7 @@ intents:
       # area
       - sentences:
           # Éteindre les lumieres du bureau
-          - "<eteins> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{area}"
+          - "<eteins> [<tous>] [<le>]<lumiere> [<dans>] [<le>]{area}"
           # Éteint le salon
           - "<eteins> [<le>]{area}"
         slots:
@@ -17,9 +17,9 @@ intents:
       # area + context awareness
       - sentences:
           # Éteindre toutes les lumieres ici
-          - "<eteins> [<tous>] [<le>](<lumiere>|<lumieres>) <ici>"
+          - "<eteins> [<tous>] [<le>]<lumiere> <ici>"
           # Éteindre les lumieres
-          - "<eteins> [<le>](<lumiere>|<lumieres>)"
+          - "<eteins> [<le>]<lumiere>"
           # Jacouille, éteins les lumieres
           - (nuit|nuits)
         slots:
@@ -34,9 +34,13 @@ intents:
       # all
       - sentences:
           # Éteindre les lumieres de partout
-          - <eteins> [<le>](<lumiere>|<lumieres>) <partout>
+          - <eteins> [<le>]<lumiere> <partout>
           # Éteindre toutes lumieres
-          - <eteins> <tous> [<le>]<lumieres>
+          - <eteins> <tous> [<le>]<lumiere>
+          # Éteindre toutes lumieres de la maison
+          - <eteins> <tous> [<le>]<lumiere> <partout>
+          # Éteindre complètement lumieres de la maison
+          - <eteins> <completement> [<le>]<lumiere> <partout>
         slots:
           domain: light
 
@@ -45,9 +49,13 @@ intents:
 
       # floor
       - sentences:
-          # Éteindre les lumieres du premiere étage
-          - "<eteins> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{floor}"
+          # Éteindre les lumieres du premier étage
+          - "<eteins> [<tous>] [<le>]<lumiere> [<dans>] [<le>]{floor}"
           # Éteint le rez-de-chaussée
           - "<eteins> [<le>]{floor}"
+          # Éteindre les lumieres dans toutes les pièces du premier étage
+          - "<eteins> [<tous>] [<le>]<lumiere> [<dans>] [toutes] les pièces [<dans>] [<le>]{floor}"
+          # Éteint toutes les pièces du premier étage
+          - "<eteins> [toutes] les pièces [<dans>] [<le>]{floor}"
         slots:
           domain: light

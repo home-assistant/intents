@@ -99,8 +99,8 @@ responses:
       {%- else -%}
         Désolé, je n'ai rien trouvé de correspondant dans cette pièce
       {%- endif %}
-    no_entity: "Désolé, je ne connais pas l'appareil {{ entity }}"
-    no_entity_in_area: "Désolé, je ne connais pas l'appareil {{ entity }}"
+    no_entity: "Désolé, je ne connais pas cet appareil"
+    no_entity_in_area: "Désolé, je ne connais pas cet appareil"
     no_floor: "Désolé, je ne connais pas l'étage {{ floor }}"
     no_domain_in_floor: |
       {% set translations = {
@@ -148,7 +148,7 @@ responses:
       {%- else -%}
         Désolé, je n'ai rien trouvé de correspondant dans cet étage
       {%- endif %}
-    no_entity_in_floor: "Désolé, je ne connais pas l'appareil {{ entity }}"
+    no_entity_in_floor: "Désolé, je ne connais pas cet appareil"
     entity_wrong_state: |
       {% set translations = {
         "paused": "en pause",
@@ -161,8 +161,8 @@ responses:
       {%- endif %}
     feature_not_supported: Désolé, je n'ai pas trouvé d'appareil qui supporte cette fonctionnalité
     # Errors for when user is logged in and we can give more information
-    no_entity_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
-    no_entity_in_area_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
+    no_entity_exposed: "Désolé, cet appareil n'est pas exposé"
+    no_entity_in_area_exposed: "Désolé, cet appareil n'est pas exposé"
     no_domain_exposed: |
       {% set translations = {
         "button": "aucun bouton n'est exposé",
@@ -255,7 +255,7 @@ responses:
       {%- else -%}
         Désolé, aucun appareil de ce type n'est exposé
       {%- endif %}
-    no_entity_in_floor_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
+    no_entity_in_floor_exposed: "Désolé, cet appareil n'est pas exposé"
     no_domain_in_floor_exposed: |
       {% set translations = {
         "button": "aucun bouton de cet étage n'est exposé",
@@ -581,13 +581,6 @@ lists:
       - in: "(ok|non détecté[e][s])"
         out: "off"
 
-  bs_update_states:
-    values:
-      - in: "[mise[s] à jour ]disponible[s]"
-        out: "on"
-      - in: "à jour"
-        out: "off"
-
   bs_vibration_states:
     values:
       - in: "(détecté[e][s]|vibre[s][r])"
@@ -635,21 +628,6 @@ lists:
       from: 1
       to: 100
 
-  timer_words_seconds:
-    values:
-      - in: "un|une"
-        out: "1"
-
-  timer_words_minutes:
-    values:
-      - in: "un|une"
-        out: "1"
-
-  timer_words_hours:
-    values:
-      - in: "un|une"
-        out: "1"
-
   timer_name:
     wildcard: true
 
@@ -664,11 +642,14 @@ expansion_rules:
   dans: "(dans|du|de|des|à|au|aux|sur)"
   de: "(du|de|des)"
   tous: "(tout|tous|toute[s])"
+  completement: "(complètement|totalement|entièrement)"
 
   # Context awareness
   maison: maison|domicile|appartement|appart|logement
-  ici: "(<dans> (cette|la) pièce)|(ici)"
-  partout: ([de] partout)|(<dans> [<tous>] [<le>]<maison>)|(<dans> toutes les pièces)
+  piece: (pièce|endroit) [(actuelle|actuel|courant|courante)]
+  ou_je_suis: (où je suis)|(où je me trouve)|(où je me situe)|(où nous sommes)|(où nous nous trouvons)|(où nous nous situons)|(où on est)|(où on se trouve)|(où on se situe)
+  ici: "([<dans>] (cet |cette |<le>)<piece>)|(ici)|(ici même)|<ou_je_suis>"
+  partout: ([de] partout)|([<dans>] [<tous>] [<le>]<maison>)|([<dans>] toutes les pièces)
 
   # Verbs
   active: "(active|activer|joue|jouer|exécute|exécuter|démarre|démarrer|lance|lancer)"
@@ -688,7 +669,9 @@ expansion_rules:
   cree: "(créer|crée)"
   supprime: "(supprime|supprimer)"
   enleve: "(enlève|enlever|soustrais|soustrait|soustraire|retranche|retrancher)"
-  ajoute: "(ajoute|ajouter|rajoute|rajotuer)"
+  ajoute: "(ajoute|ajouter|rajoute|rajouter)"
+  verrouille: "(verrouiller|verrouille|barre|barrer)"
+  deverrouille: "(déverrouiller|déverrouille)"
 
   # Dirty Verbs. We have some heavy STT limitations today. We're willing to support this hack for now. Ideally this should be removed once we have a better STT engine. Hence the fact that we decided to put it on a different expansion rules. The goal of this expansion rule is to be removed in the future.
   # Éteins
@@ -699,8 +682,7 @@ expansion_rules:
   ferme_dirty: "faire"
 
   # Domains and Things
-  lumiere: "(lumière|lampe|ampoule)"
-  lumieres: "(lumières|lampes|ampoules)"
+  lumiere: "(lumière[s]|lampe[s]|ampoule[s]|éclairage[s])"
   ventilateur: "[le ](ventilateur|brasseur d'air)"
   ventilateurs: "[les ](ventilateurs|brasseurs d'air)"
   fenetre: "(fenetre[s]|fenêtre[s]|baie[s]|velux|vélux|lucarne[s])"
@@ -710,17 +692,18 @@ expansion_rules:
   lecture: "(lecture|visionnage)"
   volume: "(volume|son|watt[s])"
   minuteur: "(compte a rebours)|(compte à rebours)|(minuteur)|(décompte)"
+  serrure: "(verrou[s]|serrure[s]|loquet[s]|porte[s])"
 
   ### Timers ###
   # mix numerical and litteral value for seconds, minutes and hours for the setting of the duration of the timmer
-  nb_seconds_duration: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
-  nb_minutes_duration: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
-  nb_hours_duration: "({timer_hours:hours}|{timer_words_hours:hours})"
+  nb_seconds_duration: "{timer_seconds:seconds}"
+  nb_minutes_duration: "{timer_minutes:minutes}"
+  nb_hours_duration: "{timer_hours:hours}"
 
   # mix numerical and litteral value for seconds, minutes and hours for the request of the status of a timmer by its initial duration
-  nb_seconds_start: "({timer_seconds:start_seconds}|{timer_words_seconds:start_seconds})"
-  nb_minutes_start: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
-  nb_hours_start: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
+  nb_seconds_start: "{timer_seconds:start_seconds}"
+  nb_minutes_start: "{timer_minutes:start_minutes}"
+  nb_hours_start: "{timer_hours:start_hours}"
 
   # definition of the units for seconds, minutes and hours
   second_unit: "(seconde|secondes|sec|s)"

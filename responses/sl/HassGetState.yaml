@@ -2,7 +2,7 @@ language: sl
 responses:
   intents:
     HassGetState:
-      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+      default: "{{ state.state_with_unit | replace('.', ',') }}" # Uporabi vejico namesto pike
 
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
@@ -12,10 +12,10 @@ responses:
       one_sensor: |
         {{ slots.device_class }} {{ slots.name | capitalize }} je {{ state.state_with_unit }}
       one_yesno: |
-        {% if query.matched %}
-          Da
-        {% else %}
-          Ne, {{ state.state_with_unit }}
+        {% if query.matched: %}
+        Da
+        {% else: %}
+        Ne, {{ state.state_with_unit }}
         {% endif %}
 
       any: |
@@ -95,7 +95,7 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+            {{ match[:3] | join(", ") }} in še {{ (match | length - 3) }} drugih.
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
@@ -112,7 +112,7 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+            {{ match[:3] | join(", ") }} in še {{ (match | length - 3) }} drugih.
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
@@ -129,10 +129,10 @@ responses:
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} more
+            {{ match[:3] | join(", ") }} in še {{ (match | length - 3) }} drugih.
           {% else %}
             {%- for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} in {% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
@@ -149,7 +149,7 @@ responses:
 
       # sensor_value is SL variation of response for sensor
       sensor_value: |
-        Vrednost senzorja je {{ state.state_with_unit }}
+        Vrednost senzorja je {{ state.state_with_unit | replace('.', ',') }}
 
       sensor_value_temperature: |
-        Temperatura je {{ state.state_with_unit }}
+        Temperatura je {{ state.state_with_unit | replace('.', ',') }}

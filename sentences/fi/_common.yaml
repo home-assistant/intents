@@ -21,10 +21,18 @@ responses:
     no_domain_in_area_exposed: "Pahoittelut, yhtäkään {{ domain }} alueella {{ area }} ei ole asetettu näkyviin"
     no_device_class_exposed: "Pahoittelut, yhtäkään {{ device_class }} ei ole asetettu näkyviin"
     no_device_class_in_area_exposed: "Pahoittelut, yhtäkään {{ device_class }} alueella {{ area }} ei ole asetettu näkyviin"
+    no_entity_in_floor_exposed: "Pahoittelut, {{ entity }} ei ole asetettu näkyviin kerroksessa {{ floor }}"
+    no_domain_in_floor_exposed: "Pahoittelut, yhtäkään {{ domain }} ei ole asetettu näkyviin kerroksessa {{ floor }}"
+    no_device_class_in_floor_exposed: "Pahoittelut, yhtäkään {{ device_class }} ei ole asetettu näkyviin kerroksessa {{ floor }}"
 
     # Used when multiple (exposed) devices have the same name
-    duplicate_entities: "Pahoittelut, useita laitteita nimeltä {{ entity }} löytyi"
-    duplicate_entities_in_area: "Pahoittelut, useita laitteita nimeltä {{ entity }} löytyi alueelta {{ area }}"
+    duplicate_entities: "Pahoittelut, useita laitteita nimellä {{ entity }} löytyi"
+    duplicate_entities_in_area: "Pahoittelut, useita laitteita nimellä {{ entity }} löytyi alueelta {{ area }}"
+
+    # Errors for timers
+    timer_not_found: "Pahoittelut, en löydä tätä ajastinta"
+    multiple_timers_matched: "Pahoittelut, en voi käskyttää useampaa ajastinta"
+    no_timer_support: "Pahoittelut, ajastimia ei tueta tällä laitteella"
 
 lists:
   color:
@@ -137,6 +145,41 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "(puoli|puoleksi|puolen|puolen tunnin|puolella tunnilla)"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_quarter:
+    values:
+      - in: "(vartin|varttitunnin|vartiksi|varttitunniksi|vartilla|varttitunnilla)"
+        out: "15"
+  timer_three_quarter:
+    values:
+      - in: "(3 vartin|3 vartiksi|3 vartilla)"
+        out: "45"
+  timer_one_hour:
+    values:
+      - in: "(tunnin|tunti|tunniksi|tunnilla)"
+        out: "1"
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
 
 expansion_rules:
   # On off states
@@ -349,6 +392,19 @@ expansion_rules:
   # kylmättä: "(kylmättä|viileättä|vilpoisetta)" # abessiivi = ilman mitä, ketä
   # kylmine: "(kylmine|viileine|vilpoisine)" # instruktiivi = miten
   # kylmineen: "(kylmineen|viileineen|vilpoisineen)" # komitatiivi = minkä, kenen kanssa
+
+  # Timers
+  timer_set: "(aloita|luo|käynnistä|aseta|laita)"
+  timer_cancel: "(peruuta|poista|lopeta)"
+  timer_duration_seconds: "{timer_seconds:seconds} (sekunti[a]|sekunnilla|sekunniksi|sekunnille|sekunnin)"
+  timer_duration_minutes: "{timer_three_quarter:minutes}|{timer_quarter:minutes}|({timer_minutes:minutes} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin)[ [ja ]{timer_seconds:seconds} (sekunti[a]|sekunnilla|sekunniksi|sekunnille|sekunnin)])|({timer_minutes:minutes} ja {timer_half:seconds} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin))|({timer_half:seconds} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin))"
+  timer_duration_hours: "{timer_one_hour:hours}|({timer_hours:hours} (tunti[a]|tunnilla|tunniksi|tunnille|tunnin)[ [ja ]{timer_minutes:minutes} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin)][ [ja ]{timer_seconds:seconds} (sekunti[a]|sekunnilla|sekunniksi|sekunnille|sekunnin)])|({timer_hours:hours} ja {timer_half:minutes} (tunti[a]|tunnilla|tunniksi|tunnille|tunnin))|({timer_half:minutes} (tunti[a]|tunnilla|tunniksi|tunnille|tunnin))"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} (sekunti[a]|sekunnin|sekunnille)"
+  timer_start_minutes: "{timer_minutes:start_minutes} (minuutti[a]|minuutin|minuutille)[ [ja ]{timer_seconds:start_seconds} (sekunti[a]|sekunnin|sekunnille)]"
+  timer_start_hours: "{timer_three_quarter:start_minutes}|{timer_quarter:start_minutes}|{timer_one_hour:start_hours}|{timer_hours:start_hours} (tunti[a]|tunnin|tunnille)[ [ja ]{timer_minutes:start_minutes} (minuutti[a]|minuutin|minuutille)][ [ja ]{timer_seconds:start_seconds} (sekunti[a]|sekunnin|sekunnille)]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - "voitko" # Can you

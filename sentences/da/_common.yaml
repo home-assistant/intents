@@ -1,12 +1,46 @@
 language: da
 responses:
   errors:
+    # General errors / Generelle fejl
     no_intent: "Undskyld, det forstod jeg ikke"
-    no_area: "Området med navnet {{ area }} findes ikke"
-    no_domain_in_area: "{{ domain }} findes ikke i området {{ area }}"
-    no_device_class_in_area: "{{ device_class }} findes ikke i området {{ area }}"
-    no_entity: "{{ entity }} findes ikke"
     handle_error: "Der opstod en uventet fejl under håndtering af hensigten"
+
+    # Errors for when user is not logged in / Fejl når brugeren ikke er logget ind
+    no_area: "Undskyld, jeg kan ikke finde området kaldet {{ area }}"
+    no_floor: "Undskyld, jeg kan ikke finde etagen kaldet {{ floor }}"
+    no_domain: "Undskyld, jeg kender ikke til {{ domain }}"
+    no_domain_in_area: "Undskyld, jeg kan ikke finde {{ domain }} i området {{ area }}"
+    no_domain_in_floor: "Undskyld, jeg kan ikke finde {{ domain }} på etagen {{ floor }}"
+    no_device_class: "Undskyld, jeg kender ikke til {{ device_class }}"
+    no_device_class_in_area: "Undskyld, jeg kan ikke finde {{ device_class }} i området {{ area }}"
+    no_device_class_in_floor: "Undskyld, jeg kan ikke finde {{ device_class }} på etagen {{ floor }}"
+    no_entity: "Undskyld, jeg kan ikke finde {{ entity }}"
+    no_entity_in_area: "Undskyld jeg kan ikke finde {{ entity }} i området {{ area }}"
+    no_entity_in_floor: "Undskyld jeg kan ikke finde {{ entity }} på etagen {{ floor}}"
+    entity_wrong_state: "Undskyld, ingen enhed er {{ state | lower }}"
+    feature_not_supported: "Undskyld, ingen enhed har supprt for disse funktioner"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Undskyld, {{ entity }} er ikke eksponeret"
+    no_entity_in_area_exposed: "Undskyld, {{ entity }} i {{ area }} området er ikke eksponeret"
+    no_entity_in_floor_exposed: "Undskyld, {{ entity }} på {{ floor }} etage er ikke eksponeret"
+    no_domain_exposed: "Undskyld, ingen {{ domain }} er eksponeret"
+    no_domain_in_area_exposed: "Undskyld, ingen {{ domain }} i {{ area }} området er eksponeret"
+    no_domain_in_floor_exposed: "Undskyld, ingen {{ domain }} på {{ floor }} etage er eksponeret"
+    no_device_class_exposed: "Undskyld, ingen {{ device_class }} er eksponeret"
+    no_device_class_in_area_exposed: "Undskyld, ingen {{ device_class }} i {{ area }} omrdået er eksponeret"
+    no_device_class_in_floor_exposed: "Undskyld, ingen {{ device_class }} på {{ floor }} etage er eksponeret"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Undskyld, der er flere enheder med navnet {{ entity }}"
+    duplicate_entities_in_area: "Undskyld, er er flere enheder med navnet {{ entity }} i {{ area }} området"
+    duplicate_entities_in_floor: "Undskyld, er er flere enheder med navnet {{ entity }} på {{ floor }} etage"
+
+    # Errors for timers / Fejl for nedtælling
+    timer_not_found: "Undskyld, den timer kunne jeg ikke finde"
+    multiple_timers_matched: "Undskyld, jeg kan ikke håndtere flere timer"
+    no_timer_support: "Undskyld, timer er ikk eunderstøttet på denne enhed"
+
 lists:
   brightness:
     range:
@@ -110,15 +144,15 @@ lists:
   # binary_sensor
   bs_battery_states:
     values:
-      - in: "lav"
+      - in: "(lav[(e|t)]|flad[(e|t)])"
         out: "on"
-      - in: "normal"
+      - in: "normal[t]"
         out: "off"
   bs_battery_charging_states:
     values:
-      - in: "lader"
+      - in: "(lader|oplader)"
         out: "on"
-      - in: "lader ikke"
+      - in: "(lader|oplader) ikke"
         out: "off"
   bs_carbon_monoxide_states:
     values:
@@ -128,7 +162,7 @@ lists:
         out: "off"
   bs_cold_states:
     values:
-      - in: "kold[t]"
+      - in: "kold([t]|[e])"
         out: "on"
       - in: "normal[t]"
         out: "off"
@@ -176,7 +210,7 @@ lists:
         out: "off"
   bs_moisture_states:
     values:
-      - in: "våd[t]"
+      - in: "våd([t]|[e])"
         out: "on"
       - in: "tør[t]"
         out: "off"
@@ -200,9 +234,9 @@ lists:
         out: "off"
   bs_plug_states:
     values:
-      - in: "(koblet til|sat i)"
+      - in: "(koblet til|sat i|sat til|tilkoblet|tilsluttet)"
         out: "on"
-      - in: "(ikke koblet til|ikke sat i)"
+      - in: "ikke (koblet til|sat i|sat til|tilkoblet|tilsluttet)"
         out: "off"
   bs_power_states:
     values:
@@ -224,9 +258,9 @@ lists:
         out: "off"
   bs_running_states:
     values:
-      - in: "kører"
+      - in: "køre[r]"
         out: "on"
-      - in: "kører ikke"
+      - in: "køre[r] ikke"
         out: "off"
   bs_safety_states:
     values:
@@ -248,9 +282,9 @@ lists:
         out: "off"
   bs_tamper_states:
     values:
-      - in: "(detekteret|pillet ved|registreret)"
+      - in: "(detekteret|klar|pillet ved|registreret)"
         out: "on"
-      - in: "(ikke detekteret|ikke pillet ved|ikke registreret)"
+      - in: "ikke (detekteret|klar|pillet ved|registreret)"
         out: "off"
   bs_update_states:
     values:
@@ -272,24 +306,38 @@ lists:
         out: "closed"
 
 expansion_rules:
-  al: "(alle | alt)"
+  al: "(alle | alt | samtlige)"
   blæser: "blæser[(e|en|ne)]"
+  etage: "{area}[(n)]"
   garagedør: "garage(dør|port)[(en|e|ene)]"
   gardin: "gardin[(et|er|erne)]"
   i_på: "(i | på)"
   koldt_varmt: "(kold[t] | varm[t])"
+  koldt: "kold[(t|e)]"
   luk: "luk [for]"
   lys: "lys[(ene|et)]"
   lysstyrke: "{brightness}[%| procent]"
-  navn: "{name}[(en|et|n|t)]"
+  navn: "((den|det) {name}[s]|{name}[(en|ene|et|n|t|men|ten)][s])"
   område: "{area}[(en|et|n|t)]"
   persienne: "persienne[(n|r|rne)]"
   rullegardin: "rullegardin[(et|er|erne)]"
   skodde: "skodde[(n|r|rne)]"
   sluk: "sluk [for]"
+  timer: "(timer | nedtælling)"
   temperatur: "{temperature}[°| grader] [{temperature_unit}]"
   tænd: "tænd [for]"
-  åbn: "åbn [for]"
+  åbn: "(åben|åbn[e]) [for]"
+  nogen: "(nogen|nogle)"
+  enhed: "enhed[(en|er|erne)]"
+  hvor_mange: "hvor[ ]mange"
+  hvilke: "hvilke[(t|n)]"
+  er_nogen: "er [der] <nogen>"
+  er_noget: "er [der] noget"
+  carbonmonoxid: "(carbonmonoxid|kulilte|kulmonoxid|kulos)"
+  carbonmonoxid_sensor: "<carbonmonoxid> sensorer[ne]"
+  gas_fundet: "er [der] [noget] gas (detekteret|fundet|registreret)"
+  gas_ikke_fundet: "er [der] ikke [noget] gas (detekteret|fundet|registreret)"
+  bevaegelses_sensor: "bevægelses[ ]sensorer[ne]"
   i: "(i|[oppe ]på)"
 
 skip_words:

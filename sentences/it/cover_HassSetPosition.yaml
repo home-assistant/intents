@@ -1,0 +1,30 @@
+language: it
+intents:
+  HassSetPosition:
+    data:
+      # Position
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>|<set>) [<the>][ ][(posizione|apertura)] [<of>] <name> <to> <position>"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+      # Position area
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>|<set>) [<the>][ ][(posizione|apertura)] [(<of>|<the>)] {cover_classes:device_class} (<to> <position>;[(<in>|<of>)] <area>)"
+          - "(<numeric_value_set>|<open>|<close>|<set>) <to> <position> [<the>][ ][(posizione|apertura)] [(<of>|<the>)] {cover_classes:device_class}  [(<in>|<of>)] <area>"
+        slots:
+          domain: cover
+      # Max/Min/Medium position
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>|<set>) [<the>][ ][(posizione|apertura)] [<of>] <name> {position_level:position}"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+      # Max/Min/Medium position Area
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>|<set>) [<the>][ ][(posizione|apertura)] [(<of>|<the>)] {cover_classes:device_class} ({position_level:position};[(<in>|<of>)] <area>)"
+          - "(<numeric_value_set>|<open>|<close>|<set>) {position_level:position} [<the>][ ][(posizione|apertura)] [(<of>|<the>)] {cover_classes:device_class} [(<in>|<of>)] <area>"
+        slots:
+          domain: cover
