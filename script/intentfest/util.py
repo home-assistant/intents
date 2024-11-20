@@ -25,6 +25,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
         choices=[
             "add_language",
             "codeowners",
+            "count_sentences",
             "language_table",
             "llm_template",
             "merged_output",
