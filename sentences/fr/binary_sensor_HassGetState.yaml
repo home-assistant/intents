@@ -2,9 +2,13 @@ language: fr
 intents:
   HassGetState:
     data:
-      # # Door
+      # Door
+      #   Yes / No Questions
+      #     Name
       - sentences:
-          - "[<le>]{name} <estil> {bs_door_states:state} [<dans> [<le>]{area}]"
+          # La porte est-elle ouverte?
+          - "[<le>]{name} <estil> {bs_door_states:state}"
+          # More sentences to be added later
         response: one_yesno
         requires_context:
           domain: binary_sensor
@@ -12,6 +16,377 @@ intents:
         slots:
           domain: binary_sensor
           device_class: door
+
+      # Door
+      #   Yes / No Questions
+      #     Name + Area
+      - sentences:
+          # La porte d'entrée est-elle ouverte?
+          - "[<le>]{name} <dans> [<le>]{area} <estil> {bs_door_states:state}"
+          # La porte est-elle ouverte dans l'entrée?
+          - "[<le>]{name} <estil> {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   Yes / No Questions
+      #     Name + Floor
+      - sentences:
+          # La porte du premier étage est-elle ouverte?
+          - "[<le>]{name} <dans> [<le>]{floor} <estil> {bs_door_states:state}"
+          # La porte est-elle ouverte au premier étage?
+          - "[<le>]{name} <estil> {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   All
+      #     area
+      - sentences:
+          # Les portes sont-elles fermées dans le salon?
+          - "[toutes] les portes <estil> {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   All
+      #     floor
+      - sentences:
+          # Les portes sont-elles fermées au premier étage?
+          - "[toutes] les portes <estil> {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   All
+      #     Everywhere
+      - sentences:
+          # Toutes les portes sont-elles fermées?
+          - "[toutes] les portes <estil> {bs_door_states:state}"
+          # More sentences to be added later
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   Any
+      #     area
+      - sentences:
+          # y a t-il des portes ouverte dans le salon?
+          - "<yatil> des portes {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   Any
+      #     floor
+      - sentences:
+          # y a t-il des portes ouverte au premier étage?
+          - "<yatil> des portes {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   Any
+      #     Everywhere
+      - sentences:
+          # y a t-il des portes ouverte?
+          - "<yatil> des portes {bs_door_states:state}"
+          # More sentences to be added later
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   How Many
+      #     area
+      - sentences:
+          # Combien de portes sont-elles ouvertes dans le salon?
+          - "Combien de portes <estil> {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   How Many
+      #     floor
+      - sentences:
+          # Combien de portes sont-elles ouvertes au rez-de-chaussée?
+          - "Combien de portes <estil> {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   How Many
+      #     Everywhere
+      - sentences:
+          # Combien de portes sont-elles ouvertes?
+          - "Combien de portes <estil> {bs_door_states:state}"
+          # More sentences to be added later
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   Which
+      #     area
+      - sentences:
+          # Quelles portes sont-elles ouvertes dans le salon?
+          - "Quelles portes <estil> {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   Which
+      #    floor
+      - sentences:
+          # Quelles portes sont-elles ouvertes au rez-de-chaussée?
+          - "Quelles portes <estil> {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Door
+      #   Which
+      #     Everywhere
+      - sentences:
+          # Quelles portes sont-elles ouvertes?
+          - "Quelles portes <estil> {bs_door_states:state}"
+          # More sentences to be added later
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Window
+      #   Yes / No Questions
+      #     Name
+      - sentences:
+          # La fenêtre est-elle ouverte?
+          - "[<le>]{name} <estil> {bs_door_states:state}"
+          # More sentences to be added later
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   Yes / No Questions
+      #     Name + Area
+      - sentences:
+          # La fenêtre d'entrée est-elle ouverte?
+          - "[<le>]{name} <dans> [<le>]{area} <estil> {bs_door_states:state}"
+          # La fenêtre est-elle ouverte dans l'entrée?
+          - "[<le>]{name} <estil> {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   Yes / No Questions
+      #     Name + Floor
+      - sentences:
+          # La fenêtre du premier étage est-elle ouverte?
+          - "[<le>]{name} <dans> [<le>]{floor} <estil> {bs_door_states:state}"
+          # La fenêtre est-elle ouverte au premier étage?
+          - "[<le>]{name} <estil> {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   All
+      #     area
+      - sentences:
+          # Les fenêtres sont-elles fermées dans le salon?
+          - "[toutes] les fenêtres <estil> {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   All
+      #     floor
+      - sentences:
+          # Les fenêtres sont-elles fermées au premier étage?
+          - "[toutes] les fenêtres <estil> {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   All
+      #     Everywhere
+      - sentences:
+          # Toutes les fenêtres sont-elles fermées?
+          - "[toutes] les fenêtres <estil> {bs_door_states:state}"
+          # More sentences to be added later
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   Any
+      #     area
+      - sentences:
+          # y a t-il des fenêtres ouverte dans le salon?
+          - "<yatil> des fenêtres {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   Any
+      #     floor
+      - sentences:
+          # y a t-il des fenêtres ouverte au premier étage?
+          - "<yatil> des fenêtres {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   Any
+      #     Everywhere
+      - sentences:
+          # y a t-il des fenêtres ouverte?
+          - "<yatil> des fenêtres {bs_door_states:state}"
+          # More sentences to be added later
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   How Many
+      #     area
+      - sentences:
+          # Combien de fenêtres sont-elles ouvertes dans le salon?
+          - "Combien de fenêtres <estil> {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   How Many
+      #     floor
+      - sentences:
+          # Combien de fenêtres sont-elles ouvertes au rez-de-chaussée?
+          - "Combien de fenêtres <estil> {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   How Many
+      #     Everywhere
+      - sentences:
+          # Combien de fenêtres sont-elles ouvertes?
+          - "Combien de fenêtres <estil> {bs_door_states:state}"
+          # More sentences to be added later
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   Which
+      #     area
+      - sentences:
+          # Quelles fenêtres sont-elles ouvertes dans le salon?
+          - "Quelles fenêtres <estil> {bs_door_states:state} <dans> [<le>]{area}"
+          # More sentences to be added later
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   Which
+      #    floor
+      - sentences:
+          # Quelles fenêtres sont-elles ouvertes au rez-de-chaussée?
+          - "Quelles fenêtres <estil> {bs_door_states:state} <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: window
+
+      # Window
+      #   Which
+      #     Everywhere
+      - sentences:
+          # Quelles fenêtres sont-elles ouvertes?
+          - "Quelles fenêtres <estil> {bs_door_states:state}"
+          # More sentences to be added later
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: window
 
       # # Garage door
       - sentences:
