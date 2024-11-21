@@ -3,21 +3,81 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - Wat is [[de] [huidige] <state> [van]] [<area>[ ]]<name>[ ][<type>][ ][<state>]
-          - Wat is ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ][<type>][ ][<state>])
-          - "[de] [huidige] <state> [van] [<area>][ ]<name>[ ][<type>]"
-          - "([<in>] <area>;[de] [huidige] <state> [van] <name>[ ][<type>])"
-          - "[<area>[ ]]<name>[ ][<type>][ ]<state>"
-          - "([<in>] <area>;<name>[ ][<type>][ ]<state>)"
+          - Wat is [[de] [huidige] <state> [van]] [<area>[ ]]<name>[ ][<state>]
+          - Wat is ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ][<state>])
+          - "[de] [huidige] <state> [van] [<area>][ ]<name>"
+          - "([<in>] <area>;[de] [huidige] <state> [van] <name>)"
+          - "[<area>[ ]]<name>[ ]<state>"
+          - "([<in>] <area>;<name>[ ]<state>)"
         response: one
 
       - sentences:
-          - <is> [[de] [huidige] <state> [van]] <name>[ ][<type>][ ][<state>] [op] {on_off_states:state} [[<in>] <area>]
-          - <is> ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ][<type>][ ][<state>]) [op] {on_off_states:state} [[<in>] <area>]
+          - <is> [[de] [huidige] <state> [van]] <name>[ ][<state>] [op] {on_off_states:state} [[<in>] <area>]
+          - <is> ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ][<state>]) [op] {on_off_states:state}
         response: one_yesno
         excludes_context:
           domain:
             - cover
+
+      - sentences:
+          - Wat is [[de] [huidige] <state> [van]] [<area>[ ]]<name>[ ]<light>[ ][<state>]
+          - Wat is ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ]<light>[ ][<state>])
+          - "[de] [huidige] <state> [van] [<area>][ ]<name>[ ]<light>"
+          - "([<in>] <area>;[de] [huidige] <state> [van] <name>[ ]<light>)"
+          - "[<area>[ ]]<name>[ ]<light>[ ]<state>"
+          - "([<in>] <area>;<name>[ ]<light>[ ]<state>)"
+        response: one
+        requires_context:
+          domain:
+            - light
+
+      - sentences:
+          - <is> [[de] [huidige] <state> [van]] <name>[ ]<light>[ ][<state>] [op] {on_off_states:state} [[<in>] <area>]
+          - <is> ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ]<light>[ ][<state>]) [op] {on_off_states:state} [[<in>] <area>]
+        response: one_yesno
+        requires_context:
+          domain:
+            - light
+
+      - sentences:
+          - Wat is [[de] [huidige] <state> [van]] [<area>[ ]]<name>[ ]<switch>[ ][<state>]
+          - Wat is ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ]<switch>[ ][<state>])
+          - "[de] [huidige] <state> [van] [<area>][ ]<name>[ ]<switch>"
+          - "([<in>] <area>;[de] [huidige] <state> [van] <name>[ ]<switch>)"
+          - "[<area>[ ]]<name>[ ]<switch>[ ]<state>"
+          - "([<in>] <area>;<name>[ ]<switch>[ ]<state>)"
+        response: one
+        requires_context:
+          domain:
+            - switch
+
+      - sentences:
+          - <is> [[de] [huidige] <state> [van]] <name>[ ]<switch>[ ][<state>] [op] {on_off_states:state} [[<in>] <area>]
+          - <is> ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ]<switch>[ ][<state>]) [op] {on_off_states:state} [[<in>] <area>]
+        response: one_yesno
+        requires_context:
+          domain:
+            - switch
+
+      - sentences:
+          - Wat is [[de] [huidige] <state> [van]] [<area>[ ]]<name>[ ]<fan>[ ][<state>]
+          - Wat is ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ]<fan>[ ][<state>])
+          - "[de] [huidige] <state> [van] [<area>][ ]<name>[ ]<fan>"
+          - "([<in>] <area>;[de] [huidige] <state> [van] <name>[ ]<fan>)"
+          - "[<area>[ ]]<name>[ ]<fan>[ ]<state>"
+          - "([<in>] <area>;<name>[ ]<fan>[ ]<state>)"
+        response: one
+        requires_context:
+          domain:
+            - fan
+
+      - sentences:
+          - <is> [[de] [huidige] <state> [van]] <name>[ ]<fan>[ ][<state>] [op] {on_off_states:state} [[<in>] <area>]
+          - <is> ([<in>] <area>;[[de] [huidige] <state> [van]] <name>[ ]<fan>[ ][<state>]) [op] {on_off_states:state} [[<in>] <area>]
+        response: one_yesno
+        requires_context:
+          domain:
+            - fan
 
       - sentences:
           - <is> er {on_off_domains:domain} {on_off_states:state} [[<in>] <area>]

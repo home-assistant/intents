@@ -3,11 +3,11 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "[<change>] <name>[[ ]<type>] [<to>] aan [<in> <area>]"
+          - "[<change>] <name> [<to>] aan [<in> <area>]"
           - "[<change>] <name_area> [<to>] aan"
-          - "schakel <name>[[ ]<type>] [<to>] in [<in> <area>]"
+          - "schakel <name> [<to>] in [<in> <area>]"
           - "schakel <name_area> [<to>] in"
-          - "[<would>] <name>[[ ]<type>] [<to>] ((aan[ ](zetten|doen)|inschakelen);<in> <area>)"
+          - "[<would>] <name> [<to>] (aan[ ](zetten|doen)|inschakelen) [<in> <area>]"
           - "[<would>] <name_area> (aan[ ](zetten|doen)|inschakelen)"
         excludes_context:
           domain:
@@ -19,3 +19,60 @@ intents:
             - sensor
             - valve
             - vacuum
+
+      # light
+      - sentences:
+          - "[<change>] <name>[ ]<light> [<to>] aan [<in> <area>]"
+          - "[<change>] <light_name_area> [<to>] aan"
+          - "schakel <name>[ ]<light> [<to>] in [<in> <area>]"
+          - "schakel <light_name_area> [<to>] in"
+          - "[<would>] <name>[ ]<light> [<to>] (aan[ ](zetten|doen)|inschakelen) [<in> <area>]"
+          - "[<would>] <light_name_area> (aan[ ](zetten|doen)|inschakelen)"
+        expansion_rules:
+          light_name_area: >
+            (
+              <name>[ ]<light> <in> <area>
+              |<in> <area> <name>[ ]<light>
+              |<area>[ ]<name>[ ]<light>
+            )
+        requires_context:
+          domain:
+            - light
+
+      # switch
+      - sentences:
+          - "[<change>] <name>[ ]<switch> [<to>] aan [<in> <area>]"
+          - "[<change>] <light_name_area> [<to>] aan"
+          - "schakel <name>[ ]<switch> [<to>] in [<in> <area>]"
+          - "schakel <light_name_area> [<to>] in"
+          - "[<would>] <name>[ ]<switch> [<to>] (aan[ ](zetten|doen)|inschakelen) [<in> <area>]"
+          - "[<would>] <light_name_area> (aan[ ](zetten|doen)|inschakelen)"
+        expansion_rules:
+          light_name_area: >
+            (
+              <name>[ ]<switch> <in> <area>
+              |<in> <area> <name>[ ]<switch>
+              |<area>[ ]<name>[ ]<switch>
+            )
+        requires_context:
+          domain:
+            - switch
+
+      # fan
+      - sentences:
+          - "[<change>] <name>[ ]<fan> [<to>] aan [<in> <area>]"
+          - "[<change>] <light_name_area> [<to>] aan"
+          - "schakel <name>[ ]<fan> [<to>] in [<in> <area>]"
+          - "schakel <light_name_area> [<to>] in"
+          - "[<would>] <name>[ ]<fan> [<to>] (aan[ ](zetten|doen)|inschakelen) [<in> <area>]"
+          - "[<would>] <light_name_area> (aan[ ](zetten|doen)|inschakelen)"
+        expansion_rules:
+          light_name_area: >
+            (
+              <name>[ ]<fan> <in> <area>
+              |<in> <area> <name>[ ]<fan>
+              |<area>[ ]<name>[ ]<fan>
+            )
+        requires_context:
+          domain:
+            - fan
