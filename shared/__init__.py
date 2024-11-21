@@ -278,7 +278,7 @@ def render_response(
         slots["cancelled"] = len(timers)
     else:
         slots["timers"] = []
-        slots["timers"] = 0
+        slots["cancelled"] = 0
 
     # For date/time intents
     slots["date"] = _TEST_DATETIME.date()
