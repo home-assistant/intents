@@ -3,9 +3,9 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "[<change>] <name>[[ ]<type>] [<to>] uit [<in> <area>]"
+          - "[<change>] <name>[<to>] uit [<in> <area>]"
           - "[<change>] <name_area> [<to>] uit"
-          - "[<would>] <name>[[ ]<type>] ((uit[ ](zetten|doen)|uit[ ]schakelen|doen);<in> <area>)"
+          - "[<would>] <name> (uit[ ](zetten|doen)|uit[ ]schakelen|doen) [<in> <area>]"
           - "[<would>] <name_area> (uit[ ](zetten|doen)|uit[ ]schakelen|doen)"
         excludes_context:
           domain:
@@ -17,3 +17,51 @@ intents:
             - sensor
             - valve
             - vacuum
+      # light
+      - sentences:
+          - "[<change>] <name>[ ]<light> [<to>] uit [<in> <area>]"
+          - "[<change>] <light_name_area> [<to>] uit"
+          - "[<would>] <name>[ ]<light> [<to>] (uit[ ](zetten|doen)|uit[ ]schakelen|doen) [<in> <area>]"
+          - "[<would>] <light_name_area> (uit[ ](zetten|doen)|inschakelen)"
+        expansion_rules:
+          light_name_area: >
+            (
+              <name>[ ]<light> <in> <area>
+              |<in> <area> <name>[ ]<light>
+              |<area>[ ]<name>[ ]<light>
+            )
+        requires_context:
+          domain:
+            - light
+      # light
+      - sentences:
+          - "[<change>] <name>[ ]<switch> [<to>] uit [<in> <area>]"
+          - "[<change>] <light_name_area> [<to>] uit"
+          - "[<would>] <name>[ ]<switch> [<to>] (uit[ ](zetten|doen)|uit[ ]schakelen|doen) [<in> <area>]"
+          - "[<would>] <light_name_area> (uit[ ](zetten|doen)|inschakelen)"
+        expansion_rules:
+          light_name_area: >
+            (
+              <name>[ ]<switch> <in> <area>
+              |<in> <area> <name>[ ]<switch>
+              |<area>[ ]<name>[ ]<switch>
+            )
+        requires_context:
+          domain:
+            - switch
+      # light
+      - sentences:
+          - "[<change>] <name>[ ]<fan> [<to>] uit [<in> <area>]"
+          - "[<change>] <light_name_area> [<to>] uit"
+          - "[<would>] <name>[ ]<fan> [<to>] (uit[ ](zetten|doen)|uit[ ]schakelen|doen) [<in> <area>]"
+          - "[<would>] <light_name_area> (uit[ ](zetten|doen)|inschakelen)"
+        expansion_rules:
+          light_name_area: >
+            (
+              <name>[ ]<fan> <in> <area>
+              |<in> <area> <name>[ ]<fan>
+              |<area>[ ]<name>[ ]<fan>
+            )
+        requires_context:
+          domain:
+            - fan
