@@ -23,6 +23,8 @@ tests:
       slots:
         name: "Speelhoek"
         area: "Woonkamer"
+      context:
+        domain: fan
     response: "Speelhoek is uit"
 
   - sentences:
@@ -36,6 +38,27 @@ tests:
 
   - sentences:
       - "Staat de werkbank in de garage aan?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Werkbank"
+        area: "Garage"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "Staat de speelhoekventilator uit?"
+      - "Staat de huidige stand van speelhoek fan op uit?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Speelhoek"
+        state: "off"
+      context:
+        domain: fan
+    response: "Ja"
+
+  - sentences:
       - "Staat in de garage de werkbankverlichting aan?"
       - "Staat in garage de huidige stand van werkbank lamp op aan?"
     intent:
@@ -44,7 +67,22 @@ tests:
         name: "Werkbank"
         area: "Garage"
         state: "on"
+      context:
+        domain: light
     response: "Ja"
+
+  - sentences:
+      - "Staat in de keuken de waterkokerswitch aan?"
+      - "Staat in keuken de huidige stand van waterkoker schakelaar op aan?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Waterkoker"
+        area: "Keuken"
+        state: "on"
+      context:
+        domain: switch
+    response: "Nee, die is uit"
 
   - sentences:
       - "Staan er lampen aan?"
