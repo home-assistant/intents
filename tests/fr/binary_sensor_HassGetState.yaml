@@ -230,7 +230,7 @@ tests:
   #   Yes / No Questions
   #     Name + Area
   - sentences:
-      - "La Velux du salon est-il ouvert ?"
+      - "Le Velux du salon est-il ouvert ?"
       - "Est-ce que le Velux est ouvert dans le salon?"
     intent:
       name: HassGetState
@@ -422,43 +422,168 @@ tests:
         state: "on"
     response: Fenêtre Salon et Velux sont ouvertes
 
-  # # Garage door
+  # Garage door
+  #   Yes / No Questions
+  #     Name
   - sentences:
-      - "Est-ce que la porte du garage 2 est fermée ?"
-      - "La porte du garage 2 est-elle fermée ?"
+      - "la porte droite est-elle ouverte ?"
+      - "Est-ce que la porte droite est ouverte ?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "garage_door"
-        name: "Porte du garage 2"
-        state: "off"
+        name: "Porte droite"
+        state: "on"
     response: "Oui"
 
+  # Garage door
+  #   Yes / No Questions
+  #     Name + Area
   - sentences:
-      - "Y a-t-il des portes de garage ouvertes ?"
-      - "Certaines portes de garage sont-elles ouvertes ?"
+      - "La porte droite du garage est-elle ouverte ?"
+      - "Est-ce que la porte droite est ouvertes dans le garage?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Porte droite"
+        state: "on"
+        area: garage
+    response: "Oui"
+
+  # Garage door
+  #   Yes / No Questions
+  #     Name + Floor
+  - sentences:
+      - "la porte droite du rez-de-chaussée est-elle ouverte ?"
+      - "Est-ce que la porte droite est ouvertes au rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Porte droite"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: "Oui"
+
+  # Garage door
+  #   All
+  #     area
+  - sentences:
+      - "Les portes de garage sont-elles fermées dans le garage?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "off"
+        area: garage
+    response: "Non, pas Porte droite"
+
+  # Garage door
+  #   All
+  #     floor
+  - sentences:
+      - "Les portes de garage sont-elles fermées dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "off"
+        floor: Rez-De-Chaussée
+    response: "Non, pas Porte droite"
+
+  # Garage door
+  #   All
+  #     Everywhere
+  - sentences:
+      - "Toutes les portes de garage sont-elles fermées?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "off"
+    response: "Non, pas Porte droite"
+
+  # Garage door
+  #   Any
+  #     area
+  - sentences:
+      - "y a t-il des portes de garage ouvertes dans le garage?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "garage_door"
         state: "on"
-    response: "Oui, Porte du garage 1 est ouverte"
+        area: garage
+    response: "Oui, Porte droite est ouverte"
 
+  # Garage door
+  #   Any
+  #     floor
   - sentences:
-      - "Toutes les portes du garage sont-elles fermées ?"
+      - "y a t-il des portes de garage ouvertes dans le rez-de-chaussée?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "garage_door"
-        state: "off"
-    response: "Non, pas Porte du garage 1"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: "Oui, Porte droite est ouverte"
 
+  # Garage door
+  #   Any
+  #     Everywhere
   - sentences:
-      - "Combien de portes de garage sont ouvertes ?"
-      - "Compte le nombre de portes de garage qui sont ouvertes"
+      - "y a t-il des portes de garage ouvertes?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+    response: "Oui, Porte droite est ouverte"
+
+  # Garage door
+  #   How many
+  #     area
+  - sentences:
+      - "Combien de portes de garage sont ouvertes dans le garage?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+        area: garage
+    response: "1"
+
+  # Garage door
+  #   How many
+  #     floor
+  - sentences:
+      - "Combien de portes de garage sont ouvertes dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: "1"
+
+  # Garage door
+  #   How many
+  #     Everywhere
+  - sentences:
+      - "Combien de portes de garage sont ouvertes?"
     intent:
       name: HassGetState
       slots:
@@ -467,17 +592,46 @@ tests:
         state: "on"
     response: "1"
 
+  # Garage door
+  #   Which
+  #     area
   - sentences:
-      - "Quelle porte de garage est ouverte ?"
-      - "Quelles sont les portes de garage ouverte ?"
-      - "Liste les portes de garage ouvertes"
+      - "Quelles portes de garage sont ouvertes dans le garage?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "garage_door"
         state: "on"
-    response: "Porte du garage 1 est ouverte"
+        area: garage
+    response: Porte droite est ouverte
+
+  # Garage door
+  #   Which
+  #     floor
+  - sentences:
+      - "Quelles portes de garage sont ouvertes dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: Porte droite est ouverte
+
+  # Garage door
+  #   Which
+  #     Everywhere
+  - sentences:
+      - "Quelles portes de garage sont ouvertes?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+    response: Porte droite est ouverte
 
   # # Occupancy
   - sentences:
