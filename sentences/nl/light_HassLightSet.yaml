@@ -4,47 +4,57 @@ intents:
     data:
       # Brightness value
       - sentences:
-          - "[<change>|<would>|dim] <name>[ ][<light>][ ][<brightness>] [<to>] <brightness_value> [[willen|kunnen] <change>]"
-          - "[<change>|<would>] <brightness> [van] <name>[ ][<light>] [<to>] <brightness_value> [[willen|kunnen] <change>]"
-          - "[<change>|<would>] [<brightness>] [van] <name>[ ][<light>] [<to>] <brightness_value> [[willen|kunnen] dimmen]"
+          - "[<numeric_value_set>|dim] [<brightness>] [van] <name>[[ ]<light>] [<to>] <brightness_value>"
+          - "[<numeric_value_set>|dim] [van] <name>[[ ]<light>][[ ]<brightness>] [<to>] <brightness_value>"
+          - "[<would>] [<brightness>] [van] <name>[[ ]<light>] [<to>] <brightness_value> (zetten|doen|veranderen|dimmen)"
+          - "[<would>] <name>[[ ]<light>][[ ]<brightness>] [<to>] <brightness_value> (zetten|doen|veranderen|dimmen)"
         response: "brightness"
         requires_context:
           domain: light
 
       - sentences:
-          - verander de felheid in <area> naar <brightness_value>
-          - "[<change>|<would>|dim] [<brightness>] [<in>] <area>[[ ]<light>] [<to>] <brightness_value> [[willen|kunnen] <change>]"
-          - "[<change>|<would>] <area>[ ][<brightness>|lamp] [<to>] <brightness_value> [[willen|kunnen] <change>]"
-          - "[<change>|<would>] <area>[ ][<brightness>|lamp] [<to>] <brightness_value> [[willen|kunnen] dimmen]"
-        slots:
-          name: "all"
+          - "[<numeric_value_set>|dim] (<brightness>|<light>) <in> (<area>|<floor>) [<to>] <brightness_value>"
+          - "[<numeric_value_set>|dim] [<brightness>] <in> (<area>|<floor>)[ ]<light> [<to>] <brightness_value>"
+          - "[<numeric_value_set>|dim] (<area>|<floor>)[ ](<brightness>|<light>) [<to>] <brightness_value>"
+          - "[<would>] (<brightness>|<light>) <in> (<area>|<floor>) [<to>] <brightness_value> (zetten|doen|veranderen|dimmen)"
+          - "[<would>] [<brightness>] <in> (<area>|<floor>)[ ]<light> [<to>] <brightness_value> (zetten|doen|veranderen|dimmen)"
+          - "[<would>] (<area>|<floor>)[ ](<brightness>|<light>) [<to>] <brightness_value> (zetten|doen|veranderen)"
+          - "[<would>] (<area>|<floor>)[[ ](<brightness>|<light>)] [<to>] <brightness_value> dimmen"
         response: "brightness"
 
       # Max/Min brightness
       - sentences:
-          - "[<change>|<would>] <name>[ ][lamp][ ][<brightness>] [<to>] [het] {brightness_level:brightness} [[willen|kunnen] <change>]"
-          - "[<change>|<would>] <brightness> [van] <name>[ ][<light>] [<to>] [het] {brightness_level:brightness} [[willen|kunnen] <change>]"
-          - "[<change>|<would>] <name>[ ][lamp] [<to>] [de|het] {brightness_level:brightness} <brightness> [[willen|kunnen] <change>]"
+          - "[<numeric_value_set>|dim] <name>[[ ]<light>][[ ]<brightness>] [<to>] [het] {brightness_level:brightness}"
+          - "[<numeric_value_set>|dim] <brightness> [van] <name>[ ][<light>] [<to>] [het] {brightness_level:brightness}"
+          - "[<numeric_value_set>|dim] <name>[ ][lamp] [<to>] [de|het] {brightness_level:brightness} <brightness>"
+          - "[<would>] <name>[[ ]<light>][[ ]<brightness>] [<to>] [het] {brightness_level:brightness} (zetten|doen|veranderen|dimmen)"
+          - "[<would>] <brightness> [van] <name>[ ][<light>] [<to>] [het] {brightness_level:brightness} (zetten|doen|veranderen|dimmen)"
+          - "[<would>] <name>[ ][lamp] [<to>] [de|het] {brightness_level:brightness} <brightness> (zetten|doen|veranderen|dimmen)"
         requires_context:
           domain: light
         response: "brightness"
 
       - sentences:
-          - "[<change>|<would>] [<brightness>] [<in>] <area> [<to>] [het] {brightness_level:brightness} [[willen|kunnen] <change>]"
-          - "[<change>|<would>] <area>[ ][<brightness>] [<to>] [het] {brightness_level:brightness} [[willen|kunnen] <change>]"
-          - "[<change>|<would>] <area> [<to>] [de|het] {brightness_level:brightness} [<brightness>] [[willen|kunnen] <change>]"
-        slots:
-          name: "all"
+          - "[<numeric_value_set>|dim] (<brightness>|<light>) <in> (<area>|<floor>) [<to>] {brightness_level:brightness}"
+          - "[<numeric_value_set>|dim] [<brightness>] <in> (<area>|<floor>)[ ]<light> [<to>] {brightness_level:brightness}"
+          - "[<numeric_value_set>|dim] (<area>|<floor>)[[ ]<light>][ ]<brightness> [<to>] {brightness_level:brightness}"
+          - "[<numeric_value_set>|dim] <in> (<area>|<floor>)[[ ]<light>][ ]<brightness> [<to>] {brightness_level:brightness}"
+          - "[<numeric_value_set>|dim] (<area>|<floor>) [<to>] [de|het] {brightness_level:brightness} [<brightness>]"
+          - "[<would>] (<brightness>|<light>) <in> (<area>|<floor>) {brightness_level:brightness} (zetten|doen|veranderen|dimmen)"
+          - "[<would>] [<brightness>] <in> (<area>|<floor>)[ ]<light> [het] {brightness_level:brightness} (zetten|doen|veranderen|dimmen)"
+          - "[<would>] <in> (<area>|<floor>)[[ ]<light>][ ]<brightness> {brightness_level:brightness} (zetten|doen|veranderen|dimmen)"
+          - "[<would>] (<area>|<floor>) [<to>] [de|het] {brightness_level:brightness} <brightness> (zetten|doen|veranderen|dimmen)"
         response: "brightness"
 
       # Color
       - sentences:
-          - "[<change>|<would>] <name>[ ][<light>][ ][kleur] [<to>] {color} [[willen|kunnen] <change>]"
-          - "[<change>|<would>] [[de] kleur van] <name>[ ][<light>] [<to>] {color} [[willen|kunnen] <change>]"
+          - "[<change>] <name>[ ][<light>][ ][kleur] [<to>] {color}"
+          - "[<change>] [[de] kleur van] <name>[ ][<light>] [<to>] {color}"
+          - "[<would>] <name>[ ][<light>][ ][kleur] [<to>] {color} (zetten|doen|veranderen|maken)"
+          - "[<would>] [[de] kleur van] <name>[ ][<light>] [<to>] {color} (zetten|doen|veranderen|maken)"
         response: "color"
 
       - sentences:
-          - "[<change>|<would>] [[de] kleur van] [[<all>] <light>] [in|van] <area>[[ ]<light>] [<to>] {color} [[willen|kunnen] <change>]"
+          - "[<change>] [[de] kleur van] ([[<all>] <light>] [<in>] (<area>|<floor>)|(<area>|<floor>)[[ ]<light>]) [<to>] {color}"
+          - "[<would>] [[de] kleur van] ([[<all>] <light>] [<in>] (<area>|<floor>)|(<area>|<floor>)[[ ]<light>]) [<to>] {color} (zetten|doen|veranderen|maken)"
         response: "color"
-        slots:
-          name: "all"
