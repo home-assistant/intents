@@ -4,7 +4,11 @@ intents:
   HassTimerStatus:
     data:
       - sentences:
-          - <how_much> [de] [temps|estona] [li] (queda|resta|falta) (al|de|del|pel) [meu] temporitzador [[de|de la|d'][ ](<timer_start>|<area>|{timer_name:name})]
-          - <how_much> [de] [temps|estona] [li] (queda|resta|falta) perquè [s']acabi el [meu] temporitzador [[de|de la|d'][ ](<timer_start>|<area>|{timer_name:name})]
-          - <how_much> [de] [temps|estona] [li] (queda|resta|falta) per acabar el [meu] temporitzador [[de|de la|d'][ ](<timer_start>|<area>|{timer_name:name})]
-          - com (va|està) el [meu] temporitzador [[de|de la|d'][ ](<timer_start>|<area>|{timer_name:name})]
+          - <quant_queda> (al|de|del|pel) [meu] <temporitzador> [<dades>]
+          - <quant_queda> perquè [s']acabi el [meu] <temporitzador> [<dades>]
+          - <quant_queda> per acabar el [meu] <temporitzador> [<dades>]
+          - com (va|està) el [meu] <temporitzador> [<dades>]
+        expansion_rules:
+          quant_queda: "<how_much> [de] [temps|estona] [li] (queda|resta|falta)"
+          of: "[de |de la |d']"
+          dades: "<of>(<timer_start>|{timer_name:name})|<area>"
