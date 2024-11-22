@@ -581,55 +581,67 @@ intents:
           domain: binary_sensor
           device_class: garage_door
 
-      # # Occupancy
+      # Occupancy
+      #   All
+      #     area
       - sentences:
-          - "[le] [(capteur|détecteur)][s] [de] [<le>]{name} <estil> {bs_occupancy_states:state} [<dans> [<le>]{area}]"
-          - "[le] [(capteur|détecteur)][s] [de] [<le>]{name} [<dans> [<le>]{area}] <estil> {bs_occupancy_states:state}"
-        response: one_yesno
-        requires_context:
-          domain: binary_sensor
-          device_class: occupancy
+          # Le salon est-il vide
+          - "[<le>]{area} <estil> vide"
+          # More sentences to be added later
+        response: all
         slots:
           domain: binary_sensor
           device_class: occupancy
+          state: "off"
 
+      # Occupancy
+      #   All
+      #     floor
       - sentences:
-          - "[<yatil>] (des|un|du) [(capteur|détecteur)[s] de présence] {bs_occupancy_states:state} [<dans> [<le>]{area}]"
-          - "[<le>]{area} <estil> {bs_occupancy_states:state}"
-        response: any
+          # Le rez-de-chaussée est-il vide
+          - "[<le>]{floor} <estil> vide"
+          # More sentences to be added later
+        response: all
         slots:
           domain: binary_sensor
           device_class: occupancy
+          state: "off"
 
+      # Occupancy
+      #   All
+      #     Everywhere
       - sentences:
-          - "[<yatil>] (quelqu'un|(une|des) personne[s]) [de] [détecté[e]s] [<dans> [<le>]{area}]"
-          - "(quelqu'un|(une|des) personne[s]) [<estil>] [détecté[e]s] [<dans> [<le>]{area}]"
+          # Le maison est-elle vide
+          - "[<le>]<maison> <estil> vide"
+          # More sentences to be added later
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+          state: "off"
+
+      # Occupancy
+      #   Any
+      #     area
+      - sentences:
+          # y a t-il quelqu'un dans le jardin?
+          - "<yatil> quelqu'un <dans> [<le>]{area}"
+          # More sentences to be added later
         response: any
         slots:
           domain: binary_sensor
           device_class: occupancy
           state: "on"
 
+      # Occupancy
+      #   Any
+      #     floor
       - sentences:
-          - "<tous> les (capteur|détecteur)[s] de présence <estil> {bs_occupancy_states:state} [<dans> [<le>]{area}]"
-        response: all
+          # y a t-il quelqu'un dans le rez-de-chaussée?
+          - "<yatil> quelqu'un <dans> [<le>]{floor}"
+          # More sentences to be added later
+        response: any
         slots:
           domain: binary_sensor
           device_class: occupancy
-
-      - sentences:
-          - "<quel> (capteur|détecteur)[s] de présence [<estil>] {bs_occupancy_states:state} [<dans> [<le>]{area}]"
-          - "<quel> sont les (capteur|détecteur)[s] de présence [qui] [sont] {bs_occupancy_states:state} [<dans> [<le>]{area}]"
-          - "liste les (capteur|détecteur)[s] de présence [qui] [<estil>] {bs_occupancy_states:state} [<dans> [<le>]{area}]"
-        response: which
-        slots:
-          domain: binary_sensor
-          device_class: occupancy
-
-      - sentences:
-          - "combien de (capteur|détecteur)[s] de présence [<estil>] {bs_occupancy_states:state} [<dans> [<le>]{area}]"
-          - "compte (les |le nombre de) (capteur|détecteur)[s] de présence [qui] [sont] {bs_occupancy_states:state} [<dans> [<le>]{area}]"
-        response: how_many
-        slots:
-          domain: binary_sensor
-          device_class: occupancy
+          state: "on"

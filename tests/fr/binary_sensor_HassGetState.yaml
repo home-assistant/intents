@@ -633,71 +633,71 @@ tests:
         state: "on"
     response: Porte droite est ouverte
 
-  # # Occupancy
+  # Occupancy
+  #   All
+  #     area
   - sentences:
-      - "Est-ce que le capteur de présence est déclenché dans la cuisine ?"
+      - "La cuisine est-elle vide?"
     intent:
       name: HassGetState
       slots:
-        area: "cuisine"
         domain: "binary_sensor"
         device_class: "occupancy"
-        name: "Présence"
-        state: "on"
-    response: "Oui"
+        state: "off"
+        area: cuisine
+    response: "Non, pas Présence"
 
+  # Occupancy
+  #   All
+  #     floor
   - sentences:
-      - "Y a-t-il des capteurs de présence déclenchés ?"
-      - "Des personnes sont-elles détectées ?"
+      - "Le rez-de-chaussée est-il vide?"
     intent:
       name: HassGetState
       slots:
-        domain: binary_sensor
-        device_class: occupancy
+        domain: "binary_sensor"
+        device_class: "occupancy"
+        state: "off"
+        floor: Rez-De-Chaussée
+    response: "Non, pas Présence"
+
+  # Occupancy
+  #   All
+  #     Everywhere
+  - sentences:
+      - "La maison est-elle vide?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "occupancy"
+        state: "off"
+    response: "Non, pas Présence"
+
+  # Occupancy
+  #   Any
+  #     area
+  - sentences:
+      - "y a t-il quelqu'un dans le garage?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "occupancy"
         state: "on"
+        area: garage
+    response: "Non"
+
+  # Occupancy
+  #   Any
+  #     floor
+  - sentences:
+      - "y a t-il quelqu'un dans le rez-de-chaussée"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "occupancy"
+        state: "on"
+        floor: Rez-De-Chaussée
     response: "Oui, Présence est déclenchée"
-
-  - sentences:
-      - "Des personnes sont-elles détectées dans la cuisine ?"
-      - "Y a-t-il quelqu'un dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "cuisine"
-        domain: binary_sensor
-        device_class: occupancy
-        state: "on"
-    response: "Oui, Présence est déclenchée"
-
-  - sentences:
-      - "Tous les capteurs de présence sont-ils déclenchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: occupancy
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Liste les capteurs de présence déclenchés"
-      - "Quels capteurs de présence sont déclenchés ?"
-      - "Quels sont les capteurs de présence déclenchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: occupancy
-        state: "on"
-    response: "Présence est déclenchée"
-
-  - sentences:
-      - "Compte les capteurs de présence actifs"
-      - "Combien de capteurs de présence sont actifs ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: occupancy
-        state: "on"
-    response: "1"
