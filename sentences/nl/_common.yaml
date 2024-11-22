@@ -315,9 +315,9 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: ([het|de] max|[het] maximum|maximaal|[het] maximale|[z'n|zijn|het] hoogst[e])
+      - in: (max|maximum|maximaal|maximale|[z'n|zijn] hoogst[e])
         out: 100
-      - in: ([het|de] min|[het] minimum|minimaal|[het] minimale|[z'n|zijn|het] laagst[e])
+      - in: (min|minimum|minimaal|minimale|[z'n|zijn] laagst[e])
         out: 1
 
   color:
@@ -378,9 +378,9 @@ lists:
         out: "open"
       - in: "(dicht|gesloten)"
         out: "closed"
-      - in: "(open aan het gaan|aan het (openen|open gaan))"
+      - in: "(open aan gaan|aan (openen|open gaan))"
         out: "opening"
-      - in: "(dicht aan het gaan|aan het (dicht gaan|sluiten))"
+      - in: "(dicht aan gaan|aan (dicht gaan|sluiten))"
         out: "closing"
   cover_classes:
     values:
@@ -426,9 +426,9 @@ lists:
 
   bs_battery_charging_states:
     values:
-      - in: "(aan (het laden|de lader)|opgeladen)"
+      - in: "(aan (laden|lader)|opgeladen)"
         out: "on"
-      - in: "niet aan (het laden|de lader)"
+      - in: "niet aan (laden|lader)"
         out: "off"
 
   bs_carbon_monoxide_states:
@@ -552,9 +552,9 @@ lists:
 
   bs_running_states:
     values:
-      - in: "[op] (actief|bezig|draait|werkt|[aan [he|']t|te] (draaien|werk[en])|activiteit)"
+      - in: "[op] (actief|bezig|draait|werkt|[aan|te] (draaien|werk[en])|activiteit)"
         out: "on"
-      - in: "(niet [op] (actief|bezig|(aan [he|']t|te) (draaien|werk[en]))|(draaien|werk[en]) niet|[op] inactief|[geen |in]activiteit)"
+      - in: "(niet [op] (actief|bezig|(aan|te) (draaien|werk[en]))|(draaien|werk[en]) niet|[op] inactief|[geen |in]activiteit)"
         out: "off"
 
   bs_safety_states:
@@ -594,9 +594,9 @@ lists:
 
   bs_vibration_states:
     values:
-      - in: "(trilt|vibreert|[aan het|te] (trillen|vibreren)|trilling[en]|vibratie[s])"
+      - in: "(trilt|vibreert|[aan|te] (trillen|vibreren)|trilling[en]|vibratie[s])"
         out: "on"
-      - in: "(niet aan het (trillen|vibreren)|(trilt|vibreert|trillen|vibreren) niet|geen (trilling[en]|vibratie[s]))"
+      - in: "(niet aan (trillen|vibreren)|(trilt|vibreert|trillen|vibreren) niet|geen (trilling[en]|vibratie[s]))"
         out: "off"
 
   bs_window_states:
@@ -659,23 +659,24 @@ lists:
 
 expansion_rules:
   # generic expansion rules for sentences
-  name: "[de|het] {name}"
-  area: "[de|het] {area}"
-  floor: "[de|het] {floor}"
+  name: "{name}"
+  area: "{area}"
+  floor: "{floor}"
   in: "[in|op|van|bij]"
   by: "(door|met|bij)"
   here: "(hier|in deze (kamer|ruimte))"
+  my: (mijn|m'n)
   name_area: >
     (
-      <name> [<in> <area>]
-      |<in> <area> <name>
-      |<area>[ ]<name>
+      {name} [<in> {area}]
+      |<in> {area} {name}
+      |{area}[ ]{name}
     )
   sensor_name_area: >
     (
-      [<in>] [<area>][ ]{name}
-      |[<in> [<area>]] [<by>] <name>
-      |[<by>] <name> [<in>] <area>
+      [<in>] [{area}][ ]{name}
+      |[<in> [{area}]] [<by>] {name}
+      |[<by>] {name} [<in>] {area}
     )
   change: "(zet|mag|mogen|doe|verander|maak|schakel)"
   would: "(kan|kun|wil) (je|jij)"
@@ -694,28 +695,28 @@ expansion_rules:
   shutter: "(rolluik[en]|shutter[s])"
   window: "(raam|ramen)"
   # device/entity types
-  light: "[de|het|een] (lamp[en]|licht[en]|verlichting)"
-  fan: "[de|een] (ventilator[s|en]|fan[s])"
-  switch: "[de|een] (schakelaar[s]|switch[es]|plug[gen])"
-  cover: "[de|het] (<awning>|<blind>|<curtain>|<door>|<garage>|<gate>|<shade>|<shutter>|<window>)"
+  light: "[een] (lamp[en]|licht[en]|verlichting)"
+  fan: "[een] (ventilator[s|en]|fan[s])"
+  switch: "[een] (schakelaar[s]|switch[es]|plug[gen])"
+  cover: "(<awning>|<blind>|<curtain>|<door>|<garage>|<gate>|<shade>|<shutter>|<window>)"
   # lock specific
-  lock: "[de|het|een] ([deur]slot[en]|vergrendeling[en])"
+  lock: "[een] ([deur]slot[en]|vergrendeling[en])"
   locked: "(<to> slot|[<to>] vergrendeld)"
-  unlocked: "[<to>] (van [het] slot|ontgrendeld)"
+  unlocked: "[<to>] (van slot|ontgrendeld)"
   lock_name: >
     (
-      <lock> [van] <name>
-     |<name>[ ]([deur]slot[en]|vergrendeling[en])
+      <lock> [van] {name}
+     |{name}[ ]([deur]slot[en]|vergrendeling[en])
     )
   lock_name_area: >
     (
-      <lock> [van] [{area}[ ]]<name>
-      |<lock_name> [<in> <area>]
-      |[<in> <area>] <lock_name>)
-      |<area>[ ]<name>[ ]([deur]slot[en]|vergrendeling[en]
+      <lock> [van] [{area}[ ]]{name}
+      |<lock_name> [<in> {area}]
+      |[<in> {area}] <lock_name>)
+      |{area}[ ]{name}[ ]([deur]slot[en]|vergrendeling[en]
     )
   # light brightness
-  brightness: "[de] (helderheid|felheid|intensiteit|lichtsterkte)"
+  brightness: "(helderheid|felheid|intensiteit|lichtsterkte)"
   brightness_value: "{brightness}[ ][%|procent]"
   # temperature/climate states
   temperature: "{temperature}[ ][°|graden] [{temperature_unit}]"
@@ -725,12 +726,12 @@ expansion_rules:
   closed: "(dicht|omlaag|naar beneden|neerwaarts)"
   # binary_sensor specific
   detect: "(detecteert|registreert|detecteren|registreren|gedetecteerd|geregistreerd|waar[ ]genomen)"
-  sensor: "[een|de] (apparaat|apparaten|sensor[s|en]|iets)"
+  sensor: "[een] (apparaat|apparaten|sensor[s|en]|iets)"
   sensor_area: >
     (
-      [[de|een] {area}][ ](apparaat|apparaten|sensor[s|en])
-     |[<in> [de|het] {area}] <sensor>
-     |[een|de] (apparaat|apparaten|sensor[s|en]|iets) [[in|op|van|bij] <area>]
+      [[een] {area}][ ](apparaat|apparaten|sensor[s|en])
+     |[<in> {area}] <sensor>
+     |[een] (apparaat|apparaten|sensor[s|en]|iets) [[in|op|van|bij] {area}]
     )
   numeric_value_set: "(zet|doe|mag|verander|maak|draai|verhoog|verlaag)"
   media_item: "(lied[je[s]]|nummer[s]|track[s]|item[s]|aflevering[en]|video[s]|film[pje][s]|muziek[je[s]]|playlist[s]|afspeellijst[en])"
@@ -741,9 +742,9 @@ expansion_rules:
   what_is: (wat (is|zijn)|hoeveel (is|zijn)|hoe (hoog|laag) (is|zijn))
   what_is_the_class_of_name: >
     (
-      <what_is> (het|de) <class> (van|in|(aangegeven|gemeten) door) <name> [in <area>]
-     |<what_is> <name>[[']s] [gemeten] <class> [in <area>]
-     |<what_is> <area>[ ]<name>[s] [gemeten] <class>
+      <what_is> <class> (van|in|(aangegeven|gemeten) door) {name} [in {area}]
+     |<what_is> {name}[[']s] [gemeten] <class> [in {area}]
+     |<what_is> {area}[ ]{name}[s] [gemeten] <class>
     )
 
   # Timers
@@ -768,16 +769,16 @@ expansion_rules:
   timer_start_minutes: "{timer_minutes:start_minutes} (minuut|minuten) [[en] {timer_seconds:start_seconds} seconde[n|s]]"
   timer_start_hours: "{timer_hours:start_hours} (uur|uren) [[en] {timer_minutes:start_minutes} (minuut|minuten)] [[en] {timer_seconds:start_seconds} seconde[s|n]]"
   timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
-  timer_named: (genaamd|met [de] naam|voor [de|het|een])
+  timer_named: (genaamd|met naam|voor [een])
   timer_prefix: (<timer_start> |{area}[ ]|{timer_name:name}[ ]|)
   timer_suffix: >
     (
       (van|voor) <timer_start>
-      |[<in>] <area>
+      |[<in>] {area}
       |<timer_named> {timer_name:name}
     )
-  my_timer: "[de|mijn|m'n] ([<timer_prefix>](timer|kookwekker)|(timer|kookwekker) <timer_suffix>)"
-  area_timer: "<in> <area> [de|mijn|m'n] (timer|kookwekker)"
+  my_timer: "[<my>] ([<timer_prefix>](timer|kookwekker)|(timer|kookwekker) <timer_suffix>)"
+  area_timer: "<in> {area} [<my>] (timer|kookwekker)"
 
 skip_words:
   - "alstublieft"
@@ -788,3 +789,6 @@ skip_words:
   - "ik wil"
   - "voor mij"
   - "voor me"
+  - "de"
+  - "het"
+  - "'t"

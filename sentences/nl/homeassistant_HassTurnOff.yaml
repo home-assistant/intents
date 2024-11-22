@@ -3,12 +3,12 @@ intents:
   HassTurnOff:
     data:
       - sentences: &sentences
-          - "[<change>] <name_type> [<to>] uit [<in> <area>]"
+          - "[<change>] <name_type> [<to>] uit [<in> {area}]"
           - "[<change>] <name_area> [<to>] uit"
-          - "[<would>] <name_type> (uit[ ](zetten|doen)|uit[ ]schakelen|doen) [<in> <area>]"
+          - "[<would>] <name_type> (uit[ ](zetten|doen)|uit[ ]schakelen|doen) [<in> {area}]"
           - "[<would>] <name_area> (uit[ ](zetten|doen)|uit[ ]schakelen|doen)"
         expansion_rules:
-          name_type: <name>
+          name_type: "{name}"
         excludes_context:
           domain:
             - binary_sensor
@@ -23,12 +23,12 @@ intents:
       # light
       - sentences: *sentences
         expansion_rules:
-          name_type: <name>[ ]<light>
+          name_type: "{name}[ ]<light>"
           name_area: &name_area >
             (
-              <name_type> <in> <area>
-              |<in> <area> <name_type>
-              |<area>[ ]<name_type>
+              <name_type> <in> {area}
+              |<in> {area} <name_type>
+              |{area}[ ]<name_type>
             )
         requires_context:
           domain:
@@ -37,7 +37,7 @@ intents:
       # switch
       - sentences: *sentences
         expansion_rules:
-          name_type: <name>[ ]<switch>
+          name_type: "{name}[ ]<switch>"
           name_area: *name_area
         requires_context:
           domain:
@@ -46,7 +46,7 @@ intents:
       # fan
       - sentences: *sentences
         expansion_rules:
-          name_type: <name>[ ]<fan>
+          name_type: "{name}[ ]<fan>"
           name_area: *name_area
         requires_context:
           domain:

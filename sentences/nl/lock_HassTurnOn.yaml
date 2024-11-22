@@ -5,15 +5,15 @@ intents:
       - sentences:
           - "vergrendel (<name_area>|<lock_name_area>)"
           - "sluit <lock_name_area>"
-          - "[<change>] <lock_name> dicht <in> <area>"
+          - "[<change>] <lock_name> dicht <in> {area}"
           - "[<change>] <lock_name_area> dicht"
-          - "[<change>] (<name>|<lock_name>) <locked> <in> <area>"
+          - "[<change>] ({name}|<lock_name>) <locked> <in> {area}"
           - "[<change>] (<name_area>|<lock_name_area>) <locked>"
           - "[<would>] (<name_area>|<lock_name_area>) <locked> (doen|zetten|draaien)"
-          - "[<would>] (<name>|<lock_name>) <locked> (doen|zetten|draaien) <in> <area>"
-          - "[<would>] (<name>|<lock_name>) vergrendelen <in> <area>"
+          - "[<would>] ({name}|<lock_name>) <locked> (doen|zetten|draaien) <in> {area}"
+          - "[<would>] ({name}|<lock_name>) vergrendelen <in> {area}"
           - "[<would>] (<name_area>|<lock_name_area>) vergrendelen"
-          - "[<would>] <lock_name> (dicht[ ](doen|zetten|draaien)|sluiten) <in> <area>"
+          - "[<would>] <lock_name> (dicht[ ](doen|zetten|draaien)|sluiten) <in> {area}"
           - "[<would>] <lock_name_area> (dicht[ ](doen|zetten|draaien)|sluiten)"
         requires_context:
           domain: lock
@@ -21,33 +21,33 @@ intents:
 
       - sentences:
           - "[<change>] <all_area_door_lock> <locked>"
-          - "[<change>] [<all>] (<lock>|deur[en]) <locked> <in> <area>"
+          - "[<change>] [<all>] (<lock>|deur[en]) <locked> <in> {area}"
           - "[<change>] <all_area_lock> dicht"
-          - "[<change>] [<all>] <lock> dicht <in> <area>"
+          - "[<change>] [<all>] <lock> dicht <in> {area}"
           - "sluit <all_area_lock>"
-          - "sluit [<all>] <lock> <in> <area>"
+          - "sluit [<all>] <lock> <in> {area}"
           - "vergrendel <all_area_door_lock>"
-          - "vergrendel [<all>] (<lock>|deur[en]) <in> <area>"
+          - "vergrendel [<all>] (<lock>|deur[en]) <in> {area}"
           - "[<would>] <all_area_door_lock> vergrendelen"
-          - "[<would>] [<all>] (<lock>|deur[en]) vergrendelen <in> <area>"
+          - "[<would>] [<all>] (<lock>|deur[en]) vergrendelen <in> {area}"
           - "[<would>] <all_area_lock> (dicht[ ](doen|zetten|draaien)|sluiten)"
-          - "[<would>] [<all>] <lock> (dicht[ ](doen|zetten|draaien)|sluiten) <in> <area>"
+          - "[<would>] [<all>] <lock> (dicht[ ](doen|zetten|draaien)|sluiten) <in> {area}"
           - "[<would>] <all_area_door_lock> <locked> (doen|zetten|draaien)"
-          - "[<would>] [<all>] (<lock>|deur[en]) <locked> (doen|zetten|draaien) <in> <area>"
+          - "[<would>] [<all>] (<lock>|deur[en]) <locked> (doen|zetten|draaien) <in> {area}"
         expansion_rules:
           all_area_lock: >
             (
-              <in> <area> <lock>
-             |(<all>;<in> <area>) <lock>
-             |[<all>] <lock> <in> <area>
-             |[<all>] <area>[ ]<lock>
+              <in> {area} <lock>
+             |(<all>;<in> {area}) <lock>
+             |[<all>] <lock> <in> {area}
+             |[<all>] {area}[ ]<lock>
             )
           all_area_door_lock: >
             (
-              <in> <area> (<lock>|deur[en])
-             |(<all>;<in> <area>) (<lock>|deur[en])
-             |[<all>] (<lock>|deur[en]) <in> <area>
-             |[<all>] <area>[ ](<lock>|deur[en])
+              <in> {area} (<lock>|deur[en])
+             |(<all>;<in> {area}) (<lock>|deur[en])
+             |[<all>] (<lock>|deur[en]) <in> {area}
+             |[<all>] {area}[ ](<lock>|deur[en])
             )
         response: lock_area
         slots:
