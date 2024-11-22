@@ -2,13 +2,15 @@ language: nl
 intents:
   HassTurnOn:
     data:
-      - sentences:
-          - "[<change>] <name>[[ ]<type>] [<to>] aan [<in> <area>]"
+      - sentences: &sentences
+          - "[<change>] <name_type> [<to>] aan [<in> <area>]"
           - "[<change>] <name_area> [<to>] aan"
-          - "schakel <name>[[ ]<type>] [<to>] in [<in> <area>]"
+          - "schakel <name_type> [<to>] in [<in> <area>]"
           - "schakel <name_area> [<to>] in"
-          - "[<would>] <name>[[ ]<type>] [<to>] ((aan[ ](zetten|doen)|inschakelen);<in> <area>)"
+          - "[<would>] <name_type> [<to>] (aan[ ](zetten|doen)|inschakelen) [<in> <area>]"
           - "[<would>] <name_area> (aan[ ](zetten|doen)|inschakelen)"
+        expansion_rules:
+          name_type: <name>
         excludes_context:
           domain:
             - binary_sensor
@@ -19,3 +21,35 @@ intents:
             - sensor
             - valve
             - vacuum
+
+      # light
+      - sentences: *sentences
+        expansion_rules:
+          name_type: <name>[ ]<light>
+          name_area: &name_area >
+            (
+              <name_type> <in> <area>
+              |<in> <area> <name_type>
+              |<area>[ ]<name_type>
+            )
+        requires_context:
+          domain:
+            - light
+
+      # switch
+      - sentences: *sentences
+        expansion_rules:
+          name_type: <name>[ ]<switch>
+          name_area: *name_area
+        requires_context:
+          domain:
+            - switch
+
+      # fan
+      - sentences: *sentences
+        expansion_rules:
+          name_type: <name>[ ]<fan>
+          name_area: *name_area
+        requires_context:
+          domain:
+            - fan
