@@ -2,14 +2,25 @@ language: cs
 areas:
   - name: Kuchy(ň|ni|ně)
     id: kitchen
+    floor: (Přízemí|Spodní[m] pat(ro|ře))
   - name: (Obývací[m] pokoj[i]|obývák[u])
     id: living_room
+    floor: (Přízemí|Spodní[m] pat(ro|ře))
   - name: Ložnic(e|i)
     id: bedroom
+    floor: (První|Horní|Vrchní)[m] pat(ro|ře)
+  - name: Pokoj[i] pro hosty
+    id: guest_room
+    floor: (První|Horní|Vrchní)[m] pat(ro|ře)
   - name: Garáž[i]
     id: garage
+    floor: (Přízemí|Spodní[m] pat(ro|ře))
   - name: Předsíň[i]
     id: entrance
+    floor: (Přízemí|Spodní[m] pat(ro|ře))
+  - name: Zahrad[a|ě]
+    id: garden
+    floor: (Přízemí|Spodní[m] pat(ro|ře))
 
 entities:
   - name: "(Lamp(a|y|u)|lampičk(a|y|u)|světl(o|a)) v ložnici"
@@ -75,6 +86,15 @@ entities:
     attributes:
       device_class: blind
 
+  - name: "Modr(ý|ého) závěs[u]"
+    id: cover.blue_curtain
+    area: guest_room
+    state:
+      in: zatažená
+      out: closed
+    attributes:
+      device_class: curtain
+
   - name: "Garáž"
     id: cover.garage_door
     area: garage
@@ -112,11 +132,18 @@ entities:
       device_class: shutter
       position: "0"
 
-  - name: "hlavní uzávěr vody"
+  - name: "Hlavní uzávěr vody"
     id: "valve.main_valve"
     state: "open"
     attributes:
       position: "100"
+
+  - name: "Sprinkler[u]"
+    id: "valve.sprinkler"
+    area: "garden"
+    state: "open"
+    attributes:
+      position: "50"
 
   - name: "Termostat obývák"
     id: "climate.termostat_living_room"
