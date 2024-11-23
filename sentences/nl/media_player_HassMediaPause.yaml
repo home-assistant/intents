@@ -3,13 +3,19 @@ intents:
   HassMediaPause:
     data:
       - sentences:
-          - "pauzeer <name>"
-          - "[zet] <name>[ op] pauze"
-          - "<name> pauzeren"
+          - "(pauzeer|stop) [[de|het] <media_item> [op]] <name>"
+          - "[zet] <name> [op] (pauze|stop)"
+          - "[[de|het] <media_item> [op]] <name> (op (pauze|stop) zetten|pauzeren|stoppen)"
         requires_context:
           domain: media_player
       - sentences:
-          - "(pauzeren|pauzeer|pauze)"
+          - "(pauzeren|pauzeer|stoppen)"
+          - "[zet op] (pauze|stop)"
         requires_context:
           area:
             slot: true
+      - sentences:
+          - "(pauzeer|stop) [[de|het] <media_item> [<in>]] <area>"
+          - "<area> pauze"
+          - "[zet] <area> [op] (pauze|stop)"
+          - "<area> (op (pauze|stop) zetten|pauzeren|stoppen)"

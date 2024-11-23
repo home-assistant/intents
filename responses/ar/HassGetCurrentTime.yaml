@@ -1,0 +1,12 @@
+language: ar
+responses:
+  intents:
+    HassGetCurrentTime:
+      default: >
+        {% set minute_str = '{0:02d}'.format(slots.time.minute) %}
+
+        {% if slots.time.hour <= 12: %}
+        {{ slots.time.hour }}:{{ minute_str }} صباحا
+        {% else: %}
+        {{ slots.time.hour - 12 }}:{{ minute_str }} مساءا
+        {% endif %}

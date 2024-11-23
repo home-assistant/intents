@@ -3,14 +3,14 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <abre>  [(o|a)] [(porta|portão) da] garagem
+          - <abre> [(o|a)] [(porta|portão) da] garagem
         response: cover
         slots:
           device_class: garage
           domain: cover
 
       - sentences:
-          - <abre>  [as|os] [(cortinas | cortinados | estores | persianas)] <na_zona>
+          - <abre> [a[s]|o[s]] [(cortina[s] | cortinado[s] | estore[s] | persiana[s])] <na_zona>
         response: cover
         slots:
           device_class:
@@ -18,3 +18,27 @@ intents:
             - curtain
             - shutter
           domain: cover
+
+      - sentences:
+          - <abre> [a[s]|o[s]] [(cortina[s] | cortinado[s] | estore[s] | persiana[s])] (de|da) casa
+        response: cover
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover
+
+      # For satellite location
+      - sentences:
+          - <abre> [a[s]|o[s]] [(cortina[s] | cortinado[s] | estore[s] | persiana[s])] [aqui] [onde estou]
+        response: cover
+        slots:
+          device_class:
+            - blind
+            - curtain
+            - shutter
+          domain: cover
+        requires_context:
+          area:
+            slot: true
