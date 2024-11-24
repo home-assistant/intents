@@ -3,16 +3,32 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<vypnout> [všechny] [stropní] (ventilátory|větráky) <area>"
-          - "<area> <vypnout> [všechny] [stropní] (ventilátory|větráky)"
+          - "(<vypnout> [všechny] [stropní] (ventilátory|větráky);<area>)"
         slots:
           domain: fan
           name: all
         response: "fans_area"
 
       - sentences:
-          - "<vypnout> [stropní] (ventilátor|větrák) <area>"
-          - "<area> <vypnout> [stropní] (ventilátor|větrák)"
+          - "(<vypnout> [stropní] (ventilátor|větrák);<area>)"
+        slots:
+          domain: fan
+        response: "fan"
+
+      - sentences:
+          - "<vypnout> ([<tady>];[všechny] [stropní] (ventilátory|větráky))"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: fan
+        response: "fans_area"
+
+      - sentences:
+          - "<vypnout> ([<tady>];[stropní] (ventilátor|větrák))"
+        requires_context:
+          area:
+            slot: true
         slots:
           domain: fan
         response: "fan"
