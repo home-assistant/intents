@@ -65,7 +65,7 @@ responses:
 
         {% set humidity = state.attributes.get('humidity') %}
         {% if humidity is not none %}
-          {% set report = report + [', wilgotność wynosi ' ~ humidity ~ '%'] %}
+          {% set report = report + [', wilgotność to ' ~ humidity ~ ' procent'] %}
         {% endif %}
 
         {% set pressure = state.attributes.get('pressure') %}
@@ -80,7 +80,7 @@ responses:
           {% elif pressure_unit == 'mbar' %}
             {% set pressure_unit = 'milibarów' %}
           {% endif %}
-          {% set report = report + [', ciśnienie atmosferyczne wynosi ' ~ ((pressure|string).replace(".", ",")) ~ ' ' ~ pressure_unit] %}
+          {% set report = report + [' natomiast ciśnienie atmosferyczne jest na poziomie ' ~ ((pressure|string).replace(".", ",")) ~ ' ' ~ pressure_unit] %}
         {% endif %}
 
         {% set wind_speed = state.attributes.get('wind_speed') %}
@@ -117,7 +117,7 @@ responses:
           {% else %}
             {% set wind_speed_text = 'jest niezwykle silny wiatr' %}
           {% endif %}
-          {% set report = report + [', prędkość wiatru wynosi ' ~ ((wind_speed|string).replace(".", ",")) ~ ' ' ~ wind_speed_unit ~ ' (' ~ wind_speed_text ~ ') '] %}
+          {% set report = report + [', prędkość wiatru wynosi ' ~ ((wind_speed|string).replace(".", ",")) ~ ' ' ~ wind_speed_unit ~ ', ' ~ wind_speed_text ~ ', '] %}
           
           {% if wind_gust_speed != None %}
             {% set report = report + ['jednak w porywach może wynieść nawet ' ~ wind_gust_speed | string | replace('.', ',') ~ ' ' ~ wind_speed_unit] %}
@@ -126,7 +126,7 @@ responses:
 
         {% set cloud_coverage = state.attributes.get('cloud_coverage') %}
         {% if wind_speed is not none %}
-          {% set report = report + [', zachmurzenie wynosi ' ~ cloud_coverage ~ ' procent '] %}
+          {% set report = report + ['. Zachmurzenie osiąga ' ~ cloud_coverage ~ ' procent '] %}
         {% endif %}
 
         {% set uv_index = state.attributes.get('uv_index') %}
