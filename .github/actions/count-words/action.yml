@@ -1,0 +1,52 @@
+name: Count words
+description: In a PR, post a message with the difference of new sentences in each language
+inputs:
+  languages:
+    description: Languages to parse
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Checkout main branch to diff against
+      uses: actions/checkout@v4
+      with:
+        ref: main
+        path: main
+
+    - name: Count words
+      shell: bash
+      env:
+        LANGUAGES: ${{ inputs.languages }}
+      run: |
+        SUMMARY_FILE=`mktemp -p $PWD summary.XXXXX.txt`
+        cd main ;
+
+        IFS=',' read -ra LANG_ARRAY <<< "$LANGUAGES"
+        for lang in "${LANG_ARRAY[@]}"; do
+          echo -n "Counting previous sentences for language: " | tee -a ${SUMMARY_FILE}
+          python3 -m script.intentfest count_sentences --language "$lang" | grep -vE '^-' | tr -d ',' | sort -k2nr | tee -a ${SUMMARY_FILE}
+        done
+
+        cd ..
+
+        IFS=',' read -ra LANG_ARRAY <<< "$LANGUAGES"
+        for lang in "${LANG_ARRAY[@]}"; do
+          echo -n "Counting **NEW** sentences for language: " | tee -a ${SUMMARY_FILE}
+          python3 -m script.intentfest count_sentences --language "$lang" | grep -vE '^-' | tr -d ',' | sort -k2nr | tee -a ${SUMMARY_FILE}
+        done
+
+        # when only 1 language, show the difference count
+        if [ $(wc -l < ${SUMMARY_FILE}) -eq 2 ]; then
+          PREV_COUNT=$(sed -n '1p' ${SUMMARY_FILE} | awk '{print $NF}')
+          NEW_COUNT=$(sed -n '2p' ${SUMMARY_FILE} | awk '{print $NF}')
+          DIFF=$((NEW_COUNT - PREV_COUNT))
+          echo "" >> ${SUMMARY_FILE}
+          echo "New count: $DIFF" | tee -a ${SUMMARY_FILE}
+        fi
+
+    - uses: mshick/add-pr-comment@v2
+      with:
+        message-id: sentence-count
+        refresh-message-position: true
+        message-path: |
+          summary.*.txt
