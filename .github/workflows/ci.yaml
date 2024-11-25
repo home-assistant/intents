@@ -10,7 +10,7 @@ on:
 
 permissions:
   contents: read
-  pull-requests: read
+  pull-requests: write
 
 concurrency:
   # yamllint disable-line rule:line-length
@@ -77,3 +77,9 @@ jobs:
 
       - run: python3 -m script.intentfest parse --language en --sentence 'turn on the lights in the kitchen'
       - run: python3 -m script.intentfest codeowners --check
+
+      - name: Count words
+        if: github.event_name == 'pull_request' && steps.extract-languages.outputs.languages != ''
+        uses: ./.github/actions/count-words
+        with:
+          languages: ${{ steps.extract-languages.outputs.languages }}
