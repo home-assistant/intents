@@ -2,6 +2,17 @@ language: fr
 intents:
   HassClimateGetTemperature:
     data:
+      # area
       - sentences:
-          - "Quelle est la température [<dans>] [[<le>]{area}]"
-          - "Combien fait-il [<dans>] [[<le>]{area}]"
+          - "Quelle est la température <dans> [<le>]{area}"
+          - "Combien fait-il <dans> [<le>]{area}"
+          - "Il fait combien <dans> [<le>]{area}"
+
+      # context awerness
+      - sentences:
+          - "Quelle est la température"
+          - "Combien fait-il"
+          - "Il fait combien"
+        requires_context:
+          area:
+            slot: true
