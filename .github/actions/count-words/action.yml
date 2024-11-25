@@ -39,9 +39,10 @@ runs:
         if [ $(wc -l < ${SUMMARY_FILE}) -eq 2 ]; then
           PREV_COUNT=$(sed -n '1p' ${SUMMARY_FILE} | awk '{print $NF}')
           NEW_COUNT=$(sed -n '2p' ${SUMMARY_FILE} | awk '{print $NF}')
-          DIFF=$((NEW_COUNT - PREV_COUNT))
+          DIFF_ABS=$((NEW_COUNT - PREV_COUNT))
+          DIFF_REL=$((100 * DIFF_ABS / PREV_COUNT))
           echo "" >> ${SUMMARY_FILE}
-          echo "New count: $DIFF" | tee -a ${SUMMARY_FILE}
+          LC_ALL=en_US.UTF-8 printf "New count: %'i (%i%%)\n" $DIFF_ABS $DIFF_REL | tee -a ${SUMMARY_FILE}
         fi
 
     - uses: mshick/add-pr-comment@v2
