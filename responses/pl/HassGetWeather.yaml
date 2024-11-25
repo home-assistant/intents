@@ -23,21 +23,64 @@ responses:
           'windy-variant': 'i wietrznie z zachmurzeniem'
         } %}
         {% set temperature = state.attributes.get('temperature') %}
-        {% set temperature_pl = (temperature|string).replace(".", ",") %}
-        {% if temperature_pl.startswith("-") %}minus {% endif %}{{ temperature_pl.replace("-", "") }} {{ 'stopień' if temperature | int | abs == 1 else 'stopnie' if temperature | int | abs in [2,3,4] else 'stopnie' if (temperature|string)[-1] | int | abs in [2,3,4] else 'stopni' }} celsjusza {{ weather_condition.get((state.state | string).lower(), "") }}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% set temperature_pl = (temperature | string).replace(".", ",") %}
+        {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+        {% set negative_name = "" %}
+        {% if temperature | float < 0 %}
+          {% set negative_name = "minus " %}
+        {% endif %}
+        {% if temperature_decmal == 0 %}
+          {% if temperature | int | abs == 1 %}
+            {% set degree_name = 'stopień' %}
+          {% elif temperature | int | abs in [2, 3, 4] %}
+            {% set degree_name = 'stopnie' %}
+          {% elif (temperature | int | string)[-1] | int | abs in [2, 3, 4] %}
+            {% set degree_name = 'stopnie' %}
+          {% else %}
+            {% set degree_name = 'stopni' %}
+          {% endif %}
+        {% else %}
+          {% set degree_name = "stopnia" %}
+        {% endif %}
+        {% if temperature_unit == "°F" %}
+          {% set temperature_unit = degree_name ~ " farenhajta" %}
+        {% else %}
+          {% set temperature_unit = degree_name ~ " celsjusza" %}
+        {% endif %}
+        {{ negative_name }}{{ temperature_pl.replace("-", "") }} {{ temperature_unit }} {{ weather_condition.get((state.state | string).lower(), "") }}
 
       detailed_weather: >
         {% set report = [] %}
 
         {% set temperature = state.attributes.get('temperature') %}
-        {% set temperature_pl = (temperature|string).replace(".", ",") %}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
         {% if temperature is not none %}
-          {% if (temperature|float) < 0 %}
-            {% set temperature_string = 'minus ' ~ (temperature_pl.replace("-", "")) %}
-          {% else %}
-            {% set temperature_string = temperature_pl %}
+          {% set temperature_pl = (temperature|string).replace(".", ",") %}
+          {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+          {% set negative_name = '' %}
+          {% if temperature | float < 0 %}
+            {% set negative_name = 'minus ' %}
           {% endif %}
-          {% set report = report + ['Obecna temperatura wynosi ' ~ temperature_string ~ ' ' ~ ('stopień' if temperature | int | abs == 1 else 'stopnie' if temperature | int | abs in [2,3,4] else 'stopnie' if (temperature|string)[-1] | int | abs in [2,3,4] else 'stopni') ~ ' celsjusza '] %}
+          {% if temperature_decmal == 0 %}
+            {% if temperature | int | abs == 1 %}
+              {% set degree_name = 'stopień' %}
+            {% elif temperature | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% elif (temperature | int | string)[-1] | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% else %}
+              {% set degree_name = 'stopni' %}
+            {% endif %}
+          {% else %}
+            {% set degree_name = "stopnia" %}
+          {% endif %}
+          {% if temperature_unit == "°F" %}
+            {% set temperature_unit = degree_name ~ " farenhajta" %}
+          {% else %}
+            {% set temperature_unit = degree_name ~ " celsjusza" %}
+          {% endif %}
+          {% set report = report + ['Obecna temperatura wynosi '~ negative_name ~ temperature_pl.replace("-", "") ~ ' ' ~ temperature_unit ~ ' '] %}
         {% endif %}
 
         {% set weather_condition_dict = {
@@ -150,9 +193,33 @@ responses:
 
       temperature: >
         {% set temperature = state.attributes.get('temperature') %}
-        {% set temperature_pl = (temperature|string).replace(".", ",") %}
-        {% if temperature != "" %}
-          Temperatura wynosi {% if temperature_pl.startswith("-") %}minus {% endif %}{{ temperature_pl.replace("-", "") }} {{ 'stopień' if temperature | int | abs == 1 else 'stopnie' if temperature | int | abs in [2,3,4] else 'stopnie' if (temperature|string)[-1] | int | abs in [2,3,4] else 'stopni' }} celsjusza
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% if temperature is not none %}
+          {% set temperature_pl = (temperature | string).replace(".", ",") %}
+          {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+          {% set negative_name = "" %}
+          {% if temperature | float < 0 %}
+            {% set negative_name = "minus " %}
+          {% endif %}
+          {% if temperature_decmal == 0 %}
+            {% if temperature | int | abs == 1 %}
+              {% set degree_name = 'stopień' %}
+            {% elif temperature | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% elif (temperature | int | string)[-1] | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% else %}
+              {% set degree_name = 'stopni' %}
+            {% endif %}
+          {% else %}
+            {% set degree_name = "stopnia" %}
+          {% endif %}
+          {% if temperature_unit == "°F" %}
+            {% set temperature_unit = degree_name ~ " farenhajta" %}
+          {% else %}
+            {% set temperature_unit = degree_name ~ " celsjusza" %}
+          {% endif %}
+          Temperatura wynosi {{ negative_name }}{{ temperature_pl.replace("-", "") }} {{ temperature_unit }}
         {% else %}
           Brak danych temperatury
         {% endif %}
@@ -168,9 +235,33 @@ responses:
 
       dew_point: >
         {% set dew_point = state.attributes.get('dew_point') %}
-        {% set dew_point_pl = (dew_point|string).replace(".", ",") %}
-        {% if dew_point != "" %}
-          Punkt rosy wynosi {% if dew_point_pl.startswith("-") %}minus {% endif %}{{ dew_point_pl.replace("-", "") }} {{ 'stopień' if dew_point | int | abs == 1 else 'stopnie' if dew_point | int | abs in [2,3,4] else 'stopnie' if (dew_point|string)[-1] | int | abs in [2,3,4] else 'stopni' }} celsjusza
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% if dew_point is not none %}
+          {% set dew_point_pl = (dew_point | string).replace(".", ",") %}
+          {% set dew_point_decmal = (dew_point | float - dew_point | int) | round(2) %}
+          {% set negative_name = "" %}
+          {% if dew_point < 0 %}
+            {% set negative_name = "minus " %}
+          {% endif %}
+          {% if dew_point_decmal == 0 %}
+            {% if dew_point | int | abs == 1 %}
+              {% set degree_name = 'stopień' %}
+            {% elif dew_point | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% elif (dew_point | int | string)[-1] | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% else %}
+              {% set degree_name = 'stopni' %}
+            {% endif %}
+          {% else %}
+            {% set degree_name = "stopnia" %}
+          {% endif %}
+          {% if temperature_unit == "°F" %}
+            {% set temperature_unit = degree_name ~ " farenhajta" %}
+          {% else %}
+            {% set temperature_unit = degree_name ~ " celsjusza" %}
+          {% endif %}
+          Punkt rosy wynosi {{ negative_name }}{{ dew_point_pl.replace("-", "") }} {{ temperature_unit }}
         {% else %}
           Brak danych punktu rosy
         {% endif %}
