@@ -242,6 +242,12 @@ TESTS_SCHEMA = vol.Schema(
 TESTS_FIXTURES = vol.Schema(
     {
         vol.Required("language"): str,
+        vol.Optional("floors"): [
+            {
+                vol.Required("name"): str,
+                vol.Required("id"): str,
+            }
+        ],
         vol.Optional("areas"): [
             {
                 vol.Required("name"): str,
