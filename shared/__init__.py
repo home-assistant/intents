@@ -350,7 +350,7 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
 
     # area/floor
     floor_names: List[str] = []
-    for floor in fixtures["floors"]:
+    for floor in fixtures.get("floors", []):
         floor_name = floor["name"]
         if is_template(floor_name):
             floor_names.extend(
@@ -361,7 +361,7 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
             floor_names.append(floor_name.strip())
 
     area_names: List[str] = []
-    for area in fixtures["areas"]:
+    for area in fixtures.get("areas", []):
         area_name = area["name"]
         if is_template(area_name):
             area_names.extend(
