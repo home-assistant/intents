@@ -51,15 +51,15 @@ tests:
   #   All
   #     area
   - sentences:
-      - "Les portes sont-elles fermées dans le salon?"
+      - "Les portes sont-elles ouvertes dans le salon?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "door"
-        state: "off"
+        state: "on"
         area: salon
-    response: "Oui"
+    response: "Non, une porte n'est pas ouvertes"
 
   # Door
   #   All
@@ -92,7 +92,7 @@ tests:
   #   Any
   #     area
   - sentences:
-      - "y a t-il des portes ouvertes dans le salon?"
+      - "y a-t-il des portes ouvertes dans le salon?"
     intent:
       name: HassGetState
       slots:
@@ -106,7 +106,7 @@ tests:
   #   Any
   #     floor
   - sentences:
-      - "y a t-il des portes ouvertes dans le rez-de-chaussée?"
+      - "y a-t-il des portes ouvertes dans le rez-de-chaussée?"
     intent:
       name: HassGetState
       slots:
@@ -120,7 +120,7 @@ tests:
   #   Any
   #     Everywhere
   - sentences:
-      - "y a t-il des portes ouvertes?"
+      - "y a-t-il des portes ouvertes?"
     intent:
       name: HassGetState
       slots:
@@ -262,62 +262,73 @@ tests:
   #   All
   #     area
   - sentences:
-      - "Les fenêtres sont-elles ouvertes dans le salon?"
+      - "Les fenêtres sont-elles fermées dans le salon?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "window"
-        state: "on"
+        state: "off"
         area: salon
+    response: "Non, 2 fenêtres ne sont pas fermées"
+
+  - sentences:
+      - "Les fenêtres sont-elles fermées dans la cuisine?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+        area: cuisine
     response: "Oui"
 
   # Window
   #   All
   #     floor
   - sentences:
-      - "Les fenêtres sont-elles ouvertes dans le rez-de-chaussée?"
+      - "Les fenêtres sont-elles fermées dans le rez-de-chaussée?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "window"
-        state: "on"
+        state: "off"
         floor: Rez-De-Chaussée
-    response: "Oui"
+    response: "Non, 2 fenêtres ne sont pas fermées"
 
   # Window
   #   All
   #     Everywhere
   - sentences:
-      - "Toutes les fenêtres sont-elles ouvertes?"
+      - "Toutes les fenêtres sont-elles fermées?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "window"
-        state: "on"
-    response: "Oui"
+        state: "off"
+    response: "Non, 2 fenêtres ne sont pas fermées"
 
   # Window
   #   Any
   #     area
   - sentences:
-      - "y a t-il des fenêtres fermées dans le salon?"
+      - "y a-t-il des fenêtres ouvertes dans le salon?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "window"
-        state: "off"
+        state: "on"
         area: salon
-    response: "Non"
+    response: "Oui, 2 fenêtres sont ouvertes"
 
   # Window
   #   Any
   #     floor
   - sentences:
-      - "y a t-il des fenêtres fermées dans le rez-de-chaussée?"
+      - "y a-t-il des fenêtres fermées dans le rez-de-chaussée?"
     intent:
       name: HassGetState
       slots:
@@ -331,14 +342,14 @@ tests:
   #   Any
   #     Everywhere
   - sentences:
-      - "y a t-il des fenêtres fermées?"
+      - "y a-t-il des fenêtres ouvertes?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "window"
-        state: "off"
-    response: "Non"
+        state: "on"
+    response: "Oui, 2 fenêtres sont ouvertes"
 
   # Window
   #   How many
@@ -481,7 +492,7 @@ tests:
         device_class: "garage_door"
         state: "off"
         area: garage
-    response: "Non, pas Porte droite"
+    response: "Non, une porte de garage n'est pas fermées"
 
   # Garage door
   #   All
@@ -495,7 +506,7 @@ tests:
         device_class: "garage_door"
         state: "off"
         floor: Rez-De-Chaussée
-    response: "Non, pas Porte droite"
+    response: "Non, une porte de garage n'est pas fermées"
 
   # Garage door
   #   All
@@ -508,13 +519,13 @@ tests:
         domain: "binary_sensor"
         device_class: "garage_door"
         state: "off"
-    response: "Non, pas Porte droite"
+    response: "Non, une porte de garage n'est pas fermées"
 
   # Garage door
   #   Any
   #     area
   - sentences:
-      - "y a t-il des portes de garage ouvertes dans le garage?"
+      - "y a-t-il des portes de garage ouvertes dans le garage?"
     intent:
       name: HassGetState
       slots:
@@ -522,13 +533,13 @@ tests:
         device_class: "garage_door"
         state: "on"
         area: garage
-    response: "Oui, Porte droite est ouverte"
+    response: "Oui, une porte de garage est ouvertes"
 
   # Garage door
   #   Any
   #     floor
   - sentences:
-      - "y a t-il des portes de garage ouvertes dans le rez-de-chaussée?"
+      - "y a-t-il des portes de garage ouvertes dans le rez-de-chaussée?"
     intent:
       name: HassGetState
       slots:
@@ -536,20 +547,20 @@ tests:
         device_class: "garage_door"
         state: "on"
         floor: Rez-De-Chaussée
-    response: "Oui, Porte droite est ouverte"
+    response: "Oui, une porte de garage est ouvertes"
 
   # Garage door
   #   Any
   #     Everywhere
   - sentences:
-      - "y a t-il des portes de garage ouvertes?"
+      - "y a-t-il des portes de garage ouvertes?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "garage_door"
         state: "on"
-    response: "Oui, Porte droite est ouverte"
+    response: "Oui, une porte de garage est ouvertes"
 
   # Garage door
   #   How many
@@ -645,7 +656,7 @@ tests:
         device_class: "occupancy"
         state: "off"
         area: cuisine
-    response: "Non, pas Présence"
+    response: "Non"
 
   # Occupancy
   #   All
@@ -659,7 +670,7 @@ tests:
         device_class: "occupancy"
         state: "off"
         floor: Rez-De-Chaussée
-    response: "Non, pas Présence"
+    response: "Non"
 
   # Occupancy
   #   All
@@ -672,13 +683,13 @@ tests:
         domain: "binary_sensor"
         device_class: "occupancy"
         state: "off"
-    response: "Non, pas Présence"
+    response: "Non"
 
   # Occupancy
   #   Any
   #     area
   - sentences:
-      - "y a t-il quelqu'un dans le garage?"
+      - "y a-t-il quelqu'un dans le garage?"
     intent:
       name: HassGetState
       slots:
@@ -692,7 +703,7 @@ tests:
   #   Any
   #     floor
   - sentences:
-      - "y a t-il quelqu'un dans le rez-de-chaussée"
+      - "y a-t-il quelqu'un dans le rez-de-chaussée"
     intent:
       name: HassGetState
       slots:
@@ -700,4 +711,4 @@ tests:
         device_class: "occupancy"
         state: "on"
         floor: Rez-De-Chaussée
-    response: "Oui, Présence est déclenchée"
+    response: "Oui"
