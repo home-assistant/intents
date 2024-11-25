@@ -8,14 +8,14 @@ responses:
         {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
         {% set negative_name = "" %}
         {% if temperature | float < 0 %}
-        {% set negative_name = "minus " %}
+          {% set negative_name = "minus " %}
         {% endif %}
         {% if temperature_decmal == 0 %}
           {% if temperature | int | abs == 1 %}
             {% set degree_name = 'stopień' %}
           {% elif temperature | int | abs in [2, 3, 4] %}
             {% set degree_name = 'stopnie' %}
-          {% elif (temperature|int|string)[-1] | int | abs in [2, 3, 4] %}
+          {% elif (temperature | int | string)[-1] | int | abs in [2, 3, 4] %}
             {% set degree_name = 'stopnie' %}
           {% else %}
             {% set degree_name = 'stopni' %}
