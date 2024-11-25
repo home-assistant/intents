@@ -21,4 +21,6 @@ responses:
           'windy': 'i wietrznie',
           'windy-variant': 'i wietrznie z zachmurzeniem'
         } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {% set temperature = state.attributes.get('temperature') %}
+        {% set temperature_pl = (temperature|string).replace(".", ",") %}
+        {% if temperature_pl.startswith("-") %}minus {% endif %}{{ temperature_pl.replace("-", "") }} {{ 'stopień' if temperature | int | abs == 1 else 'stopnie' if temperature | int | abs in [2,3,4] else 'stopnie' if (temperature|string)[-1] | int | abs in [2,3,4] else 'stopni' }} celsjusza {{ weather_condition.get((state.state | string).lower(), "") }}

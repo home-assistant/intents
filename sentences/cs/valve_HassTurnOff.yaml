@@ -1,0 +1,26 @@
+language: cs
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - "[u]<zavrit> [ventil] {name} [<area>]"
+        requires_context:
+          domain: valve
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "[u]<zavrit> (ventil[y];<area_floor>)"
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "[u]<zavrit> (ventil[y];[<tady>])"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: valve
+        response: valve
