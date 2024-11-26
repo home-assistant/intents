@@ -4,4 +4,14 @@ responses:
   intents:
     HassCancelAllTimers:
       default: >
-        {{ slots.cancelled }} Timer gestoppt
+        {% if slots.cancelled < 1: %}
+        Keine Timer gestoppt.
+        {% else: %}
+        {{ slots.cancelled }} Timer gestoppt.
+        {% endif %}
+      area: >
+        {% if slots.cancelled < 1: %}
+        Keine Timer im Bereich {{ slots.area }} gestoppt.
+        {% else: %}
+        {{ slots.cancelled }} Timer im Bereich {{ slots.area }} gestoppt.
+        {% endif %}
