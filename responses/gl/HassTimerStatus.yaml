@@ -29,7 +29,7 @@ responses:
             {# Get active timer that will finish soonest #}
             {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
             {% set next_timer = sorted_timers[0] %}
-            {{ num_active_timers }} temporizadores en execución.
+            {{ num_active_timers }} temporizadores activos.
           {% endif %}
 
           {% if num_paused_timers == 1: %}
@@ -40,52 +40,58 @@ responses:
         {% endif %}
 
         {% if next_timer: %}
-          {# At least one active timer #}
-          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
-            1 hora e {{ next_timer.rounded_minutes_left }} minutos
-          {% elif (next_timer.rounded_hours_left == 1): %}
-            1 hora
-          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
-            {{ next_timer.rounded_hours_left }} horas e {{ next_timer.rounded_minutes_left }} minutos
-          {% elif (next_timer.rounded_hours_left > 1): %}
-            {{ next_timer.rounded_hours_left }} horas
-          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
-            1 minuto e {{ next_timer.rounded_seconds_left }} segundos
-          {% elif (next_timer.rounded_minutes_left == 1): %}
-            1 minuto
-          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
-            {{ next_timer.rounded_minutes_left }} minutos e {{ next_timer.rounded_seconds_left }} segundos
-          {% elif (next_timer.rounded_minutes_left > 1): %}
-            {{ next_timer.rounded_minutes_left }} minutos
-          {% elif (next_timer.rounded_seconds_left == 1): %}
-            1 segundo
-          {% elif (next_timer.rounded_seconds_left > 1): %}
-            {{ next_timer.rounded_seconds_left }} segundos
-          {% endif %}
 
           {% if num_timers > 1: %}
-            {# Give some extra information to disambiguate #}
-            restantes en
-            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
-              {{ next_timer.start_hours }} hora e {{ next_timer.start_minutes }} minuto
-            {% elif (next_timer.start_hours > 0): %}
-              {{ next_timer.start_hours }} hora
-            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
-              {{ next_timer.start_minutes }} minuto e {{ next_timer.start_seconds }} segundo
-            {% elif (next_timer.start_minutes > 0): %}
-              {{ next_timer.start_minutes }} minuto
-            {% elif (next_timer.start_seconds > 0): %}
-              {{ next_timer.start_seconds }} segundo
-            {% endif %}
+
+            Ao temporizador
 
             {% if next_timer.name: %}
               {{ next_timer.name }}
             {% elif next_timer.area: %}
-              {{ next_timer.area }}
+              da área {{ next_timer.area }}
             {% endif %}
 
-            temporizador.
-          {% else: %}
-            restantes.
+            de
+
+            {# Give some extra information to disambiguate #}
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} hora{{ "s" if next_timer.start_hours != 1 }} e {{ next_timer.start_minutes }} minuto{{ "s" if next_timer.start_minutes != 1 }}
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} hora{{ "s" if next_timer.start_hours != 1 }}
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} minuto{{ "s" if next_timer.start_minutes != 1 }} e {{ next_timer.start_seconds }} segundo{{ "s" if next_timer.start_seconds != 1 }}
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} minuto{{ "s" if next_timer.start_minutes != 1 }}
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} segundo{{ "s" if next_timer.start_seconds != 1 }}
+            {% endif %}
+
+            quédanlle
+          {% else %}
+            Quédanlle
           {% endif %}
+
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 hora e {{ next_timer.rounded_minutes_left }} minutos.
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 hora.
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} horas e {{ next_timer.rounded_minutes_left }} minutos.
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} horas.
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 minuto e {{ next_timer.rounded_seconds_left }} segundos.
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 minuto.
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} minutos e {{ next_timer.rounded_seconds_left }} segundos.
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} minutos.
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 segundo.
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} segundos.
+          {% endif %}
+
         {% endif %}

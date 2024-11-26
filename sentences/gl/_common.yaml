@@ -62,10 +62,59 @@ lists:
       - "fahrenheit"
       - in: "f"
         out: "fahrenheit"
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_words_seconds:
+    values:
+      - in: "un|unha"
+        out: 1
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_words_minutes:
+    values:
+      - in: "un|unha"
+        out: 1
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_words_hours:
+    values:
+      - in: "un|unha"
+        out: 1
+  timer_half:
+    values:
+      - in: "medi(o|a)"
+        out: 30
+      - in: "1/2"
+        out: 30
+      - in: "[un |1 ]cuarto[ de]"
+        out: 15
+      - in: "(tres|3) cuartos[ de]"
+        out: 45
+      - in: "1/4"
+        out: 15
+      - in: "3/4"
+        out: 45
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   cancela: "cancel(a[r])"
   elimina: "(elimin(a|ar)|borr(a|ar))"
-  establece: "(pon|establec(e|er)|axust(a|ar)|configur(a|ar)|cambi(a[r]))"  
+  establece: "(pon|establec(e|er)|axust(a|ar)|configur(a|ar)|cambi(a[r]))"
   inicia: "(inici(a|ar)|comen(za|zar)|emp[i]e(za|zar))"
   crea: "(cre(a|ar))"
   nome: "[o | a | os | as] {name}"
@@ -74,6 +123,7 @@ expansion_rules:
   area: "[en | no | na | de | do | da] {area}"
   brightness: "{brightness}[%| porcento]"
   cal: "(que|cal|cales)"
+  cal_e: "(cal é [o |a ]|cales son [os |aas ]|c(o|ó)mo (vai|está|marcha|se atopa)[n] [o |a |os |as ])"
   esta: "(está|están|existe|existen|hai)"
   acende: "(acende | activa)"
   engadir: "(engada | engade)"
@@ -84,9 +134,11 @@ expansion_rules:
   todos: "(todos|todas|tódolos|tódalas)"
   que_marca: "([que] (marca|indica|mide) | (indicad|medid|marcad)(a|o) <por> |[que] está (a (indicar | medir | marcar)|(indicando|medindo|marcando)))"
   cal_e_a_medida_do_sensor: "(<cal> [é (a|o)] [(cantidade|medida)|nivel (de|da|do)] | cant(o|a)[s]) <class> (de|do|da|en|no|na|dende|<que_marca>) <nome> [<area>]"
- # Temporizadores
+  # Temporizadores
+  temporizador: "[o |a ](temporizador|conta atrás)"
+  temporizadores: "[o |a |(o|a)s ](temporizador[es]|conta[s] atrás)"
   timer_set: "(<establece>|<inicia>|<crea>)"
-  timer_cancel: "(<cancela>|<elimina>)"  
+  timer_cancel: "(<cancela>|<elimina>)"
 
   nb_seconds: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
   nb_minutes: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
