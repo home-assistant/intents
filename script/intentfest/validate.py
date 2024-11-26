@@ -242,6 +242,12 @@ TESTS_SCHEMA = vol.Schema(
 TESTS_FIXTURES = vol.Schema(
     {
         vol.Required("language"): str,
+        vol.Optional("floors"): [
+            {
+                vol.Required("name"): str,
+                vol.Required("id"): str,
+            }
+        ],
         vol.Optional("areas"): [
             {
                 vol.Required("name"): str,
@@ -585,6 +591,7 @@ def validate_language(
 
             # For timer intents
             slots["timers"] = []
+            slots["canceled"] = 0
 
             # For date/time intents
             slots["date"] = datetime.now().date()
