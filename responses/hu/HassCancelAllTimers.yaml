@@ -1,0 +1,24 @@
+---
+language: hu
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Nem lett egy időzítő sem törölve.
+        {% else: %}
+        {{ slots.canceled }} időzítő lett törölve.
+        {% endif %}
+      area: >
+        {% set magyar_maganhangzok = "aáeéiíoóöőuúüű" %}
+        {% set elso_betu = slots.area[0].lower() %}
+        {% if elso_betu in magyar_maganhangzok %}
+          {% set nevelo = "az" %}
+        {% else %}
+          {% set nevelo = "a" %}
+        {% endif %}
+        {% if slots.canceled < 1: %}
+        Nem lett egy időzítő sem törölve {{ nevelo }} {{ slots.area }} területén.
+        {% else: %}
+        {{ slots.canceled }} időzítő lett törölve {{ nevelo }} {{ slots.area }} területén.
+        {% endif %}

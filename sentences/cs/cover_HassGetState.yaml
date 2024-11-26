@@ -3,42 +3,47 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - "je {name} {cover_states:state} [<area>]"
-          - "je {cover_states:state} {name} [<area>]"
-          - "{cover_states:state} {name} [<area>]"
+          - "je ({name};{cover_states:state}) [<area_floor>]"
+          - "{cover_states:state} {name} [<area_floor>]"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
         response: one_yesno
-        slots:
-          domain: cover
 
       - sentences:
-          - "jaký stav má {name}"
+          - "jaký (stav;(má|je)) {name} [<area_floor>]"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
         response: one_cover
-        slots:
-          domain: cover
 
       - sentences:
-          - "(je|jsou) někter(é|á) {cover_classes:device_class} [<area>] {cover_states:state}"
-          - "(je|jsou) {cover_states:state} někter(é|á) {cover_classes:device_class} [<area>]"
-          - "{cover_states:state} někter(é|á) {cover_classes:device_class}"
+          - "(je|jsou) <nektere> {cover_classes:device_class} [<area_floor>] {cover_states:state}"
+          - "(je|jsou) ({cover_states:state} <nektere> {cover_classes:device_class};[<area_floor>])"
+          - "{cover_states:state} <nektere> {cover_classes:device_class}"
+        slots:
+          domain: cover
         response: any
-        slots:
-          domain: cover
 
       - sentences:
-          - "jsou všechn(a|y) {cover_classes:device_class} [<area>] {cover_states:state}"
-          - "jsou {cover_states:state} všechn(a|y) {cover_classes:device_class} [<area>]"
+          - "jsou všechn(a|y) {cover_classes:device_class} [<area_floor>] {cover_states:state}"
+          - "jsou ({cover_states:state} všechn(a|y) {cover_classes:device_class};[<area_floor>])"
+          - "{cover_states:state} všechn(a|y) {cover_classes:device_class}"
+        slots:
+          domain: cover
         response: all
-        slots:
-          domain: cover
 
       - sentences:
-          - "<ktere> {cover_classes:device_class} [<area>] (jsou|se) {cover_states:state}"
+          - "<ktere> {cover_classes:device_class} [<area_floor>] (je|jsou|se) {cover_states:state}"
+        slots:
+          domain: cover
         response: which
-        slots:
-          domain: cover
 
       - sentences:
-          - "Kolik {cover_classes:device_class} (je|se) [<area>] {cover_states:state}"
-        response: how_many
+          - "Kolik {cover_classes:device_class} ((je|se) {cover_states:state};[<area_floor>])"
+          - "Kolik (je|se) ({cover_states:state} {cover_classes:device_class};[<area_floor>])"
         slots:
           domain: cover
+        response: how_many

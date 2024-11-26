@@ -133,6 +133,14 @@ lists:
         out: "locked"
       - in: "<unlocked>"
         out: "unlocked"
+  position_level:
+    values:
+      - in: "[al] massimo"
+        out: 100
+      - in: "[al] minimo"
+        out: 1
+      - in: "[a] metà"
+        out: 50
 
   # binary_sensor
   bs_battery_states:
@@ -382,6 +390,7 @@ expansion_rules:
   # Parti del discorso
   the: "(l(o |a |e )|i[l] |gli |l(`|’|')[ ]|in |a |(a|ne)(l |llo |lla |lle |ll(`|’|')[ ]|gli ))"
   in: "(all'interno |dentro |in | ne[l |i |gli |llo |lla |lle |ll(`|’|')[ ]])"
+  "on": "su[l|lla]"
   of: "(de[l |llo |lla |lle |ll(`|’|')[ ]|i |gli ]|di )"
   to: "(a[l |llo |lla |lle |ll(`|’|')[ ]|gli ])"
   onto: "(su[l |llo |lla |lle |ll(`|’|')[ ]|gli |[ ]])"
@@ -408,8 +417,10 @@ expansion_rules:
   close: "(chiud(i|ere) | abbass(a|are))"
   set: "( (impost|mett|modific|cambi|sett)(a|are) | rend(i|ere) )"
   numeric_value_set: "(<set> | [fa(`|’|'|i|re) ]((alz|aument|increment|abbass)(a|are) | ridu(ci|rre)) | fa(`|’|'|i|re) (salire|scendere))"
-  to_lock: "(chiud[i|ere]|blocca[re])"
-  unlock: "(apri[re]|sblocca[re]|schiud[i|ere])"
+  to_lock: "(chiud(i|ere)|blocca[re])"
+  unlock: "(apri[re]|sblocca[re]|schiud(i|ere))"
+  add: "(aggiung(i|ere)|inseri(sci|re))"
+  put: "(mett(i|ere))"
 
   # Posti, aree e luoghi
   in_here: "(qu(a|i)|in questa (stanza|camera))"
@@ -436,12 +447,12 @@ expansion_rules:
   timer_set: "(avvia|imposta|crea|attiva)"
   timer_cancel: "(cancella|stoppa|annulla|disattiva|arresta|ferma)"
 
-  # mix numerical and litteral value for seconds, minutes and hours for the setting of the duration of the timer
+  # mix numerical and literal value for seconds, minutes and hours for the setting of the duration of the timer
   nb_seconds_duration: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
   nb_minutes_duration: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
   nb_hours_duration: "({timer_hours:hours}|{timer_words_hours:hours})"
 
-  # mix numerical and litteral value for seconds, minutes and hours for the request of the status of a timer by its initial duration
+  # mix numerical and literal value for seconds, minutes and hours for the request of the status of a timer by its initial duration
   nb_seconds_start: "({timer_seconds:start_seconds}|{timer_words_seconds:start_seconds})"
   nb_minutes_start: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
   nb_hours_start: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"

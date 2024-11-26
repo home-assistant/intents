@@ -2,14 +2,52 @@ language: nl
 intents:
   HassTurnOff:
     data:
-      - sentences:
-          - "[<doe>] <name>[ ][<type>] [<naar>] uit [<in> <area>]"
-          - "[<doe>] <name_area>[ ][<type>] [<naar>] uit"
-          - "<zou> <name>[ ][<type>] [<naar>] (uit willen|uit kunnen|uit) <doe> [<in> <area>]"
-          - "<zou> <name_area>[ ][<type>] [<naar>] (uit willen|uit kunnen|uit) <doe>"
-          - "[<zou>] <name>[ ][<type>] [willen|kunnen] (uit[ ](zetten|doen)|uitschakelen|doen) [<in> <area>]"
-          - "[<zou>] <name_area>[ ][<type>] [willen|kunnen] (uit[ ](zetten|doen)|uitschakelen|doen)"
+      - sentences: &sentences
+          - "[<change>] <name_type> [<to>] uit [<in> <area>]"
+          - "[<change>] <name_area> [<to>] uit"
+          - "[<would>] <name_type> (uit[ ](zetten|doen)|uit[ ]schakelen|doen) [<in> <area>]"
+          - "[<would>] <name_area> (uit[ ](zetten|doen)|uit[ ]schakelen|doen)"
+        expansion_rules:
+          name_type: <name>
         excludes_context:
           domain:
+            - binary_sensor
             - cover
+            - lock
+            - scene
             - script
+            - sensor
+            - valve
+            - vacuum
+
+      # light
+      - sentences: *sentences
+        expansion_rules:
+          name_type: <name>[ ]<light>
+          name_area: &name_area >
+            (
+              <name_type> <in> <area>
+              |<in> <area> <name_type>
+              |<area>[ ]<name_type>
+            )
+        requires_context:
+          domain:
+            - light
+
+      # switch
+      - sentences: *sentences
+        expansion_rules:
+          name_type: <name>[ ]<switch>
+          name_area: *name_area
+        requires_context:
+          domain:
+            - switch
+
+      # fan
+      - sentences: *sentences
+        expansion_rules:
+          name_type: <name>[ ]<fan>
+          name_area: *name_area
+        requires_context:
+          domain:
+            - fan

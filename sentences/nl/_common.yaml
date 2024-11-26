@@ -9,15 +9,147 @@ responses:
 
     # Errors for when user is not logged in
     no_area: "Sorry, ik kan {{ area }} niet vinden"
-    no_domain: "Sorry, ik kan geen enkele {{ domain }} vinden"
-    no_domain_in_area: "Sorry, ik kan geen {{ domain }} vinden in {{ area }}"
-    no_device_class: "Sorry, ik kan geen enkel {{ device_class }} vinden"
-    no_device_class_in_area: "Sorry, ik kan geen {{ device_class }} vinden in {{ area }}"
+    no_domain: >
+      {% set translations = {
+        "button": "knop",
+        "camera": "camera",
+        "input_button": "knop",
+        "alarm_control_panel": "alarm",
+        "automation": "automatisering",
+        "fan": "ventilator",
+        "climate": "thermostaat",
+        "humidifier": "ontvochtiger",
+        "input_boolean": "schakelaar",
+        "siren": "sirence",
+        "water_heater": "boiler",
+        "light": "lamp",
+        "switch": "schakelaar",
+        "script": "script",
+        "remote": "afstandsbediening",
+        "lock": "slot",
+        "vacuum": "stofzuiger",
+        "scene": "scène",
+        "media_player": "mediaspeler",
+        "lawn_mower": "grasmaaier",
+        "valve": "klep"
+        } %}
+      {% if domain in translations -%}
+        Sorry, ik kan geen enkele {{ translations[domain] }} vinden
+      {%- else -%}
+        Sorry, ik kan geen apparaat van dat type vinden.
+      {%- endif %}
+    no_domain_in_area: >
+      {% set translations = {
+        "button": "knop",
+        "camera": "camera",
+        "input_button": "knop",
+        "alarm_control_panel": "alarm",
+        "automation": "automatisering",
+        "fan": "ventilator",
+        "climate": "thermostaat",
+        "humidifier": "ontvochtiger",
+        "input_boolean": "schakelaar",
+        "siren": "sirence",
+        "water_heater": "boiler",
+        "light": "lamp",
+        "switch": "schakelaar",
+        "script": "script",
+        "remote": "afstandsbediening",
+        "lock": "slot",
+        "vacuum": "stofzuiger",
+        "scene": "scène",
+        "media_player": "mediaspeler",
+        "lawn_mower": "grasmaaier",
+        "valve": "klep"
+        } %}
+      {% if domain in translations -%}
+        Sorry, ik kan geen {{ translations[domain] }} vinden in {{ area }}"
+      {%- else -%}
+        Sorry, ik kan in {{ area }} geen apparaat van dat type vinden.
+      {%- endif %}
+    no_device_class: >
+      {% set translations = {
+        "awning": "luifel",
+        "blind": "jaloezie",
+        "curtain": "gordijn",
+        "door": "deur",
+        "garage": "garagedeur",
+        "gate": "poort",
+        "shade": "rolgordijn",
+        "shutter": "rolluik",
+        "window": "raam"
+        } %}
+      {% if device_class in translations -%}
+        Sorry, ik kan geen enkele {{ translations[device_class] }} vinden
+      {%- else -%}
+        Sorry, ik kan geen apparaat van dat type vinden.
+      {%- endif %}
+    no_device_class_in_area: >
+      {% set translations = {
+        "awning": "luifel",
+        "blind": "jaloezie",
+        "curtain": "gordijn",
+        "door": "deur",
+        "garage": "garagedeur",
+        "gate": "poort",
+        "shade": "rolgordijn",
+        "shutter": "rolluik",
+        "window": "raam"
+        } %}
+      {% if device_class in translations -%}
+        Sorry, ik kan geen {{ translations[device_class] }} vinden in {{ area }}"
+      {%- else -%}
+        Sorry, ik kan in {{ area }} geen apparaat van dat type vinden.
+      {%- endif %}
     no_entity: "Sorry, ik kan geen apparaat vinden met de naam {{ entity }}"
     no_entity_in_area: "Sorry, ik kan geen apparaat met de naam {{ entity }} in {{ area }} vinden"
     no_floor: "Sorry, ik kan {{ floor }} niet vinden"
-    no_domain_in_floor: "Sorry, ik kan geen {{ domain }} vinden in {{ floor }}"
-    no_device_class_in_floor: "Sorry, ik kan geen {{ device_class }} vinden in {{ floor }}"
+    no_domain_in_floor: >
+      {% set translations = {
+        "button": "knop",
+        "camera": "camera",
+        "input_button": "knop",
+        "alarm_control_panel": "alarm",
+        "automation": "automatisering",
+        "fan": "ventilator",
+        "climate": "thermostaat",
+        "humidifier": "ontvochtiger",
+        "input_boolean": "schakelaar",
+        "siren": "sirence",
+        "water_heater": "boiler",
+        "light": "lamp",
+        "switch": "schakelaar",
+        "script": "script",
+        "remote": "afstandsbediening",
+        "lock": "slot",
+        "vacuum": "stofzuiger",
+        "scene": "scène",
+        "media_player": "mediaspeler",
+        "lawn_mower": "grasmaaier",
+        "valve": "klep"
+        } %}
+      {% if domain in translations -%}
+        Sorry, ik kan geen {{ translations[domain] }} vinden in {{ area }}"
+      {%- else -%}
+        Sorry, ik kan in {{ floor }} geen apparaat van dat type vinden.
+      {%- endif %}
+    no_device_class_in_floor: >
+      {% set translations = {
+        "awning": "luifel",
+        "blind": "jaloezie",
+        "curtain": "gordijn",
+        "door": "deur",
+        "garage": "garagedeur",
+        "gate": "poort",
+        "shade": "rolgordijn",
+        "shutter": "rolluik",
+        "window": "raam"
+        } %}
+      {% if device_class in translations -%}
+        Sorry, ik kan geen {{ translations[device_class] }} vinden in {{ floor }}"
+      {%- else -%}
+        Sorry, ik kan in {{ floor }} geen apparaat van dat type vinden.
+      {%- endif %}
     no_entity_in_floor: "Sorry, ik kan geen apparaat met de naam {{ entity }} in {{ floor }} vinden"
     entity_wrong_state: "Sorry, geen enkel apparaat heeft de status {{ state | lower }}"
     feature_not_supported: "Sorry, er is geen appararaat wat dit ondersteund."
@@ -25,13 +157,145 @@ responses:
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "Sorry, {{ entity }} is niet ontsloten"
     no_entity_in_area_exposed: "Sorry, {{ entity }} in {{ area }} is niet ontsloten"
-    no_domain_exposed: "Sorry, er is geen {{ domain }} ontsloten"
-    no_domain_in_area_exposed: "Sorry, er is geen {{ domain }} in {{ area }} ontsloten"
-    no_device_class_exposed: "Sorry, er is geen {{ device_class }} ontsloten"
-    no_device_class_in_area_exposed: "Sorry, er is geen {{ device_class }} in {{ area }} ontsloten"
-    no_entity_in_floor_exposed: "Sorry, {{ entity }} in {{ floor }} is niet ontsloten"
-    no_domain_in_floor_exposed: "Sorry, er is geen {{ domain }} in {{ floor }} ontsloten"
-    no_device_class_in_floor_exposed: "Sorry, er is geen {{ device_class }} in {{ floor }} ontsloten"
+    no_domain_exposed: >
+      {% set translations = {
+        "button": "knop",
+        "camera": "camera",
+        "input_button": "knop",
+        "alarm_control_panel": "alarm",
+        "automation": "automatisering",
+        "fan": "ventilator",
+        "climate": "thermostaat",
+        "humidifier": "ontvochtiger",
+        "input_boolean": "schakelaar",
+        "siren": "sirence",
+        "water_heater": "boiler",
+        "light": "lamp",
+        "switch": "schakelaar",
+        "script": "script",
+        "remote": "afstandsbediening",
+        "lock": "slot",
+        "vacuum": "stofzuiger",
+        "scene": "scène",
+        "media_player": "mediaspeler",
+        "lawn_mower": "grasmaaier",
+        "valve": "klep"
+        } %}
+      {% if domain in translations -%}
+        Sorry, er is geen {{ translations[domain] }} ontsloten"
+      {%- else -%}
+        Sorry, er is geen apparaat van dat type ontsloten.
+      {%- endif %}
+    no_domain_in_area_exposed: >
+      {% set translations = {
+        "button": "knop",
+        "camera": "camera",
+        "input_button": "knop",
+        "alarm_control_panel": "alarm",
+        "automation": "automatisering",
+        "fan": "ventilator",
+        "climate": "thermostaat",
+        "humidifier": "ontvochtiger",
+        "input_boolean": "schakelaar",
+        "siren": "sirence",
+        "water_heater": "boiler",
+        "light": "lamp",
+        "switch": "schakelaar",
+        "script": "script",
+        "remote": "afstandsbediening",
+        "lock": "slot",
+        "vacuum": "stofzuiger",
+        "scene": "scène",
+        "media_player": "mediaspeler",
+        "lawn_mower": "grasmaaier",
+        "valve": "klep"
+        } %}
+      {% if domain in translations -%}
+        Sorry, er is geen {{ translations[domain] }} voor {{ area }} ontsloten"
+      {%- else -%}
+        Sorry, er is voor {{ area }} geen apparaat van dat type ontsloten.
+      {%- endif %}
+    no_device_class_exposed: >
+      {% set translations = {
+        "awning": "luifel",
+        "blind": "jaloezie",
+        "curtain": "gordijn",
+        "door": "deur",
+        "garage": "garagedeur",
+        "gate": "poort",
+        "shade": "rolgordijn",
+        "shutter": "rolluik",
+        "window": "raam"
+        } %}
+      {% if device_class in translations -%}
+        Sorry, er is geen {{ translations[device_class] }} ontsloten"
+      {%- else -%}
+        Sorry, er is geen apparaat van dat type ontsloten.
+      {%- endif %}
+    no_device_class_in_area_exposed: >
+      {% set translations = {
+        "awning": "luifel",
+        "blind": "jaloezie",
+        "curtain": "gordijn",
+        "door": "deur",
+        "garage": "garagedeur",
+        "gate": "poort",
+        "shade": "rolgordijn",
+        "shutter": "rolluik",
+        "window": "raam"
+        } %}
+      {% if device_class in translations -%}
+        Sorry, er is geen {{ translations[device_class] }} voor {{ area }} ontsloten"
+      {%- else -%}
+        Sorry, er is voor {{ area }} geen apparaat van dat type ontsloten.
+      {%- endif %}
+    no_entity_in_floor_exposed: "Sorry, {{ entity }} is voor {{ floor }} niet ontsloten"
+    no_domain_in_floor_exposed: >
+      {% set translations = {
+        "button": "knop",
+        "camera": "camera",
+        "input_button": "knop",
+        "alarm_control_panel": "alarm",
+        "automation": "automatisering",
+        "fan": "ventilator",
+        "climate": "thermostaat",
+        "humidifier": "ontvochtiger",
+        "input_boolean": "schakelaar",
+        "siren": "sirence",
+        "water_heater": "boiler",
+        "light": "lamp",
+        "switch": "schakelaar",
+        "script": "script",
+        "remote": "afstandsbediening",
+        "lock": "slot",
+        "vacuum": "stofzuiger",
+        "scene": "scène",
+        "media_player": "mediaspeler",
+        "lawn_mower": "grasmaaier",
+        "valve": "klep"
+        } %}
+      {% if domain in translations -%}
+        Sorry, er is geen {{ translations[domain] }} voor {{ floor }} ontsloten"
+      {%- else -%}
+        Sorry, er is voor {{ floor }} geen apparaat van dat type ontsloten.
+      {%- endif %}
+    no_device_class_in_floor_exposed: >
+      {% set translations = {
+        "awning": "luifel",
+        "blind": "jaloezie",
+        "curtain": "gordijn",
+        "door": "deur",
+        "garage": "garagedeur",
+        "gate": "poort",
+        "shade": "rolgordijn",
+        "shutter": "rolluik",
+        "window": "raam"
+        } %}
+      {% if device_class in translations -%}
+        Sorry, er is geen {{ translations[device_class] }} voor {{ floor }} ontsloten"
+      {%- else -%}
+        Sorry, er is voor {{ floor }} geen apparaat van dat type ontsloten.
+      {%- endif %}
 
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Sorry, er zijn meerdere apparaten met de naam {{ entity }}"
@@ -51,9 +315,9 @@ lists:
       to: 100
   brightness_level:
     values:
-      - in: (max|maximum|maximaal|maximale|[z'n|zijn] hoogst[e])
+      - in: ([het|de] max|[het] maximum|maximaal|[het] maximale|[z'n|zijn|het] hoogst[e])
         out: 100
-      - in: (min|minimum|minimaal|minimale|[z'n|zijn] laagst[e])
+      - in: ([het|de] min|[het] minimum|minimaal|[het] minimale|[z'n|zijn|het] laagst[e])
         out: 1
 
   color:
@@ -101,11 +365,11 @@ lists:
         out: "off"
   on_off_domains:
     values:
-      - in: <lamp>
+      - in: <light>
         out: light
-      - in: <ventilator>
+      - in: <fan>
         out: fan
-      - in: <schakelaar>
+      - in: <switch>
         out: switch
 
   cover_states:
@@ -399,21 +663,26 @@ expansion_rules:
   area: "[de|het] {area}"
   floor: "[de|het] {floor}"
   in: "[in|op|van|bij]"
-  met: "(door|met|bij)"
-  hier: "(hier|in deze (kamer|ruimte))"
-  name_area: "(<name>[[ ]<type>] <in> <area>|[<in> <area>[ ]]<name>[[ ]<type>])"
+  by: "(door|met|bij)"
+  here: "(hier|in deze (kamer|ruimte))"
+  name_area: >
+    (
+      <name> [<in> <area>]
+      |<in> <area> <name>
+      |<area>[ ]<name>
+    )
   sensor_name_area: >
     (
-      [[door|met|bij] [de|het|een] {area}][ ]{name}
-     |[<in> [de|het|een] {area}] [door|met|bij] <name>
-     |[<met>] [de|het|een] {name} [[in|op|van|bij] <area>]
+      [<in>] [<area>][ ]{name}
+      |[<in> [<area>]] [<by>] <name>
+      |[<by>] <name> [<in>] <area>
     )
-  doe: "(zet[ten]|mag|mogen|doe[n]|verander[en]|maak|maken|schakel[en])"
-  zou: "(kan|kun[t]|zal|zou|wil[t]) [je|jij|u]"
-  naar: "(naar|op)"
+  change: "(zet|mag|mogen|doe|verander|maak|schakel)"
+  would: "(kan|kun|wil) (je|jij)"
+  to: "(naar|op)"
   is: "(zijn|is|staa(n|t)|zit[ten]|word[t|en]|lig(t|gen))"
-  alle: "(alle[maal]|elk[e]|ieder[e]|overal)"
-  staat: "(status|staat|stand)"
+  all: "(alle[maal]|elk[e]|ieder[e]|overal)"
+  state: "(status|staat|stand)"
   # cover deivce classes
   awning: "(luifel[s]|[zonne]scherm[en])"
   blind: "(jaloezie[ën]|luxaflex)"
@@ -425,28 +694,37 @@ expansion_rules:
   shutter: "(rolluik[en]|shutter[s])"
   window: "(raam|ramen)"
   # device/entity types
-  lamp: "[de|het|een] (lamp[en]|licht[en]|verlichting)"
-  ventilator: "[de|een] (ventilator[s|en]|fan[s])"
-  schakelaar: "[de|een] (schakelaar[s]|switch[es]|plug[gen])"
-  afdekking: "[de|het] (<awning>|<blind>|<curtain>|<door>|<garage>|<gate>|<shade>|<shutter>|<window>)"
+  light: "[de|het|een] (lamp[en]|licht[en]|verlichting)"
+  fan: "[de|een] (ventilator[s|en]|fan[s])"
+  switch: "[de|een] (schakelaar[s]|switch[es]|plug[gen])"
+  cover: "[de|het] (<awning>|<blind>|<curtain>|<door>|<garage>|<gate>|<shade>|<shutter>|<window>)"
   # lock specific
-  slot: "[de|het|een] ([deur]slot[en]|vergrendeling[en])"
-  op_slot: "<naar> (slot|vergrendeld)"
-  van_slot: "[<naar>] (van [het] slot|ontgrendeld)"
-  slot_name_area: "[<in> <area>] (<slot> [van] [{area}[ ]]<name>|[de|het] {name}[ ]([deur]slot[en]|vergrendeling[en])) [[in|op|van|bij] [de|het] {area}]"
-  # combination of device/entity types
-  type: (<lamp>|<ventilator>|<afdekking>|<schakelaar>)
+  lock: "[de|het|een] ([deur]slot[en]|vergrendeling[en])"
+  locked: "(<to> slot|[<to>] vergrendeld)"
+  unlocked: "[<to>] (van [het] slot|ontgrendeld)"
+  lock_name: >
+    (
+      <lock> [van] <name>
+     |<name>[ ]([deur]slot[en]|vergrendeling[en])
+    )
+  lock_name_area: >
+    (
+      <lock> [van] [{area}[ ]]<name>
+      |<lock_name> [<in> <area>]
+      |[<in> <area>] <lock_name>)
+      |<area>[ ]<name>[ ]([deur]slot[en]|vergrendeling[en]
+    )
   # light brightness
-  helderheid: "[de] (helderheid|felheid|intensiteit|lichtsterkte)"
-  brightness: "{brightness}[ ][%|procent]"
+  brightness: "[de] (helderheid|felheid|intensiteit|lichtsterkte)"
+  brightness_value: "{brightness}[ ][%|procent]"
   # temperature/climate states
   temperature: "{temperature}[ ][°|graden] [{temperature_unit}]"
   warm: "(warm|heet|koud|koel)"
   # cover states
   open: "(open|omhoog|naar boven|opwaarts)"
-  dicht: "(dicht|omlaag|naar beneden|neerwaarts)"
+  closed: "(dicht|omlaag|naar beneden|neerwaarts)"
   # binary_sensor specific
-  detecteer: "(detecteert|registreert|detecteren|registreren|gedetecteerd|geregistreerd|waar[ ]genomen)"
+  detect: "(detecteert|registreert|detecteren|registreren|gedetecteerd|geregistreerd|waar[ ]genomen)"
   sensor: "[een|de] (apparaat|apparaten|sensor[s|en]|iets)"
   sensor_area: >
     (
@@ -454,8 +732,7 @@ expansion_rules:
      |[<in> [de|het] {area}] <sensor>
      |[een|de] (apparaat|apparaten|sensor[s|en]|iets) [[in|op|van|bij] <area>]
     )
-
-  numeric_value_set: "(zet|doe|mag|verander|draai|verhoog|verlaag)"
+  numeric_value_set: "(zet|doe|mag|verander|maak|draai|verhoog|verlaag)"
   media_item: "(lied[je[s]]|nummer[s]|track[s]|item[s]|aflevering[en]|video[s]|film[pje][s]|muziek[je[s]]|playlist[s]|afspeellijst[en])"
   volume: "{volume:volume_level}[[ ]%|procent]"
   position: "{position}[[ ]%|procent]"
@@ -470,8 +747,6 @@ expansion_rules:
     )
 
   # Timers
-  timer_set: "(start|zet|maak|creëer)"
-  timer_cancel: "(annuleer|stop)"
   timer_duration_seconds: "{timer_seconds:seconds} seconde[s|n]"
   timer_duration_minutes: >
     (
@@ -493,6 +768,16 @@ expansion_rules:
   timer_start_minutes: "{timer_minutes:start_minutes} (minuut|minuten) [[en] {timer_seconds:start_seconds} seconde[n|s]]"
   timer_start_hours: "{timer_hours:start_hours} (uur|uren) [[en] {timer_minutes:start_minutes} (minuut|minuten)] [[en] {timer_seconds:start_seconds} seconde[s|n]]"
   timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+  timer_named: (genaamd|met [de] naam|voor [de|het|een])
+  timer_prefix: (<timer_start> |{area}[ ]|{timer_name:name}[ ]|)
+  timer_suffix: >
+    (
+      (van|voor) <timer_start>
+      |[<in>] <area>
+      |<timer_named> {timer_name:name}
+    )
+  my_timer: "[de|mijn|m'n] ([<timer_prefix>](timer|kookwekker)|(timer|kookwekker) <timer_suffix>)"
+  area_timer: "<in> <area> [de|mijn|m'n] (timer|kookwekker)"
 
 skip_words:
   - "alstublieft"
@@ -500,3 +785,6 @@ skip_words:
   - "aub"
   - "ajb"
   - "graag"
+  - "ik wil"
+  - "voor mij"
+  - "voor me"

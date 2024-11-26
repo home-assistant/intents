@@ -659,19 +659,21 @@ expansion_rules:
   diminue: "(diminue|diminuer|baisse|baisser)"
   eclaire: "(éclaire|éclairer|illumine|illuminer)"
   eteins: "(éteint|eteint|éteins|eteins|éteindre|eteindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper|<eteins_dirty>)"
-  ferme: "(ferme|fermer|baisse|baisser|<ferme_dirty>)"
+  ferme: "(ferme|fermer|<baisse>|<ferme_dirty>)"
   lis: "(lis|lire)"
   mets: "(mets|mettre|passe|passer|<mets_dirty>)"
-  ouvre: "(ouvre|ouvrir|monte|monter)"
+  ouvre: "(ouvre|ouvrir|<monte>)"
   regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer|<mets_dirty>)"
   renvoie: "(renvoie|renvoyer|arrête|arrêter|stop[pe]|stopper)"
   reprends: "(remets|remettre|reprends|reprend|reprendre|reprise|relance|relancer)"
   cree: "(créer|crée)"
-  supprime: "(supprime|supprimer)"
+  supprime: "(supprime|supprimer|annule|annuler)"
   enleve: "(enlève|enlever|soustrais|soustrait|soustraire|retranche|retrancher)"
-  ajoute: "(ajoute|ajouter|rajoute|rajouter)"
+  ajoute: "(ajoute|ajouter|ajoutez|rajoute|rajouter|rajoutez)"
   verrouille: "(verrouiller|verrouille|barre|barrer)"
   deverrouille: "(déverrouiller|déverrouille)"
+  monte: (monte|monter)
+  baisse: (baisse|baisser|descendre|descends)
 
   # Dirty Verbs. We have some heavy STT limitations today. We're willing to support this hack for now. Ideally this should be removed once we have a better STT engine. Hence the fact that we decided to put it on a different expansion rules. The goal of this expansion rule is to be removed in the future.
   # Éteins
@@ -709,18 +711,27 @@ expansion_rules:
   second_unit: "(seconde|secondes|sec|s)"
   minute_unit: "(minute|minutes|min|m)"
   hour_unit: "(heure|heures|h)"
+  s_unit: "(sec|s)"
+  m_unit: "(min|m)"
+  h_unit: "h"
 
   # definition of all possible values for the setting of the duration of the timmer
-  timer_duration_seconds: "<nb_seconds_duration>[ ]<second_unit>"
-  timer_duration_minutes: "<nb_minutes_duration>[ ]<minute_unit>[[ ][et][ ]<nb_seconds_duration>[ ][<second_unit>]]"
-  timer_duration_hours: "<nb_hours_duration>[ ]<hour_unit>[[ ][et][ ]<nb_minutes_duration>[ ][<minute_unit>]][[ ][et][ ]<nb_seconds_duration>[ ][<second_unit>]]"
-  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+  timer_duration_seconds: "<nb_seconds_duration> <second_unit>"
+  timer_duration_minutes: "<nb_minutes_duration> <minute_unit>[( | et )<nb_seconds_duration> [<second_unit>]]"
+  timer_duration_hours: "<nb_hours_duration> <hour_unit>[( | et )<nb_minutes_duration> [<minute_unit>]][( | et )<nb_seconds_duration> [<second_unit>]]"
+  timer_duration_s: "<nb_seconds_duration><s_unit>"
+  timer_duration_m: "<nb_minutes_duration><m_unit>[<nb_seconds_duration>[<s_unit>]]"
+  timer_duration_h: "<nb_hours_duration><h_unit>[<nb_minutes_duration>[<m_unit>][<nb_seconds_duration>[<s_unit>]]]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>|<timer_duration_s>|<timer_duration_m>|<timer_duration_h>"
 
   # definition of all possible values for the request of the status of a timmer by its initial duration
-  timer_start_seconds: "<nb_seconds_start>[ ]<second_unit>"
-  timer_start_minutes: "<nb_minutes_start>[ ]<minute_unit>[[ ][et][ ]<nb_seconds_start>[ ][<second_unit>]]"
-  timer_start_hours: "<nb_hours_start>[ ]<hour_unit>[[ ][et][ ]<nb_minutes_start>[ ][<minute_unit>]][[ ][et][ ]<nb_seconds_start>[ ][<second_unit>]]"
-  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+  timer_start_seconds: "<nb_seconds_start> <second_unit>"
+  timer_start_minutes: "<nb_minutes_start> <minute_unit>[( | et )<nb_seconds_start> [<second_unit>]]"
+  timer_start_hours: "<nb_hours_start> <hour_unit>[( | et )<nb_minutes_start> [<minute_unit>]][( | et )<nb_seconds_start> [<second_unit>]]"
+  timer_start_s: "<nb_seconds_start><s_unit>"
+  timer_start_m: "<nb_minutes_start><m_unit>[<nb_seconds_start>[<s_unit>]]"
+  timer_start_h: "<nb_hours_start><h_unit>[<nb_minutes_start>[<m_unit>][<nb_seconds_start>[<s_unit>]]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>|<timer_start_s>|<timer_start_m>|<timer_start_h>"
 
   # Others
   en_route: (en route)|(en marche)

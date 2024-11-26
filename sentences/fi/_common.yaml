@@ -75,9 +75,9 @@ lists:
         out: "fahrenheit"
   brightness_level:
     values:
-      - in: "(max|maksimi|maksimiin|maksimi tasolle|korkein|korkeimmalle tasolle)"
+      - in: "(max|maksimi|maksimiin|maksimi tasolle|maksimitasolle|korkein|korkeimmalle tasolle|täysille|täysillä)"
         out: 100
-      - in: "(min|minimi|minimiin|alin|matalin|matalimmalle tasolle)"
+      - in: "(min|minimi|minimiin|minimille|minimitasolle|alin|matalin|matalimmalle tasolle)"
         out: 1
   on_off_states:
     values:
@@ -160,7 +160,7 @@ lists:
       to: 100
   timer_half:
     values:
-      - in: "(puoli|puoleksi)"
+      - in: "(puoli|puoleksi|puolen|puolen tunnin|puolella tunnilla)"
         out: 30
       - in: "1/2"
         out: 30
@@ -172,6 +172,10 @@ lists:
     values:
       - in: "(3 vartin|3 vartiksi|3 vartilla)"
         out: "45"
+  timer_one_hour:
+    values:
+      - in: "(tunnin|tunti|tunniksi|tunnilla)"
+        out: "1"
   timer_name:
     wildcard: true
   timer_command:
@@ -204,7 +208,7 @@ expansion_rules:
 
   avaa: "(avaa|aukaise|nosta)" # open|open|raise
   sulje: "(sulje|laske)" # close|lower
-  laita: "(kytke|aseta|käännä|säädä|pistä|muuta|laita|siirrä)" # toggle|set|turn|adjust|put|change (for brightness, volume and covers)
+  laita: "(kytke|aseta|käännä|säädä|pistä|muuta|laita)" # toggle|set|turn|adjust|put|change (for brightness, volume and covers)
 
   # Position - covers and valves
   asento: "{position}[[ ]%| prosenttia]"
@@ -293,7 +297,7 @@ expansion_rules:
   värille: "(värille|[väri]sävylle|värivivahteelle)"
   # värittä: "(värittä|[väri]sävyttä|värivivahteetta)"
   # Color, plural forms
-  värit: "(värit|[väri]sävyt|värivivahdteet)"
+  värit: "(värit|[väri]sävyt|värivivahteet)"
   # värien: "(värien|[väri]sävyjen|värivivahteiden)"
   # värejä: "(värejä|[väri]sävyjä|värivivahteita)"
   # väreinä: "(väreinä|[väri]sävyinä|värivivahteina)"
@@ -307,6 +311,7 @@ expansion_rules:
   # väreittä: "(väreittä|[väri]sävyittä|värivivahteitta)"
 
   huone: "{area}" # Room, this Finnish version helps when reading sentences
+
   paikka: "(kaupunki|kaupungissa|paikka|paikassa|kaupungin|paikan)"
   nimi: "{name}"
 
@@ -341,8 +346,13 @@ expansion_rules:
   # laitteille: "[äly]laitteille"
   # laitteitta: "[äly]laitteitta"
 
+  # Special treatment for certain rooms
+  eteinen_pääte: "(eteinen|eteisessä|eteisestä|eteiseen|eteiselle|eteiseltä|eteisen)"
+  ullakko_pääte: "(ullakko|ullakolta|ullakolla|ullakolle|ullakon)"
+
   # Area prefix to avoid congjugating areas if possible
   alue: "(alue|paikka|huone|tila)" # nominatiivi = mikä, kuka
+  alue_taivutus: "<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>"
   alueen: "(alueen|paikan|huoneen|tilan)" # genetiivi = minkä, kenen
   # aluetta: "(aluetta|paikkaa|huonetta|tilaa)" # partitiivi = mitä, ketä
   # alueena: "(alueena|paikkana|huoneena|tilana)" # essiivi = minä, kenä
@@ -354,6 +364,7 @@ expansion_rules:
   alueelta: "(alueelta|paikalta|huoneelta|tilalta)" # ablatiivi = miltä, keneltä
   alueelle: "(alueelle|paikalle|huoneelle|tilalle)" # allatiivi = mille, kenelle
   # alueetta: "(alueetta|paikatta|huoneetta|tilatta)" # abessiivi = ilman mitä, ketä
+  alue_pääte: "({area}[e][ssa|ssä|sta|stä|än|in|an|on|ön|seen|ltä|llä|lla|lta|lle|n])"
   # aluein: "(aluein|paikoin|huonein|tiloin)" # instruktiivi = miten
   # alueineen: "(alueineen|paikkoineen|huoneineen|tiloineen)" # komitatiivi = minkä, kenen kanssa
 
@@ -393,14 +404,14 @@ expansion_rules:
   timer_set: "(aloita|luo|käynnistä|aseta|laita)"
   timer_cancel: "(peruuta|poista|lopeta)"
   timer_duration_seconds: "{timer_seconds:seconds} (sekunti[a]|sekunnilla|sekunniksi|sekunnille|sekunnin)"
-  timer_duration_minutes: "({timer_minutes:minutes} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin)[ [ja ]{timer_seconds:seconds} (sekunti[a]|sekunnilla|sekunniksi|sekunnille|sekunnin)])|({timer_minutes:minutes} ja {timer_half:seconds} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin))|({timer_half:seconds} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin))"
-  timer_duration_hours: "({timer_hours:hours} (tunti[a]|tunnilla|tunniksi|tunnille|tunnin)[ [ja ]{timer_minutes:minutes} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin)][ [ja ]{timer_seconds:seconds} (sekunti[a]|sekunnilla|sekunniksi|sekunnille|sekunnin)])|({timer_hours:hours} ja {timer_half:minutes} (tunti[a]|tunnilla|tunniksi|tunnille|tunnin))|({timer_half:minutes} (tunti[a]|tunnilla|tunniksi|tunnille|tunnin))"
-  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+  timer_duration_minutes: "{timer_three_quarter:minutes}|{timer_quarter:minutes}|({timer_minutes:minutes} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin)[ [ja ]{timer_seconds:seconds} (sekunti[a]|sekunnilla|sekunniksi|sekunnille|sekunnin)])|({timer_minutes:minutes} ja {timer_half:seconds} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin))|({timer_half:seconds} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin))"
+  timer_duration_hours: "{timer_one_hour:hours}|({timer_hours:hours} (tunti[a]|tunnilla|tunniksi|tunnille|tunnin)[ [ja ]{timer_minutes:minutes} (minuutti[a]|minuutilla|minuutiksi|minuutille|minuutin)][ [ja ]{timer_seconds:seconds} (sekunti[a]|sekunnilla|sekunniksi|sekunnille|sekunnin)])|({timer_hours:hours} ja {timer_half:minutes} (tunti[a]|tunnilla|tunniksi|tunnille|tunnin))|({timer_half:minutes} (tunti[a]|tunnilla|tunniksi|tunnille|tunnin))"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>|{timer_hours:hours}.{timer_minutes:minutes}"
 
   timer_start_seconds: "{timer_seconds:start_seconds} (sekunti[a]|sekunnin|sekunnille)"
   timer_start_minutes: "{timer_minutes:start_minutes} (minuutti[a]|minuutin|minuutille)[ [ja ]{timer_seconds:start_seconds} (sekunti[a]|sekunnin|sekunnille)]"
-  timer_start_hours: "{timer_hours:start_hours} (tunti[a]|tunnin|tunnille)[ [ja ]{timer_minutes:start_minutes} (minuutti[a]|minuutin|minuutille)][ [ja ]{timer_seconds:start_seconds} (sekunti[a]|sekunnin|sekunnille)]"
-  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+  timer_start_hours: "{timer_three_quarter:start_minutes}|{timer_quarter:start_minutes}|{timer_one_hour:start_hours}|{timer_hours:start_hours} (tunti[a]|tunnin|tunnille)[ [ja ]{timer_minutes:start_minutes} (minuutti[a]|minuutin|minuutille)][ [ja ]{timer_seconds:start_seconds} (sekunti[a]|sekunnin|sekunnille)]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>|{timer_hours:start_hours}.{timer_minutes:start_minutes}"
 
 skip_words:
   - "voitko" # Can you
