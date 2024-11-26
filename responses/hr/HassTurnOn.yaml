@@ -2,7 +2,27 @@ language: hr
 responses:
   intents:
     HassTurnOn:
-      default: "Palim {{ state.domain }}"
+      default: >-
+        {% set translations = {
+          "button": "sklopku",
+          "camera": "kameru",
+          "input_button": "sklopku",
+          "alarm_control_panel": "alarm",
+          "automation": "automatizaciju",
+          "fan": "ventilator",
+          "climate": "termostat",
+          "humidifier": "ovlaživač",
+          "input_boolean": "prekidač",
+          "siren": "sirenu",
+          "water_heater": "grijalo vode",
+          "light": "svjetlo",
+          "switch": "prekidač",
+          "remote": "daljinski",
+          "vacuum": "usisavač",
+          "media_player": "media player",
+          "lawn_mower": "kosilicu"
+        } %}
+         {{ translations.get(state.domain) }}
       default_name: "Palim {{ slots.name }}"
       lights_area: "Svjetla su upaljena"
       cover_single: "Otvaram {{ slots.name }}"
@@ -11,3 +31,4 @@ responses:
       lock: "Zaključana"
       scene: "Aktivirana"
       script: "Pokrenuta"
+      valve: "Otvoren"
