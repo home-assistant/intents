@@ -585,7 +585,7 @@ def validate_language(
 
             # For timer intents
             slots["timers"] = []
-            slots["cancelled"] = 0
+            slots["canceled"] = 0
 
             # For date/time intents
             slots["date"] = datetime.now().date()
