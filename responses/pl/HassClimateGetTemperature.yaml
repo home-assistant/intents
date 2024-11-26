@@ -5,16 +5,18 @@ responses:
       default: >
         {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
         {% set temperature_pl = (temperature | string).replace(".", ",") %}
-        {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+        {% set temperature_decimal = (temperature | float - temperature | int) | round(2) %}
         {% set negative_name = "" %}
         {% if temperature | float < 0 %}
           {% set negative_name = "minus " %}
         {% endif %}
-        {% if temperature_decmal == 0 %}
+        {% if temperature_decimal == 0 %}
           {% if temperature | int | abs == 1 %}
             {% set degree_name = 'stopień' %}
           {% elif temperature | int | abs in [2, 3, 4] %}
             {% set degree_name = 'stopnie' %}
+          {% elif temperature | int | abs in [12, 13, 14] %}
+            {% set degree_name = 'stopni' %}
           {% elif (temperature | int | string)[-1] | int | abs in [2, 3, 4] %}
             {% set degree_name = 'stopnie' %}
           {% else %}
