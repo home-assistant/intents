@@ -275,10 +275,10 @@ def render_response(
     # For timer intents
     if timers:
         slots["timers"] = [t.asdict() for t in timers]
-        slots["cancelled"] = len(timers)
+        slots["canceled"] = len(timers)
     else:
         slots["timers"] = []
-        slots["cancelled"] = 0
+        slots["canceled"] = 0
 
     # For date/time intents
     slots["date"] = _TEST_DATETIME.date()
