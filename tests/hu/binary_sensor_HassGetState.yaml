@@ -205,7 +205,7 @@ tests:
   - sentences:
       - "Van hideg eszköz?"
       - "Van e bármilyen hideg eszköz?"
-      - "Van e bármilyen hideg dolog?"
+      - "Van e bármilyen hideg érzékelő?"
     intent:
       name: HassGetState
       slots:
@@ -400,7 +400,7 @@ tests:
   - sentences:
       - "Van meleg eszköz?"
       - "Van e bármilyen meleg eszköz?"
-      - "Van e bármilyen meleg dolog?"
+      - "Van e bármilyen meleg érzékelő?"
     intent:
       name: HassGetState
       slots:
@@ -421,7 +421,7 @@ tests:
 
   - sentences:
       - "Mennyi eszköz meleg?"
-      - "Hány dolog meleg?"
+      - "Hány érzékelő meleg?"
     intent:
       name: HassGetState
       slots:
@@ -429,6 +429,60 @@ tests:
         device_class: heat
         state: "on"
     response: "1"
+
+  # Light
+  - sentences:
+      - "jelez fényt a fény szenzor"
+      - "észlelhető fény a fény szenzoron"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "light"
+        name: "fény szenzor"
+        state: "on"
+    response: "Nem"
+
+  - sentences:
+      - "észlelhető fény"
+      - "észlelhető bárhol fény"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Nem"
+
+  - sentences:
+      - "minden fényszenzor jelez"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Nem, fény szenzor nincs ebben az állapotban"
+
+  - sentences:
+      - "Melyik fényszenzor jelez"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Egyik sem"
+
+  - sentences:
+      - "hány fényszenzor jelez"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "0"
 
   # Lock
   - sentences:
@@ -712,7 +766,7 @@ tests:
 
   - sentences:
       - "Bármelyik eszköz be van dugva?"
-      - "Valami dolog be van dugva?"
+      - "Valami eszköz be van dugva?"
     intent:
       name: HassGetState
       slots:

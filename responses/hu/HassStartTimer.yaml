@@ -1,0 +1,25 @@
+language: hu
+responses:
+  intents:
+    HassStartTimer:
+      default: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ ' óra' if h else '' %}
+        {% set m_text = (30 if m in ['fél', '1/2'] else m) ~ ' perc' if m else '' %}
+        {% set s_text = (30 if s in ['fél', '1/2'] else s) ~ ' másodperc' if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list | join(' ') %}
+        {% set name = (slots.name | trim ~ ' néven') if slots.name is defined else '' %}
+        Időzítő beállítva {{ text }} időtartamra {{ name }}
+      command: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ ' óra' if h else '' %}
+        {% set m_text = (30 if m in ['fél', '1/2'] else m) ~ ' perc' if m else '' %}
+        {% set s_text = (30 if s in ['fél', '1/2'] else s) ~ ' másodperc' if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list | join(' ') %}
+        A parancs {{ text }} múlva végrehajtásra kerül
