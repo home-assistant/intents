@@ -4,18 +4,71 @@ responses:
     HassClimateGetTemperature:
       default: >
         {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
-        {% set temperature_pl = (temperature|string).replace(".", ",") %}
-        Temperatura wynosi {% if temperature_pl.startswith("-") %}minus {% endif %}{{ temperature_pl.replace("-", "") }} {{ 'stopień' if temperature | int | abs == 1 else 'stopnie' if temperature | int | abs in [2,3,4] else 'stopnie' if (temperature|string)[-1] | int | abs in [2,3,4] else 'stopni' }}
+        {% set temperature_pl = (temperature | string).replace(".", ",") %}
+        {% set temperature_decimal = (temperature | float - temperature | int) | round(2) %}
+        {% set negative_name = "" %}
+        {% if temperature | float < 0 %}
+          {% set negative_name = "minus " %}
+        {% endif %}
+        {% if temperature_decimal == 0 %}
+          {% if temperature | int | abs == 1 %}
+            {% set degree_name = 'stopień' %}
+          {% elif temperature | int | abs in [2, 3, 4] %}
+            {% set degree_name = 'stopnie' %}
+          {% elif temperature | int | abs in [12, 13, 14] %}
+            {% set degree_name = 'stopni' %}
+          {% elif (temperature | int | string)[-1] | int | abs in [2, 3, 4] %}
+            {% set degree_name = 'stopnie' %}
+          {% else %}
+            {% set degree_name = 'stopni' %}
+          {% endif %}
+        {% else %}
+          {% set degree_name = "stopnia" %}
+        {% endif %}
+        Temperatura wynosi {{ negative_name }}{{ temperature_pl.replace("-", "") }} {{ degree_name }}
 
 # Explanation and Examples:
-# 0 stopni celsjusza
-# 1 stopień celsjusza
-# 2 stopnie celsjusza
-# 3 stopnie celsjusza
-# 4 stopnie celsjusza
-# 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 stopni celsjusza
-# 22,23,24 stopnie celsjusza
-# 25,26,27,28,29,30,31 stopni celsjusza
-# 32,33,34 stopnie celsjusza
-# 35,36,37,38,39,40,41 stopni celsjusza
-# 42,43,44 stopnie celsjusza
+# 0 stopni
+# 1 stopień
+# 2 stopnie
+# 3 stopnie
+# 4 stopnie
+# 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 stopni
+# 22,23,24 stopnie
+# 25,26,27,28,29,30,31 stopni
+# 32,33,34 stopnie
+# 35,36,37,38,39,40,41 stopni
+# 42,43,44 stopnie
+
+# Explanation and Examples with decimal numbers:
+# 0 stopni
+# 0,1 stopnia
+# 0,2 stopnia
+# 0,3 stopnia
+# 0,4 stopnia
+# 0,5 stopnia
+# 0,6 stopnia
+# 0,7 stopnia
+# 0,8 stopnia
+# 0,9 stopnia
+# 1 stopień
+# 1,1 stopnia
+# 1,2 stopnia
+# 1,3 stopnia
+# 1,4 stopnia
+# 1,5 stopnia
+# 1,6 stopnia
+# 1,7 stopnia
+# 1,8 stopnia
+# 1,9 stopnia
+# 2 stopnie
+# 2,1 stopnia
+# 2,2 stopnia
+# 2,3 stopnia
+# 2,4 stopnia
+# 2,5 stopnia
+# 2,6 stopnia
+# 2,7 stopnia
+# 2,8 stopnia
+# 2,9 stopnia
+# 3 stopnie
