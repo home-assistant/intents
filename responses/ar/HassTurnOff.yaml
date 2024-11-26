@@ -2,12 +2,38 @@ language: ar
 responses:
   intents:
     HassTurnOff:
-      default: "تم إطفاء {{state.domain}}"
-      lights_area: "تم إطفاء الأضواء"
-      lights_floor: "تم إطفاء الأضواء"
+      default: >-
+        {% set translations = {
+          "button": "الزر",
+          "camera": "الكاميرا",
+          "input_button": "الزر",
+          "alarm_control_panel": "الإنذار",
+          "automation": "التشغيل الآلي",
+          "fan": "المروحة",
+          "climate": "منظم الحرارة",
+          "humidifier": "مزيل الرطوبة",
+          "input_boolean": "المفتاح الكهربائي",
+          "siren": "صفارة الإنذار",
+          "water_heater": "الغلاية",
+          "light": "الضوء",
+          "switch": "المفتاح الكهربائي",
+          "script": "النص",
+          "remote": "جهاز التحكم عن بعد",
+          "lock": "القفل",
+          "vacuum": "المكنسة الكهربائية",
+          "scene": "المشهد",
+          "media_player": "مشغل الوسائط",
+          "lawn_mower": "جزازة العشب",
+          "valve": "الصمام"
+        } %}
+        تم إطفاء {{ translations.get(state.domain) }}
       light_all: "تم إطفاء جميع الأضواء"
-      fans_area: "تم إطفاء المراوح"
+      lights_floor: "تم إطفاء الأضواء"
+      lights_area: "تم إطفاء الأضواء"
       fan_all: "تم إطفاء جميع المراوح"
+      fans_floor: "تم إطفاء المراوح"
+      fans_area: "تم إطفاء المراوح"
       cover: "تم الاغلاق"
       cover_device_class: "تم اغلاق {{ slots.device_class }}"
       unlock: "تم الفتح"
+      valve: "تم الفتح"
