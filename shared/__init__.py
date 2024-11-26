@@ -181,6 +181,7 @@ def get_matched_timers(timers: List[Timer], result: RecognizeResult) -> List[Tim
     if result.intent.name not in (
         "HassTimerStatus",
         "HassCancelTimer",
+        "HassCancelAllTimers",
         "HassIncreaseTimer",
         "HassDecreaseTimer",
         "HassPauseTimer",
@@ -274,8 +275,10 @@ def render_response(
     # For timer intents
     if timers:
         slots["timers"] = [t.asdict() for t in timers]
+        slots["cancelled"] = len(timers)
     else:
         slots["timers"] = []
+        slots["cancelled"] = 0
 
     # For date/time intents
     slots["date"] = _TEST_DATETIME.date()
