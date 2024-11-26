@@ -81,7 +81,7 @@ responses:
           {% set wind_report = wind_report + [', melynek iránya ' ~ wind_bearing_text] %}
         {% endif %}
         {% if wind_gust_speed is not none %}
-          {% set wind_report = wind_report + [', ' ~ (wind_gust_speed | string) ~ ' ' ~ (wind_speed_unit if wind_speed_unit is not none else 'km/h') ~ ' erősségű széllökésekkel.'] %}
+          {% set wind_report = wind_report + [', ' ~ (wind_gust_speed | string) ~ ' ' ~ (wind_speed_unit if wind_speed_unit is not none else 'km/h') ~ ' sebességű széllökésekkel.'] %}
         {% endif %}
         {{ wind_report | join('') }}
       uv: >
@@ -177,6 +177,6 @@ responses:
         {% set wind_gust_speed = state.attributes.get('wind_gust_speed') | float %}
         {% if wind_gust_speed is not none %}
           {% set wind_speed_unit = state.attributes.get('wind_speed_unit', 'km/h') %}
-          {% set report = report + [', ' ~ wind_gust_speed ~ ' ' ~ wind_speed_unit  ~ ' sebességű széllökéssel.'] %}
+          {% set report = report + [', ' ~ wind_gust_speed ~ ' ' ~ wind_speed_unit  ~ ' sebességű széllökésekkel.'] %}
         {% endif %}
         {{ report | join('') }}
