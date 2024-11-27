@@ -81,6 +81,16 @@ responses:
             {% elif next_timer.area: %}
 
               {% set area_name = next_timer.area.strip() %}
+              {% if '(' in area_name and ')' in area_name %}  {# handle cases like kuhinj(a|i|u) #}
+                {% set prefix = area_name.split('(')[0] %}
+                {% set suffix = area_name | regex_replace('.*\\((.*?)\\).*', '\\1') %}
+                {% set suffix = suffix.split('|')[0] %}
+                {% set area_name = prefix + suffix %}
+              {% endif %}
+              {# remove optional characters like in zahod[u|a] #}
+              {% set area_name = area_name | regex_replace('\\[.*?\\]', '') %}
+              {# use first option when piped: dnevna soba|dnevni boravak #}
+              {% set area_name = area_name.split('|')[0] %}
 
               u prostoriji
               {{ area_name.strip() }}
