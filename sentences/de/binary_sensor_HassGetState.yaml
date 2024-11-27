@@ -3,10 +3,26 @@ intents:
   HassGetState:
     data:
       # https://www.home-assistant.io/integrations/binary_sensor/
+
+      # --------------------------------------------------------------------------------
       # Door
+      # --------------------------------------------------------------------------------
+      # Yes / No Questions
+      #   Name
       - sentences:
-          - "(ist|steht) <name>[ <area>] {bs_door_states:state}"
+          - "(ist|steht) <name> {bs_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # Yes / No Questions
+      #   Name + Area
+      - sentences:
           - "(ist|steht) <name> {bs_door_states:state} <area>"
+          - "(ist|steht) <name> <area> {bs_door_states:state}"
           - "(ist|steht) <area> <name> {bs_door_states:state}"
         response: einzeln_janein
         requires_context:
@@ -15,11 +31,183 @@ intents:
         slots:
           domain: binary_sensor
           device_class: door
-
-      # Garage door
+      # Yes / No Questions
+      #   Name + Floor
       - sentences:
-          - "(ist|steht) <name>[ <area>] {bs_garage_door_states:state}"
+          - "(ist|steht) <name> {bs_door_states:state} <floor>"
+          - "(ist|steht) <name> <floor> {bs_door_states:state}"
+          - "(ist|steht) <floor> <name> {bs_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # All
+      #   Everywhere
+      - sentences:
+          - "sind <alle_tueren> {bs_door_states:state}"
+        response: alle
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # All
+      #   Area
+      - sentences:
+          - "sind <alle_tueren> {bs_door_states:state} <area>"
+          - "sind <alle_tueren> <area> {bs_door_states:state}"
+          - "sind <area> <alle_tueren> {bs_door_states:state}"
+        response: alle
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # All
+      #   Floor
+      - sentences:
+          - "sind <alle_tueren> {bs_door_states:state} <floor>"
+          - "sind <alle_tueren> <floor> {bs_door_states:state}"
+          - "sind <floor> <alle_tueren> {bs_door_states:state}"
+        response: alle
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # Any
+      #   Everywhere
+      - sentences:
+          - "(ist|sind) <irgend> <tuer> {bs_door_states:state}"
+        response: irgendeins
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # Any
+      #   Area
+      - sentences:
+          - "(ist|sind) <irgend> <tuer> {bs_door_states:state} <area>"
+          - "(ist|sind) <irgend> <tuer> <area> {bs_door_states:state}"
+          - "(ist|sind) <area> <irgend> <tuer> {bs_door_states:state}"
+        response: irgendeins
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # Any
+      #   Floor
+      - sentences:
+          - "(ist|sind) <irgend> <tuer> {bs_door_states:state} <floor>"
+          - "(ist|sind) <irgend> <tuer> <floor> {bs_door_states:state}"
+          - "(ist|sind) <floor> <irgend> <tuer> {bs_door_states:state}"
+        response: irgendeins
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # How many
+      #   Everywhere
+      - sentences:
+          - "<wieviel> <tuer> sind {bs_door_states:state}"
+        response: wie_viele
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # How many
+      #   Area
+      - sentences:
+          - "<wieviel> <tuer> {bs_door_states:state} <area>"
+          - "<wieviel> <tuer> <area> {bs_door_states:state}"
+        response: wie_viele
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # How many
+      #   Floor
+      - sentences:
+          - "<wieviel> <tuer> {bs_door_states:state} <floor>"
+          - "<wieviel> <tuer> <floor> {bs_door_states:state}"
+        response: wie_viele
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # Which
+      #   Everywhere
+      - sentences:
+          - "<welche> <tuer> sind {bs_door_states:state}"
+        response: welches
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # Which
+      #   Area
+      - sentences:
+          - "<welche> <tuer> {bs_door_states:state} <area>"
+          - "<welche> <tuer> <area> {bs_door_states:state}"
+        response: welches
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+      # Which
+      #   Floor
+      - sentences:
+          - "<welche> <tuer> {bs_door_states:state} <floor>"
+          - "<welche> <tuer> <floor> {bs_door_states:state}"
+        response: welches
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # --------------------------------------------------------------------------------
+      # Garage door
+      # --------------------------------------------------------------------------------
+      # Yes / No Questions
+      #   Name
+      - sentences:
+          - "(ist|steht) <name> {bs_garage_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # Yes / No Questions
+      #   Name + Area
+      - sentences:
           - "(ist|steht) <name> {bs_garage_door_states:state} <area>"
+          - "(ist|steht) <name> <area> {bs_garage_door_states:state}"
           - "(ist|steht) <area> <name> {bs_garage_door_states:state}"
         response: einzeln_janein
         requires_context:
@@ -28,13 +216,342 @@ intents:
         slots:
           domain: binary_sensor
           device_class: garage_door
-
-      # Window
+      # Yes / No Questions
+      #   Name + Floor
       - sentences:
-          - "(ist|steht) <name>[ <area>] {bs_window_states:state}"
+          - "(ist|steht) <name> {bs_garage_door_states:state} <floor>"
+          - "(ist|steht) <name> <floor> {bs_garage_door_states:state}"
+          - "(ist|steht) <floor> <name> {bs_garage_door_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # All
+      #   Everywhere
+      - sentences:
+          - "sind <alle_garagen> {bs_garage_door_states:state}"
+        response: alle
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # All
+      #   Area
+      - sentences:
+          - "sind <alle_garagen> {bs_garage_door_states:state} <area>"
+          - "sind <alle_garagen> <area> {bs_garage_door_states:state}"
+          - "sind <area> <alle_garagen> {bs_garage_door_states:state}"
+        response: alle
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # All
+      #   Floor
+      - sentences:
+          - "sind <alle_garagen> {bs_garage_door_states:state} <floor>"
+          - "sind <alle_garagen> <floor> {bs_garage_door_states:state}"
+          - "sind <floor> <alle_garagen> {bs_garage_door_states:state}"
+        response: alle
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # Any
+      #   Everywhere
+      - sentences:
+          - "(ist|sind) <irgend> <garage> {bs_garage_door_states:state}"
+        response: irgendeins
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # Any
+      #   Area
+      - sentences:
+          - "(ist|sind) <irgend> <garage> {bs_garage_door_states:state} <area>"
+          - "(ist|sind) <irgend> <garage> <area> {bs_garage_door_states:state}"
+          - "(ist|sind) <area> <irgend> <garage> {bs_garage_door_states:state}"
+        response: irgendeins
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # Any
+      #   Floor
+      - sentences:
+          - "(ist|sind) <irgend> <garage> {bs_garage_door_states:state} <floor>"
+          - "(ist|sind) <irgend> <garage> <floor> {bs_garage_door_states:state}"
+          - "(ist|sind) <floor> <irgend> <garage> {bs_garage_door_states:state}"
+        response: irgendeins
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # How many
+      #   Everywhere
+      - sentences:
+          - "<wieviel> <garage> sind {bs_garage_door_states:state}"
+        response: wie_viele
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # How many
+      #   Area
+      - sentences:
+          - "<wieviel> <garage> {bs_garage_door_states:state} <area>"
+          - "<wieviel> <garage> <area> {bs_garage_door_states:state}"
+        response: wie_viele
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # How many
+      #   Floor
+      - sentences:
+          - "<wieviel> <garage> {bs_garage_door_states:state} <floor>"
+          - "<wieviel> <garage> <floor> {bs_garage_door_states:state}"
+        response: wie_viele
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # Which
+      #   Everywhere
+      - sentences:
+          - "<welche> <garage> sind {bs_garage_door_states:state}"
+        response: welches
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # Which
+      #   Area
+      - sentences:
+          - "<welche> <garage> {bs_garage_door_states:state} <area>"
+          - "<welche> <garage> <area> {bs_garage_door_states:state}"
+        response: welches
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+      # Which
+      #   Floor
+      - sentences:
+          - "<welche> <garage> {bs_garage_door_states:state} <floor>"
+          - "<welche> <garage> <floor> {bs_garage_door_states:state}"
+        response: welches
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # --------------------------------------------------------------------------------
+      # Window
+      # --------------------------------------------------------------------------------
+      # Yes / No Questions
+      #   Name
+      - sentences:
+          - "(ist|steht) <name> {bs_window_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # Yes / No Questions
+      #   Name + Area
+      - sentences:
           - "(ist|steht) <name> {bs_window_states:state} <area>"
+          - "(ist|steht) <name> <area> {bs_window_states:state}"
           - "(ist|steht) <area> <name> {bs_window_states:state}"
         response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # Yes / No Questions
+      #   Name + Floor
+      - sentences:
+          - "(ist|steht) <name> {bs_window_states:state} <floor>"
+          - "(ist|steht) <name> <floor> {bs_window_states:state}"
+          - "(ist|steht) <floor> <name> {bs_window_states:state}"
+        response: einzeln_janein
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # All
+      #   Everywhere
+      - sentences:
+          - "sind <alle_fenster> {bs_window_states:state}"
+        response: alle
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # All
+      #   Area
+      - sentences:
+          - "sind <alle_fenster> {bs_window_states:state} <area>"
+          - "sind <alle_fenster> <area> {bs_window_states:state}"
+          - "sind <area> <alle_fenster> {bs_window_states:state}"
+        response: alle
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # All
+      #   Floor
+      - sentences:
+          - "sind <alle_fenster> {bs_window_states:state} <floor>"
+          - "sind <alle_fenster> <floor> {bs_window_states:state}"
+          - "sind <floor> <alle_fenster> {bs_window_states:state}"
+        response: alle
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # Any
+      #   Everywhere
+      - sentences:
+          - "(ist|sind) <irgend> <fenster> {bs_window_states:state}"
+        response: irgendeins
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # Any
+      #   Area
+      - sentences:
+          - "(ist|sind) <irgend> <fenster> {bs_window_states:state} <area>"
+          - "(ist|sind) <irgend> <fenster> <area> {bs_window_states:state}"
+          - "(ist|sind) <area> <irgend> <fenster> {bs_window_states:state}"
+        response: irgendeins
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # Any
+      #   Floor
+      - sentences:
+          - "(ist|sind) <irgend> <fenster> {bs_window_states:state} <floor>"
+          - "(ist|sind) <irgend> <fenster> <floor> {bs_window_states:state}"
+          - "(ist|sind) <floor> <irgend> <fenster> {bs_window_states:state}"
+        response: irgendeins
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # How many
+      #   Everywhere
+      - sentences:
+          - "<wieviel> <fenster> sind {bs_window_states:state}"
+        response: wie_viele
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # How many
+      #   Area
+      - sentences:
+          - "<wieviel> <fenster> {bs_window_states:state} <area>"
+          - "<wieviel> <fenster> <area> {bs_window_states:state}"
+        response: wie_viele
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # How many
+      #   Floor
+      - sentences:
+          - "<wieviel> <fenster> {bs_window_states:state} <floor>"
+          - "<wieviel> <fenster> <floor> {bs_window_states:state}"
+        response: wie_viele
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # Which
+      #   Everywhere
+      - sentences:
+          - "<welche> <fenster> sind {bs_window_states:state}"
+        response: welches
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # Which
+      #   Area
+      - sentences:
+          - "<welche> <fenster> {bs_window_states:state} <area>"
+          - "<welche> <fenster> <area> {bs_window_states:state}"
+        response: welches
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window
+      # Which
+      #   Floor
+      - sentences:
+          - "<welche> <fenster> {bs_window_states:state} <floor>"
+          - "<welche> <fenster> <floor> {bs_window_states:state}"
+        response: welches
         requires_context:
           domain: binary_sensor
           device_class: window
