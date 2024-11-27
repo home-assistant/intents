@@ -1,0 +1,92 @@
+language: hr
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Nema timera.
+        {% elif num_active_timers == 0: %}
+          {# Nema aktivnih timera #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Timer je pauziran.
+          {% else: %}
+            {{ num_paused_timers }} pauziranih timera.
+          {% endif %}
+        {% else: %}
+          {# Najmanje jedan aktivan timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Dohvati aktivan timer koji završava najranije #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            Broj aktivnih timera: {{ num_active_timers }}.
+          {% endif %}
+
+          {% if num_paused_timers > 0: %}
+            Broj pauziranih timera: {{ num_paused_timers }}.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# Najmanje jedan aktivan timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 sat i {{ next_timer.rounded_minutes_left }} minuta
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 sat
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} sata i {{ next_timer.rounded_minutes_left }} minuta
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} sata
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 minuta i {{ next_timer.rounded_seconds_left }} sekundi
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 minuta
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} minuta i {{ next_timer.rounded_seconds_left }} sekundi
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} minuta
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 sekunda
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} sekundi
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Dodatne informacije za razlikovanje #}
+            preostalo na
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} sat i {{ next_timer.start_minutes }} minuta
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} sat
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} minuta i {{ next_timer.start_seconds }} sekunda
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} minuta
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} sekunda
+            {% endif %}
+            timeru
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+
+              {% set area_name = next_timer.area.strip() %}
+
+              u prostoriji
+              {{ area_name.strip() }}
+
+            {% endif %}
+          {% else: %}
+            preostalo.
+          {% endif %}
+        {% endif %}
