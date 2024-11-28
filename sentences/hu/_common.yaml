@@ -788,6 +788,43 @@ lists:
       - in: (minimum[ra]|legkisebb[re]|legalacsonyabb[ra])
         out: 1
 
+  default_areas:
+    values:
+      - in: "[a ]konyh(a[i]|ába[n]|át)"
+        out: "konyha"
+      - in: "[a ]mosókonyh(a[i]|ába[n]|át)"
+        out: "mosőkonyha"
+      - in: "[a ]kamr(a|ába[n]|át)"
+        out: "kamra"
+      - in: "[a ]verand(a|án|át)"
+        out: "veranda"
+      - in: "[a ]vécé[ben|t]"
+        out: "WC"
+      - in: "[a ]hálószob(a[i]|ába[n]|át)"
+        out: "hálószoba"
+      - in: "[a ]gyerekszob(a[i]|ába[n]|át)"
+        out: "gyerekszoba"
+      - in: "[a ]dolgozószob(a[i]|ába[n]|át)"
+        out: "szoba"
+      - in: "[a ]vendégszob(a[i]|ába[n]|át)"
+        out: "vendégszoba"
+      - in: "[a ]fürdőszob(a[i]|ába[n]|át)"
+        out: "fürdőszoba"
+      - in: "[az ]előszob(a[i]|ába[n]|át)"
+        out: "előszoba"
+      - in: "[a ]könyvtárszob(a[i]|ába[n]|át)"
+        out: "könyvtárszoba"
+      - in: "[a ]játészob(a[i]|ába[n]|át)"
+        out: "játékszoba"
+      - in: "[a ]fitneszszob(a[i]|ába[n]|át)"
+        out: "fitneszszoba"
+      - in: "[a ]hobby szob(a[i]|ába[n]|át)"
+        out: "hobby szoba"
+      - in: "[a ]kamr(a|ába[n]|át)"
+        out: "kamra"
+      - in: "[a ]pinc(e|ében|ét)"
+        out: "pince"
+
   timer_seconds:
     range:
       from: 1
@@ -815,7 +852,7 @@ expansion_rules:
   name: "[a |az ]{name}[<name_ragok>| <name_szavak>]"
   name_ragok: "(n(a|e)k|[o|e]t|r(a|e)|[o|e|ö]n)"
   name_szavak: "((eszköz|érzékelő)[nek|t|re]|szenzor[nak|t|ra])"
-  area: "[a |az ]{area}[<area_ragok>|<area_szavak>]"
+  area: "([a |az ]{area}[<area_ragok>|<area_szavak>]|{default_areas:area})"
   area_ragok: "(b(a|e)[n]|(o|e|ö)n|t|i)"
   area_szavak: "([ ](szob(a[i]|ába[n]|át)|hely[i]ség[be[n]|et]))"
   floor: "[a |az ]{floor}[en|i| szint[en]| emelet[en|i]]"
