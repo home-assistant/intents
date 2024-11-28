@@ -3,7 +3,34 @@ responses:
   intents:
     HassTimerStatus:
       default: |
-
+        {% macro normalize_string(sentence) %}
+          {%- set ns = namespace(is_finished=false,is_first=true,current_term = '', in_square_brackets = false, in_round_brackets = false) %}
+          {%- for char in sentence %}
+            {% if not ns.is_finished %}
+              {%- if char == ' ' %}
+                {%- set ns.is_first = true %}
+              {%- endif %}
+              {%- if char == '[' %}
+                {%- set ns.in_square_brackets = true %}
+              {%- elif char == ']' %}
+                {%- set ns.in_square_brackets = false %}
+              {%- elif char == '(' %}
+                {%- set ns.in_round_brackets = true %}
+              {%- elif char == ')' %}
+                {%- set ns.in_round_brackets = false %}
+              {%- elif char == '|' and not ns.in_square_brackets and not ns.in_round_brackets %}
+                {# break is not working #}
+                {%- set ns.is_finished = true %}
+              {%- elif ns.in_round_brackets and ns.is_first %}
+                {%- set ns.current_term = ns.current_term + char %}
+                {%- set ns.is_first = false %}
+              {%- elif not ns.in_square_brackets and not ns.in_round_brackets %}
+                {%- set ns.current_term = ns.current_term + char %}
+              {%- endif %}
+            {%- endif %}
+          {%- endfor %}
+          {{ ns.current_term }}
+        {% endmacro %}
         {% set num_timers = slots.timers | length %}
         {% set active_timers = slots.timers | selectattr('is_active') | list %}
         {% set num_active_timers = active_timers | length %}
@@ -80,10 +107,10 @@ responses:
               {{ next_timer.name }}
             {% elif next_timer.area: %}
 
-              {% set area_name = next_timer.area.strip() %}
+              {% set area_name = normalize_string(next_timer.area) %}
 
               u prostoriji
-              {{ area_name.strip() }}
+              {{ area_name }}
 
             {% endif %}
           {% else: %}
