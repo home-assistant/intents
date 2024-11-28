@@ -4,6 +4,31 @@ responses:
     HassTimerStatus:
       default: |
 
+
+        {% macro normalize_string(value) %}
+          {# Handle optional groups in parentheses like "(a|u|i)" #}
+          {% if '(' in value and ')' in value %}
+            {% set prefix = value.split('(')[0] %}  {# Extract the part before the parentheses #}
+            {% set inside_parentheses = value.split('(')[1].split(')')[0] %}  {# Extract the part inside the parentheses #}
+            {% set suffix = inside_parentheses.split('|')[0] %}  {# Take the first option inside the parentheses #}
+            {% set value = prefix + suffix %}  {# Combine prefix with the selected suffix #}
+          {% endif %}
+
+          {# Remove content in square brackets like "[u|skom]" #}
+          {% if '[' in value and ']' in value %}
+            {% set prefix = value.split('[')[0] %}  {# Extract the part before the square brackets #}
+            {% set value = prefix %}  {# Use only the prefix #}
+          {% endif %}
+
+          {# Handle pipe-separated alternatives like "dnevna soba|dnevni boravak" #}
+          {% if '|' in value %}
+            {% set value = value.split('|')[0] %}  {# Take the first option in the pipe-separated list #}
+          {% endif %}
+
+          {# Trim whitespace #}
+          {{ value.strip() }}
+        {% endmacro %}
+
         {% set num_timers = slots.timers | length %}
         {% set active_timers = slots.timers | selectattr('is_active') | list %}
         {% set num_active_timers = active_timers | length %}
@@ -80,20 +105,10 @@ responses:
               {{ next_timer.name }}
             {% elif next_timer.area: %}
 
-              {% set area_name = next_timer.area.strip() %}
-              {% if '(' in area_name and ')' in area_name %}  {# handle cases like kuhinj(a|i|u) #}
-                {% set prefix = area_name.split('(')[0] %}
-                {% set suffix = area_name | regex_replace('.*\\((.*?)\\).*', '\\1') %}
-                {% set suffix = suffix.split('|')[0] %}
-                {% set area_name = prefix + suffix %}
-              {% endif %}
-              {# remove optional characters like in zahod[u|a] #}
-              {% set area_name = area_name | regex_replace('\\[.*?\\]', '') %}
-              {# use first option when piped: dnevna soba|dnevni boravak #}
-              {% set area_name = area_name.split('|')[0] %}
+              {% set area_name = normalize_string(next_timer.area) %}
 
               u prostoriji
-              {{ area_name.strip() }}
+              {{ area_name }}
 
             {% endif %}
           {% else: %}
