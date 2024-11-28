@@ -3,7 +3,23 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - (<apaga>|<tanca>) [<pronom_singular>]aire [a][condicionat] [<area>]
-          - (<apaga>|<tanca>) [<pronom_singular>] calefacció [<area>]
+          - "(<apaga>|<tanca>) [<pronom_singular>]aire [a][condicionat]"
+          - "(<apaga>|<tanca>) [<pronom_singular>] calefacció"
+        slots:
+          domain: climate
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "(<apaga>|<tanca>) [<pronom_singular>]aire [a][condicionat] <area>"
+          - "(<apaga>|<tanca>) [<pronom_singular>] calefacció <area>"
+        slots:
+          domain: climate
+
+      - sentences:
+          - "(<apaga>|<tanca>) tots <pronom_plural> aires [a][condicionats] [<area>]"
+          - "(<apaga>|<tanca>) tot <pronom_singular>aire [a][condicionat] [<area>]"
+          - "(<apaga>|<tanca>) tota <pronom_singular> calefacció [<area>]"
         slots:
           domain: climate

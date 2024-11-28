@@ -110,6 +110,8 @@ lists:
         out: unlocked
   shopping_list_item:
     wildcard: true
+  zone:
+    wildcard: true
   position:
     range:
       type: "percentage"
@@ -140,9 +142,9 @@ lists:
         out: 30
       - in: "1/2"
         out: 30
-      - in: "[un |1 ]quart[ de| d']"
+      - in: "[un|1] quart [de |d']"
         out: 15
-      - in: "(tres|3) quarts[ de| d']"
+      - in: "(tres|3) quarts [de |d']"
         out: 45
   timer_name:
     wildcard: true
@@ -151,36 +153,43 @@ lists:
 
 expansion_rules:
   actual: "(ara|actual[ment])"
-  pronom_singular: "(el|la|es|sa|l'|s')[ ]"
-  pronom_plural: "(els|les|es|ses)[ ]"
+  pronom_singular: "((el|la|es|sa) |l'|s')"
+  pronom_plural: "(els|les|es|ses)"
   pronom: "(<pronom_singular>|<pronom_plural>)"
-  preposicio_singular: "(en|de|a)[l|ls|s][ <pronom_singular>][ ]"
-  preposicio: "(en|de|a)[l|ls|s][ <pronom>][ ]"
+  preposicio_base: "(<preposicio_base_singular>|<preposicio_base_plural>)"
+  preposicio_base_singular: "(en|de|del|a|al)"
+  preposicio_base_plural: "(dels|als)"
+  preposicio_singular: "<preposicio_base_singular> [<pronom_singular>]"
+  preposicio_singular_masc: "(de|del|pel|al|a|en|en el)"
+  preposicio: "<preposicio_base> [<pronom>]"
   name: "[<pronom_singular>]{name}"
   area: "[<preposicio_singular>]{area}"
   quin_es: "(quin|quina|què) és"
-  lluentor: "{brightness} [per cent]"
+  lluentor: "{brightness}[<percent>]"
+  al_stt_typo: "(del|el|en|o)"
   engega: "(encén|encendre|engega|posa|activa|<engega_stt_typo>)[r|t]"
-  engega_stt_typo: "(en|em)[ ](geguen|gendra|llega|sembla|Àngela)"
-  apaga: "(apaga[guen]|atura|desconnecta|para)[r|t]"
+  engega_stt_typo: "((en|em)[ ](geguen|gendra|llega|sembla))|(Àngela|posen)"
+  apaga: "(apaga[guen]|atura|desconnecta|para)[r|t]|<apaga_stt_typo>"
+  apaga_stt_typo: "(a paga[r])"
   tanca: "tanca[r|t]"
   obre: "(obr(e|i|ir)|obert|òbriga)"
-  llums: "((el|la|es|sa) llum|(els|les|es|ses) llums)"
+  llums: "([el|la|es|sa] llum|[els|les|es|ses] llums)"
   temp: "(temperatura)"
   graus: "{temperature} [graus] [{temperature_unit}]"
   pujar: "([a]puja|aixeca)[r|t]"
   baixar: "[a]baixa[r|t]"
-  configura: "(posa[r]|configura[r]|ajusta[r]|canvia[r]|establ(ir|eix|ix))"
-  posició: "{position}[ ][%|per[ ]cent]"
-  percent: "[ ](%|per[ ]cent)"
+  configura: "(posa[r]|puja[r]|configura[r]|ajusta[r]|canvia[r]|establ(ir|eix|ix))"
+  posició: "{position}[<percent>]"
+  percent: "(%|per[ ]cent)"
   cancela: "cancel[·l]a[r|t]"
-  seguent: "(següent|proper[a]|pròxim[a])"
-  anterior: "[l'|s'](anterior|enrer(e|a)|últim[a])"
-  element: "(element|ítem|pista|peça|cançó|tema|tonada|mitjà|canal|recurs|vídeo|clip|film)"
-  reproduir: "(reprodu(ir|eix|ix)|posa|fica|salta|passa|canvia|escolta)[r]"
+  seguent: "següent|(proper|pròxim)[a]"
+  anterior: "[l'|s'](anterior|enrer(e|a)|últim[a])|d'abans"
+  element: "(element|ítem|pista|peça|música|cançó|tema|tonada|mitjà|canal|recurs|vídeo|clip|film)"
+  reproduir: "reprodu(ir|eix|ix)|passa[r] [endavant]|(toca|posa|fica|salta|canvia|escolta|continua)[r]"
+  reproduir_again: "(reproduir|posar|ficar|escoltar)"
   reactiva: "(reanuda[r]|reactiva[r]|repr(è|e)n[dre]|continua[r]|segu(ir|eix|ix))"
   hora: "hor(a|es)"
-  how_much: "((quan[t]|quin)[s|a|es]|què)"
+  how_much: "(quan|(quant|quin)[s|a|es]|què)"
   again: "([un|una] altr(e|a) (cop|vegada)|de nou)"
 
   # Timers

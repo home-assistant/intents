@@ -3,15 +3,53 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off> [<all>] <light> [<in>] <area>"
-        slots:
-          domain: light
-          name: all
-        response: lights_area
+          - "[<turn_off>] (<in> <area> [<light>] <name>|[<light>] <name> [in <area>])"
+        expansion_rules:
+          all_lights: "([<all>] <light>|<light> [<all>])"
+        requires_context:
+          domain: "light"
 
+      # Turn on all lights in an area
       - sentences:
-          - "<turn_off> [<all>] <light>"
+          - "<turn_off> <all_lights> [<in>] <area>"
+          - "<turn_off> [<in>] <area> <all_lights>"
+        expansion_rules:
+          all_lights: "([<all>] <light>|<light> [<all>])"
         slots:
-          domain: light
-          name: all
-        response: light_all
+          domain: "light"
+        response: "lights_area"
+
+        # Turn on all lights in the home
+      - sentences:
+          - "<turn_off> <all_lights>"
+          - "<turn_off> [<all>] <light> <everywhere>"
+          - "<turn_off> <everywhere> [<all>] <light>"
+        expansion_rules:
+          all_lights: "(<all> <light>|<light> <all>)"
+        slots:
+          domain: "light"
+        response: "light_all"
+
+        # Turn on lights in the same area as a satellite device
+      - sentences:
+          - "<turn_off> <all_lights> [<here>]"
+          - "<turn_off> [<here>] <all_lights>"
+        expansion_rules:
+          all_lights: "([<all>] <light>|<light> [<all>])"
+          here: "(هنا|هون|هينا)"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
+        response: "lights_area"
+
+      # Turn on all lights on a floor
+      - sentences:
+          - "<turn_off> <all_lights> [<in>] <floor>"
+          - "<turn_off> [<in>] <floor> <all_lights>"
+        expansion_rules:
+          all_lights: "([<all>] <light>|<light> [<all>])"
+        slots:
+          domain: "light"
+        response: "lights_floor"

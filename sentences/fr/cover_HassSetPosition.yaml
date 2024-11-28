@@ -67,7 +67,19 @@ intents:
             slot: true
 
       # name and floor
-      # To be done when it's supported in the slot_combinations
+      - sentences:
+          # ouvre le volet du rez-de-chaussée à 80%
+          - "(<ouvre>|<ferme>) [<le>]{name} [<dans>] [<le>]{floor} [à] {position}<pourcent>"
+          # Règle la position du rideaux du premier étage sur 80%
+          - "<regle> [la position] [<de>] [<le>]{name} [<dans>] [<le>]{floor} [(à|sur)] {position}<pourcent>"
+        requires_context:
+          domain: cover
 
       # device_class and floor
-      # To be done when it's supported in the slot_combinations
+      - sentences:
+          # Ouvre tous les volets du rez-de-chaussée à 80%
+          - "(<ouvre>|<ferme>) [<tous>] [<le>]{cover_classes:device_class} [<dans>] [<le>]{floor} [à] {position}<pourcent>"
+          # Régler la position des rideaux du premier étage sur 40%
+          - "<regle> [la position] [<de>] [<tous>] [<le>]{cover_classes:device_class} [<dans>] [<le>]{floor} [(à|sur)] {position}<pourcent>"
+        slots:
+          domain: cover

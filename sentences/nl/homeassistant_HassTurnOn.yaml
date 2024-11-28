@@ -2,17 +2,54 @@ language: nl
 intents:
   HassTurnOn:
     data:
-      - sentences:
-          - "[<change>] <name>[ ][<type>] [<to>] aan [[<in>] <area>]"
-          - "[<change>] <name_area>[ ][<type>] [<to>] aan"
-          - "<would> <name>[ ][<type>] [<to>] ((aan|in) willen|(aan|in) kunnen|(aan|in)) <change> [[<in>] <area>]"
-          - "<would> <name_area>[ ][<type>] [<to>] ((aan|in) willen|(aan|in) kunnen|(aan|in)) <change>"
-          - "schakel <name>[ ][<type>] [<to>] in [[<in>] <area>]"
-          - "schakel <name_area>[ ][<type>] [<to>] in"
-          - "[<would>] <name>[ ][<type>] [willen|kunnen] (aan[ ](zetten|doen)|inschakelen|doen) [[<in>] <area>]"
-          - "[<would>] <name_area>[ ][<type>] [willen|kunnen] (aan[ ](zetten|doen)|inschakelen|doen)"
+      - sentences: &sentences
+          - "[<change>] <name_type> [<to>] aan [<in> <area>]"
+          - "[<change>] <name_area> [<to>] aan"
+          - "schakel <name_type> [<to>] in [<in> <area>]"
+          - "schakel <name_area> [<to>] in"
+          - "[<would>] <name_type> [<to>] (aan[ ](zetten|doen)|inschakelen) [<in> <area>]"
+          - "[<would>] <name_area> (aan[ ](zetten|doen)|inschakelen)"
+        expansion_rules:
+          name_type: <name>
         excludes_context:
           domain:
+            - binary_sensor
             - cover
+            - lock
             - scene
             - script
+            - sensor
+            - valve
+            - vacuum
+
+      # light
+      - sentences: *sentences
+        expansion_rules:
+          name_type: <name>[ ]<light>
+          name_area: &name_area >
+            (
+              <name_type> <in> <area>
+              |<in> <area> <name_type>
+              |<area>[ ]<name_type>
+            )
+        requires_context:
+          domain:
+            - light
+
+      # switch
+      - sentences: *sentences
+        expansion_rules:
+          name_type: <name>[ ]<switch>
+          name_area: *name_area
+        requires_context:
+          domain:
+            - switch
+
+      # fan
+      - sentences: *sentences
+        expansion_rules:
+          name_type: <name>[ ]<fan>
+          name_area: *name_area
+        requires_context:
+          domain:
+            - fan

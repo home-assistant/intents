@@ -3,6 +3,13 @@ intents:
   HassLightSet:
     data:
       - sentences:
-          - <configura> <llums> (<area> | <name>) al <lluentor>
-          - <engega> <llums> (<area> | <name>) al <lluentor>
+          - <configura> <llums> (<area> | <name>) (al|<al_stt_typo>) <lluentor>
+          - <engega> <llums> (<area> | <name>) (al|<al_stt_typo>) <lluentor>
         response: brightness_area
+
+      - sentences:
+          - (<configura>|<engega>) <llums> (al|<al_stt_typo>) <lluentor>
+        response: brightness_area
+        requires_context:
+          area:
+            slot: true
