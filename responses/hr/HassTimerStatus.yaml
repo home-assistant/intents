@@ -3,32 +3,34 @@ responses:
   intents:
     HassTimerStatus:
       default: |
-
-
-        {% macro normalize_string(value) %}
-          {# Handle optional groups in parentheses like "(a|u|i)" #}
-          {% if '(' in value and ')' in value %}
-            {% set prefix = value.split('(')[0] %}  {# Extract the part before the parentheses #}
-            {% set inside_parentheses = value.split('(')[1].split(')')[0] %}  {# Extract the part inside the parentheses #}
-            {% set suffix = inside_parentheses.split('|')[0] %}  {# Take the first option inside the parentheses #}
-            {% set value = prefix + suffix %}  {# Combine prefix with the selected suffix #}
-          {% endif %}
-
-          {# Remove content in square brackets like "[u|skom]" #}
-          {% if '[' in value and ']' in value %}
-            {% set prefix = value.split('[')[0] %}  {# Extract the part before the square brackets #}
-            {% set value = prefix %}  {# Use only the prefix #}
-          {% endif %}
-
-          {# Handle pipe-separated alternatives like "dnevna soba|dnevni boravak" #}
-          {% if '|' in value %}
-            {% set value = value.split('|')[0] %}  {# Take the first option in the pipe-separated list #}
-          {% endif %}
-
-          {# Trim whitespace #}
-          {{ value.strip() }}
+        {% macro normalize_string(sentence) %}
+          {%- set ns = namespace(is_finished=false,is_first=true,current_term = '', in_square_brackets = false, in_round_brackets = false) %}
+          {%- for char in sentence %}
+            {% if not ns.is_finished %}
+              {%- if char == ' ' %}
+                {%- set ns.is_first = true %}
+              {%- endif %}
+              {%- if char == '[' %}
+                {%- set ns.in_square_brackets = true %}
+              {%- elif char == ']' %}
+                {%- set ns.in_square_brackets = false %}
+              {%- elif char == '(' %}
+                {%- set ns.in_round_brackets = true %}
+              {%- elif char == ')' %}
+                {%- set ns.in_round_brackets = false %}
+              {%- elif char == '|' and not ns.in_square_brackets and not ns.in_round_brackets %}
+                {# break is not working #}
+                {%- set ns.is_finished = true %}
+              {%- elif ns.in_round_brackets and ns.is_first %}
+                {%- set ns.current_term = ns.current_term + char %}
+                {%- set ns.is_first = false %}
+              {%- elif not ns.in_square_brackets and not ns.in_round_brackets %}
+                {%- set ns.current_term = ns.current_term + char %}
+              {%- endif %}
+            {%- endif %}
+          {%- endfor %}
+          {{ ns.current_term }}
         {% endmacro %}
-
         {% set num_timers = slots.timers | length %}
         {% set active_timers = slots.timers | selectattr('is_active') | list %}
         {% set num_active_timers = active_timers | length %}
