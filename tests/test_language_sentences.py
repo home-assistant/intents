@@ -17,9 +17,11 @@ from yaml import safe_load
 
 from shared import (
     AreaEntry,
+    FloorEntry,
     State,
     Timer,
     get_areas,
+    get_floors,
     get_matched_states,
     get_matched_timers,
     get_slot_lists,
@@ -67,6 +69,13 @@ def areas_fixture(language: str) -> List[AreaEntry]:
     return get_areas(fixtures)
 
 
+@pytest.fixture(name="floors", scope="session")
+def floors_fixture(language: str) -> List[FloorEntry]:
+    """Loads test floors for the language."""
+    fixtures = load_test(language, "_fixtures")
+    return get_floors(fixtures)
+
+
 @pytest.fixture(name="timers", scope="session")
 def timers_fixture(language: str) -> List[Timer]:
     """Loads test timers for the language."""
@@ -82,6 +91,7 @@ def do_test_language_sentences_file(
     slot_lists: dict[str, SlotList],
     states: List[State],
     areas: List[AreaEntry],
+    floors: List[FloorEntry],
     timers: List[Timer],
     language_sentences: Intents,
     language_responses: dict[str, Any],
@@ -238,7 +248,9 @@ def do_test_language_sentences_file(
                         response_template_str
                     ), f"No response template for intent {result.intent.name} named {actual_response_key}: {sentence}"
 
-                    matched, unmatched = get_matched_states(states, areas, result)
+                    matched, unmatched = get_matched_states(
+                        states, areas, floors, result
+                    )
                     actual_response_text = render_response(
                         response_template_str,
                         result,
@@ -266,6 +278,7 @@ def gen_test(test_file_stem: str) -> None:
         slot_lists: dict[str, SlotList],
         states: List[State],
         areas: List[AreaEntry],
+        floors: List[FloorEntry],
         timers: List[Timer],
         language_sentences: Intents,
         language_responses: dict[str, Any],
@@ -278,6 +291,7 @@ def gen_test(test_file_stem: str) -> None:
             slot_lists=slot_lists,
             states=states,
             areas=areas,
+            floors=floors,
             timers=timers,
             language_sentences=language_sentences,
             language_responses=language_responses,

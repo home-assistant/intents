@@ -75,9 +75,9 @@ lists:
         out: "fahrenheit"
   brightness_level:
     values:
-      - in: "(max|maksimi|maksimiin|maksimi tasolle|korkein|korkeimmalle tasolle)"
+      - in: "(max|maksimi|maksimiin|maksimi tasolle|maksimitasolle|korkein|korkeimmalle tasolle|täysille|täysillä)"
         out: 100
-      - in: "(min|minimi|minimiin|alin|matalin|matalimmalle tasolle)"
+      - in: "(min|minimi|minimiin|minimille|minimitasolle|alin|matalin|matalimmalle tasolle)"
         out: 1
   on_off_states:
     values:
@@ -208,7 +208,7 @@ expansion_rules:
 
   avaa: "(avaa|aukaise|nosta)" # open|open|raise
   sulje: "(sulje|laske)" # close|lower
-  laita: "(kytke|aseta|käännä|säädä|pistä|muuta|laita|siirrä)" # toggle|set|turn|adjust|put|change (for brightness, volume and covers)
+  laita: "(kytke|aseta|käännä|säädä|pistä|muuta|laita)" # toggle|set|turn|adjust|put|change (for brightness, volume and covers)
 
   # Position - covers and valves
   asento: "{position}[[ ]%| prosenttia]"
@@ -221,7 +221,7 @@ expansion_rules:
   kuinka: "(kuinka|miten|millainen|minkälainen)" # how..
   onko: "(onko|onhan|onkohan|oliko)" # are singular
   ovatko: "(ovatko|olivatko)" # are plural
-  paljonko: "(paljonko|mikä|<kuinka> paljon)" # how much|what
+  paljonko: "(paljonko|mikä|(kuinka|miten) paljon)" # how much|what
   montako: "(montako|moniko|kuinka moni|kuinka monet|kuinka monta|miten moni|miten monta)" # how many
   nyt: "(nyt|juuri nyt|just nyt|tällä hetkellä)" # Now
 
@@ -297,7 +297,7 @@ expansion_rules:
   värille: "(värille|[väri]sävylle|värivivahteelle)"
   # värittä: "(värittä|[väri]sävyttä|värivivahteetta)"
   # Color, plural forms
-  värit: "(värit|[väri]sävyt|värivivahdteet)"
+  värit: "(värit|[väri]sävyt|värivivahteet)"
   # värien: "(värien|[väri]sävyjen|värivivahteiden)"
   # värejä: "(värejä|[väri]sävyjä|värivivahteita)"
   # väreinä: "(väreinä|[väri]sävyinä|värivivahteina)"
@@ -311,6 +311,7 @@ expansion_rules:
   # väreittä: "(väreittä|[väri]sävyittä|värivivahteitta)"
 
   huone: "{area}" # Room, this Finnish version helps when reading sentences
+
   paikka: "(kaupunki|kaupungissa|paikka|paikassa|kaupungin|paikan)"
   nimi: "{name}"
 
@@ -345,8 +346,13 @@ expansion_rules:
   # laitteille: "[äly]laitteille"
   # laitteitta: "[äly]laitteitta"
 
+  # Special treatment for certain rooms
+  eteinen_pääte: "(eteinen|eteisessä|eteisestä|eteiseen|eteiselle|eteiseltä|eteisen)"
+  ullakko_pääte: "(ullakko|ullakolta|ullakolla|ullakolle|ullakon)"
+
   # Area prefix to avoid congjugating areas if possible
   alue: "(alue|paikka|huone|tila)" # nominatiivi = mikä, kuka
+  alue_taivutus: "<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>"
   alueen: "(alueen|paikan|huoneen|tilan)" # genetiivi = minkä, kenen
   # aluetta: "(aluetta|paikkaa|huonetta|tilaa)" # partitiivi = mitä, ketä
   # alueena: "(alueena|paikkana|huoneena|tilana)" # essiivi = minä, kenä
@@ -358,6 +364,7 @@ expansion_rules:
   alueelta: "(alueelta|paikalta|huoneelta|tilalta)" # ablatiivi = miltä, keneltä
   alueelle: "(alueelle|paikalle|huoneelle|tilalle)" # allatiivi = mille, kenelle
   # alueetta: "(alueetta|paikatta|huoneetta|tilatta)" # abessiivi = ilman mitä, ketä
+  alue_pääte: "({area}[e][ssa|ssä|sta|stä|än|in|an|on|ön|seen|ltä|llä|lla|lta|lle|n])"
   # aluein: "(aluein|paikoin|huonein|tiloin)" # instruktiivi = miten
   # alueineen: "(alueineen|paikkoineen|huoneineen|tiloineen)" # komitatiivi = minkä, kenen kanssa
 

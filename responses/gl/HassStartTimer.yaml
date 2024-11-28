@@ -1,0 +1,26 @@
+---
+language: gl
+responses:
+  intents:
+    HassStartTimer:
+      default: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = (1 ~ ' hora'  if h in [ "1", 'unha', 'dunha'] else h ~' horas') if h else '' %}
+        {% set m_text = (30 if m in ['media', 'medio', '1/2'] else m) ~ (' minuto' if m in [ "1", 'un'] else ' minutos') if m else '' %}
+        {% set s_text = (30 if s in ['media', 'media', '1/2'] else s) ~ (' segundo' if s in [ "1", 'un'] else ' segundos') if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' e ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' e ') %}
+        {% set name = (' chamado ' ~ slots.name | trim) if slots.name is defined else '' %}
+        Temporizador configurado para {{ text }}{{ name }}
+      command: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' hora'  if h in [ "1", 'unha', 'dunha'] else ' horas') if h else '' %}
+        {% set m_text = (30 if m in ['media', '1/2'] else m) ~ (' minuto' if m in [ "1", 'un'] else ' minutos') if m else '' %}
+        {% set s_text = (30 if s in ['media', '1/2'] else s) ~ (' segundo' if s in [ "1", 'un'] else ' segundos') if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' e ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' e ') %}
+        O comando executarase en {{ text }}
