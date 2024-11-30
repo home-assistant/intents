@@ -1,0 +1,23 @@
+language: cs
+intents:
+  HassSetPosition:
+    data:
+      - sentences:
+          - "(<zavrit>|<zatahnout>|<otevrit>|<roztahnout>|<obecne_zmenit>) ([(pozici|(ná|s)klon|úhel|polohu)] {name};[<area>]) [na] <pozice>"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<zavrit>|<zatahnout>|<otevrit>|<roztahnout>|<obecne_zmenit>) ([(pozici|(ná|s)klon|úhel|polohu)] {cover_classes:device_class};<area>) [na] <pozice>"
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<zavrit>|<zatahnout>|<otevrit>|<roztahnout>|<obecne_zmenit>) [<tady>] [(pozici|(ná|s)klon|úhel|polohu)] {cover_classes:device_class} [na] <pozice>"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: cover

@@ -24,7 +24,7 @@ areas:
     id: wc
   - name: "stubišt(e|u|ne)|stub(e|ama)|stepenic(e|ama)"
     id: staircase
-  - name: "kuhinj(a|i|u|e|sku|ska|ske|ski)"
+  - name: "kuhinj(a|i|u|e|sku|ska|ske|ski|skog|skom)"
     id: kitchen
   - name: "dnevna soba|dnevnoj sobi|dnevne sobe|dnevni boravak|dnevnom boravku|dnevnog boravka"
     id: living_room
@@ -78,6 +78,7 @@ entities:
     state: "open"
     attributes:
       device_class: curtain
+      position: "0"
 
   - name: "kapij(a|u)"
     id: cover.main_gate
@@ -99,6 +100,7 @@ entities:
     state: "closed"
     attributes:
       device_class: blinds
+      position: "100"
 
   - name: "mali prozor"
     id: cover.bathroom_window
@@ -148,6 +150,12 @@ entities:
     attributes:
       current_temperature: 21
 
+  - name: "glavni ventil"
+    id: "valve.main_valve"
+    state: "open"
+    attributes:
+      position: "100"
+
   - name: "Radijator"
     id: "climate.trv_kitchen"
     area: "kitchen"
@@ -183,6 +191,10 @@ entities:
 
   - name: "Usisaj kuhinju"
     id: "script.vacuum_clean_kitchen"
+
+  - name: "Roborock"
+    id: "vacuum.roborock"
+    state: "idle"
 
   # https://www.home-assistant.io/integrations/sensor/
   - name: "[Prividna snaga] zamrzivač[a]"
@@ -524,3 +536,47 @@ entities:
     attributes:
       device_class: wind_speed
       unit_of_measurement: "km/h"
+
+  - name: "zadat(ci|ke)|podsjetnik"
+    id: "todo.zadatci"
+    state: ""
+
+  - name: "Zagreb[u]"
+    id: "weather.zagreb"
+    state: "rainy"
+    attributes:
+      temperature: "8"
+      temperature_unit: "°C"
+
+  - name: "Split[u]"
+    id: "weather.split"
+    state: "clear"
+    attributes:
+      temperature: "22"
+      temperature_unit: "°C"
+
+  - name: "TV|TV-u|Televizor[u]"
+    id: "media_player.tv"
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen"
+    start_minutes: 15
+    total_seconds_left: 200
+    rounded_hours_left: 0
+    rounded_minutes_left: 5
+    rounded_seconds_left: 0

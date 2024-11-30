@@ -25,13 +25,15 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
         choices=[
             "add_language",
             "codeowners",
+            "count_sentences",
+            "language_table",
+            "llm_template",
             "merged_output",
             "parse",
             "sample_template",
             "sample",
-            "website_summary",
             "validate",
-            "language_table",
+            "website_summary",
         ],
     )
     parser.add_argument("--debug", action="store_true", help="Enable log output")

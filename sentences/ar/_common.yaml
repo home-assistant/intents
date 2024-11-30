@@ -1,12 +1,312 @@
 language: ar
 responses:
   errors:
-    no_intent: "عفوا، لم أفهم (هذا|ذلك))"
-    no_area: "عفوا، (ليس هناك|لا توجد) منطقة بالإسم {{ area }}"
-    no_domain_in_area: "عفوا، النطاق {{ domain }} غير موجود بالمنطقة {{ area }}"
-    no_device_class_in_area: "عفوا، المنطقة {{ area }} لا تحتوى على فئة الأجهزة {{ device_class }}"
-    no_entity: "عفوا، لا يوجد جهاز او خاصية بالإسم {{ entity }}"
+    # General errors
+    no_intent: "عذرًا، لم أفهم ذلك"
     handle_error: "حدث خطأ أثناء معالجة النص"
+
+    # Errors for when user is not logged in
+    no_area: "عذرًا، لم أتمكن من العثور على منطقة بالإسم {{ area }}"
+    no_domain: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذرًا، لم أتمكن من العثور على أي {{ translations[domain] }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع"
+      {%- endif %}
+    no_domain_in_area: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذرًا، لم أتمكن من العثور على {{ translations[domain] }} في {{ area }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع في {{ area }}"
+      {%- endif %}
+    no_device_class: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذرًا، لم أتمكن من العثور على أي {{ translations[device_class] }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع"
+      {%- endif %}
+    no_device_class_in_area: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذرًا، لم أتمكن من العثور على {{ translations[device_class] }} في {{ area }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع في {{ area }}"
+      {%- endif %}
+
+    no_entity: "عذرًا، لم أتمكن من العثور على جهاز بالإسم {{ entity }}"
+    no_entity_in_area: "عذرًا، لم أتمكن من العثور على جهاز بالإسم {{ entity }} في {{ area }}"
+    no_floor: "عذرًا، لم أتمكن من العثور على طابق بالإسم {{ floor }}"
+
+    no_domain_in_floor: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+       " عذرًا، لم أتمكن من العثور على {{ translations[domain] }} في {{ floor }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع في {{ floor }}"
+      {%- endif %}
+    no_device_class_in_floor: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذرًا، لم أتمكن من العثور على {{ translations[device_class] }} في {{ floor }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع في {{ floor }}"
+      {%- endif %}
+
+    no_entity_in_floor: "عذرًا، لم أتمكن من العثور على جهاز بالإسم {{ entity }} في {{ floor }}"
+    entity_wrong_state: "عذرًا، لم أتمكن من العثور على جهاز بالحالة {{ state }}"
+    feature_not_supported: "عذرًا، لا يوجد جهاز يدعم هذا."
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "عذرًا، لم يتم الكشف عن {{ entity }}"
+    no_entity_in_area_exposed: "عذرًا، لم يتم الكشف عن {{ entity }} في {{ area }}"
+    no_domain_exposed: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذراً، لم يتم الكشف عن {{ domain }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع"
+      {%- endif %}
+    no_domain_in_area_exposed: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[domain] }} في {{ area }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع في {{ area }}"
+      {%- endif %}
+    no_device_class_exposed: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[device_class] }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع"
+      {%- endif %}
+    no_device_class_in_area_exposed: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[device_class] }} في {{ area }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع في {{ area }}"
+      {%- endif %}
+    no_entity_in_floor_exposed: "عذراً، لم يتم الكشف عن {{ entity }} في {{ floor }}"
+    no_domain_in_floor_exposed: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[domain] }} في {{ floor }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع في {{ floor }}"
+      {%- endif %}
+    no_device_class_in_floor_exposed: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[device_class] }} في {{ floor }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع في {{ floor }}"
+      {%- endif %}
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "عذرًا، هناك أجهزة متعددة باسم {{ entity }}"
+    duplicate_entities_in_area: "عذرًا، هناك أجهزة متعددة باسم {{ entity }} في {{ area }}"
+    duplicate_entities_in_floor: "عذرًا، هناك أجهزة متعددة باسم {{ entity }} في {{ floor }}"
+
+    # Errors for timers
+    timer_not_found: "عذرًا، لم يتم العثور على هذا الموقّت"
+    multiple_timers_matched: "عذرًا، لا يمكنني استهداف مؤقتات متعددة"
+    no_timer_support: "عذرًا، لا يتم دعم المؤقتات على هذا الجهاز"
 
 lists:
   color:
@@ -29,6 +329,17 @@ lists:
         out: "purple"
       - in: "بني"
         out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  brightness_level:
+    values:
+      - in: (عالي|قصوى)
+        out: 100
+      - in: منخفض
+        out: 1
 
   temperature:
     range:
@@ -43,18 +354,6 @@ lists:
       - "فهرنهايت"
       - in: "f"
         out: "fahrenheit"
-
-  brightness:
-    range:
-      type: "percentage"
-      from: 0
-      to: 100
-  brightness_level:
-    values:
-      - in: (عالي|قصوى)
-        out: 100
-      - in: منخفض
-        out: 1
 
   on_off_states:
     values:
@@ -103,72 +402,177 @@ lists:
       from: 0
       to: 100
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_three_quarters:
+    values:
+      - in: "ثلاثة أرباع"
+        out: 45
+      - in: "3/4"
+        out: 45
+  timer_half:
+    values:
+      - in: "نصف"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_quarter:
+    values:
+      - in: "ربع"
+        out: 15
+      - in: "1/4"
+        out: 15
+  timer_hour:
+    values:
+      - in: "ساعة"
+        out: 1
+      - in: "ساعاتين"
+        out: 2
+  timer_minute:
+    values:
+      - in: "دقيقة"
+        out: 1
+      - in: "دقيقتان"
+        out: 2
+  timer_second:
+    values:
+      - in: "ثانية"
+        out: 1
+      - in: "ثانيتين"
+        out: 2
+
   shopping_list_item:
+    wildcard: true
+  timer_name:
+    wildcard: true
+  timer_command:
     wildcard: true
 
 expansion_rules:
   name: "[ال]{name}"
   area: "[ال]{area}"
+  floor: "[الطابق] {floor}"
   colors: "[ال]{color}"
 
+  a: "(ا|أ|إ|آ)"
   script: "[ال](برنامج|برامج|مسار|مسارات|سيناريو)"
   scene: "[ال](مشهد|مشاهد|اعدادات)"
 
-  hello: "(مرحبا|اهلا)"
+  hello: "(مرحبا|<a>هلين|[<a>]هلا)"
   home_assistant: "[ال]بيت [(الذكي|المساعد)]"
 
-  tell_me: "(قل لي|[ا]خبرني)"
-  what_is: "((شو|ما|ماذا|كم|شقد)[ ][هو|هي|يكون|تكون])"
+  tell_me: "(قل لي|[<a>]خبرني)"
+  what_is: "((شو|ما|ماذا|كيف|كم|شقد|قديش)[ ][هو|هي|بكون|يكون|تكون])"
   is_it: "(هل[ ][هو|هي|هناك])"
   how_many: "كم عدد"
-  where: "[(ل|<to> )](اين|وين|فين)"
-  go: "[ب][(ت|ي)](ذهب|روح|تجه)"
+  where: "[(ل|<to> )](وين|فين|<a>ين)"
+  go: "[ب|ا][(ت|ي)](ذهب|روح|تجه)[ي]"
   can: "(ممكن|يمكن)[ني]"
+  remains: "[ال](تبقى|متبقي|بقى|بقي|باقي|لسه)"
+  this: "(هذا|هذه)"
+  skip: "(تخطي|طف)"
 
-  brightness: "{brightness}[[ ]%| بالمائة]"
+  in: "[[ال]موجود ](في|بي|داخل)"
+  all: "(كل[ها]|جميع[ها])"
+  to: "(على |لل|ل|<a>لى )"
+  any: "(<a>ي)"
+  everywhere: "<in> ((<any>|<all>) (مكان|الأماكن|منطقة|المناطق|غرفة|الغرف)|<all> (البيت|الدار|المنزل))"
+
+  procent: "(بالمائة|بالمئة)"
+  brightness: "{brightness}[[ ]%| <procent>]"
   temperature: "{temperature}[°| درجة] [{temperature_unit}]"
-  position: "{position}[[ ]%| بالمائة]"
+  position: "{position}[[ ]%| <procent>]"
 
-  turn: "(اضبط|أضبط|إضبط|ضبط|[ت]غير|تعيين)"
-  turn_on: "(افتح|إفتح|شغل|اشعل|أشعل|اشغل|أشغل|ابدأ|إبدأ|شعل|فعل|تفعيل|تشغيل|فعل)"
-  turn_off: "(أغلق|اغلق|اطفئ|أطفئ|طفي)"
+  turn: "([ت]غير|تعيين|[<a>]ضبط)"
+  turn_on: "(فعل|تفعيل|تشغيل|[<a>]بدء|<a>بدأ|[<a>]شعل|[<a>]شغل|[<a>]فتح)"
+  turn_off: "([<a>]طفي|[<a>]طفئ|[<a>]غلق)"
 
-  turn_up: "(علي|[ا]رفع)"
-  turn_down: "(اخفض|[ا]نزل|تخفيض|خفض)"
+  turn_up: "(علي|[<a>]رفع)"
+  turn_down: "(تخفيض|[<a>]نزل|[<a>]خفض)"
 
-  increase: "(زيادة|زيد|<turn_up>|كتر|كثر)"
-  decrease: "(تقليل|قلل|تنقيص|نقص|وطي|<turn_down>)"
+  increase: "(زيادة|زود|كتر|كثر|<turn_up>|<add>)"
+  decrease: "(تقليل|قلل|تنقيص|نقص|وطي|شيل|<a>زالة|<a>مسح|<turn_down>)"
 
-  unlock: "(افتح)"
-  lock: "(اقفل)"
+  unlock: "([<a>]فتح)"
+  lock: "([<a>]قفل)"
 
   open: "(<unlock>|<turn_up>)"
-  close: "(اغلق|سكر|<lock>|<turn_down>)"
+  close: "(سكر|<a>غلق|<lock>|<turn_down>)"
 
-  add: "(اضف|ضيف|ضع|حط|زيد)"
+  add: "(ضيف|ضع|حط|زيد|[<a>]ضف)"
+
+  create: "(ساوي|<a>صنع|<a>نشاء|[<a>]عميل)"
+
+  next: "ال(تالي|قادم)[ة]"
+
+  pause: "(توقف|هدي|إيقاف|<a>وقف شوي|<a>وقف[ة]) [مؤقت[ا]]"
+  # pause: "(اوقفة|وقفة|وقف|اوقف|توقف|توقف مؤقتا|اوقف مؤقتا|اوقفة مؤقتا|هدي|وقف شوي|إيقاف مؤقت|إيقاف)"
 
   temp: "(باردة|دافئة|لطيفة|حارة|درجة [ال]حرارة)"
-  intensity: "[ال](درجة [ال]سطوع|[شدة] [ال]سطوع|قوة|شدة)"
-  color: "[ال](لون|الوان)"
-
-  in: "(في|بي|داخل)"
-  all: "(كل|جميع)"
-  to: "(على|الى|لل)"
-  any: "(أي)"
+  intensity: "[ال](قوة|شدة|[درجة|شدة] [ال](صطوع|سطوع))"
+  color: "[ال](لون|<a>لوان)"
 
   numeric_value_set: "(<turn>|<open>|<close>|)"
 
   awning: "[ال](مظلة|مظلات)"
   curtain: "[ال](ستائر|ستارة|ستارات)"
-  door: "[ال](باب|ابواب)"
-  garage: "[ال](باب|ابواب|بوابة|بوابات) [ال]جراج"
+  door: "[ال](باب|[<a>]بواب)"
+  garage: "[ال](باب|بوابة|بوابات|[<a>]بواب) [ال]جراج"
   gate: "[ال](بوابة|بوابات)"
   window: "[ال](نافذة|نوافذ|نافذات|شباك|شبابيك)"
 
-  light: "[ال](اضواء|اضاءة|ضوء|مصابيح|مصباح|انوار|نور|لمبة|لمبات|انوار)"
+  light: "[ال](ضوء|مصابيح|مصباح|نور|لمبة|لمبات|<a>ضوية|<a>نوار|<a>ضواء|<a>ضاءة)"
   switch: "[ال](مفتاح|مفاتيح)"
   fan: "[ال](مروحة|مراوح|مروحات)"
+  weather: "[ال](طقس|طقوس|جو|<a>جواء)"
   time: "[ال](وقت|ساعة)"
+  timer: "[ال](مؤقتي|مؤقت|منبه|منبهي|مؤقتات|منبهات|منبهاتي|مؤقتاتي|عداد)"
+  called: "(يسمى|تدعى|يدعى|باسم|اسمه|[ال]مسمى)"
+  duration: "(ل|لمدة|لفترة|بطول|يطول|طوله|<a>لى)"
+
+  # Timers
+  timer_set: "(<turn_on>|<turn>|<create>)"
+  timer_cancel: "(<a>لغاء|[<a>]حذف|[<a>]مسح|<a>لغي)"
+  timer_pause: "<pause>"
+  timer_resume: "(متابعة|تكملة|<a>ستمر|<a>كمل|<a>ستئنف|<a>ستئناف|<a>عادة (تنشيط|تفعيل))"
+
+  # Timer Duration
+  timer_seconds_short: "({timer_three_quarters:seconds}|{timer_half:seconds}|{timer_quarter:seconds})"
+  timer_minutes_short: "({timer_three_quarters:minutes}|{timer_half:minutes}|{timer_quarter:minutes})"
+
+  timer_duration_seconds: "([ال]{timer_second:seconds}|[ال]{timer_seconds:seconds} <second>|[ال]<timer_seconds_short> [<minute>])"
+  timer_duration_minutes: "([ال]{timer_minute:minutes}|[ال]{timer_minutes:minutes} <minute>|[ال]<timer_minutes_short> [<hour>])"
+  timer_duration_hours: "([ال]{timer_hour:hours}|[ال]{timer_hours:hours} <hour>)"
+
+  timer_duration_minutes_seconds: "<timer_duration_minutes>[ [و ]<timer_duration_seconds>]"
+  timer_duration_hours_minutes_seconds: "<timer_duration_hours>[ [و ]<timer_duration_minutes>][ [و ]<timer_duration_seconds>]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes_seconds>|<timer_duration_hours_minutes_seconds>"
+
+  # timer Start
+  timer_start_seconds_short: "({timer_three_quarters:start_seconds}|{timer_half:start_seconds}|{timer_quarter:start_seconds})"
+  timer_start_minutes_short: "({timer_three_quarters:start_minutes}|{timer_half:start_minutes}|{timer_quarter:start_minutes})"
+
+  timer_start_seconds: "([ال]{timer_second:start_seconds}|[ال]{timer_seconds:start_seconds} <second>|[ال]<timer_start_seconds_short> [<minute>])"
+  timer_start_minutes: "([ال]{timer_minute:start_minutes}|[ال]{timer_minutes:start_minutes} <minute>|[ال]<timer_start_minutes_short> [<hour>])"
+  timer_start_hours: "([ال]{timer_hour:start_hours}|[ال]{timer_hours:start_hours} <hour>)"
+
+  timer_start_minutes_seconds: "<timer_start_minutes>[ [و ]<timer_start_seconds>]"
+  timer_start_hours_minutes_seconds: "<timer_start_hours>[ [و ]<timer_start_minutes>][ [و ]<timer_start_seconds>]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes_seconds>|<timer_start_hours_minutes_seconds>"
+
+  second: "(ثانية|ثواني)"
+  minute: "(دقيقة|دقائق)"
+  hour: "(ساعة|ساعات)"
 
 skip_words:
   - "(من فضلك|لو سمحت)"

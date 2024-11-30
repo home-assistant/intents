@@ -15,6 +15,7 @@ from hassil.util import merge_dict, normalize_whitespace
 
 from shared import (
     get_areas,
+    get_floors,
     get_matched_states,
     get_slot_lists,
     get_states,
@@ -69,6 +70,7 @@ def run() -> int:
     slot_lists = get_slot_lists(fixtures)
     states = get_states(fixtures)
     areas = get_areas(fixtures)
+    floors = get_floors(fixtures)
 
     # Load intents
     intents_dict: Dict[str, Any] = {}
@@ -116,7 +118,7 @@ def run() -> int:
                 output_dict["text_chunks_matched"] = result.text_chunks_matched
 
                 # Response
-                matched, unmatched = get_matched_states(states, areas, result)
+                matched, unmatched = get_matched_states(states, areas, floors, result)
                 output_dict["response_key"] = result.response
                 response_template = responses.get(result.intent.name, {}).get(
                     result.response
@@ -124,6 +126,9 @@ def run() -> int:
                 output_dict["response"] = normalize_whitespace(
                     render_response(response_template, result, matched, unmatched)
                 ).strip()
+
+                if result.intent_sentence is not None:
+                    output_dict["template"] = result.intent_sentence.text
 
             json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)
             print("")

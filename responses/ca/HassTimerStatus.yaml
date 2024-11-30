@@ -1,0 +1,105 @@
+---
+language: ca
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          No hi ha cap temporitzador.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            El temporitzador és en pausa.
+          {% else: %}
+            {{ num_paused_timers }} temporitzadors en pausa.
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} temporitzadors actius.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 temporitzador en pausa.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} temporitzadors en pausa.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+
+          {% if num_timers > 1: %}
+
+            Al temporitzador
+                
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              de l'àrea {{ next_timer.area }}
+            {% endif %}
+
+            de
+
+            {# Give some extra information to disambiguate #}
+            {% if (next_timer.start_hours == 1) and (next_timer.start_minutes == 1): %}
+              1 hora i 1 minut
+            {% elif (next_timer.start_hours == 1) and (next_timer.start_minutes > 1): %}
+              1 hora i {{ next_timer.start_minutes }} minuts
+            {% elif (next_timer.start_hours > 0) and (next_timer.start_minutes == 1): %}
+              {{ next_timer.start_hours }} hores i 1 minut
+            {% elif (next_timer.start_hours > 0) and (next_timer.start_minutes > 1): %}
+              {{ next_timer.start_hours }} hores i {{ next_timer.start_minutes }} minuts
+            {% elif (next_timer.start_hours == 1): %}
+              {{ next_timer.start_hours }} hora
+            {% elif (next_timer.start_hours > 1): %}
+              {{ next_timer.start_hours }} hores
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} minut{{ "s" if next_timer.start_minutes != 1 }} i {{ next_timer.start_seconds }} segon{{ "s" if next_timer.start_seconds != 1 }}
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} minut{{ "s" if next_timer.start_minutes != 1 }}
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} segon{{ "s" if next_timer.start_seconds != 1 }}
+            {% endif %}
+
+            hi queden
+          {% else %}
+            Hi queden
+          {% endif %}
+
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 hora i {{ next_timer.rounded_minutes_left }} minuts.
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 hora.
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} hores i {{ next_timer.rounded_minutes_left }} minuts.
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} hores.
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 minut i {{ next_timer.rounded_seconds_left }} segons.
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 minut.
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} minuts i {{ next_timer.rounded_seconds_left }} segons.
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} minuts.
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 segon.
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} segons.
+          {% endif %}
+
+        {% endif %}

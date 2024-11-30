@@ -61,3 +61,25 @@ responses:
 
       wie_viele: |
         {{ query.matched | length }}
+
+      wo: |
+        {% if state.state == "not_home" %}
+          {{ slots.name | capitalize }} ist unterwegs
+        {% else %}
+          {{ slots.name | capitalize }} ist im Bereich {{ state.state }}
+        {% endif %}
+
+      wer: |
+        {% if not query.matched %}
+          Niemand
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} und {{ (match | length - 3) }} weitere
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} und {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
