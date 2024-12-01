@@ -1,12 +1,13 @@
 language: fr
 tests:
+  # Default response
   - sentences:
-      - "Quel temps fait-il"
       - "Donne-moi la météo"
       - "Donne moi le temps qu'il fait"
+      - "Quel temps fait-il"
     intent:
       name: HassGetWeather
-    response: 10 °C et de la pluie
+    response: Pluvieux et il fait 10,3 degrés.
   - sentences:
       - "Quel temps fait-il à Paris"
       - "Donne-moi la météo à Paris"
@@ -14,7 +15,7 @@ tests:
       name: HassGetWeather
       slots:
         name: Paris
-    response: 10 °C et de la pluie
+    response: Pluvieux et il fait 10,3 degrés.
 
   - sentences:
       - "Quel temps fait-il à Brest"
@@ -22,4 +23,109 @@ tests:
       name: HassGetWeather
       slots:
         name: Brest
-    response: 25 °C et un temps ensoleillé
+    response: Ensoleillé et il fait 24,9 degrés.
+
+  # Detailed response
+  - sentences:
+      - "Donne-moi le bulletin météo"
+      - "Donne moi la météo en détail"
+      - "Quelle est la météo détaillée"
+      - "Donne-moi le temps qu'il fait en détail"
+      - "Donne moi le détail du temps qu'il fait"
+    intent:
+      name: HassGetWeather
+    response: "Pluvieux et il fait 10,3 degrés. Humidité : 85%. Vent de force : 4."
+  - sentences:
+      - "Donne-moi le bulletin météo pour Paris"
+      - "Donne moi la météo en détail à Paris"
+      - "Quelle est la météo détaillée pour Paris"
+      - "Donne-moi le temps qu'il fait en détail à Paris"
+      - "Donne moi le détail du temps qu'il fait à Paris"
+    intent:
+      name: HassGetWeather
+      slots:
+        name: Paris
+    response: "Pluvieux et il fait 10,3 degrés. Humidité : 85%. Vent de force : 4."
+  - sentences:
+      - "Donne-moi le bulletin météo pour Brest"
+      - "Donne moi la météo en détail à Brest"
+      - "Quelle est la météo détaillée pour Brest"
+      - "Donne-moi le temps qu'il fait en détail à Brest"
+      - "Donne moi le détail du temps qu'il fait à Brest"
+    intent:
+      name: HassGetWeather
+      slots:
+        name: Brest
+    response: "Ensoleillé et il fait 24,9 degrés."
+
+  - sentences:
+      - "Donne-moi la pression atmosphérique"
+    intent:
+      name: HassGetWeather
+    response: La pression atmosphérique n'est pas pas disponible.
+  - sentences:
+      - "Donne-moi la pression atmosphérique aujourd'hui pour Paris"
+    intent:
+      name: HassGetWeather
+      slots:
+        name: Paris
+    response: La pression atmosphérique n'est pas pas disponible.
+  - sentences:
+      - "Donne-moi la pression atmosphérique aujourd'hui pour Brest"
+    intent:
+      name: HassGetWeather
+      slots:
+        name: Brest
+    response: "La pression atmosphérique est de : 1017 hectopascal."
+
+  - sentences:
+      - "Donne-moi l'indice UV"
+    intent:
+      name: HassGetWeather
+    response: L'indice UV n'est pas pas disponible.
+  - sentences:
+      - "Donne-moi l'indice UV aujourd'hui pour Paris"
+    intent:
+      name: HassGetWeather
+      slots:
+        name: Paris
+    response: L'indice UV n'est pas pas disponible.
+  - sentences:
+      - "Donne-moi l'indice UV aujourd'hui pour Brest"
+    intent:
+      name: HassGetWeather
+      slots:
+        name: Brest
+    response: "L'indice UV est de : 5 - modéré"
+
+  - sentences:
+      - "Donne-moi la vitesse du vent"
+      - "À quelle vitesse le vent souffle aujourd'hui"
+      - "Quelle est la météo du vent"
+      - "Donne moi le détail du vent"
+      - "y a-t-il du vent aujourd'hui"
+    intent:
+      name: HassGetWeather
+    response: Jolie brise de 23 kilomètres par heure.
+  - sentences:
+      - "Donne-moi la vitesse du vent à Paris"
+      - "À quelle vitesse le vent souffle aujourd'hui à Paris"
+      - "Quelle est la météo du vent pour Paris"
+      - "Donne moi le détail du vent pour Paris"
+      - "y a-t-il du vent aujourd'hui à Paris"
+    intent:
+      name: HassGetWeather
+      slots:
+        name: Paris
+    response: Jolie brise de 23 kilomètres par heure.
+  - sentences:
+      - "Donne-moi la vitesse du vent à Brest"
+      - "À quelle vitesse le vent souffle aujourd'hui à Brest"
+      - "Quelle est la météo du vent pour Brest"
+      - "Donne moi le détail du vent pour Brest"
+      - "y a-t-il du vent aujourd'hui à Brest"
+    intent:
+      name: HassGetWeather
+      slots:
+        name: Brest
+    response: Aucune information météo sur le vent n'est disponible.
