@@ -181,6 +181,32 @@ lists:
   timer_command:
     wildcard: true
 
+  default_areas:
+    values:
+      - in: "(yläkerrassa|yläkerrasta|yläkerran|yläkertaan)"
+        out: "Yläkerta"
+      - in: "(alakerrassa|alakerrasta|alakerran|alakertaan)"
+        out: "Alakerta"
+      - in: "(eteisessä|eteisestä|eteisen|eteiseen)"
+        out: "Eteinen"
+      - in: "(ullakolla|ullakolta|ullakon|ullakolle)"
+        out: "Ullakko"
+      - in: "(parvekkeella|parvekkeelta|parvekkeen|parvekkeelle)"
+        out: "Parveke"
+      - in: "(parvella|parvelta|parven|parvelle)"
+        out: "Parvi"
+      - in: "(verannalla|verannalta|verannan|verannalle)"
+        out: "Veranta"
+      - in: "(portaikossa|portaikosta|portaikon|portaikkoon|portaikolta|portaikoille)"
+        out: "Portaikko"
+      - in: "(vintillä|vintiltä|vintille|vintin)"
+        out: "Vintti"
+      - in: "(nurkkauksessa|nurkkauksesta|nurkkaukselle|nurkkauksen)"
+        out: "Nurkkaus"
+      - in: "(mökissä|mökistä|mökkiin|mökille|mökiltä|mökin)"
+        out: "Mökki"
+# saving for future regex possibilities tekninen tila, -allas, -koppi, -tupa, -katos, -mökki, nurkkaus
+
 expansion_rules:
   # On off states
   päälle: "päälle" # on
@@ -310,7 +336,7 @@ expansion_rules:
   väreille: "(väreille|[väri]sävyille|värivivahteille)"
   # väreittä: "(väreittä|[väri]sävyittä|värivivahteitta)"
 
-  huone: "{area}" # Room, this Finnish version helps when reading sentences
+  huone: "({default_areas:area}|{area})" # Room, this Finnish version helps when reading sentences
 
   paikka: "(kaupunki|kaupungissa|paikka|paikassa|kaupungin|paikan)"
   nimi: "{name}"
@@ -346,10 +372,6 @@ expansion_rules:
   # laitteille: "[äly]laitteille"
   # laitteitta: "[äly]laitteitta"
 
-  # Special treatment for certain rooms
-  eteinen_pääte: "(eteinen|eteisessä|eteisestä|eteiseen|eteiselle|eteiseltä|eteisen)"
-  ullakko_pääte: "(ullakko|ullakolta|ullakolla|ullakolle|ullakon)"
-
   # Area prefix to avoid congjugating areas if possible
   alue: "(alue|paikka|huone|tila)" # nominatiivi = mikä, kuka
   alue_taivutus: "<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>"
@@ -364,7 +386,7 @@ expansion_rules:
   alueelta: "(alueelta|paikalta|huoneelta|tilalta)" # ablatiivi = miltä, keneltä
   alueelle: "(alueelle|paikalle|huoneelle|tilalle)" # allatiivi = mille, kenelle
   # alueetta: "(alueetta|paikatta|huoneetta|tilatta)" # abessiivi = ilman mitä, ketä
-  alue_pääte: "({area}[e][ssa|ssä|sta|stä|än|in|an|on|ön|seen|ltä|llä|lla|lta|lle|n])"
+  alue_pääte: "({default_areas:area}|{area}[e][ssa|ssä|sta|stä|än|in|an|on|ön|seen|ltä|llä|lla|lta|lle|n])"
   # aluein: "(aluein|paikoin|huonein|tiloin)" # instruktiivi = miten
   # alueineen: "(alueineen|paikkoineen|huoneineen|tiloineen)" # komitatiivi = minkä, kenen kanssa
 
