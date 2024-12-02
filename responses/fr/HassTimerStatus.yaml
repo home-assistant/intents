@@ -41,10 +41,12 @@ responses:
 
         {% if next_timer: %}
           {# At least one active timer #}
+          {% set plural = True %}
           {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
             1 heure et {{ next_timer.rounded_minutes_left }} minutes
           {% elif (next_timer.rounded_hours_left == 1): %}
             1 heure
+            {% set plural = False %}
           {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
             {{ next_timer.rounded_hours_left }} heures et {{ next_timer.rounded_minutes_left }} minutes
           {% elif (next_timer.rounded_hours_left > 1): %}
@@ -53,19 +55,21 @@ responses:
             1 minute et {{ next_timer.rounded_seconds_left }} secondes
           {% elif (next_timer.rounded_minutes_left == 1): %}
             1 minute
+            {% set plural = False %}
           {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
             {{ next_timer.rounded_minutes_left }} minutes et {{ next_timer.rounded_seconds_left }} secondes
           {% elif (next_timer.rounded_minutes_left > 1): %}
             {{ next_timer.rounded_minutes_left }} minutes
           {% elif (next_timer.rounded_seconds_left == 1): %}
             1 seconde
+            {% set plural = False %}
           {% elif (next_timer.rounded_seconds_left > 1): %}
             {{ next_timer.rounded_seconds_left }} secondes
           {% endif %}
 
           {% if num_timers > 1: %}
             {# Give some extra information to disambiguate #}
-            restante sur le minuteur
+            {% if plural %}restantes{% else %}restante{% endif %} sur le minuteur
             {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
               de {{ next_timer.start_hours }} heures et {{ next_timer.start_minutes }} minutes
             {% elif (next_timer.start_hours > 0): %}
@@ -84,6 +88,6 @@ responses:
               dans {{ next_timer.area }}
             {% endif %}
           {% else: %}
-            restante.
+            {% if plural %}restantes{% else %}restante{% endif %}.
           {% endif %}
         {% endif %}
