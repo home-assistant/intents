@@ -20,10 +20,22 @@ tests:
 
   - sentences:
       - "are any switches on in the kitchen?"
+      - "tell me if there are any switches on in the kitchen"
     intent:
       name: HassGetState
       slots:
         area: "Kitchen"
+        domain: "switch"
+        state: "on"
+    response: "Yes, Kitchen Switch"
+
+  - sentences:
+      - "are there any switches on at the first floor?"
+      - "tell me if there are any switches on at the first floor"
+    intent:
+      name: HassGetState
+      slots:
+        floor: "First Floor"
         domain: "switch"
         state: "on"
     response: "Yes, Kitchen Switch"
@@ -36,6 +48,30 @@ tests:
         domain: "switch"
         state: "on"
     response: "No, Bedroom Switch is not on"
+
+  - sentences:
+      - "are all switches on in the kitchen?"
+      - "are all the switches turned on in the kitchen?"
+      - "are all switches in the kitchen on?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Kitchen"
+        domain: "switch"
+        state: "on"
+    response: "Yes"
+
+  - sentences:
+      - "are all switches on at the first floor?"
+      - "are all the switches turned on at the first floor?"
+      - "are all switches at the first floor on?"
+    intent:
+      name: HassGetState
+      slots:
+        floor: "First Floor"
+        domain: "switch"
+        state: "on"
+    response: "Yes"
 
   - sentences:
       - "are all lights off?"
@@ -56,6 +92,26 @@ tests:
     response: "Garage Light, Kitchen cabinets, Kitchen ceiling and 3 more"
 
   - sentences:
+      - "which lights are on in the kitchen?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Kitchen"
+        domain: "light"
+        state: "on"
+    response: "Kitchen cabinets, Kitchen ceiling and Kitchen countertop"
+
+  - sentences:
+      - "which lights are on at the first floor?"
+    intent:
+      name: HassGetState
+      slots:
+        floor: "First Floor"
+        domain: "light"
+        state: "on"
+    response: "Garage Light, Kitchen cabinets, Kitchen ceiling and 3 more"
+
+  - sentences:
       - "how many lights are on?"
     intent:
       name: HassGetState
@@ -65,13 +121,21 @@ tests:
     response: "6"
 
   - sentences:
-      - "are all the lights on in the kitchen"
-      - "are all lights turned on in the kitchen?"
-      - "are all lights in the kitchen on?"
+      - "how many lights are on in the kitchen?"
     intent:
       name: HassGetState
       slots:
+        area: "Kitchen"
         domain: "light"
         state: "on"
-        area: "Kitchen"
-    response: "Yes"
+    response: "3"
+
+  - sentences:
+      - "how many lights are on at the first floor?"
+    intent:
+      name: HassGetState
+      slots:
+        floor: "First Floor"
+        domain: "light"
+        state: "on"
+    response: "6"
