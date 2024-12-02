@@ -75,32 +75,32 @@ responses:
           {% else %}
             {% set wind_speed_text = 'szélsőségesen erős szél' %}
           {% endif %}
-          {% set wind_report = wind_report + ['A szélsebesség ' ~ (wind_speed | string) ~ ' ' ~ (wind_speed_unit if wind_speed_unit != none else 'km/h') ~ ' - ' ~ wind_speed_text] %}
+          {% set wind_report = wind_report + ['A szélsebesség ' ~ (wind_speed | string | replace('.', ',')) ~ ' ' ~ (wind_speed_unit if wind_speed_unit != none else 'km/h') ~ ' - ' ~ wind_speed_text] %}
         {% endif %}
         {% if wind_bearing_text %}
           {% set wind_report = wind_report + [', melynek iránya ' ~ wind_bearing_text] %}
         {% endif %}
         {% if wind_gust_speed is not none %}
-          {% set wind_report = wind_report + [', ' ~ (wind_gust_speed | string) ~ ' ' ~ (wind_speed_unit if wind_speed_unit is not none else 'km/h') ~ ' sebességű széllökésekkel.'] %}
+          {% set wind_report = wind_report + [', ' ~ (wind_gust_speed | string | replace('.', ',')) ~ ' ' ~ (wind_speed_unit if wind_speed_unit is not none else 'km/h') ~ ' sebességű széllökésekkel.'] %}
         {% endif %}
         {{ wind_report | join('') }}
       uv: >
-        {% set uv_index = state.attributes.get('uv_index') | float %}
+        {% set uv_index = state.attributes.get('uv_index') | float | round(0) | int %}
         {% if uv_index is not none %}
           {% set uv_index = uv_index | round(0) %}
           {% set uv_category = '' %}
           {% if uv_index <= 2 %}
-            {% set uv_category = 'alacsony' %}
+            {% set uv_category = ', ami alacsony sugárzási szint.' %}
           {% elif 3 <= uv_index <= 4 %}
-            {% set uv_category = 'közepes' %}
+            {% set uv_category = ', ami közepes sugárzási szint.' %}
           {% elif 5 <= uv_index <= 7 %}
-            {% set uv_category = 'magas' %}
+            {% set uv_category = ', ami magas sugárzási szint.' %}
           {% elif 8 <= uv_index <= 10 %}
-            {% set uv_category = 'nagyon magas' %}
+            {% set uv_category = ', ami nagyon magas sugárzási szint.' %}
           {% elif uv_index >= 11 %}
-            {% set uv_category = 'extrém' %}
+            {% set uv_category = ', ami extrém uv sugárzási szint.' %}
           {% endif %}
-          A jelenlegi UV sugárzási adatok: {{ uv_index }} {{ uv_category }}
+          A jelenlegi UV sugárzás: {{ uv_index }}{{ uv_category }}
         {% else %}
           Az UV sugárzási adatok nem elérhetők.
         {% endif %}
@@ -143,8 +143,9 @@ responses:
         {% if humidity is not none %}
           {% set report = report + [', a páratartalom: ' ~ humidity ~ '%'] %}
         {% endif %}
-        {% set pressure = state.attributes.get('pressure') | float %}
+        {% set pressure = state.attributes.get('pressure') | float | round(0) | int %}
         {% if pressure is not none %}
+          {% set pressure = pressure %}        
           {% set pressure_unit = state.attributes.get('pressure_unit', '') %}
           {% if pressure_unit == 'hPa' %}
             {% set pressure_unit = 'hektopaszkál' %}
@@ -172,11 +173,11 @@ responses:
           {% else %}
             {% set wind_speed_text = 'szélsőségesen erős szél fúj' %}
           {% endif %}
-          {% set report = report + [', a szél sebessége ' ~ wind_speed ~ ' ' ~ wind_speed_unit ~ ' - ' ~ wind_speed_text] %}
+          {% set report = report + [', a szél sebessége ' ~ (wind_speed | string | replace('.', ',')) ~ ' ' ~ wind_speed_unit ~ ' - ' ~ wind_speed_text] %}
         {% endif %}
         {% set wind_gust_speed = state.attributes.get('wind_gust_speed') | float %}
         {% if wind_gust_speed is not none %}
           {% set wind_speed_unit = state.attributes.get('wind_speed_unit', 'km/h') %}
-          {% set report = report + [', ' ~ wind_gust_speed ~ ' ' ~ wind_speed_unit  ~ ' sebességű széllökésekkel.'] %}
+          {% set report = report + [', ' ~ (wind_gust_speed | string | replace('.', ',')) ~ ' ' ~ wind_speed_unit  ~ ' sebességű széllökésekkel.'] %}
         {% endif %}
         {{ report | join('') }}
