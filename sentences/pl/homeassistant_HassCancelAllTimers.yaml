@@ -1,0 +1,22 @@
+language: pl
+intents:
+  HassCancelAllTimers:
+    data:
+      # All timers
+      - sentences:
+          - "<timer_cancel> <all>[ moje] <timer>"
+
+      # All timers in area
+      - sentences:
+          - "<timer_cancel> <all>[ moje] <timer> <area>"
+          - "<timer_cancel> <area> <all>[ moje] <timer>"
+          - "<area> <timer_cancel> <all>[ moje] <timer>"
+        response: area
+
+      # All timers here (context awareness)
+      - sentences:
+          - "<timer_cancel> <here> <all>[ moje] <timer>"
+          - "<timer_cancel> <all>[ moje] <timer> <here>"
+        requires_context:
+          area:
+            slot: true

@@ -1,12 +1,312 @@
 language: ar
 responses:
   errors:
-    no_intent: "عفوا، لم أفهم ذلك"
-    no_area: "عفوا، لا توجد منطقة بالإسم {{ area }}"
-    no_domain_in_area: "عفوا، النطاق {{ domain }} غير موجود بالمنطقة {{ area }}"
-    no_device_class_in_area: "عفوا، المنطقة {{ area }} لا تحتوى على فئة الأجهزة {{ device_class }}"
-    no_entity: "عفوا، لا يوجد جهاز او خاصية بالإسم {{ entity }}"
+    # General errors
+    no_intent: "عذرًا، لم أفهم ذلك"
     handle_error: "حدث خطأ أثناء معالجة النص"
+
+    # Errors for when user is not logged in
+    no_area: "عذرًا، لم أتمكن من العثور على منطقة بالإسم {{ area }}"
+    no_domain: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذرًا، لم أتمكن من العثور على أي {{ translations[domain] }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع"
+      {%- endif %}
+    no_domain_in_area: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذرًا، لم أتمكن من العثور على {{ translations[domain] }} في {{ area }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع في {{ area }}"
+      {%- endif %}
+    no_device_class: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذرًا، لم أتمكن من العثور على أي {{ translations[device_class] }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع"
+      {%- endif %}
+    no_device_class_in_area: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذرًا، لم أتمكن من العثور على {{ translations[device_class] }} في {{ area }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع في {{ area }}"
+      {%- endif %}
+
+    no_entity: "عذرًا، لم أتمكن من العثور على جهاز بالإسم {{ entity }}"
+    no_entity_in_area: "عذرًا، لم أتمكن من العثور على جهاز بالإسم {{ entity }} في {{ area }}"
+    no_floor: "عذرًا، لم أتمكن من العثور على طابق بالإسم {{ floor }}"
+
+    no_domain_in_floor: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+       " عذرًا، لم أتمكن من العثور على {{ translations[domain] }} في {{ floor }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع في {{ floor }}"
+      {%- endif %}
+    no_device_class_in_floor: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذرًا، لم أتمكن من العثور على {{ translations[device_class] }} في {{ floor }}"
+      {%- else -%}
+        "عذرًا، لم أتمكن من العثور على جهاز من هذا النوع في {{ floor }}"
+      {%- endif %}
+
+    no_entity_in_floor: "عذرًا، لم أتمكن من العثور على جهاز بالإسم {{ entity }} في {{ floor }}"
+    entity_wrong_state: "عذرًا، لم أتمكن من العثور على جهاز بالحالة {{ state }}"
+    feature_not_supported: "عذرًا، لا يوجد جهاز يدعم هذا."
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "عذرًا، لم يتم الكشف عن {{ entity }}"
+    no_entity_in_area_exposed: "عذرًا، لم يتم الكشف عن {{ entity }} في {{ area }}"
+    no_domain_exposed: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذراً، لم يتم الكشف عن {{ domain }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع"
+      {%- endif %}
+    no_domain_in_area_exposed: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[domain] }} في {{ area }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع في {{ area }}"
+      {%- endif %}
+    no_device_class_exposed: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[device_class] }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع"
+      {%- endif %}
+    no_device_class_in_area_exposed: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[device_class] }} في {{ area }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع في {{ area }}"
+      {%- endif %}
+    no_entity_in_floor_exposed: "عذراً، لم يتم الكشف عن {{ entity }} في {{ floor }}"
+    no_domain_in_floor_exposed: >
+      {% set translations = {
+        "button": "زر",
+        "camera": "كاميرا",
+        "input_button": "زر",
+        "alarm_control_panel": "إنذار",
+        "automation": "التشغيل الآلي",
+        "fan": "مروحة",
+        "climate": "منظم الحرارة",
+        "humidifier": "مزيل الرطوبة",
+        "input_boolean": "مفتاح كهربائي",
+        "siren": "صفارة الإنذار",
+        "water_heater": "غلاية",
+        "light": "ضوء",
+        "switch": "مفتاح كهربائي",
+        "script": "نص",
+        "remote": "جهاز التحكم عن بعد",
+        "lock": "قفل",
+        "vacuum": "مكنسة كهربائية",
+        "scene": "مشهد",
+        "media_player": "مشغل الوسائط",
+        "lawn_mower": "جزازة العشب",
+        "valve": "صمام"
+        } %}
+      {% if domain in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[domain] }} في {{ floor }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع في {{ floor }}"
+      {%- endif %}
+    no_device_class_in_floor_exposed: >
+      {% set translations = {
+        "awning": "مظلة",
+        "blind": "ستارة",
+        "curtain": "ستارة",
+        "door": "باب",
+        "garage": "بوابة الجراج",
+        "gate": "بوابة",
+        "shade": "ستارة",
+        "shutter": "ستارة",
+        "window": "نافذة"
+        } %}
+      {% if device_class in translations -%}
+        "عذراً، لم يتم الكشف عن {{ translations[device_class] }} في {{ floor }}"
+      {%- else -%}
+        "عذرًا، لم يتم الكشف عن أي جهاز من هذا النوع في {{ floor }}"
+      {%- endif %}
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "عذرًا، هناك أجهزة متعددة باسم {{ entity }}"
+    duplicate_entities_in_area: "عذرًا، هناك أجهزة متعددة باسم {{ entity }} في {{ area }}"
+    duplicate_entities_in_floor: "عذرًا، هناك أجهزة متعددة باسم {{ entity }} في {{ floor }}"
+
+    # Errors for timers
+    timer_not_found: "عذرًا، لم يتم العثور على هذا الموقّت"
+    multiple_timers_matched: "عذرًا، لا يمكنني استهداف مؤقتات متعددة"
+    no_timer_support: "عذرًا، لا يتم دعم المؤقتات على هذا الجهاز"
 
 lists:
   color:
@@ -29,6 +329,17 @@ lists:
         out: "purple"
       - in: "بني"
         out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  brightness_level:
+    values:
+      - in: (عالي|قصوى)
+        out: 100
+      - in: منخفض
+        out: 1
 
   temperature:
     range:
@@ -43,18 +354,6 @@ lists:
       - "فهرنهايت"
       - in: "f"
         out: "fahrenheit"
-
-  brightness:
-    range:
-      type: "percentage"
-      from: 0
-      to: 100
-  brightness_level:
-    values:
-      - in: (عالي|قصوى)
-        out: 100
-      - in: منخفض
-        out: 1
 
   on_off_states:
     values:
@@ -133,7 +432,6 @@ lists:
         out: 15
       - in: "1/4"
         out: 15
-
   timer_hour:
     values:
       - in: "ساعة"

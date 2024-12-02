@@ -2,13 +2,40 @@ language: ar
 responses:
   intents:
     HassTurnOn:
-      default: "تم تشغيل {{state.domain}}"
-      lights_area: "تم تشغيل الأضواء"
-      lights_floor: "تم تشغيل الأضواء"
+      default: >-
+        {% set translations = {
+          "button": "الزر",
+          "camera": "الكاميرا",
+          "input_button": "الزر",
+          "alarm_control_panel": "الإنذار",
+          "automation": "التشغيل الآلي",
+          "fan": "المروحة",
+          "climate": "منظم الحرارة",
+          "humidifier": "مزيل الرطوبة",
+          "input_boolean": "المفتاح الكهربائي",
+          "siren": "صفارة الإنذار",
+          "water_heater": "الغلاية",
+          "light": "الضوء",
+          "switch": "المفتاح الكهربائي",
+          "script": "النص",
+          "remote": "جهاز التحكم عن بعد",
+          "lock": "القفل",
+          "vacuum": "المكنسة الكهربائية",
+          "scene": "المشهد",
+          "media_player": "مشغل الوسائط",
+          "lawn_mower": "جزازة العشب",
+          "valve": "الصمام"
+        } %}
+        تم تشغيل {{ translations.get(state.domain) }}
       light_all: "تم تشغيل جميع الأضواء"
+      lights_floor: "تم تشغيل الأضواء"
+      lights_area: "تم تشغيل الأضواء"
+      fan_all: "تم تشغيل جميع المراوح"
+      fans_floor: "تم تشغيل المراوح"
       fans_area: "تم تشغيل المراوح"
       cover: "تم الفتح"
       cover_device_class: "تم فتح {{ slots.device_class }}"
       scene: "تم التفعيل"
       script: "تم البدء"
       lock: "تم القفل"
+      valve: "تم الفتح"

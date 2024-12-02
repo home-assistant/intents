@@ -2,6 +2,7 @@ language: pl
 responses:
   intents:
     HassGetWeather:
+      # https://developers.home-assistant.io/docs/core/entity/weather/
       default: >
         {% set weather_condition = {
           'clear': 'bez zachmurzenia',
@@ -22,5 +23,390 @@ responses:
           'windy-variant': 'i wietrznie z zachmurzeniem'
         } %}
         {% set temperature = state.attributes.get('temperature') %}
-        {% set temperature_pl = (temperature|string).replace(".", ",") %}
-        {% if temperature_pl.startswith("-") %}minus {% endif %}{{ temperature_pl.replace("-", "") }} {{ 'stopień' if temperature | int | abs == 1 else 'stopnie' if temperature | int | abs in [2,3,4] else 'stopnie' if (temperature|string)[-1] | int | abs in [2,3,4] else 'stopni' }} celsjusza {{ weather_condition.get((state.state | string).lower(), "") }}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% set temperature_pl = (temperature | string).replace(".", ",") %}
+        {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+        {% set negative_name = "" %}
+        {% if temperature | float < 0 %}
+          {% set negative_name = "minus " %}
+        {% endif %}
+        {% if temperature_decmal == 0 %}
+          {% if temperature | int | abs == 1 %}
+            {% set degree_name = 'stopień' %}
+          {% elif temperature | int | abs in [2, 3, 4] %}
+            {% set degree_name = 'stopnie' %}
+          {% elif temperature | int | abs in [12, 13, 14] %}
+            {% set degree_name = 'stopni' %}
+          {% elif (temperature | int | string)[-1] | int | abs in [2, 3, 4] %}
+            {% set degree_name = 'stopnie' %}
+          {% else %}
+            {% set degree_name = 'stopni' %}
+          {% endif %}
+        {% else %}
+          {% set degree_name = "stopnia" %}
+        {% endif %}
+        {% if temperature_unit == "°F" %}
+          {% set temperature_unit = degree_name ~ " farenhajta" %}
+        {% else %}
+          {% set temperature_unit = degree_name ~ " celsjusza" %}
+        {% endif %}
+        {{ negative_name }}{{ temperature_pl.replace("-", "") }} {{ temperature_unit }} {{ weather_condition.get((state.state | string).lower(), "") }}
+
+      detailed_weather: >
+        {% set report = [] %}
+
+        {% set temperature = state.attributes.get('temperature') %}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% if temperature is not none %}
+          {% set temperature_pl = (temperature|string).replace(".", ",") %}
+          {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+          {% set negative_name = '' %}
+          {% if temperature | float < 0 %}
+            {% set negative_name = 'minus ' %}
+          {% endif %}
+          {% if temperature_decmal == 0 %}
+            {% if temperature | int | abs == 1 %}
+              {% set degree_name = 'stopień' %}
+            {% elif temperature | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% elif temperature | int | abs in [12, 13, 14] %}
+              {% set degree_name = 'stopni' %}
+            {% elif (temperature | int | string)[-1] | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% else %}
+              {% set degree_name = 'stopni' %}
+            {% endif %}
+          {% else %}
+            {% set degree_name = "stopnia" %}
+          {% endif %}
+          {% if temperature_unit == "°F" %}
+            {% set temperature_unit = degree_name ~ " farenhajta" %}
+          {% else %}
+            {% set temperature_unit = degree_name ~ " celsjusza" %}
+          {% endif %}
+          {% set report = report + ['Obecna temperatura wynosi '~ negative_name ~ temperature_pl.replace("-", "") ~ ' ' ~ temperature_unit ~ ' '] %}
+        {% endif %}
+
+        {% set weather_condition_dict = {
+          'clear': 'bez zachmurzenia',
+          'clear-night': 'bez zachmurzenia',
+          'cloudy': 'i jest pochmurnie',
+          'exceptional': 'i jest wyjątkowo',
+          'fog': 'z mgłą',
+          'hail': 'z gradem',
+          'lightning': 'z piorunami',
+          'lightning-rainy': 'z deszczem i piorunami',
+          'partlycloudy': 'z częściowym zachmurzeniem',
+          'pouring': 'i leje deszcz',
+          'rainy': 'i pada deszcz',
+          'snowy': 'i pada śnieg',
+          'snowy-rainy': 'z deszczem i śniegiem',
+          'sunny': 'i słonecznie',
+          'windy': 'i wietrznie',
+          'windy-variant': 'i wietrznie z zachmurzeniem'
+        } %}
+        {% set weather_condition = weather_condition_dict.get(state.state, '') %}
+        {% if weather_condition %}
+          {% set report = report + [weather_condition] %}
+        {% endif %}
+
+        {% set humidity = state.attributes.get('humidity') %}
+        {% if humidity is not none %}
+          {% set report = report + [', wilgotność to ' ~ humidity ~ ' procent'] %}
+        {% endif %}
+
+        {% set pressure = state.attributes.get('pressure') %}
+        {% if pressure is not none %}
+          {% set pressure_unit = state.attributes.get('pressure_unit', '') %}
+          {% if pressure_unit == 'Pa' %}
+            {% set pressure_unit = 'paskali' %}
+          {% elif pressure_unit == 'hPa' %}
+            {% set pressure_unit = 'hektopaskali' %}
+          {% elif pressure_unit == 'bar' %}
+            {% set pressure_unit = 'barów' %}
+          {% elif pressure_unit == 'mbar' %}
+            {% set pressure_unit = 'milibarów' %}
+          {% endif %}
+          {% set report = report + [' natomiast ciśnienie atmosferyczne jest na poziomie ' ~ ((pressure|string).replace(".", ",")) ~ ' ' ~ pressure_unit] %}
+        {% endif %}
+
+        {% set wind_speed = state.attributes.get('wind_speed') %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') %}
+        {% if wind_speed is not none %}
+          {% set wind_speed_unit = state.attributes.get('wind_speed_unit', 'km/h') %}
+          {% if wind_speed_unit == 'm/s' %}
+            {% set wind_speed_unit = 'metrów na sekundę' %}
+          {% elif wind_speed_unit == 'km/h' %}
+            {% set wind_speed_unit = 'kilometrów na godzinę' %}
+          {% elif wind_speed_unit == 'mi/h' %}
+            {% set wind_speed_unit = 'mil na godzinę' %}
+          {% elif wind_speed_unit == 'ft/s' %}
+            {% set wind_speed_unit = 'stóp na sekundę' %}
+          {% elif wind_speed_unit == 'kn' %}
+            {% set wind_speed_unit = 'węzłów' %}
+          {% endif %}
+          
+          {% set wind_speed_text = '' %}
+          {% if wind_speed < 1 %}
+            {% set wind_speed_text = 'jest bezwietrznie' %}
+          {% elif 1 <= wind_speed < 6 %}
+            {% set wind_speed_text = 'jest lekki wiaterek' %}
+          {% elif 6 <= wind_speed < 12 %}
+            {% set wind_speed_text = 'jest delikatny wietrzyk' %}
+          {% elif 12 <= wind_speed < 20 %}
+            {% set wind_speed_text = 'jest umiarkowany wiatr' %}
+          {% elif 20 <= wind_speed < 29 %}
+            {% set wind_speed_text = 'jest silny wiatr' %}
+          {% elif 29 <= wind_speed < 39 %}
+            {% set wind_speed_text = 'jest wichura' %}
+          {% elif 39 <= wind_speed < 50 %}
+            {% set wind_speed_text = 'jest silna wichura' %}
+          {% else %}
+            {% set wind_speed_text = 'jest niezwykle silny wiatr' %}
+          {% endif %}
+          {% set report = report + [', prędkość wiatru wynosi ' ~ ((wind_speed|string).replace(".", ",")) ~ ' ' ~ wind_speed_unit ~ ', ' ~ wind_speed_text ~ ', '] %}
+          
+          {% if wind_gust_speed != None %}
+            {% set report = report + ['jednak w porywach może wynieść nawet ' ~ wind_gust_speed | string | replace('.', ',') ~ ' ' ~ wind_speed_unit] %}
+          {% endif %}
+        {% endif %}
+
+        {% set cloud_coverage = state.attributes.get('cloud_coverage') %}
+        {% if wind_speed is not none %}
+          {% set report = report + ['. Zachmurzenie osiąga ' ~ cloud_coverage ~ ' procent '] %}
+        {% endif %}
+
+        {% set uv_index = state.attributes.get('uv_index') %}
+        {% if uv_index is not none %}
+          {% set uv_category = 'niski' %}
+          {% if uv_index <= 2 %}
+            {% set uv_category = 'niski' %}
+          {% elif 3 <= uv_index <= 4 %}
+            {% set uv_category = 'średni' %}
+          {% elif 5 <= uv_index <= 7 %}
+            {% set uv_category = 'wysoki' %}
+          {% elif 8 <= uv_index <= 10 %}
+            {% set uv_category = 'bardzo wysoki' %}
+          {% elif uv_index >= 11 %}
+            {% set uv_category = 'ekstremalny' %}
+          {% endif %}
+          {% set report = report + ['a aktualny indeks UV jest ' ~ uv_category ~ ' i wynosi ' ~ uv_index ~ '.'] %}
+        {% endif %}
+
+        {{ report | join('') }}
+
+      temperature: >
+        {% set temperature = state.attributes.get('temperature') %}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% if temperature is not none %}
+          {% set temperature_pl = (temperature | string).replace(".", ",") %}
+          {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+          {% set negative_name = "" %}
+          {% if temperature | float < 0 %}
+            {% set negative_name = "minus " %}
+          {% endif %}
+          {% if temperature_decmal == 0 %}
+            {% if temperature | int | abs == 1 %}
+              {% set degree_name = 'stopień' %}
+            {% elif temperature | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% elif temperature | int | abs in [12, 13, 14] %}
+              {% set degree_name = 'stopni' %}
+            {% elif (temperature | int | string)[-1] | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% else %}
+              {% set degree_name = 'stopni' %}
+            {% endif %}
+          {% else %}
+            {% set degree_name = "stopnia" %}
+          {% endif %}
+          {% if temperature_unit == "°F" %}
+            {% set temperature_unit = degree_name ~ " farenhajta" %}
+          {% else %}
+            {% set temperature_unit = degree_name ~ " celsjusza" %}
+          {% endif %}
+          Temperatura wynosi {{ negative_name }}{{ temperature_pl.replace("-", "") }} {{ temperature_unit }}
+        {% else %}
+          Brak danych temperatury
+        {% endif %}
+
+      humidity: >
+        {% set humidity = state.attributes.get('humidity') %}
+        {% set humidity_pl = (humidity|string).replace(".", ",") %}
+        {% if humidity != "" %}
+          Wilgotność powietrza wynosi {{ humidity_pl }} procent
+        {% else %}
+          Brak danych wilgotności powietrza
+        {% endif %}
+
+      dew_point: >
+        {% set dew_point = state.attributes.get('dew_point') %}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% if dew_point is not none %}
+          {% set dew_point_pl = (dew_point | string).replace(".", ",") %}
+          {% set dew_point_decmal = (dew_point | float - dew_point | int) | round(2) %}
+          {% set negative_name = "" %}
+          {% if dew_point < 0 %}
+            {% set negative_name = "minus " %}
+          {% endif %}
+          {% if dew_point_decmal == 0 %}
+            {% if dew_point | int | abs == 1 %}
+              {% set degree_name = 'stopień' %}
+            {% elif dew_point | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% elif dew_point | int | abs in [12, 13, 14] %}
+              {% set degree_name = 'stopni' %}
+            {% elif (dew_point | int | string)[-1] | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stopnie' %}
+            {% else %}
+              {% set degree_name = 'stopni' %}
+            {% endif %}
+          {% else %}
+            {% set degree_name = "stopnia" %}
+          {% endif %}
+          {% if temperature_unit == "°F" %}
+            {% set temperature_unit = degree_name ~ " farenhajta" %}
+          {% else %}
+            {% set temperature_unit = degree_name ~ " celsjusza" %}
+          {% endif %}
+          Punkt rosy wynosi {{ negative_name }}{{ dew_point_pl.replace("-", "") }} {{ temperature_unit }}
+        {% else %}
+          Brak danych punktu rosy
+        {% endif %}
+
+      pressure: >
+        {% set pressure = state.attributes.get('pressure') %}
+        {% set pressure_pl = (pressure|string).replace(".", ",") %}
+        {% set pressure_unit = state.attributes.get('pressure_unit') %}
+        {% if pressure != "" %}
+          {% set pressure_unit_name = '' %}
+          {% if pressure_unit == 'Pa' %}
+            {% set pressure_unit_name = 'paskali' %}
+          {% elif pressure_unit == 'hPa' %}
+            {% set pressure_unit_name = 'hektopaskali' %}
+          {% elif pressure_unit == 'bar' %}
+            {% set pressure_unit_name = 'barów' %}
+          {% elif pressure_unit == 'mbar' %}
+            {% set pressure_unit_name = 'milibarów' %}
+          {% endif %}
+          Ciśnienie atmosferyczne wynosi {{ pressure_pl }} {{ pressure_unit_name }}
+        {% else %}
+          Brak danych ciśnienia atmosferycznego
+        {% endif %}
+
+      wind_speed: >
+        {% set wind_bearing = state.attributes.get('wind_bearing') %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') %}
+        {% set wind_speed = state.attributes.get('wind_speed') %}
+        {% set wind_speed_unit = state.attributes.get('wind_speed_unit') %}
+        {% set wind_bearing_text = '' %}
+
+        {% if wind_bearing is not none %}
+          {% if 0 <= wind_bearing < 45 %}
+            {% set wind_bearing_text = 'północnego kierunku' %}
+          {% elif 45 <= wind_bearing < 90 %}
+            {% set wind_bearing_text = 'północno wschodniego kierunku' %}
+          {% elif 90 <= wind_bearing < 135 %}
+            {% set wind_bearing_text = 'wschodniego kierunku' %}
+          {% elif 135 <= wind_bearing < 180 %}
+            {% set wind_bearing_text = 'południowo wschodniego kierunku' %}
+          {% elif 180 <= wind_bearing < 225 %}
+            {% set wind_bearing_text = 'południowego kierunku' %}
+          {% elif 225 <= wind_bearing < 270 %}
+            {% set wind_bearing_text = 'południowo zachodniego' %}
+          {% elif 270 <= wind_bearing < 315 %}
+            {% set wind_bearing_text = 'zachodniego kierunku' %}
+          {% elif 315 <= wind_bearing <= 360 %}
+            {% set wind_bearing_text = 'północno zachodniego kierunku' %}
+          {% else %}
+            {% set wind_bearing_text = 'nieznanego kierunku' %}
+          {% endif %}
+        {% endif %}
+
+        {% set wind_report = [] %}
+        {% set wind_speed_unit_name = 'kilometrów na godzinę' %}
+        {% if wind_speed_unit == 'm/s' %}
+          {% set wind_speed_unit_name = 'metrów na sekundę' %}
+        {% elif wind_speed_unit == 'km/h' %}
+          {% set wind_speed_unit_name = 'kilometrów na godzinę' %}
+        {% elif wind_speed_unit == 'mi/h' %}
+          {% set wind_speed_unit_name = 'mil na godzinę' %}
+        {% elif wind_speed_unit == 'ft/s' %}
+          {% set wind_speed_unit_name = 'stóp na sekundę' %}
+        {% elif wind_speed_unit == 'kn' %}
+          {% set wind_speed_unit_name = 'węzłów' %}
+        {% endif %}
+
+        {% if wind_speed != None %}
+          {% set wind_report = wind_report + ['Prędkość wiatru wynosi ' ~ wind_speed | string | replace('.', ',') ~ ' ' ~ wind_speed_unit_name] %}
+        {% endif %}
+
+        {% if wind_bearing_text %}
+          {% set wind_report = wind_report + [', z ' ~ wind_bearing_text] %}
+        {% endif %}
+
+        {% if wind_gust_speed != None %}
+          {% set wind_report = wind_report + [', w porywach może wynosić nawet ' ~ wind_gust_speed | string | replace('.', ',') ~ ' ' ~ wind_speed_unit_name] %}
+        {% endif %}
+
+        {{ wind_report | join('') }}
+
+      ozone: >
+        {% set ozone = state.attributes.get('ozone') %}
+        {% set ozone_pl = (ozone|string).replace(".", ",") %}
+        {% if ozone != "" %}
+        Poziom ozonu wynosi {{ ozone_pl }}
+        {% else %}
+        Brak danych poziomu ozonu
+        {% endif %}
+
+      cloud_coverage: >
+        {% set cloud_coverage = state.attributes.get('cloud_coverage') %}
+        {% if cloud_coverage != "" %}
+        Zachmurzenie wynosi {{ cloud_coverage }} procent
+        {% else %}
+        Brak danych zachmurzenia
+        {% endif %}
+
+      visibility: >
+        {% set visibility = state.attributes.get('visibility') %}
+        {% set visibility_pl = (visibility|string).replace(".", ",") %}
+        {% set visibility_unit = state.attributes.get('visibility_unit') %}
+        {% if visibility != "" %}
+          {% set visibility_unit_name = 'kilometrów' %}
+          {% if visibility_unit == 'km' %}
+            {% set visibility_unit_name = 'kilometrów' %}
+          {% elif visibility_unit == 'mi' %}
+            {% set visibility_unit_name = 'mil' %}
+          {% endif %}
+          Widoczność wynosi {{ visibility_pl }} {{ visibility_unit_name }}
+        {% else %}
+          Brak danych widoczności
+        {% endif %}
+
+      uv_index: >
+        {% set uv_index = state.attributes.get('uv_index') %}
+        {% if uv_index != None %}
+          {% set uv_index = uv_index | round %}
+          {% set uv_category = '' %}
+          {% set uv_comment = '' %}
+          {% if uv_index <= 2 %}
+            {% set uv_category = 'niski' %}
+            {% set uv_comment = '' %}
+          {% elif 3 <= uv_index <= 4 %}
+            {% set uv_category = 'średni' %}
+            {% set uv_comment = 'Zaleca się używanie kremu z filtrem UV, okularów przeciwsłonecznych oraz nakrycia głowy.' %}
+          {% elif 5 <= uv_index <= 7 %}
+            {% set uv_category = 'wysoki' %}
+            {% set uv_comment = 'Wskazane jest unikanie przebywania na słońcu w godzinach o najwyższym nasłonecznieniu (zwykle około południa) oraz korzystanie z odpowiedniej ochrony przed słońcem.' %}
+          {% elif 8 <= uv_index <= 10 %}
+            {% set uv_category = 'bardzo wysoki' %}
+            {% set uv_comment = 'Należy unikać słońca w godzinach największego nasłonecznienia i korzystać z efektywnej ochrony przed promieniowaniem UV.' %}
+          {% elif uv_index >= 11 %}
+            {% set uv_category = 'ekstremalny' %}
+            {% set uv_comment = 'Zdecydowanie zaleca się jak największe ograniczenie kontaktu ze słońcem oraz zastosowanie efektywnej ochrony przed promieniowaniem UV.' %}
+          {% endif %}
+          Aktualny indeks UV jest {{ uv_category }} i wynosi {{ uv_index }}. {{ uv_comment }}
+        {% else %}
+          Brak danych indeksu UV
+        {% endif %}
