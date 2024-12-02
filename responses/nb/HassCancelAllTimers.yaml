@@ -12,17 +12,10 @@ responses:
         Kansellerte {{ slots.canceled }} nedtellinger.
         {% endif %}
       area: >
-        {# List of all rooms that uses "på" instead of "i" #}
-        {% set på_area = [
-          "kjøkken", "soverom", "bad", "kontor", "veranda", "balkong", "terrasse",
-          "loft", "brygg", "hytt"
-        ] %}
-        {% set på_i = "på" if på_area | select("in", slots.area) | list else "i" %}
-
         {% if slots.canceled < 1: %}
-        Ingen nedtellinger ble kansellert {{ på_i }} {{ slots.area }}.
+        Ingen nedtellinger ble kansellert i {{ slots.area }}.
         {% elif slots.canceled == 1: %}
-        Kansellerte 1 nedtelling {{ på_i }} {{ slots.area }}.
+        Kansellerte 1 nedtelling i {{ slots.area }}.
         {% else: %}
         Kansellerte {{ slots.canceled }} nedtellinger
         {{ slots.area }}.
