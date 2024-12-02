@@ -23,3 +23,31 @@ intents:
         slots:
           domain: light
         response: "lights"
+
+      # Turn on lights in the same area as a satellite device
+      - sentences:
+          - "<slå_på> <alla> <ljuskällor> <här>"
+          - "<slå_på> <ljuskällor> <här>"
+          - "aktivera <alla> <ljuskällor> <här>"
+          - "aktivera <ljuskällor> <här>"
+          - "<slå_på> <ljuskällor>"
+          - "aktivera <ljuskällor>"
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
+
+      # Turn on all lights on a floor
+      - sentences:
+          #<slå_på> <area> <name>
+          - "<slå_på> <alla> <ljuskällor> <i_på> <våning>"
+          - "<slå_på> <alla> <ljuskällor> <våning>"
+          - "<slå_på> <alla> <våning> <ljuskällor>"
+          - "<slå_på> <våning> <ljuskällor>"
+          - "aktivera <all> <våning><ljuskällor>"
+          - "aktivera <all> <ljuskällor> <i_på> <våning>"
+        response: "lights_floor"
+        slots:
+          domain: "light"

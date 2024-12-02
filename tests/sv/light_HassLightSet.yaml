@@ -66,6 +66,8 @@ tests:
       - garagelampan till minimal effekt
       - sänk garagelampan till minsta styrka
       - kan du ändra garagelampan till minimal effekt
+      - minska garagelampan till minsta
+      - minska garagelampan till lägsta
     intent:
       name: HassLightSet
       slots:
@@ -78,6 +80,10 @@ tests:
       - vrid ljuskällorna i garaget till högsta möjliga
       - höj belysningen i garaget till högsta möjliga
       - kan du ändra belysningen i garaget till max
+      - öka alla lampor i garaget till max
+      - öka alla lampor i garaget till högst
+    #  - öka belysningen på alla lampor i garaget till max
+    # - öka belysningen på alla lampor i garaget till högsta möjliga
     intent:
       name: HassLightSet
       slots:
@@ -90,12 +96,56 @@ tests:
       - dra ner belysningen i garaget till minsta
       - vrid ljuskällorna i garaget till minsta möjliga
       - kan du ändra belysningen i garaget till minsta möjliga
+      - minska belysningen i garaget till minsta möjliga
+      #- minska ljusstyrkan i garaget till minsta möjliga
     intent:
       name: HassLightSet
       slots:
         brightness: 1
         area: Garage
         name: all
+
+  # color
+  - sentences:
+      - "ändra kökslampan till röd"
+      - "ändra kökslampan till röd färg"
+      - "gör kökslampan röd"
+      - "ändra färgen på kökslampan till röd"
+      - "gör färgen på kökslampan röd"
+      - "kökslampa röd"
+      - "Gör kökslampan röd"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        name: Kökslampan
+    response: "Färgen ändrad"
+
+  - sentences:
+      - "ändra kökets färger till rött"
+      - "gör kökets färg röd"
+      - "kök färg röd"
+      - "kök röd"
+      - "ändra färgen på alla lampor i köket till rött"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        area: Bedroom
+    response: "Color set"
+
+  - sentences:
+      - "gör lamporna röda"
+      - "ändra färgen på alla lampor här röda"
+      - "göra alla lampor röda härinnne"
+    intent:
+      name: HassLightSet
+      context:
+        area: Kök
+      slots:
+        color: red
+        area: Köket
+    response: "Färgen ändrad"
 
   - sentences:
       - rött ljus i garaget
@@ -112,8 +162,21 @@ tests:
       - ändra garagelampan till rött
       - byt garagelampan till rött
       - kan du ändra garagelampan till rött
+      #- byt färg på gargagelampan till rött
+      - ändra färgen på garagelampan till rött
+      - ändra färgen på garagelampan till röd
     intent:
       name: HassLightSet
       slots:
         color: red
         name: garagelampa
+
+  - sentences:
+      - "ändra köket till röd"
+      - "ändra färgen i köket till röd"
+    intent:
+      name: HassLightSet
+      slots:
+        color: red
+        floor: Kök
+    response: "Färgen ändrad"
