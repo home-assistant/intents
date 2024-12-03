@@ -788,6 +788,43 @@ lists:
       - in: (minimum[ra]|legkisebb[re]|legalacsonyabb[ra])
         out: 1
 
+  default_areas:
+    values:
+      - in: "konyh(a[i]|ába[n]|át)"
+        out: "konyha"
+      - in: "mosókonyh(a[i]|ába[n]|át)"
+        out: "mosőkonyha"
+      - in: "kamr(a|ába[n]|át)"
+        out: "kamra"
+      - in: "verand(a|án|át)"
+        out: "veranda"
+      - in: "vécé[ben|t]"
+        out: "WC"
+      - in: "hálószob(a[i]|ába[n]|át)"
+        out: "hálószoba"
+      - in: "gyerekszob(a[i]|ába[n]|át)"
+        out: "gyerekszoba"
+      - in: "dolgozószob(a[i]|ába[n]|át)"
+        out: "dolgozószoba"
+      - in: "vendégszob(a[i]|ába[n]|át)"
+        out: "vendégszoba"
+      - in: "fürdőszob(a[i]|ába[n]|át)"
+        out: "fürdőszoba"
+      - in: "előszob(a[i]|ába[n]|át)"
+        out: "előszoba"
+      - in: "könyvtárszob(a[i]|ába[n]|át)"
+        out: "könyvtárszoba"
+      - in: "játészob(a[i]|ába[n]|át)"
+        out: "játékszoba"
+      - in: "fitneszszob(a[i]|ába[n]|át)"
+        out: "fitneszszoba"
+      - in: "hobby szob(a[i]|ába[n]|át)"
+        out: "hobby szoba"
+      - in: "kamr(a|ába[n]|át)"
+        out: "kamra"
+      - in: "pinc(e|ében|ét)"
+        out: "pince"
+
   timer_seconds:
     range:
       from: 1
@@ -815,7 +852,7 @@ expansion_rules:
   name: "[a |az ]{name}[<name_ragok>| <name_szavak>]"
   name_ragok: "(n(a|e)k|[o|e]t|r(a|e)|[o|e|ö]n)"
   name_szavak: "((eszköz|érzékelő)[nek|t|re]|szenzor[nak|t|ra])"
-  area: "[a |az ]{area}[<area_ragok>|<area_szavak>]"
+  area: "([a |az ]{area}[<area_ragok>|<area_szavak>]|[a |az ]{default_areas:area})"
   area_ragok: "(b(a|e)[n]|(o|e|ö)n|t|i)"
   area_szavak: "([ ](szob(a[i]|ába[n]|át)|hely[i]ség[be[n]|et]))"
   floor: "[a |az ]{floor}[en|i| szint[en]| emelet[en|i]]"
@@ -867,7 +904,7 @@ expansion_rules:
   what_is_the_class_of_name: "(<what_is> <class> [amit] <name>[a|e|n(a|e)k] [szenzor[a|nak|on]|érzékelő[je|nek|n]] [mér[t]|mutat[ott]] [<area>]|<what_is> (<name> [szenzor[a|on]|érzékelő[je|n]] [által] [mért|mutatott] <class> [értéke] [<area>]))"
 
   timer_set: "(indíts[d][ el]|állíts[d][ be]|hozz létre)"
-  timer_cancel: "(töröld[ ki]|állítsd le|törlése)"
+  timer_cancel: "(töröl(j|d)[ ki]|állíts[d] le|törlése)"
   timer_duration_seconds: "{timer_seconds:seconds} másodperc[re|es|et|cel]"
   timer_duration_minutes: "(({timer_minutes:minutes} perc[re|es|et|cel][ [és ]{timer_seconds:seconds} másodperc[re|es|et|cel]])|({timer_minutes:minutes} és {timer_half:seconds} perc[re|es|et|cel])|({timer_half:seconds} perc[re|es|et|cel]))"
   timer_duration_hours: "({timer_hours:hours} ór(a|ás|ára|át|ával)[ [és ]{timer_minutes:minutes} perc[re|es|et|cel]][ [és ]{timer_seconds:seconds} másodperc[re|es|et|cel]])|({timer_hours:hours} és {timer_half:minutes} ór(a|ás|ára|át|ával))|({timer_half:minutes} ór(a|ás|ára|át|ával))"
