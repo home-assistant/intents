@@ -1,0 +1,22 @@
+---
+language: nb
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Ingen nedtellinger ble kansellert.
+        {% elif slots.canceled == 1: %}
+        Kansellerte 1 nedtelling.
+        {% else: %}
+        Kansellerte {{ slots.canceled }} nedtellinger.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Ingen nedtellinger ble kansellert i {{ slots.area }}.
+        {% elif slots.canceled == 1: %}
+        Kansellerte 1 nedtelling i {{ slots.area }}.
+        {% else: %}
+        Kansellerte {{ slots.canceled }} nedtellinger
+        {{ slots.area }}.
+        {% endif %}
