@@ -3,14 +3,14 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - (do you know|tell me|<what_is>) [the [current] (state|value) of] <name> [in <area>]
+          - (do you know|tell me|<what_is>) [the [current] (state|value) of] <name> [<in_area_floor>]
         response: one
         excludes_context:
           domain:
             - scene
             - script
       - sentences:
-          - is [the] [state of] <name> {on_off_states:state} [in <area>]
+          - is [the] [state of] <name> {on_off_states:state} [<in_area_floor>]
         response: one_yesno
         excludes_context:
           domain:
@@ -18,19 +18,19 @@ intents:
             - binary_sensor
 
       - sentences:
-          - (is|are) [there] any {on_off_domains:domain} {on_off_states:state} [in <area>]
-          - (do you know|tell me) if there are any {on_off_domains:domain} {on_off_states:state} [in <area>]
+          - (is|are) [there] any {on_off_domains:domain} {on_off_states:state} [<in_area_floor>]
+          - (do you know|tell me) if there are any {on_off_domains:domain} {on_off_states:state} [<in_area_floor>]
         response: any
 
       - sentences:
-          - are all [the] {on_off_domains:domain} [(switched|turned|set [to])] {on_off_states:state} [in <area>]
-          - are all [the] {on_off_domains:domain} in <area> [(switched|turned|set [to])] {on_off_states:state}
+          - are all [the] {on_off_domains:domain} [(switched|turned|set [to])] {on_off_states:state} [<in_area_floor>]
+          - are all [the] {on_off_domains:domain} <in_area_floor> [(switched|turned|set [to])] {on_off_states:state}
         response: all
 
       - sentences:
-          - "[do you know] (which|what) {on_off_domains:domain} (is|are) {on_off_states:state} [in <area>]"
+          - "[do you know] (which|what) {on_off_domains:domain} (is|are) {on_off_states:state} [<in_area_floor>]"
         response: which
 
       - sentences:
-          - "[tell me] how many {on_off_domains:domain} (is|are) {on_off_states:state} [in <area>]"
+          - "[tell me] how many {on_off_domains:domain} (is|are) {on_off_states:state} [<in_area_floor>]"
         response: how_many
