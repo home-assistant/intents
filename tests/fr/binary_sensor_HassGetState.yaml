@@ -1,383 +1,8 @@
 language: fr
 tests:
-  # Battery
-  - sentences:
-      - "la batterie du téléphone est-elle faible ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "battery"
-        name: "téléphone"
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Toutes les batteries sont elles pleines dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery
-        area: "cuisine"
-        state: "off"
-    response: "Non, pas téléphone"
-
-  - sentences:
-      - "Toutes les batteries sont elles pleines ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery
-        state: "off"
-    response: "Non, pas téléphone"
-
-  - sentences:
-      - "Quelles batteries sont faibles ?"
-      - "Quelles sont les batteries qui sont faibles ?"
-      - "Liste les batteries faibles"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery
-        state: "on"
-    response: "téléphone est faible"
-
-  - sentences:
-      - "Combien de batteries sont elles faibles ?"
-      - "Compte le nombre de batteries faibles"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery
-        state: "on"
-    response: "1"
-
-  - sentences:
-      - "Combien de batteries sont elles faibles dans le garage?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery
-        state: "on"
-        area: "garage"
-    response: "0"
-
-  # # Battery charging
-  - sentences:
-      - "Est ce que le téléphone est en charge ?"
-      - "Le téléphone est il en charge ?"
-      - "La batterie du téléphone est elle en cours de chargement ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "battery_charging"
-        name: "téléphone"
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Y a-t-il des batteries en charge ?"
-      - "Y a-t-il plusieurs batteries en charge ?"
-      - "Plusieurs batteries sont-elles en cours de chargement ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery_charging
-        state: "on"
-    response: "Oui, portable et téléphone sont en charge"
-
-  - sentences:
-      - "Y a-t-il des batteries en charge dans la cuisine?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery_charging
-        state: "on"
-        area: "cuisine"
-    response: "Oui, téléphone est en charge"
-
-  - sentences:
-      - "Toutes les batteries sont elles en chargement ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery_charging
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Quels appareils sont en charge ?"
-      - "Quelles batteries sont en cours de chargement ?"
-      - "Liste les appareils en charge"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery_charging
-        state: "on"
-    response: "portable et téléphone sont en charges"
-
-  - sentences:
-      - "Combien de batteries sont en charge ?"
-      - "Compte les appareils en cours de chargement"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery_charging
-        state: "on"
-    response: "2"
-
-  - sentences:
-      - "Combien de batteries sont en charge dans la cuisine ?"
-      - "Compte les appareils en cours de chargement dans la cuisine"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: battery_charging
-        state: "on"
-        area: "cuisine"
-    response: "1"
-
-  # Carbon monoxide
-  - sentences:
-      - "Est ce que le capteur monoxyde est déclenché ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "carbon_monoxide"
-        name: "capteur monoxyde"
-        state: "on"
-    response: "Non, sécurisé"
-
-  - sentences:
-      - "Est ce que le capteur monoxyde est déclenché dans la cuisine ?"
-      - "Le capteur monoxyde a-t-il été déclenché dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "carbon_monoxide"
-        name: "capteur monoxyde"
-        area: "cuisine"
-        state: "on"
-    response: "Non, sécurisé"
-
-  - sentences:
-      - "Est ce que du monoxyde de carbone est détecté dans la chambre ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "carbon_monoxide"
-        area: chambre
-        state: "on"
-    response: "Oui, capteur monoxyde chambre est déclenché"
-
-  - sentences:
-      - "Il y a un capteur de monoxyde déclenché ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: carbon_monoxide
-        state: "on"
-    response: "Oui, capteur monoxyde chambre est déclenché"
-
-  - sentences:
-      - "Y a-t-il un capteur de monoxyde déclenché dans la cuisine ?"
-      - "du monoxyde de carbone est il détecté dans la cuisine ?"
-      - "Une alerte au CO a-t-elle été déclenchée dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "cuisine"
-        domain: binary_sensor
-        device_class: carbon_monoxide
-        state: "on"
-    response: "Non"
-
-  - sentences:
-      - "Tous les capteurs de monoxyde de carbone sont ils déclenchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: carbon_monoxide
-        state: "on"
-    response: "Non, pas capteur monoxyde"
-
-  - sentences:
-      - "Tous les capteurs de CO sont ils sécurisés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: carbon_monoxide
-        state: "off"
-    response: "Non, pas capteur monoxyde chambre"
-
-  - sentences:
-      - "Quel capteur de CO est détecté ?"
-      - "Où du monoxyde de carbone est détecté ?"
-      - "Où du monoxyde de carbone a-t-il été détecté ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: carbon_monoxide
-        state: "on"
-    response: "capteur monoxyde chambre est déclenché"
-
-  - sentences:
-      - "Quel capteur de monoxyde est détecté dans la chambre?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "chambre"
-        domain: binary_sensor
-        device_class: carbon_monoxide
-        state: "on"
-    response: "capteur monoxyde chambre est déclenché"
-
-  - sentences:
-      - "Combien de capteurs de monoxyde sont en alarme ?"
-      - "Compte les capteurs de monoxyde déclenchés"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: carbon_monoxide
-        state: "on"
-    response: "1"
-
-  # # Cold
-  - sentences:
-      - "Les canalisations d'eau sont elles froides dans la cuisine ?"
-      - "Les canalisations d'eau dans la cuisine sont-elles froides ?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "cuisine"
-        domain: "binary_sensor"
-        device_class: "cold"
-        name: "canalisations d'eau"
-        state: "on"
-    response: "Non,"
-
-  - sentences:
-      - "y a-t-il des capteurs froids dans le garage ?"
-      - "des capteurs sont ils froids dans le garage ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: cold
-        state: "on"
-        area: "garage"
-    response: "Non"
-
-  - sentences:
-      - "Quels capteurs sont froids ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: cold
-        state: "on"
-    response: "tuyau est froid"
-
-  - sentences:
-      - "Combien d'appareils sont froids?"
-      - "Compte les capteurs froids"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: cold
-        state: "on"
-    response: "1"
-
-  # # Connectivity
-  - sentences:
-      - "Le téléphone est-il connecté ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "connectivity"
-        name: "Téléphone"
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Le téléphone est-il connecté dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "cuisine"
-        domain: "binary_sensor"
-        device_class: "connectivity"
-        name: "Téléphone"
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "y a-t-il des appareils connectés ?"
-      - "Des capteurs sont-ils connectés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: connectivity
-        state: "on"
-    response: "Oui, Téléphone est connecté"
-
-  - sentences:
-      - "tous les appareils sont-ils connectés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: connectivity
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Quelles machines sont en ligne ?"
-      - "Quels sont les appareils qui sont connectés ?"
-      - "Liste les appareils connectés"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: connectivity
-        state: "on"
-    response: "Téléphone est connecté"
-
-  - sentences:
-      - "Combien d'appareils sont connectés ?"
-      - "Compte les appareils connectés"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: connectivity
-        state: "on"
-    response: "1"
-
   # Door
+  #   Yes / No Questions
+  #     Name
   - sentences:
       - "La chatière est-elle ouverte ?"
       - "Est-ce que la chatière est ouverte ?"
@@ -388,1080 +13,702 @@ tests:
         device_class: "door"
         name: "Chatière"
         state: "on"
-    response: "Non, fermée"
+    response: "Non"
 
-  # # Garage door
+  # Door
+  #   Yes / No Questions
+  #     Name + Area
   - sentences:
-      - "Est-ce que la porte du garage 2 est fermée ?"
-      - "La porte du garage 2 est-elle fermée ?"
+      - "La chatière du garage est-elle ouverte ?"
+      - "Est-ce que la chatière est ouverte dans le garage?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "garage_door"
-        name: "Porte du garage 2"
+        device_class: "door"
+        name: "Chatière"
+        state: "on"
+        area: garage
+    response: "Non"
+
+  # Door
+  #   Yes / No Questions
+  #     Name + Floor
+  - sentences:
+      - "La porte principale du rez-de-chaussée est-elle ouverte ?"
+      - "Est-ce que la porte principale est ouverte au rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        name: "porte principale"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: "Non"
+
+  # Door
+  #   All
+  #     area
+  - sentences:
+      - "Les portes sont-elles ouvertes dans le salon?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        state: "on"
+        area: salon
+    response: "Non, une porte n'est pas ouvertes"
+
+  # Door
+  #   All
+  #     floor
+  - sentences:
+      - "Les portes sont-elles fermées dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
+        state: "off"
+        floor: Rez-De-Chaussée
+    response: "Oui"
+
+  # Door
+  #   All
+  #     Everywhere
+  - sentences:
+      - "Toutes les portes sont-elles fermées?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "door"
         state: "off"
     response: "Oui"
 
+  # Door
+  #   Any
+  #     area
   - sentences:
-      - "Y a-t-il des portes de garage ouvertes ?"
-      - "Certaines portes de garage sont-elles ouvertes ?"
+      - "y a-t-il des portes ouvertes dans le salon?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "garage_door"
+        device_class: "door"
         state: "on"
-    response: "Oui, Porte du garage 1 est ouverte"
+        area: salon
+    response: "Non"
 
+  # Door
+  #   Any
+  #     floor
   - sentences:
-      - "Toutes les portes du garage sont-elles fermées ?"
+      - "y a-t-il des portes ouvertes dans le rez-de-chaussée?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "garage_door"
-        state: "off"
-    response: "Non, pas Porte du garage 1"
-
-  - sentences:
-      - "Combien de portes de garage sont ouvertes ?"
-      - "Compte le nombre de portes de garage qui sont ouvertes"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "garage_door"
+        device_class: "door"
         state: "on"
-    response: "1"
+        floor: Rez-De-Chaussée
+    response: "Non"
 
+  # Door
+  #   Any
+  #     Everywhere
   - sentences:
-      - "Quelle porte de garage est ouverte ?"
-      - "Quelles sont les portes de garage ouverte ?"
-      - "Liste les portes de garage ouvertes"
+      - "y a-t-il des portes ouvertes?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "garage_door"
-        state: "on"
-    response: "Porte du garage 1 est ouverte"
-
-  # # Gas
-  - sentences:
-      - "Est ce que du gaz est détecté ?"
-      - "Du gaz est-il détecté ?"
-      - "Une alerte au gaz est-elle déclenchée ?"
-      - "Y a-t-il une alerte au gaz ?"
-      - "Il y a un capteur de gaz déclenché ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "gas"
-        state: "on"
-    response: "Oui, capteur gaz chambre est déclenché"
-
-  - sentences:
-      - "Est ce que le capteur de gaz est déclenché dans la cuisine ?"
-      - "Du gaz est-il détecté dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "gas"
-        area: "cuisine"
+        device_class: "door"
         state: "on"
     response: "Non"
 
+  # Door
+  #   How many
+  #     area
   - sentences:
-      - "Est ce que du gaz est détecté dans la chambre ?"
+      - "Combien de portes sont ouvertes dans le salon?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "gas"
-        area: chambre
+        device_class: "door"
         state: "on"
-    response: "Oui, capteur gaz chambre est déclenché"
+        area: salon
+    response: "0"
 
+  # Door
+  #   How many
+  #     floor
   - sentences:
-      - "Y a-t-il un capteur de gaz déclenché dans la cuisine ?"
-      - "du gaz est il détecté dans la cuisine ?"
-      - "du gaz a t-il été détecté dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "cuisine"
-        domain: binary_sensor
-        device_class: gas
-        state: "on"
-    response: "Non"
-
-  - sentences:
-      - "Tous les capteurs de gaz sont ils déclenchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: gas
-        state: "on"
-    response: "Non, pas capteur gaz"
-
-  - sentences:
-      - "Tous les capteurs de gaz sont-ils ok ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: gas
-        state: "off"
-    response: "Non, pas capteur gaz chambre"
-
-  - sentences:
-      - "Tous les capteurs de gaz sont ils sécurisés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: gas
-        state: "off"
-    response: "Non, pas capteur gaz chambre"
-
-  - sentences:
-      - "Quel capteur de gaz est déclenché ?"
-      - "Où du gaz est détecté ?"
-      - "Liste les capteurs de gaz déclenchés"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: gas
-        state: "on"
-    response: "capteur gaz chambre est déclenché"
-
-  - sentences:
-      - "Quel capteur de gaz est détecté dans la chambre?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "chambre"
-        domain: binary_sensor
-        device_class: gas
-        state: "on"
-    response: "capteur gaz chambre est déclenché"
-
-  - sentences:
-      - "Combien de capteurs de gaz sont en alarme ?"
-      - "Compte les capteurs de gaz déclenchés"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: gas
-        state: "on"
-    response: "1"
-
-  # # Heat
-  - sentences:
-      - "L'ordinateur est-il chaud ?"
+      - "Combien de portes sont ouvertes dans le rez-de-chaussée?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "heat"
-        name: "Ordinateur"
+        device_class: "door"
         state: "on"
-    response: "Oui"
+        floor: Rez-De-Chaussée
+    response: "0"
 
+  # Door
+  #   How many
+  #     Everywhere
   - sentences:
-      - "L'ordinateur a-t-il une température normale ?"
+      - "Combien de portes sont ouvertes?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "heat"
-        name: "Ordinateur"
-        state: "off"
-    response: "Non, chaud"
-
-  - sentences:
-      - "Certains capteurs sont-ils chaud ?"
-      - "Des appareils chauffent-ils? "
-      - "Des sondes sont-elles chaudes ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: heat
-        state: "on"
-    response: "Oui, Ordinateur est chaud"
-
-  - sentences:
-      - "Quelles sont les sondes chaudes ?"
-      - "Quels sont les appareils qui chauffent ?"
-      - "Liste les appareils qui chauffent"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: heat
-        state: "on"
-    response: "Ordinateur est chaud"
-
-  - sentences:
-      - "Tous les capteurs ont-ils une température normale ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: heat
-        state: "off"
-    response: "Non, pas Ordinateur"
-
-  - sentences:
-      - "combien d'appareils chauffent ?"
-      - "compte les capteurs qui sont chauds"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: heat
-        state: "on"
-    response: "1"
-
-  # # Light
-  - sentences:
-      - "Le détecteur lumière est-il déclenché ?"
-      - "Est-ce que détecteur lumière est activé ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "light"
-        name: "Détecteur lumière"
-        state: "on"
-    response: "Non, pas de lumière"
-
-  - sentences:
-      - "De la lumière est-elle détectée ?"
-      - "Y a-t-il des lumières détectées ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: light
-        state: "on"
-    response: "Non"
-
-  - sentences:
-      - "toutes les lumières sont-elles détectées ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: light
-        state: "on"
-    response: "Non, pas Détecteur lumière"
-
-  - sentences:
-      - "Quelles sont les lumières détectées ?"
-      - "Quelles lumières sont-elles détectées ?"
-      - "Liste les lumières détectées ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: light
-        state: "on"
-    response: "Aucun appareil"
-
-  - sentences:
-      - "Combien de lumières sont détectées ?"
-      - "Compte les lumières détectées ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: light
+        device_class: "door"
         state: "on"
     response: "0"
 
-  # # Lock
+  # Door
+  #   Which
+  #     area
   - sentences:
-      - "La porte du lave-linge est-elle verrouillée ?"
+      - "Quelles portes sont ouvertes dans le salon?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "lock"
-        name: "Porte du lave-linge"
-        state: "off"
-    response: "Oui"
-
-  # # Moisture
-  - sentences:
-      - "Le capteur d'humidité de la cuisine est-il humide ?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "cuisine"
-        domain: "binary_sensor"
-        device_class: "moisture"
-        name: "Capteur d'humidité"
+        device_class: "door"
         state: "on"
-    response: "Non, sec"
+        area: salon
+    response: "Aucun appareil"
 
+  # Door
+  #   Which
+  #     floor
   - sentences:
-      - "Le capteur d'humidité est-il déclenché ?"
+      - "Quelles portes sont ouvertes dans le rez-de-chaussée?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "moisture"
-        name: "Capteur d'humidité"
+        device_class: "door"
         state: "on"
-    response: "Non, sec"
+        floor: Rez-De-Chaussée
+    response: "Aucun appareil"
 
+  # Door
+  #   Which
+  #     Everywhere
   - sentences:
-      - "Il y a des sondes de détection de fuite déclenchées ?"
-      - "Y a-t-il des capteurs d'humidité déclenchés ?"
-      - "Y a-t-il des capteurs humides ?"
-      - "Des capteurs d'innondation sont-ils humides ?"
-      - "Des sondes sont-elles humides ?"
-      - "Y a-t-il une fuite ?"
-      - "Y a-t-il une innondation? "
+      - "Quelles portes sont ouvertes?"
     intent:
       name: HassGetState
       slots:
-        domain: binary_sensor
-        device_class: moisture
-        state: "on"
-    response: "Non"
-
-  - sentences:
-      - "Tous les capteurs d'humidité sont-ils secs ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: moisture
-        state: "off"
-    response: "Oui"
-
-  - sentences:
-      - "Liste les capteurs de fuite humides"
-      - "Liste les sondes d'humidité déclenchées"
-      - "Quelles sont les sondes d'innondation humides ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: moisture
+        domain: "binary_sensor"
+        device_class: "door"
         state: "on"
     response: "Aucun appareil"
 
+  # Window
+  #   Yes / No Questions
+  #     Name
   - sentences:
-      - "Combien de capteurs de fuite sont déclenchés ?"
-      - "Combien de capteurs d'eau sont humides ?"
+      - "Le Velux est-il ouvert ?"
+      - "Est-ce que le Velux est ouvert ?"
     intent:
       name: HassGetState
       slots:
-        domain: binary_sensor
-        device_class: moisture
-        state: "on"
-    response: "0"
-
-  # # Motion
-  - sentences:
-      - "Est-ce que le capteur de mouvement est déclenché dans le garage ?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "garage"
         domain: "binary_sensor"
-        device_class: "motion"
-        name: "Capteur de mouvement"
+        device_class: "window"
+        name: "Velux"
         state: "on"
     response: "Oui"
 
+  # Window
+  #   Yes / No Questions
+  #     Name + Area
   - sentences:
-      - "Y a-t-il des capteurs de mouvement déclenchés ?"
-      - "Des mouvements sont-ils détectés ?"
-      - "Y a-t-il du mouvement ?"
+      - "Le Velux du salon est-il ouvert ?"
+      - "Est-ce que le Velux est ouvert dans le salon?"
     intent:
       name: HassGetState
       slots:
-        domain: binary_sensor
-        device_class: motion
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "Velux"
         state: "on"
-    response: "Oui, Capteur de mouvement est actif"
+        area: salon
+    response: "Oui"
+
+  # Window
+  #   Yes / No Questions
+  #     Name + Floor
+  - sentences:
+      - "Le Velux du rez-de-chaussée est-il ouvert ?"
+      - "Est-ce que le Velux est ouvert au rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        name: "Velux"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: "Oui"
+
+  # Window
+  #   All
+  #     area
+  - sentences:
+      - "Les fenêtres sont-elles fermées dans le salon?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+        area: salon
+    response: "Non, 2 fenêtres ne sont pas fermées"
 
   - sentences:
-      - "Tous les capteurs de mouvement sont-ils déclenchés ?"
+      - "Les fenêtres sont-elles fermées dans la cuisine?"
     intent:
       name: HassGetState
       slots:
-        domain: binary_sensor
-        device_class: motion
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+        area: cuisine
+    response: "Oui"
+
+  # Window
+  #   All
+  #     floor
+  - sentences:
+      - "Les fenêtres sont-elles fermées dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+        floor: Rez-De-Chaussée
+    response: "Non, 2 fenêtres ne sont pas fermées"
+
+  # Window
+  #   All
+  #     Everywhere
+  - sentences:
+      - "Toutes les fenêtres sont-elles fermées?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+    response: "Non, 2 fenêtres ne sont pas fermées"
+
+  # Window
+  #   Any
+  #     area
+  - sentences:
+      - "y a-t-il des fenêtres ouvertes dans le salon?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+        area: salon
+    response: "Oui, 2 fenêtres sont ouvertes"
+
+  # Window
+  #   Any
+  #     floor
+  - sentences:
+      - "y a-t-il des fenêtres fermées dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "off"
+        floor: Rez-De-Chaussée
+    response: "Non"
+
+  # Window
+  #   Any
+  #     Everywhere
+  - sentences:
+      - "y a-t-il des fenêtres ouvertes?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+    response: "Oui, 2 fenêtres sont ouvertes"
+
+  # Window
+  #   How many
+  #     area
+  - sentences:
+      - "Combien de fenêtres sont ouvertes dans le salon?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+        area: salon
+    response: "2"
+
+  # Window
+  #   How many
+  #     floor
+  - sentences:
+      - "Combien de fenêtres sont ouvertes dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: "2"
+
+  # Window
+  #   How many
+  #     Everywhere
+  - sentences:
+      - "Combien de fenêtres sont ouvertes?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+    response: "2"
+
+  # Window
+  #   Which
+  #     area
+  - sentences:
+      - "Quelles fenêtres sont ouvertes dans le salon?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+        area: salon
+    response: Fenêtre Salon et Velux sont ouvertes
+
+  # Window
+  #   Which
+  #     floor
+  - sentences:
+      - "Quelles fenêtres sont ouvertes dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: Fenêtre Salon et Velux sont ouvertes
+
+  # Window
+  #   Which
+  #     Everywhere
+  - sentences:
+      - "Quelles fenêtres sont ouvertes?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "window"
+        state: "on"
+    response: Fenêtre Salon et Velux sont ouvertes
+
+  # Garage door
+  #   Yes / No Questions
+  #     Name
+  - sentences:
+      - "la porte droite est-elle ouverte ?"
+      - "Est-ce que la porte droite est ouverte ?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Porte droite"
         state: "on"
     response: "Oui"
 
+  # Garage door
+  #   Yes / No Questions
+  #     Name + Area
   - sentences:
-      - "Liste les capteurs de mouvement déclenchés"
+      - "La porte droite du garage est-elle ouverte ?"
+      - "Est-ce que la porte droite est ouvertes dans le garage?"
     intent:
       name: HassGetState
       slots:
-        domain: binary_sensor
-        device_class: motion
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Porte droite"
         state: "on"
-    response: "Capteur de mouvement est actif"
+        area: garage
+    response: "Oui"
 
+  # Garage door
+  #   Yes / No Questions
+  #     Name + Floor
   - sentences:
-      - "Compte les capteurs de mouvement actifs"
+      - "la porte droite du rez-de-chaussée est-elle ouverte ?"
+      - "Est-ce que la porte droite est ouvertes au rez-de-chaussée?"
     intent:
       name: HassGetState
       slots:
-        domain: binary_sensor
-        device_class: motion
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        name: "Porte droite"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: "Oui"
+
+  # Garage door
+  #   All
+  #     area
+  - sentences:
+      - "Les portes de garage sont-elles fermées dans le garage?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "off"
+        area: garage
+    response: "Non, une porte de garage n'est pas fermées"
+
+  # Garage door
+  #   All
+  #     floor
+  - sentences:
+      - "Les portes de garage sont-elles fermées dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "off"
+        floor: Rez-De-Chaussée
+    response: "Non, une porte de garage n'est pas fermées"
+
+  # Garage door
+  #   All
+  #     Everywhere
+  - sentences:
+      - "Toutes les portes de garage sont-elles fermées?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "off"
+    response: "Non, une porte de garage n'est pas fermées"
+
+  # Garage door
+  #   Any
+  #     area
+  - sentences:
+      - "y a-t-il des portes de garage ouvertes dans le garage?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+        area: garage
+    response: "Oui, une porte de garage est ouvertes"
+
+  # Garage door
+  #   Any
+  #     floor
+  - sentences:
+      - "y a-t-il des portes de garage ouvertes dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: "Oui, une porte de garage est ouvertes"
+
+  # Garage door
+  #   Any
+  #     Everywhere
+  - sentences:
+      - "y a-t-il des portes de garage ouvertes?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+    response: "Oui, une porte de garage est ouvertes"
+
+  # Garage door
+  #   How many
+  #     area
+  - sentences:
+      - "Combien de portes de garage sont ouvertes dans le garage?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+        area: garage
+    response: "1"
+
+  # Garage door
+  #   How many
+  #     floor
+  - sentences:
+      - "Combien de portes de garage sont ouvertes dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: "1"
+
+  # Garage door
+  #   How many
+  #     Everywhere
+  - sentences:
+      - "Combien de portes de garage sont ouvertes?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
         state: "on"
     response: "1"
 
-  # # Occupancy
+  # Garage door
+  #   Which
+  #     area
   - sentences:
-      - "Est-ce que le capteur de présence est déclenché dans la cuisine ?"
+      - "Quelles portes de garage sont ouvertes dans le garage?"
     intent:
       name: HassGetState
       slots:
-        area: "cuisine"
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+        area: garage
+    response: Porte droite est ouverte
+
+  # Garage door
+  #   Which
+  #     floor
+  - sentences:
+      - "Quelles portes de garage sont ouvertes dans le rez-de-chaussée?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+        floor: Rez-De-Chaussée
+    response: Porte droite est ouverte
+
+  # Garage door
+  #   Which
+  #     Everywhere
+  - sentences:
+      - "Quelles portes de garage sont ouvertes?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "garage_door"
+        state: "on"
+    response: Porte droite est ouverte
+
+  # Occupancy
+  #   All
+  #     area
+  - sentences:
+      - "La cuisine est-elle vide?"
+    intent:
+      name: HassGetState
+      slots:
         domain: "binary_sensor"
         device_class: "occupancy"
-        name: "Présence"
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Y a-t-il des capteurs de présence déclenchés ?"
-      - "Des personnes sont-elles détectées ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: occupancy
-        state: "on"
-    response: "Oui, Présence est déclenchée"
-
-  - sentences:
-      - "Des personnes sont-elles détectées dans la cuisine ?"
-      - "Y a-t-il quelqu'un dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "cuisine"
-        domain: binary_sensor
-        device_class: occupancy
-        state: "on"
-    response: "Oui, Présence est déclenchée"
-
-  - sentences:
-      - "Tous les capteurs de présence sont-ils déclenchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: occupancy
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Liste les capteurs de présence déclenchés"
-      - "Quels capteurs de présence sont déclenchés ?"
-      - "Quels sont les capteurs de présence déclenchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: occupancy
-        state: "on"
-    response: "Présence est déclenchée"
-
-  - sentences:
-      - "Compte les capteurs de présence actifs"
-      - "Combien de capteurs de présence sont actifs ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: occupancy
-        state: "on"
-    response: "1"
-
-  # # Opening
-  - sentences:
-      - "Est-ce que la porte du frigo est ouverte ?"
-      - "La porte du frigo est-elle ouverte ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "opening"
-        name: "Porte du frigo"
-        state: "on"
-    response: "Non, fermée"
-
-  - sentences:
-      - "Y a-t-il des ouvertures ouvertes ?"
-      - "Des ouvertures sont-elles ouvertes ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: "opening"
-        state: "on"
+        state: "off"
+        area: cuisine
     response: "Non"
 
+  # Occupancy
+  #   All
+  #     floor
   - sentences:
-      - "Toutes les ouvertures sont-elles fermées ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: "opening"
-        state: "off"
-    response: "Oui"
-
-  - sentences:
-      - "Liste les ouvertures ouvertes"
-      - "Quelles ouvertures sont ouvertes ?"
-      - "Quelles sont les ouvertures ouvertes ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: "opening"
-        state: "on"
-    response: "Aucun appareil"
-
-  - sentences:
-      - "Compte les ouvertures ouvertes"
-      - "Combien d'ouvertures sont ouvertes ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: "opening"
-        state: "on"
-    response: "0"
-
-  # # Plug
-  - sentences:
-      - "Le téléphone est-il débranché?"
+      - "Le rez-de-chaussée est-il vide?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "plug"
-        name: "téléphone"
+        device_class: "occupancy"
         state: "off"
-    response: "Non, branché"
+        floor: Rez-De-Chaussée
+    response: "Non"
 
+  # Occupancy
+  #   All
+  #     Everywhere
   - sentences:
-      - "Y a-t-il des équipements branchés ?"
-      - "Des appareils sont-ils branchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: plug
-        state: "on"
-    response: "Oui, téléphone est branché"
-
-  - sentences:
-      - "Toutes les sondes sont-elles branchées ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: plug
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Liste les équipements branchés"
-      - "Quels capteurs sont-ils branchés ?"
-      - "Quels sont les appareils branchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: plug
-        state: "on"
-    response: "téléphone est branché"
-
-  - sentences:
-      - "Compte les équipements branchés"
-      - "Combien d'appareils sont branchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: plug
-        state: "on"
-    response: "1"
-
-  # # Power
-  - sentences:
-      - "L'onduleur est-il alimenté ?"
+      - "La maison est-elle vide?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "power"
-        name: "Onduleur"
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Y a-t-il des équipements non alimentés ?"
-      - "Des appareils sont-ils non alimentés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: power
+        device_class: "occupancy"
         state: "off"
     response: "Non"
 
+  # Occupancy
+  #   Any
+  #     area
   - sentences:
-      - "Tous les capteurs sont-ils alimentés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: power
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Liste les équipements alimentés"
-      - "Quels capteurs sont-ils alimentés?"
-      - "Quels sont les appareils alimentés?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: power
-        state: "on"
-    response: "Onduleur est alimenté"
-
-  - sentences:
-      - "Compte les appareils qui sont non alimentés"
-      - "Combien d'équipements sont non alimentés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: power
-        state: "off"
-    response: "0"
-
-  # # Presence
-  - sentences:
-      - "Le téléphone est-il à la maison ?"
+      - "y a-t-il quelqu'un dans le garage?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "presence"
-        name: "téléphone"
+        device_class: "occupancy"
         state: "on"
-    response: "Non, à l'extérieur"
-
-  - sentences:
-      - "Y a-t-il des équipements à la maison ?"
-      - "Des appareils sont-ils présents ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: presence
-        state: "on"
+        area: garage
     response: "Non"
 
+  # Occupancy
+  #   Any
+  #     floor
   - sentences:
-      - "Tous les appareils sont-ils à la maison ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: presence
-        state: "on"
-    response: "Non, pas téléphone"
-
-  - sentences:
-      - "Liste les équipements non présents"
-      - "Quels capteurs sont-ils non présents?"
-      - "Quels sont les appareils non présents?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: presence
-        state: "off"
-    response: "téléphone est à l'extérieur"
-
-  - sentences:
-      - "Compte les appareils qui sont présents"
-      - "Combien d'équipements sont à la maison ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: presence
-        state: "on"
-    response: "0"
-
-  # # Problem
-  - sentences:
-      - "Y a-t-il un problème avec la nourriture des animaux ?"
-      - "La nourriture des animaux a-t-elle un problème ?"
+      - "y a-t-il quelqu'un dans le rez-de-chaussée"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
-        device_class: "problem"
-        name: "nourriture des animaux"
+        device_class: "occupancy"
         state: "on"
-    response: "Non, ok"
-
-  - sentences:
-      - "Quels sont les appareils qui ont un problème ?"
-      - "Quels appareils ont un problème ?"
-      - "Liste les appareils qui ont un problème ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "problem"
-        state: "on"
-    response: "Aucun appareil"
-
-  # # Running
-  - sentences:
-      - "La machine à laver tourne-t-elle ?"
-      - "La machine à laver est-elle en cours ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "running"
-        name: "Machine à laver"
-        state: "on"
+        floor: Rez-De-Chaussée
     response: "Oui"
-
-  - sentences:
-      - "Y a-t-il des équipements en cours d'exécution ?"
-      - "Des appareils tournent-ils ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: running
-        state: "on"
-    response: "Oui, Machine à laver est en cours"
-
-  - sentences:
-      - "Tous les équipements sont-ils en cours d'exécution ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: running
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Quels appareils tournent-ils?"
-      - "Quels sont les appareils en cours d'exécution ?"
-      - "Liste les appareils qui tournent"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: running
-        state: "on"
-    response: "Machine à laver est en cours"
-
-  - sentences:
-      - "Compte le nombre d'appareils qui tournent"
-      - "Combien d'équipements sont en cours d'exécution ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: running
-        state: "on"
-    response: "1"
-
-  # # Safety
-  - sentences:
-      - "La route est-elle sûre ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "safety"
-        name: "Route"
-        state: "off"
-    response: "Oui"
-
-  # # Smoke
-  - sentences:
-      - "Est ce que de la fumée est détectée ?"
-      - "De la fumée est-elle détectée ?"
-      - "Une alerte incendie est-elle déclenchée ?"
-      - "Y a-t-il une alerte incendie ?"
-      - "Il y a un capteur de fumée déclenché ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "smoke"
-        state: "on"
-    response: "Non"
-
-  - sentences:
-      - "Est ce que le capteur de fumée est déclenché dans la cuisine ?"
-      - "De la fumée est-elle détectée dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "smoke"
-        area: "cuisine"
-        state: "on"
-    response: "Non"
-
-  - sentences:
-      - "Y a-t-il un capteur de fumée déclenché dans la cuisine ?"
-      - "de la fumée est-elle détectée dans la cuisine ?"
-      - "de la fumée a t-elle été détectée dans la cuisine ?"
-    intent:
-      name: HassGetState
-      slots:
-        area: "cuisine"
-        domain: binary_sensor
-        device_class: smoke
-        state: "on"
-    response: "Non"
-
-  - sentences:
-      - "Tous les capteurs de fumée sont-ils déclenchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: smoke
-        state: "on"
-    response: "Non, pas Détecteur de fumée"
-
-  - sentences:
-      - "Tous les capteurs de fumée sont ils sécurisés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: smoke
-        state: "off"
-    response: "Oui"
-
-  - sentences:
-      - "Quel capteur de fumée est déclenché ?"
-      - "Où de la fumée est détectée ?"
-      - "Liste les capteurs de fumée déclenchés"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: smoke
-        state: "on"
-    response: "Aucun appareil"
-
-  - sentences:
-      - "Combien de capteurs de fumée sont en alarme ?"
-      - "Compte les capteurs de fumée déclenchés"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: smoke
-        state: "on"
-    response: "0"
-
-  # # Sound
-  - sentences:
-      - "est-ce que la sirène est déclenchée ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "sound"
-        name: "Sirène"
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Du bruit est-il détecté ?"
-      - "Du bruit a-t-il été détecté ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: sound
-        state: "on"
-    response: "Oui, Sirène est déclenchée"
-
-  - sentences:
-      - "Du bruit est-il détecté dans le garage ?"
-      - "Une sirène a-t-elle été déclenchée dans le garage ?"
-      - "Y a-t-il un capteur de son déclenché dans le garage ?"
-      - "Y a-t-il du bruit détecté dans le garage ?"
-      - "Une sirène est-elle déclenchée dans le garage ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: sound
-        state: "on"
-        area: "garage"
-    response: "Oui, Sirène est déclenchée"
-
-  - sentences:
-      - "Tous les capteurs de son sont-ils déclenchés ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: sound
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Quel capteur de son est déclenché ?"
-      - "Quels sont les capteurs de bruit déclenchés ?"
-      - "Où du son est-il détecté ?"
-      - "Liste les capteurs de son déclenchés"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: sound
-        state: "on"
-    response: "Sirène est déclenchée"
-
-  - sentences:
-      - "Combien de capteurs de son sont déclenchés ?"
-      - "Compte le nombre de capteur de son déclenchés"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: sound
-        state: "on"
-    response: "1"
-
-  # Tamper
-  - sentences:
-      - "La réserve de gâteaux est-elle ok ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "tamper"
-        name: "Réserve de gâteaux"
-        state: "off"
-    response: "Oui"
-
-  # # Vibration
-  - sentences:
-      - "Le téléphone vibre-t-il ?"
-      - "Le téléphone est-il entrain de vibrer ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "vibration"
-        name: "téléphone"
-        state: "on"
-    response: "Non, ne vibre pas"
-
-  - sentences:
-      - "Est-ce que quelque chose vibre ?"
-      - "Un appareil vibre-t-il ?"
-    intent:
-      name: HassGetState
-      context:
-        domain: binary_sensor
-        device_class: vibration
-      slots:
-        domain: "binary_sensor"
-        device_class: "vibration"
-        state: "on"
-    response: "Non"
-
-  # # Window
-  - sentences:
-      - "Est-ce que la baie est ouverte ?"
-      - "La baie est-elle ouverte ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: "binary_sensor"
-        device_class: "window"
-        name: "Baie"
-        state: "on"
-    response: "Oui"
-
-  - sentences:
-      - "Y a-t-il des fenêtres ouvertes ?"
-      - "Des fenêtres sont-elles ouvertes ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: window
-        state: "on"
-    response: "Oui, Baie est ouverte"
-
-  - sentences:
-      - "Toutes les fenêtres sont-elles fermées ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: "window"
-        state: "off"
-    response: "Non, pas Baie"
-
-  - sentences:
-      - "Liste les fenêtres ouvertes"
-      - "Quelles fenêtres sont ouvertes ?"
-      - "Quelles sont les fenêtres ouvertes ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: "window"
-        state: "on"
-    response: "Baie est ouverte"
-
-  - sentences:
-      - "Compte les fenêtres ouvertes"
-      - "Combien de fenêtres sont-elles ouvertes ?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: binary_sensor
-        device_class: "window"
-        state: "on"
-    response: "1"
