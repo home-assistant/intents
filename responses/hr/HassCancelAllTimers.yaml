@@ -1,0 +1,20 @@
+language: hr
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Nije zaustavljen niti jedan timer.
+        {% elif slots.canceled == 1 or slots.canceled % 10 == 1 and slots.canceled % 100 != 11: %}
+        Zaustavljen je 1 timer.
+        {% else: %}
+        Zaustavljena su {{ slots.canceled }} timera.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Nije zaustavljen niti jedan timer u prostoriji.
+        {% elif slots.canceled == 1 or slots.canceled % 10 == 1 and slots.canceled % 100 != 11: %}
+        Zaustavljen je 1 timer u prostoriji.
+        {% else: %}
+        Zaustavljeno je {{ slots.canceled }} timera u prostoriji.
+        {% endif %}
