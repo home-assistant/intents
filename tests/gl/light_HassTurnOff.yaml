@@ -1,30 +1,75 @@
 language: gl
 tests:
+  # Apagar todas as luces dunha área
   - sentences:
       - apaga todas as luces da cociña
-      - apaga todas as luces de cociña
-      - apaga todas as luces cociña
-      - apaga as luces da cociña
-      - apaga as luces de cociña
-      - apaga as luces cociña
-      - apaga luces cociña
+      - apagar todas as luces da cociña
+      - desconecta todas as luces da cociña
+      - desconecta as luces na cociña
+      - desconectar as luces da cociña
+      - desactiva as luces da cociña
+      - apaga luces da cociña
+      - apaga a cociña
     intent:
       name: HassTurnOff
       slots:
         area: Cociña
         domain: light
-        name: all
+    response: Luces apagadas
+
   - sentences:
-      - apaga todas as luces do dormitorio
-      - apaga todas as luces de dormitorio
-      - apaga todas as luces dormitorio
+      - apagar todas as luces do dormitorio
+      - desconecta todas as luces do dormitorio
+      - desconectar todas as luces do dormitorio
+      - por favor desactiva todas as luces do dormitorio
+      - desactivar as luces do dormitorio
       - apaga as luces do dormitorio
-      - apaga as luces de dormitorio
-      - apaga as luces dormitorio
-      - apaga luces dormitorio
+      - apagar as luces do dormitorio
+      - desconecta as luces do dormitorio por favor
+      - desconectar luces do dormitorio
+      - apaga dormitorio
     intent:
       name: HassTurnOff
       slots:
         area: Dormitorio
         domain: light
+    response: Luces apagadas
+
+  # Apagar todas as luces da casa
+  - sentences:
+      - "apaga todas as luces"
+      - "desconecta as luces do apartamento"
+      - "desactiva todas as luces da casa"
+      - "apaga as luces da casa"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
         name: all
+
+  # Apagar as luces na mesma área que un dispositivo satélite
+  - sentences:
+      - "apaga a luz"
+      - "apaga as luces"
+      - "apaga a luz de aquí"
+      - "desconecta todas as luces aquí"
+      - "desconecta a luz aquí"
+      - "apagar todas as luces aquí"
+    intent:
+      name: HassTurnOff
+      context:
+        area: Salón
+      slots:
+        domain: light
+        area: Salón
+    response: "Luces apagadas"
+
+  # Apagar todas as luces nunha planta
+  - sentences:
+      - "apaga as luces da planta baixa"
+      - "desactiva todas as bombillas da planta baixa"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        floor: Planta baixa
