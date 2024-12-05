@@ -47,8 +47,44 @@ lists:
         out: fan
       - in: (interrutor|interrutores)
         out: switch
+  cover_states:
+    values:
+      - in: "abert(o|a)[s]"
+        out: "open"
+      - in: "pechad(o|a)[s]"
+        out: "closed"
+      - in: "abréndose"
+        out: "opening"
+      - in: "pechándose"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "toldo[s]"
+        out: awning
+      - in: persiana[s]
+        out: blind
+      - in: cortina[s]
+        out: curtain
+      - in: porta[s]
+        out: door
+      - in: (porta[s]|cancela[s]|portón|portons) de garaxe
+        out: garage
+      - in: verxa[s]|cancela[s]|portón|portons
+        out: gate
+      - in: estor[es]
+        out: shade
+      - in: (contraventá[s]|veneciana[s])
+        out: shutter
+      - in: ventá[s]
+        out: window
   shopping_list_item:
     wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   temperature:
     range:
       type: "temperature"
@@ -112,16 +148,19 @@ lists:
     wildcard: true
 
 expansion_rules:
+  abre: "(abr(e|ir)|<sube>)"
   acende: "(enciende[r]|acende[r]|prende[r]|activa[r])"
   apaga: "(apag(a|ar)|desconect(a|ar)|desactiv(a|ar))"
   algun: "(algún|algunha|algúns|algunhas)"
   area: "[en | no | na | de | do | da | o | a ]{area}"
+  baixa: "([a]baix(a|ar)|redu(ce|cir)|decrement(a|ar)|disminu(e|ir))"
   brightness: "{brightness}[%| porcento]"
   cal_e_a_medida_do_sensor: "([dime ]<cal> [é (a|o)] [(cantidade|medida)|nivel (de|da|do)] | cant(o|a)[s]) <class> (de|do|da|en|no|na|dende|<que_marca>) <nome> [<area>]"
   cal_e: "([<dime> ]cal é [o |a ]|[<dime> ]cales son [os |as ]|[<dime> ]c(o|ó)mo (vai|está|marcha|se atopa)[n] [o |a |os |as ])"
   cal: "(qu[e|é]|cal|cales)"
   casa: "[d(e|o|a) | n(o|a) ](casa|apartamento|piso)"
   cancela: "cancel(a[r])"
+  pecha: "(pech(a|ar)|<baixa>)"
   crea: "(cre(a|ar))"
   de_aqui: "[de ](aquí|acá|(n(o|a)) <habitación>)"
   dime: "(d(í|i)[s|ga]me|sabes[ me][ d(e|i)cir])"
@@ -129,6 +168,8 @@ expansion_rules:
   engadir: "(engada | engade)"
   esta: "(está|están|existe|existen|hai)"
   establece: "(pon|establec(e|er)|axust(a|ar)|configur(a|ar)|cambi(a[r]))"
+  establece_abre_pecha: "(<establece>|<abre>|<pecha>)"
+  establece_sube_baixa: "(<establece>|<enciende>|<sube>|<baixa>)"
   inicia: "(inici(a|ar)|come[n](za|zar)|emp[i]e(za|zar))"
   luces: "[(a|o)[s] ](luz|luces|lámpada[s]|bombilla[s]|foco[s]|interruptor[es][ da luz])"
   meu: "(o meu|a miña|os meus|as miñas)"
@@ -142,7 +183,9 @@ expansion_rules:
   temperature: "{temperature} [graos] [{temperature_unit}]"
   todos: "(todos[ os]|todas[ as]|tódolos|tódalas|cada un d(o|a)s)"
   habitación: "(habitaci(ón|ons)|cuarto[s]|sala[s])"
+  posición: "{position}[ ][%|por[ ]cen[to]]"
   todas_partes: "[en |de ][todas partes ][d(o|a) ]<casa>"
+  sube: "(sub(e|ir)|levant(a|ar)|aument(a|ar)|increment(a|ar))"
   # Temporizadores
   temporizador: "[o |a ](temporizador|conta atrás)"
   temporizadores: "[o |a |(o|a)s ](temporizador[es]|conta[s] atrás)"
