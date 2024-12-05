@@ -1,52 +1,115 @@
 language: gl
+floors:
+  - name: "Planta alta"
+    id: upstairs_id
+  - name: "Planta baixa"
+    id: ground_floor_id
+  - name: "Primeira planta"
+    id: first_floor_id
+  - name: "Sótano"
+    id: basement_id
+  - name: "Planta suelo"
+    id: outside_id
 areas:
+  - name: "Habitación de invitados"
+    id: id_habitacion_invitados
+    floor: upstairs_id
+
+  - name: Afora
+    # área preposicional
+    id: id_fuera
+    floor: outside_id
+
   - name: Cociña
-    id: cociña
+    id: id_cociña
+    floor: ground_floor_id
+
   - name: Salón
-    id: salon
+    id: id_salon
+    floor: ground_floor_id
+
   - name: Dormitorio
-    id: dormitorio
+    id: id_dormitorio
+    floor: first_floor_id
+
   - name: Garaxe
-    id: garaxe
+    id: id_garaxe
+    floor: ground_floor_id
+
+  - name: Entrada
+    id: id_entrada
+    floor: ground_floor_id
+
+  - name: Oficina
+    id: id_oficina
+    floor: basement_id
+
 entities:
   - name: Lámpada
     id: light.lampada_dormitorio
-    area: dormitorio
+    area: id_dormitorio
     state:
       in: "apagada"
       out: "off"
+
   - name: Aplique
     id: light.aplique_dormitorio
-    area: dormitorio
+    area: id_dormitorio
     state: "on"
+
   - name: Lavalouzas
     id: switch.cociña
-    area: cociña
+    area: id_cociña
     state: "on"
+
   - name: "Máquina de Café"
     id: "switch.maq_cafe"
-    area: "cociña"
+    area: id_cociña
     state: "off"
+
   - name: Ventilador do teito
     id: fan.ventilador_teito
-    area: salon
+    area: id_salon
+
   - name: Cortina esquerda
     id: cover.cortina_esquerda
-    area: salon
+    area: id_salon
+    attributes:
+      device_class: curtain
+
   - name: TV
     id: switch.salon
-    area: salon
+    area: id_salon
     state: "on"
+
   - name: Cortinas
     id: cover.cortina_dormitorio
-    area: dormitorio
-  - name: Luz da Cociña
+    area: id_dormitorio
+
+  - name: Luz teito cociña
     id: light.luz_cocina
-    area: cociña
-    state: "on"
+    area: id_cociña
+    state:
+      in: "encendida"
+      out: "on"
+
+  - name: Luz armarios de cociña
+    id: light.armarios_cocina
+    area: id_cociña
+    state:
+      in: "encendida"
+      out: "on"
+
+  - name: Luz encimera
+    id: light.encimera_cocina
+    area: id_cociña
+    state:
+      in: "encendida"
+      out: "on"
+
   - name: "Temperatura exterior"
     id: "sensor.temperatura_exterior"
-    area: "garaxe"
+    area: id_garaxe
     state: "17"
     attributes:
       unit_of_measurement: "°C"
@@ -79,7 +142,7 @@ entities:
 
   - name: "Sensor de calidade do aire"
     id: "sensor.calidade_aire_dormitorio"
-    area: dormitorio
+    area: id_dormitorio
     state: "50"
     attributes:
       device_class: aqi
@@ -409,7 +472,7 @@ timers:
     rounded_hours_left: 0
     rounded_minutes_left: 25
     rounded_seconds_left: 0
-  - area: "cociña"
+  - area: id_cociña
     start_minutes: 5
     total_seconds_left: 190
     rounded_hours_left: 0

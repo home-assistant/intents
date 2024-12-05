@@ -2,9 +2,38 @@ language: gl
 responses:
   intents:
     HassTurnOn:
-      default: Turned on {{ slots.name }}
-      lights_area: Turned on lights in {{ slots.area }}
-      fans_area: Turned on fans in {{ slots.area }}
-      cover: Opened {{ slots.name }}
-      cover_area: Opened {{ slots.area }}
-      cover_device_class: Opened {{ slots.device_class }}
+      default: >-
+        {% set translations = {
+          "button": "o botón",
+          "camera": "a cámara",
+          "input_button": "o botón",
+          "alarm_control_panel": "a alarma",
+          "automation": "a automatización",
+          "fan": "o ventilador",
+          "climate": "o termostato",
+          "humidifier": "o humidificador",
+          "input_boolean": "o interruptor",
+          "siren": "a sirena",
+          "water_heater": "o quentador de auga",
+          "light": "a luz",
+          "switch": "o interruptor",
+          "remote": "o control remoto",
+          "vacuum": "a aspiradora",
+          "media_player": "o reprodutor",
+          "lawn_mower": "o cortacéspede"
+        } %}
+        Activouse {{ translations.get(state.domain) }}
+      light: "{{ slots.name }} acendeuse"
+      lights_area: "Luces acendidas"
+      lights_floor: "Luces acendidas"
+      light_all: "Acendéronse todas as luces"
+      fan: "{{ slots.name }} acendeuse"
+      fans_area: "Ventiladores acendidos"
+      cover: "{{ slots.name }} abriuse"
+      cover_area: "Apertura completada"
+      cover_device_class: "Apertura completada"
+      scene: "Escena {{ slots.name }} activada"
+      script: "Script iniciado"
+      lock: "{{ slots.name }} pechouse"
+      lock_area: "Peche efectuado"
+      valve: "{{ slots.name }} abriuse"

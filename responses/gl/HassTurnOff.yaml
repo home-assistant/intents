@@ -2,9 +2,35 @@ language: gl
 responses:
   intents:
     HassTurnOff:
-      default: Turned off {{ slots.name }}
-      lights_area: Turned off lights in {{ slots.area }}
-      fans_area: Turned off fans in {{ slots.area }}
-      cover: Closed {{ slots.name }}
-      cover_area: Closed {{ slots.area }}
-      cover_device_class: Closed {{ slots.device_class }}
+      default: >-
+        {% set translations = {
+          "button": "o botón",
+          "camera": "a cámara",
+          "input_button": "o botón",
+          "alarm_control_panel": "a alarma",
+          "automation": "a automatización",
+          "fan": "o ventilador",
+          "climate": "o termostato",
+          "humidifier": "o humidificador",
+          "input_boolean": "o interruptor",
+          "siren": "a sirena",
+          "water_heater": "o quentador de auga",
+          "light": "a luz",
+          "switch": "o interruptor",
+          "remote": "o control remoto",
+          "vacuum": "a aspiradora",
+          "media_player": "o reprodutor",
+          "lawn_mower": "o cortacéspede"
+        } %}
+        Apagouse {{ translations.get(state.domain) }}
+      light: "{{ slots.name }} apagouse"
+      lights_area: "Luces apagadas"
+      lights_floor: "Luces apagadas"
+      fans_area: "Ventiladores apagados"
+      cover: "{{ slots.name }} pechouse"
+      cover_area: "{{ slots.area }} pechouse"
+      light_all: "Todas as luces apagadas"
+      cover_device_class: "Peche completado"
+      lock: "{{ slots.name }} abriuse"
+      lock_area: "Apertura completada"
+      valve: "{{ slots.name }} pechouse"
