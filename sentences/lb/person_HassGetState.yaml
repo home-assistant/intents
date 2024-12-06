@@ -1,0 +1,44 @@
+language: lb
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "wou ass <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "ass <name> [an | am | op] [der | dem] {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "ass [iergend]een [an | am | op] [der | dem] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "ass jiddereen [an | am | op] [der | dem] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "wien ass [an | am | op] [der | dem] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "weivill (leit|persoune[n]) sinn [an | am | op] [der | dem] {zone:state}"
+        response: how_many
+        slots:
+          domain: person
