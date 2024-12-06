@@ -32,6 +32,18 @@ tests:
     response: "Nein"
 
   - sentences:
+      - "ist die Schlafzimmerlampe aus im Obergeschoss?"
+      - "ist die Schlafzimmerlampe im Obergeschoss aus?"
+      - "ist im Obergeschoss die Schlafzimmerlampe aus?"
+    intent:
+      name: HassGetState
+      slots:
+        floor: "Obergeschoss"
+        name: "Schlafzimmerlampe"
+        state: "off"
+    response: "Nein"
+
+  - sentences:
       - "sind irgendwelche Schalter in der Küche an?"
       - "sind irgendwelche Schalter an in der Küche?"
       - "sind in der Küche irgendwelche Schalter angeschaltet?"
@@ -42,6 +54,18 @@ tests:
         domain: "switch"
         state: "on"
     response: "Nein"
+
+  - sentences:
+      - "sind irgendwelche Schalter im Erdgeschoss an?"
+      - "sind irgendwelche Schalter an im Erdgeschoss?"
+      - "sind im Erdgeschoss irgendwelche Schalter angeschaltet?"
+    intent:
+      name: HassGetState
+      slots:
+        floor: "Erdgeschoss"
+        domain: "switch"
+        state: "on"
+    response: "Ja, Flurschalter"
 
   - sentences:
       - "sind alle Schalter aus?"
@@ -59,6 +83,16 @@ tests:
       name: HassGetState
       slots:
         area: "Flur"
+        domain: "switch"
+        state: "off"
+    response: "Nein, Flurschalter ist es nicht"
+
+  - sentences:
+      - "sind alle Schalter im Erdgeschoss aus?"
+    intent:
+      name: HassGetState
+      slots:
+        floor: "Erdgeschoss"
         domain: "switch"
         state: "off"
     response: "Nein, Flurschalter ist es nicht"
@@ -84,6 +118,30 @@ tests:
     response: "Schlafzimmerlampe"
 
   - sentences:
+      - "welche Lampen im Obergeschoss sind aus?"
+      - "welche Lampen im Obergeschoss sind ausgeschaltet?"
+      - "welche Lampe im Obergeschoss ist aus?"
+    intent:
+      name: HassGetState
+      slots:
+        floor: "Obergeschoss"
+        domain: "light"
+        state: "off"
+    response: "Schreibtischlampe"
+
+  - sentences:
+      - "welche Lampen im Schlafzimmer sind aus?"
+      - "welche Lampen im Schlafzimmer sind ausgeschaltet?"
+      - "welche Lampe im Schlafzimmer ist aus?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Schlafzimmer"
+        domain: "light"
+        state: "off"
+    response: "Schreibtischlampe"
+
+  - sentences:
       - "wie viele Lampen sind an?"
     intent:
       name: HassGetState
@@ -99,6 +157,17 @@ tests:
       name: HassGetState
       slots:
         area: "Schlafzimmer"
+        domain: "light"
+        state: "on"
+    response: "1"
+
+  - sentences:
+      - "wie viele Lampen sind an im Obergeschoss?"
+      - "wie viele Lampen im Obergeschoss sind an?"
+    intent:
+      name: HassGetState
+      slots:
+        floor: "Obergeschoss"
         domain: "light"
         state: "on"
     response: "1"
