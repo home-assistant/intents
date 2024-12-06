@@ -3,8 +3,11 @@ intents:
   HassShoppingListAddItem:
     data:
       - sentences:
-          - (afeg[e]ix|posa) <item> a<my_list>
+          - <add> <item> (a|en) <my_list>
+          - <add> (a|en) <my_list_req> <item>
         response: item_added
         expansion_rules:
-          my_list: "[ la][ meva] llista[ de la compra| de compres]"
+          my_list: "[la] [meva] llista [de (la compra|compres|comprar)]"
+          my_list_req: "[la] [meva] llista de (la compra|compres|comprar)"
           item: "{shopping_list_item:item}"
+          add: "(afeg[e]ix|posa)"

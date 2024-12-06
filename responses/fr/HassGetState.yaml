@@ -14,7 +14,7 @@ responses:
         {% if query.matched %}
           Oui
         {% else %}
-          Non, {{ state.state_with_unit }}
+          Non
         {% endif %}
 
       any: |
@@ -65,6 +65,13 @@ responses:
           Non
         {% endif %}
 
+      any_super_short: |
+        {% if query.matched %}
+          Oui
+        {% else %}
+          Non
+        {% endif %}
+
       all: |
         {% if not query.unmatched: %}
           Oui
@@ -86,6 +93,13 @@ responses:
               {{ name }}
             {%- endfor %}
           {% endif %}
+        {% endif %}
+
+      all_super_short: |
+        {% if not query.unmatched: %}
+          Oui
+        {% else %}
+          Non
         {% endif %}
 
       which: |
@@ -140,4 +154,77 @@ responses:
           {{ slots.name | capitalize }} est absent(e)
         {% else %}
           {{ slots.name | capitalize }} est dans la zone {{ state.state }}
+        {% endif %}
+
+      # Binary Sensor Device Class specific responses
+      all_windows: |
+        {% if not query.unmatched: %}
+          Oui
+        {% else %}
+          {% set count_no_match = query.unmatched | length | int %}
+          {% if count_no_match == 1 %}
+            Non, une fenêtre n'est pas {{ slots.state  }}
+          {%- else -%}
+            Non, {{count_no_match}} fenêtres ne sont pas {{ slots.state }}
+          {% endif %}
+        {% endif %}
+
+      any_windows: |
+        {% if query.matched %}
+          {% set count_match = query.matched | length | int %}
+          {% if count_match == 1 %}
+            Oui, une fenêtre est {{ slots.state }}
+          {%- else -%}
+            Oui, {{count_match}} fenêtres sont {{ slots.state }}
+          {% endif %}
+        {% else %}
+          Non
+        {% endif %}
+
+      all_doors: |
+        {% if not query.unmatched: %}
+          Oui
+        {% else %}
+          {% set count_no_match = query.unmatched | length | int %}
+          {% if count_no_match == 1 %}
+            Non, une porte n'est pas {{ slots.state  }}
+          {%- else -%}
+            Non, {{count_no_match}} portes ne sont pas {{ slots.state }}
+          {% endif %}
+        {% endif %}
+
+      any_doors: |
+        {% if query.matched %}
+          {% set count_match = query.matched | length | int %}
+          {% if count_match == 1 %}
+            Oui, une porte est {{ slots.state }}
+          {%- else -%}
+            Oui, {{count_match}} portes sont {{ slots.state }}
+          {% endif %}
+        {% else %}
+          Non
+        {% endif %}
+
+      all_garage_doors: |
+        {% if not query.unmatched: %}
+          Oui
+        {% else %}
+          {% set count_no_match = query.unmatched | length | int %}
+          {% if count_no_match == 1 %}
+            Non, une porte de garage n'est pas {{ slots.state  }}
+          {%- else -%}
+            Non, {{count_no_match}} portes de garage ne sont pas {{ slots.state }}
+          {% endif %}
+        {% endif %}
+
+      any_garage_doors: |
+        {% if query.matched %}
+          {% set count_match = query.matched | length | int %}
+          {% if count_match == 1 %}
+            Oui, une porte de garage est {{ slots.state }}
+          {%- else -%}
+            Oui, {{count_match}} portes de garage sont {{ slots.state }}
+          {% endif %}
+        {% else %}
+          Non
         {% endif %}
