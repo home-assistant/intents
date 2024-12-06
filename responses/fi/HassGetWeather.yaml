@@ -27,4 +27,14 @@ responses:
         {% else %}
           {% set temperature_string = temperature | string | replace('.', ',') %}
         {% endif %}
-        {{ temperature_string }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get(state.state, state.state | string) }}
+
+
+        {% set yksikkö = state.attributes.get('temperature_unit') | string  %}
+          {% if yksikkö == "°C" %}
+            {% set yksikkö = "astetta" %}
+          {% else %}
+            {% set yksikkö = "faaren haittia" %}
+          {%- endif %}
+        {{ temperature_string }} {{ yksikkö }} {{ weather_condition.get(state.state, state.state | string) }}
+
+      #{{ temperature_string }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get(state.state, state.state | string) }}

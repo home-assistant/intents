@@ -2,14 +2,13 @@ language: fi
 intents:
   HassGetWeather:
     data:
-      # 'sä' is a workaround for STT problems
       - sentences:
-          - "(<kerro>|<kuinka>) (sää|sä|ilma) on"
+          # 'sä' is a workaround for STT problems
+          - "(<kerro> [<kuinka>]|<kuinka>) [kylmä|lämmin|kuuma] (sä|sää|lämpötila) (on [[nyt];[ulkona]]|ulkona (on;[nyt]))"
+          - "[<kerro>] lämpötila ulkona"
+          - "[<kerro>] <paljonko> (pakkasta;(on;[ulkona];[nyt]))"
+          - "[<kerro>] <paljonko> (on;(pakkasta;[ulkona];[nyt]))"
       - sentences:
-          - "[(<kerro>|<kuinka>)] [kylmä|lämmin|kuuma] [(sää|sä|ilma)] [on] [<paikka>] <nimi>"
-          - "[(<kerro>|<kuinka>)] [kylmä|lämmin|kuuma] [(sää|sä|ilma)] [<paikka>] <nimi> [on]"
-          - "[(<kerro>|<kuinka>)] [kylmä|lämmin|kuuma] [on] [<paikka>] <nimi> [(sää|sä|ilma)]"
-          - "[(<kerro>|<kuinka>)] [kylmä|lämmin|kuuma] [on] [(sää|sä|ilma)] [<paikka>] <nimi>"
-          - "[(<kerro>|<kuinka>)] [kylmä|lämmin|kuuma] [<paikka>] <nimi> [(sää|sä|ilma)] [on]"
+          - "[<kerro>] [<kuinka>] [kylmä|lämmin|kuuma] ([(sää|sä|ilma)];[on];[<paikka>];<nimi>)"
         requires_context:
           domain: weather
