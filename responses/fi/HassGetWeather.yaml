@@ -4,21 +4,37 @@ responses:
     HassGetWeather:
       default: >
         {% set weather_condition = {
-          'clear': 'ja kirkasta',
-          'clear-night': 'ja kirkasta',
-          'cloudy': 'ja pilvistä',
-          'exceptional': 'ja poikkeukselliset sääolosuhteet',
-          'fog': 'ja sumuista',
-          'hail': 'ja tihkua',
-          'lightning': 'ja ukkosta',
-          'lightning-rainy': 'ja ukkosmyrsky',
-          'partlycloudy': 'ja osittain pilvistä',
-          'pouring': 'ja rankkasade',
-          'rainy': 'ja sataa vettä',
-          'snowy': 'ja sataa lunta',
-          'snowy-rainy': 'ja sataa räntää',
-          'sunny': 'ja aurinkoista',
-          'windy': 'ja tuulista',
-          'windy-variant': 'tuulista ja aurinkoista'
+          'Selkeä': 'ja kirkasta',
+          'Yö, selkeää': 'ja kirkasta',
+          'Pilvistä': 'ja pilvistä',
+          'Poikkeuksellinen': 'ja poikkeukselliset sääolosuhteet',
+          'Sumuista': 'ja sumuista',
+          'Raekuuroja': 'ja raekuuroja',
+          'Ukkoskuuroja': 'ja ukkosta',
+          'Ukkosvaara, sateista': 'ja ukkosmyrsky',
+          'Puolipilvistä': 'ja puolipilvistä',
+          'Kaatosadetta': 'ja kaatosade',
+          'Vesisadetta': 'ja sataa vettä',
+          'Lumisadetta': 'ja sataa lunta',
+          'Räntäsadetta': 'ja sataa räntää',
+          'Aurinkoista': 'ja aurinkoista',
+          'Tuulista': 'ja tuulista',
+          'Tuulista, pilvistä': 'ja tuulista ja pilvistä'
         } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {% set temperature = state.attributes.get('temperature') | int %}
+        {% if temperature < 0 %}
+          {% set temperature_string = 'miinus ' ~ (temperature * -1) | string | replace('.', ',') %}
+        {% else %}
+          {% set temperature_string = temperature | string | replace('.', ',') %}
+        {% endif %}
+
+
+        {% set yksikkö = state.attributes.get('temperature_unit') | string  %}
+          {% if yksikkö == "°C" %}
+            {% set yksikkö = "astetta" %}
+          {% else %}
+            {% set yksikkö = "faaren haittia" %}
+          {%- endif %}
+        {{ temperature_string }} {{ yksikkö }} {{ weather_condition.get(state.state, state.state | string) }}
+
+      #{{ temperature_string }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get(state.state, state.state | string) }}
