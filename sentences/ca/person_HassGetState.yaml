@@ -4,13 +4,15 @@ intents:
     data:
       # https://www.home-assistant.io/integrations/person/
       - sentences:
-          - "[saps] on (és|es) [troba] <now> <la_persona>"
-          - "[saps] on (està|para) <la_persona> <now>"
-          - "[saps] on puc trobar <la_persona> <now>"
+          - "[saps] <on> (és|es) [troba] <now> <la_persona>"
+          - "[saps] <on> (està|para) <la_persona> <now>"
+          - "[saps] <on> puc trobar <la_persona> <now>"
           - pots localitza[r] <la_persona>
         response: where
         expansion_rules:
           la_persona: "((a|al|el|en|a en|la) |l'){name}"
+          "on": "(on|<on_typo>)"
+          on_typo: "(or)"
         requires_context:
           domain: person
         slots:
