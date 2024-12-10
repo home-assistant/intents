@@ -22,14 +22,24 @@ responses:
         {% if not query.unmatched: %}
         Áno
         {% else: %}
-        Nie, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Nie, {{ match[:3] | join(", ") }} a {{ (match | length - 3) }} ďalšie
+          {%- else -%}
+            Nie, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+          {% endif %}
         {% endif %}
 
       which: |
         {% if not query.matched: %}
         Žiadne
         {% else: %}
-        {{ query.matched | map(attribute="name") | sort | join(", ") }}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} a {{ (match | length - 3) }} ďalšie
+          {%- else -%}
+            {{ query.matched | map(attribute="name") | sort | join(", ") }}
+          {% endif %}
         {% endif %}
 
       how_many: |
