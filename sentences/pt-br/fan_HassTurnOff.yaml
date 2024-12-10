@@ -3,7 +3,16 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<desligar> [todos] [(o[s])] (ventilador[es]) <na_zona>"
+          - "<desligar> [todos] <artigos> <ventilador> <na_zona>"
         slots:
           domain: fan
-        response: fans_area
+        response: fans
+      # For satellite location
+      - sentences:
+          - <desligar> <artigos> <ventilador> [aqui] [onde estou]
+        slots:
+          domain: fan
+        response: fans
+        requires_context:
+          area:
+            slot: true

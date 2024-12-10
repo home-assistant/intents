@@ -3,7 +3,7 @@ responses:
   intents:
     HassGetState:
       einzeln: |
-        {{ slots.name | capitalize }} ist {{ state.state_with_unit }}
+        {{ slots.name | capitalize }} ist {{ state.state_with_unit | replace(".", ",") if state.state|float(state.state) is number else state.state_with_unit }}
 
       einzeln_janein: |
         {% if query.matched %}
