@@ -1,20 +1,67 @@
 language: ne
+floors:
+  - name: "माथिल्लो तल्ला"
+    id: "upstairs_id"
+  - name: "भुई"
+    id: "ground_floor_id"
+  - name: "पहिलो तल्ला"
+    id: "first_floor_id"
+  - name: "दोस्रो तल्ला"
+    id: "second_floor_id"
+
 areas:
   - name: भान्छा
-    id: kitchen
-  - name: बैठक कोठा
-    id: living_room
-  - name: सुत्ने
-    id: bedroom
+    id: kitchen_id
+    floor: "upstairs_id"
+  - name: बैठक
+    id: living_room_id
+    floor: "first_floor_id"
+  - name: सुत्ने कोठा
+    id: bedroom_id
+    floor: "second_floor_id"
   - name: गराज
-    id: garage
+    id: garage_id
+    floor: "ground_floor_id"
 entities:
   - name: सुत्ने कोठाको बत्ती
     id: light.bedroom_lamp
-    area: bedroom
+    area: bedroom_id
+    state: "off"
+
+  - name: "सुत्ने कोठाको स्विच"
+    id: "switch.bedroom"
+    area: "bedroom_id"
+    state: "off"
+
   - name: भान्छाको स्विच
     id: switch.kitchen
-    area: kitchen
+    area: kitchen_id
+
   - name: बैठकको पंखा
     id: fan.ceiling
-    area: living_room
+    area: living_room_id
+
+  - name: "टेबल"
+    id: "light.kitchen_countertop"
+    area: "kitchen_id"
+    state: "on"
+
+  - name: "भान्छाको पंखा"
+    id: "fan.kitchen_ceiling"
+    area: "kitchen_id"
+    state: "on"
+
+  - name: "भान्छाको दराज"
+    id: "light.kitchen_cabinets"
+    area: "kitchen_id"
+    state: "on"
+
+  - name: "बैठकको बल्ब"
+    id: "light.living_room_lamp"
+    area: "living_room_id"
+    state: "on"
+
+  - name: "गराज बल्ब"
+    id: "light.garage"
+    area: "garage_id"
+    state: "on"
