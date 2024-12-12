@@ -70,11 +70,13 @@ def run() -> int:
 
         missing_usable_intents = [
             intent[4:]  # strip Hass from name
-            for intent in IMPORTANT_INTENTS if not intent_sentence_count[intent]
+            for intent in IMPORTANT_INTENTS
+            if not intent_sentence_count[intent]
         ]
         missing_complete_intents = [
             intent[4:]  # strip Hass from name
-            for intent in intent_sentence_count if not intent_sentence_count[intent]
+            for intent in intent_sentence_count
+            if not intent_sentence_count[intent]
         ]
 
         usable = not missing_usable_intents and errors_translated
@@ -131,7 +133,10 @@ def run() -> int:
                     info["language"]
                     for info in sorted(
                         language_summaries.values(),
-                        key=lambda x: (len(x["missing_complete_intents"]), x["language"]),
+                        key=lambda x: (
+                            len(x["missing_complete_intents"]),
+                            x["language"],
+                        ),
                     )
                     if info["usable"] and info["missing_complete_intents"]
                 ],
