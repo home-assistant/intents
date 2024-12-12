@@ -1,0 +1,21 @@
+---
+language: es
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        No se ha cancelado ningún temporizador.
+        {% elif slots.canceled == 1: %}
+        Se ha cancelado 1 temporizador.
+        {% else: %}
+        Se han cancelado {{ slots.canceled }} temporizadores.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        No se ha cancelado ningún temporizador en {{ slots.area }}.
+        {% elif slots.canceled == 1: %}
+        Se ha cancelado 1 temporizador en {{ slots.area }}.
+        {% else: %}
+        Se han cancelado {{ slots.canceled }} temporizadores en {{ slots.area }}.
+        {% endif %}
