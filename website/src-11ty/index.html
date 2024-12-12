@@ -100,8 +100,8 @@ Cell format:
 </table>
 <p><i>Every cell in the table links to the relevant file.</i></p>
 
-<h2>Road to Team 💚</h2>
-List of languages that are missing important intent coverage.
+<h2>Road to complete ⭐️</h2>
+List of languages that are usable, but not yet complete.
 <table>
   <thead>
     <tr>
@@ -110,7 +110,7 @@ List of languages that are missing important intent coverage.
       <th>Intents</th>
     </tr>
   </thead>
-  {% for language in intentSummary.improvements %}
+  {% for language in intentSummary.improvements_complete %}
   {% assign summary = intentSummary.languages[language] %}
   <tr>
     <td>
@@ -122,9 +122,41 @@ List of languages that are missing important intent coverage.
       </a>
 
     </td>
-    <td>{{ intentSummary.languages[language].missing_intents | size }}</td>
+    <td>{{ intentSummary.languages[language].missing_complete_intents | size }}</td>
     <td style="text-align: left; padding-left: 16px;">
-      {% for intent in intentSummary.languages[language].missing_intents %}
+      {% for intent in intentSummary.languages[language].missing_complete_intents %}
+        {{ intent }}{% if forloop.last == false %}, {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>Road to Team 💚</h2>
+List of languages that are missing important intent coverage.
+<table>
+  <thead>
+    <tr>
+      <th>Language</th>
+      <th>Missing</th>
+      <th>Intents</th>
+    </tr>
+  </thead>
+  {% for language in intentSummary.improvements_usable %}
+  {% assign summary = intentSummary.languages[language] %}
+  <tr>
+    <td>
+      <a
+        href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/"
+        target="_blank"
+      >
+        <code>{{summary.language}}</code> {{summary.native_name}}
+      </a>
+
+    </td>
+    <td>{{ intentSummary.languages[language].missing_usable_intents | size }}</td>
+    <td style="text-align: left; padding-left: 16px;">
+      {% for intent in intentSummary.languages[language].missing_usable_intents %}
         {{ intent }}{% if forloop.last == false %}, {% endif %}
       {% endfor %}
     </td>
