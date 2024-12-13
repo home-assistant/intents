@@ -138,7 +138,7 @@ def do_test_language_sentences_file(
                     intent.get("context", {}).get("domain") == testing_domain
                 ), f"File {test_file}: tests should have domain slot set to {testing_domain}"
 
-        intent_context = test.get("context", {})
+        test_context = test.get("context", {})
         expected_response_texts = test.get("response")
         if expected_response_texts:
             if isinstance(expected_response_texts, str):
@@ -176,7 +176,7 @@ def do_test_language_sentences_file(
                     sentence,
                     language_sentences,
                     slot_lists=slot_lists,
-                    intent_context=intent_context,
+                    intent_context=test_context,
                     best_slot_name="name",
                 )
                 assert result is not None, f"Recognition failed for '{sentence}'"
