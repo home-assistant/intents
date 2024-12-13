@@ -238,6 +238,11 @@ def do_test_language_sentences_file(
 
                 # Verify response
                 if expected_response_texts:
+                    if (result.intent.name == "HassRespond") and (
+                        "response" in result.entities
+                    ):
+                        return result.entities["response"].value
+
                     actual_response_key = result.response
                     assert actual_response_key, f"Expected a response for: {sentence}"
 
