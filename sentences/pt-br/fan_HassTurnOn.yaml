@@ -3,7 +3,16 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<ligar> todos os ventiladores <na_zona>"
+          - "<ligar> [todos] <artigos> <ventilador> <na_zona>"
         slots:
           domain: fan
-        response: fans_area
+        response: fans
+      # For satellite location
+      - sentences:
+          - <ligar> <artigos> <ventilador> [aqui] [onde estou]
+        slots:
+          domain: fan
+        response: fans
+        requires_context:
+          area:
+            slot: true
