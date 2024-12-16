@@ -3,12 +3,62 @@ intents:
   HassGetWeather:
     data:
       - sentences:
-          - "(<quelest>|donne[s][-moi]) (le|la|les) (temps|météo)"
-          - "(Donne[s]( |-)moi|Dis( |-)moi) le temps qu'il fait"
+          - "(<quelest>|<donnemoi>) (le|la|les) (temps|météo)"
+          - "<donnemoi> le temps qu'il fait"
           - "Quel temps fait-il"
       - sentences:
-          - "(<quelest>|donne[s][-moi]) (le|la|les) (temps|météo) (pour|à) [<le>]{name}"
-          - "(Donne-moi|Dis-moi) le temps qu'il fait à [<le>]{name}"
+          - "(<quelest>|<donnemoi>) (le|la|les) (temps|météo) (pour|à) [<le>]{name}"
+          - "<donnemoi> le temps qu'il fait à [<le>]{name}"
           - "Quel temps fait-il à [<le>]{name}"
         requires_context:
           domain: weather
+
+      - sentences:
+          - "[<donnemoi> (un[e]|le)] (bulletin|rapport) météo [détaillé[e]]"
+          - "(<quelest>|<donnemoi>) (le|la|les) (temps|météo) (détaillé[e]|en détail)"
+          - "<donnemoi> le temps qu'il fait en détail"
+          - "<donnemoi> le détail du temps qu'il fait"
+        response: detailed_weather
+      - sentences:
+          - "[<donnemoi> (un[e]|le)] (bulletin|rapport) météo [détaillé[e]] (pour|à) [<le>]{name}"
+          - "(<quelest>|<donnemoi>) (le|la|les) (temps|météo) (détaillé[e]|en détail) (pour|à) [<le>]{name}"
+          - "<donnemoi> le temps qu'il fait en détail à [<le>]{name}"
+          - "<donnemoi> le détail du temps qu'il fait à [<le>]{name}"
+        requires_context:
+          domain: weather
+        response: detailed_weather
+
+      - sentences:
+          - "[(<quelest>|<donnemoi>) la] pression atmosphérique [<aujourdhui>]"
+        response: pressure
+      - sentences:
+          - "[(<quelest>|<donnemoi>) la] pression atmosphérique [<aujourdhui>] (pour|à) [<le>]{name}"
+        requires_context:
+          domain: weather
+        response: pressure
+
+      - sentences:
+          - "[(<quelest>|<donnemoi>) l']indice UV [<aujourdhui>]"
+        response: uv
+      - sentences:
+          - "[(<quelest>|<donnemoi>) l']indice UV [<aujourdhui>] (pour|à) [<le>]{name}"
+        requires_context:
+          domain: weather
+        response: uv
+
+      - sentences:
+          - "(<quelest>|<donnemoi>) la (vitesse|force) du vent [<aujourdhui>]"
+          - "(À|A) <quel> vitesse le vent souffle [<aujourdhui>]"
+          - "[(<quelest>|<donnemoi>) la] météo du vent [<aujourdhui>]"
+          - "(<quelest>|<donnemoi>) le détail du vent [<aujourdhui>]"
+          - "<yatil> du vent [<aujourdhui>]"
+        response: wind
+      - sentences:
+          - "(<quelest>|<donnemoi>) la vitesse du vent [<aujourdhui>] à [<le>]{name}"
+          - "(À|A) <quel> vitesse le vent souffle [<aujourdhui>] à [<le>]{name}"
+          - "[(<quelest>|<donnemoi>) la] météo du vent [<aujourdhui>] (pour|à) [<le>]{name}"
+          - "(<quelest>|<donnemoi>) le détail du vent (pour|à) [<le>]{name}"
+          - "<yatil> du vent [<aujourdhui>] à [<le>]{name}"
+        requires_context:
+          domain: weather
+        response: wind
