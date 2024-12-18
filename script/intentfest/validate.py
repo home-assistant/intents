@@ -221,6 +221,9 @@ TESTS_SCHEMA = vol.Schema(
         vol.Required("tests"): [
             {
                 vol.Required("sentences"): [str],
+                vol.Optional("context"): {
+                    str: match_anything_but_dict,
+                },
                 vol.Required("intent"): {
                     vol.Required("name"): str,
                     vol.Optional("slots"): {
