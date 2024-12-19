@@ -3,22 +3,189 @@ responses:
   intents:
     HassGetWeather:
       default: >
-        {% set weather_condition = {
-          'clear': 'et le temps est clair',
-          'clear-night': 'et la nuit est claire',
-          'cloudy': 'et le temps est nuageux',
-          'exceptional': 'et les conditions météos sont exceptionnelles',
-          'fog': 'avec du brouillard',
-          'hail': 'avec de la grêle',
-          'lightning': 'avec de l\'orage',
-          'lightning-rainy': 'avec de l\'orage et de la pluie',
-          'partlycloudy': 'et un temps partiellement nuageux',
-          'pouring': 'et une pluie battante',
-          'rainy': 'et de la pluie',
-          'snowy': 'et de la neige',
-          'snowy-rainy': 'avec pluie et neige mêlées',
-          'sunny': 'et un temps ensoleillé',
-          'windy': 'avec un temps venteux',
-          'windy-variant': 'et un temps variable et venteux'
-        } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {# Reuse weather condition already formatted and translated #}
+        {# just invert telling the condition then temperature #}
+        {{ state.state }}
+
+        {% set temperature = state.attributes.get('temperature') %}
+        {% if temperature is number %}
+          {% if temperature < 0 %}
+            {% set temperature_string = 'moins ' ~ (temperature * -1) | string | replace('.', ',') %}
+          {% else %}
+            {% set temperature_string = temperature | string | replace('.', ',') %}
+          {% endif %}
+          {% set temperature_unit = state.attributes.get('temperature_unit', '') %}
+          et il fait {{ temperature_string }} {{ temperature_unit.replace('°C', 'degrés') }}.
+        {% endif %}
+
+      # Starting from here, heavily inspired by the Hungarian template, kudos to RViktor
+      wind: >
+        {% set wind_speed = state.attributes.get('wind_speed') %}
+        {% set wind_speed_unit = state.attributes.get('wind_speed_unit', '') %}
+        {% set wind_bearing = state.attributes.get('wind_bearing') %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') %}
+
+        {# Compute the Beaufort scale when possible #}
+        {% set beaufort_scale = '' %}
+        {% set wind_speed_ms = none %}
+        {% if wind_speed_unit == 'm/s' %}
+          {% set wind_speed_ms = wind_speed %}
+        {% elif wind_speed_unit == 'km/h' %}
+          {% set wind_speed_ms = wind_speed / 3.6 %}
+        {% endif %}
+        {% if wind_speed_ms is number %}
+          {# Borrowed from the speed converter in core, better to have a convert filter #}
+          {# Rounding is important, we want 3.9 to become 4, not 3 #}
+          {% set beaufort_force = (((wind_speed_ms / 0.836) ** 2) ** (1 / 3)) | round | int %}
+          {% set beaufort_scale = {
+            0: 'Vent calme',
+            1: 'Très légère brise',
+            2: 'Légère brise',
+            3: 'Petite brise',
+            4: 'Jolie brise',
+            5: 'Bonne brise',
+            6: 'Forte brise',
+            7: 'Grosse brise',
+            8: 'Coup de vent',
+            9: 'Fort coup de vent',
+            10: 'Tempête',
+            11: 'Violente tempête',
+            12: "Vent d'ouragan",
+          }.get(beaufort_force, 'Vent') %}
+        {% elif wind_speed is number %}
+          {# Other wind speed unit, no scale, just the speed #}
+          {% set beaufort_scale = 'Vent' %}
+        {% endif %}
+
+        {% set wind_bearing_text = '' %}
+        {% if wind_bearing is number %}
+          {% if wind_bearing < 45 %}
+            {% set wind_bearing_text = 'venant du nord' %}
+          {% elif wind_bearing < 90 %}
+            {% set wind_bearing_text = 'venant du nord-est' %}
+          {% elif wind_bearing < 135 %}
+            {% set wind_bearing_text = "venant de l'est" %}
+          {% elif wind_bearing < 180 %}
+            {% set wind_bearing_text = 'venant du sud-est' %}
+          {% elif wind_bearing < 225 %}
+            {% set wind_bearing_text = 'venant du sud' %}
+          {% elif wind_bearing < 270 %}
+            {% set wind_bearing_text = 'venant du sud-ouest' %}
+          {% elif wind_bearing < 315 %}
+            {% set wind_bearing_text = "venant de l'ouest" %}
+          {% elif wind_bearing <= 360 %}
+            {% set wind_bearing_text = 'venant du nord-ouest' %}
+          {% endif %}
+        {% endif %}
+
+        {# Help Piper pronounce units in a more natural way #}
+        {% set wind_speed_unit = {
+          'm/s': 'mètres par seconde',
+          'km/h': 'kilomètres par heure',
+          'mi/h': 'miles par heure',
+          'ft/s': 'pieds par seconde',
+          'kn': 'nœuds',
+        }.get(wind_speed_unit, wind_speed_unit) %}
+
+        {% if beaufort_scale and wind_bearing_text and wind_gust_speed is number %}
+          {{ beaufort_scale }} de {{ wind_speed | int }} {{ wind_speed_unit }} {{ wind_bearing_text }}, avec des rafales à {{ wind_gust_speed | int }} {{ wind_speed_unit }}.
+        {% elif beaufort_scale and wind_bearing_text %}
+          {{ beaufort_scale }} de {{ wind_speed | int }} {{ wind_speed_unit }} {{ wind_bearing_text }}.
+        {% elif beaufort_scale and wind_gust_speed is number %}
+          {{ beaufort_scale }} de {{ wind_speed | int }} {{ wind_speed_unit }}, avec des rafales à {{ wind_gust_speed | int }} {{ wind_speed_unit }}.
+        {% elif beaufort_scale %}
+          {{ beaufort_scale }} de {{ wind_speed | int }} {{ wind_speed_unit }}.
+        {% else %}
+          Aucune information météo sur le vent n'est disponible.
+        {% endif %}
+
+      pressure: >
+        {% set pressure = state.attributes.get('pressure') %}
+
+        {% if pressure is number %}
+          {% set pressure_unit = state.attributes.get('pressure_unit', '') %}
+          La pression atmosphérique est de : {{ pressure | int }} {{ pressure_unit.replace('hPa', 'hectopascal') }}.
+        {% else %}
+          La pression atmosphérique n'est pas pas disponible.
+        {% endif %}
+
+      uv: >
+        {% set uv_index = state.attributes.get('uv_index') %}
+
+        {% if uv_index is number %}
+          {% set uv_scale = '' %} {# Global standard #}
+          {% if uv_index <= 2 %}
+            {% set uv_scale = 'faible' %}
+          {% elif uv_index <= 5 %}
+            {% set uv_scale = 'modéré' %}
+          {% elif uv_index <= 7 %}
+            {% set uv_scale = 'élevé' %}
+          {% elif uv_index <= 10 %}
+            {% set uv_scale = 'très élevé' %}
+          {% else %}
+            {% set uv_scale = 'extrême' %}
+          {% endif %}
+          L'indice UV est de : {{ uv_index | int }} - {{ uv_scale }}
+        {% else %}
+          L'indice UV n'est pas pas disponible.
+        {% endif %}
+
+      detailed_weather: >
+        {# Reuse weather condition already formatted and translated #}
+        {{ state.state }}
+
+        {% set temperature = state.attributes.get('temperature') %}
+        {% if temperature is number %}
+          {% if temperature < 0 %}
+            {% set temperature_string = 'moins ' ~ (temperature * -1) | string | replace('.', ',') %}
+          {% else %}
+            {% set temperature_string = temperature | string | replace('.', ',') %}
+          {% endif %}
+          {% set temperature_unit = state.attributes.get('temperature_unit', '') %}
+          et il fait {{ temperature_string }} {{ temperature_unit.replace('°C', 'degrés') }}.
+        {% else %}
+          . {# Just finish the sentence #}
+        {% endif %}
+
+        {% set humidity = state.attributes.get('humidity') %}
+        {% if humidity is number %}
+          Humidité : {{ humidity }}%.
+        {% endif %}
+
+        {% set wind_speed = state.attributes.get('wind_speed') %}
+        {% set wind_speed_unit = state.attributes.get('wind_speed_unit', '') %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') %}
+
+        {# Compute the Beaufort scale when possible #}
+        {% set beaufort_force = none %}
+        {% set wind_speed_ms = none %}
+        {% if wind_speed_unit == 'm/s' %}
+          {% set wind_speed_ms = wind_speed %}
+        {% elif wind_speed_unit == 'km/h' %}
+          {% set wind_speed_ms = wind_speed / 3.6 %}
+        {% endif %}
+        {% if wind_speed_ms is number %}
+          {# Rounding is important, we want 3.9 to become 4, not 3 #}
+          {% set beaufort_force = (((wind_speed_ms / 0.836) ** 2) ** (1 / 3)) | round | int %}
+        {% endif %}
+
+        {# Help Piper pronounce units in a more natural way #}
+        {% set wind_speed_unit = {
+          'm/s': 'mètres par seconde',
+          'km/h': 'kilomètres par heure',
+          'mi/h': 'miles par heure',
+          'ft/s': 'pieds par seconde',
+          'kn': 'nœuds',
+        }.get(wind_speed_unit, wind_speed_unit) %}
+
+        {% if beaufort_force and wind_gust_speed is number %}
+          Vent de force : {{ beaufort_force }}, avec des rafales.
+        {% elif beaufort_force %}
+          Vent de force : {{ beaufort_force }}.
+        {% elif wind_speed is number and wind_gust_speed is number %}
+          Vent de {{ wind_speed | int }} {{ wind_speed_unit }}, avec des rafales.
+        {% elif wind_speed is number %}
+          Vent de {{ wind_speed | int }} {{ wind_speed_unit }}.
+        {% elif wind_gust_speed is number %}
+          Rafales de {{ wind_gust_speed | int }} {{ wind_speed_unit }}.
+        {% endif %}

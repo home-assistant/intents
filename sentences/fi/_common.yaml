@@ -181,6 +181,32 @@ lists:
   timer_command:
     wildcard: true
 
+  default_areas:
+    values:
+      - in: "(yläkerrassa|yläkerrasta|yläkerran|yläkertaan)"
+        out: "Yläkerta"
+      - in: "(alakerrassa|alakerrasta|alakerran|alakertaan)"
+        out: "Alakerta"
+      - in: "(eteisessä|eteisestä|eteisen|eteiseen)"
+        out: "Eteinen"
+      - in: "(ullakolla|ullakolta|ullakon|ullakolle)"
+        out: "Ullakko"
+      - in: "(parvekkeella|parvekkeelta|parvekkeen|parvekkeelle)"
+        out: "Parveke"
+      - in: "(parvella|parvelta|parven|parvelle)"
+        out: "Parvi"
+      - in: "(verannalla|verannalta|verannan|verannalle)"
+        out: "Veranta"
+      - in: "(portaikossa|portaikosta|portaikon|portaikkoon|portaikolta|portaikoille)"
+        out: "Portaikko"
+      - in: "(vintillä|vintiltä|vintille|vintin)"
+        out: "Vintti"
+      - in: "(nurkkauksessa|nurkkauksesta|nurkkaukselle|nurkkauksen)"
+        out: "Nurkkaus"
+      - in: "(mökissä|mökistä|mökkiin|mökille|mökiltä|mökin)"
+        out: "Mökki"
+# saving for future regex possibilities tekninen tila, -allas, -koppi, -tupa, -katos, -mökki, nurkkaus
+
 expansion_rules:
   # On off states
   päälle: "päälle" # on
@@ -208,7 +234,7 @@ expansion_rules:
 
   avaa: "(avaa|aukaise|nosta)" # open|open|raise
   sulje: "(sulje|laske)" # close|lower
-  laita: "(kytke|aseta|käännä|säädä|pistä|muuta|laita)" # toggle|set|turn|adjust|put|change (for brightness, volume and covers)
+  laita: "(kytke|aseta|käännä|säädä|saada|pistä|muuta|laita)" # toggle|set|turn|adjust|put|change (for brightness, volume and covers, "säädä" is recognized as "saada" in STT)
 
   # Position - covers and valves
   asento: "{position}[[ ]%| prosenttia]"
@@ -230,6 +256,7 @@ expansion_rules:
   asteeseen: "{temperature}[ ]([°|asteeseen|astetta][ ][{temperature_unit}]|{temperature_unit}[ ][°|asteeseen|astetta])"
 
   # Brightness percentage singular forms
+  k_prosentti_taivutus: "<k_prosentti>|<k_prosenttia>|<k_prosentiksi>|<k_prosenttiin>|<k_prosentille>"
   k_prosentti: "{brightness}[ ][%|prosentti]" # nominatiivi = mikä, kuka
   # k_prosentin: "{brightness}[ ]prosentin" # genetiivi = minkä, kenen
   k_prosenttia: "{brightness}[ ]prosenttia" # partitiivi = mitä, ketä
@@ -257,6 +284,7 @@ expansion_rules:
   # k_prosenteitta: "{brightness}[ ]prosenteitta" # monikon abessiivi
 
   # Brightness, singular forms
+  kirkkaus_taivutus: "(<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>)"
   kirkkaus: "(kirkkaus|valoteho|loiste|intensiteetti)"
   # kirkkauden: "(kirkkauden|valotehon|loisteen|intensiteetin)"
   # kirkkautta: "(kirkkautta|valotehoa|loistetta|intensiteettiä)"
@@ -284,6 +312,7 @@ expansion_rules:
   # kirkkauksitta: "(kirkkauksitta|valotehoitta|loisteitta|intensiteeteittä)"
 
   # Color, singular forms
+  väri_taivutus: "(<väri>|<väriksi>|<väriin>|<värille>|<värit>|<väreiksi>|<väreihin>|<väreille>|<väriltään>)"
   väri: "(väri|[väri]sävy|värivivahde)"
   # värin: "(värin|[väri]sävyn|värivivahteen)"
   # väriä: "(väriä|[väri]sävyä|värivivahdetta)"
@@ -309,8 +338,9 @@ expansion_rules:
   # väreiltä: "(väreiltä|[väri]sävyiltä|värivivahteilta)"
   väreille: "(väreille|[väri]sävyille|värivivahteille)"
   # väreittä: "(väreittä|[väri]sävyittä|värivivahteitta)"
+  väriltään: "(väriltään|väreiltään)"
 
-  huone: "{area}" # Room, this Finnish version helps when reading sentences
+  huone: "({default_areas:area}|{area})" # Room, this Finnish version helps when reading sentences
 
   paikka: "(kaupunki|kaupungissa|paikka|paikassa|kaupungin|paikan)"
   nimi: "{name}"
@@ -320,6 +350,7 @@ expansion_rules:
   kaikki: "(kaikki|jokainen|jokikinen)" # all
 
   # Device prefix to avoid congjugating devices if possible, singular form
+  laite_taivutus: "<laite>|<laitteen>|<laitteessa>|<laitteesta>|<laitteeseen>|<laitteelta>|<laitteelle>"
   laite: "[äly]laite"
   laitteen: "[äly]laitteen"
   # laitetta: "[äly]laitetta"
@@ -346,13 +377,9 @@ expansion_rules:
   # laitteille: "[äly]laitteille"
   # laitteitta: "[äly]laitteitta"
 
-  # Special treatment for certain rooms
-  eteinen_pääte: "(eteinen|eteisessä|eteisestä|eteiseen|eteiselle|eteiseltä|eteisen)"
-  ullakko_pääte: "(ullakko|ullakolta|ullakolla|ullakolle|ullakon)"
-
   # Area prefix to avoid congjugating areas if possible
   alue: "(alue|paikka|huone|tila)" # nominatiivi = mikä, kuka
-  alue_taivutus: "<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>"
+  alue_taivutus: "(<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>)"
   alueen: "(alueen|paikan|huoneen|tilan)" # genetiivi = minkä, kenen
   # aluetta: "(aluetta|paikkaa|huonetta|tilaa)" # partitiivi = mitä, ketä
   # alueena: "(alueena|paikkana|huoneena|tilana)" # essiivi = minä, kenä
@@ -364,7 +391,7 @@ expansion_rules:
   alueelta: "(alueelta|paikalta|huoneelta|tilalta)" # ablatiivi = miltä, keneltä
   alueelle: "(alueelle|paikalle|huoneelle|tilalle)" # allatiivi = mille, kenelle
   # alueetta: "(alueetta|paikatta|huoneetta|tilatta)" # abessiivi = ilman mitä, ketä
-  alue_pääte: "({area}[e][ssa|ssä|sta|stä|än|in|an|on|ön|seen|ltä|llä|lla|lta|lle|n])"
+  alue_pääte: "({default_areas:area}|{area}[e][ssa|ssä|sta|stä|än|in|an|on|ön|seen|ltä|llä|lla|lta|lle|n])"
   # aluein: "(aluein|paikoin|huonein|tiloin)" # instruktiivi = miten
   # alueineen: "(alueineen|paikkoineen|huoneineen|tiloineen)" # komitatiivi = minkä, kenen kanssa
 
