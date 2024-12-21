@@ -2,46 +2,42 @@ language: "fi"
 intents:
   HassLightSet:
     data:
-      # device brightness
+      # single light brightness
       - sentences:
-          - "[<laita>] [<laite>|<laitteen>|<laitteessa>|<laitteesta>|<laitteeseen>|<laitteelta>|<laitteelle>] {name} (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>) (<k_prosentti>|<k_prosenttia>|<k_prosentiksi>|<k_prosenttiin>|<k_prosentille>)"
-          - "[<laita>] (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>) [<laite>|<laitteen>|<laitteessa>|<laitteesta>|<laitteeseen>|<laitteelta>|<laitteelle>] {name} (<k_prosentti>|<k_prosenttia>|<k_prosentiksi>|<k_prosenttiin>|<k_prosentille>)"
-          - "[<laita>] [<laite>|<laitteen>|<laitteessa>|<laitteesta>|<laitteeseen>|<laitteelta>|<laitteelle>] {name} (<k_prosentti>|<k_prosenttia>|<k_prosentiksi>|<k_prosenttiin>|<k_prosentille>) [(<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>)]"
+          - "[<laita>] ({name};[<kirkkaus_taivutus>];<k_prosentti_taivutus>)"
         requires_context:
           domain: light
         response: "brightness"
       # area brightness
       - sentences:
-          - "[<laita>] (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>) [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> (<k_prosentti>|<k_prosenttia>|<k_prosentiksi>|<k_prosenttiin>|<k_prosentille>)"
-          - "[<laita>] [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>) (<k_prosentti>|<k_prosenttia>|<k_prosentiksi>|<k_prosenttiin>|<k_prosentille>)"
-          - "[<laita>] [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> (<k_prosentti>|<k_prosenttia>|<k_prosentiksi>|<k_prosenttiin>|<k_prosentille>) (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>)"
-          - "[<laita>] [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> (<k_prosentti>|<k_prosenttia>|<k_prosentiksi>|<k_prosenttiin>|<k_prosentille>)"
+          - "[<laita>] ([<kirkkaus_taivutus>];[<alue_taivutus>] <huone>;<k_prosentti_taivutus>)"
+          - "[<laita>] (<kirkkaus_taivutus>;<alue_pääte>;<k_prosentti_taivutus>)"
         response: "brightness"
 
       # Max/Min brightness
       - sentences:
-          - "[<laita>] [<laite>|<laitteen>|<laitteessa>|<laitteesta>|<laitteeseen>|<laitteelta>|<laitteelle>] {name} (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>) {brightness_level:brightness}"
-          - "[<laita>] (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>) [<laite>|<laitteen>|<laitteessa>|<laitteesta>|<laitteeseen>|<laitteelta>|<laitteelle>] {name} {brightness_level:brightness}"
-          - "[<laita>] [<laite>|<laitteen>|<laitteessa>|<laitteesta>|<laitteeseen>|<laitteelta>|<laitteelle>] {name} {brightness_level:brightness} [(<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>)]"
+          - "[<laita>] ({name};[<kirkkaus_taivutus>];{brightness_level:brightness})"
         requires_context:
           domain: light
         response: "brightness"
 
+      # Area Max/Min Brightness
       - sentences:
-          - "[<laita>] (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>) [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> {brightness_level:brightness}"
-          - "[<laita>] [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>) {brightness_level:brightness}"
-          - "[<laita>] [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> {brightness_level:brightness} (<kirkkaus>|<kirkkaudeksi>|<kirkkauteen>|<kirkkaudelle>)"
-          - "[<laita>] [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> {brightness_level:brightness}"
+          - "[<laita>] (<alue_taivutus> <huone>;<kirkkaus_taivutus>;{brightness_level:brightness})"
+          - "[<laita>] (<alue_pääte>;(<kirkkaus_taivutus>);{brightness_level:brightness})"
         response: "brightness"
 
       # color
       - sentences:
-          - "[<laita>] [<laite>|<laitteen>|<laitteessa>|<laitteesta>|<laitteeseen>|<laitteelta>|<laitteelle>] {name} [<väri>|<väriksi>|<väriin>|<värille>|väriltään] {color}"
-          - "[<laita>] [<väri>|<väriksi>|<väriin>|<värille>|väriltään] [<laite>|<laitteen>|<laitteessa>|<laitteesta>|<laitteeseen>|<laitteelta>|<laitteelle>] {name} {color}"
+          - "[<laita>] ({name};[<väri_taivutus>];{color})"
         requires_context:
           domain: light
         response: "color"
+      # Area color
       - sentences:
-          - "[<laita>] [<väri>|<väriksi>|<väriin>|<värille><värit>|<väreiksi>|<väreihin>|<väreille>|väriltään|väreiltään] ([[<kaikki>] <valot>] [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> | <kaikki> [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> <valot>) {color}"
-          - "[<laita>] ([[<kaikki>] <valot>] [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> | <kaikki> [<alue>|<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>] <huone> <valot>) [<väri>|<väriksi>|<väriin>|<värille><värit>|<väreiksi>|<väreihin>|<väreille>|väriltään|väreiltään] {color}"
+          - "[<laita>] (<alue_pääte>;[<kaikki>]) [<valo>|<valot>] ([<väri_taivutus>];{color})"
+          - "[<laita>] ([<väri_taivutus>];{color}) (<alue_pääte>;[<kaikki>]) [<valo>|<valot>]"
+          - "[<laita>] (<väri_taivutus>;<alue_taivutus> <huone>) {color}"
+          - "[<laita>] (<alue_taivutus> <huone>;[<kaikki>]) [<valo>|<valot>] ([<väri_taivutus>];{color})"
+          - "[<laita>] ([<väri_taivutus>];{color}) (<alue_taivutus> <huone>;[<kaikki>]) [<valo>|<valot>]"
         response: "color"
