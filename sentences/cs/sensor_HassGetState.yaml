@@ -3,19 +3,6 @@ intents:
   HassGetState:
     data:
       # https://www.home-assistant.io/integrations/sensor/
-      # Teplota
-      - sentences:
-          - "<jaka_je_class_of_name>"
-          - "kolik stupňů [je|bylo] [(na|z)měřeno] [(na senzoru|senzorem)] {name} [<area>]"
-        requires_context:
-          domain: sensor
-          device_class: temperature
-        slots:
-          domain: sensor
-          device_class: temperature
-        expansion_rules:
-          class: "teplota"
-
       # Apparent power
       - sentences:
           - "<jaka_je_class_of_name>"
@@ -62,7 +49,7 @@ intents:
           domain: sensor
           device_class: battery
         expansion_rules:
-          class: "[(stav|úroveň|procento)] [nabití] baterie"
+          class: "(nabitá|[(stav|úroveň|procento)] [nabití]) baterie"
 
       # CO2
       - sentences:
@@ -122,12 +109,12 @@ intents:
           domain: sensor
           device_class: data_size
         expansion_rules:
-          class: "(velikost|objem) [dat]"
+          class: "(velikost (dat|souboru)|objem dat|velký soubor)"
 
       # Date
       - sentences:
           - "<jaka_je_class_of_name>"
-          - "kdy (je|bylo|bude|byli|budou) {name}"
+          - "kdy (<byl>|<je>|<bude>) {name}"
         response: one
         requires_context:
           domain: sensor
@@ -141,7 +128,7 @@ intents:
       # Distance
       - sentences:
           - "<jaka_je_class_of_name>"
-          - "jak (daleko|dlouh(ý|á)) je {name}"
+          - "jak (daleko|dlouh(<y_e>)) je {name}"
         response: one
         requires_context:
           domain: sensor
@@ -175,12 +162,11 @@ intents:
           domain: sensor
           device_class: energy
         expansion_rules:
-          class: "energie"
+          class: "[množství] energie"
 
       # Energy storage
       - sentences:
           - "<jaka_je_class_of_name>"
-        response: one
         requires_context:
           domain: sensor
           device_class: energy_storage
@@ -188,7 +174,7 @@ intents:
           domain: sensor
           device_class: energy_storage
         expansion_rules:
-          class: "[množství] uložen(é|á|ý) energie"
+          class: "[množství] uložen<y_e> energie"
 
       # Frequency
       - sentences:
@@ -217,7 +203,6 @@ intents:
       # Humidity
       - sentences:
           - "<jaka_je_class_of_name>"
-        response: one
         requires_context:
           domain: sensor
           device_class: humidity
@@ -225,12 +210,11 @@ intents:
           domain: sensor
           device_class: humidity
         expansion_rules:
-          class: "[relativní ]vlhkost[ vzduchu]"
+          class: "[relativní] vlhkost [vzduchu]"
 
       # Illuminance
       - sentences:
           - "<jaka_je_class_of_name>"
-        response: one
         requires_context:
           domain: sensor
           device_class: illuminance
@@ -243,7 +227,6 @@ intents:
       # Irradiance
       - sentences:
           - "<jaka_je_class_of_name>"
-        response: one
         requires_context:
           domain: sensor
           device_class: irradiance
@@ -251,7 +234,7 @@ intents:
           domain: sensor
           device_class: irradiance
         expansion_rules:
-          class: "[(množství|úroveň)] ozáření"
+          class: "[množství|úroveň] ozáření"
 
       # Moisture
       - sentences:
@@ -263,12 +246,12 @@ intents:
           domain: sensor
           device_class: moisture
         expansion_rules:
-          class: "[relativní ]vlhkost"
+          class: "[relativní] vlhkost"
 
       # Monetary
       - sentences:
           - "<jaka_je_class_of_name>"
-          - "kolik [peněz] (stojí|stál[(o|a)]) {name}"
+          - "kolik [peněz] (stojí|stál[o|a]) {name}"
         response: one
         requires_context:
           domain: sensor
@@ -277,7 +260,7 @@ intents:
           domain: sensor
           device_class: monetary
         expansion_rules:
-          class: "(náklady|[(množství|objem)] peněz|částka)"
+          class: "(náklady|[množství|objem] peněz|částka)"
 
       # Nitrogen dioxide
       - sentences:
@@ -313,7 +296,7 @@ intents:
           domain: sensor
           device_class: nitrous_oxide
         expansion_rules:
-          class: "<koncentrace> (oxidu dusnat<y_e>ho|N2O)"
+          class: "<koncentrace> (oxidu dusn<y_e>ho|N2O)"
 
       # Ozone
       - sentences:
@@ -397,7 +380,7 @@ intents:
           domain: sensor
           device_class: precipitation
         expansion_rules:
-          class: "[(souhrn[<y_e>]|úhrn[<y_e>]|celkov<y_e>)] [množství] [(dešťov<y_e>ch|sněhov<y_e>[ch])] (srážek|srážky)"
+          class: "[(sou|ú)hrn[<y_e>]|celkov<y_e>] [množství] [dešťov<y_e>ch|sněhov<y_e>ch] srážek"
 
       # Precipitation intensity
       - sentences:
@@ -482,6 +465,19 @@ intents:
           device_class: sulphur_dioxide
         expansion_rules:
           class: "<koncentrace> (oxidu siřičit<y_e>ho|SO2)"
+
+      # Teplota
+      - sentences:
+          - "<jaka_je_class_of_name>"
+          - "kolik stupňů [je|bylo] [(na|z)měřeno] [na] [senzor(u|em)] {name} [<area>]"
+        requires_context:
+          domain: sensor
+          device_class: temperature
+        slots:
+          domain: sensor
+          device_class: temperature
+        expansion_rules:
+          class: "teplota"
 
       # Volatile organic compounds
       - sentences:
