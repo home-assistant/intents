@@ -74,9 +74,11 @@ lists:
         out: "fahrenheit"
   brightness_level:
     values:
-      - in: (max|maximum|highest)
+      - in: ([the] (max|maximum|highest) [(level|value|setting|brightness)]|full [(brightness|light)]|all the way up|as (bright|light) as possible)
         out: 100
-      - in: (min|minimum|lowest)
+      - in: "[the] (half|halfway|mid) [(level|setting|brightness|bright|light|lit)]"
+        out: 50
+      - in: ([the] (min|minimum|lowest) [(level|value|setting|brightness)]|all the way down|as (dim|dark) as possible)
         out: 1
   on_off_states:
     values:
@@ -379,15 +381,16 @@ expansion_rules:
   any: "(any|some) [of <the>]"
   are_any: "[<are>] <any>"
   how_many: "how many [of <the>]"
-  brightness: "{brightness}[([ ]%)| percent]"
+  brightness: "({brightness}[([ ]%)| percent] [(brightness|bright|light|lit)]|{brightness_level:brightness})"
   light: "(light|lights|lighting|lamp|lamps)"
   turn: "(turn|switch|change|bring)"
   temp: "(temp|temperature)"
   temperature: "{temperature}[([ ]°[[ ]{temperature_unit}])|( degrees {temperature_unit})]"
   open: "(open|raise|lift) [up]"
   close: "(close|shut|lower) [(up|down)]"
-  set: "(set|make|change|turn)"
-  numeric_value_set: "(set|change|turn [(up|down)]|increase|decrease|make)"
+  set: "(set|make|change|turn|adjust)"
+  numeric_value_set: "(set|change|turn [(up|down)]|increase|decrease|make|adjust)"
+  brightness_relative: "(brighten [up]|lighten [up]|dim [down]|darken [down])"
   in: "(in|on|at|of|across|around|throughout)"
   position: "{position}[([ ]%)| percent]"
   volume: "{volume:volume_level}[([ ]%)| percent]"
