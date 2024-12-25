@@ -1,0 +1,21 @@
+---
+language: bg
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Нито един таймер не беше спрян.
+        {% elif slots.canceled == 1: %}
+        Спрях един таймер.
+        {% else: %}
+        Спрях {{ slots.canceled }} таймера.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Нито един таймер не беше спрян в {{ slots.area }}.
+        {% elif slots.canceled == 1: %}
+        Спрях един таймер в {{ slots.area }}.
+        {% else: %}
+        Спрях {{ slots.canceled }} таймера в {{ slots.area }}.
+        {% endif %}
