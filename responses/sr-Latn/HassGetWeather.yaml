@@ -2,13 +2,23 @@ language: sr-Latn
 responses:
   intents:
     HassGetWeather:
-      default:
-        "TODO: {% set weather_condition = {\n  'clear': 'and clear',\n  'clear-night':\
-        \ 'and clear',\n  'cloudy': 'and cloudy',\n  'exceptional': 'and exceptional',\n\
-        \  'fog': 'with fog',\n  'hail': 'with hail',\n  'lightning': 'with lightning',\n\
-        \  'lightning-rainy': 'with lightning and rain',\n  'partlycloudy': 'and partly\
-        \ cloudy',\n  'pouring': 'and pouring rain',\n  'rainy': 'and raining',\n\
-        \  'snowy': 'and snowing',\n  'snowy-rainy': 'with snow and rain',\n  'sunny':\
-        \ 'and sunny',\n  'windy': 'and windy',\n  'windy-variant': 'with wind and\
-        \ clouds'\n} %} {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit')\
-        \ }} {{ weather_condition.get((state.state | string).lower(), \"\") }}\n"
+      default: >
+        {% set weather_condition = {
+          'clear': 'i vedro',
+          'clear-night': 'i vedra noć',
+          'cloudy': 'i oblačno',
+          'exceptional': 'i izuzetno',
+          'fog': 'sa maglom',
+          'hail': 'sa gradom',
+          'lightning': 'sa grmljavinom',
+          'lightning-rainy': 'sa grmljavinom i kišom',
+          'partlycloudy': 'i delimično oblačno',
+          'pouring': 'i jaka kiša',
+          'rainy': 'i kišovito',
+          'snowy': 'sa snegom',
+          'snowy-rainy': 'sa kišom i snegom',
+          'sunny': 'i sunčano',
+          'windy': 'i vetrovito',
+          'windy-variant': 'sa vetrom i oblacima'
+        } %}
+        {{ state.attributes.get('temperature') }}{{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}

@@ -2,18 +2,14 @@ language: sr-Latn
 responses:
   intents:
     HassIncreaseTimer:
-      default:
-        'TODO: {% set h = slots.hours if slots.hours is defined else none %}
-        {% set m = slots.minutes if slots.minutes is defined else none %} {% set s
-        = slots.seconds if slots.seconds is defined else none %} {% set h_text = h
-        ~ ('' hour''  if h in [ "1", ''one''] else '' hours'') if h else '''' %} {%
-        set m_text = (30 if m in [''half'', ''1/2''] else m) ~ ('' minute'' if m in
-        [ "1", ''one''] else '' minutes'') if m else '''' %} {% set s_text = (30 if
-        s in [''half'', ''1/2''] else s) ~ ('' second'' if s in [ "1", ''one''] else
-        '' seconds'') if s else '''' %} {% set text_list = [ h_text, m_text, s_text]
-        | select() | list %} {% set text = text_list[:-1] | join('', '') ~ '' and
-        '' ~ text_list[-1] if text_list | count > 2 else text_list | join('' and '')
-        %} {% set name = ('' named '' ~ slots.name | trim) if slots.name is defined
-        else '''' %} {{ text }} added to timer{{ name }}
-
-        '
+      default: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' sat' if h in [ "1", 'jedan'] else ' sata') if h else '' %}
+        {% set m_text = (30 if m in ['pola', '1/2'] else m) ~ (' minuta' if m in [ "1", 'jedna'] else ' minuta') if m else '' %}
+        {% set s_text = (30 if s in ['pola', '1/2'] else s) ~ (' sekunda' if s in [ "1", 'jedna'] else ' sekundi') if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' i ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' i ') %}
+        {% set name = (' nazvan ' ~ slots.name | trim) if slots.name is defined else '' %}
+        Vreme je uvećano za {{ text }}
