@@ -1,0 +1,48 @@
+language: sr-Latn
+responses:
+  intents:
+    HassTimerStatus:
+      default:
+        "TODO: {% set num_timers = slots.timers | length %}\n{% set active_timers\
+        \ = slots.timers | selectattr('is_active') | list %}\n{% set num_active_timers\
+        \ = active_timers | length %}\n{% set paused_timers = slots.timers | rejectattr('is_active')\
+        \ | list %}\n{% set num_paused_timers = paused_timers | length %}\n{% set\
+        \ next_timer = None %}\n\n{% if num_timers == 0: %}\n  No timers.\n{% elif\
+        \ num_active_timers == 0: %}\n  {# No active timers #}\n  {% if num_paused_timers\
+        \ == 1: %}\n    {% set next_timer = paused_timers[0] %}\n    Timer is paused.\n\
+        \  {% else: %}\n    {{ num_paused_timers }} paused timers.\n  {% endif %}\n\
+        {% else: %}\n  {# At least one active timer #}\n  {% if num_active_timers\
+        \ == 1: %}\n    {% set next_timer = active_timers[0] %}\n  {% else: %}\n \
+        \   {# Get active timer that will finish soonest #}\n    {% set sorted_timers\
+        \ = active_timers | sort(attribute='total_seconds_left') %}\n    {% set next_timer\
+        \ = sorted_timers[0] %}\n    {{ num_active_timers }} running timers.\n  {%\
+        \ endif %}\n\n  {% if num_paused_timers == 1: %}\n    1 paused timer.\n  {%\
+        \ elif num_paused_timers > 0: %}\n    {{ num_paused_timers }} paused timers.\n\
+        \  {% endif %}\n{% endif %}\n\n{% if next_timer: %}\n  {# At least one active\
+        \ timer #}\n  {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left\
+        \ > 0): %}\n    1 hour and {{ next_timer.rounded_minutes_left }} minutes\n\
+        \  {% elif (next_timer.rounded_hours_left == 1): %}\n    1 hour\n  {% elif\
+        \ (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left\
+        \ > 0): %}\n    {{ next_timer.rounded_hours_left }} hours and {{ next_timer.rounded_minutes_left\
+        \ }} minutes\n  {% elif (next_timer.rounded_hours_left > 1): %}\n    {{ next_timer.rounded_hours_left\
+        \ }} hours\n  {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left\
+        \ > 0): %}\n    1 minute and {{ next_timer.rounded_seconds_left }} seconds\n\
+        \  {% elif (next_timer.rounded_minutes_left == 1): %}\n    1 minute\n  {%\
+        \ elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left\
+        \ > 0): %}\n    {{ next_timer.rounded_minutes_left }} minutes and {{ next_timer.rounded_seconds_left\
+        \ }} seconds\n  {% elif (next_timer.rounded_minutes_left > 1): %}\n    {{\
+        \ next_timer.rounded_minutes_left }} minutes\n  {% elif (next_timer.rounded_seconds_left\
+        \ == 1): %}\n    1 second\n  {% elif (next_timer.rounded_seconds_left > 1):\
+        \ %}\n    {{ next_timer.rounded_seconds_left }} seconds\n  {% endif %}\n\n\
+        \  {% if num_timers > 1: %}\n    {# Give some extra information to disambiguate\
+        \ #}\n    left on\n    {% if (next_timer.start_hours > 0) and (next_timer.start_minutes\
+        \ > 0): %}\n      {{ next_timer.start_hours }} hour and {{ next_timer.start_minutes\
+        \ }} minute\n    {% elif (next_timer.start_hours > 0): %}\n      {{ next_timer.start_hours\
+        \ }} hour\n    {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds\
+        \ > 0): %}\n      {{ next_timer.start_minutes }} minute and {{ next_timer.start_seconds\
+        \ }} second\n    {% elif (next_timer.start_minutes > 0): %}\n      {{ next_timer.start_minutes\
+        \ }} minute\n    {% elif (next_timer.start_seconds > 0): %}\n      {{ next_timer.start_seconds\
+        \ }} second\n    {% endif %}\n\n    {% if next_timer.name: %}\n      {{ next_timer.name\
+        \ }}\n    {% elif next_timer.area: %}\n      {{ next_timer.area }}\n    {%\
+        \ endif %}\n\n    timer.\n  {% else: %}\n    left.\n  {% endif %}\n{% endif\
+        \ %}\n"
