@@ -2,16 +2,19 @@ language: sr-Latn
 responses:
   intents:
     HassCancelAllTimers:
-      default:
-        "TODO: {% if slots.canceled < 1: %} No timers were canceled. {% elif
-        slots.canceled == 1: %} Canceled 1 timer. {% else: %} Canceled {{ slots.canceled
-        }} timers. {% endif %}
-
-        "
-      area:
-        "TODO: {% if slots.canceled < 1: %} No timers were canceled in {{ slots.area
-        }}. {% elif slots.canceled == 1: %} Canceled 1 timer in {{ slots.area }}.
-        {% else: %} Canceled {{ slots.canceled }} timers in {{ slots.area }}. {% endif
-        %}
-
-        "
+      default: >
+        {% if slots.canceled < 1: %}
+        Nije zaustavljen nijedan tajmer.
+        {% elif slots.canceled == 1 or slots.canceled % 10 == 1 and slots.canceled % 100 != 11: %}
+        Zaustavljen je 1 tajmer.
+        {% else: %}
+        Zaustavljena su {{ slots.canceled }} tajmera.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Nije zaustavljen nijedan tajmer u prostoriji.
+        {% elif slots.canceled == 1 or slots.canceled % 10 == 1 and slots.canceled % 100 != 11: %}
+        Zaustavljen je 1 tajmer u prostoriji.
+        {% else: %}
+        Zaustavljeno je {{ slots.canceled }} tajmera u prostoriji.
+        {% endif %}
