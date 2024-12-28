@@ -2,7 +2,15 @@ language: sr-Latn
 intents:
   HassSetPosition:
     data:
-      - sentences: []
+      - sentences:
+          - "(<promeni>|<otvori>|<zatvori>) <name> na <pozicija>"
+        requires_context:
+          domain: cover
         slots:
           domain: cover
-          name: all
+
+      - sentences:
+          - "(<promeni>|<otvori>|<zatvori>) <sve> {cover_classes:device_class} [u|na] <area> na <pozicija>"
+          - "(<promeni>|<otvori>|<zatvori>) <sve> {cover_classes:device_class} na <pozicija> [u|na] <area>"
+        slots:
+          domain: cover

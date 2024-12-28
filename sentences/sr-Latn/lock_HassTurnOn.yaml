@@ -2,7 +2,16 @@ language: sr-Latn
 intents:
   HassTurnOn:
     data:
-      - sentences: []
-        slots:
+      - sentences:
+          - "zaključaj <name> [[u|na] <area>]"
+        requires_context:
           domain: lock
-          name: all
+        response: lock
+
+      - sentences:
+          - "zaključaj [sva|sve] <lock> [[u|na] <area>]"
+          - "zaključaj [sva|sve] <area> <lock>"
+        slots:
+          domain: "lock"
+          name: "all"
+        response: lock

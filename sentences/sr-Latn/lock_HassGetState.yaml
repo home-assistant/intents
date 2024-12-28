@@ -2,7 +2,36 @@ language: sr-Latn
 intents:
   HassGetState:
     data:
-      - sentences: []
+      - sentences:
+          - "(jesu li|je li|da li (su|je)) <name> {lock_states:state}  [[u|na] <area>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
         slots:
           domain: lock
-          name: all
+
+      - sentences:
+          - "(jesu li|da li su|ima li) [koja|kojih] <lock> {lock_states:state} [[u|na] <area>]"
+          - "(jesu li|da li su|ima li) [koja|kojih] {lock_states:state} <lock> [[u|na] <area>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(jesu li|da li su) (sva|svi|sve) <lock> {lock_states:state} [[u|na] <area>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(koja|koji) [su] <lock> {lock_states:state} [[u|na] <area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(koliko ima|koliko je) {lock_states:state} <lock> [[u|na] <area>]"
+          - "(koliko ima|koliko je) <lock> {lock_states:state} [[u|na] <area>]"
+        response: how_many
+        slots:
+          domain: lock

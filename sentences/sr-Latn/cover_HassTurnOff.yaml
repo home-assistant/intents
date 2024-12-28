@@ -2,7 +2,44 @@ language: sr-Latn
 intents:
   HassTurnOff:
     data:
-      - sentences: []
+      #common
+      - sentences:
+          - "<zatvori> <sve> {cover_classes:device_class} [u|na] [<area>]"
+          - "<zatvori> <area> {cover_classes:device_class}"
         slots:
           domain: cover
-          name: all
+        response: cover_device_class
+
+      - sentences:
+          - <zatvori> <name>
+        requires_context:
+          domain: cover
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - garage
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover_single
+
+      - sentences:
+          - <zatvori> <name> [u|na] {area}
+        requires_context:
+          domain: cover
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - garage
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover_single
