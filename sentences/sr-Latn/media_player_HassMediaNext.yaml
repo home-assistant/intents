@@ -2,4 +2,17 @@ language: sr-Latn
 intents:
   HassMediaNext:
     data:
-      - sentences: []
+      - sentences:
+          - "(sviraj [dalje]|prebaci [na]|pokaži|pusti [dalje]) (sledeć(u|i)|naredn(u|i)) [pesmu|stvar|kanal|stanicu|epizodu|film] [na] <name>"
+          - "preskoči [ovu|ovaj] [pesmu|stvar|kanal|stanicu|epizodu|film] [na] <name>"
+        requires_context:
+          domain: media_player
+
+      - sentences:
+          - "[sviraj [dalje]|prebaci [na]|pokaži|pusti [dalje]|preskoči [na]] [sledeć(u|i|a)|naredn(u|i)|premotaj na] [sledeć(u|i)|naredn(u|i)] [pesm(a|u)|stvar|kanal(a|u)|stanic(a|u)|epizod(a|u)|film]"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "(sviraj [dalje]|prebaci [na]|pokaži|pusti [dalje]|preskoči [na]|premotaj na) [sledeć(u|i)|naredn(u|i)] [pesmu|stvar|kanal|stanicu|epizodu|film] (u|na) <area>"
