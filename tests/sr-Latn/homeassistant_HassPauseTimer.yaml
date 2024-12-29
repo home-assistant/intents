@@ -1,8 +1,40 @@
 language: sr-Latn
 tests:
-  - sentences: []
+  - sentences:
+      - "pauziraj tajmer"
+      - "pauziraj moju štopericu"
+      - "privremeno zaustavi tajmer"
+      - "stavi moj tajmer na pauzu"
+    intent:
+      name: HassPauseTimer
+    response: Tajmer je pauziran
+
+  - sentences:
+      - "pauziraj tajmer od 1 sat"
     intent:
       name: HassPauseTimer
       slots:
-        domain: homeassistant
-        name: all
+        start_hours: 1
+    response: Tajmer je pauziran
+
+  - sentences:
+      - "pauziraj pizza tajmer"
+      - "pauziraj tajmer za pizzu"
+    intent:
+      name: HassPauseTimer
+      slots:
+        name:
+          - "pizzu"
+          - "pizza"
+    response: Tajmer je pauziran
+
+  - sentences:
+      - "pauziraj kuhinjski tajmer"
+      - "pauziraj tajmer u kuhinji"
+    intent:
+      name: HassPauseTimer
+      slots:
+        area:
+          - kuhinjski
+          - kuhinji
+    response: Tajmer je pauziran

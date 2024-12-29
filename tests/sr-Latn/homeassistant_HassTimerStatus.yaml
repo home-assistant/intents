@@ -1,8 +1,55 @@
 language: sr-Latn
 tests:
-  - sentences: []
+  - sentences:
+      - "status tajmera"
+      - "status mojih tajmera"
+      - "koliko je vremena preostalo na mojim tajmerima"
+      - "koliko vremena je ostalo na mojim tajmerima"
+      - "koliko je ostalo na mojim tajmerima"
+      - "koliko je vremena na mojim tajmerima"
+      - "koji su moji merači vremena"
+    intent:
+      name: HassTimerStatus
+    response: |
+      Broj aktivnih tajmera: 2. Broj pauziranih tajmera: 1. 5 minuta preostalo na 15 minuta tajmeru u prostoriji kuhinja
+
+  - sentences:
+      - "status merača vremena od 1 sat"
+      - "status 1 satnog tajmera"
+      - "koliko je preostalo na tajmeru od 1 sat"
+      - "koliko je preostalo na 1 satnom tajmeru"
+      - "koliko vremena je ostalo na mom 1 satnom tajmeru"
     intent:
       name: HassTimerStatus
       slots:
-        domain: homeassistant
-        name: all
+        start_hours: 1
+    response: "Tajmer je pauziran. 1 minuta i 40 sekundi preostalo."
+
+  - sentences:
+      - "status pizza tajmera"
+      - "status tajmera pizza"
+      - "koliko je preostalo na pizza tajmeru"
+      - "koliko vremena je ostalo na pizza tajmeru"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name: "pizza"
+    response: 25 minuta preostalo.
+
+  - sentences:
+      - "status kuhinjskog tajmera"
+      - "status tajmera u kuhinji"
+      - "status tajmera u prostoriji kuhinja"
+      - "koliko je vremena preostalo na kuhinjskom tajmeru"
+      - "koliko je vremena preostalo na tajmeru u kuhinji"
+      - "koliko je vremena ostalo na kuhinjskom tajmeru"
+      - "koliko je vremena ostalo na tajmeru u kuhinji"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area:
+          - "kuhinjskog"
+          - "kuhinji"
+          - "kuhinja"
+          - "kuhinjskom"
+    response: Nema tajmera.

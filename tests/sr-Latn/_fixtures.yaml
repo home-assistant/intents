@@ -1,20 +1,575 @@
 language: sr-Latn
 areas:
-  - name: Kitchen
-    id: kitchen
-  - name: Living Room
-    id: living_room
-  - name: Bedroom
+  - name: "kupatil(a|o|u)"
+    id: bathroom
+  - name: "spavać(a|oj|u) sob(a|i|u)"
     id: bedroom
-  - name: Garage
+  - name: "kancelarij(a|i)"
+    id: office
+  - name: "radn(а|ој|u) sob(а|i|u)"
+    id: study
+  - name: "balkon(u)|teras(a|i|u)"
+    id: balcony
+  - name: "ormar(u)"
+    id: closet
+  - name: "ulaz(u)|predsoblj(e|u)"
+    id: entrance
+  - name: "hodnik(u)"
+    id: hallway
+  - name: "ostav(a|i|u)"
+    id: pantry
+  - name: "ormar(u)"
+    id: wardrobe
+  - name: "(v|w)c[u]"
+    id: wc
+  - name: "stepenic(e|ama)"
+    id: staircase
+  - name: "kuhinj(a|i|u|e|sku|ska|ske|ski|skog|skom)"
+    id: kitchen
+  - name: "dnevna soba|dnevnoj sobi|dnevne sobe|dnevni boravak|dnevnom boravku|dnevnog boravka"
+    id: living_room
+  - name: "garaž(а|i|u)"
     id: garage
+
 entities:
-  - name: Bedroom Lamp
+  - name: "noćn(a|u|e|oj|o|og) (svetilj(ka|ci|ku)|svjetl(o|a)|rasvet(a|i|u)|lamp(a|i|u|e))"
     id: light.bedroom_lamp
     area: bedroom
-  - name: Kitchen Switch
+    state: "off"
+
+  - name: "led (svetl[a|o])"
+    id: light.led_lights
+    area: living_room
+    state: "on"
+
+  - name: "luster"
+    id: light.chandalier
+    area: living_room
+    state: "on"
+
+  - name: "božićna svetl(a|o)"
+    id: light.chrismas_ligths
+    area: living_room
+    state: "on"
+
+  - name: "podna lampa"
+    id: light.floor_lamp
+    area: living_room
+    state: "on"
+
+  - name: "kuhinjs(ka|oj|ku|i) sklop(ka|ci|ku)|prekidač(u)"
     id: switch.kitchen
     area: kitchen
-  - name: Ceiling Fan
+    state: "on"
+
+  - name: "[plafonski] ventilator [na plafonu]"
     id: fan.ceiling
     area: living_room
+    state: "on"
+
+  - name: "[kuhinjsk(i|om)] (aspirator|aspiratoru)"
+    id: fan.kitchen_hood
+    area: kitchen
+    state: "on"
+
+  - name: "lev(a|oj|u) zaves(a|i|u)"
+    id: cover.curtain_left
+    area: living_room
+    state: "open"
+    attributes:
+      device_class: curtain
+      position: "0"
+
+  - name: "kapij(a|u)"
+    id: cover.main_gate
+    area: "entrance"
+    state: "closed"
+    attributes:
+      device_class: gate
+
+  - name: "garaž(a|u)"
+    id: cover.garage_doors
+    area: "garage"
+    state: "closed"
+    attributes:
+      device_class: garage
+
+  - name: "balkonsk(a|e|u) roletn(e|a|u)"
+    id: cover.balcony_blinds
+    area: "living_room"
+    state: "closed"
+    attributes:
+      device_class: blinds
+      position: "100"
+
+  - name: "mali prozor"
+    id: cover.bathroom_window
+    area: "bathroom"
+    state: "open"
+    attributes:
+      device_class: window
+
+  - name: "plafonski prozor"
+    id: cover.ceiling_window
+    area: "kitchen"
+    state: "open"
+    attributes:
+      device_class: window
+
+  #door
+  - name: "ulazna vrata"
+    id: cover.entrance_door
+    area: "entrance"
+    state: "closed"
+    attributes:
+      device_class: door
+
+  - name: "kuhinjska vrata"
+    id: cover.kitchen_door
+    area: "entrance"
+    state: "open"
+    attributes:
+      device_class: door
+
+  - name: "klizna vrata"
+    id: cover.living_room_door
+    area: "living_room"
+    state: "open"
+    attributes:
+      device_class: door
+
+  - name: "odvlaživač (vazduha)"
+    id: "humidifier.dehumidifier"
+    area: "living_room"
+    state: "off"
+
+  - name: "Radijator"
+    id: "climate.trv_living_room"
+    area: "living_room"
+    state: "heat"
+    attributes:
+      current_temperature: 21
+
+  - name: "glavni ventil"
+    id: "valve.main_valve"
+    state: "open"
+    attributes:
+      position: "100"
+
+  - name: "Radijator"
+    id: "climate.trv_kitchen"
+    area: "kitchen"
+    state: "heat"
+    attributes:
+      current_temperature: 22
+
+  - name: "spolja|spoljna"
+    id: "sensor.outside_temperature"
+    state: "17"
+    area: "balcony"
+    attributes:
+      unit_of_measurement: "°C"
+      device_class: temperature
+
+  #locks
+  - name: "Ulazna vrata"
+    id: "lock.front_door"
+    area: "entrance"
+    state: "locked"
+
+  - name: "Zadnja vrata"
+    id: "lock.back_door"
+    area: "kitchen"
+    state: "unlocked"
+
+  - name: "Dvorišna vrata"
+    id: "lock.yard_door"
+    state: "locked"
+
+  - name: "Igranje"
+    id: "scene.play_mode"
+
+  - name: "Usisaj kuhinju"
+    id: "script.vacuum_clean_kitchen"
+
+  - name: "Roborock"
+    id: "vacuum.roborock"
+    state: "idle"
+
+  # https://www.home-assistant.io/integrations/sensor/
+  - name: "[Prividna snaga] zamrzivač[a]"
+    id: "sensor.appliance_apparent_power"
+    state: "2"
+    attributes:
+      device_class: apparent_power
+      unit_of_measurement: "VA"
+
+  - name: "[Senzor[a]] kvalitete vazduha"
+    id: "sensor.kitchen_aqi_sensor"
+    state: "50"
+    attributes:
+      device_class: aqi
+
+  - name: "Eko Karta Beograd"
+    id: "sensor.aqi_eko_kartna_beograd"
+    state: "1.0"
+    attributes:
+      device_class: aqi
+
+  - name: "Meteorološk(a|oj) stanic(a|i) [pritisak vazduha]"
+    id: "sensor.outside_pressure"
+    state: "1000"
+    attributes:
+      device_class: atmospheric_pressure
+      unit_of_measurement: "hPa"
+
+  - name: "Moj telefon|mom telefonu"
+    id: "sensor.my_phone_battery"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "Akvarijum[u]"
+    id: "sensor.co2_aquarium"
+    state: "50"
+    attributes:
+      device_class: carbon_dioxide
+      unit_of_measurement: "ppm"
+
+  - name: "Akvarijum[u]"
+    id: "sensor.co_aquarium"
+    state: "48"
+    attributes:
+      device_class: carbon_monoxide
+      unit_of_measurement: "ppm"
+
+  - name: "Kuća|Kući"
+    id: "sensor.current_house"
+    state: "19"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"
+
+  - name: "frižider[a|u]"
+    id: "sensor.current_fridge"
+    state: "1"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"
+
+  - name: "ruter[u|a]"
+    id: "sensor.download_speed_router"
+    state: "122.9"
+    attributes:
+      device_class: data_rate
+      unit_of_measurement: "MB/s"
+
+  - name: "Log datotek(а|e)"
+    id: "sensor.log_file_size"
+    state: "106"
+    attributes:
+      device_class: data_size
+      unit_of_measurement: "kB"
+
+  - name: "sledeć(i|eg) rođendan[a]"
+    id: "sensor.next_birthday"
+    state: "2024-04-01"
+    attributes:
+      device_class: date
+
+  - name: "pas|psa"
+    id: "sensor.distance_dog"
+    state: "4.2"
+    attributes:
+      device_class: distance
+      unit_of_measurement: "m"
+
+  - name: "trenutni program veš mašine"
+    id: "sensor.dishwasher_program_duration"
+    state: "64"
+    attributes:
+      device_class: duration
+      unit_of_measurement: "min"
+
+  - name: "solarni[h] panel[i|a]"
+    id: "sensor.solar_production"
+    state: "3.2"
+    attributes:
+      device_class: energy
+      unit_of_measurement: "kWh"
+
+  - name: "baterijsk(i|om) spremnik[u]"
+    id: "sensor.stored_energy_battery_storage"
+    state: "6"
+    attributes:
+      device_class: energy_storage
+      unit_of_measurement: "kWh"
+
+  - name: "Inverter[a]"
+    id: "sensor.frequency_inverter"
+    state: "51"
+    attributes:
+      device_class: frequency
+      unit_of_measurement: "Hz"
+
+  - name: "mesečn(a|o) [potrošnja gasa]"
+    id: "sensor.monthly_gas_consumption"
+    state: "12"
+    attributes:
+      device_class: gas
+      unit_of_measurement: "m³"
+
+  - name: "Odvlaživač[a] vazduha"
+    id: "sensor.humidity_dehumidifer"
+    state: "48"
+    attributes:
+      device_class: humidity
+      unit_of_measurement: "%"
+
+  - name: "Senzor[a] za svetlo"
+    id: "sensor.living_room_illuminance"
+    state: "438"
+    attributes:
+      device_class: illuminance
+      unit_of_measurement: "lux"
+
+  - name: "Zid(i|nog) grejač(a)"
+    id: "sensor.living_room_heater_irradiance"
+    state: "155"
+    attributes:
+      device_class: irradiance
+      unit_of_measurement: "W/m²"
+
+  - name: "mešalic(a|e) za pivo"
+    id: "sensor.bewery_mixer_moisture"
+    state: "83"
+    attributes:
+      device_class: moisture
+      unit_of_measurement: "%"
+
+  - name: "električn[e|a] energij[a|e] po kw"
+    id: "sensor.price_per_kW"
+    state: "1"
+    attributes:
+      device_class: monetary
+      unit_of_measurement: "EUR"
+
+  - name: "kvalitet(e|a) vazduha"
+    id: "sensor.no2_air_qualita"
+    state: "50"
+    attributes:
+      device_class: nitrogen_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "kvalitet(e|a) vazduha"
+    id: "sensor.no_air_quality"
+    state: "50"
+    attributes:
+      device_class: nitrogen_monoxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "kvalitet(e|a) vazduha"
+    id: "sensor.n2o_air_quality"
+    state: "50"
+    attributes:
+      device_class: nitrous_oxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "kvalitet(e|a) vazduha"
+    id: "sensor.ozone_air_quality"
+    state: "50"
+    attributes:
+      device_class: ozone
+      unit_of_measurement: "µg/m³"
+
+  - name: "kvalitet(e|a) vazduha"
+    id: "sensor.living_room_pm1"
+    state: "50"
+    attributes:
+      device_class: pm1
+      unit_of_measurement: "µg/m³"
+
+  - name: "kvalitet(e|a) vazduha"
+    id: "sensor.living_room_pm25"
+    area: "living_room"
+    state: "50"
+    attributes:
+      device_class: pm25
+      unit_of_measurement: "µg/m³"
+
+  - name: "kvalitet(e|a) vazduha"
+    id: "sensor.living_room_pm10"
+    state: "50"
+    attributes:
+      device_class: pm10
+      unit_of_measurement: "µg/m³"
+
+  - name: "utičnic(e|a) televizora"
+    id: "sensor.power_factor_power_plug_tv"
+    state: "2"
+    attributes:
+      device_class: power_factor
+
+  - name: "utičnic(e|a) televizora"
+    id: "sensor.power_power_plug_tv"
+    state: "380"
+    attributes:
+      device_class: power
+      unit_of_measurement: "W"
+
+  - name: "Meteorološk(a|oj) stanic(a|i)"
+    id: "sensor.rain_sensor_total"
+    state: "29"
+    attributes:
+      device_class: precipitation
+      unit_of_measurement: "mm"
+
+  - name: "Meteorološk(a|oj) stanic(a|i)"
+    id: "sensor.rain_sensor_intensity"
+    state: "144"
+    attributes:
+      device_class: precipitation_intensity
+      unit_of_measurement: "mm/h"
+
+  - name: "gume automobila"
+    id: "sensor.tyre_pressure"
+    state: "2.1"
+    attributes:
+      device_class: pressure
+      unit_of_measurement: "bar"
+
+  - name: "voden(a|e) pump(a|e)"
+    id: "sensor.water_pump_reactive_power"
+    state: "22"
+    attributes:
+      device_class: reactive_power
+      unit_of_measurement: "VAR"
+
+  - name: "Wi-Fi router[a]"
+    id: "sensor.signal_strength_wifi"
+    state: "-43"
+    attributes:
+      device_class: signal_strength
+      unit_of_measurement: "dBm"
+
+  - name: "TV zvučnik[a]"
+    id: "sensor.sound_pressure_sound_bar"
+    state: "62"
+    attributes:
+      device_class: sound_pressure
+      unit_of_measurement: "dB"
+
+  - name: "Tesla"
+    id: "sensor.speed_tesla"
+    state: "67"
+    attributes:
+      device_class: speed
+      unit_of_measurement: "km/h"
+
+  - name: "bazen[a]"
+    id: "sensor.so2_pool"
+    state: "50"
+    attributes:
+      device_class: sulphur_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "frižider[a|u]"
+    id: "sensor.temperature_frifge"
+    state: "7"
+    attributes:
+      device_class: temperature
+      unit_of_measurement: "°C"
+
+  - name: "kvalitet(e|a) vazduha"
+    id: "sensor.voc_sensor"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds
+      unit_of_measurement: "µg/m³"
+
+  - name: "kvalitet(e|a) vazduha"
+    id: "sensor.voc_sensor_parts"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds_parts
+      unit_of_measurement: "ppm"
+
+  - name: "TV utičnic(a|e)"
+    id: "sensor.voltage_power_plug_tv"
+    state: "12"
+    attributes:
+      device_class: voltage
+      unit_of_measurement: "V"
+
+  - name: "voden(a|e) pump(a|e)"
+    id: "sensor.water_pump_usage"
+    state: "1356"
+    attributes:
+      device_class: volume
+      unit_of_measurement: "L"
+
+  - name: "spremnik[a] vodene pumpe"
+    id: "sensor.water_pump_storage"
+    state: "28"
+    attributes:
+      device_class: volume_storage
+      unit_of_measurement: "L"
+
+  - name: "voden(a|e) pump(a|e)"
+    id: "sensor.water_pump_usage"
+    state: "5987"
+    attributes:
+      device_class: water
+      unit_of_measurement: "L"
+
+  - name: "krevet(a|u)"
+    id: "sensor.bed_sensor_weight"
+    state: "87"
+    attributes:
+      device_class: weight
+      unit_of_measurement: "kg"
+
+  - name: "Meteorološka stanica"
+    id: "sensor.wind_speed"
+    state: "33"
+    attributes:
+      device_class: wind_speed
+      unit_of_measurement: "km/h"
+
+  - name: "zadat(ci|ke)|podsetnik"
+    id: "todo.zadatci"
+    state: ""
+
+  - name: "Beograd[u]"
+    id: "weather.beograd"
+    state: "rainy"
+    attributes:
+      temperature: "8"
+      temperature_unit: "°C"
+
+  - name: "TV|TV-u|Televizor[u]"
+    id: "media_player.tv"
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen"
+    start_minutes: 15
+    total_seconds_left: 200
+    rounded_hours_left: 0
+    rounded_minutes_left: 5
+    rounded_seconds_left: 0

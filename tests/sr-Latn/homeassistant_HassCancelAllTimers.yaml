@@ -1,8 +1,22 @@
 language: sr-Latn
 tests:
-  - sentences: []
+  - sentences:
+      - "poništi sve tajmere"
+      - "zaustavi sve moje tajmere"
+      - "zaustavi sve tajmere"
+    intent:
+      name: HassCancelAllTimers
+    response: Zaustavljena su 3 tajmera.
+
+  - sentences:
+      - "poništi sve tajmere u kuhinji"
+      - "zaustavi sve tajmere u kuhinji"
+      - "zaustavi sve kuhinjske tajmere"
     intent:
       name: HassCancelAllTimers
       slots:
-        domain: homeassistant
-        name: all
+        area:
+          - Kuhinja
+          - kuhinji
+          - kuhinjske
+    response: Nije zaustavljen niti jedan tajmer u prostoriji.
