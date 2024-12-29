@@ -1,0 +1,42 @@
+language: zh-cn
+tests:
+  - sentences:
+      - "计时器状态"
+      - "我的计时器状态"
+      - "我的计时器还剩多少时间"
+      - "我的计时器剩多长时间"
+    intent:
+      name: HassTimerStatus
+    response: |
+      2 running timers. 1 paused timer. 3 minutes left on 5 minute 厨房 timer.
+
+  - sentences:
+      - "1小时计时器状态"
+      - "1个钟头计时器状态"
+      - "1个钟头计时器剩多少时间"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 1
+    response: |
+      Timer is paused. 1 minute and 40 seconds left.
+
+  - sentences:
+      - "厨房计时器状态"
+      - "厨房计时器还剩多少时间"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: 厨房
+    response: |
+      3 minutes left.
+
+  - sentences:
+      - "披萨计时器状态"
+      - "披萨计时器剩多少时间"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name: "披萨"
+    response: |
+      25 minutes left.
