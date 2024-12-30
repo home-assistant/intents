@@ -3,39 +3,73 @@ settings:
   filter_with_regex: false
 responses:
   errors:
-    no_intent: "Omlouvám se, ale nerozumím"
-    no_area: "Oblast {{ area }} nenalezena"
-    no_domain_in_area: "{{ area }} neobsahuje {{ domain }}"
-    no_device_class_in_area: "{{ area }} neobsahuje {{ device_class }}"
-    no_entity: "Žádné zařízení ani entita se nejmenuje {{ entity }}"
+    # General errors
+    no_intent: "Promiňte, ale nerozumím"
     handle_error: "Při zpracování došlo k neočekávané chybě"
+
+    # Errors for when user is not logged in
+    no_area: "Promiňte, ale nebyla nalezena žádná oblast s názvem {{ area }}"
+    no_floor: "Promiňte, ale nebylo nalezeno žádné patro s názvem {{ floor }}"
+    no_domain: "Promiňte, ale nebylo nalezeno žádné zařízení typu {{ domain }}"
+    no_domain_in_area: "Promiňte, ale v oblasti {{ area }} nebylo nalezeno žádné zařízení typu {{ domain }}"
+    no_domain_in_floor: "Promiňte, ale na patře {{ floor }} nebylo nalezeno žádné zařízení typu {{ domain }}"
+    no_device_class: "Promiňte, ale nebylo nalezeno žádné zařízení typu {{ device_class }}"
+    no_device_class_in_area: "Promiňte, ale v oblasti {{ area }} nebylo nalezeno žádné zařízení typu {{ device_class }}"
+    no_device_class_in_floor: "Promiňte, ale na patře {{ floor }} nebylo nalezeno žádné zařízení typu {{ device_class }}"
+    no_entity: "Promiňte, ale nebyla nalezena žádná entita se jménem {{ entity }}"
+    no_entity_in_area: "Promiňte, ale v oblasti {{ area }} nebyla nalezena žádná entita se jménem {{ entity }}"
+    no_entity_in_floor: "Promiňte, ale na patře {{ floor }} nebyla nalezena žádná entita se jménem {{ entity }}"
+    entity_wrong_state: "Promiňte, ale žádné zařízení není {{ state | lower }}"
+    feature_not_supported: "Promiňte, ale žádné zařízení nepodporuje požadovanou funkci"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Promiňte, ale entita se jménem {{ entity }} není vystavená"
+    no_entity_in_area_exposed: "Promiňte, ale v oblasti {{ area }} není vystavená žádná entita se jménem {{ entity }}"
+    no_entity_in_floor_exposed: "Promiňte, ale na patře {{ floor }} není vystavená žádná entita se jménem {{ entity }}"
+    no_domain_exposed: "Promiňte, ale není vystaveno žádné zařízení typu {{ domain }}"
+    no_domain_in_area_exposed: "Promiňte, ale v oblasti {{ area }} není vystaveno žádné zařízení typu {{ domain }}"
+    no_domain_in_floor_exposed: "Promiňte, ale na patře {{ floor }} není vystaveno žádné zařízení typu {{ domain }}"
+    no_device_class_exposed: "Promiňte, ale není vystaveno žádné zařízení typu {{ device_class }}"
+    no_device_class_in_area_exposed: "Promiňte, ale v oblasti {{ area }} není vystaveno žádné zařízení typu {{ device_class }}"
+    no_device_class_in_floor_exposed: "Promiňte, ale na patře {{ floor }} není vystaveno žádné zařízení typu {{ device_class }}"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Promiňte, ale existuje více entit se jménem {{ entity }}"
+    duplicate_entities_in_area: "Promiňte, ale v oblasti {{ area }} existuje více entit se jménem {{ entity }}"
+    duplicate_entities_in_floor: "Promiňte, ale na patře {{ floor }} existuje více entit se jménem {{ entity }}"
+
+    # Errors for timers
+    timer_not_found: "Promiňte, ale tento časovač nebyl nalezen"
+    multiple_timers_matched: "Promiňte, ale nelze cílit na vícero časovačů"
+    no_timer_support: "Promiňte, ale na tomto zařízení nejsou časovače podporovány"
+
 lists:
   color:
     values:
-      - in: "bíl(á|ý|é|ou)"
+      - in: "bíl(<y_e>|ou)"
         out: "white"
-      - in: "čern(á|ý|é|ou)"
+      - in: "čern(<y_e>|ou)"
         out: "black"
-      - in: "červen(á|ý|é|ou)"
+      - in: "červen(<y_e>|ou)"
         out: "red"
-      - in: "oranžov(á|ý|é|ou)"
+      - in: "oranžov(<y_e>|ou)"
         out: "orange"
-      - in: "žlut(á|ý|é|ou)"
+      - in: "žlut(<y_e>|ou)"
         out: "yellow"
-      - in: "zelen(á|ý|é|ou)"
+      - in: "zelen(<y_e>|ou)"
         out: "green"
-      - in: "modr(á|ý|é|ou)"
+      - in: "modr(<y_e>|ou)"
         out: "blue"
-      - in: "fialov(á|ý|é|ou)"
+      - in: "fialov(<y_e>|ou)"
         out: "purple"
-      - in: "hněd(á|ý|é|ou)"
+      - in: "hněd(<y_e>|ou)"
         out: "brown"
 
   on_off_states:
     values:
-      - in: "(zapnut[(o|é|o|ý|á)]|rozsvícen(o|é|á))"
+      - in: "(zapnut[<y_e>]|rozsvícen[<y_e>])"
         out: "on"
-      - in: "(vypnut[(o|é|ý|á)]|zhasnut(o|é|á))"
+      - in: "(vypnut<y_e>|zhasnut[<y_e>])"
         out: "off"
   on_off_domains:
     values:
@@ -47,9 +81,9 @@ lists:
         out: switch
   cover_states:
     values:
-      - in: "(otevřen(o|ý|é|á|ých)|roztažen(á|é|o|ých))"
+      - in: "(otevřen[<y_e>]|roztažen[<y_e>])"
         out: "open"
-      - in: "(zavřen(o|ý|é|á|ých)|zatažen(é|o|á|ých))"
+      - in: "(zavřen[<y_e>]|zatažen[<y_e>])"
         out: "closed"
       - in: "[se] otevír(á|ají) [se]"
         out: "opening"
@@ -57,19 +91,19 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: "markýz(a|y)"
+      - in: "markýz(a|y|u)"
         out: awning
-      - in: "(žaluzi(e|í)|rolet[(a|y)])"
+      - in: "(žaluzi(i|e|í)|rolet[(a|y|u)])"
         out: blind
-      - in: "závěs[y]"
+      - in: "závěs[y|ů]"
         out: curtain
       - in: "dveře"
         out: door
-      - in: "((garážov(é|á) (dveře|vrata))|garáž)"
+      - in: "((garážov(é|á|ých) (dveř(e|í)|vrat[a]))|garáž)"
         out: garage
       - in: "brán(a|y)"
         out: gate
-      - in: "clon(a|y)"
+      - in: "(clon(a|y)|stínítk(o|a|ek))"
         out: shade
       - in: "okenice"
         out: shutter
@@ -320,10 +354,12 @@ lists:
 expansion_rules:
   v: "(v|ve|na)"
   area: "[<v>] {area}"
-  tady: "(tady|tu|zde)"
+  floor: "[<v>] {floor}[ patře]"
+  area_floor: "(<area>|<floor>)"
+  tady: "(tady|tu|zde|v této místnosti|v tomto pokoji)"
   zapnout: "zapn(i|out)"
   spustit: "[s]pus(ť|tit)"
-  vypnout: "(vypn(i|out)|zastav[it])"
+  vypnout: "vypn(i|out)"
   rozsvitit: "(rozsviť|rozsvítit|rožn(i|out))" #some dialect to be served for users :)
   zhasnout: "zhasn(i|out)"
   svetla: "[všech[na] ]svět(lo|la|el)"
@@ -343,16 +379,21 @@ expansion_rules:
   zatahnout: "(za|s)táhn(out|i)"
   prejit: "přej(ít|di)"
   koncentrace: "(úroveň|množství|koncentrace)"
+  predchozi: "(předchozí|poslední|minul[á|ou|ý])"
+  dalsi: "(další|následující)"
 
-  y_e: "(ý|ej|á|é|ých|ejch)"
+  y_e: "(ý|ej|á|é|ých|ejch|o)"
   ktere: "(kter<y_e>|jak[<y_e>])"
-  je_jsou: "(byl[(a|o|i|y)]|je|jsou|bud(e|ou))"
-  jaky_je: "((<ktere>|kolik)[  <je_jsou>])"
+  nektere: "(někter<y_e>|nějak[<y_e>])"
+  byl: "byl[(a|o|i|y)]"
+  je: "(je|jsou)"
+  bude: "bud(e|ou)"
+  jaky_je: "(jak[<y_e>]|kolik) [<je>]"
   jaka_je_class_of_name: >
     (
-       <jaky_je> (<class>;[<je_jsou>];[[(na|z)]měřen<y_e>]) ([(na|na sen(z|s)oru|sen(z|s)orem) ]{name};[<area>])
-       |<jaky_je> <area> <class> [(na|z)měřen(á|ý) ][(na sen(z|s)oru|sen(z|s)orem) ]{name}
-     )
+      <jaky_je> (<class>;[[na|z]měřen<y_e>]) [<v>] [sen(z|s)or(u|em)] {name} [<area>]|
+      <jaky_je> <area> (<class>;[[na|z]měřen<y_e>]) [<v>] [sen(z|s)or(u|em)] {name}
+    )
 
 skip_words:
   - "prosím"

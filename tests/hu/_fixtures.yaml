@@ -1,21 +1,40 @@
 language: hu
+floors:
+  - name: "emelet"
+    id: "upstairs_id"
+  - name: "földszint"
+    id: "ground_floor_id"
+  - name: "első emelet"
+    id: "first_floor_id"
+  - name: "második emelet"
+    id: "second_floor_id"
+  - name: "pince"
+    id: "basement_id"
 areas:
   - name: konyha
     id: kitchen
+    floor: "first_floor_id"
   - name: nappali
     id: living_room
+    floor: "first_floor_id"
   - name: háló
     id: bedroom
+    floor: "first_floor_id"
   - name: garázs
     id: garage
+    floor: "first_floor_id"
   - name: terasz
     id: terrace
+    floor: "ground_floor_id"
   - name: kint
     id: outdoor
+    floor: "ground_floor_id"
   - name: iroda
     id: office
+    floor: "basement_id"
   - name: bejárat
     id: entrance
+    floor: "ground_floor_id"
 
 entities:
   - name: éjjeli lámpa 1
@@ -134,6 +153,14 @@ entities:
       out: "on"
     attributes:
       device_class: heat
+
+  - name: "fény szenzor"
+    id: "binary_sensor.light"
+    state:
+      in: "no light"
+      out: "off"
+    attributes:
+      device_class: light
 
   - name: "macska ajtó"
     id: "binary_sensor.pet_door_lock"
@@ -329,24 +356,48 @@ entities:
 
   - name: "Budapest"
     id: "weather.budapest"
-    state: "és esik"
+    state: "Esős"
     attributes:
       temperature: "23"
       temperature_unit: "°C"
+      wind_bearing: 51
+      wind_gust_speed: 12.98
+      wind_speed: 8.06
+      wind_speed_unit: "km/h"
+      uv_index: 7
+      humidity: 78
+      pressure: 1028
+      pressure_unit: "hPa"
 
   - name: "Szolnok"
     id: "weather.szolnok"
-    state: "és tiszta"
+    state: "Tiszta"
     attributes:
       temperature: "26"
       temperature_unit: "°C"
+      wind_bearing: 50
+      wind_gust_speed: 11.98
+      wind_speed: 7.06
+      wind_speed_unit: "km/h"
+      uv_index: 4
+      humidity: 76
+      pressure: 1027
+      pressure_unit: "hPa"
 
   - name: "Teszt város"
     id: "weather.teszt"
-    state: "és tiszta"
+    state: "Tiszta"
     attributes:
       temperature: "-2.2"
       temperature_unit: "°C"
+      wind_bearing: 89
+      wind_gust_speed: 10.98
+      wind_speed: 6.06
+      wind_speed_unit: "km/h"
+      uv_index: 2
+      humidity: 75
+      pressure: 1026
+      pressure_unit: "hPa"
 
   - name: "party mód"
     id: "scene.party_mode"
@@ -716,3 +767,24 @@ entities:
   - name: "consuela"
     id: "vacuum.consuela"
     state: "idle"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - is_active: true
+    name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

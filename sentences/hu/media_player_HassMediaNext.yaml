@@ -3,6 +3,21 @@ intents:
   HassMediaNext:
     data:
       - sentences:
-          - "(következő [szám|zene|film];<name>)"
+          - "([a] következő[t] [szám[ra|ot]|zené(re|t)|film(re|et)|dal(ra|t)];<name>)"
+          - "<name> (játszd [le]|ugorj [előre]|menj) a következő (szám(ra|ot)|zené(re|t)|film(re|et)|dal(ra|t))"
+          - "(játszd [le]|ugorj [előre]|menj) a következő (szám(ra|ot)|zené(re|t)|film(re|et)|dal(ra|t)) <name>"
+          - "(<name>;ugord át [ezt] a (számot|zenét|filmet|dalt))"
         requires_context:
           domain: media_player
+
+      - sentences:
+          - "(játszd [le]|ugorj [előre]|menj) a következő (szám(ra|ot)|zené(re|t)|film(re|et)|dal(ra|t))"
+          - "ugord át [ezt] a (számot|zenét|filmet|dalt)"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "<area>  (játszd [le]|ugorj [előre]|menj) a következő (szám(ra|ot)|zené(re|t)|film(re|et)|dal(ra|t))"
+          - "(játszd [le]|ugorj [előre]|menj) a következő (szám(ra|ot)|zené(re|t)|film(re|et)|dal(ra|t)) <area>"
+          - "(<area>;ugord át [ezt] a (számot|zenét|filmet|dalt))"

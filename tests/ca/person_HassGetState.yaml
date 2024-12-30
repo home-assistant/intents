@@ -1,0 +1,56 @@
+language: ca
+tests:
+  - sentences:
+      - on és el Joan?
+      - saps on és en Joan?
+      - pots dir-me on és el Joan?
+      - on es troba en Joan?
+      - on està en Joan ara?
+      - on puc trobar al Joan?
+      - saps on està el Joan?
+      - on para en Joan?
+      - pots localitzar a en Joan?
+      - on és ara mateix el Joan?
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Joan
+    response: Joan es troba a home
+
+  - sentences:
+      - on és l'Ada?
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Ada
+    response: Ada es troba a Feina
+
+  - sentences:
+      - que hi ha l'Ada a casa?
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Ada
+        state: casa
+    response: No, és Feina
+
+  - sentences:
+      - que hi ha algú a casa?
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: casa
+    response: "No"
+
+  - sentences:
+      - qui hi ha a casa?
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: casa
+    response: Cap dispositiu

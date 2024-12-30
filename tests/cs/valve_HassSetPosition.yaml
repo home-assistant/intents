@@ -1,0 +1,48 @@
+language: cs
+tests:
+  - sentences:
+      - "Nastavit hlavní uzávěr vody na 50%"
+      - "Nastav pozici sprinkleru na 50%"
+      - "Otevři sprinkler na 50%"
+    intent:
+      name: HassSetPosition
+      slots:
+        domain: valve
+        name:
+          - Hlavní uzávěr vody
+          - Sprinkleru
+          - Sprinkler
+        position: 50
+    response: "Pozice nastavena"
+
+  - sentences:
+      - "Nastavit sprinkler zahrada 50%"
+      - "Nastav pozici sprinkleru na zahradě na 50%"
+      - "Otevři na zahradě sprinkler na 50%"
+    intent:
+      name: HassSetPosition
+      slots:
+        domain: valve
+        name:
+          - Sprinkler
+          - Sprinkleru
+        area:
+          - Zahrada
+          - Zahradě
+        position: 50
+    response: Pozice nastavena
+
+  - sentences:
+      - "Nastavit ventil na 40%"
+      - "Nastav pozici ventilu 40%"
+      - "Nastav tady polohu ventilů na 40%"
+      - "Otevři tady ventily na 40%"
+    intent:
+      name: HassSetPosition
+      context:
+        area: Zahrada
+      slots:
+        domain: valve
+        area: Zahrada
+        position: 40
+    response: Pozice nastavena

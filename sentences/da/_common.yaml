@@ -305,6 +305,36 @@ lists:
       - in: "lukket"
         out: "closed"
 
+  shopping_list_item:
+    wildcard: true
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "[en |et ]halv[t]"
+        out: 30
+  timer_quarter:
+    values:
+      - in: "(1|et) kvarter"
+        out: 15
+      - in: "(3|tre) kvarter"
+        out: 45
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   al: "(alle | alt | samtlige)"
   blæser: "blæser[(e|en|ne)]"
@@ -323,7 +353,6 @@ expansion_rules:
   rullegardin: "rullegardin[(et|er|erne)]"
   skodde: "skodde[(n|r|rne)]"
   sluk: "sluk [for]"
-  timer: "(timer | nedtælling)"
   temperatur: "{temperature}[°| grader] [{temperature_unit}]"
   tænd: "tænd [for]"
   åbn: "(åben|åbn[e]) [for]"
@@ -339,6 +368,24 @@ expansion_rules:
   gas_ikke_fundet: "er [der] ikke [noget] gas (detekteret|fundet|registreret)"
   bevaegelses_sensor: "bevægelses[ ]sensorer[ne]"
   i: "(i|[oppe ]på)"
+
+  # Timers
+  timer: "(timer | nedtælling)"
+  timers: "(timere | nedtællinger)"
+  timer_pause: "(pause|[midlertidig ](stop|stands)[e])"
+  timer_unpause: "(fortsæt|genoptage)"
+  timer_add: "(læg til|øge)"
+  timer_decrease: "(sænk|trække fra|reducer)"
+  timer_set: "(sæt|start|læg|opret|lav)[ en]"
+  timer_cancel: "(stop|afbryd|slet|fjern)"
+  timer_duration_seconds: "{timer_seconds:seconds} sekund[er]"
+  timer_duration_minutes: "({timer_minutes:minutes} minutt[er][ [og |, ]{timer_seconds:seconds} sekund[er]])|({timer_minutes:minutes} og {timer_half:seconds} minutt[er])|({timer_quarter:minutes})|({timer_half:seconds} minut)"
+  timer_duration_hours: "({timer_hours:hours} time[r][ [og |, ]{timer_minutes:minutes} minut[ter]][ [og |, ]{timer_seconds:seconds} sekund[er]])|({timer_hours:hours} time[r] og {timer_quarter:minutes})|({timer_hours:hours} og {timer_half:minutes} time[r])|({timer_half:minutes} time)|({timer_hours:hours} og {timer_quarter:minutes})"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+  timer_start_seconds: "{timer_seconds:start_seconds} sekund[er]"
+  timer_start_minutes: "{timer_minutes:start_minutes} minut[ter][ [og ]{timer_seconds:start_seconds} sekund[er]]"
+  timer_start_hours: "{timer_hours:start_hours} time[r][ [og |, ]{timer_minutes:start_minutes} minut[er]][ [og |, ]{timer_seconds:start_seconds} sekund[er]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - "venligst"

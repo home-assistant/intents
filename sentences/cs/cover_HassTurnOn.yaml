@@ -3,34 +3,48 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<otevrit> garáž"
-          - "<otevrit> vrata od garáže"
-          - "<otevrit> garážová vrata"
+          - "<otevrit> (garáž|vrata od garáže|garážová vrata)"
         slots:
-          device_class: garage
           domain: cover
+          device_class: garage
         response: garage
 
       - sentences:
           - "<otevrit> {name} [<area>]"
         requires_context:
           domain: cover
+        slots:
+          domain: cover
         response: cover
 
       - sentences:
           - "<roztahnout> {name} [<area>]"
         requires_context:
+          domain: cover
           device_class:
             - awning
             - blind
             - curtain
             - shade
             - shutter
+        slots:
           domain: cover
+        response: curtain
+
+      - sentences:
+          - "<otevrit> ({cover_classes:device_class};<area_floor>)"
+        slots:
+          domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
         response: cover
 
       - sentences:
-          - "(<otevrit>|<roztahnout>) (rolet(u|y)|žaluzi(i|e)|závěs[y]|markýz[u|y]|stínítk[o|a]) <area>"
+          - "<roztahnout> ({cover_classes:device_class};<area_floor>)"
         slots:
           device_class:
             - awning
@@ -39,13 +53,22 @@ intents:
             - shade
             - shutter
           domain: cover
-        response: cover
+        response: curtain
 
       - sentences:
-          - "<otevrit> {cover_classes:device_class}"
-        slots:
-          domain: cover
-        response: cover
+          - "<otevrit> ({cover_classes:device_class};[<tady>])"
         requires_context:
           area:
             slot: true
+        slots:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<roztahnout> ({cover_classes:device_class};[<tady>])"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: cover
+        response: curtain

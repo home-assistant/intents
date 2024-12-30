@@ -1,0 +1,33 @@
+language: fr
+intents:
+  HassMediaPrevious:
+    data:
+      # name
+      - sentences:
+          # Chanson précédente sur la TV
+          - "<media> précédent[e] sur [<le>]{name}"
+          # Passe au morceau précédent sur la TV
+          - "<mets> (<le>|au |à la )<media> précédent[e] [sur] [<le>]{name}"
+        requires_context:
+          domain: media_player
+
+      # Area (Context awarenes)
+      - sentences:
+          # Précédent
+          - "précédent[e]"
+          # Chansion précédente
+          - "<media> précédent[e]"
+          # Mets l'épisode précédent
+          - "<mets> (<le>|au |à la )<media> précédent[e]"
+        requires_context:
+          area:
+            slot: true
+
+      # Area
+      - sentences:
+          # Précédent dans le salon
+          - "précédent[e] <dans> [<le>]{area}"
+          # Chansion précédente dans le salon
+          - "<media> précédent[e] <dans> [<le>]{area}"
+          # Mets l'episode précédent dans le bureau
+          - "<mets> (<le>|au |à la )<media> précédent[e] <dans> [<le>]{area}"

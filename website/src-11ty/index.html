@@ -30,7 +30,7 @@ Cell format:
   <thead>
     <tr>
       <th>Language</th>
-      {% for intent in intentSummary.languages[0].intents %}
+      {% for intent in intentSummary.languages.en.intents %}
       <th>{{intent[0] | remove_first: "Hass"}}</th>
       {% endfor %}
       <th>Errors translated</th>
@@ -38,7 +38,8 @@ Cell format:
     </tr>
   </thead>
   <tbody>
-    {% for summary in intentSummary.languages %}
+    {% for item in intentSummary.languages %}
+    {% assign summary = item[1] %}
     <tr class="{% if summary.usable %}usable{% endif %}">
       <td>
         <a
@@ -98,3 +99,105 @@ Cell format:
   </tbody>
 </table>
 <p><i>Every cell in the table links to the relevant file.</i></p>
+
+<h2>Road to complete ⭐️</h2>
+List of languages that are usable, but not yet complete.
+<table>
+  <thead>
+    <tr>
+      <th>Language</th>
+      <th>Missing</th>
+      <th>Intents</th>
+    </tr>
+  </thead>
+  {% for language in intentSummary.improvements_complete %}
+  {% assign summary = intentSummary.languages[language] %}
+  <tr>
+    <td>
+      <a
+        href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/"
+        target="_blank"
+      >
+        <code>{{summary.language}}</code> {{summary.native_name}}
+      </a>
+
+    </td>
+    <td>{{ intentSummary.languages[language].missing_complete_intents | size }}</td>
+    <td style="text-align: left; padding-left: 16px;">
+      {% for intent in intentSummary.languages[language].missing_complete_intents %}
+        {{ intent }}{% if forloop.last == false %}, {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>Road to Team 💚</h2>
+List of languages that are missing important intent coverage.
+<table>
+  <thead>
+    <tr>
+      <th>Language</th>
+      <th>Missing</th>
+      <th>Intents</th>
+    </tr>
+  </thead>
+  {% for language in intentSummary.improvements_usable %}
+  {% assign summary = intentSummary.languages[language] %}
+  <tr>
+    <td>
+      <a
+        href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/"
+        target="_blank"
+      >
+        <code>{{summary.language}}</code> {{summary.native_name}}
+      </a>
+
+    </td>
+    <td>{{ intentSummary.languages[language].missing_usable_intents | size }}</td>
+    <td style="text-align: left; padding-left: 16px;">
+      {% for intent in intentSummary.languages[language].missing_usable_intents %}
+        {{ intent }}{% if forloop.last == false %}, {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>Empty language files</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Language</th>
+      <th>Leader</th>
+    </tr>
+  </thead>
+  {% for summary in intentSummary.empty_languages %}
+  <tr>
+    <td>
+      <a
+        href="https://github.com/home-assistant/intents/blob/main/sentences/{{ summary.language }}/"
+        target="_blank"
+      >
+        <code>{{summary.language}}</code> {{summary.native_name}}
+      </a>
+    </td>
+    <td
+      class="{% if summary.leaders and (summary.leaders | len) > 1 %}multiple{% endif %}"
+    >
+      {% if summary.leaders %} {% for leader in summary.leaders %}
+      <a href="https://github.com/{{ leader }}" target="_blank">
+        @{{ leader }}
+      </a>
+      {% endfor %} {% else %}
+      <a
+        href="https://developers.home-assistant.io/docs/voice/language-leaders/"
+        target="_blank"
+      >
+        &lt;position open&gt;
+      </a>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>

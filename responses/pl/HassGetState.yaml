@@ -2,6 +2,7 @@ language: pl
 responses:
   intents:
     HassGetState:
+      # DEFAULT ==============================================================================================================================
       default: |
         {% set vowelsList = ['e', 'i', 'o', 'u'] %}
         {% set lastChar = slots.name | default("y", false) | last %}
@@ -13,22 +14,25 @@ responses:
           {% if lastChar == "a" %}Włączona{% elif lastChar in vowelsList %}Włączone{% else %}Włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
           {% if lastChar == "a" %}Wyłączona{% elif lastChar in vowelsList %}Wyłączone{% else %}Wyłączony{% endif %}
-        {% else %}{{ state.state_with_unit }}
+        {% else %}
+          {{ state.state_with_unit | replace(".", ",") if state.state|float(state.state) is number else state.state_with_unit }}
         {% endif %}
 
+      # ONE ==================================================================================================================================
       one: |
         {% set vowelsList = ['e', 'i', 'o', 'u'] %}
         {% set lastChar = slots.name | last %}
-        {{ slots.name | capitalize }} jest 
+        {{ slots.name | capitalize }}
         {% if state.state_with_unit == 'open': %}
-          {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
+          jest {% if lastChar == "a" %}otwarta{% elif lastChar in vowelsList %}otwarte{% else %}otwarty{% endif %}
         {% elif state.state_with_unit == 'close': %}
-          {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
+          jest {% if lastChar == "a" %}zamknięta{% elif lastChar in vowelsList %}zamknięte{% else %}zamknięty{% endif %}
         {% elif state.state_with_unit == 'on': %}
-          {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
+          jest {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
-          {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
-        {% else %}{{ state.state_with_unit }}
+          jest {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
+        {% else %}
+          jest {{ state.state_with_unit | replace(".", ",") if state.state|float(state.state) is number else state.state_with_unit }}
         {% endif %}
 
       one_state: |
@@ -43,7 +47,8 @@ responses:
           {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
           {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
-        {% else %}{{ state.state_with_unit }}
+        {% else %}
+          {{ state.state_with_unit | replace(".", ",") if state.state|float(state.state) is number else state.state_with_unit }}
         {% endif %}
 
       one_status: |
@@ -58,7 +63,8 @@ responses:
           {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
           {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
-        {% else %}{{ state.state_with_unit }}
+        {% else %}
+          {{ state.state_with_unit | replace(".", ",") if state.state|float(state.state) is number else state.state_with_unit }}
         {% endif %}
 
       one_value: |
@@ -73,7 +79,8 @@ responses:
           {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
           {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
-        {% else %}{{ state.state_with_unit }}
+        {% else %}
+          {{ state.state_with_unit | replace(".", ",") if state.state|float(state.state) is number else state.state_with_unit }}
         {% endif %}
 
       one_yesno: |
@@ -91,10 +98,12 @@ responses:
           {% if lastChar == "a" %}włączona{% elif lastChar in vowelsList %}włączone{% else %}włączony{% endif %}
         {% elif state.state_with_unit == 'off': %}
           {% if lastChar == "a" %}wyłączona{% elif lastChar in vowelsList %}wyłączone{% else %}wyłączony{% endif %}
-        {% else %}{{ state.state_with_unit }}
+        {% else %}
+          {{ state.state_with_unit | replace(".", ",") if state.state|float(state.state) is number else state.state_with_unit }}
         {% endif %}
         {% endif %}
 
+      # ANY ==================================================================================================================================
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
@@ -111,6 +120,7 @@ responses:
           Nie
         {% endif %}
 
+      # ALL ==================================================================================================================================
       # Explanation and Examples:
       # 1 drzwi nie są, 1 zasłona nie jest
       # 2 drzwi, zasłony nie są
@@ -142,6 +152,7 @@ responses:
           {% endif %}
         {% endif %}
 
+      # WHICH ================================================================================================================================
       which: |
         {% if not query.matched %}
           {% if state.domain == "light" %}
@@ -183,9 +194,11 @@ responses:
           {% endif %}
         {% endif %}
 
+      # HOW MANY =============================================================================================================================
       how_many: |
         {{ query.matched | length }}
 
+      # WHERE ================================================================================================================================
       where: |
         {% if state.state == "home" %}
           {{ slots.name | capitalize }} jest w domu

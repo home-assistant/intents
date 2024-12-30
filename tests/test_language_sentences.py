@@ -8,16 +8,20 @@ from typing import Any, List
 
 import pytest
 from hassil import Intents, recognize_best
-from hassil.intents import SlotList
+from hassil.expression import TextChunk
+from hassil.intents import SlotList, TextSlotList
+from hassil.trie import Trie
 from hassil.util import normalize_whitespace
 from jinja2 import BaseLoader, Environment
 from yaml import safe_load
 
 from shared import (
     AreaEntry,
+    FloorEntry,
     State,
     Timer,
     get_areas,
+    get_floors,
     get_matched_states,
     get_matched_timers,
     get_slot_lists,
@@ -36,6 +40,21 @@ def slot_lists_fixture(language: str) -> dict[str, SlotList]:
     return get_slot_lists(fixtures)
 
 
+@pytest.fixture(name="name_trie", scope="session")
+def name_trie_fixture(language: str, slot_lists: dict[str, SlotList]) -> Trie:
+    """Creates trie for name slot list."""
+    name_list = slot_lists.get("name")
+    assert isinstance(name_list, TextSlotList)
+
+    name_trie = Trie()
+    for value in name_list.values:
+        assert isinstance(value.text_in, TextChunk)
+        name = value.text_in.text
+        name_trie.insert(name.strip().lower(), value)
+
+    return name_trie
+
+
 @pytest.fixture(name="states", scope="session")
 def states_fixture(language: str) -> List[State]:
     """Loads test entity states for the language."""
@@ -48,6 +67,13 @@ def areas_fixture(language: str) -> List[AreaEntry]:
     """Loads test areas for the language."""
     fixtures = load_test(language, "_fixtures")
     return get_areas(fixtures)
+
+
+@pytest.fixture(name="floors", scope="session")
+def floors_fixture(language: str) -> List[FloorEntry]:
+    """Loads test floors for the language."""
+    fixtures = load_test(language, "_fixtures")
+    return get_floors(fixtures)
 
 
 @pytest.fixture(name="timers", scope="session")
@@ -65,9 +91,11 @@ def do_test_language_sentences_file(
     slot_lists: dict[str, SlotList],
     states: List[State],
     areas: List[AreaEntry],
+    floors: List[FloorEntry],
     timers: List[Timer],
     language_sentences: Intents,
     language_responses: dict[str, Any],
+    name_trie: Trie,
 ) -> None:
     """Tests recognition all of the test sentences for a language"""
     if not get_test_path(language, test_file).exists():
@@ -125,6 +153,12 @@ def do_test_language_sentences_file(
                 sentence not in seen_sentences
             ), f"Duplicate sentence found: {sentence}"
             seen_sentences.add(sentence)
+
+            # Filter {name} list using input text
+            slot_lists["name"] = TextSlotList(
+                name="name",
+                values=[v[2] for v in name_trie.find(sentence.lower())],
+            )
 
             if sentence in failing_sentences:
                 # Expected to fail
@@ -204,6 +238,14 @@ def do_test_language_sentences_file(
 
                 # Verify response
                 if expected_response_texts:
+                    if (result.intent.name == "HassRespond") and (
+                        "response" in result.entities
+                    ):
+                        assert (
+                            result.entities["response"].value in expected_response_texts
+                        ), f"Incorrect response for: {sentence}"
+                        continue
+
                     actual_response_key = result.response
                     assert actual_response_key, f"Expected a response for: {sentence}"
 
@@ -214,7 +256,9 @@ def do_test_language_sentences_file(
                         response_template_str
                     ), f"No response template for intent {result.intent.name} named {actual_response_key}: {sentence}"
 
-                    matched, unmatched = get_matched_states(states, areas, result)
+                    matched, unmatched = get_matched_states(
+                        states, areas, floors, result
+                    )
                     actual_response_text = render_response(
                         response_template_str,
                         result,
@@ -242,9 +286,11 @@ def gen_test(test_file_stem: str) -> None:
         slot_lists: dict[str, SlotList],
         states: List[State],
         areas: List[AreaEntry],
+        floors: List[FloorEntry],
         timers: List[Timer],
         language_sentences: Intents,
         language_responses: dict[str, Any],
+        name_trie: Trie,
     ) -> None:
         do_test_language_sentences_file(
             language,
@@ -253,9 +299,11 @@ def gen_test(test_file_stem: str) -> None:
             slot_lists=slot_lists,
             states=states,
             areas=areas,
+            floors=floors,
             timers=timers,
             language_sentences=language_sentences,
             language_responses=language_responses,
+            name_trie=name_trie,
         )
 
     test_func.__name__ = f"test_{test_file_stem}"

@@ -3,38 +3,52 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "[<doe>] <name_area> <op_slot>"
-          - "<zou> <name_area> <op_slot> [willen|kunnen] <doe> [<in> <area>]"
-          - vergrendel <name_area>
-          - <zou> <name_area> [willen|kunnen] vergrendelen [<in> <area>]
-          - "[<doe>] <slot_name_area> dicht [<in> <area>]"
-          - "<zou> <slot_name_area> (dicht willen |dicht kunnen |dicht[ ])<doe> [<in> <area>]"
-          - sluit <slot_name_area>
-          - <zou> <slot_name_area> [willen|kunnen] sluiten [<in> <area>]
+          - "vergrendel (<name_area>|<lock_name_area>)"
+          - "sluit <lock_name_area>"
+          - "[<change>] <lock_name> dicht <in> <area>"
+          - "[<change>] <lock_name_area> dicht"
+          - "[<change>] (<name>|<lock_name>) <locked> <in> <area>"
+          - "[<change>] (<name_area>|<lock_name_area>) <locked>"
+          - "[<would>] (<name_area>|<lock_name_area>) <locked> (doen|zetten|draaien)"
+          - "[<would>] (<name>|<lock_name>) <locked> (doen|zetten|draaien) <in> <area>"
+          - "[<would>] (<name>|<lock_name>) vergrendelen <in> <area>"
+          - "[<would>] (<name_area>|<lock_name_area>) vergrendelen"
+          - "[<would>] <lock_name> (dicht[ ](doen|zetten|draaien)|sluiten) <in> <area>"
+          - "[<would>] <lock_name_area> (dicht[ ](doen|zetten|draaien)|sluiten)"
         requires_context:
           domain: lock
         response: lock
 
       - sentences:
-          - "[<doe>] [<alle>] (<slot>|deur[en]) <op_slot> <in> <area>"
-          - "[<doe>] [<alle>] <area>[ |<alle>](<slot>|deur[en]) <op_slot>"
-          - "[<doe>] [<alle>] (<slot>|deur[en]) <in> <area> <op_slot>"
-          - "<zou> [<alle>] (<slot>|deur[en]) <op_slot> [willen|kunnen] <doe> <in> <area>"
-          - "<zou> [<alle>] <area>[ |<alle>](<slot>|deur[en]) <op_slot> [willen|kunnen] <doe>"
-          - "<zou> [<alle>] (<slot>|deur[en]) <in> <area> <op_slot> [willen|kunnen] <doe>"
-          - "vergrendel [<alle>] (<in> <area>[ |<alle>](<slot>|deur[en])|(<slot>|deur[en]) <in> <area>)"
-          - <zou> [<alle>] (<in> <area>[ |<alle>](<slot>|deur[en])|(<slot>|deur[en]) <in> <area>) [willen|kunnen] vergrendelen
-          - <zou> [<alle>] (<slot>|deur[en]) [willen|kunnen] vergrendelen <in> <area>
-          - "[<doe>] [<alle>] <in> <area>[ |<alle>]<slot> dicht"
-          - "[<doe>] [<alle>] <slot> <in> <area> dicht"
-          - "[<doe>] [<alle>] <slot> dicht <in> <area>"
-          - "<zou> [<alle>] <in> <area>[ |<alle>]<slot> (dicht willen |dicht kunnen |dicht[ ])<doe>"
-          - "<zou> [<alle>] <slot> <in> <area> (dicht willen |dicht kunnen |dicht[ ])<doe>"
-          - "<zou> [<alle>] <slot> (dicht willen |dicht kunnen |dicht[ ])<doe> <in> <area>"
-          - "sluit [<alle>] (<in> <area>[ |<alle>]<slot>|<slot> <in> <area>)"
-          - <zou> [<alle>] (<in> <area>[ |<alle>]<slot>|<slot> <in> <area>) [willen|kunnen] sluiten
-          - <zou> [<alle>] <slot> [willen|kunnen] sluiten <in> <area>
+          - "[<change>] <all_area_door_lock> <locked>"
+          - "[<change>] [<all>] (<lock>|deur[en]) <locked> <in> <area>"
+          - "[<change>] <all_area_lock> dicht"
+          - "[<change>] [<all>] <lock> dicht <in> <area>"
+          - "sluit <all_area_lock>"
+          - "sluit [<all>] <lock> <in> <area>"
+          - "vergrendel <all_area_door_lock>"
+          - "vergrendel [<all>] (<lock>|deur[en]) <in> <area>"
+          - "[<would>] <all_area_door_lock> vergrendelen"
+          - "[<would>] [<all>] (<lock>|deur[en]) vergrendelen <in> <area>"
+          - "[<would>] <all_area_lock> (dicht[ ](doen|zetten|draaien)|sluiten)"
+          - "[<would>] [<all>] <lock> (dicht[ ](doen|zetten|draaien)|sluiten) <in> <area>"
+          - "[<would>] <all_area_door_lock> <locked> (doen|zetten|draaien)"
+          - "[<would>] [<all>] (<lock>|deur[en]) <locked> (doen|zetten|draaien) <in> <area>"
+        expansion_rules:
+          all_area_lock: >
+            (
+              <in> <area> <lock>
+             |(<all>;<in> <area>) <lock>
+             |[<all>] <lock> <in> <area>
+             |[<all>] <area>[ ]<lock>
+            )
+          all_area_door_lock: >
+            (
+              <in> <area> (<lock>|deur[en])
+             |(<all>;<in> <area>) (<lock>|deur[en])
+             |[<all>] (<lock>|deur[en]) <in> <area>
+             |[<all>] <area>[ ](<lock>|deur[en])
+            )
         response: lock_area
         slots:
           domain: "lock"
-          name: "all"

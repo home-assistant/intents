@@ -2,12 +2,26 @@ language: de
 intents:
   HassClimateGetTemperature:
     data:
+      # Get temperature of a climate in the same area as a satellite device
       - sentences:
-          - "Wie[ (hoch|niedrig)] ist <artikel> Temperatur[ <area>]"
-          - "Wie[ (hoch|niedrig)] ist <area> <artikel> Temperatur"
-          - "Wie[ (hoch|niedrig)] ist <artikel> Temperatur[ <von_dem>] <name>"
-          - "Wie[ (hoch|niedrig)] ist <artikel> Temperatur des <name>[s]"
-          - "Wie[ (hoch|niedrig)] ist <artikel> Temperatur <von_dem> Thermostat <area>"
-          - "Wie[ (hoch|niedrig)] ist <artikel> Temperatur des Thermostat[s] <area>"
+          - "Wie[ (hoch|niedrig)] ist die Temperatur[ hier]"
+          - "Wie[ (hoch|niedrig)] ist hier die Temperatur"
+          - "Wie (warm|kalt) ist es[ hier]"
+          - "<wieviel> Grad (hat|sind) es[ hier]"
+        requires_context:
+          area:
+            slot: true
+
+      # Get temperature of a climate in an area
+      - sentences:
+          - "Wie[ (hoch|niedrig)] ist die Temperatur <area>"
+          - "Wie[ (hoch|niedrig)] ist <area> die Temperatur"
+          - "Wie[ (hoch|niedrig)] ist die Temperatur <von_dem> Thermostat <area>"
+          - "Wie[ (hoch|niedrig)] ist die Temperatur des Thermostat[s] <area>"
           - "Wie (warm|kalt) ist es <area>"
-          - "<wieviel> Grad[ (hat|sind)] es <area>"
+          - "<wieviel> Grad (hat|sind) es <area>"
+
+      # Get temperature of a named climate
+      - sentences:
+          - "Wie[ (hoch|niedrig)] ist die Temperatur[ <von_dem>] <name>"
+          - "Wie[ (hoch|niedrig)] ist die Temperatur des <name>[s]"

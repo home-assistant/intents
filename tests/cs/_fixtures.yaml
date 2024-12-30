@@ -1,15 +1,31 @@
 language: cs
+floors:
+  - name: (Přízemí|Spodní[m] pat(ro|ře))
+    id: ground_floor_id
+  - name: (První|Horní|Vrchní)[m] pat(ro|ře)
+    id: first_floor_id
 areas:
   - name: Kuchy(ň|ni|ně)
     id: kitchen
+    floor: ground_floor_id
   - name: (Obývací[m] pokoj[i]|obývák[u])
     id: living_room
+    floor: ground_floor_id
   - name: Ložnic(e|i)
     id: bedroom
+    floor: first_floor_id
+  - name: Pokoj[i] pro hosty
+    id: guest_room
+    floor: first_floor_id
   - name: Garáž[i]
     id: garage
+    floor: ground_floor_id
   - name: Předsíň[i]
     id: entrance
+    floor: ground_floor_id
+  - name: Zahrad[a|ě]
+    id: garden
+    floor: ground_floor_id
 
 entities:
   - name: "(Lamp(a|y|u)|lampičk(a|y|u)|světl(o|a)) v ložnici"
@@ -75,6 +91,15 @@ entities:
     attributes:
       device_class: blind
 
+  - name: "Modr(ý|ého) závěs[u]"
+    id: cover.blue_curtain
+    area: guest_room
+    state:
+      in: zatažená
+      out: closed
+    attributes:
+      device_class: curtain
+
   - name: "Garáž"
     id: cover.garage_door
     area: garage
@@ -83,12 +108,9 @@ entities:
       out: opening
     attributes:
       device_class: garage
-      domain: cover
 
   - name: "Párty"
     id: "scene.party"
-    attributes:
-      domain: scene
 
   - name: "Ovoce a zelenina"
     id: "todo.ovoce_a_zelenina"
@@ -112,11 +134,18 @@ entities:
       device_class: shutter
       position: "0"
 
-  - name: "hlavní uzávěr vody"
+  - name: "Hlavní uzávěr vody"
     id: "valve.main_valve"
     state: "open"
     attributes:
       position: "100"
+
+  - name: "Sprinkler[u]"
+    id: "valve.sprinkler"
+    area: "garden"
+    state: "open"
+    attributes:
+      position: "50"
 
   - name: "Termostat obývák"
     id: "climate.termostat_living_room"
@@ -132,22 +161,14 @@ entities:
     attributes:
       current_temperature: 18.5
 
-  - name: "[teplota] v obýváku"
-    id: "sensor.teplota_obyvak"
-    area: living_room
-    state: "18"
-    attributes:
-      device_class: temperature
-      unit_of_measurement: "°C"
-
-  - name: "Hlavní přívod"
+  - name: "hlavní[m] přívod[u]"
     id: "sensor.aparent_power_mains"
     state: "2"
     attributes:
       device_class: apparent_power
       unit_of_measurement: "VA"
 
-  - name: "[kvalita vyduchu] v kuchyni"
+  - name: "kvalit(a|y) vzduchu"
     id: "sensor.air_quality"
     area: kitchen
     state: "50"
@@ -168,21 +189,23 @@ entities:
       device_class: battery
       unit_of_measurement: "%"
 
-  - name: "[co2] v obýváku"
+  - name: "CO2"
     id: "sensor.living_room_co2"
+    area: living_room
     state: "50"
     attributes:
       device_class: carbon_dioxide
       unit_of_measurement: "ppm"
 
-  - name: "[co] v obýváku"
+  - name: "CO"
     id: "sensor.living_room_co"
+    area: living_room
     state: "48"
     attributes:
       device_class: carbon_monoxide
       unit_of_measurement: "ppm"
 
-  - name: "[proud] nabíjení EV"
+  - name: "[proud] nabíjení auta"
     id: "sensor.EV_current"
     state: "15"
     attributes:
@@ -196,7 +219,7 @@ entities:
       device_class: data_rate
       unit_of_measurement: "Mbps"
 
-  - name: "[velikost] souboru"
+  - name: "[velikost] log[u]"
     id: "sensor.log_file_size"
     state: "106"
     attributes:
@@ -208,13 +231,6 @@ entities:
     state: "2024-04-01"
     attributes:
       device_class: date
-
-  - name: "[vzdalenost] do práce"
-    id: "sensor.distance_to_work"
-    state: "23"
-    attributes:
-      device_class: distance
-      unit_of_measurement: "km"
 
   - name: "dojezd elektromobilu"
     id: "sensor.ev_dojezd"
@@ -230,14 +246,14 @@ entities:
       device_class: duration
       unit_of_measurement: "min"
 
-  - name: "[denní produkce] solární elektrárny"
+  - name: "produkce solární elektrárny"
     id: "sensor.solar_production"
     state: "3.2"
     attributes:
       device_class: energy
       unit_of_measurement: "kWh"
 
-  - name: "[energie] v baterii"
+  - name: "akumulační bateri(e|i)"
     id: "sensor.powerwall_stored_energy"
     state: "6"
     attributes:
@@ -251,43 +267,46 @@ entities:
       device_class: frequency
       unit_of_measurement: "Hz"
 
-  - name: "[objem plynu] za měsíc"
+  - name: "spotřeb(a|ovaný) za měsíc"
     id: "sensor.monthly_gas_consumption"
     state: "12"
     attributes:
       device_class: gas
       unit_of_measurement: "m³"
 
-  - name: "[vlhkost vzduchu] v obýváku"
+  - name: "vlhkosti[i]"
     id: "sensor.living_room_humidity"
+    area: living_room
     state: "48"
     attributes:
       device_class: humidity
       unit_of_measurement: "%"
 
-  - name: "[intenzita světla] v obýváku"
+  - name: "intenzit(a|y) světla"
     id: "sensor.living_room_illuminance"
+    area: living_room
     state: "438"
     attributes:
       device_class: illuminance
       unit_of_measurement: "lux"
 
-  - name: "[úroveň ozáření] v obýváku"
+  - name: "radiace"
     id: "sensor.living_room_heater_irradiance"
+    area: living_room
     state: "155"
     attributes:
       device_class: irradiance
       unit_of_measurement: "W/m²"
 
   - name: "[vlhkost] půdy"
-    id: "sensor.bewery_mixer_moisture"
+    id: "sensor.soil_moisture"
     state: "83"
     attributes:
       device_class: moisture
       unit_of_measurement: "%"
 
   - name: "[peněz] na účtě"
-    id: "sensor.price_per_kW"
+    id: "sensor.money_on_account"
     state: "500"
     attributes:
       device_class: monetary
@@ -300,57 +319,61 @@ entities:
       device_class: monetary
       unit_of_measurement: "EUR"
 
-  - name: "[koncentrace NO2] v kotelně"
+  - name: "NO2 na čerpadle"
     id: "sensor.heat_pump_no2"
     state: "50"
     attributes:
       device_class: nitrogen_dioxide
       unit_of_measurement: "µg/m³"
 
-  - name: "[koncentrace NO] v kotelně"
+  - name: "NO na čerpadle"
     id: "sensor.heat_pump_no"
     state: "50"
     attributes:
       device_class: nitrogen_monoxide
       unit_of_measurement: "µg/m³"
 
-  - name: "[koncentrace N2O] v kotelně"
+  - name: "N2O na čerpadle"
     id: "sensor.heat_pump_n2o"
     state: "50"
     attributes:
       device_class: nitrous_oxide
       unit_of_measurement: "µg/m³"
 
-  - name: "[koncentrace ozonu] v obýváku"
+  - name: "ozon[u]"
     id: "sensor.living_room_ozone"
+    area: living_room
     state: "50"
     attributes:
       device_class: ozone
       unit_of_measurement: "µg/m³"
 
-  - name: "[koncentrace částic pm1] v obýváku"
+  - name: "množství částic pm1"
     id: "sensor.living_room_pm1"
+    area: living_room
     state: "50"
     attributes:
       device_class: pm1
       unit_of_measurement: "µg/m³"
 
-  - name: "[koncentrace částic pm2.5] v obýváku"
+  - name: "množství částic pm2.5"
     id: "sensor.living_room_pm25"
+    area: living_room
     state: "50"
     attributes:
       device_class: pm25
       unit_of_measurement: "µg/m³"
 
-  - name: "[koncentrace částic pm10] v obýváku"
+  - name: "množství částic pm10"
     id: "sensor.living_room_pm10"
+    area: living_room
     state: "50"
     attributes:
       device_class: pm10
       unit_of_measurement: "µg/m³"
 
-  - name: "[účiník] spotřeby domu"
-    id: "sensor.wall_plug_power_factor"
+  - name: "[účiník] lednice"
+    id: "sensor.refrigerator_power_factor"
     state: "2"
     attributes:
       device_class: power_factor
@@ -404,28 +427,36 @@ entities:
       device_class: sound_pressure
       unit_of_measurement: "dB"
 
-  - name: "[rychlost] EV"
+  - name: "[rychlost] auta"
     id: "sensor.traveling speed"
     state: "67"
     attributes:
       device_class: speed
       unit_of_measurement: "km/h"
 
-  - name: "[koncentrace SO2] ve vzduchu"
-    id: "sensor.heat_pump_so2"
+  - name: "SO2 ve vzduchu"
+    id: "sensor.air_so2"
     state: "50"
     attributes:
       device_class: sulphur_dioxide
       unit_of_measurement: "µg/m³"
 
-  - name: "[množství volných organických látek] ve vzduchu"
+  - name: "Teploměr[em]"
+    id: "sensor.teplota_obyvak"
+    area: living_room
+    state: "18"
+    attributes:
+      device_class: temperature
+      unit_of_measurement: "°C"
+
+  - name: "množství VOC ve vzduchu"
     id: "sensor.voc_sensor"
     state: "35"
     attributes:
       device_class: volatile_organic_compounds
       unit_of_measurement: "µg/m³"
 
-  - name: "[koncentrace volných organických látek] ve vzduchu"
+  - name: "koncentrace částic VOC ve vzduchu"
     id: "sensor.voc_sensor_parts"
     state: "35"
     attributes:
@@ -453,14 +484,14 @@ entities:
       device_class: volume_storage
       unit_of_measurement: "L"
 
-  - name: "voda"
+  - name: "spotřebovaná voda"
     id: "sensor.water_pump_usage"
     state: "5987"
     attributes:
       device_class: water
       unit_of_measurement: "L"
 
-  - name: "postel"
+  - name: "postel[i]"
     id: "sensor.bed_sensor_weight"
     state: "87"
     attributes:
@@ -513,7 +544,7 @@ entities:
     attributes:
       device_class: moisture
 
-  - name: "Garáž"
+  - name: "pohyb v garáži"
     id: "binary_sensor.garage_motion"
     area: "garage"
     state:
@@ -549,6 +580,7 @@ entities:
 
   - name: "TV"
     id: "media_player.tv"
+    area: living_room
     state: "idle"
     attributes:
       volume_level: "50"

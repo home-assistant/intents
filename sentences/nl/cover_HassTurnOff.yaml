@@ -3,27 +3,27 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "sluit <name>[[ ]<afdekking>]"
-          - "<name>[[ ]<afdekking>] (sluiten|dicht doen)"
-          - "[<doe>] <name>[[ ]<afdekking>] <dicht>"
+          - "sluit <name>[[ ]<cover>]"
+          - "[<would>] <name>[[ ]<cover>] (sluiten|dicht doen)"
+          - "[<change>] <name>[[ ]<cover>] <closed>"
         response: "cover"
         requires_context:
           domain: cover
 
       - sentences:
           - "sluit [de] garage[ ][deur]"
-          - "[de] garage[ ][deur] (sluiten|dicht doen)"
-          - "[<doe>] [de] garage[ ][deur] <dicht>"
-        response: "cover_device_class"
+          - "[<would>] [de] garage[ ][deur] (sluiten|dicht doen)"
+          - "[<change>] [de] garage[ ][deur] <closed>"
+        response: "cover"
         slots:
           device_class: "garage"
           domain: "cover"
 
       - sentences:
-          - "sluit (<name>[[ ]<afdekking>];<in> (<area>|<floor>))"
-          - "(<name>[[ ]<afdekking>];<in> (<area>|<floor>)) (sluiten|dicht doen)"
-          - "[<doe>] <in> (<area>|<floor>) <name>[[ ]<afdekking>] <dicht>"
-          - "[<doe>] <name>[[ ]<afdekking>] (<dicht>;<in> (<area>|<floor>))"
+          - "sluit (<name>[[ ]<cover>];[<in>] (<area>|<floor>))"
+          - "[<would>] (<name>[[ ]<cover>];[<in>] (<area>|<floor>)) (sluiten|dicht doen)"
+          - "[<change>] [<in>] (<area>|<floor>) <name>[[ ]<cover>] <closed>"
+          - "[<change>] <name>[[ ]<cover>] (<closed>;[<in>] (<area>|<floor>))"
         response: "cover"
         requires_context:
           device_class:
@@ -34,20 +34,22 @@ intents:
           domain: "cover"
 
       - sentences:
-          - "sluit ([de|het] <curtain>;<in> (<area>|<floor>))"
-          - "([de|het] <curtain>;<in> (<area>|<floor>)) (sluiten|dicht doen)"
-          - "[<doe>] <in> (<area>|<floor>) [de|het] <curtain> <dicht>"
-          - "[<doe>] [de|het] <curtain> (<dicht>;<in> (<area>|<floor>))"
+          - "sluit ([de|het] <curtain>;[<in>] (<area>|<floor>))"
+          - "[<would>] ([de|het] <curtain>;[<in>] (<area>|<floor>)) (sluiten|dicht doen)"
+          - "[<would>] (<area>|<floor>)[ ]<curtain> (sluiten|dicht doen)"
+          - "[<change>] [<in>] (<area>|<floor>) [de|het] <curtain> <closed>"
+          - "[<change>] [de|het] <curtain> (<closed>;[<in>] (<area>|<floor>))"
         response: "cover"
         slots:
           device_class: "curtain"
           domain: "cover"
 
       - sentences:
-          - "sluit [de|het] (<blind>|<shutter>|<shade>) <in> (<area>|<floor>)"
-          - "([de|het] (<blind>|<shutter>|<shade>);<in> (<area>|<floor>)) (sluiten|dicht doen)"
-          - "[<doe>] <in> (<area>|<floor>) [de|het] (<blind>|<shutter>|<shade>) <dicht>"
-          - "[<doe>] [de|het] (<blind>|<shutter>|<shade>) (<dicht>;<in> (<area>|<floor>))"
+          - "sluit [de|het] (<blind>|<shutter>|<shade>) [<in>] (<area>|<floor>)"
+          - "[<would>] ([de|het] (<blind>|<shutter>|<shade>);[<in>] (<area>|<floor>)) (sluiten|dicht doen)"
+          - "[<would>] (<area>|<floor>)[ ](<blind>|<shutter>|<shade>) (sluiten|dicht doen)"
+          - "[<change>] [<in>] (<area>|<floor>) [de|het] (<blind>|<shutter>|<shade>) <closed>"
+          - "[<change>] [de|het] (<blind>|<shutter>|<shade>) (<closed>;[<in>] (<area>|<floor>))"
         response: "cover"
         slots:
           device_class:
@@ -58,11 +60,11 @@ intents:
 
       - sentences:
           - "sluit [de|het] <curtain>"
-          - "sluit ([de|het] <curtain>;<hier>)"
-          - "[de|het] <curtain> (sluiten|dicht doen)"
-          - "([de|het] <curtain>;<hier>) (sluiten|dicht doen)"
-          - "[<doe>] [de|het] <curtain> [<hier>] <dicht>"
-          - "[<doe>] ([de|het] <curtain> <dicht>;<hier>)"
+          - "sluit ([de|het] <curtain>;<here>)"
+          - "[<would>] [de|het] <curtain> (sluiten|dicht doen)"
+          - "[<would>] ([de|het] <curtain>;<here>) (sluiten|dicht doen)"
+          - "[<change>] [de|het] <curtain> [<here>] <closed>"
+          - "[<change>] ([de|het] <curtain> <closed>;<here>)"
         response: "cover"
         slots:
           device_class: "curtain"
@@ -73,11 +75,11 @@ intents:
 
       - sentences:
           - "sluit [de|het] (<blind>|<shutter>|<shade>)"
-          - "sluit ([de|het] (<blind>|<shutter>|<shade>);<hier>)"
-          - "[de|het] (<blind>|<shutter>|<shade>) (sluiten|dicht doen)"
-          - "([de|het] (<blind>|<shutter>|<shade>);<hier>) (sluiten|dicht doen)"
-          - "[<doe>] [de|het] (<blind>|<shutter>|<shade>) [<hier>] <dicht>"
-          - "[<doe>] ([de|het] (<blind>|<shutter>|<shade>) <dicht>;<hier>)"
+          - "sluit ([de|het] (<blind>|<shutter>|<shade>);<here>)"
+          - "[<would>] [de|het] (<blind>|<shutter>|<shade>) (sluiten|dicht doen)"
+          - "[<would>] ([de|het] (<blind>|<shutter>|<shade>);<here>) (sluiten|dicht doen)"
+          - "[<change>] [de|het] (<blind>|<shutter>|<shade>) [<here>] <closed>"
+          - "[<change>] ([de|het] (<blind>|<shutter>|<shade>) <closed>;<here>)"
         response: "cover"
         slots:
           device_class:

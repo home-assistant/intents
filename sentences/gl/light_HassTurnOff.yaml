@@ -3,8 +3,41 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "apaga (a luz | as luces | luces) <area>"
-          - "apaga todas as luces <area>"
+          - "<apaga> [[a|as|o|os] (luz|luces|(interruptor[es]|chave[s] de [a luz]))] [de|do|da] <nome>"
+        response: "light"
+        requires_context:
+          domain: "light"
+
+      - sentences:
+          - "<apaga> [<todos>] <luces> <area>"
+          - "<apaga> <area>"
         slots:
           domain: light
-          name: all
+        response: lights_area
+
+      - sentences:
+          - "<apaga> [<todos>] <luces> <todas_partes>"
+          - "<apaga> <todos> <luces>"
+        response: "light_all"
+        slots:
+          domain: "light"
+          name: "all"
+
+      # Apagar as luces na mesma área que un dispositivo satélite
+      - sentences:
+          - "<apaga> [<todos>] <luces> <de_aqui>"
+          - "<apaga> <luces>"
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
+
+      # Apagar todas as luces nunha planta
+      - sentences:
+          - "<apaga> [<todos>] <luces> <planta>"
+          - "<apaga> <planta>"
+        response: lights_floor
+        slots:
+          domain: light

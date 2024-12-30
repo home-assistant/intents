@@ -1,0 +1,55 @@
+---
+language: ca
+tests:
+  - sentences:
+      - Quanta estona queda al meu temporitzador?
+      - Quant temps queda al meu temporitzador?
+      - Quant temps resta al meu temporitzador?
+      - Quin temps queda al temporitzador?
+      - Quant queda perquè s'acabi el temporitzador?
+      - Quan falta perquè s'acabi el temporitzador?
+      - Quan falta al temporitzador?
+      - Quant queda del temporitzador?
+      - Quant temps falta pel temporitzador?
+      - Quant de temps falta perquè acabi el temporitzador?
+      - Quanta estona falta del temporitzador?
+      - Quin temps resta al temporitzador?
+      - Què queda al meu temporitzador?
+      - Quant li queda al temporitzador?
+    intent:
+      name: HassTimerStatus
+    response: |
+      2 temporitzadors actius. 1 temporitzador en pausa. Al temporitzador de l'àrea cuina de 5 minuts hi queden 3 minuts.
+
+  - sentences:
+      - quant li queda al temporitzador d'1 hora?
+      - quant de temps li queda al temporitzador de 1 hora?
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 1
+    response: |
+      El temporitzador és en pausa. Hi queden 1 minut i 40 segons.
+
+  - sentences:
+      - com va el temporitzador de pizza?
+      - quant li queda al temporitzador de pizza?
+      - com està el temporitzador de pizza?
+    intent:
+      name: HassTimerStatus
+      slots:
+        name:
+          - pizza
+    response: |
+      Hi queden 25 minuts.
+
+  - sentences:
+      - com està el temporitzador de la cuina?
+      - quant li queda al temporitzador de la cuina?
+      - quant falta al temporitzador de la cuina?
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: Cuina
+    response: |
+      Hi queden 3 minuts.
