@@ -1,0 +1,21 @@
+language: de-CH
+intents:
+  HassCancelAllTimers:
+    data:
+      # cancel all timers everywhere
+      - sentences:
+          - "(Stop[p]|Haut|Brich) (d'[' ']|d |alli |aui )<timer>[ a[a][b]]"
+
+      # cancel all timers in specific area
+      - sentences:
+          - "(Stop[p]|Haut|Brich) (d'[' ']|d |alli |aui )<timer> <area>[ a[a][b]]"
+          - "(Stop[p]|Haut|Brich) (d'[' ']|d |alli |aui )<area>[-| ]<timer>[ a[a][b]]"
+        response: area
+
+      # cancel all timers in same area as the voice satellite
+      - sentences:
+          - "(Stop[p]|Haut|Brich) (d'[' ']|d |alli |aui )<timer> (hie|i däm (Ru[u]m|Zimmer|Bereich)) [ a[a][b]]"
+        response: area
+        requires_context:
+          area:
+            slot: true

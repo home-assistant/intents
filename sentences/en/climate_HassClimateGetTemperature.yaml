@@ -2,18 +2,18 @@ language: "en"
 intents:
   HassClimateGetTemperature:
     data:
-      # What is...
+      # Get temperature of a climate in the same area as a satellite device
+      - sentences:
+          - "<what_is> [the] [current] <temp> [<here>]"
+          - "how (hot|cold|warm|cool) is it [<here>]"
+        requires_context:
+          area:
+            slot: true
+
+      # Get temperature of a climate in an area or with a name
       - sentences:
           - "<what_is> [the] [current] <temp> [of] <name>"
-          - "<what_is> [the] [current] <temp> [in <area>]"
+          - "<what_is> [the] [current] <temp> <in> <area>"
           - "<what_is> <area> [current] <temp>"
           - "<what_is> <name> [current] <temp>"
-      # How...
-      - sentences:
-          - "how (hot|cold|warm|cool) is it [in <area>]"
-          - "how (hot|cold|warm|cool) is <name>"
-      # Is it...
-      - sentences:
-          - "is it (hot|cold|warm|cool) [in <area>]"
-        requires_context:
-          domain: "climate"
+          - "how (hot|cold|warm|cool) is (<name>|[it <in>] <area>)"
