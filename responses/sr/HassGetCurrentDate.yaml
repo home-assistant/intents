@@ -1,0 +1,29 @@
+language: sr
+responses:
+  intents:
+    HassGetCurrentDate:
+      default: >
+        {% set months = {
+           1: 'јануар',
+           2: 'фебруар',
+           3: 'март',
+           4: 'април',
+           5: 'мај',
+           6: 'јун',
+           7: 'јул',
+           8: 'август',
+           9: 'септембар',
+           10: 'октобар',
+           11: 'новембар',
+           12: 'децембар',
+        } %}
+        {% set weekday = [
+          'понедељак',
+          'уторак',
+          'среда',
+          'четвртак',
+          'петак',
+          'субота',
+          'недеља'
+        ] %}
+        Данас је {{ weekday[slots.date.weekday()] }}, {{ slots.date.day }}. {{ months[slots.date.month] }} {{ slots.date.year }}
