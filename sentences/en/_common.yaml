@@ -360,23 +360,27 @@ lists:
   timer_command:
     wildcard: true
 
+  response:
+    wildcard: true
+
 expansion_rules:
-  name: "[the] {name}"
-  area: "[the] {area}"
-  floor: "[the] {floor} [floor]"
+  the: "(the|my|our)"
+  name: "[<the>] {name}"
+  area: "[<the>] {area}"
+  floor: "[<the>] {floor} [floor]"
   area_floor: "(<area>|<floor>)"
   in_area_floor: "[<in>] <area_floor>"
-  what_is: "(what's|whats|what is|tell me) [the]"
-  lockable: "[(the|my)] (lock|door|window|gate|garage door|shutter)[s]"
+  what_is: "(what's|whats|what is|tell me) [<the>]"
+  lockable: "[<the>] (lock|door|window|gate|garage door|shutter)[s]"
   where_is: "(where's|wheres|where is)"
-  which: "(which|what) [of the]"
-  is: "(is|are) [(there|the)]"
+  which: "(which|what) [of <the>]"
+  is: "(is|are) [(there|<the>)]"
   are: "<is>"
-  any: "(any|some) [of the]"
+  any: "(any|some) [of <the>]"
   are_any: "[<are>] <any>"
-  how_many: "how many [of the]"
+  how_many: "how many [of <the>]"
   brightness: "{brightness}[([ ]%)| percent]"
-  light: "[the] (light|lights|lighting|lamp|lamps)"
+  light: "[<the>] (light|lights|lighting|lamp|lamps)"
   turn: "(turn|switch|change|bring)"
   temp: "(temp|temperature)"
   temperature: "{temperature}[([ ]°[[ ]{temperature_unit}])|( degrees {temperature_unit})]"
@@ -392,11 +396,11 @@ expansion_rules:
   clean: (vacuum|clean)
 
   # Context awareness expansion rules
-  all: "(all [[of] the]|every [single]|each [and every])"
+  all: "(all [[of] <the>]|every [single]|each [and every])"
   are_all: "[<are>] <all>"
-  home: "(home|house|appartment|flat)"
-  everywhere: "(everywhere|all over|[<in>] the [(entire|whole)] <home>|[<in>] <all> (room|area|floor)[s])"
-  here: "([in] here|[in] (this|the) (room|area|space))"
+  home: "(home|house|apartment|flat)"
+  everywhere: "(everywhere|all over|[<in>] <the> [(entire|whole)] <home>|[<in>] <all> (room|area|floor)[s])"
+  here: "([in] here|[in] (this|<the>) (room|area|space))"
 
   # Questions
   what_is_the_class_of_name: "(<what_is> the <class> (of|in|from|(indicated|measured) by) <name> [in <area>]|<what_is> <name>['s] <class> [in <area>]|<what_is> <area> <name>['s] <class>)"

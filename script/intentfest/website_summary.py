@@ -68,11 +68,18 @@ def run() -> int:
             )
             continue
 
-        missing_intents = [
-            intent for intent in IMPORTANT_INTENTS if not intent_sentence_count[intent]
+        missing_usable_intents = [
+            intent[4:]  # strip Hass from name
+            for intent in IMPORTANT_INTENTS
+            if not intent_sentence_count[intent]
+        ]
+        missing_complete_intents = [
+            intent[4:]  # strip Hass from name
+            for intent in intent_sentence_count
+            if not intent_sentence_count[intent]
         ]
 
-        usable = not missing_intents and errors_translated
+        usable = not missing_usable_intents and errors_translated
 
         complete = (
             all(value > 0 for value in intent_sentence_count.values())
@@ -98,7 +105,8 @@ def run() -> int:
             "errors_translated": errors_translated,
             "usable": usable,
             "complete": complete,
-            "missing_intents": missing_intents,
+            "missing_usable_intents": missing_usable_intents,
+            "missing_complete_intents": missing_complete_intents,
         }
 
     intents = {}
@@ -113,13 +121,24 @@ def run() -> int:
             {
                 "intents": intents,
                 "languages": language_summaries,
-                "improvements": [
+                "improvements_usable": [
                     info["language"]
                     for info in sorted(
                         language_summaries.values(),
-                        key=lambda x: (len(x["missing_intents"]), x["language"]),
+                        key=lambda x: (len(x["missing_usable_intents"]), x["language"]),
                     )
-                    if info["missing_intents"]
+                    if info["missing_usable_intents"]
+                ],
+                "improvements_complete": [
+                    info["language"]
+                    for info in sorted(
+                        language_summaries.values(),
+                        key=lambda x: (
+                            len(x["missing_complete_intents"]),
+                            x["language"],
+                        ),
+                    )
+                    if info["usable"] and info["missing_complete_intents"]
                 ],
                 "empty_languages": empty_languages,
             },
