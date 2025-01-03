@@ -1,0 +1,20 @@
+language: da
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Ingen nedtælling afbrudt
+        {% elif slots.canceled == 1: %}
+        En nedtælling afbrudt.
+        {% else: %}
+        {{ slots.canceled }} nedtællinger afbrudt.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Ingen nedtælling afbrudt i {{ slots.area }}.
+        {% elif slots.canceled == 1: %}
+        1 nedtælling afbrudt i {{ slots.area }}.
+        {% else: %}
+        {{ slots.canceled }} nedtællinger afbrudt i {{ slots.area }}.
+        {% endif %}
