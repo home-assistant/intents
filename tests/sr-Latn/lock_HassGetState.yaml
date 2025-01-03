@@ -1,0 +1,50 @@
+language: sr-Latn
+tests:
+  - sentences:
+      - "jesu li ulazna vrata otključana?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Ulazna vrata"
+        state: "unlocked"
+    response: "Ne"
+
+  - sentences:
+      - "ima li zaključanih vrata?"
+      - "jesu li vrata zaključana?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Da, Dvorišna vrata i Ulazna vrata"
+
+  - sentences:
+      - "jesu li sva vrata zaključana?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Ne, nije Zadnja vrata"
+
+  - sentences:
+      - "koja su vrata zaključana?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "Dvorišna vrata i Ulazna vrata"
+
+  - sentences:
+      - "koliko je vrata zaključano?"
+      - "koliko ima zaključanih vrata?"
+      - "koliko je zaključanih vrata?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: "locked"
+    response: "2"

@@ -1,0 +1,100 @@
+language: sr-Latn
+tests:
+  - sentences:
+      - "otvori sve prozore u kuhinji"
+      - "otvori prozore u kuhinji"
+      - "otvori kuhinjske prozore"
+      - "otvorite sve prozore u kupatilu"
+    intent:
+      name: HassTurnOn
+      slots:
+        area:
+          - kuhinji
+          - kuhinjske
+          - kupatilu
+        domain: cover
+        device_class: window
+    response: "Otvaram prozore"
+
+  - sentences:
+      - "otvori sva vrata u hodniku"
+      - "otvori vrata dnevne sobe"
+      - "otvori vrata u dnevnom boravku"
+    intent:
+      name: HassTurnOn
+      slots:
+        area:
+          - "hodniku"
+          - "dnevne sobe"
+          - "dnevnom boravku"
+        domain: cover
+        device_class: door
+    response: "Otvaram vrata"
+
+  - sentences:
+      - "otvori garažna vrata"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: cover
+        device_class: garage
+    response: "Otvaram garažna vrata"
+
+  - sentences:
+      - "otvori zavese u dnevnoj sobi"
+    intent:
+      name: HassTurnOn
+      slots:
+        area:
+          - "dnevnoj sobi"
+        domain: cover
+        device_class: curtain
+    response: "Otvaram zavese"
+    #different resonse for synonyms
+  - sentences:
+      - "otvori sve zavese"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: cover
+        device_class: curtain
+    response: "Otvaram zavese"
+
+  #window
+  - sentences:
+      - otvori plafonski prozor
+    intent:
+      name: HassTurnOn
+      slots:
+        name: "plafonski prozor"
+        device_class: window
+      context:
+        domain: cover
+        device_class: window
+    response: "Otvaram plafonski prozor"
+
+  - sentences:
+      - otvori mali prozor u kuhinji
+    intent:
+      name: HassTurnOn
+      slots:
+        name: "mali prozor"
+        area: kuhinji
+        device_class: window
+      context:
+        domain: cover
+        device_class: window
+    response: "Otvaram mali prozor"
+
+  - sentences:
+      - "otvori ulazna vrata u hodniku"
+    intent:
+      name: HassTurnOn
+      slots:
+        name: "ulazna vrata"
+        area: hodniku
+        device_class: door
+      context:
+        domain: cover
+        device_class: door
+    response: "Otvaram ulazna vrata"
