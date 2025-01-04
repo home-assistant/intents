@@ -90,7 +90,7 @@ lists:
         out: "off"
   on_off_domains:
     values:
-      - in: "luč[i|k|ke]| svetil[ke|ki|k|ka|a|o|i]" # | noč[ne|ni|no|nih] luč[i|ke|ka|ki]"
+      - in: "luč[i|k|ke]| svetil[ke|ki|k|ka|a|o|i]"
         out: light
       - in: "ventilator[ji|ja|je|ju|jem]| ventilaci[je|jo|ja|jem]| prezračevanje"
         out: fan
@@ -126,7 +126,7 @@ lists:
         out: blinds
       - in: zapah[i|e]|pokrov|polk(en|na|no|ni)
         out: shutter
-      - in: ([strešno] ok(en|no|na|ni))
+      - in: ([strešn(a|o|i)] ok(en|no|na|ni))
         out: window
   lock_states:
     values:
@@ -282,7 +282,7 @@ lists:
 
   bs_running_states:
     values:
-      - in: "(deluje[jo|ta] | delujoč[e|i] | obratu(je|jejo|jeta|joč|joči[h]|joča) | laufa[jo|ta|joč|joči[h]])"
+      - in: "(del(a|ajo|uje|ujejo|ujeta) | delujoč[e|i] | obratu(je|jejo|jeta|joč|joči[h]|joča) | laufa[jo|ta|joč|joči[h]])"
         out: "on"
       - in: "(ne deluje | nedelujoč | ne obratuje | ne laufa)"
         out: "off"
@@ -377,9 +377,10 @@ expansion_rules:
   set: "(nastavi|spremeni|prilagodi|segrej|ohladi|dvigni|znižaj|spusti|dodaj|daj|obrni|odpri|zasuči|zavrti|odvij|zapri|odgrni|zagrni)"
   zapri: "(zapri|spusti|zagrni|zatesni|z[a]vij)"
   odpri: "(odpri|dvigni|odgrni|razkrij|razvij|odkrij)"
-  covers: "([balkonska|zadnja|sprednja|drsna|kuhinjska]) vrata| ok(no|ni|na|en)| rolet(a|o|i|e) | žaluzij[a|o|i|e] | markiz(a|i|e|o) | tend(a|i|e|o) | (pokrov|pokrivalo) bazena | ograj(a|i|e|o) | zaves(a|o|i|e)"
+  covers: "(vrata| ok(no|ni|na|en))| rolet(a|o|i|e) | žaluzij[a|o|i|e] | markiz(a|i|e|o) | tend(a|i|e|o) | (pokrov|pokrivalo) bazena | ograj(a|i|e|o) | zaves(a|o|i|e)"
+  ventilator: "ventila(tor|torja|torje|cijo|cije|cij)|prezračevanje|nap(a|o|i|e)"
   vklopi: "vključi[te|mo]|vklopi[te|mo]|prižg[i|te]"
-  vključi: "vključi[te|mo]|vklopi[te|mo]|prižg[i|te]"
+  vključi: "(vključi|vklopi|prižgi)"
   prižgi: "vključi[te|mo]|vklopi[te|mo]|prižg[i|te]"
   izklopi: "izključi[te|mo]|ugasni[te|mo]|izklopi[te]"
   izključi: "izključi[te|mo]|ugasni[te|mo|izklopi]"
@@ -394,7 +395,8 @@ expansion_rules:
   katere: "katere"
   koliko: "koliko"
   kje_je: "kje je|kje|kje so|kje se nahaja[jo|ta]"
-  floor: "{floor} [prv(o|em)|drug(o|em)|tretj(e|em)|četrt(o|em)|pet(o|em)|šest(o|em)|sedm(o|em)|osm(o|em)|devet(em|o)] [ nadstropj[u|e|a]] | klet[i|em] | pritličj(e|u) | mansard(i|a)"
+  floor: "{floor}"
+  v: "[v|na|pri|ob|za|pred|pod]"
   vse: "[vsi|vsa|vse|vso]"
   vsa: "[vsi|vsa|vse|vso]"
   lock: "vrat[a]|ključavnic(e|a|o)"
@@ -417,12 +419,9 @@ expansion_rules:
   timer_set: "(zaženi|sproži|začni|nastavi|ustvari|kreiraj|štartaj|start|startaj)"
   timer_cancel: "(prekliči|ustavi|stop|štop)"
   timer_duration_seconds: "{timer_seconds:seconds} sekund[a|i|e]"
-  #timer_duration_minutes: "{timer_minutes:minutes} minut[ [in ]{timer_seconds:seconds} sekund[a|i|e]]"
   timer_duration_minutes: "({timer_minutes:minutes} minut[e|i|o|a][ [in ]{timer_seconds:seconds} sekund[e|o|i|a]])|({timer_minutes:minutes} minut[e|o|i|a] in {timer_half:seconds})|({timer_half:seconds} minut[e|o|i|a])"
   timer_duration_hours: "{timer_hours:hours} ur[a|i|e|o][ [in ]{timer_minutes:minutes} minut[a|i|e]][ [in ]{timer_seconds:seconds} sekund[a|i|e]]|({timer_hours:hours} [ur[i|o|a|e]] [in ] {timer_half:minutes} [ur[e|o|a|i]])|({timer_half:minutes} ur[e])"
-  #timer_duration_hours: "({timer_hours:hours} hour[s][ [and ]{timer_minutes:minutes} minute[s]][ [and ]{timer_seconds:seconds} second[s]])
   timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
-
   timer_start_seconds: "{timer_seconds:start_seconds} sekund[a|i|e|ni]"
   timer_start_minutes: "{timer_minutes:start_minutes} minut[a|i|e|ni][ [in ]{timer_seconds:start_seconds} sekund[a|i|e|ni]]"
   timer_start_hours: "{timer_hours:start_hours}ur[a|i|e|ni|o][ [in ]{timer_minutes:start_minutes} minut[a|i|e|ni|o]][ [in ]{timer_seconds:start_seconds} sekund[a|i|e|ni|o]]"

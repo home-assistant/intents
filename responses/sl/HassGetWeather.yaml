@@ -22,14 +22,18 @@ responses:
           'windy-variant': 'z vetrom in oblaki'
         } %}
         {% set temperature = state.attributes.get('temperature') %}
-        {% set temperature_sl = (temperature|string).replace(".", ",") %}
-        {% set temperature_num = temperature | float %}
-        {% if temperature_num | abs == 1 %}
-          {{ temperature_sl }} stopinja
-        {% elif temperature_num | abs == 2 %}
-          {{ temperature_sl }} stopinji
-        {% elif temperature_num == 0 or temperature_num % 1 != 0 or temperature_num % 100 | abs < 20 %}
-          {{ temperature_sl }} stopinje
+        {% if temperature is not none %}
+          {% set temperature_sl = (temperature|string).replace(".", ",") %}
+          {% set temperature_num = temperature | float %}
+          {% if temperature_num | abs == 1 %}
+            {{ temperature_sl }} stopinja
+          {% elif temperature_num | abs == 2 %}
+            {{ temperature_sl }} stopinji
+          {% elif temperature_num == 0 or temperature_num % 1 != 0 or temperature_num % 100 | abs < 20 %}
+            {{ temperature_sl }} stopinje
+          {% else %}
+            {{ temperature_sl }} stopinj
+          {% endif %}
         {% else %}
-          {{ temperature_sl }} stopinj
+          Temperatura ni na voljo
         {% endif %} {{ weather_condition.get((state.state | string).lower(), "") }}

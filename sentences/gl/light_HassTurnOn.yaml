@@ -3,7 +3,47 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<acende> ([a] luz | [as] luces) <area>"
-          - "<acende> todas as luces <area>"
+          - "<acende> <nome>"
+        response: "light"
+        requires_context:
+          domain: "light"
+
+      - sentences:
+          - "<acende> <luces> [d(o|a)[s]] <nome>"
+        response: "light"
+        requires_context:
+          domain: "light"
+
+      - sentences:
+          - "<acende> [<todos>] <luces> <area>"
+          - "<acende> <area>"
+        slots:
+          domain: "light"
+        response: "lights_area"
+
+      # Turn on all lights in the home
+      - sentences:
+          - "<acende> [<todos>] <luces> <todas_partes>"
+          - "<acende> <todos> <luces>"
+        response: "light_all"
+        slots:
+          domain: "light"
+
+      # Turn on all lights in the same area as a satellite device
+      - sentences:
+          - "<acende> [<todos>] <luces> <de_aqui>"
+          - "<acende> <luces>"
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
+
+      # Turn on all lights on a floor
+      - sentences:
+          - "<acende> [<todos>] <luces> <planta>"
+          - "<acende> <planta>"
+        response: "lights_floor"
         slots:
           domain: "light"

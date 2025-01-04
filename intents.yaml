@@ -144,6 +144,10 @@ HassRespond:
   supported: true
   domain: homeassistant
   description: "Returns response but takes no action."
+  slots:
+    response:
+      description: "Text to respond with"
+      required: false
 
 HassSetPosition:
   supported: true
@@ -155,6 +159,9 @@ HassSetPosition:
       required: false
     area:
       description: "Name of an area"
+      required: false
+    floor:
+      description: "Name of a floor"
       required: false
     domain:
       description: "Domain of devices/entities in an area"
@@ -314,11 +321,16 @@ HassVacuumStart:
     area:
       description: "Name of an area"
       required: false
+    floor:
+      description: "Name of an floor"
+      required: false
   slot_combinations:
     name_only:
       - "name"
     area_only:
       - "area"
+    floor_only:
+      - "floor"
     area_name:
       - "name"
       - "area"
@@ -439,6 +451,15 @@ HassStartTimer:
       - "hours"
       - "minutes"
       - "seconds"
+
+HassCancelAllTimers:
+  supported: true
+  domain: intent
+  description: "Cancels all timers"
+  slots:
+    area:
+      description: "Area of the device used to start the timer"
+      required: false
 
 HassCancelTimer:
   supported: true

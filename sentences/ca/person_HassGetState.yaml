@@ -1,0 +1,42 @@
+language: ca
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "[saps] <on> (és|es) [troba] <now> <la_persona>"
+          - "[saps] <on> (està|para) <la_persona> <now>"
+          - "[saps] <on> puc trobar <la_persona> <now>"
+          - pots localitza[r] <la_persona>
+        response: where
+        expansion_rules:
+          la_persona: "((a|al|el|en|a en|la) |l'){name}"
+          "on": "(on|<on_typo>)"
+          on_typo: "(or)"
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[saps si] <la_persona> (és|es) [troba] [ara|ara mateix] a {zone:state}"
+          - que hi ha <la_persona> a {zone:state}
+        expansion_rules:
+          la_persona: "((a|al|el|en|a en|la) |l'){name}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "[que] hi ha algú (a|al|en) {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "qui hi ha a [el|la] {zone:state}"
+        response: which
+        slots:
+          domain: person

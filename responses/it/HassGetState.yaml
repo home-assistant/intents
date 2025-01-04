@@ -67,3 +67,10 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} è fuori casa
+        {% else %}
+          {{ slots.name | capitalize }} è in {{ state.state }}
+        {% endif %}

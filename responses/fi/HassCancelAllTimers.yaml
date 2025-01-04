@@ -1,0 +1,21 @@
+---
+language: fi
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Ajastimia ei peruutettu.
+        {% elif slots.canceled == 1: %}
+        Peruutettiin 1 ajastin.
+        {% else: %}
+        Peruutettiin {{ slots.canceled }} ajastinta.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Alueelta {{ slots.area }} ei peruutettu ajastimia.
+        {% elif slots.canceled == 1: %}
+        Peruutettiin 1 {{ slots.area }} ajastin.
+        {% else: %}
+        Peruutettiin {{ slots.canceled }} ajastinta alueella {{ slots.area }}.
+        {% endif %}

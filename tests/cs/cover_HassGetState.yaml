@@ -23,6 +23,7 @@ tests:
 
   - sentences:
       - "jaký stav má žaluzie ložnice?"
+      - "jaký je stav žaluzie ložnice?"
     intent:
       name: HassGetState
       slots:
@@ -32,12 +33,45 @@ tests:
 
   - sentences:
       - "jsou některé žaluzie zavřené?"
+      - "jsou nějaké žaluzie zavřené?"
       - "jsou zavřené některé žaluzie?"
+      - "jsou zavřené nějaké žaluzie?"
     intent:
       name: HassGetState
       slots:
-        device_class: blind
         domain: cover
+        device_class: blind
+        state: closed
+    response: "Ano, Žaluzie ložnice"
+
+  - sentences:
+      - "jsou některé žaluzie v ložnici zavřené?"
+      - "jsou nějaké žaluzie v ložnici zavřené?"
+      - "jsou zavřené některé žaluzie v ložnici?"
+      - "jsou zavřené nějaké žaluzie v ložnici?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        area: Ložnici
+        state: closed
+    response: "Ano, Žaluzie ložnice"
+
+  - sentences:
+      - "jsou některé žaluzie v horním patře zavřené?"
+      - "jsou nějaké žaluzie ve vrchním patře zavřené?"
+      - "jsou zavřené některé žaluzie v prvním patře?"
+      - "jsou ve vrchním patře zavřené nějaké žaluzie?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        floor:
+          - Horním patře
+          - Vrchním patře
+          - Prvním patře
         state: closed
     response: "Ano, Žaluzie ložnice"
 
@@ -47,8 +81,8 @@ tests:
       name: HassGetState
       slots:
         domain: cover
-        state: opening
         device_class: garage
+        state: opening
     response: "Ano, Garáž"
 
   - sentences:
@@ -63,21 +97,103 @@ tests:
     response: "Ne, Žaluzie ložnice není otevřená"
 
   - sentences:
+      - "jsou všechny rolety v ložnici otevřené?"
+      - "jsou v ložnici otevřené všechny rolety?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        area: Ložnici
+        state: open
+    response: "Ne, Žaluzie ložnice není otevřená"
+
+  - sentences:
+      - "jsou všechny rolety v prvním patře otevřené?"
+      - "jsou otevřené všechny rolety v horním patře?"
+      - "jsou ve vrchním patře otevřené všechny rolety?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        floor:
+          - Horním patře
+          - Vrchním patře
+          - Prvním patře
+        state: open
+    response: "Ne, Žaluzie ložnice není otevřená"
+
+  - sentences:
       - "které rolety jsou otevřené?"
     intent:
       name: HassGetState
       slots:
-        device_class: blind
         domain: cover
+        device_class: blind
         state: open
     response: "Přední roleta"
 
   - sentences:
-      - "kolik rolet se zavírá"
+      - "které závěsy v pokoji pro hosty jsou zatažené?"
+      - "který závěs v pokoji pro hosty je zatažený?"
     intent:
       name: HassGetState
       slots:
+        domain: cover
+        device_class: curtain
+        area: Pokoji pro hosty
+        state: closed
+    response: "Modrý závěsu"
+
+  - sentences:
+      - "které závěsy v horním patře jsou zatažené?"
+      - "který závěs v prvním patře je zatažený?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        floor:
+          - Horním patře
+          - Prvním patře
+        state: closed
+    response: "Modrý závěsu"
+
+  - sentences:
+      - "kolik rolet se zavírá"
+      - "kolik se zavírá rolet"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
         device_class: blind
         state: closing
-        domain: cover
     response: "0"
+
+  - sentences:
+      - "kolik závěsů v pokoji pro hosty je zatažených?"
+      - "kolik je zatažených závěsů v pokoji pro hosty?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area: Pokoji pro hosty
+        state: closed
+    response: "1"
+
+  - sentences:
+      - "kolik závěsů v prvním patře je zatažených?"
+      - "kolik je zatažených závěsů v horním patře?"
+      - "kolik je v horním patře zatažených závěsů?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        floor:
+          - Horním patře
+          - Prvním patře
+        state: closed
+    response: "1"

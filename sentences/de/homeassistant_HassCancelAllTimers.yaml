@@ -1,0 +1,22 @@
+language: de
+intents:
+  HassCancelAllTimers:
+    data:
+      # cancel all timers everywhere
+      - sentences:
+          - "<timer_cancel> (alle[ meine]|sämtliche) Timer"
+
+      # cancel all timers in specific area
+      - sentences:
+          - "<timer_cancel> (alle[ meine]|sämtliche) Timer <area>"
+          - "<timer_cancel> <area> (alle[ meine]|sämtliche) Timer"
+        response: area
+
+      # cancel all timers in same area as the voice satellite
+      - sentences:
+          - "<timer_cancel> (alle[ meine]|sämtliche) Timer (hier|in diesem [Bereich|Raum])"
+          - "<timer_cancel> (hier|in diesem [Bereich|Raum]) (alle[ meine]|sämtliche) Timer"
+        response: area
+        requires_context:
+          area:
+            slot: true

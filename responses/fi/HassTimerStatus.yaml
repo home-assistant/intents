@@ -42,11 +42,11 @@ responses:
         {% if next_timer: %}
           {# At least one active timer #}
           {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
-            1 tunti ja {{ next_timer.rounded_minutes_left }} minuuttia
+            noin 1 tunti ja {{ next_timer.rounded_minutes_left }} minuuttia
           {% elif (next_timer.rounded_hours_left == 1): %}
             1 tunti
           {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
-            {{ next_timer.rounded_hours_left }} tuntia ja {{ next_timer.rounded_minutes_left }} minuuttia
+            noin {{ next_timer.rounded_hours_left }} tuntia ja {{ next_timer.rounded_minutes_left }} minuuttia
           {% elif (next_timer.rounded_hours_left > 1): %}
             {{ next_timer.rounded_hours_left }} tuntia
           {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
@@ -63,13 +63,26 @@ responses:
             {{ next_timer.rounded_seconds_left }} sekuntia
           {% endif %}
 
+
           {% if num_timers > 1: %}
             {# Give some extra information to disambiguate #}
             jäljellä
             {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
               {{ next_timer.start_hours }} tuntia ja {{ next_timer.start_minutes }} minuuttia
-            {% elif (next_timer.start_hours > 0): %}
-              {{ next_timer.start_hours }} tuntia
+            {% elif (next_timer.start_hours == 1): %}
+              yhden tunnin
+            {% elif (next_timer.start_hours == 2): %}
+              kahden tunnin
+            {% elif (next_timer.start_hours == 3): %}
+              kolmen tunnin
+            {% elif (next_timer.start_hours == 4): %}
+              neljän tunnin
+            {% elif (next_timer.start_hours == 5): %}
+              viiden tunnin
+            {% elif (next_timer.start_hours == 6): %}
+              kuuden tunnin
+            {% elif (next_timer.start_hours > 6): %}
+              {{ next_timer.start_hours }} tunnin
             {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
               {{ next_timer.start_minutes }} minuuttia ja {{ next_timer.start_seconds }} sekuntia
             {% elif (next_timer.start_minutes > 0): %}
