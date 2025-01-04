@@ -1,0 +1,278 @@
+language: "sv"
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Battery
+      - sentences:
+          - "är <name> [batteri[et]] {bs_battery_states:state} [<i_på> <area>q]"
+          - "är batteriet [till] <name> {bs_battery_states:state} [<i_på> <area>q]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "är (något|några) batteri[er] {bs_battery_states:state} [<i_på> <area>q]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "är alla batteri[er] {bs_battery_states:state} [<i_på> <area>q]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "<vilka> (batteri|enhet)[er] är {bs_battery_states:state} [<i_på> <area>q]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      - sentences:
+          - "hur många (batteri|enhet)[er] är {bs_battery_states:state} [<i_på> <area>q]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery
+
+      # Battery charging
+      - sentences:
+          - "är <name> [batteri|[er]] {bs_battery_charging_states:state} [<i_på> <area>q]"
+          - "{bs_battery_charging_states:state} <name> [batteri[er]] [<i_på> <area>q]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "är [det] (något|något) (batteri|enhet)[er] {bs_battery_charging_states:state} [<i_på> <area>q]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "är alla (batteri|enhet)[er] {bs_battery_charging_states:state} [<i_på> <area>q]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "<vilka> (batteri|enhet)[er] [är] {bs_battery_charging_states:state} [<i_på> <area>q]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "hur många (batteri|enhet)[er] [är] {bs_battery_charging_states:state} [<i_på> <area>q]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # Carbon monoxide
+      - sentences:
+          - "är <name> {bs_carbon_monoxide_states:state} [<i_på> <area>q]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "[är|har] någon karbonmonoxid[-| ]sensor[er] {bs_carbon_monoxide_states:state} [<i_på> <area>q]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "är det [någon] karbonmonoxid <i_på> <area>q"
+          - "har det detekterats [någon] karbonmonokxid <i_på> <area>q"
+          - "är karbonmonoxid detekterat <i_på> <area>q"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+
+      - sentences:
+          - "är alla karbonmonoxid[-| ]<sensor> {bs_carbon_monoxide_states:state} [<i_på> <area>q]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "<vilka> karbonmonoxid[-| ]<sensor> är {bs_carbon_monoxide_states:state} [<i_på> <area>q]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "hur många karbonmonoxid[-| ]<sensor> är {bs_carbon_monoxide_states:state} [<i_på> <area>q]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      # Cold
+      - sentences:
+          - "är <name> {bs_cold_states:state} [<i_på> <area>q]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "är [det] någon (sak|enhet[er]) <kall> [<i_på> <area>q]"
+          - "är [det] någon <kall> (ting|enhet[er]) [<i_på> <area>q]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "<vilka> (saker|enhet[er]) är <kall> [<i_på> <area>q]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      - sentences:
+          - "hur många (saker|enhet[er]) är <kall> [<i_på> <area>q]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+          state: "on"
+
+      # Connectivity
+      - sentences:
+          - "är <name> {bs_connectivity_states:state} [<i_på> <area>q]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "är [det] någon (sak|enhet[er]) {bs_connectivity_states:state} [<i_på> <area>q]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "är alla (ting|enhet)[er|erna] {bs_connectivity_states:state} [<i_på> <area>q]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<vilka> (saker|enhet[er]) är {bs_connectivity_states:state} [<i_på> <area>q]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "hur många (saker|enhet[er]) är {bs_connectivity_states:state} [<i_på> <area>q]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Door
+      - sentences:
+          - "är <name> {bs_door_states:state} [<i_på> <area>q]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garage door
+      - sentences:
+          - "är <name> {bs_garage_door_states:state} [<i_på> <area>q]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Gas
+      - sentences:
+          - "är <name> {bs_gas_states:state} [<i_på> <area>q]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "är (någon|några) gas[-| ]sensor[er] {bs_gas_states:state} [<i_på> <area>q]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "är det [<någon>] gas [detekterad] <i_på> <area>q"
+          - "är det [detekterat] gas <i_på> <area>q"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "är alla gas[-| ]sensor[er|erna] {bs_gas_states:state} [<i_på> <area>q]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "<vilka> gas[-| ]sensor[er] är {bs_gas_states:state} [<i_på> <area>q]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "hur många gas[-| ]sensor[er] är {bs_gas_states:state} [<i_på> <area>q]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
