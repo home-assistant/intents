@@ -1,0 +1,22 @@
+---
+language: sv
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Inga timers avbröts.
+        {% elif slots.canceled == 1: %}
+        Avbröt en timer.
+        {% else: %}
+        Avbröt {{ slots.canceled }} timers.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Inga timers avbröts i {{ slots.area }}.
+        {% elif slots.canceled == 1: %}
+        Avbröt en timer i {{ slots.area }}.
+        {% else: %}
+        Avbröt {{ slots.canceled }} timers.
+        {{ slots.area }}.
+        {% endif %}
