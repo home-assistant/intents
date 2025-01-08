@@ -1,0 +1,20 @@
+language: it
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Non è stato annullato alcun timer.
+        {% elif slots.canceled == 1: %}
+        È stato annullato 1 timer
+        {% else: %}
+        Sono stati annullati {{ slots.canceled }} timer.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Nessun timer è stato annullato in  {{ slots.area }}.
+        {% elif slots.canceled == 1: %}
+        È stato annullato 1 timer in {{ slots.area }}.
+        {% else: %}
+        Sono stati annullati {{ slots.canceled }} timer in {{ slots.area }}.
+        {% endif %}

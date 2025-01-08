@@ -1,0 +1,67 @@
+language: sk
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<is> {name} {bs_states:state} [<area>]"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+        slots:
+          domain: binary_sensor
+
+      - sentences:
+          - "<is> <area> {bs_classes:device_class} {bs_states:state}"
+          - "<is> <area> {bs_states:state} {bs_classes:device_class}"
+          - "<is> {bs_states:state} [<area>] {bs_classes:device_class} [<area>]"
+          - "<is> {bs_classes:device_class} [<area>] {bs_states:state} [<area>]"
+        response: one_yesno
+        slots:
+          domain: binary_sensor
+          device_class:
+            - door
+            - garage_door
+            - window
+
+      - sentences:
+          - "<is> <any> {bs_classes:device_class} {bs_states:state} [<area>]"
+          - "<is> {bs_states:state} <any> {bs_classes:device_class} [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class:
+            - door
+            - garage_door
+            - window
+
+      - sentences:
+          - "<is> <all> {bs_classes:device_class} {bs_states:state} [<area>]"
+          - "<is> {bs_states:state} <all> {bs_classes:device_class} [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class:
+            - door
+            - garage_door
+            - window
+
+      - sentences:
+          - "<which> {bs_classes:device_class} [<is>] [<area>] [<is>] {bs_states:state} [<area>]"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class:
+            - door
+            - garage_door
+            - window
+
+      - sentences:
+          - "<how_many> {bs_classes:device_class} [<is>] [<area>] [<is>] {bs_states:state} [<area>]"
+          - "<how_many> [<is>] {bs_states:state} [<area>] {bs_classes:device_class} [<is>] [<area>]"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class:
+            - door
+            - garage_door
+            - window

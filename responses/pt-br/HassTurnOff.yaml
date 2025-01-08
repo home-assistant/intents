@@ -2,9 +2,29 @@ language: pt-br
 responses:
   intents:
     HassTurnOff:
-      default: "{{ slots.name }} desligado"
+      default: >-
+        {% set translations = {
+          "button": "botão",
+          "camera": "câmera",
+          "input_button": "botão",
+          "alarm_control_panel": "alarme",
+          "automation": "automação",
+          "fan": "ventilador",
+          "climate": "termostato",
+          "humidifier": "umidificador",
+          "input_boolean": "interruptor",
+          "siren": "sirene",
+          "water_heater": "aquecedor de água",
+          "light": "luz",
+          "switch": "interruptor",
+          "remote": "controle remoto",
+          "vacuum": "aspirador de pó",
+          "media_player": "reprodutor de mídia",
+          "lawn_mower": "cortador de grama"
+        } %}
+        {{ translations.get(state.domain) }} desligado
       lights_area: "Luzes apagadas"
-      fans_area: "Ventiladores desligados"
+      fans: "Ventiladores desligados"
       cover: "Fechado"
       light_all: "Todas as luzes apagadas"
       fan_all: "Todos os ventiladores desligados"
