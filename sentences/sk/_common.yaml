@@ -133,7 +133,7 @@ lists:
       to: 100
   timer_range_fonetic:
     values:
-      - in: "jedno|minútu|hodinu"
+      - in: "jedno|minút(u|ový)|hodin(u|ový)"
         out: 1
       - in: "dvoj"
         out: 2
@@ -177,7 +177,8 @@ expansion_rules:
   volume: "{volume:volume_level}[[ ]%| percent]"
   # Timers
   timer_set: "nasta(v[te|iť]|l)"
-  timer_type: "(časovač|stopky)"
+  timer_cancel: "(zruš[í|te|iť]|zastav(í|te|iť))"
+  timer_type: "(časovač[e]|stopky)"
   timer_unit_second: "sek(únd|(und(a|u|y|ov(ý|é|ej))))"
   timer_unit_minute: "minút[a|u|y|ov(ý|é|ej)]"
   timer_unit_hour: "hod(ín|(in(a|u|y|ov(ý|é|ej))))"
@@ -188,5 +189,13 @@ expansion_rules:
   timer_duration_minutes: "(<timer_value_minute> <timer_unit_minute> [[a] <timer_value_second> <timer_unit_second>])|([<timer_value_minute> a ]{timer_parts:seconds} <timer_unit_minute>)|({timer_range_fonetic:minutes} [a {timer_parts:seconds}])"
   timer_duration_hours: "(<timer_value_hour> <timer_unit_hour> [[a] <timer_value_minute> <timer_unit_minute>] [[a] <timer_value_second> <timer_unit_second>])|([<timer_value_hour> a ]{timer_parts:minutes} <timer_unit_hour>)|({timer_range_fonetic:hours} [a {timer_parts:minutes}])"
   timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_value_start_second: ({timer_range:start_seconds}|{timer_range_fonetic:start_seconds})
+  timer_value_start_minute: ({timer_range:start_minutes}|{timer_range_fonetic:start_minutes})
+  timer_value_start_hour: ({timer_range:start_hours}|{timer_range_fonetic:start_hours})
+  timer_start_seconds: "<timer_value_start_second> <timer_unit_second>"
+  timer_start_minutes: "(<timer_value_start_minute> <timer_unit_minute> [[a] <timer_value_start_second> <timer_unit_second>])|([<timer_value_start_minute> a ]{timer_parts:start_seconds} <timer_unit_minute>)|({timer_range_fonetic:start_minutes} [a {timer_parts:start_seconds}])"
+  timer_start_hours: "(<timer_value_start_hour> <timer_unit_hour> [[a] <timer_value_start_minute> <timer_unit_minute>] [[a] <timer_value_start_second> <timer_unit_second>])|([<timer_value_start_hour> a ]{timer_parts:start_minutes} <timer_unit_hour>)|({timer_range_fonetic:start_hours} [a {timer_parts:start_minutes}])"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 skip_words:
   - "prosím"
