@@ -3,10 +3,10 @@ responses:
   intents:
     HassStartTimer:
       default: >
-        {% set foneticNumbers = ({"pol":30,"štvrť":15,"trištvrte":45,"jedno":1,"dvoj":2,"troj":3,"štvor":4,"minútu":1,"hodinu":1}) %}
-        {% set h = foneticNumbers.get(slots.hours,slots.hours | int) if slots.hours is defined else none %}
-        {% set m = foneticNumbers.get(slots.minutes,slots.minutes | int) if slots.minutes is defined else none %}
-        {% set s = foneticNumbers.get(slots.seconds,slots.seconds | int) if slots.seconds is defined else none %}
+        {% set foneticNumbers = ({"pol":"30","štvrť":"15","trištvrte":"45","jedno":"1","dvoj":"2","troj":"3","štvor":"4","minútu":"1","hodinu":"1","minútový":"1","hodinový":"1"}) %}
+        {% set h = foneticNumbers.get(slots.hours | lower,slots.hours) | int if slots.hours is defined else none %}
+        {% set m = foneticNumbers.get(slots.minutes | lower,slots.minutes) | int if slots.minutes is defined else none %}
+        {% set s = foneticNumbers.get(slots.seconds | lower,slots.seconds) | int if slots.seconds is defined else none %}
         {% set unitSuffixes = ({1:"u",2:"y",3:"y",4:"y"}) %}
         {% set h_text = '' if not h else ((h if h > 1 else '') ~ (' hodin' ~ unitSuffixes.get(h) if h < 5 else ' hodín')) %}
         {% set m_text = '' if not m else ((m if m > 1 else '') ~ ' minút' ~ unitSuffixes.get(m,'')) %}
@@ -16,10 +16,10 @@ responses:
         {% set name = (" " ~ slots.name | trim) if slots.name is defined else '' %}
         Časovač{{ name }} nastavený na {{ text }}
       command: >
-        {% set foneticNumbers = ({"pol":30,"štvrť":15,"trištvrte":45,"jedno":1,"dvoj":2,"troj":3,"štvor":4,"minútu":1,"hodinu":1}) %}
-        {% set h = foneticNumbers.get(slots.hours,slots.hours | int) if slots.hours is defined else none %}
-        {% set m = foneticNumbers.get(slots.minutes,slots.minutes| int) if slots.minutes is defined else none %}
-        {% set s = foneticNumbers.get(slots.seconds,slots.seconds| int) if slots.seconds is defined else none %}
+        {% set foneticNumbers = ({"pol":30,"štvrť":15,"trištvrte":45,"jedno":1,"dvoj":2,"troj":3,"štvor":4,"minútu":1,"hodinu":1,"minútový":1,"hodinový":1}) %}
+        {% set h = foneticNumbers.get(slots.hours | lower,slots.hours) | int if slots.hours is defined else none %}
+        {% set m = foneticNumbers.get(slots.minutes | lower,slots.minutes) | int if slots.minutes is defined else none %}
+        {% set s = foneticNumbers.get(slots.seconds | lower,slots.seconds) | int if slots.seconds is defined else none %}
         {% set unitSuffixes = ({1:"u",2:"y",3:"y",4:"y"}) %}
         {% set h_text = '' if not h else ((h if h > 1 else '') ~ (' hodin' ~ unitSuffixes.get(h) if h < 5 else ' hodín')) %}
         {% set m_text = '' if not m else ((m if m > 1 else '') ~ ' minút' ~ unitSuffixes.get(m,'')) %}
