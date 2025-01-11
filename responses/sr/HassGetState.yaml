@@ -50,11 +50,11 @@ responses:
 
       which: |
         {% if not query.matched %}
-          0
+          Ниједан/Ниједна/Ниједно
         {% else: %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            {{ match[:3] | join(", ") }} and {{ (match | length - 3) }} више
+            {{ match[:3] | join(", ") }} и {{ (match | length - 3) }} више
           {% else %}
             {%- for name in match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} и {% endif -%}
@@ -65,6 +65,7 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
       sensor_value: |
         Вредност сензора је {{ state.state_with_unit }}
 
