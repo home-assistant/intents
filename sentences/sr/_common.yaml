@@ -296,6 +296,41 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "пола|ипо"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
+  response:
+    wildcard: true
+
 expansion_rules:
   име: "{name}"
   област: "[[просторији]|на] {area}"
@@ -305,12 +340,32 @@ expansion_rules:
   осветљеност: "{brightness}[%|посто|процената]"
   светла: "светл[о|а]|осветљење|расвет[а|у]"
   temperature: "{temperature}[°| степени] [{temperature_unit}]"
+  open: "(отвори|подигни|подижи) [горе]"
+  close: "(затвори|спусти) [доле]"
+  numeric_value_set: "(подеси|промени|окрени [(горе|доле)]|повећај|смањи|намести|постави)"
+  position: "{position}[([ ]%)| посто]"
   temp: "температур(а|е|у)"
   активирај: "упали[ш|те|мо]|укључи[ш|те|мо]|отвори[ш|те|мо]|подигни[ш|те|мо]"
   деактивирај: "угаси[ш|те|мо]|искључи[ш|те|мо]|затвори[ш|те|мо]|спусти[ш|те|мо]"
   подеси: "подеси[ш]|намести[ш]|постави[ш]|сетуј[еш]|промени[ш]|појачај|увећај|смањи|умањи"
   очисти: "(усисаj|очисти)"
   спрат: "{floor}"
+
+  # Timers
+  timer_set: "(постави|покрени|направи|започни)"
+  timer_cancel: "(откажи|заустави|стоп[ирај]|прекини|искључи|прекини|поништи)"
+  timer_duration_seconds: "{timer_seconds:seconds} секунд[а|е|и|ни]"
+  timer_duration_minutes: "({timer_minutes:minutes} минут[а|е|и|ни] [[и] {timer_seconds:seconds} секунд[а|е|и|ни]])|({timer_minutes:minutes} [и] {timer_half:seconds} минута)|({timer_half:seconds} минута)"
+  timer_duration_hours: "({timer_hours:hours} сат[а|и|ни|ног|ном] [[и] {timer_minutes:minutes} минут[а|е|и|ни]] [[и] {timer_seconds:seconds} секунд[а|е|и|ни]])|({timer_hours:hours} [и] {timer_half:minutes} сат[а])|({timer_half:minutes} сат[а])"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} секунд(а|е|и)"
+  timer_start_minutes: "{timer_minutes:start_minutes} минут[а|е|и] [[и] {timer_seconds:start_seconds} секунд[а|е|и]]"
+  timer_start_hours: "{timer_hours:start_hours} сат[а|и|ни|ног|ном] [[и] {timer_minutes:start_minutes} минут[а|е|и]] [[и] {timer_seconds:start_seconds} секунд[а|е|и]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
+  timer_status: "(статус|стање|преостало време|остало време)"
+
 skip_words:
   - "молим [те|вас] [да]"
   - "може(ш|те) [ли] [да]"
