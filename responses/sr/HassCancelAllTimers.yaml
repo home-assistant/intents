@@ -1,0 +1,20 @@
+language: sr
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Ниједан тајмер није поништен.
+        {% elif slots.canceled == 1: %}
+        Поништен 1 тајмер.
+        {% else: %}
+        Поништено {{ slots.canceled }} тајмера.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Ниједан тајмер није поништен у {{ slots.area }}.
+        {% elif slots.canceled == 1: %}
+        Поништен 1 тајмер у {{ slots.area }}.
+        {% else: %}
+        Поништено {{ slots.canceled }} тајмера у {{ slots.area }}.
+        {% endif %}
