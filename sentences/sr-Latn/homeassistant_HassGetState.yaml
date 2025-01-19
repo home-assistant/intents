@@ -1,0 +1,48 @@
+language: sr-Latn
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "(koja je|koji je|reci mi) [status|vrednost] <name> [[u|na] <area>]"
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+            - sensor
+
+      - sentences:
+          - "(da li|da li je|postoji li) <name> {on_off_states:state} [[u|na] <area>]"
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - "(da li|da li je|ima li|postoji li) [[bilo] koj[i|a|e]] {on_off_domains:domain} {on_off_states:state} [[u|na] <area>]"
+        response: any
+
+      - sentences:
+          - "(da li|da li je|ima li|postoji li) [[bilo] koj[i|a|e]] {on_off_domains:domain} [[u|na] <area>] {on_off_states:state}"
+        response: any
+
+      - sentences:
+          - "(da li|da li je|ima li|postoji li) [[bilo] koj[i|a|e]] {on_off_states:state} {on_off_domains:domain} [[u|na] <area>]"
+        response: any
+
+      - sentences:
+          - "(da li|jesu li) {on_off_domains:domain} {on_off_states:state} [in <area>]"
+        response: all
+
+      - sentences:
+          - "(koji|koja) [su] {on_off_domains:domain} [su] {on_off_states:state} [[u|na] <area>]"
+        response: which
+
+      - sentences:
+          - "koliko je ({on_off_states:state} {on_off_domains:domain}|{on_off_domains:domain} {on_off_states:state}) [[u|na] <area>]"
+        response: how_many
+        excludes_context:
+          domain:
+            - scene
+            - script
+            - sensor
