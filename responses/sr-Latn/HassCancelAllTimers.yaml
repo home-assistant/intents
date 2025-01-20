@@ -1,0 +1,20 @@
+language: sr-Latn
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Nije zaustavljen nijedan tajmer.
+        {% elif slots.canceled == 1 or slots.canceled % 10 == 1 and slots.canceled % 100 != 11: %}
+        Zaustavljen je 1 tajmer.
+        {% else: %}
+        Zaustavljena su {{ slots.canceled }} tajmera.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Nije zaustavljen nijedan tajmer u prostoriji.
+        {% elif slots.canceled == 1 or slots.canceled % 10 == 1 and slots.canceled % 100 != 11: %}
+        Zaustavljen je 1 tajmer u prostoriji.
+        {% else: %}
+        Zaustavljeno je {{ slots.canceled }} tajmera u prostoriji.
+        {% endif %}
