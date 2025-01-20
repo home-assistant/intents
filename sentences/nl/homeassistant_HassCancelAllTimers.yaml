@@ -1,0 +1,30 @@
+---
+language: "nl"
+intents:
+  HassCancelAllTimers:
+    data:
+      - sentences:
+          - "(annuleer|stop) <all_timers>"
+          - "[<would>] <all_timers> (stoppen|annuleren|[op] stop zetten)"
+          - "[<would>] <all> <timer>[s] (stoppen|annuleren|[op] stop zetten) <in> <area>"
+        expansion_rules:
+          all_timers: >
+            (
+              ((<all>|al) [<my>] <timer>[s];[<in> <area>])
+             |(<all>|al) [<my>] {area}[ ]<timer>[s]
+            )
+      - sentences:
+          - "annuleer alle timers in deze ruimte"
+          - "(annuleer|stop) (<here>;<timers>)"
+          - "[<would>] (<here>;<timers>) (stoppen|annuleren|[op] stop zetten)"
+          - "[<would>] <timers> (stoppen|annuleren|[op] stop zetten) <here>"
+        expansion_rules:
+          timers: (
+            alle <timer>s
+            |(iedere|elke) <timer>
+            |al (mijn|m'n|de) <timer>s
+            |[de] <timer>s
+            )
+        requires_context:
+          area:
+            slot: true

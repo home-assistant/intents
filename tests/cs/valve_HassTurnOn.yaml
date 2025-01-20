@@ -1,0 +1,66 @@
+language: cs
+tests:
+  - sentences:
+      - "otevřít sprinkler"
+      - "otevři ventil sprinkleru"
+      - "otevři hlavní uzávěr vody"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: valve
+        name:
+          - Sprinkler
+          - Sprinkleru
+          - Hlavní uzávěr vody
+    response: "Otevřeno"
+
+  - sentences:
+      - "otevřít sprinkler zahrada"
+      - "otevři ventil sprinkleru na zahradě"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: valve
+        name:
+          - Sprinkler
+          - Sprinkleru
+        area:
+          - Zahrada
+          - Zahradě
+    response: "Otevřeno"
+
+  - sentences:
+      - "otevřít ventil zahrada"
+      - "otevři ventily na zahradě"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: valve
+        area:
+          - Zahrada
+          - Zahradě
+    response: "Otevřeno"
+
+  - sentences:
+      - "otevřít ventil spodní patro"
+      - "otevři ventil v přízemí"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: valve
+        floor:
+          - Spodní patro
+          - Přízemí
+    response: "Otevřeno"
+
+  - sentences:
+      - "otevřít ventil"
+      - "otevři tady ventily"
+    intent:
+      name: HassTurnOn
+      context:
+        area: Zahrada
+      slots:
+        domain: valve
+        area: Zahrada
+    response: "Otevřeno"

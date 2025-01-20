@@ -1,0 +1,25 @@
+---
+language: ru
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Нет установленных таймеров.
+        {% elif slots.canceled == 1: %}
+        Выключен 1 таймер.
+        {% elif 5 > slots.canceled > 1: %}
+        Выключено {{ slots.canceled }} таймера.
+        {% else: %}
+        Выключено {{ slots.canceled }} таймеров.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Нет установленных таймеров в {{ slots.area }}.
+        {% elif slots.canceled == 1: %}
+        Выключен 1 таймер в {{ slots.area }}.
+        {% elif 5 > slots.canceled > 1: %}
+        Выключено {{ slots.canceled }} таймера в {{ slots.area }}.
+        {% else: %}
+        Выключено {{ slots.canceled }} таймеров в {{ slots.area }}.
+        {% endif %}

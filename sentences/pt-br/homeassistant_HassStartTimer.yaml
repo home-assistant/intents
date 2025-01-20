@@ -1,0 +1,19 @@
+---
+language: "pt-br"
+intents:
+  HassStartTimer:
+    data:
+      - sentences:
+          - "[<timer_set> ][um ]<temporizador>[ <duration_prefix>] <timer_duration>"
+          - "[<timer_set> ][um ]<temporizador>[ chamado] {timer_name:name}[ <duration_prefix>] <timer_duration>"
+          - "[<timer_set> ][um ]<temporizador>[ <duration_prefix>] <timer_duration>[ chamado] {timer_name:name}"
+          - "<timer_set> <duration_prefix> <timer_duration>"
+        expansion_rules:
+          timer_set: "(define|definir|começa[r]|inicia[r]|cria[r])"
+          duration_prefix: "(de|com|para|em)"
+      - sentences:
+          - "{timer_command:conversation_command} <daqui_a> <timer_duration>"
+          - "<daqui_a> <timer_duration> {timer_command:conversation_command}"
+        expansion_rules:
+          daqui_a: "(em|dentro de|daqui a)"
+        response: command

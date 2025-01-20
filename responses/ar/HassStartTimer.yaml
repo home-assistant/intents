@@ -1,0 +1,45 @@
+---
+language: ar
+responses:
+  intents:
+    HassStartTimer:
+      default: >
+        {% set timeShortNames = ['ربع', 'نصف', 'ثلاثة أرباع', '15', '30', '45'] %}
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+
+        {% set h_text = (' ساعة' if h in ['1', 'ساعة'] else ' ساعاتين' if h in ['2', 'ساعاتين'] else h ~ ' ساعات' if h | int <= 10 else h ~ ' ساعة') if h else '' %}
+
+        {% set m_text = ('ربع' if m in ['15', 'ربع'] else 'نصف' if m in ['30', 'نصف'] else 'ثلاثة أرباع' if m in ['45', 'ثلاثة أرباع'] else m) ~
+          (' ساعة' if (m in timeShortNames and h is none) else (' دقائق' if m | int <= 10 else ' دقيقة') if m not in timeShortNames)
+          if m else '' %}
+
+        {% set s_text = ('ربع' if s in ['15', 'ربع'] else 'نصف' if s in ['30', 'نصف'] else 'ثلاثة أرباع' if s in ['45', 'ثلاثة أرباع'] else s) ~
+          (' دقيقة' if (s in timeShortNames and (m is none and h is none or m and h or m is none and h)) else (' ثواني' if s | int <= 10 else ' ثانية') if s not in timeShortNames)
+          if s else '' %}
+
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(' و ') ~ ' و ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' و ') %}
+        {% set name = (' بالاسم ' ~ slots.name | trim) if slots.name is defined else '' %}
+        تم ضبط المؤقت لمدة {{ text }}{{ name }}
+      command: >
+        {% set timeShortNames = ['ربع', 'نصف', 'ثلاثة أرباع', '15', '30', '45'] %}
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+
+        {% set h_text = (' ساعة' if h in ['1', 'ساعة'] else ' ساعاتين' if h in ['2', 'ساعاتين'] else h ~ ' ساعات' if h | int <= 10 else h ~ ' ساعة') if h else '' %}
+
+        {% set m_text = ('ربع' if m in ['15', 'ربع'] else 'نصف' if m in ['30', 'نصف'] else 'ثلاثة أرباع' if m in ['45', 'ثلاثة أرباع'] else m) ~
+          (' ساعة' if (m in timeShortNames and h is none) else (' دقائق' if m | int <= 10 else ' دقيقة') if m not in timeShortNames)
+          if m else '' %}
+
+        {% set s_text = ('ربع' if s in ['15', 'ربع'] else 'نصف' if s in ['30', 'نصف'] else 'ثلاثة أرباع' if s in ['45', 'ثلاثة أرباع'] else s) ~
+          (' دقيقة' if (s in timeShortNames and (m is none and h is none or m and h or m is none and h)) else (' ثواني' if s | int <= 10 else ' ثانية') if s not in timeShortNames)
+          if s else '' %}
+
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(' و ') ~ ' و ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' و ') %}
+        {% set name = (' بالاسم ' ~ slots.name | trim) if slots.name is defined else '' %}
+        سيتم تنفيذ الأمر في {{ text }}

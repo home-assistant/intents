@@ -2,4 +2,35 @@ language: eu
 intents:
   HassGetState:
     data:
-      - sentences: []
+      - sentences:
+          - (ba [<ahal>] dakizu|esaidazu|zein da) [uneko|momentu honetako] <name>[[r]en (egoera|balioa)] [<area>] [zein den]
+        response: one
+        excludes_context:
+          domain:
+            - scene
+            - script
+
+      - sentences:
+          - <name> [<area>[n]] {on_off_states:state} [<ahal>] (dago|da)
+        response: one_yesno
+        excludes_context:
+          domain:
+            - cover
+
+      - sentences:
+          - ba [<ahal>] dago [batere] {on_off_domains:domain} {on_off_states:state} [<area>]
+          - (ba [<ahal>] dakizu|esaidazu) [batere] {on_off_domains:domain} {on_off_states:state} badagoen [<area>]
+        response: any
+
+      - sentences:
+          - "{on_off_domains:domain} guztiak {on_off_states:state} [<ahal>] daude [<area>]"
+          - <area> {on_off_domains:domain} guztiak {on_off_states:state} [<ahal>] daude
+        response: all
+
+      - sentences:
+          - "[ba [<ahal>] dakizu] zein {on_off_domains:domain} (dago|daude|dagoen|dauden) {on_off_states:state} [<area>]"
+        response: which
+
+      - sentences:
+          - "[(esaidazu|esan)] zenbat {on_off_domains:domain} (daude|dauden) {on_off_states:state} [<area>]"
+        response: how_many

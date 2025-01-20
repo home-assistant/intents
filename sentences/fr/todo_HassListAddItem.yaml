@@ -4,27 +4,26 @@ intents:
     data:
       - sentences:
           # Ajoute du pain à la liste des courses
-          - <ajoute> [<de_le>]<item> <a_le>{name}
+          - (<ajoute>|<mets>) [<de_le>]<item> <a_le>{name}
 
           # Met des oeufs dans la liste des courses
-          - <ajoute> [<de_le>]<item> dans [<le>]{name}
+          - (<ajoute>|<mets>) [<de_le>]<item> dans [<le>]{name}
 
           # Rajoute du lait sur la liste des courses
-          - <ajoute> [<de_le>]<item> sur [<le>]{name}
+          - (<ajoute>|<mets>) [<de_le>]<item> sur [<le>]{name}
 
           # Ajouter pain à la liste des courses
-          - <ajoute> [<de_le>]<item> à la liste [<de>] {name}
+          - (<ajoute>|<mets>) [<de_le>]<item> à la liste [<de>] {name}
 
           # Rajoute pain dans liste des courses
-          - <ajoute> [<de_le>]<item> dans [la] liste [<de>] {name}
+          - (<ajoute>|<mets>) [<de_le>]<item> dans [la] liste [<de>] {name}
 
           # Mettre du lait sur la liste des courses
-          - <ajoute> [<de_le>]<item> sur [la] liste [<de>] {name}
+          - (<ajoute>|<mets>) [<de_le>]<item> sur [la] liste [<de>] {name}
         response: item_added
         requires_context:
           domain: todo
         expansion_rules:
           item: "{shopping_list_item:item}"
           de_le: (de la |du |des |de l')
-          ajoute: (ajoute|ajouter|mets|met|mettre|rajoute|rajouter)
           a_le: (a la |à la |a l'|a l'|au |aux )

@@ -1,24 +1,29 @@
 language: fr
+floors:
+  - name: "Rez-De-Chaussée"
+    id: ground_floor_id
+  - name: "Premier Étage"
+    id: first_floor_id
 areas:
   - name: "cuisine"
     id: "kitchen"
-    floor: "Rez-De-Chaussée"
+    floor: ground_floor_id
 
   - name: "salon"
     id: "living_room"
-    floor: "Rez-De-Chaussée"
+    floor: ground_floor_id
 
   - name: "chambre"
     id: "bedroom"
-    floor: "Premier Étage"
+    floor: first_floor_id
 
   - name: "garage"
     id: "garage"
-    floor: "Rez-De-Chaussée"
+    floor: ground_floor_id
 
   - name: "entrée"
     id: "hall"
-    floor: "Rez-De-Chaussée"
+    floor: ground_floor_id
 
 entities:
   - name: "lumière du plafond"
@@ -221,16 +226,27 @@ entities:
     attributes:
       device_class: door
 
-  - name: "Porte du garage 1"
+  - name: "porte principale"
+    id: "binary_sensor.main_door_sensor"
+    area: "living_room"
+    state:
+      in: "fermée"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "Porte droite"
     id: "binary_sensor.garage_door"
+    area: garage
     state:
       in: "ouverte"
       out: "on"
     attributes:
       device_class: garage_door
 
-  - name: "Porte du garage 2"
+  - name: "Porte gauche"
     id: "binary_sensor.garage_door_2"
+    area: garage
     state:
       in: "fermée"
       out: "off"
@@ -405,10 +421,20 @@ entities:
     attributes:
       device_class: vibration
 
-  - name: "Baie"
-    id: "binary_sensor.shed_window"
+  - name: "Fenêtre Salon"
+    id: "binary_sensor.living_room_window"
+    area: living_room
     state:
       in: "ouverte"
+      out: "on"
+    attributes:
+      device_class: window
+
+  - name: "Velux"
+    id: "binary_sensor.velux"
+    area: living_room
+    state:
+      in: "ouvert"
       out: "on"
     attributes:
       device_class: window
@@ -744,17 +770,23 @@ entities:
 
   - name: "Paris"
     id: "weather.paris"
-    state: "rainy"
+    state: Pluvieux
     attributes:
-      temperature: "10"
+      temperature: 10.3
       temperature_unit: "°C"
+      humidity: 85
+      wind_speed: 23.5
+      wind_speed_unit: "km/h"
 
   - name: "Brest"
     id: "weather.brest"
-    state: "sunny"
+    state: Ensoleillé
     attributes:
-      temperature: "25"
+      temperature: 24.9
       temperature_unit: "°C"
+      pressure: 1017
+      pressure_unit: "hPa"
+      uv_index: 5
 
   - name: "Joseph"
     id: "person.jospeh"
@@ -791,6 +823,7 @@ entities:
 
   - name: "Nestor"
     id: "vacuum.nestor"
+    area: "kitchen"
     state: "idle"
 
 timers:
@@ -809,6 +842,12 @@ timers:
   - area: kitchen
     start_minutes: 5
     total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0
+  - name: fermer la fenêtre
+    start_minutes: 10
+    total_seconds_left: 200
     rounded_hours_left: 0
     rounded_minutes_left: 3
     rounded_seconds_left: 0

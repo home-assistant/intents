@@ -4,22 +4,22 @@ responses:
     HassGetWeather:
       default: >
         {% set weather_condition = {
-          'Tiszta': 'és derült',
-          'Tiszta, éjszaka': 'és derült',
-          'Felhős': 'és felhős',
-          'Rendkívüli': 'és rendkívüli az időjárás',
-          'Köd': 'köddel',
-          'Jégeső': 'jégesővel',
-          'Vihar': 'és viharos',
-          'Viharos, esős': 'vihar esővel',
-          'Részben felhős': 'és részben felhős',
-          'Szakad': 'és szakadó eső',
-          'Esős': 'és esik',
-          'Havazás': 'és havazik',
-          'Havas, esős': 'hóval és esővel',
-          'Napos': 'és napos',
-          'Szeles': 'és szeles',
-          'Szeles, felhős': 'széllel és felhőkkel'
+          'Tiszta': 'és derült idő van.',
+          'Csillagos': 'és derült csillagos idő van.',
+          'Felhős': 'és felhős idő van.',
+          'Rendkívüli': 'és rendkívüli az időjárás!',
+          'Ködös': 'és ködös idő van.',
+          'Jégesős': 'és esik a jégeső.',
+          'Viharos': 'és viharos idő van.',
+          'Viharos, esős': 'és viharos esős idő van.',
+          'Részben felhős': 'és részben felhős idő van.',
+          'Szakadó esős': 'és szakadó esős idő van.',
+          'Esős': 'és esős idő van.',
+          'Havas': 'és esik a hó.',
+          'Havas, esős': 'és esik a havas eső.',
+          'Napos': 'és napos idő van.',
+          'Szeles': 'és szeles idő van.',
+          'Szeles, felhős': 'és szeles idő van felhőkkel.'
         } %}
         {% set temperature = state.attributes.get('temperature') | float %}
         {% if temperature < 0 %}
@@ -27,4 +27,159 @@ responses:
         {% else %}
           {% set temperature_string = temperature | string | replace('.', ',') %}
         {% endif %}
-        {{ temperature_string }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), state.state | string) }}
+        {{ temperature_string }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get(state.state, state.state | string) }}
+      wind: >
+        {% set wind_bearing = state.attributes.get('wind_bearing') | float %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') | float(none) %}
+        {% set wind_speed = state.attributes.get('wind_speed') | float %}
+        {% set wind_speed_unit = state.attributes.get('wind_speed_unit') %}
+        {% set wind_bearing_text = '' %}
+        {% if wind_bearing is not none %}
+          {% if 0 <= wind_bearing < 45 %}
+            {% set wind_bearing_text = 'északi' %}
+          {% elif 45 <= wind_bearing < 90 %}
+            {% set wind_bearing_text = 'észak-keleti' %}
+          {% elif 90 <= wind_bearing < 135 %}
+            {% set wind_bearing_text = 'keleti' %}
+          {% elif 135 <= wind_bearing < 180 %}
+            {% set wind_bearing_text = 'dél-keleti' %}
+          {% elif 180 <= wind_bearing < 225 %}
+            {% set wind_bearing_text = 'déli' %}
+          {% elif 225 <= wind_bearing < 270 %}
+            {% set wind_bearing_text = 'dél-nyugati' %}
+          {% elif 270 <= wind_bearing < 315 %}
+            {% set wind_bearing_text = 'nyugati' %}
+          {% elif 315 <= wind_bearing <= 360 %}
+            {% set wind_bearing_text = 'észak-nyugati' %}
+          {% else %}
+            {% set wind_bearing_text = 'ismeretlen irány' %}
+          {% endif %}
+        {% endif %}
+        {% set wind_report = [] %}
+        {% if wind_speed is not none %}
+          {% set wind_speed_text = '' %}
+          {% if wind_speed < 1 %}
+            {% set wind_speed_text = 'szélcsend' %}
+          {% elif 1 <= wind_speed < 6 %}
+            {% set wind_speed_text = 'enyhe szél' %}
+          {% elif 6 <= wind_speed < 12 %}
+            {% set wind_speed_text = 'mérsékelt szél' %}
+          {% elif 12 <= wind_speed < 20 %}
+            {% set wind_speed_text = 'élénk szél' %}
+          {% elif 20 <= wind_speed < 29 %}
+            {% set wind_speed_text = 'erős szél' %}
+          {% elif 29 <= wind_speed < 39 %}
+            {% set wind_speed_text = 'viharos szél' %}
+          {% elif 39 <= wind_speed < 50 %}
+            {% set wind_speed_text = 'nagyon erős szél' %}
+          {% else %}
+            {% set wind_speed_text = 'szélsőségesen erős szél' %}
+          {% endif %}
+          {% set wind_report = wind_report + ['A szélsebesség ' ~ (wind_speed | string | replace('.', ',')) ~ ' ' ~ (wind_speed_unit if wind_speed_unit != none else 'km/h') ~ ' - ' ~ wind_speed_text] %}
+        {% endif %}
+        {% if wind_bearing_text %}
+          {% set wind_report = wind_report + [', melynek iránya ' ~ wind_bearing_text] %}
+        {% endif %}
+        {% if wind_gust_speed is not none %}
+          {% set wind_report = wind_report + [', ' ~ (wind_gust_speed | string | replace('.', ',')) ~ ' ' ~ (wind_speed_unit if wind_speed_unit is not none else 'km/h') ~ ' sebességű széllökésekkel.'] %}
+        {% endif %}
+        {{ wind_report | join('') }}
+
+      uv: >
+        {% set uv_index = state.attributes.get('uv_index') %}
+        {% if uv_index is not none %}
+          {% set uv_index = uv_index | float | round(0) | int %}
+          {% set uv_category = '' %}
+          {% if uv_index <= 2 %}
+            {% set uv_category = ', ami alacsony sugárzási szint.' %}
+          {% elif 3 <= uv_index <= 4 %}
+            {% set uv_category = ', ami közepes sugárzási szint.' %}
+          {% elif 5 <= uv_index <= 7 %}
+            {% set uv_category = ', ami magas sugárzási szint.' %}
+          {% elif 8 <= uv_index <= 10 %}
+            {% set uv_category = ', ami nagyon magas sugárzási szint.' %}
+          {% elif uv_index >= 11 %}
+            {% set uv_category = ', ami extrém uv sugárzási szint.' %}
+          {% endif %}
+          A jelenlegi UV sugárzás: {{ uv_index }}{{ uv_category }}
+        {% else %}
+          Az UV sugárzási adatok nem elérhetők.
+        {% endif %}
+
+      detailed_weather: >
+        {% set report = [] %}
+        {% set temperature = state.attributes.get('temperature') | float %}
+        {% if temperature is not none %}
+          {% if temperature < 0 %}
+            {% set temperature_string = 'mínusz ' ~ (temperature * -1) | string | replace('.', ',') %}
+          {% else %}
+            {% set temperature_string = temperature | string | replace('.', ',') %}
+          {% endif %}
+          {% set temperature_unit = state.attributes.get('temperature_unit', '') %}
+          {% set report = report + ['Jelenleg ' ~ temperature_string ~ ' ' ~ temperature_unit ~ ' '] %}
+        {% endif %}
+        {% set weather_condition_dict = {
+          'Tiszta': 'és derült idő van',
+          'Csillagos': 'és derült csillagos idő van',
+          'Felhős': 'és felhős idő van',
+          'Rendkívüli': 'és rendkívüli az időjárás',
+          'Ködös': 'és ködös idő van',
+          'Jégesős': 'és esős idő van jégesővel',
+          'Viharos': 'és viharos idő van',
+          'Viharos, esős': 'és viharos esős idő van',
+          'Részben felhős': 'és részben felhős idő van',
+          'Szakadó esős': 'és szakadó esős idő van',
+          'Esős': 'és esős idő van',
+          'Havas': 'és havazós idő van',
+          'Havas, esős': 'és havas eső idő van',
+          'Napos': 'és napos idő van',
+          'Szeles': 'és szeles idő van',
+          'Szeles, felhős': 'és szeles idő van felhőkkel'
+        } %}
+        {% set weather_condition = weather_condition_dict.get(state.state, '') %}
+        {% if weather_condition %}
+          {% set report = report + [weather_condition] %}
+        {% endif %}
+
+        {% set humidity = state.attributes.get('humidity') %}
+        {% if humidity is not none %}
+          {% set report = report + [', a páratartalom: ' ~ humidity ~ '%'] %}
+        {% endif %}
+        {% set pressure = state.attributes.get('pressure') | float | round(0) | int %}
+        {% if pressure is not none %}
+          {% set pressure = pressure %}
+          {% set pressure_unit = state.attributes.get('pressure_unit', '') %}
+          {% if pressure_unit == 'hPa' %}
+            {% set pressure_unit = 'hektopaszkál' %}
+          {% endif %}
+          {% set report = report + [', a nyomás: ' ~ pressure ~ ' ' ~ pressure_unit] %}
+        {% endif %}
+        {% set wind_speed = state.attributes.get('wind_speed') | float %}
+        {% if wind_speed is not none %}
+          {% set wind_speed_unit = state.attributes.get('wind_speed_unit', 'km/h') %}
+          {% set wind_speed_text = '' %}
+          {% if wind_speed < 1 %}
+            {% set wind_speed_text = 'szélcsend' %}
+          {% elif 1 <= wind_speed < 6 %}
+            {% set wind_speed_text = 'enyhe szél fúj' %}
+          {% elif 6 <= wind_speed < 12 %}
+            {% set wind_speed_text = 'mérsékelt szél fúj' %}
+          {% elif 12 <= wind_speed < 20 %}
+            {% set wind_speed_text = 'élénk szél fúj' %}
+          {% elif 20 <= wind_speed < 29 %}
+            {% set wind_speed_text = 'erős szél fúj' %}
+          {% elif 29 <= wind_speed < 39 %}
+            {% set wind_speed_text = 'viharos szél fúj' %}
+          {% elif 39 <= wind_speed < 50 %}
+            {% set wind_speed_text = 'nagyon erős szél fúj' %}
+          {% else %}
+            {% set wind_speed_text = 'szélsőségesen erős szél fúj' %}
+          {% endif %}
+          {% set report = report + [', a szél sebessége ' ~ (wind_speed | string | replace('.', ',')) ~ ' ' ~ wind_speed_unit ~ ' - ' ~ wind_speed_text] %}
+        {% endif %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') | float(none) %}
+        {% if wind_gust_speed is not none %}
+          {% set wind_speed_unit = state.attributes.get('wind_speed_unit', 'km/h') %}
+          {% set report = report + [', ' ~ (wind_gust_speed | string | replace('.', ',')) ~ ' ' ~ wind_speed_unit  ~ ' sebességű széllökésekkel.'] %}
+        {% endif %}
+        {{ report | join('') }}

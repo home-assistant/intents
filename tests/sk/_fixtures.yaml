@@ -1,6 +1,6 @@
 language: "sk"
 areas:
-  - name: "kuchy(ňa|ni|ne|ňu) "
+  - name: "kuchy(ňa|ni|ne|ňu|nsk(ý|é)) "
     id: kitchen
   - name: "obývačk(a|e|u|y)"
     id: living_room
@@ -12,6 +12,8 @@ areas:
     id: hallway
   - name: "vchod[e|om|u]"
     id: entrance
+  - name: "pred vchodom"
+    id: outside_entrance
 entities:
   - name: "nočn(á|ú|ej) lamp(a|u|y|e)"
     id: light.bedroom_lamp
@@ -140,3 +142,60 @@ entities:
     state: "idle"
     attributes:
       volume_level: "50"
+
+  - name: "dvere na záhradu"
+    id: "binary_sensor.door_garden"
+    area: "kitchen"
+    state:
+      in: "closed"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "Velké okno"
+    id: "binary_sensor.window_living"
+    area: "living_room"
+    state:
+      in: "open"
+      out: "on"
+    attributes:
+      device_class: window
+
+  - name: "malé okno"
+    id: "binary_sensor.window_living"
+    area: "living_room"
+    state:
+      in: "closed"
+      out: "off"
+    attributes:
+      device_class: window
+
+  - name: "Garážové dvere"
+    id: "binary_sensor.door_garage_main"
+    state:
+      in: "open"
+      out: "on"
+    attributes:
+      device_class: garage_door
+
+  - name: "dvere v garáži"
+    id: "binary_sensor.door_garage_to_house"
+    area: "garage"
+    state:
+      in: "closed"
+      out: "off"
+    attributes:
+      device_class: door
+timers:
+  - name: "pizza"
+    start_minutes: 15
+    total_seconds_left: 648
+    rounded_hours_left: 0
+    rounded_minutes_left: 10
+    rounded_seconds_left: 0
+  - area: "kitchen"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

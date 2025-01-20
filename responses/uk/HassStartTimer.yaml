@@ -1,0 +1,37 @@
+language: uk
+responses:
+  intents:
+    HassStartTimer:
+      default: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' годину' if h | int % 10 == 1 and h != "11" else (' години' if h | int % 10 in [2, 3, 4] and h not in ["12", "13", "14"] else ' годин')) if h else '' %}
+        {% set m_text = (90 if m in ['півтори', '1.5'] else (30 if m in ['пів', '1/2', 'половиною'] else m)) ~
+            (' хвилину' if m | int % 10 == 1 and m != "11" else
+            (' хвилини' if m | int % 10 in [2, 3, 4] and m not in ["12", "13", "14"] else
+              ' хвилин')) if m else '' %}
+        {% set s_text = (90 if s in ['півтори', '1.5'] else (30 if s in ['пів', '1/2', 'половиною'] else s)) ~
+            (' секунду' if s | int % 10 == 1 and s != "11" else
+            (' секунди' if s | int % 10 in [2, 3, 4] and s not in ["12", "13", "14"] else
+              ' секунд')) if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' та ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' та ') %}
+        {% set name = (' з назвою ' ~ slots.name | trim) if slots.name is defined else '' %}
+        Встановлено таймер на {{ text }}{{ name }}
+      command: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' годину' if h | int % 10 == 1 and h != "11" else (' години' if h | int % 10 in [2, 3, 4] and h not in ["12", "13", "14"] else ' годин')) if h else '' %}
+        {% set m_text = (90 if m in ['півтори', '1.5'] else (30 if m in ['пів', '1/2', 'половиною'] else m)) ~
+            (' хвилину' if m | int % 10 == 1 and m != "11" else
+            (' хвилини' if m | int % 10 in [2, 3, 4] and m not in ["12", "13", "14"] else
+              ' хвилин')) if m else '' %}
+        {% set s_text = (90 if s in ['півтори', '1.5'] else (30 if s in ['пів', '1/2', 'половиною'] else s)) ~
+            (' секунду' if s | int % 10 == 1 and s != "11" else
+            (' секунди' if s | int % 10 in [2, 3, 4] and s not in ["12", "13", "14"] else
+              ' секунд')) if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' та ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' та ') %}
+        Команду буде виконано через {{ text }}

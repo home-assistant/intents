@@ -28,7 +28,7 @@ See the [documentation](docs/README.md) for more information.
 
 # Development
 
-The easiest way to start contributing is by using [devcontainers](https://containers.dev/). 
+The easiest way to start contributing is by using [devcontainers](https://containers.dev/).
 The repository is configured for devcontainer support.
 Please, check how you can use devcontainers with your favourite IDE.
 
@@ -115,6 +115,16 @@ You can add lists, ranges, and expansion rules as well:
 
 ```sh
 python3 -m script.intentfest sample_template 'set color to <color> and brightness to {brightness}' --values color red green --range brightness 1 2 --rule color '[the] {color}'
+```
+
+## Generate LLM prompt to help with translations
+
+If you start to translate a new intent, you can generate a prompt to paste into ChatGPT or another LLM to help with translations
+
+Example to generate a prompt to translate the `HassListAddItem` intent to Italian:
+
+```sh
+python3 -m script.intentfest llm_template it HassListAddItem
 ```
 
 ## Add new language

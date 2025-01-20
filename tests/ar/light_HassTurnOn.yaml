@@ -1,14 +1,55 @@
 language: ar
 tests:
+  # Turn on all lights in an area
   - sentences:
-      - "شغل جميع الاضواء في المطبخ"
-      - "افتح الاضواء في المطبخ"
+      - "شغل جميع الأضواء في المطبخ"
       - "شغل ضوء داخل المطبخ"
       - "شغل ضوء المطبخ"
     intent:
       name: HassTurnOn
       slots:
-        domain: light
         area: المطبخ
-        name: all
-    response: "تم تشغيل الاضواء"
+        domain: light
+    response: "تم تشغيل الأضواء"
+
+  # Turn on all lights in the home
+  - sentences:
+      - "شغل جميع الأضواء"
+      - "شغل كل الأضواء"
+      - "فعل جميع الأضواء"
+      - "شغل جميع الأضواء في كل المناطق"
+      - "شغل جميع الأضواء في كل الغرف"
+      - "شغل في كل مكان الأضواء"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+    response: "تم تشغيل جميع الأضواء"
+
+  # Turn on lights in the same area as a satellite device
+  - sentences:
+      - "شغل جميع الأضواء هون"
+      - "شغل كل الأضواء هون"
+    intent:
+      name: HassTurnOn
+      context:
+        area: Living Room
+      slots:
+        domain: light
+        area: Living Room
+    response: "تم تشغيل الأضواء"
+
+  # Turn on all lights on a floor
+  - sentences:
+      - "شغل جميع الأضواء في الطابق الأول"
+      - "شغل جميع الأضواء الطابق الأول"
+      - "شغل جميع أضواء الطابق الأول"
+      - "شغل أضواء الطابق الأول"
+      - "فعل جميع أضواء الطابق الأول"
+      - "فعل جميع الأضواء في الطابق الأول"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        floor: الطابق الأول
+    response: "تم تشغيل الأضواء"

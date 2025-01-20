@@ -99,6 +99,21 @@ lists:
         out: fan
       - in: vypínač[e|ov]
         out: switch
+  # binary_sensor
+  bs_classes:
+    values:
+      - in: "dver(e|í)"
+        out: door
+      - in: "(garážov(é|ých) dver(e|í)|garáž)"
+        out: garage_door
+      - in: "ok[ie]n[(o|a|á)]"
+        out: window
+  bs_states:
+    values:
+      - in: "otvoren(ý|á|é|ých)"
+        out: "on"
+      - in: "zatvoren(é|á|ý|ých)"
+        out: "off"
   position:
     range:
       type: "percentage"
@@ -111,15 +126,42 @@ lists:
       to: 100
   shopping_list_item:
     wildcard: true
+  # Timers
+  timer_range:
+    range:
+      from: 1
+      to: 100
+  timer_range_fonetic:
+    values:
+      - in: "jedno|minút(u|ový)|hodin(u|ový)"
+        out: 1
+      - in: "dvoj"
+        out: 2
+      - in: "troj"
+        out: 3
+      - in: "štvor"
+        out: 4
+  timer_parts:
+    values:
+      - in: "pol"
+        out: 30
+      - in: "štvrť"
+        out: 15
+      - in: "trištvrte"
+        out: 45
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
 expansion_rules:
+  in: "(v|vo|na)"
   name: "{name}"
-  area: "{area}"
+  area: "[<in> ]{area}"
   what_is: "((ak(á|é|ý|o)[ je])|je)"
   is: "(je|sú)"
   any: "nejak(ý|á|é)"
   all: "(všetk(y)|každ(ý|á|é))"
   which: "ktor(ý|í|á|é|ú)"
-  in: "(v|vo)"
   how_many: "koľko[ je]"
   brightness: "{brightness}[%| percent]"
   temp: "teplot(a|u)"
@@ -133,5 +175,27 @@ expansion_rules:
   close: "(zatvor[iť]|zavri[eť]|zatvor[iť]|zastri[eť]|(s|za)tiahn(i|uť))"
   position: "{position}[[ ]%| percent]"
   volume: "{volume:volume_level}[[ ]%| percent]"
+  # Timers
+  timer_set: "nasta(v[te|iť]|l)"
+  timer_cancel: "(zruš[í|te|iť]|zastav(í|te|iť))"
+  timer_type: "(časovač[e]|stopky)"
+  timer_unit_second: "sek(únd|(und(a|u|y|ov(ý|é|ej))))"
+  timer_unit_minute: "minút[a|u|y|ov(ý|é|ej)]"
+  timer_unit_hour: "hod(ín|(in(a|u|y|ov(ý|é|ej))))"
+  timer_value_second: ({timer_range:seconds}|{timer_range_fonetic:seconds})
+  timer_value_minute: ({timer_range:minutes}|{timer_range_fonetic:minutes})
+  timer_value_hour: ({timer_range:hours}|{timer_range_fonetic:hours})
+  timer_duration_seconds: "<timer_value_second> <timer_unit_second>"
+  timer_duration_minutes: "(<timer_value_minute> <timer_unit_minute> [[a] <timer_value_second> <timer_unit_second>])|([<timer_value_minute> a ]{timer_parts:seconds} <timer_unit_minute>)|({timer_range_fonetic:minutes} [a {timer_parts:seconds}])"
+  timer_duration_hours: "(<timer_value_hour> <timer_unit_hour> [[a] <timer_value_minute> <timer_unit_minute>] [[a] <timer_value_second> <timer_unit_second>])|([<timer_value_hour> a ]{timer_parts:minutes} <timer_unit_hour>)|({timer_range_fonetic:hours} [a {timer_parts:minutes}])"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_value_start_second: ({timer_range:start_seconds}|{timer_range_fonetic:start_seconds})
+  timer_value_start_minute: ({timer_range:start_minutes}|{timer_range_fonetic:start_minutes})
+  timer_value_start_hour: ({timer_range:start_hours}|{timer_range_fonetic:start_hours})
+  timer_start_seconds: "<timer_value_start_second> <timer_unit_second>"
+  timer_start_minutes: "(<timer_value_start_minute> <timer_unit_minute> [[a] <timer_value_start_second> <timer_unit_second>])|([<timer_value_start_minute> a ]{timer_parts:start_seconds} <timer_unit_minute>)|({timer_range_fonetic:start_minutes} [a {timer_parts:start_seconds}])"
+  timer_start_hours: "(<timer_value_start_hour> <timer_unit_hour> [[a] <timer_value_start_minute> <timer_unit_minute>] [[a] <timer_value_start_second> <timer_unit_second>])|([<timer_value_start_hour> a ]{timer_parts:start_minutes} <timer_unit_hour>)|({timer_range_fonetic:start_hours} [a {timer_parts:start_minutes}])"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 skip_words:
   - "prosím"

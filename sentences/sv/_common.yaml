@@ -6,25 +6,36 @@ responses:
     handle_error: "Ett oväntat fel inträffade under utförandet av avsikten"
 
     # Errors for when user is not logged in
-    no_area: "Inget område med namnet {{ area }} kunde hittas"
-    no_domain: "Ingen enhet av typen {{ domain}} kunde hittas"
+    no_area: "Inget område som heter {{ area }} kunde hittas"
+    no_floor: "Inget våningsplan som heter {{ floor }} kunde hittas"
+    no_domain: "Ingen enhet av typen {{ domain }} kunde hittas"
     no_domain_in_area: "{{ area }} har inga {{ domain }}"
+    no_domain_in_floor: "{{ floor }} har inga {{ domain }}"
     no_device_class: "Ingen enhet som klassas som {{ device_class }} kunde hittas"
     no_device_class_in_area: "{{ area }} har ingen {{ device_class }}"
+    no_device_class_in_floor: "{{ floor }} har ingen {{ device_class }}"
     no_entity: "Det finns ingen enhet eller entitet som heter {{ entity }}"
-    no_entity_in_area: "{{ area }} har ingen enhet som heter {{ entity }}"
+    no_entity_in_area: "{{ area }} har ingen enhet eller entitet som heter {{ entity }}"
+    no_entity_in_floor: "{{ floor }} har ingen enhet eller entitet som heter {{ entity }}"
+    entity_wrong_state: "Det finns ingen enhet som är {{ state | lower }}"
+    feature_not_supported: "Det finns ingen enhet som har stöd för den här funktionen"
 
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "{{ entity }} är inte exponerad"
     no_entity_in_area_exposed: "{{ entity }} i {{ area }} är inte exponerad"
+    no_entity_in_floor_exposed: "{{ entity }} på {{ floor }} är inte exponerad"
     no_domain_exposed: "Ingen {{ domain }} är exponerad"
     no_domain_in_area_exposed: "Ingen {{ domain }} är exponerad i {{ area }}"
+    no_domain_in_floor_exposed: "Ingen {{ domain }} är exponerad på {{ floor }}"
     no_device_class_exposed: "Ingen {{ device_class }} enhet är exponerad"
     no_device_class_in_area_exposed: "Ingen {{ device_class }} enhet i {{ area }} är exponerad"
+    no_device_class_in_floor_exposed: "Ingen {{ device_class }} enhet på {{ floor }} är exponerad"
 
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Det finns flera enheter med namnet {{ entity }}"
     duplicate_entities_in_area: "Det finns flera enheter med namnet {{ entity }} i {{ area }}"
+    duplicate_entities_in_floor: "Det finns flera enheter med namnet {{ entity }} på {{ floor }}"
+
     # Errors for timers
     timer_not_found: "Jag kan inte hitta den timern"
     multiple_timers_matched: "Jag kan inte kontrollera flera timers samtidigt"
@@ -66,6 +77,12 @@ lists:
         out: 100
       - in: <minimal>
         out: 1
+  lock_states:
+    values:
+      - in: "[säkert ]låst"
+        out: "locked"
+      - in: "upplåst"
+        out: "unlocked"
   on_off_states:
     values:
       - in: "på|igång|tända|tänd|påslagna"
@@ -160,7 +177,7 @@ lists:
 
   bs_light_states:
     values:
-      - in: "detektera(r|d)|aktiverad"
+      - in: "detektera(r|d)|aktivera(d|t)"
         out: "on"
       - in: "Inget ljus"
         out: "off"
@@ -287,6 +304,9 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  zone:
+    wildcard: true
+
   volume:
     range:
       type: "percentage"
@@ -321,12 +341,16 @@ lists:
   timer_command:
     wildcard: true
 
+  response:
+    wildcard: true
+
 expansion_rules:
   name: "{name}[s|n|ns|en]"
   area: "{area}[e|me][t|n][s]"
   vad: "(vad är | vad är det | vad är det för | vilken)"
+  var: "(var | var är | vart | vart är)"
   är: "(är det | är)"
-  brightness: "{brightness}[%| percent]"
+  brightness: "{brightness}[%| procent]"
   slå_på: "(tänd | sätt (på | igång | fart på) | slå (på | till) | starta)"
   slå_av: "(slå (av | från | ifrån) | släck | stäng [av] | stoppa)"
   i_på: "(i | på | vid | bredvid)"
@@ -335,6 +359,7 @@ expansion_rules:
   alla: "(all | alla | allt)"
   ljusintensitet: "(ljusstyrka | intensitet | styrka | nivå | effekt)"
   ljuskällor: "(ljuskällor[na]|ljus[en|et]|[glöd|led|diod]lamp[a|an|or|orna]|lysrör[en|et]|belysning[en])"
+  låsbar: "(lås[en]|dörr[ar|en|arna]|fönster|grind[ar|en|arna]|garagedörr[ar|en|arna])"
   dimra: "(ändra | sätt | vrid | dra [på] | skruva [på] | dimra | dimma | ställ [in] | höj | sänk)"
   möjliga: "(möjlig[a] | tillgänglig[a])"
   maximal: "(maximal | max[imum] | högsta | starkaste | intensivaste | full[t])"
@@ -346,6 +371,7 @@ expansion_rules:
   temperature: "{temperature}[°| grader] [{temperature_unit}]"
   färga: "(färga | ändra | byt)"
   volym: "{volume:volume_level}[[ ]%| procent]"
+  hemma: "(hemma|hus|huset|lägenhet|lägenheten|hemmet|hem)"
   # Timers
   timer: "(timer[n]|äggklocka[n]|tidur[et])"
   timers: "(timer[s]|äggklock(a|or)|tidur[en])"

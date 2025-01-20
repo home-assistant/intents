@@ -1,27 +1,34 @@
 language: de
+floors:
+  - name: "Erdgeschoss"
+    id: ground_floor_id
+  - name: "Obergeschoss"
+    id: upstairs_id
+  - name: "Keller"
+    id: basement_id
 areas:
   - name: Küche
     id: kitchen
-    floor: "Erdgeschoss"
+    floor: ground_floor_id
   - name: Flur
     id: corridor
-    floor: "Erdgeschoss"
+    floor: ground_floor_id
   - name: Wohnzimmer
     id: living_room
-    floor: "Erdgeschoss"
+    floor: ground_floor_id
   - name: Schlafzimmer
     id: bedroom
-    floor: "Obergeschoss"
+    floor: upstairs_id
   - name: Garage
     id: garage
   - name: Garten
     id: garden
   - name: Eingang
     id: entrance
-    floor: "Erdgeschoss"
+    floor: ground_floor_id
   - name: Büro
     id: office
-    floor: "Keller"
+    floor: basement_id
   - name: Auffahrt
     id: driveway
 entities:
@@ -93,10 +100,17 @@ entities:
     attributes:
       device_class: blind
       position: "0"
+  - name: "Rollladen links"
+    id: "cover.wohnzimmer_rollladen_links"
+    area: living_room
+    state: closed
+    attributes:
+      device_class: shutter
+      position: "0"
   - name: "Außentemperatur"
     id: "sensor.outside_temperature"
     area: "garage"
-    state: "21"
+    state: "21.47"
     attributes:
       unit_of_measurement: "°C"
   - name: "Haustür"
@@ -276,6 +290,16 @@ entities:
   - name: "Rover"
     id: "vacuum.rover"
     state: "idle"
+
+  - name: "Thomas"
+    id: "person.thomas"
+    state: "Zuhause"
+  - name: "Madlen"
+    id: "person.madlen"
+    state: "Arbeit"
+  - name: "Felix"
+    id: "person.felix"
+    state: "not_home"
 
 timers:
   - is_active: false

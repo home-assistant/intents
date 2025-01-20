@@ -1,6 +1,86 @@
 language: eu
 tests:
-  - sentences: []
+  - sentences:
+      - "zein da kanpoko tenperatura?"
+      - "zein da uneko kanpoko tenperaturaren balioa?"
+      - "ba ahal dakizu momentu honetako kanpoko tenperaturaren balioa?"
     intent:
       name: HassGetState
-      slots: {}
+      slots:
+        name: "Kanpoko tenperatura"
+    response: "Kanpoko tenperatura gailuaren egoera 28 °C da"
+
+  - sentences:
+      - "Logelako lanpara piztuta ahal dago?"
+      - "Logelako lanpara piztuta dago?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Logelako lanpara"
+        state: "on"
+    response: "Ez, itzalita dago"
+
+  - sentences:
+      - "ba al dago etengailurik piztuta sukaldean?"
+      - "ba dakizu etengailurik piztuta badagoen sukaldean?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Sukaldea"
+        domain: "switch"
+        state: "on"
+    response: "Bai, Sukaldeko etengailua"
+
+  - sentences:
+      - "ba ahal dago etengailurik piztuta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Bai, Sukaldeko etengailua"
+
+  - sentences:
+      - "argi guztiak itzalita daude?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Ez, Egongelako lanpara, Garajeko argia, Jolas tokia eta beste 3 ere ez"
+
+  - sentences:
+      - "argi guztiak piztuta daude sukaldean?"
+      - "argi guztiak piztuta ahal daude sukaldean?"
+      - "sukaldean argi guztiak piztuta daude?"
+      - "sukaldean argi guztiak piztuta al daude?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+        area: "Sukaldea"
+    response: "Bai"
+
+  - sentences:
+      - "ba al dakizu zein argi dauden piztuta?"
+      - "ba al dakizu zein argi dagoen piztuta?"
+      - "zein argi daude piztuta?"
+      - "zein argi dago piztuta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Egongelako lanpara, Garajeko argia, Jolas tokia eta beste 3 gehiago"
+
+  - sentences:
+      - "esaidazu zenbat argi dauden piztuta"
+      - "esan zenbat argi dauden piztuta"
+      - "zenbat argi daude piztuta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "6"

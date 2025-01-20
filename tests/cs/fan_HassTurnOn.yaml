@@ -1,9 +1,9 @@
 language: cs
 tests:
   - sentences:
-      - zapni všechny ventilátory v kuchyni
+      - zapnout všechny ventilátory kuchyně
       - zapni všechny větráky v kuchyni
-      - zapni ventilátory v kuchyni
+      - zapni stropní ventilátory v kuchyni
       - v kuchyni zapni ventilátory
     intent:
       name: HassTurnOn
@@ -14,12 +14,12 @@ tests:
           - Kuchyně
         domain: fan
         name: all
-    response:
-      - Větráky zapnuty
+    response: Větráky zapnuty
+
   - sentences:
-      - zapni ventilátor v kuchyni
+      - zapnout ventilátor kuchyně
       - v kuchyni zapni ventilátor
-      - zapni větrák v kuchyni
+      - zapni stropní větrák v kuchyni
       - v kuchyni zapni větrák
     intent:
       name: HassTurnOn
@@ -29,4 +29,32 @@ tests:
           - Kuchyni
           - Kuchyně
         domain: fan
+    response: Větrák zapnut
+
+  - sentences:
+      - "zapnout větráky"
+      - "zapni všechny stropní ventilátory v této místnosti"
+      - "zapni tady ventilátory"
+      - "zapnout všechny větráky zde"
+    intent:
+      name: HassTurnOn
+      context:
+        area: Kuchyně
+      slots:
+        domain: fan
+        area: Kuchyně
+    response: Větráky zapnuty
+
+  - sentences:
+      - "zapnout větrák"
+      - "zapni stropní ventilátor v této místnosti"
+      - "zapni tady ventilátor"
+      - "zapnout stropní ventilátor v tomto pokoji"
+    intent:
+      name: HassTurnOn
+      context:
+        area: Kuchyně
+      slots:
+        domain: fan
+        area: Kuchyně
     response: Větrák zapnut

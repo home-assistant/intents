@@ -3,10 +3,13 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <turn_on> <name>[ [v|vo|na|pred|za|pod|pred] {area}]
-      - sentences:
-          - <open> {name}
-        response: cover
-      - sentences:
-          - <open> {name} [v|vo|na|pred|za|pod|pred] {area}
-        response: cover_area
+          - <turn_on> <name>[ <area>]
+        excludes_context:
+          domain:
+            - binary_sensor
+            - cover
+            - lock
+            - scene
+            - script
+            - sensor
+            - valve

@@ -138,23 +138,67 @@ lists:
       from: 0
       to: 100
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "[e ]haub[i]"
+        out: 30
+      - in: "1/2"
+        out: 30
+      - in: "0(.|,)5"
+        out: 30
+  timer_quarter:
+    values:
+      - in: "viertu"
+        out: 15
+      - in: "1/4"
+        out: 15
+      - in: "0(.|,)25"
+        out: 15
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
-  name: "[(d'[ ]|d |de |dr |der |die |ds |s )]{name}"
-  area: "[(idr|i dr|im|ir|ide|idä|i dä|i de|i dr|i der)] {area}"
-  a_y: "(a|aa|y|yy|ii|ih)"
   ab_us: "(ab|us|uus|uis)"
-  cover: "[(d'[' ']|d |alli |aui )]([Sunne]s[ch]tore|Vorhang|Vorhäng|Tür[e]|Tor|Abdeckig[e]|Fänschter[l(a|ä)de])"
-  what_is: "(was isch|wasch)"
+  area: "[(idr|i dr|im|ir|ide|idä|i dä|i de|i dr|i der) ]{area}"
+  a_y: "(a|aa|y|yy|ii|ih)"
   brightness: "{brightness}[(%| %| Proz(e|ä)nt)]"
-  position: "{position}[[ ]%| %| Proz(e|ä)nt]"
-  temp: "{temperature} [Grad] [{temperature_unit}]"
-  #schliessen: "(tue {name} (zue|abe)|mach {name} (zue|abe)|schliess {name})"
-  steu: "(Scha(l|u)t|S[ch]te(ll|u)|Mach)"
-  mach: "(mach|tue|la[s])"
+  cover: "[(d'[' ']|d |alli |aui )]([Sunne]s[ch]tore|Vorhang|Vorhäng|Tür[e]|Tor|Abdeckig[e]|Fänschter[l(a|ä)de])"
+  Geräte: "([(d'[ ]|d |alli |aui )](Grät|Entitäte|Entitätä))"
   Liechter: "([(d'[ ]|d |alli |aui )]Liechter|[(d'[ ]|d |alli |aui )]Lampä|[(d'[ ]|d |alli |aui )]Lampe|[(d'[ ]|d |alli |aui )]Lampäne)"
   Liecht: "([(ds|s)] Liecht|[(d |d'[ ])]Lampe|[(d |d'[ ])]Lampä)"
-  Geräte: "([(d'[ ]|d |alli |aui )](Grät|Entitäte|Entitätä))"
+  mach: "(mach|tue|la[s])"
+  name: "[(d'[ ]|d |de |dr |der |die |ds |s )]{name}"
+  position: "{position}[[ ]%| %| Proz(e|ä)nt]"
+  steu: "(Scha(l|u)t|S[ch]te(ll|u)|Mach)"
+  temp: "{temperature} [Grad] [{temperature_unit}]"
+  what_is: "(was isch|wasch)"
   volume: "{volume:volume_level}[[ ]%| %| Proz(e|ä)nt]"
+
+  # Timers
+  timer: "(Timer|Wecker|S[ch]top[p]uhr)"
+  timer_duration_seconds: "{timer_seconds:seconds} Sekunde"
+  timer_duration_minutes: "(({timer_minutes:minutes} Minute[ u[nd] {timer_seconds:seconds} Sekunde])|({timer_minutes:minutes} [u[nd]][ (e|ei)] {timer_half:seconds} Minute)|([(E|Ei)] {timer_half:seconds} Minute))"
+  timer_duration_hours: "({timer_hours:hours} S[ch]tu(nd[e]|ng)[ [u[nd] ]{timer_minutes:minutes} Minute][ [u[nd] ]{timer_seconds:seconds} Sekunde])|({timer_hours:hours} [u[nd]][ e] {timer_half:minutes} S[ch]tu(nd[e]|ng))|([(E|Ei)] {timer_half:minutes} S[ch]tu(nd[e]|ng))"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} Sekunde"
+  timer_start_minutes: "{timer_minutes:start_minutes} Minute[ [u[nd] ]{timer_seconds:start_seconds} Sekunde]"
+  timer_start_hours: "{timer_hours:start_hours} S[ch]tu(nd[e]|ng)[ [u[nd] ]{timer_minutes:start_minutes} minute[s]][ [u[nd] ]{timer_seconds:start_seconds} Sekunde]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - "bitte"

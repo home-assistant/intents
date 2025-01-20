@@ -1,0 +1,142 @@
+---
+language: uk
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Таймерів немає.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Таймер на паузі.
+          {% else: %}
+          {% if num_paused_timers % 10 == 1 and num_paused_timers % 100 != 11: %}
+            {{ num_paused_timers }} таймер на паузі.
+          {% elif num_paused_timers % 10 in [2, 3, 4] and not (num_paused_timers % 100 in [12, 13, 14]): %}
+            {{ num_paused_timers }} таймери на паузі.
+          {% else: %}
+            {{ num_paused_timers }} таймерів на паузі.
+          {% endif %}
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {% if num_active_timers % 10 == 1 and num_active_timers % 100 != 11: %}
+              {{ num_active_timers }} активний таймер.
+            {% elif num_active_timers % 10 in [2, 3, 4] and not (num_active_timers % 100 in [12, 13, 14]): %}
+              {{ num_active_timers }} активні таймери.
+            {% else: %}
+              {{ num_active_timers }} активних таймерів.
+            {% endif %}
+          {% endif %}
+
+          {% if num_paused_timers > 0: %}
+            {% if num_paused_timers % 10 == 1 and num_paused_timers % 100 != 11: %}
+              {{ num_paused_timers }} таймер на паузі.
+            {% elif num_paused_timers % 10 in [2, 3, 4] and not (num_paused_timers % 100 in [12, 13, 14]): %}
+              {{ num_paused_timers }} таймери на паузі.
+            {% else: %}
+              {{ num_paused_timers }} таймерів на паузі.
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 година та {{ next_timer.rounded_minutes_left }} хвилин
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 година
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} годин та {{ next_timer.rounded_minutes_left }} хвилин
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {% if next_timer.rounded_hours_left % 10 == 1 and next_timer.rounded_hours_left % 100 != 11: %}
+              {{ next_timer.rounded_hours_left }} година
+            {% elif next_timer.rounded_hours_left % 10 in [2, 3, 4] and not (next_timer.rounded_hours_left % 100 in [12, 13, 14]): %}
+              {{ next_timer.rounded_hours_left }} години
+            {% else: %}
+              {{ next_timer.rounded_hours_left }} годин
+            {% endif %}
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 хвилина {{ next_timer.rounded_seconds_left }} секунд
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 хвилина
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} хвилин та {{ next_timer.rounded_seconds_left }} сеунд
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {% if next_timer.rounded_minutes_left % 10 == 1 and next_timer.rounded_minutes_left % 100 != 11: %}
+              {{ next_timer.rounded_minutes_left }} хвилина
+            {% elif next_timer.rounded_minutes_left % 10 in [2, 3, 4] and not (next_timer.rounded_minutes_left % 100 in [12, 13, 14]): %}
+              {{ next_timer.rounded_minutes_left }} хвилини
+            {% else: %}
+              {{ next_timer.rounded_minutes_left }} хвилин
+            {% endif %}
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 секунда
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {% if next_timer.rounded_seconds_left % 10 == 1 and next_timer.rounded_seconds_left % 100 != 11: %}
+              {{ next_timer.rounded_seconds_left }} секунда
+            {% elif next_timer.rounded_seconds_left % 10 in [2, 3, 4] and not (next_timer.rounded_seconds_left % 100 in [12, 13, 14]): %}
+              {{ next_timer.rounded_seconds_left }} секунди
+            {% else: %}
+              {{ next_timer.rounded_seconds_left }} секунд
+            {% endif %}
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            залишилось на таймері
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} годин та {{ next_timer.start_minutes }} хвилин
+            {% elif (next_timer.start_hours > 0): %}
+              {% if next_timer.start_hours % 10 == 1 and next_timer.start_hours % 100 != 11: %}
+                {{ next_timer.start_hours }} година
+              {% elif next_timer.start_hours % 10 in [2, 3, 4] and not (next_timer.start_hours % 100 in [12, 13, 14]): %}
+                {{ next_timer.start_hours }} години
+              {% else: %}
+                {{ next_timer.start_hours }} годин
+              {% endif %}
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} хвилин та {{ next_timer.start_seconds }} секунд
+            {% elif (next_timer.start_minutes > 0): %}
+              {% if next_timer.start_minutes % 10 == 1 and next_timer.start_minutes % 100 != 11: %}
+                {{ next_timer.start_minutes }} хвилина
+              {% elif next_timer.start_minutes % 10 in [2, 3, 4] and not (next_timer.start_minutes % 100 in [12, 13, 14]): %}
+                {{ next_timer.start_minutes }} хвилини
+              {% else: %}
+                {{ next_timer.start_minutes }} хвилин
+              {% endif %}
+            {% elif (next_timer.start_seconds > 0): %}
+              {% if next_timer.start_seconds % 10 == 1 and next_timer.start_seconds % 100 != 11: %}
+                {{ next_timer.start_seconds }} секунда
+              {% elif next_timer.start_seconds % 10 in [2, 3, 4] and not (next_timer.start_seconds % 100 in [12, 13, 14]): %}
+                {{ next_timer.start_seconds }} секунди
+              {% else: %}
+                {{ next_timer.start_seconds }} секунд
+              {% endif %}
+            {% endif %}
+
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              в приміщенні {{ next_timer.area }}
+            {% endif %}
+
+          {% else: %}
+            залишилось.
+          {% endif %}
+        {% endif %}

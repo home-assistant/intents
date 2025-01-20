@@ -2,72 +2,80 @@ language: "en"
 intents:
   HassTurnOff:
     data:
+      # Turn off a specific light
       - sentences:
-          - "<turn> off (<area> <name> <light_devices>|<name> <light_devices> [in <area>])"
-          - "[<turn>] (<area> <name> <light_devices>|<name> <light_devices> [in <area>]) [to] off"
-          - "deactivate (<area> <name> <light_devices>|<name> <light_devices> [in <area>])"
-        expansion_rules:
-          light_devices: "(light[s]|[light] switch[es])"
+          - "<turn> off <area_floor> <name> <light>"
+          - "<turn> off <name> <light> [<in_area_floor>]"
+          - "[<turn>] <area_floor> <name> <light> [to] off"
+          - "[<turn>] <name> <light> [<in_area_floor>] [to] off"
+          - "deactivate <area_floor> <name> <light>"
+          - "deactivate <name> <light> [<in_area_floor>]"
         requires_context:
           domain: "light"
+
+      # Turn off all lights in an area
       - sentences:
-          - "<turn> off [all] <light> in <area>"
-          - "<turn> off [all] <area> <light>"
-          - "[<turn>] [all] <area> <light> off"
-          - "[<turn>] [all] <light> [in] <area> off"
-          - "deactivate [all] <light> [in] <area>"
-          - "deactivate [all] <area> <light>"
-          - "<light> (off|out) in <area>"
           - "<area> <light> (off|out)"
+          - "<light> (off|out) [<in>] <area>"
+          - "<turn> (off|out) [<all>] <area> <light>"
+          - "<turn> (off|out) [(<all>|<the>)] <light> <in> <area>"
+          - "[<turn>] [<all>] <area> <light> (off|out)"
+          - "[<turn>] [(<all>|<the>)] <light> <in> <area> (off|out)"
+          - "[<turn>] [(<all>|<the>)] <light> (off|out) <in> <area>"
+          - "deactivate [<all>] <area> <light>"
+          - "deactivate [(<all>|<the>)] <light> <in> <area>"
         slots:
           domain: "light"
         response: "lights_area"
 
+      # Turn off all lights on a floor
+      - sentences:
+          - "<floor> <light> (off|out)"
+          - "<light> (off|out) [<in>] <floor>"
+          - "<turn> (off|out) [<all>] <floor> <light>"
+          - "<turn> (off|out) [(<all>|<the>)] <light> [<in>] <floor>"
+          - "[<turn>] [<all>] <floor> <light> (off|out)"
+          - "[<turn>] [(<all>|<the>)] <light> [<in>] <floor> (off|out)"
+          - "[<turn>] [(<all>|<the>)] <light> (off|out) [<in>] <floor>"
+          - "deactivate [<all>] <floor> <light>"
+          - "deactivate [(<all>|<the>)] <light> [<in>] <floor>"
+        response: "lights_floor"
+        slots:
+          domain: "light"
+
       # Turn off all lights in the home
       - sentences:
-          - "<turn> <all> <light> off <everywhere>"
-          - "<turn> off <all> <light> <everywhere>"
-          - "deactivate <all> <light> <everywhere>"
-          - "<turn> <light> off <everywhere>"
-          - "<turn> off <light> <everywhere>"
-          - "deactivate <light> <everywhere>"
-          - "<turn> <all> <light> off"
-          - "<turn> off <all> <light>"
-          - "deactivate <all> <light>"
+          - "<turn> <all> <light> (off|out) [<everywhere>]"
+          - "<turn> [<the>] <light> (off|out) <everywhere>"
+          - "<turn> (off|out) <all> <light> [<everywhere>]"
+          - "<turn> (off|out) [<the>] <light> <everywhere>"
+          - "<turn> (off|out) [<all>] [the] <home> <light> <everywhere>"
+          - "deactivate <all> <light> [<everywhere>]"
+          - "deactivate [<the>] <light> <everywhere>"
+          - "get every <light> (off|out) [<everywhere>]"
+          - "make sure <all> <light> <is> (off|out)"
         response: "light_all"
         slots:
           domain: "light"
 
       # Turn off lights in the same area as a satellite device
       - sentences:
-          - "<turn> <all> <light> off <here>"
-          - "<turn> <light> off <here>"
-          - "<turn> <all> <light> <here> off"
-          - "<turn> <light> <here> off"
-          - "<turn> off <all> <light> <here>"
-          - "<turn> off <light> <here>"
-          - "deactivate <all> <light> <here>"
-          - "deactivate <light> <here>"
-          - "<turn> <light> off"
-          - "<turn> off <light>"
-          - "deactivate <light>"
-          - "<light> (off|out)"
+          # Explicit <here> optional all
+          - "<turn> [(<all>|<the>)] <light> (off|out) <here>"
+          - "<turn> [(<all>|<the>)] <light> <here> (off|out)"
+          - "<turn> (off|out) [(<all>|<the>)] <light> <here>"
+          - "deactivate [(<all>|<the>)] <light> <here>"
+          - "[<all>] [<the>] <light> (off|out) <here>"
+
+          # Implicit <here> no all
+          - "<turn> [<the>] <light> (off|out) [<here>]"
+          - "<turn> [<the>] <light> [<here>] (off|out)"
+          - "<turn> (off|out) [<the>] <light> [<here>]"
+          - "deactivate [<the>] <light> [<here>]"
+          - "<light> (off|out) [<here>]"
         response: "lights_area"
         slots:
           domain: "light"
         requires_context:
           area:
             slot: true
-
-      # Turn off all lights on a floor
-      - sentences:
-          - "<turn> off <all> <light> (on|in) <floor>"
-          - "<turn> off <all> <light> <floor>"
-          - "<turn> off <all> <floor> <light>"
-          - "<turn> <floor> <light> off"
-          - "<floor> <light> off"
-          - "deactivate <all> <floor> <light>"
-          - "deactivate <all> <light> (on|in) <floor>"
-        response: "lights_floor"
-        slots:
-          domain: "light"
