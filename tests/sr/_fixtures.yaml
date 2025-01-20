@@ -35,7 +35,7 @@ areas:
     id: wc
   - name: "степенице | степеништ(е|у)"
     id: staircase
-  - name: "Кухињ(а|и)|кухињск(е|а)"
+  - name: "кухињ(а|и|у|е|ску|ска|ске|ски|ског|ском)"
     id: kitchen
   - name: "дневн(а|ој) соб(а|и)"
     id: living_room
@@ -51,12 +51,25 @@ entities:
   - name: "(плафонски) вентилатор (на плафону)"
     id: fan.ceiling
     area: living_room
-  - name: "Велик(а|у) завес(а|у)"
+  - name: "лев(а|у) завес(а|у)"
     id: "cover.curtain_left"
     area: "living_room"
     state: "open"
     attributes:
       device_class: curtain
+  - name: "десн(а|у) завес(а|у)"
+    id: "cover.curtain_right"
+    area: "living_room"
+    state: "closed"
+    attributes:
+      device_class: curtain
+  - name: "завес(а|у) [за|у] спаваћ(у|ој) соб(у|и)"
+    id: "cover.bedroom"
+    area: "bedroom"
+    state: "closed"
+    attributes:
+      device_class: curtain
+      position: "0"
   - name: "Термостат"
     id: "climate.thermostat"
     area: living_room
@@ -100,7 +113,38 @@ entities:
   - name: "данас"
     id: "todo.today"
     state: ""
+  - name: "главн(и|ог) вентил[а]"
+    id: "valve.main_valve"
+    state: "open"
+    attributes:
+      position: "100"
+  - name: "TV"
+    id: "media_player.tv"
+    area: "living_room"
+    state: "idle"
+    attributes:
+      volume_level: "50"
   - name: "Roborock"
     id: "vacuum.roborock"
     area: "living_room"
     state: "idle"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0
