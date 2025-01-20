@@ -30,7 +30,7 @@ responses:
         {{ temperature_string }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get(state.state, state.state | string) }}
       wind: >
         {% set wind_bearing = state.attributes.get('wind_bearing') | float %}
-        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') | float %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') | float(none) %}
         {% set wind_speed = state.attributes.get('wind_speed') | float %}
         {% set wind_speed_unit = state.attributes.get('wind_speed_unit') %}
         {% set wind_bearing_text = '' %}
@@ -84,10 +84,11 @@ responses:
           {% set wind_report = wind_report + [', ' ~ (wind_gust_speed | string | replace('.', ',')) ~ ' ' ~ (wind_speed_unit if wind_speed_unit is not none else 'km/h') ~ ' sebességű széllökésekkel.'] %}
         {% endif %}
         {{ wind_report | join('') }}
+
       uv: >
-        {% set uv_index = state.attributes.get('uv_index') | float | round(0) | int %}
+        {% set uv_index = state.attributes.get('uv_index') %}
         {% if uv_index is not none %}
-          {% set uv_index = uv_index | round(0) %}
+          {% set uv_index = uv_index | float | round(0) | int %}
           {% set uv_category = '' %}
           {% if uv_index <= 2 %}
             {% set uv_category = ', ami alacsony sugárzási szint.' %}
@@ -104,6 +105,7 @@ responses:
         {% else %}
           Az UV sugárzási adatok nem elérhetők.
         {% endif %}
+
       detailed_weather: >
         {% set report = [] %}
         {% set temperature = state.attributes.get('temperature') | float %}
@@ -145,7 +147,7 @@ responses:
         {% endif %}
         {% set pressure = state.attributes.get('pressure') | float | round(0) | int %}
         {% if pressure is not none %}
-          {% set pressure = pressure %}        
+          {% set pressure = pressure %}
           {% set pressure_unit = state.attributes.get('pressure_unit', '') %}
           {% if pressure_unit == 'hPa' %}
             {% set pressure_unit = 'hektopaszkál' %}
@@ -175,7 +177,7 @@ responses:
           {% endif %}
           {% set report = report + [', a szél sebessége ' ~ (wind_speed | string | replace('.', ',')) ~ ' ' ~ wind_speed_unit ~ ' - ' ~ wind_speed_text] %}
         {% endif %}
-        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') | float %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') | float(none) %}
         {% if wind_gust_speed is not none %}
           {% set wind_speed_unit = state.attributes.get('wind_speed_unit', 'km/h') %}
           {% set report = report + [', ' ~ (wind_gust_speed | string | replace('.', ',')) ~ ' ' ~ wind_speed_unit  ~ ' sebességű széllökésekkel.'] %}
