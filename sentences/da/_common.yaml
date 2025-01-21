@@ -37,9 +37,9 @@ responses:
     duplicate_entities_in_floor: "Undskyld, er er flere enheder med navnet {{ entity }} på {{ floor }} etage"
 
     # Errors for timers / Fejl for nedtælling
-    timer_not_found: "Undskyld, den timer kunne jeg ikke finde"
-    multiple_timers_matched: "Undskyld, jeg kan ikke håndtere flere timer"
-    no_timer_support: "Undskyld, timer er ikk eunderstøttet på denne enhed"
+    timer_not_found: "Undskyld, den nedtælling kunne jeg ikke finde"
+    multiple_timers_matched: "Undskyld, jeg kan ikke håndtere flere nedtællinger"
+    no_timer_support: "Undskyld, nedtælling er ikke understøttet på denne enhed"
 
 lists:
   brightness:
@@ -304,8 +304,15 @@ lists:
         out: "on"
       - in: "lukket"
         out: "closed"
+
   shopping_list_item:
     wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
 
   timer_seconds:
     range:
@@ -358,6 +365,9 @@ expansion_rules:
   temperatur: "{temperature}[°| grader] [{temperature_unit}]"
   tænd: "tænd [for]"
   åbn: "(åben|åbn[e]) [for]"
+  sæt_numerisk_værdi: "(indstil|sæt|ændr|ændre|skru (op|ned)|forøg|formindsk)"
+  procent: "([ ]%| procent)"
+  position_pct: "{position}<procent>"
   nogen: "(nogen|nogle)"
   enhed: "enhed[(en|er|erne)]"
   hvor_mange: "hvor[ ]mange"
