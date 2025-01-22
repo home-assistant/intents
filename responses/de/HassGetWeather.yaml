@@ -3,22 +3,24 @@ responses:
   intents:
     HassGetWeather:
       default: >
-        {% set weather_condition = {
-          'clear': 'und klar',
-          'clear-night': 'und klare Nacht',
-          'cloudy': 'und bewölkt',
-          'exceptional': 'und außergewöhnlich',
-          'fog': 'mit Nebel',
-          'hail': 'mit Hagel',
-          'lightning': 'mit Gewitter',
-          'lightning-rainy': 'mit Gewitter und Regen',
-          'partlycloudy': 'und teilweise bewölkt',
-          'pouring': 'und strömender Regen',
-          'rainy': 'und regnerisch',
-          'snowy': 'und verschneit',
-          'snowy-rainy': 'mit Schnee und Regen',
-          'sunny': 'und sonnig',
-          'windy': 'und windig',
-          'windy-variant': 'mit Wind und Wolken'
+        {#
+          Note: The weather conditions in state.state have already been translated*, so we lowercase
+          most of them for correct spelling in the response. A dictionary is used for conditions that
+          must not be lowercased, require only partial lowercasing, or need to be transformed.
+
+          * This dictionary may become outdated and should be updated whenever there were changes for
+          weather conditions on lokalise.com. Translations for weather conditions are prefixed as follows:
+          component::weather::entity_component::_::state::<the-actual-condition>
+        #}
+        {% set non_lower_cased = {
+            'Klare Nacht': 'klare Nacht',
+            'Außergewöhnlich': 'außergewöhnliches Wetter',
+            'Nebel': 'Nebel',
+            'Hagel': 'Hagel',
+            'Gewitter': 'Gewitter',
+            'Gewitter, regnerisch': 'Gewitter, regnerisch',
+            'Strömender Regen': 'strömender Regen',
+            'Schneefall': 'Schneefall',
+            'Schneeregen': 'Schneeregen'
         } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {{ state.attributes.get('temperature') }}{{ state.attributes.get('temperature_unit') }} und {{ non_lower_cased.get(state.state) | default(state.state | lower, true) }}
