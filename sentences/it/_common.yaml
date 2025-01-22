@@ -6,7 +6,7 @@ responses:
     handle_error: "Si è verificato un errore inatteso durante l'elaborazione"
 
     # Errori per quando un utente non ha effettuato l'accesso
-    no_area: "Non conosco nessuna area chiamata {{ area }}"
+    no_area: "Mi dispiace, non conosco nessuna area chiamata {{ area }}"
     no_floor: "Mi dispiace, non conosco nessun piano chiamato {{ floor }}"
     no_domain: "Mi dispiace, non conosco nessun dispositivo appartenente al dominio {{ domain }}"
     no_domain_in_area: "Mi dispiace, nell'area {{ area }} non conosco nessun dispositivo appartenente al dominio {{ domain }}"
@@ -17,6 +17,8 @@ responses:
     no_entity: "Mi dispiace, non conosco nessun dispositivo chiamato {{ entity }}"
     no_entity_in_area: "Mi dispiace, nell'area {{ area }} non conosco nessun dispositivo chiamato {{ entity }}"
     no_entity_in_floor: "Mi dispiace, nel piano {{ floor }} non conosco nessun dispositivo chiamato {{ entity }}"
+    entity_wrong_state: "Mi dispiace, nessun dispositivo è nello stato {{ state | lower }}"
+    feature_not_supported: "Mi dispiace, nessun dispositivo supporta le funzionalità richieste"
 
     # Errori per quando un utente ha effettuato l'accesso ed è quindi possibile dare più informazioni
     no_entity_exposed: "Mi dispiace, il dispositivo {{ entity }} non è stato esposto"
@@ -388,7 +390,7 @@ lists:
 
 expansion_rules:
   # Parti del discorso
-  the: "(l(o |a |e )|i[l] |gli |l(`|’|')[ ]|in |a |(a|ne)(l |llo |lla |lle |ll(`|’|')[ ]|gli ))"
+  the: "(l(o |a |e )|i[l] |gli |l(`|’|')[ ])"
   in: "(all'interno |dentro |in | ne[l |i |gli |llo |lla |lle |ll(`|’|')[ ]])"
   "on": "su[l|lla]"
   of: "(de[l |llo |lla |lle |ll(`|’|')[ ]|i |gli ]|di )"
@@ -400,6 +402,8 @@ expansion_rules:
   where_is: "(dove è|dov'è|dov(`|’|')e(`|’|')|dove sono|dove si trova[no])"
   which: "(qual[e|i] sono | che)"
   how_many: "quant(i|e) [sono]"
+  hello: "(ciao|salve)"
+  my: "(il mio|i miei)"
 
   # Dispositivi
   all: "(tutt(o|e|i|a) [quant(i|e)] | ogni)"
@@ -421,12 +425,16 @@ expansion_rules:
   unlock: "(apri[re]|sblocca[re]|schiud(i|ere))"
   add: "(aggiung(i|ere)|inseri(sci|re))"
   put: "(mett(i|ere))"
+  ask: "(chieder(e|ti)|domandar(e|ti))"
+  clean: "(puli(re|sci) | aspir(a|are) | spazz(a|are) | lav(a|are))"
+  start: "(<turn_on> | [fa(`|’|'|i|re)] (partire))"
 
   # Posti, aree e luoghi
   in_here: "(qu(a|i)|in questa (stanza|camera))"
   home: "(casa|appartamento)"
-  area: "[<the>][area ]{area}"
-  floor: "[<the>][floor ]{floor}"
+  area: "[area ]{area}"
+  floor: "[floor ]{floor}"
+  everywhere: "(dappertutto|ovunque|[in] tutt(a|o) [<the>]<home>)"
 
   # Altro
   name: "[<the>]{name}"
@@ -435,6 +443,8 @@ expansion_rules:
   position: "{position}[[ ]<percent>]"
   volume: "{volume:volume_level}[[ ]<percent>]"
   percent: "(%|percento|per cento|su cento)"
+  made: "(fatto|costruito|prodotto|generato)"
+  created: "creato"
 
   # Stati
   triggered: "(rilevat|attiv[at])(o|a|e|i)"
@@ -445,7 +455,7 @@ expansion_rules:
 
   # Timers
   timer_set: "(avvia|imposta|crea|attiva)"
-  timer_cancel: "(cancella|stoppa|annulla|disattiva|arresta|ferma)"
+  timer_cancel: "(cancell(a|are)|stopp(a|are)|annull(a|are)|disattiv(a|are)|arrest(a|are)|ferm(a|are)|interromp(i|ere))"
 
   # mix numerical and literal value for seconds, minutes and hours for the setting of the duration of the timer
   nb_seconds_duration: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"

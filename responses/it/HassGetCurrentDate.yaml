@@ -1,0 +1,21 @@
+language: it
+responses:
+  intents:
+    HassGetCurrentDate:
+      default: >
+        {% set months = {
+           1: 'gennaio',
+           2: 'febbraio',
+           3: 'marzo',
+           4: 'aprile',
+           5: 'maggio',
+           6: 'giugno',
+           7: 'luglio',
+           8: 'agosto',
+           9: 'settembre',
+           10: 'ottobre',
+           11: 'novembre',
+           12: 'dicembre',
+        } %}
+        {% set weekday = [ 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato', 'domenica' ] %}
+        È {{ weekday[slots.date.weekday()] }}, {{slots.date.day}} {{ months[slots.date.month] }} {{ slots.date.year }}
