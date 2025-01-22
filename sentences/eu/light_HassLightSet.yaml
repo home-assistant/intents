@@ -3,42 +3,32 @@ intents:
   HassLightSet:
     data:
       # brightness
-      - sentences: []
-        #   - '[<zenbakia_ezarri>] {name}ren distira <distira>([e]ra|[e]an)'
-        #   - '[<zenbakia_ezarri>] distira {name}n <distira>[e]an'
-        #   - '[<zenbakia_ezarri>] {name} <distira>[e]ko [(distiran|distirarekin)]'
-        #   - '[<zenbakia_ezarri>] {name} <distira>([e]ra|[e]an)'
-        # response: 'brightness'
-        # requires_context:
-        #   domain: light
+      - sentences:
+          - "[<zenbakia_ezarri>] {name}ren distira <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] distira {name}n <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] {name} <distira>[e]ko [(distiran|distirarekin|distirara)]"
+          - "[<zenbakia_ezarri>] {name} <distira>([e]ra|[e]an)"
+        response: "brightness"
+        requires_context:
+          domain: light
 
-      # - sentences:
-      #     - '<zenbakia_ezarri> <name> <distira>'
-      #   requires_context:
-      #     domain: 'light'
-      #   response: 'brightness'
+      - sentences:
+          - "[<zenbakia_ezarri>] distira {area}n <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] {area}n distira <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] {area} <distira>[e]ko (distiran|distirarekin|distirara)"
+          - "[<zenbakia_ezarri>] {area} <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] argi(ak| guztiak) {area}n <distira>[e]ko (distiran|distirarekin|distirara)"
+        response: "brightness"
 
-      # - sentences:
-      #     - '[<zenbakia_ezarri>] distira <area> <distira>'
-      #     - '[<zenbakia_ezarri>] <area> distira <distira>'
-      #     - '[<zenbakia_ezarri>] <area> <distira> distira[(ra|ran)]'
-      #     - '[<zenbakia_ezarri>] <area> <distira>'
-      #     - '[<zenbakia_ezarri>] argi(ak| guztiak) <area> <distira> [distira[(ra|ran)]]'
-      #   response: 'brightness'
-
-      # - sentences:
-      #     - '<zenbakia_ezarri> <area> <distira>'
-      #   response: 'brightness'
-
-      # - sentences:
-      #     - '[<zenbakia_ezarri>] distira <distira>'
-      #     - '[<zenbakia_ezarri>] (<hemen>) distira <distira>'
-      #   expansion_rules:
-      #     hemen: '(hemen|hemengo)'
-      #   response: 'brightness'
-      #   requires_context:
-      #     area:
-      #       slot: true
+      - sentences:
+          - "[<zenbakia_ezarri>] distira <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] (<hemen>) distira <distira>([e]ra|[e]an)"
+        expansion_rules:
+          hemen: "(hemen|hemengo)"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
 
       # # Max/Min brightness
       # - sentences:
