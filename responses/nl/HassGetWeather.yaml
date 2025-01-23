@@ -3,22 +3,4 @@ responses:
   intents:
     HassGetWeather:
       default: >
-        {% set weather_condition = {
-          'clear': 'en helder',
-          'clear-night': 'en helder',
-          'cloudy': 'en bewolkt',
-          'exceptional': 'en extreem',
-          'fog': 'met mist',
-          'hail': 'met hagel',
-          'lightning': 'met onweer',
-          'lightning-rainy': 'met onweer en regen',
-          'partlycloudy': 'en gedeeltelijk bewolkt',
-          'pouring': 'met stortregen',
-          'rainy': 'met regen',
-          'snowy': 'met sneeuw',
-          'snowy-rainy': 'met sneeuw en regen',
-          'sunny': 'en zonnig',
-          'windy': 'met wind',
-          'windy-variant': 'met wind en bewolking'
-        } %}
-        {{ state.attributes.get('temperature') }} graden {{ weather_condition.get((state.state | string).lower(), "") }}
+        {{ state.attributes.get('temperature') }} graden en {{ state.state | lower }}

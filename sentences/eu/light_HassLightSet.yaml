@@ -1,5 +1,89 @@
-language: eu
+language: "eu"
 intents:
   HassLightSet:
     data:
-      - sentences: []
+      # brightness
+      - sentences:
+          - "[<zenbakia_ezarri>] {name}ren distira <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] distira {name}n <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] {name} <distira>[e]ko [(distiran|distirarekin|distirara)]"
+          - "[<zenbakia_ezarri>] {name} <distira>([e]ra|[e]an)"
+        response: "brightness"
+        requires_context:
+          domain: light
+
+      - sentences:
+          - "[<zenbakia_ezarri>] distira {area}n <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] {area}n distira <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] {area} <distira>[e]ko (distiran|distirarekin|distirara)"
+          - "[<zenbakia_ezarri>] {area} <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] argi(ak| guztiak) {area}n <distira>[e]ko (distiran|distirarekin|distirara)"
+        response: "brightness"
+
+      - sentences:
+          - "[<zenbakia_ezarri>] distira <distira>([e]ra|[e]an)"
+          - "[<zenbakia_ezarri>] (<hemen>) distira <distira>([e]ra|[e]an)"
+        expansion_rules:
+          hemen: "(hemen|hemengo)"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
+
+      # # Max/Min brightness
+      # - sentences:
+      #     - '[<numeric_value_set>] <name> brightness to [the] {brightness_level:brightness}'
+      #     - '[<numeric_value_set>] [the] brightness of <name> to [the] {brightness_level:brightness}'
+      #     - '[<numeric_value_set>] <name> [to] [the] {brightness_level:brightness} brightness'
+      #   requires_context:
+      #     domain: light
+      #   response: 'brightness'
+
+      # - sentences:
+      #     - '[<numeric_value_set>] [the] brightness in <area> to [the] {brightness_level:brightness}'
+      #     - '[<numeric_value_set>] [the] brightness of <area> to [the] {brightness_level:brightness}'
+      #     - '[<numeric_value_set>] <area> brightness to [the] {brightness_level:brightness}'
+      #     - '[<numeric_value_set>] <area> [to] [the] {brightness_level:brightness} brightness'
+      #   response: 'brightness'
+
+      # - sentences:
+      #     - '[<numeric_value_set>] [the] brightness to [the] {brightness_level:brightness}'
+      #     - '[<numeric_value_set>] [the] brightness (<in_here>;to [the] {brightness_level:brightness})'
+      #   expansion_rules:
+      #     in_here: '[in] here'
+      #   response: 'brightness'
+      #   requires_context:
+      #     area:
+      #       slot: true
+
+      # # Floor support for brightness
+      # - sentences:
+      #     - '[<numeric_value_set>] <floor> brightness [to] <brightness>'
+      #   response: 'brightness'
+
+      # # color
+      # - sentences:
+      #     - '[<set>] <name> [color] [to] {color}'
+      #     - '[<set>] [[the] color of] <name> to {color}'
+      #   requires_context:
+      #     domain: light
+      #   response: 'color'
+      # - sentences:
+      #     - '[<set>] [[the] color of] (<area> | [all [the]] lights in <area> | [all] <area> lights) [to] {color}'
+      #     - '[<set>] (<area> | [all] lights in <area> | [all] <area> lights) [color] [to] {color}'
+      #   response: 'color'
+
+      # - sentences:
+      #     - '[<set>] [[the] color of] [all] <light> [to] {color}'
+      #     - '[<set>] [[the] color of] [all] <light> (<in_here>;[to] {color})'
+      #   expansion_rules:
+      #     in_here: '[in] here'
+      #   response: 'color'
+      #   requires_context:
+      #     area:
+      #       slot: true
+
+      # # Floor support for color
+      # - sentences:
+      #     - '[<set>] <floor> [color] [to] {color}'
+      #   response: 'color'
