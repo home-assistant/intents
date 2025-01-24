@@ -3,22 +3,4 @@ responses:
   intents:
     HassGetWeather:
       default: >
-        {% set weather_condition = {
-          'clear': 'og klart',
-          'clear-night': 'og en klar nat',
-          'cloudy': 'og skyet',
-          'exceptional': 'og usædvanligt vejr',
-          'fog': 'med tåge',
-          'hail': 'med hagl',
-          'lightning': 'med torden',
-          'lightning-rainy': 'med regn og torden',
-          'partlycloudy': 'og delvist overskyet',
-          'pouring': 'og kraftig regn',
-          'rainy': 'og regn',
-          'snowy': 'og sne',
-          'snowy-rainy': 'og slud',
-          'sunny': 'og sol',
-          'windy': 'og blæsende',
-          'windy-variant': ', skyet og blæsende'
-        } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} og {{ state.state | lower }}
