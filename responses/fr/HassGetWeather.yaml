@@ -3,9 +3,24 @@ responses:
   intents:
     HassGetWeather:
       default: >
-        {# Reuse weather condition already formatted and translated #}
-        {# just invert telling the condition then temperature #}
-        {{ state.state }}
+        {% set weather_condition = {
+          'clear-night': 'Nuit dégagée',
+          'cloudy': 'Nuageux',
+          'exceptional': 'Conditions exceptionnelles',
+          'fog': 'Brouillard',
+          'hail': 'Grêle',
+          'lightning': 'Orageux',
+          'lightning-rainy': 'Orageux avec de la pluie',
+          'partlycloudy': 'Éclaircies',
+          'pouring': 'Averses',
+          'rainy': 'Pluvieux',
+          'snowy': 'Neigeux',
+          'snowy-rainy': 'Neigeux avec pluie mêlée',
+          'sunny': 'Ensoleillé',
+          'windy': 'Venteux',
+          'windy-variant': 'Venteux et nuageux',
+        } %}
+        {{ weather_condition.get(state.state | string, "") }}
 
         {% set temperature = state.attributes.get('temperature') %}
         {% if temperature is number %}
@@ -131,8 +146,24 @@ responses:
         {% endif %}
 
       detailed_weather: >
-        {# Reuse weather condition already formatted and translated #}
-        {{ state.state }}
+        {% set weather_condition = {
+          'clear-night': 'Nuit dégagée',
+          'cloudy': 'Nuageux',
+          'exceptional': 'Conditions exceptionnelles',
+          'fog': 'Brouillard',
+          'hail': 'Grêle',
+          'lightning': 'Orageux',
+          'lightning-rainy': 'Orageux avec de la pluie',
+          'partlycloudy': 'Éclaircies',
+          'pouring': 'Averses',
+          'rainy': 'Pluvieux',
+          'snowy': 'Neigeux',
+          'snowy-rainy': 'Neigeux avec pluie mêlée',
+          'sunny': 'Ensoleillé',
+          'windy': 'Venteux',
+          'windy-variant': 'Venteux et nuageux'
+        } %}
+        {{ weather_condition.get(state.state | string, "") }}
 
         {% set temperature = state.attributes.get('temperature') %}
         {% if temperature is number %}
