@@ -1,0 +1,49 @@
+language: cs
+tests:
+  - sentences:
+      - "odemkni vstupní dveře"
+      - "odemknout vstupní dveře"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: lock
+      slots:
+        name: vstupní dveře
+    response: Odemčeno
+
+  - sentences:
+      - "odemkni vstupní dveře v předsíni"
+    intent:
+      name: HassTurnOff
+      context:
+        domain: lock
+      slots:
+        name: vstupní dveře
+        area: Předsíni
+    response: Odemčeno
+
+  - sentences:
+      - "odemkni všechny zámky v kuchyni"
+      - "odemkni zámky v kuchyni"
+      - "odemkni zámek v kuchyni"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: lock
+        area:
+          - Kuchyni
+          - Kuchyňské
+        name: all
+    response: Odemčeno
+
+  - sentences:
+      - "odemkni tady všechny zámky"
+    intent:
+      name: HassTurnOff
+      context:
+        area: Předsíň
+      slots:
+        domain: lock
+        area: Předsíň
+        name: all
+    response: Odemčeno

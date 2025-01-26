@@ -1,0 +1,76 @@
+language: cs
+tests:
+  - sentences:
+      - "jsou vstupní dveře odemčené?"
+      - "jsou vstupní dveře odemknuty?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: vstupní dveře
+        state: unlocked
+    response: "Ne, zamčeno"
+
+  - sentences:
+      - "jaký stav mají vstupní dveře?"
+      - "jaký mají stav vstupní dveře?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: vstupní dveře
+    response: "Vstupní dveře je zamčeno"
+
+  - sentences:
+      - "jsou některé zámky zamknuté?"
+      - "jsou nějaké dveře zamčeny?"
+      - "jsou zamčený některé dveře?"
+      - "jsou zamknuty nějaké zámky?"
+      - "je nějaký zámek zamčený?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response: "Ano, vstupní dveře"
+
+  - sentences:
+      - "jsou některé dveře v předsíni zamčené?"
+      - "jsou nějaké zámky v předsíni zamknuté?"
+      - "jsou zamknuté některé dveře v předsíni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        area: Předsíni
+        state: locked
+    response: "Ano, vstupní dveře"
+
+  - sentences:
+      - "jsou všechny dveře zamknuté?"
+      - "jsou zamknuté všechny dveře?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response: "Ano"
+
+  - sentences:
+      - "jsou všechny dveře odemčené?"
+      - "jsou odemknutý všechny dveře?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response: "Ano"
+
+  - sentences:
+      - "které dveře jsou zamknuté?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response: "vstupní dveře"
