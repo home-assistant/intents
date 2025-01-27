@@ -1,17 +1,315 @@
 language: cs
 tests:
+  # Battery
+  - sentences:
+      - "je baterie zvonku nabitá?"
+      - "je baterie zvonku normální?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        name: "baterie zvonku"
+        state: "off"
+    response: "Ne"
+
+  - sentences:
+      - "je některá baterie vybitá?"
+      - "je nějaká baterie nízká?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "Ano, baterie zvonku"
+
+  - sentences:
+      - "jsou všechny baterie v předsíni nabité?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        area: "Předsíni"
+        state: "off"
+    response: "Ne, baterie zvonku není"
+
+  - sentences:
+      - "která baterie v předsíni je vybitá?"
+      - "které baterie v předsíni jsou nízké?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        area: "Předsíni"
+        state: "on"
+    response: "baterie zvonku"
+
+  - sentences:
+      - "kolik baterií je vybitých?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery
+        state: "on"
+    response: "1"
+
+  # Battery charging
+  - sentences:
+      - "je senzor nabíjení baterie vysavače ve stavu nabíjení"
+      - "nabíjí se baterie vysavače?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        name: "baterie vysavače"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "nabíjí se některá baterie?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "Ano, baterie vysavače"
+
+  - sentences:
+      - "nabíjí se všechny baterie v obýváku?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        area: "obýváku"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "vybíjí se všechny baterie?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "off"
+    response: "Ne, baterie vysavače není"
+
+  - sentences:
+      - "která baterie v obýváku se nabíjí?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        area: "obýváku"
+        state: "on"
+    response: "baterie vysavače"
+
+  - sentences:
+      - "kolik baterií se nabíjí?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: battery_charging
+        state: "on"
+    response: "1"
+
+  # Carbon monoxide
+  - sentences:
+      - "je hlásič CO ve stavu detekováno?"
+      - "je senzor oxidu uhelnatého hlásič CO ve stavu detekováno"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        name: "hlásič CO"
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "je některý senzor CO ve stavu čisto?"
+      - "jsou nějaké senzory oxidu uhelnatého ve stavu nedetekováno"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "off"
+    response: "Ano, hlásič CO"
+
+  - sentences:
+      - "je někde detekovaný oxid uhelnatý?"
+      - "je detekován oxid uhelnatý?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "jsou všechny senzory CO v ložnici ve stavu čisto?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        area: "Ložnici"
+        state: "off"
+    response: "Ano"
+
+  - sentences:
+      - "které senzory oxidu uhelnatého jsou ve stavu detekováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik senzorů CO je ve stavu detekováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: carbon_monoxide
+        state: "on"
+    response: "0"
+
+  # Cold
+  - sentences:
+      - "je terárium chladné?"
+      - "je senzor chladu terárium ve stavu chladno"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        name: "terárium"
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "je některý senzor chladu ve stavu chladno?"
+      - "jsou nějaké senzory chladu ve stavu chladný"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "jsou všechny senzory chladu v obýváku v pořádku?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        area: "obýváku"
+        state: "off"
+    response: "Ano"
+
+  - sentences:
+      - "které senzory chladu jsou ve stavu chladno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        state: "on"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik senzorů chladu je v pořádku?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: cold
+        state: "off"
+    response: "1"
+
+  # Connectivity
+  - sentences:
+      - "je síťový disk připojený?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        name: "síťový disk"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "je některé zařízení odpojené?"
+      - "je nějaké zařízení odpojeno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "off"
+    response: "Ne"
+
+  - sentences:
+      - "jsou všechna zařízení odpojená?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "off"
+    response: "Ne, síťový disk není"
+
+  - sentences:
+      - "která zařízení jsou odpojená?"
+      - "které zařízení je odpojené"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "off"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik zařízení je připojených?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: connectivity
+        state: "on"
+    response: "1"
+
   # Door
   - sentences:
       - "jsou dveře na zahradu otevřené?"
     intent:
       name: HassGetState
       slots:
-        domain: "binary_sensor"
-        device_class: "door"
+        domain: binary_sensor
+        device_class: door
         name: "dveře na zahradu"
         state: "on"
     response: "Ne"
 
+    # Garage door
   - sentences:
       - "jsou Garážová vrata zavřená?"
     intent:
@@ -23,9 +321,197 @@ tests:
         state: "off"
     response: "Ano"
 
+  # Gas
+  - sentences:
+      - "je únik plynu ve stavu detekováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        name: "únik plynu"
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "je některý senzor plynu ve stavu nezjištěno?"
+      - "jsou nějaké senzory plynu ve stavu nedetekováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "off"
+    response: "Ano, únik plynu"
+
+  - sentences:
+      - "je detekován plyn?"
+      - "je někde nějaký plyn?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "jsou všechny senzory plynu ve stavu nedetekováno?"
+      - "jsou všechny senzory plynu ve stavu nezjištěno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "off"
+    response: "Ano"
+
+  - sentences:
+      - "které senzory plynu jsou ve stavu nedetekováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "off"
+    response: "únik plynu"
+
+  - sentences:
+      - "kolik senzorů plynu je ve stavu detekováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: gas
+        state: "on"
+    response: "0"
+
+  # Heat
+  - sentences:
+      - "je server přehřátý?"
+      - "je senzor tepla server ve stavu přehřáto"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        name: "server"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "je některý senzor přehřátí ve stavu přehřáto?"
+      - "jsou nějaké senzory přehřátí ve stavu přehřáto?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "Ano, server"
+
+  - sentences:
+      - "jsou všechny senzory přehřátí v pořádku?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "off"
+    response: "Ne, server není"
+
+  - sentences:
+      - "které senzory přehřátí jsou ve stavu přehřáto?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "on"
+    response: "server"
+
+  - sentences:
+      - "kolik senzorů přehřátí je v pořádku?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: heat
+        state: "off"
+    response: "0"
+
+  # Light
+  - sentences:
+      - "je senzor denního světla ve stavu detekováno světlo?"
+      - "detekuje senzor denního světla světlo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        name: "senzor denního světla"
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "je některý senzor světla ve stavu detekována tma?"
+      - "detekuje nějaký senzor světla tmu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "off"
+    response: "Ano, senzor denního světla"
+
+  - sentences:
+      - "jsou všechny senzory světla ve stavu detekována tma?"
+      - "detekují všechny senzory světla tmu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "off"
+    response: "Ano"
+
+  - sentences:
+      - "které senzory světla jsou ve stavu detekováno světlo?"
+      - "které senzory světla detekují světlo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "on"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik senzorů světla je ve stavu detekována tma?"
+      - "kolik senzorů světla detekuje tmu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: light
+        state: "off"
+    response: "1"
+
+  # Lock
+  - sentences:
+      - "je dětský zámek hlavice zamčený?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: lock
+        name: "dětský zámek hlavice"
+        state: "off"
+    response: "Ano"
+
   # Moisture
   - sentences:
-      - "je sensor voda v kuchyni vlhký?"
+      - "je senzor voda v kuchyni vlhký?"
     intent:
       name: HassGetState
       slots:
@@ -48,6 +534,16 @@ tests:
     response: "Ne"
 
   - sentences:
+      - "jsou všechny senzory vlhkosti suché?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: moisture
+        state: "off"
+    response: "Ano"
+
+  - sentences:
       - "je Kuchyně zaplavená?"
       - "je voda v Kuchyni"
     intent:
@@ -62,7 +558,7 @@ tests:
     response: "Ne"
 
   - sentences:
-      - "které sensory vlhkosti jsou vlhký?"
+      - "které senzory vlhkosti jsou vlhké?"
     intent:
       name: HassGetState
       slots:
@@ -72,7 +568,7 @@ tests:
     response: "Žádné"
 
   - sentences:
-      - "kolik sensorů vlhkosti je vlhkých?"
+      - "kolik senzorů vlhkosti je vlhkých?"
     intent:
       name: HassGetState
       slots:
@@ -84,18 +580,20 @@ tests:
   # Motion
   - sentences:
       - "je na senzoru pohyb v garáži detekován pohyb?"
+      - "je senzor pohyb v garáži ve stavu pohyb?"
     intent:
       name: HassGetState
       slots:
-        name: "pohyb v garáži"
-        domain: "binary_sensor"
-        device_class: "motion"
+        domain: binary_sensor
+        device_class: motion
+        name: pohyb v garáži
         state: "on"
     response: "Ano"
 
   - sentences:
-      - "jsou některé sensory pohybu ve stavu detekován?"
+      - "jsou některé senzory pohybu ve stavu detekován?"
       - "byl detekován nějaký pohyb?"
+      - "je někde nějaký pohyb?"
     intent:
       name: HassGetState
       slots:
@@ -115,14 +613,15 @@ tests:
     response: "Ano"
 
   - sentences:
-      - "které detektory pohybu jsou ve stavu detekován?"
+      - "které detektory pohybu jsou bez pohybu?"
+      - "které senzory pohybu jsou ve stavu bez pohybu?"
     intent:
       name: HassGetState
       slots:
         domain: binary_sensor
         device_class: motion
-        state: "on"
-    response: "pohyb v garáži"
+        state: "off"
+    response: "Žádné"
 
   - sentences:
       - "kolik detektorů pohybu je ve stavu detekován?"
@@ -137,11 +636,12 @@ tests:
   # Occupancy
   - sentences:
       - "detekuje senzor Kuchyně přítomnost?"
+      - "je senzor Kuchyně obsazený?"
     intent:
       name: HassGetState
       slots:
-        domain: "binary_sensor"
-        device_class: "occupancy"
+        domain: binary_sensor
+        device_class: occupancy
         name: "Kuchyně"
         state: "on"
     response: "Ano"
@@ -158,6 +658,7 @@ tests:
 
   - sentences:
       - "Je někde detekována přítomnost?"
+      - "je někde zjištěna obsazenost?"
     intent:
       name: HassGetState
       slots:
@@ -187,23 +688,24 @@ tests:
     response: "Kuchyně"
 
   - sentences:
-      - "kolik senzorů obsazenosti je ve stavu přítomný?"
+      - "kolik senzorů obsazenosti je ve stavu nepřítomnost?"
     intent:
       name: HassGetState
       slots:
         domain: binary_sensor
         device_class: occupancy
-        state: "on"
-    response: "1"
+        state: "off"
+    response: "0"
 
   # Opening
   - sentences:
       - "jsou vchodové dveře otevřeny?"
+      - "jsou otevřené vchodové dveře?"
     intent:
       name: HassGetState
       slots:
-        domain: "binary_sensor"
-        device_class: "opening"
+        domain: binary_sensor
+        device_class: opening
         name: "vchodové dveře"
         state: "on"
     response: "Ne"
@@ -248,7 +750,605 @@ tests:
         state: "on"
     response: "0"
 
-  # Window
+  # Plug
+  - sentences:
+      - "je prodlužka zapojená?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        name: "prodlužka"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "je některá zásuvka odpojená?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "off"
+    response: "Ne"
+
+  - sentences:
+      - "jsou všechny zásuvky připojené?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "která zásuvka je připojená?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "on"
+    response: "prodlužka"
+
+  - sentences:
+      - "kolik zásuvek je připojených?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: plug
+        state: "on"
+    response: "1"
+
+  # Power
+  - sentences:
+      - "je hlavní přívod zapnutý?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        name: "hlavní přívod"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "je některé zařízení zapnuté?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        state: "on"
+    response: "Ano, hlavní přívod"
+
+  - sentences:
+      - "jsou všechna zařízení zapnutá?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "které zařízení je vypnuté?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        state: "off"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik zařízení je zapnutých?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: power
+        state: "on"
+    response: "1"
+
+  # Presence
+  - sentences:
+      - "je telefon Honzy doma?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        name: "telefon Honzy"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "Je některé zařízení pryč?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        state: "off"
+    response: "Ne"
+
+  - sentences:
+      - "jsou všechna zařízení doma?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "která zařízení jsou ve stavu doma?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        state: "on"
+    response: "telefon Honzy"
+
+  - sentences:
+      - "kolik zařízení je pryč?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: presence
+        state: "off"
+    response: "0"
+
+  # Problem
+  - sentences:
+      - "je firewall ok?"
+      - "hlásí firewall stav ok?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: problem
+        name: "firewall"
+        state: "off"
+    response: "Ne"
+
+  - sentences:
+      - "je některé zařízení ve stavu problém?"
+      - "hlásí některé zařízení závadu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: problem
+        state: "on"
+    response: "Ano, firewall"
+
+  - sentences:
+      - "jsou všechna zařízení ok?"
+      - "jsou všechna zařízení v pořádku?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: problem
+        state: "off"
+    response: "Ne, firewall není"
+
+  - sentences:
+      - "která zařízení hlásí závadu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: problem
+        state: "on"
+    response: "firewall"
+
+  - sentences:
+      - "kolik zařízení je ve stavu závada?"
+      - "kolik zařízení hlásí závadu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: problem
+        state: "on"
+    response: "1"
+
+  # Running
+  - sentences:
+      - "je odvětrávání v běhu?"
+      - "běží odvětrávání?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        name: "odvětrávání"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "je některé zařízení v běhu?"
+      - "běží některé zařízení?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "Ano, odvětrávání"
+
+  - sentences:
+      - "jsou všechna zařízení zastavená?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "off"
+    response: "Ne, odvětrávání není"
+
+  - sentences:
+      - "které zařízení je v běhu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "on"
+    response: "odvětrávání"
+
+  - sentences:
+      - "kolik zařízení je ve stavu zastaveno?"
+      - "kolik zařízení neběží?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: running
+        state: "off"
+    response: "0"
+
+  # Safety
+  - sentences:
+      - "je sejf zabezpečený?"
+      - "je sejf ve stavu zajištěno"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: safety
+        name: "sejf"
+        state: "off"
+    response: "Ano"
+
+  - sentences:
+      - "je některé zařízení nezabezpečené?"
+      - "je některé zařízení ve stavu nezajištěno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: safety
+        state: "on"
+    response: "Ne"
+
+  - sentences:
+      - "jsou všechna zařízení zabezpečená?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: safety
+        state: "off"
+    response: "Ano"
+
+  - sentences:
+      - "která zařízení jsou nezajištěná?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: safety
+        state: "on"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik zařízení je ve stavu nezajištěno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: safety
+        state: "on"
+    response: "0"
+
+  # Smoke
+  - sentences:
+      - "je detektor kouře ve stavu detekován kouř?"
+      - "detekuje detektor kouře kouř"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        name: "detektor kouře"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "je některý senzor kouře ve stavu čisto?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        state: "off"
+    response: "Ne"
+
+  - sentences:
+      - "je někde detekovaný kouř?"
+      - "je detekován kouř?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        state: "on"
+    response: "Ano, detektor kouře"
+
+  - sentences:
+      - "jsou všechny senzory kouře ve stavu čisto?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        state: "off"
+    response: "Ne, detektor kouře není"
+
+  - sentences:
+      - "které senzory kouře jsou ve stavu detekováno?"
+      - "které senzory detekují kouř?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        state: "on"
+    response: "detektor kouře"
+
+  - sentences:
+      - "kolik senzorů kouře je ve stavu detekováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: smoke
+        state: "on"
+    response: "1"
+
+  # Sound
+  - sentences:
+      - "detekuje dětská chůvička hluk?"
+      - "hraje dětská chůvička?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        name: "dětská chůvička"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "detekuje některý senzor zvuku hluk?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        state: "on"
+    response: "Ano, dětská chůvička"
+
+  - sentences:
+      - "detekují všechny senzory zvuku ticho?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        state: "off"
+    response: "Ne, dětská chůvička není"
+
+  - sentences:
+      - "které senzory zvuku detekují ticho?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        state: "off"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik senzorů zvuku detekuje hluk?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: sound
+        state: "on"
+    response: "1"
+
+  # Tamper
+  - sentences:
+      - "je senzor vniknutí do skrýše ve stavu detekováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: tamper
+        name: "vniknutí do skrýše"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "je některý senzor manipulace ve stavu zaznamenáno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: tamper
+        state: "on"
+    response: "Ano, vniknutí do skrýše"
+
+  - sentences:
+      - "jsou všechny senzory manipulace ve stavu nemanipulováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: tamper
+        state: "off"
+    response: "Ne, vniknutí do skrýše není"
+
+  - sentences:
+      - "které senzory manipulace jsou ve stavu nemanipulováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: tamper
+        state: "off"
+    response: "Žádné"
+
+  - sentences:
+      - "kolik senzorů manipulace je ve stavu manipulováno?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: tamper
+        state: "on"
+    response: "1"
+
+  # Update
+  - sentences:
+      - "má home assistant k dispozici aktualizaci?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: update
+        name: "home assistant"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "je k dispozici nějaká aktualizace?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: update
+        state: "on"
+    response: "Ano, home assistant"
+
+  - sentences:
+      - "jsou všechna zařízení aktuální?"
+      - "je vše aktuální?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: update
+        state: "off"
+    response: "Ne, home assistant není"
+
+  - sentences:
+      - "pro které zařízení je k dispozici aktualizace?"
+      - "které zařízení lze aktualizovat?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: update
+        state: "on"
+    response: "home assistant"
+
+  - sentences:
+      - "kolik zařízení jde aktualizovat?"
+      - "kolik aktualizací je k dispozici?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: update
+        state: "on"
+    response: "1"
+
+  # Vibration
+  - sentences:
+      - "vibruje pračka?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: vibration
+        name: "pračka"
+        state: "on"
+    response: "Ano"
+
+  - sentences:
+      - "vibruje některé zařízení?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: vibration
+        state: "on"
+    response: "Ano, pračka"
+
+  - sentences:
+      - "jsou všechny senzory vibrací v klidu?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: vibration
+        state: "off"
+    response: "Ne, pračka není"
+
+  - sentences:
+      - "které zařízení vibruje?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: vibration
+        state: "on"
+    response: "pračka"
+
+  - sentences:
+      - "kolik zařízení vibruje?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: binary_sensor
+        device_class: vibration
+        state: "on"
+    response: "1"
+
+    # Window
   - sentences:
       - "Je okno v pracovně otevřené?"
     intent:

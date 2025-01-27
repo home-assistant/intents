@@ -77,6 +77,22 @@ responses:
           {% endif %}
         {% endif %}
 
+      bs_all: |
+        {% if not query.unmatched: %}
+          Ano
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Ne, {{ no_match[:3] | join(", ") }} a {{ (no_match | length - 3) }} další nejsou
+          {%- else -%}
+            Ne,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} a {% endif -%}
+              {{ name }}
+            {%- endfor %} {{ 'není' if no_match | length == 1 else 'nejsou'}}
+          {% endif %}
+        {% endif %}
+
       which: |
         {% if not query.matched %}
           Žádné
