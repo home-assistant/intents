@@ -241,7 +241,7 @@ HassLightSet:
 # -----------------------------------------------------------------------------
 
 HassClimateSetTemperature:
-  supported: false
+  supported: true
   domain: climate
   description: "Sets the desired temperature of a climate device or entity"
   slots:
@@ -251,12 +251,24 @@ HassClimateSetTemperature:
     area:
       description: "Name of an area"
       required: false
+    floor:
+      description: "Name of a floor"
+      required: false
     temperature:
       description: "Temperature in degrees"
-      required: false
-    temperature_unit:
-      description: "Temperature unit"
-      required: false
+      required: true
+  slot_combinations:
+    temperature_only:
+      - "temperature"
+    name:
+      - "temperature"
+      - "name"
+    area:
+      - "temperature"
+      - "area"
+    floor:
+      - "temperature"
+      - "floor"
 
 HassClimateGetTemperature:
   supported: true

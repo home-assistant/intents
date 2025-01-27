@@ -2,6 +2,26 @@ language: "en"
 intents:
   HassClimateSetTemperature:
     data:
+      # Current area or floor
       - sentences:
-          - "(<numeric_value_set>|adjust) <temp> [in <area>] to <temperature>"
+          - "(<numeric_value_set>|adjust) [the] <temp> to <temperature>"
+
+      # By area name
+      - sentences:
+          - "(<numeric_value_set>|adjust) [the] <temp> in <area> to <temperature>"
           - "(<numeric_value_set>|adjust) <area> <temp> to <temperature>"
+        response: "area"
+
+      # By floor name
+      - sentences:
+          - "(<numeric_value_set>|adjust) [the] <temp> (of|on) <floor> to <temperature>"
+          - "(<numeric_value_set>|adjust) <floor> <temp> to <temperature>"
+        response: "floor"
+
+      # By climate entity name
+      - sentences:
+          - "(<numeric_value_set>|adjust) [the] <temp> of <name> to <temperature>"
+          - "(<numeric_value_set>|adjust) <name> [<temp>] to <temperature>"
+        requires_context:
+          domain: "climate"
+        response: "name"
