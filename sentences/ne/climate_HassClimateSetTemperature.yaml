@@ -2,5 +2,20 @@ language: "ne"
 intents:
   HassClimateSetTemperature:
     data:
+      #Current Area
       - sentences:
-          - "[<area>(को|मा| भित्र[को])] तापक्रम <temperature> (<पार्नु>|<बनाउनु>)"
+          - "तापक्रम[लाई] <temperature> (<पार्नु>|<बनाउनु>)"
+
+      # By area name
+      - sentences:
+          - "<area>(को| भित्र[को]) तापक्रम[लाई] <temperature> (<पार्नु>|<बनाउनु>)"
+
+      # By floor name
+      - sentences:
+          - "<floor>(को| भित्र[को]) तापक्रम[लाई] <temperature> (<पार्नु>|<बनाउनु>)"
+
+      # By climate entity name
+      - sentences:
+          - "<name>(को) तापक्रम[लाई] <temperature> (<पार्नु>|<बनाउनु>)"
+        requires_context:
+          domain: "climate"
