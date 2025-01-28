@@ -205,6 +205,7 @@ SENTENCE_COMMON_SCHEMA = vol.Schema(
                         vol.Required("from"): int,
                         vol.Required("to"): int,
                         vol.Optional("step", default=1): int,
+                        vol.Optional("fractions"): vol.Any("halves", "tenths"),
                     },
                     "wildcard": bool,
                 }
