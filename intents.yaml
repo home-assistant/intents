@@ -241,7 +241,7 @@ HassLightSet:
 # -----------------------------------------------------------------------------
 
 HassClimateSetTemperature:
-  supported: false
+  supported: true
   domain: climate
   description: "Sets the desired temperature of a climate device or entity"
   slots:
@@ -251,12 +251,24 @@ HassClimateSetTemperature:
     area:
       description: "Name of an area"
       required: false
+    floor:
+      description: "Name of a floor"
+      required: false
     temperature:
       description: "Temperature in degrees"
-      required: false
-    temperature_unit:
-      description: "Temperature unit"
-      required: false
+      required: true
+  slot_combinations:
+    temperature_only:
+      - "temperature"
+    name:
+      - "temperature"
+      - "name"
+    area:
+      - "temperature"
+      - "area"
+    floor:
+      - "temperature"
+      - "floor"
 
 HassClimateGetTemperature:
   supported: true
@@ -437,7 +449,7 @@ HassSetVolume:
 
 HassStartTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Starts a timer"
   slots:
     hours:
@@ -463,7 +475,7 @@ HassStartTimer:
 
 HassCancelAllTimers:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Cancels all timers"
   slots:
     area:
@@ -472,7 +484,7 @@ HassCancelAllTimers:
 
 HassCancelTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Cancels a timer"
   slots:
     start_hours:
@@ -493,7 +505,7 @@ HassCancelTimer:
 
 HassIncreaseTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Adds time to a timer"
   slots:
     hours:
@@ -528,7 +540,7 @@ HassIncreaseTimer:
 
 HassDecreaseTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Removes time from a timer"
   slots:
     hours:
@@ -563,7 +575,7 @@ HassDecreaseTimer:
 
 HassPauseTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Pauses a running timer"
   slots:
     start_hours:
@@ -584,7 +596,7 @@ HassPauseTimer:
 
 HassUnpauseTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Resumes a paused timer"
   slots:
     start_hours:
@@ -605,7 +617,7 @@ HassUnpauseTimer:
 
 HassTimerStatus:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Reports status of one or more timers"
   slots:
     start_hours:
