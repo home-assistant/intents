@@ -1,4 +1,5 @@
 language: it
+  # Current area or floor
 tests:
   - sentences:
       - imposta temperatura a 30
@@ -6,6 +7,7 @@ tests:
       name: HassClimateSetTemperature
       slots:
         temperature: 30
+    response: "Temperatura impostata a 30 gradi"    
   - sentences:
       - imposta temperatura a 30°
     intent:
@@ -21,3 +23,56 @@ tests:
       slots:
         area: Camera da Letto
         temperature: 50
+ 
+  # By area name
+  - sentences:
+      - "imposta temperatura nella camera da letto a 50 gradi"
+      - "imposta camera temperatura a 50 gradi"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        area: Camera da Letto
+        temperature: 50
+    response: "Temperatura impostata a 50 gradi"
+
+  # By floor name
+  - sentences:
+      - "metti la temperatura del primo piano a 50 gradi"
+      - "metti primo piano temperatura a 50 gradi"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        floor: First Floor
+        temperature: 50
+    response: "Temperatura impostata a 50 gradi"
+
+  # By climate entity name
+  - sentences:
+      - "imposta ufficio termostato a 1°"
+      - "imposta la temperatura del termostato ufficio a 1°"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        name: "Office Thermostat"
+        temperature: 1
+    response: "Temperatura impostata a 1 grado"
+
+  # Fractional temperature (numeric)
+  - sentences:
+      - "imposta temperatura a 20.5°"
+      - "imposta temperatura a 20.5 °"
+      - "imposta temperatura a 20.5 gradi"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        temperature: 20.5
+    response: "Temperatura impostata a 20.5 gradi"
+
+  # Fractional temperature (words)
+  - sentences:
+      - "imposta temperatura a venti punto cinque gradi"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        temperature: 20.5
+    response: "Temperatura impostata a venti punto cinque gradi"
