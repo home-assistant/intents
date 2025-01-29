@@ -1,17 +1,51 @@
 language: "it"
+floors:
+  - name: "Piano di sopra"
+    id: "piano_di_sopra_id"
+  - name: "Piano terra"
+    id: "piano_terra_id"
+  - name: "Primo piano"
+    id: "primo_piano_id"
+  - name: "Secondo piano"
+    id: "secondo_piano_id"
+  - name: "Seminterrato"
+    id: "seminterrato_id"
 areas:
   - name: "Cucina"
     id: cucina
+    floor: "primo_piano_id"
+    
   - name: "Soggiorno"
     id: soggiorno
+    floor: "primo_piano_id"
+    
   - name: "Camera da Letto"
     id: camera_da_letto
+    floor: "secondo_piano_id"
+    
   - name: "Garage"
     id: garage
+    floor: "primo_piano_id"
+    
   - name: "Bagno"
     id: bagno
+    floor: "secondo_piano_id"
   - name: "Esterno"
     id: esterno
+    floor: "piano_terra_id"
+    
+  - name: "Entrata"
+    id: entrata
+    floor: "primo_piano_id"
+    
+  - name: "Ufficio"
+    id: ufficio
+    floor: "seminterrato_id"
+    
+  - name: "Stanza degli ospiti"
+    id: stanza_ospiti
+    floor: "piano_di_sopra_id"
+    
 entities:
   - name: "Temperatura Esterna"
     id: sensor.temperatura_esterna
@@ -99,6 +133,20 @@ entities:
   - name: "Maggiordomo"
     id: "vacuum.maggiordomo"
     state: "idle"
+  - name: "Termostato"
+    id: "climate.termostato"
+    area: "soggiorno"
+    state: "heat"
+    attributes:
+      current_temperature: 68
+
+  - name: "Ufficio Termostato"
+    id: "climate.ufficio_termostato"
+    area: "ufficio"
+    state: "heat"
+    attributes:
+      current_temperature: 1
+
 timers:
   - is_active: false
     start_hours: 1
