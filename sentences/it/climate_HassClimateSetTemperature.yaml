@@ -1,10 +1,29 @@
-language: "it"
+language: "en"
 intents:
   HassClimateSetTemperature:
     data:
+      # Current area or floor
       - sentences:
-          - "<set> [la] temperatura a <temperature>"
-          - "<set> [[la] temperatura] [<in>] <area> [a] <temperature>"
-          - "<set> [[la] temperatura] [di] <temperature> [<in>] <area>"
-          - "<set> [<in>] <area> [[la] temperatura] [di] <temperature>"
-          - "<set> [la] temperatura <area> [a] <temperature>"
+          - "<numeric_value_set> [<the>] temperatura a <temperature>"
+          - "<numeric_value_set> [[<the>] temperatura] [<in>] <area> [a] <temperature>"
+          - "<numeric_value_set> [[<the>] temperatura] [di] <temperature> [<in>] <area>"
+          - "<numeric_value_set> [<in>] <area> [[la] temperatura] [di] <temperature>"
+          - "<numeric_value_set> [<the>] temperatura <area> [a] <temperature>"
+
+      # By area name
+      - sentences:
+          - "<numeric_value_set> [<the>] <temp> <in> <area> <to> <temperature>"
+          - "<numeric_value_set> <area> <temp> <to> <temperature>"
+      
+      # By floor name
+      - sentences:
+          - "<numeric_value_set> [<the>] <temp> (<of>|<on>) <floor> <to> <temperature>"
+          - "<numeric_value_set> <floor> <temp> <to> <temperature>"
+
+      # By climate entity name
+      - sentences:
+          - "<numeric_value_set> [<the>] <temp> [<of>] <name> <to> <temperature>"
+          - "<numeric_value_set> <name> [<temp>] <to> <temperature>"
+        
+        requires_context:
+          domain: "climate"
