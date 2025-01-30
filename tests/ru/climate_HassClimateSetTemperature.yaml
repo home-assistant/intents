@@ -12,10 +12,11 @@ tests:
       name: HassClimateSetTemperature
       slots:
         temperature: 30
+  # Checking intent by area
   - sentences:
       - "установи температуру в спальне до 50 градусов"
-      - "сделай температуру в спальне 50 градусов"
-      - "увеличь температуру в спальне на 50 градусов"
+      - "сделай в спальне температуру 50 градусов"
+      - "увеличь температуру на 50 градусов в спальне"
     intent:
       name: HassClimateSetTemperature
       slots:
@@ -24,16 +25,21 @@ tests:
         temperature: 50
     response: "Температура установлена на 50 градусов"
 
-  # Check different word endings for temperature
+  # Checking intent by name
   - sentences:
-      - "установи температуру на 25 градусов"
+      - "установи температуру у термостат 25 градусов"
+      - "установи термостат на 25 градусов"
     intent:
       name: HassClimateSetTemperature
       slots:
+        name:
+          - "Термостат"
         temperature:
           - 25
     response:
       - "Температура установлена на 25 градусов"
+
+  # Check different word endings for temperature
   - sentences:
       - "сделай в спальне температуру 24 градуса"
       - "выставь температуру в спальне на 24 градуса"
