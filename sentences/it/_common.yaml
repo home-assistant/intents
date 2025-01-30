@@ -79,6 +79,7 @@ lists:
       type: "temperature"
       from: 0
       to: 100
+      fractions: "halves"
   on_off_states:
     values:
       - in: "(acces|attiv)(o|i|a|e)"
@@ -382,6 +383,9 @@ lists:
   timer_command:
     wildcard: true
 
+  message:
+    wildcard: true
+
 expansion_rules:
   # Parti del discorso
   the: "(l(o |a |e )|i[l] |gli |l(`|’|')[ ])"
@@ -413,7 +417,7 @@ expansion_rules:
   turn_off: "((spegn|speng)(i|ere) | disattiv(a|are))"
   open: "(apr(i|ire) | alz(a|are))"
   close: "(chiud(i|ere) | abbass(a|are))"
-  set: "( (impost|mett|modific|cambi|sett)(a|are) | rend(i|ere) )"
+  set: "( (impost|modific|cambi|sett)(a|are) | (mett|rend)(i|ere) )"
   numeric_value_set: "(<set> | [fa(`|’|'|i|re) ]((alz|aument|increment|abbass)(a|are) | ridu(ci|rre)) | fa(`|’|'|i|re) (salire|scendere))"
   to_lock: "(chiud(i|ere)|blocca[re])"
   unlock: "(apri[re]|sblocca[re]|schiud(i|ere))"
@@ -422,18 +426,20 @@ expansion_rules:
   ask: "(chieder(e|ti)|domandar(e|ti))"
   clean: "(puli(re|sci) | aspir(a|are) | spazz(a|are) | lav(a|are))"
   start: "(<turn_on> | [fa(`|’|'|i|re)] (partire))"
+  announce: "(annunci(a|are) | comunic(a|are) | trasmett(i|ere))| fa(`|’|'|i|r|re) sapere | inform(a|are)"
 
   # Posti, aree e luoghi
   in_here: "(qu(a|i)|in questa (stanza|camera))"
   home: "(casa|appartamento)"
   area: "[area ]{area}"
   floor: "[floor ]{floor}"
-  everywhere: "(dappertutto|ovunque|[in] tutt(a|o) [<the>]<home>)"
+  everywhere: "(dappertutto|ovunque|[in|a] tutt(a|o) [<the>]<home>)"
 
   # Altro
   name: "[<the>]{name}"
   brightness: "{brightness}[[ ]<percent>]"
-  temperature: "{temperature}[([ ]°)|( gradi)]"
+  temperature: "{temperature}[([ ]°)|( grado|gradi)]"
+  temp: "(temp|temperatura)"
   position: "{position}[[ ]<percent>]"
   volume: "{volume:volume_level}[[ ]<percent>]"
   percent: "(%|percento|per cento|su cento)"

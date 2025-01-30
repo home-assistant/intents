@@ -1,27 +1,45 @@
 language: fr
 tests:
+  # Area
   - sentences:
-      - mets la température à 30°
-      - mettre la température à 30°
-      - change la température à 30°
-      - ajuster la température à 30°
+      - Règle la température sur 19 degrés dans le salon
+      - Change la température du salon sur 19
+      - Met le salon à 19 degrés
     intent:
       name: HassClimateSetTemperature
-      context:
-        area: salon
       slots:
         area: salon
+        temperature: 19
+    response: "Température réglée sur 19 degrés"
+
+  # Floor
+  - sentences:
+      - Règle la température sur 19 degrés au premier étage
+      - Change la température au premier étage sur 19
+      - Met le premier étage à 19 degrés
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        floor: Premier Étage
+        temperature: 19
+    response: "Température réglée sur 19 degrés"
+
+  # Name
+  - sentences:
+      - Change la température du sèche-serviettes sur 19
+      - Met le sèche-serviettes à 19 degrés
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        name: sèche-serviettes
+        temperature: 19
+    response: "Température réglée sur 19 degrés"
+
+  # Current area or floor
+  - sentences:
+      - "Règle la température sur 30 degrés"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
         temperature: 30
     response: "Température réglée sur 30 degrés"
-
-  - sentences:
-      - mets la température de la chambre à 50 degrés
-      - mets la température à 50 degrés dans la chambre
-      - mettre la température à 50 degrés dans la chambre
-      - ajuster la température à 50 degrés dans la chambre
-    intent:
-      name: HassClimateSetTemperature
-      slots:
-        area: chambre
-        temperature: 50
-    response: "Température réglée sur 50 degrés"
