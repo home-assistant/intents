@@ -44,6 +44,7 @@ intents:
 
       # färg
       - sentences:
+          - "<ändra> <name> [till] {color}" #ändra/färga kökslampan till röd
           - "<färga> <name> [till] {color}" #ändra/färga kökslampan till röd
           - "<färga> <färg> på <name> [till] {color}" # - "byt färg på <name> till {color}"
           - "gör [färgen] [på] <name> {color}"
@@ -56,30 +57,39 @@ intents:
       - sentences:
           - "[<färga>] [färgen] <i_på> <area> [till] {color}" #ändra kökets färger till rött
           - "[<färga>] <area> [färger] [till] {color}" #ändra kökets färger till rött
-          - "gör <area> {color}" #gör köket
+          - "<ändra> <area> {color}" #gör köket
+          - "<ändra> <ljuskällor> {color} <här>" #gör lamporna röda härinne
           - "{color} [färg] [<i_på>] <area>"
           - "<färga> färgen [<i_på>] <alla> lampor <i_på> <area> [till] {color}" # - "ändra färgen på alla lampor i köket till röd"
         response: color_area
 
-      # - sentences:
-      #     - "[<set>] [[the] color of] [all] <light> [to] {color}"
-      #     - "[<set>] [[the] color of] [all] <light> (<in_here>;[to] {color})"
-      #   expansion_rules:
-      #     in_here: "[in] here"
-      #   response: "color"
-      #   requires_context:
-      #     area:
-      #       slot: true
+      # Färgen i samma plats som VA - envisas
+      #      - sentences:
+      #          - "gör lamporna härinne {color}"
+      #          - "gör lamporna {color}"
+      #          - "<ändra> <ljuskällor> {color} [<här>]"
+      #          - "[<färga>] [färgen] [alla] lampor [till] <här> {color}"
+      #          - "[<ändra>] [färgen] [alla] lampor [till] <här> {color}"
+      #        response: "color"
+      #        requires_context:
+      #          area:
+      #            slot: true
 
       # Floor support for color
       - sentences:
+          - "<ändra> <våning> {color}"
+          - "gör <våning> {color}"
           - "[<färga>] <våning> [färg] [till] {color}"
+          - "<ändra> <färga> <i_på> <våning> [till] {color}"
+          - "{color} <i_på> <våning>"
         response: color
 
       # area
       - sentences:
           - "<färga> <name> [till] {color}"
-          - "<färga> lamporna [till] {color}"
+          - "<färga> <ljuskällor> [till] {color}"
+          - "<ändra> <ljuskällor> [till] {color}"
+          - "{color} <i_på> <area>"
         slots:
           name: all
         response: color_area
