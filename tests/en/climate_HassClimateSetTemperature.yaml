@@ -1,29 +1,63 @@
 language: en
 tests:
+  # Current area or floor
   - sentences:
       - "set temperature to 30°"
     intent:
       name: HassClimateSetTemperature
       slots:
         temperature: 30
-    response: "Temperature set"
+    response: "Temperature set to 30 degrees"
 
+  # By area name
   - sentences:
-      - "set temperature to 30° C"
-    intent:
-      name: HassClimateSetTemperature
-      slots:
-        temperature: 30
-        temperature_unit: celsius
-    response: "Temperature set"
-
-  - sentences:
-      - "set temp in bedroom to 50 degrees Fahrenheit"
-      - "set bedroom temp to 50 degrees Fahrenheit"
+      - "set temp in bedroom to 50 degrees"
+      - "set bedroom temp to 50 degrees"
     intent:
       name: HassClimateSetTemperature
       slots:
         area: Bedroom
         temperature: 50
-        temperature_unit: fahrenheit
-    response: "Temperature set"
+    response: "Temperature set to 50 degrees"
+
+  # By floor name
+  - sentences:
+      - "set temp of the first floor to 50 degrees"
+      - "set first floor temp to 50 degrees"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        floor: First Floor
+        temperature: 50
+    response: "Temperature set to 50 degrees"
+
+  # By climate entity name
+  - sentences:
+      - "set office thermostat to 1°"
+      - "set the temperature of the office thermostat to 1°"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        name: "Office Thermostat"
+        temperature: 1
+    response: "Temperature set to 1 degree"
+
+  # Fractional temperature (numeric)
+  - sentences:
+      - "set temperature to 20.5°"
+      - "set temperature to 20.5 °"
+      - "set temperature to 20.5 degrees"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        temperature: 20.5
+    response: "Temperature set to 20.5 degrees"
+
+  # Fractional temperature (words)
+  - sentences:
+      - "set temperature to twenty point five degrees"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        temperature: 20.5
+    response: "Temperature set to twenty point five degrees"

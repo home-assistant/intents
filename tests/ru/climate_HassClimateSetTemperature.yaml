@@ -7,35 +7,39 @@ tests:
       slots:
         temperature: 30
   - sentences:
-      - "сделай температуру 30 градусов цельсия"
+      - "сделай температуру 30 градусов"
     intent:
       name: HassClimateSetTemperature
       slots:
         temperature: 30
-        temperature_unit: celsius
+  # Checking intent by area
   - sentences:
-      - "установи температуру в спальне до 50 градусов по фаренгейту"
-      - "сделай температуру в спальне 50 градусов фаренгейта"
-      - "увеличь температуру в спальне на 50 градусов по фаренгейту"
+      - "установи температуру в спальне до 50 градусов"
+      - "сделай в спальне температуру 50 градусов"
+      - "увеличь температуру на 50 градусов в спальне"
     intent:
       name: HassClimateSetTemperature
       slots:
         area:
           - Спальне
         temperature: 50
-        temperature_unit: fahrenheit
     response: "Температура установлена на 50 градусов"
 
-  # Check different word endings for temperature
+  # Checking intent by name
   - sentences:
-      - "установи температуру на 25 градусов"
+      - "установи температуру у термостат 25 градусов"
+      - "установи термостат на 25 градусов"
     intent:
       name: HassClimateSetTemperature
       slots:
+        name:
+          - "Термостат"
         temperature:
           - 25
     response:
       - "Температура установлена на 25 градусов"
+
+  # Check different word endings for temperature
   - sentences:
       - "сделай в спальне температуру 24 градуса"
       - "выставь температуру в спальне на 24 градуса"

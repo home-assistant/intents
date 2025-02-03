@@ -1,0 +1,41 @@
+language: sr-Latn
+intents:
+  HassLightSet:
+    data:
+      - sentences:
+          - <promeni> <name> na <brightness>
+          - <promeni> [osvetljenje|jačinu|osvetljenost] [svetla|svetlo|rasvet(e|u)]
+            [u|na] <name> na <brightness> [snage|jačine|osvetljenosti|posto]
+        response: brightness
+
+      - sentences:
+          - <promeni> [jačinu|intenzitet] [svetl(a|o)|osvetljenosti|rasvete]
+            [u|na] <area> [na] <brightness> [snage|jačine|osvetljenosti|posto]
+        response: brightness
+
+      #brightness min/max
+      - sentences:
+          - "<promeni> <name> na {brightness_level:brightness}"
+          - "<promeni> [osvetljenje|jačinu|osvetljenost|svetlost] [svetla|svetlo|rasvet(e|u)] [u|na] <name> na {brightness_level:brightness} [snagu|jačinu|osvetljenost|osvetljenje]"
+        slots:
+          brightness: 100
+        response: brightness
+
+      - sentences:
+          - "<promeni> [jačinu|intenzitet] [svetl(a|o|la)|osvetljenje|rasvetu] [u|na] <area> [na] {brightness_level:brightness} [snagu|jačinu|osvetljenost]"
+          - "<promeni> <area> [jačinu|intenzitet] (svetl(a|o|la)|osvetljenje|rasvet(e|u)) [na] {brightness_level:brightness} [snagu|jačinu|osvetljenost]"
+        slots:
+          brightness: 100
+        response: brightness
+
+      # color
+      - sentences:
+          - <promeni> [boju] <name> [na|u] {color}
+          - <promeni> <name> [na|u] {color} [boju]
+        response: color
+
+      - sentences:
+          - <promeni> [boju] [svetl(a|o)|rasvet(e|u)] [u|na] [prostoriji] <area> [na|u] {color}
+          - <promeni> [svetl(a|o)|osvetljenje|rasvetu] [u|na] <area> [na|u] {color}
+          - <promeni> [u|na] <area> [svetl(a|o)|osvetljenje|rasvetu] [na|u] {color}
+        response: color
