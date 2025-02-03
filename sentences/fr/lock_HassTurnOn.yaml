@@ -2,15 +2,71 @@ language: fr
 intents:
   HassTurnOn:
     data:
+      # name
       - sentences:
-          - "verrouille[(z|r)] [<le>]{name} [<dans> [<le>]{area}]"
+          # Barre la porte d'entrée 🇨🇦
+          - <verrouille> [<le>]{name}
         requires_context:
           domain: lock
         response: lock
 
+      # area
       - sentences:
-          - "verrouille[(z|r)] [<tous>] [(la|le[s])] [(porte[s]|serrure[s]|verrou[s])] [<dans>] [<le>]{area}"
-          - "verrouille[(z|r)] [<tous>] (la|le[s]) (porte[s]|serrure[s]|verrou[s]) [<dans> [<le>]{area}]"
+          # Verrouiller le salon
+          - <verrouille> [<le>]{area}
+          # Verrouille les serrures du jardin
+          - <verrouille> [<tous>] [<le>] <serrure> [<dans>] [<le>]{area}
         slots:
-          domain: "lock"
+          domain: lock
+        response: lock
+
+      # name and area
+      - sentences:
+          # Verrouille la serrure Aqara du jardin
+          - <verrouille> [<le>]{name} [<dans>] [<le>]{area}
+        requires_context:
+          domain: lock
+        response: lock
+
+      # context area awareness
+      - sentences:
+          # Verrouille le loquet
+          - <verrouille> [<le>] <serrure>
+          # Verrouille toutes les serrures dans cette pièce
+          - <verrouille> [<tous>] [<le>] <serrure> <ici>
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: lock
+        response: lock
+
+      # floor
+      - sentences:
+          # Verrouille le premier étage
+          - <verrouille> [<le>]{floor}
+          # Verrouille les loquets du premier étage
+          - <verrouille> [<tous>] [<le>] <serrure> [<dans>] [<le>]{floor}
+        slots:
+          domain: lock
+        response: lock
+
+      # name and floor
+      - sentences:
+          # Verrouille la serrure Aqara du rez-de-chaussée
+          - <verrouille> [<le>]{name} [<dans>] [<le>]{floor}
+        requires_context:
+          domain: lock
+        response: lock
+
+      # the whole house
+      - sentences:
+          # Verrouille les portes dans toute la maison
+          - <verrouille> [<le>] <serrure> <partout>
+          # Verrouiller toutes les serrures dans toute la maison
+          - <verrouille> <tous> [<le>] <serrure> <partout>
+          # Verrouiller toutes les serrures
+          - <verrouille> <tous> [<le>] <serrure>
+        slots:
+          domain: lock
         response: lock

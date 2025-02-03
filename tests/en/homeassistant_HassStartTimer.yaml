@@ -2,6 +2,14 @@
 language: en
 tests:
   - sentences:
+      - "10 minute timer"
+    intent:
+      name: HassStartTimer
+      slots:
+        minutes: 10
+    response: Timer set for 10 minutes
+
+  - sentences:
       - "start a 1 hour timer"
       - "set timer for 1 hour"
       - "create 1 hour timer"
@@ -13,7 +21,52 @@ tests:
         area: Living Room
       slots:
         hours: 1
-    response: Timer started
+    response: Timer set for 1 hour
+
+  - sentences:
+      - "set a timer for 5 and a half minutes"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Living Room
+      slots:
+        minutes: 5
+        seconds: 30
+    response: Timer set for 5 minutes and 30 seconds
+
+  - sentences:
+      - "set a timer for half a minute"
+      - "set a timer for 1/2 a minute"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Living Room
+      slots:
+        seconds: 30
+    response: Timer set for 30 seconds
+
+  - sentences:
+      - "set a timer for 1 and a half hours"
+      - "set a timer for 1 and a 1/2 hours"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Living Room
+      slots:
+        hours: 1
+        minutes: 30
+    response: Timer set for 1 hour and 30 minutes
+
+  - sentences:
+      - "set a timer for half an hour"
+      - "set a timer for 1/2 an hour"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Living Room
+      slots:
+        minutes: 30
+    response: Timer set for 30 minutes
 
   - sentences:
       - "start a 1 hour and 15 minute timer"
@@ -26,7 +79,7 @@ tests:
       slots:
         hours: 1
         minutes: 15
-    response: Timer started
+    response: Timer set for 1 hour and 15 minutes
 
   - sentences:
       - "start a 1 hour and 30 second timer"
@@ -39,7 +92,7 @@ tests:
       slots:
         hours: 1
         seconds: 30
-    response: Timer started
+    response: Timer set for 1 hour and 30 seconds
 
   - sentences:
       - "start a 1 hour 15 minute and 30 second timer"
@@ -53,7 +106,7 @@ tests:
         hours: 1
         minutes: 15
         seconds: 30
-    response: Timer started
+    response: Timer set for 1 hour, 15 minutes and 30 seconds
 
   - sentences:
       - "start a 5 minute timer"
@@ -65,7 +118,7 @@ tests:
         area: Living Room
       slots:
         minutes: 5
-    response: Timer started
+    response: Timer set for 5 minutes
 
   - sentences:
       - "start a 5 minute timer named pizza"
@@ -81,7 +134,7 @@ tests:
         name:
           - "pizza "
           - "pizza"
-    response: Timer started
+    response: Timer set for 5 minutes named pizza
 
   - sentences:
       - "start a 5 minute and 10 second timer"
@@ -94,7 +147,7 @@ tests:
       slots:
         minutes: 5
         seconds: 10
-    response: Timer started
+    response: Timer set for 5 minutes and 10 seconds
 
   - sentences:
       - "start a 45 second timer"
@@ -106,7 +159,7 @@ tests:
         area: Living Room
       slots:
         seconds: 45
-    response: Timer started
+    response: Timer set for 45 seconds
 
   - sentences:
       - "open the garage door in 5 minutes"
@@ -118,4 +171,29 @@ tests:
         conversation_command:
           - "open the garage door"
           - "open the garage door "
-    response: Command received
+    response: Command will be executed in 5 minutes
+
+  - sentences:
+      - "start an 11 minute timer"
+      - "set an 11 minute timer"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Living Room
+      slots:
+        minutes: 11
+    response: Timer set for 11 minutes
+
+  - sentences:
+      - "start an 11 minute timer named pizza"
+      - "set an 11 minute timer for pizza"
+    intent:
+      name: HassStartTimer
+      context:
+        area: Living Room
+      slots:
+        minutes: 11
+        name:
+          - "pizza "
+          - "pizza"
+    response: Timer set for 11 minutes named pizza

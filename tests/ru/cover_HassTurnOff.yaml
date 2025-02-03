@@ -1,31 +1,68 @@
 language: ru
 tests:
   - sentences:
-      - "закрой дверь гаража"
+      - "опусти левую штору"
+    intent:
+      name: HassTurnOff
+      slots:
+        name: "Левую штору"
+      context:
+        domain: cover
+        device_class: curtain
+    response: "левую штору закрыта"
+  - sentences:
+      - "закрой левую штору в гостиной"
+    intent:
+      name: HassTurnOff
+      slots:
+        name:
+          - "Левую штору"
+        area:
+          - "Гостиной"
+      context:
+        domain: cover
+        device_class: curtain
+    response: "Закрытие в гостиной запущено"
+  - sentences:
+      - "закрыть дверь гаража"
     intent:
       name: HassTurnOff
       slots:
         device_class: garage
         domain: cover
-    response: "Закрытие выполнено"
+    response: "Закрытие гаража запущено"
   - sentences:
-      - "закрой гаражную дверь"
+      - "опусти жалюзи в спальне"
+      - "закрой жалюзи в спальне"
     intent:
       name: HassTurnOff
       slots:
-        device_class: garage
-        domain: cover
-    response: "Закрытие выполнено"
-  - sentences:
-      - "закрой шторы в кухня"
-    intent:
-      name: HassTurnOff
-      slots:
-        area: "Кухня"
+        area:
+          - "Спальне"
         device_class:
-          - window
           - blind
-          - curtain
-          - shutter
         domain: cover
-    response: "Закрытие в кухня выполнено"
+    response: "Закрытие жалюзи запущено"
+  - sentences:
+      - "закрой в спальне рулонную штору"
+    intent:
+      name: HassTurnOff
+      slots:
+        area:
+          - "Спальне"
+        device_class:
+          - shade
+        domain: cover
+    response: "Закрытие рулонной шторы запущено"
+  - sentences:
+      - "Закрой шторы"
+      - "закрой шторы здесь"
+    intent:
+      name: HassTurnOff
+      context:
+        area: Зал
+      slots:
+        domain: cover
+        area: Зал
+        device_class: curtain
+    response: "Закрытие штор запущено"

@@ -1,0 +1,18 @@
+language: pl
+intents:
+  HassSetPosition:
+    data:
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>) [pozycję |wartość |wysokość ]<name> na <position>"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>) [pozycję ]{cover_classes:device_class} (na <position>;<area>)"
+          - "(<numeric_value_set>|<open>|<close>) <area> [pozycję ]{cover_classes:device_class} na <position>"
+          - "<area> (<numeric_value_set>|<open>|<close>) [pozycję ]{cover_classes:device_class} na <position>"
+          - "(<numeric_value_set>|<open>|<close>) {cover_classes:device_class} <area> na <position>"
+        slots:
+          domain: cover

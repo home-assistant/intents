@@ -2,7 +2,27 @@ language: en
 responses:
   intents:
     HassTurnOff:
-      default: "Turned off the {{ state.domain }}"
+      default: >-
+        {% set translations = {
+          "button": "the button",
+          "camera": "the camera",
+          "input_button": "the button",
+          "alarm_control_panel": "the alarm",
+          "automation": "the automation",
+          "fan": "the fan",
+          "climate": "the thermostat",
+          "humidifier": "the humidifier",
+          "input_boolean": "the switch",
+          "siren": "the siren",
+          "water_heater": "the water heater",
+          "light": "the light",
+          "switch": "the switch",
+          "remote": "the remote",
+          "vacuum": "the vacuum cleaner",
+          "media_player": "the media player",
+          "lawn_mower": "the lawn mower"
+        } %}
+        Turned off {{ translations.get(state.domain) }}
       lights_area: "Turned off the lights"
       lights_floor: "Turned off the lights"
       fans_area: "Turned off the fans"

@@ -35,6 +35,28 @@ tests:
     response: "Sí, el dispositivo Cortina izquierda"
 
   - sentences:
+      - "¿hay algún estor abierto en la planta alta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Planta alta"
+        device_class: shade
+        state: "open"
+    response: "Sí, el dispositivo Estor izquierdo"
+
+  - sentences:
+      - "¿hay algún estor abierto fuera?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Fuera"
+        device_class: shade
+        state: "open"
+    response: "No"
+
+  - sentences:
       - "están todas las cortinas abiertas en el salón?"
       - "están todas las cortinas del salón abiertas?"
     intent:
@@ -47,6 +69,19 @@ tests:
     response: "No, el dispositivo Cortina derecha no tiene ese estado"
 
   - sentences:
+      - "están todas las cortinas de la primera planta abiertas?"
+      - "están abiertas todas las cortinas de la primera planta?"
+      - "están todas las cortinas abiertas en la primera planta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Primera planta"
+        device_class: curtain
+        state: "open"
+    response: "No, el dispositivo Cortina dormitorio no tiene ese estado"
+
+  - sentences:
       - "qué cortina está cerrada?"
     intent:
       name: HassGetState
@@ -55,6 +90,17 @@ tests:
         device_class: curtain
         state: "closed"
     response: "Cortina derecha y Cortina dormitorio"
+
+  - sentences:
+      - "qué cortina está cerrada en el dormitorio?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Dormitorio"
+        device_class: curtain
+        state: "closed"
+    response: "Cortina dormitorio"
 
   - sentences:
       - "qué cortinas del salón están cerradas?"
@@ -76,3 +122,14 @@ tests:
         device_class: curtain
         state: "closed"
     response: "2"
+
+  - sentences:
+      - "cuántas cortinas del dormitorio hay cerradas?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area: "Dormitorio"
+        state: "closed"
+    response: "1"

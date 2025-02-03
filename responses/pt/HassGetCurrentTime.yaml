@@ -1,0 +1,36 @@
+language: pt
+responses:
+  intents:
+    HassGetCurrentTime:
+      default: >
+        {% set next_hour = 0 %}
+        {% set minute_str = "" %}
+        {% if slots.time.minute > 0: %}
+            {% if slots.time.minute == 15: %}
+                {% set minute_str = "e um quarto" %}
+            {% elif slots.time.minute == 30: %}
+                {% set minute_str = "e meia" %}
+            {% elif slots.time.minute > 30 and slots.time.minute % 5 == 0: %}
+                {% set next_hour = 1 %}
+                {% if slots.time.minute == 45: %}
+                   {% set minute_str = "menos um quarto" %}
+                {% else: %}
+                    {% set minute_str = 'menos {0:01d}'.format(60 - slots.time.minute) %}
+                {% endif %}
+            {% else: %}
+                {% set minute_str = 'e {0:01d}'.format(slots.time.minute) %}
+            {% endif %}
+        {% endif %}
+        {% if slots.time.hour + next_hour > 12: %}
+            {% set hour12 = slots.time.hour + next_hour - 12 %}
+        {% elif slots.time.hour + next_hour == 0: %}
+            {% set hour12 = 12 %}
+        {% else: %}
+            {% set hour12 = slots.time.hour + next_hour %}
+        {% endif %}
+        {% if hour12 == 1 : %}
+            É
+        {% else: %}
+           São
+        {% endif %}
+        {{hour12}} {{minute_str}}

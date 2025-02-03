@@ -1,13 +1,37 @@
 language: zh-hk
+floors:
+  - name: "First Floor"
+    id: first_floor_id
+  - name: "Second Floor"
+    id: second_floor_id
+  - name: "Basement"
+    id: basement_id
 areas:
   - name: "廚房"
     id: kitchen
+    # prepositional floor
+    floor: first_floor_id
+
   - name: "客廳"
     id: living_room
+    floor: first_floor_id
+
   - name: "睡房"
     id: bedroom
+    floor: second_floor_id
+
   - name: "車房"
     id: garage
+    floor: first_floor_id
+
+  - name: "玄關"
+    id: entrance
+    floor: first_floor_id
+
+  - name: "辦公室"
+    id: office
+    floor: basement_id
+
 entities:
   - name: "廚房開關制"
     id: switch.kitchen
@@ -46,6 +70,7 @@ entities:
       out: "closed"
     attributes:
       device_class: curtain
+      #position: "0"
 
   - name: "走廊恆溫器"
     id: climate.thermostat_hallway
@@ -86,3 +111,74 @@ entities:
     state:
       in: "開啟"
       out: "on"
+  - name: "前門"
+    id: lock.front_door
+    area: entrance
+    state: locked
+  - name: "後門"
+    id: lock.back_door
+    state: unlocked
+  - name: "側門"
+    id: lock.side_door
+    state: locked
+  - name: "隱藏模式"
+    id: script.stealth_mode
+  - name: "派對模式"
+    id: scene.party_mode
+
+  - name: "London"
+    id: "weather.london"
+    state: "rainy"
+    attributes:
+      temperature: "8"
+      temperature_unit: "°C"
+
+  - name: "Los Angeles"
+    id: "weather.los_angeles"
+    state: "clear"
+    attributes:
+      temperature: "76"
+      temperature_unit: "°F"
+
+  - name: "主活門"
+    id: "valve.main_valve"
+    state:
+      in: "打開"
+      out: "open"
+    attributes:
+      position: "100"
+
+  - name: "Rover"
+    id: "vacuum.rover"
+    state: "idle"
+
+  - name: "Trader Joe[']s"
+    id: "todo.trader_joes"
+    state: ""
+
+  - name: "TV"
+    id: "media_player.tv"
+    area: "living_room"
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "廚房"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

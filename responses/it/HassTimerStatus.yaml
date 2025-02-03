@@ -1,0 +1,89 @@
+---
+language: it
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Nessun timer.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Timer in pausa.
+          {% else: %}
+            {{ num_paused_timers }} timer in pausa.
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} timer in esecuzione.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 timer in pausa.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} timer in pausa.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 ora e {{ next_timer.rounded_minutes_left }} minuti
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 ora
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} ore e {{ next_timer.rounded_minutes_left }} minuti
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} ore
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 minuto e {{ next_timer.rounded_seconds_left }} secondi
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 minuto
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} minuti e {{ next_timer.rounded_seconds_left }} secondi
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} minuti
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 secondo
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} secondi
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            rimanenti sul timer
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              da {{ next_timer.start_hours }} ore e {{ next_timer.start_minutes }} minuti
+            {% elif (next_timer.start_hours > 0): %}
+              da {{ next_timer.start_hours }} ore
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              da {{ next_timer.start_minutes }} minuti e {{ next_timer.start_seconds }} secondi
+            {% elif (next_timer.start_minutes > 0): %}
+              da {{ next_timer.start_minutes }} minuti
+            {% elif (next_timer.start_seconds > 0): %}
+              da {{ next_timer.start_seconds }} secondi
+            {% endif %}
+
+            {% if next_timer.name: %}
+              chiamato {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              in {{ next_timer.area }}.
+            {% endif %}
+          {% else: %}
+            rimanenti.
+          {% endif %}
+        {% endif %}

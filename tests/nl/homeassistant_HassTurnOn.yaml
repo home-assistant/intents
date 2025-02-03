@@ -1,15 +1,29 @@
 language: nl
 tests:
   - sentences:
-      - Mag het slaapkamerlampje aan?
+      - slaapkamerlampje aan
       - Doe het slaapkamerlampje aan
       - Slaapkamerlampje aan
-      - Zal je het slaapkamerlampje aan willen zetten?
-      - Kun je slaapkamerlampje aandoen?
+      - het slaapkamerlampje aan zetten
+      - slaapkamerlampje aandoen?
     intent:
       name: HassTurnOn
       slots:
         name: Slaapkamerlampje
+    response: "Aangezet"
+
+  - sentences:
+      - Zet waterkoker in de keuken aan
+      - Zet de keukenwaterkoker aan
+      - waterkoker aan in de keuken
+      - de keukenwaterkoker aanzetten
+      - waterkoker in de keuken inschakelen?
+    intent:
+      name: HassTurnOn
+      slots:
+        name: Waterkoker
+        area: Keuken
+    response: "Aangezet"
 
   - sentences:
       - Doe werkbank lamp aan
@@ -17,35 +31,30 @@ tests:
       - Zet werkbank licht naar aan
       - Zet de werkbanklamp naar aan
       - Werkbankverlichting aan
-      - Zal je werkbank licht aan willen zetten?
-      - Zou de werkbank lamp aan mogen?
+      - werkbank licht aan zetten
+      - werkbank lamp aan?
     intent:
       name: HassTurnOn
       slots:
         name: Werkbank
+      context:
+        domain: light
+    response: "Aangezet"
 
   - sentences:
       - Zet waterkokerswitch aan
       - Zet waterkokerschakelaar aan
-      - Zou de waterkoker switch aan mogen?
-      - Zou je de waterkokerschakelaar willen aanzetten?
-      - Zou u de waterkoker switch in willen schakelen?
+      - waterkoker switch aan
+      - waterkokerschakelaar aanzetten
+      - waterkoker switch inschakelen
     intent:
       name: HassTurnOn
       slots:
         name: Waterkoker
+      context:
+        domain: switch
+    response: "Aangezet"
 
-  - sentences:
-      - Zet waterkokerswitch in de keuken aan
-      - Zet de keukenwaterkokerschakelaar aan
-      - Zou de waterkoker switch aan mogen in de keuken?
-      - Zou je de keukenwaterkokerschakelaar willen aanzetten?
-      - Zou u de waterkoker in de keuken in willen schakelen?
-    intent:
-      name: HassTurnOn
-      slots:
-        name: Waterkoker
-        area: Keuken
   - sentences:
       - Doe speelhoek ventilator aan
       - Schakel speelhoekfan in
@@ -56,3 +65,6 @@ tests:
       name: HassTurnOn
       slots:
         name: Speelhoek
+      context:
+        domain: fan
+    response: "Aangezet"

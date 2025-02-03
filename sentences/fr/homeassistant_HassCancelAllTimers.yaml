@@ -1,0 +1,28 @@
+---
+language: "fr"
+intents:
+  HassCancelAllTimers:
+    data:
+      # All timers
+      - sentences:
+          # Supprime tous les minuteur
+          - "<supprime> tous [(les|mes)] <minuteurs>"
+          # Arrête tous les minuteur
+          - "<eteins> tous [(les|mes)] <minuteurs>"
+
+      # All timers in area
+      - sentences:
+          # Supprime tous les minuteur dans la cuisine
+          - "<supprime> tous [(les|mes)] <minuteurs> [(<de>|<dans>)] [<le>]{area}"
+          # Arrête tous les minuteur dans le salon
+          - "<eteins> tous [(les|mes)] <minuteurs> [(<de>|<dans>)] [<le>]{area}"
+
+      # All timers here (context awareness)
+      - sentences:
+          # Supprime tous les minuteur dans la cuisine
+          - "<supprime> tous [(les|mes)] <minuteurs> <ici>"
+          # Arrête tous les minuteur dans le salon
+          - "<eteins> tous [(les|mes)] <minuteurs> <ici>"
+        requires_context:
+          area:
+            slot: true

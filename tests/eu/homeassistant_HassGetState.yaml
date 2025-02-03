@@ -1,6 +1,166 @@
 language: eu
 tests:
-  - sentences: []
+  - sentences:
+      - "zein da kanpoko tenperatura?"
+      - "zein da uneko kanpoko tenperaturaren balioa?"
+      - "ba ahal dakizu momentu honetako kanpoko tenperaturaren balioa?"
     intent:
       name: HassGetState
-      slots: {}
+      slots:
+        name: "Kanpoko tenperatura"
+    response: "Kanpoko tenperatura gailuaren egoera 28 °C da"
+
+  - sentences:
+      - "Logelako lanpara piztuta ahal dago?"
+      - "Logelako lanpara piztuta dago?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Logelako lanpara"
+        state: "on"
+    response: "Ez, itzalita dago"
+
+  - sentences:
+      - "Egongelako lanpara egongelan piztuta al dago?"
+      - "Egongelako lanpara egongelan piztuta dago?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Egongelako lanpara"
+        area: "Egongela"
+        state: "on"
+    response: "Bai"
+
+  - sentences:
+      - "ba al dago etengailurik piztuta?"
+      - "ba al dago batere etengailurik piztuta?"
+      - "ba ahal dago etengailurik piztuta?"
+      - "ba ahal dago batere etengailurik piztuta?"
+      - "ba dakizu etengailurik piztuta badagoen?"
+      - "ba dakizu batere etengailurik piztuta badagoen?"
+      - "ba al dakizu etengailurik piztuta badagoen?"
+      - "ba al dakizu batere etengailurik piztuta badagoen?"
+      - "ba ahal dakizu etengailurik piztuta badagoen?"
+      - "ba ahal dakizu batere etengailurik piztuta badagoen?"
+      - "ba dakizu etengailurik piztuta dagoen?"
+      - "ba dakizu batere etengailurik piztuta dagoen?"
+      - "ba al dakizu etengailurik piztuta dagoen?"
+      - "ba al dakizu batere etengailurik piztuta dagoen?"
+      - "ba ahal dakizu etengailurik piztuta dagoen?"
+      - "ba ahal dakizu batere etengailurik piztuta dagoen?"
+      - "esaidazu etengailurik piztuta dagoen"
+      - "esaidazu batere etengailurik piztuta dagoen"
+      - "esaidazu etengailurik piztuta badagoen"
+      - "esaidazu batere etengailurik piztuta badagoen"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "switch"
+        state: "on"
+    response: "Bai, Sukaldeko etengailua"
+
+  - sentences:
+      - "ba al dago etengailurik piztuta sukaldean?"
+      - "ba dakizu etengailurik piztuta badagoen sukaldean?"
+    intent:
+      name: HassGetState
+      slots:
+        area: "Sukaldea"
+        domain: "switch"
+        state: "on"
+    response: "Bai, Sukaldeko etengailua"
+
+  - sentences:
+      - "argi guztiak itzalita daude?"
+      - "argi guztiak itzalita al daude?"
+      - "argi guztiak itzalita ahal daude?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "off"
+    response: "Ez, Egongelako lanpara, Jolas tokia, Sukaldeko armairuak eta beste 2 ere ez"
+
+  - sentences:
+      - "argi guztiak itzalita daude egongelan?"
+      - "argi guztiak itzalita al daude egongelan?"
+      - "argi guztiak itzalita ahal daude egongelan?"
+      - "egongelan argi guztiak itzalita daude?"
+      - "egongelan argi guztiak itzalita al daude?"
+      - "egongelan argi guztiak itzalita ahal daude?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        area: Egongela
+        state: "off"
+    response: "Ez, Egongelako lanpara eta Jolas tokia ez daude"
+
+  - sentences:
+      - "argi guztiak piztuta daude sukaldean?"
+      - "argi guztiak piztuta ahal daude sukaldean?"
+      - "sukaldean argi guztiak piztuta daude?"
+      - "sukaldean argi guztiak piztuta al daude?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+        area: "Sukaldea"
+    response: "Bai"
+
+  - sentences:
+      - "ba al dakizu zein argi dauden piztuta?"
+      - "ba dakizu zein argi dauden piztuta?"
+      - "ba al dakizu zein argi dagoen piztuta?"
+      - "ba dakizu zein argi dagoen piztuta?"
+      - "esaidazu zein argi dauden piztuta"
+      - "esaidazu zein argi dagoen piztuta"
+      - "zein argi daude piztuta?"
+      - "zein argi dago piztuta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "Egongelako lanpara, Jolas tokia, Sukaldeko armairuak eta beste 2 gehiago"
+
+  - sentences:
+      - "ba al dakizu zein argi dauden piztuta sukaldean?"
+      - "ba dakizu zein argi dauden piztuta sukaldean?"
+      - "ba al dakizu zein argi dagoen piztuta sukaldean?"
+      - "ba dakizu zein argi dagoen piztuta sukaldean?"
+      - "esaidazu zein argi dauden piztuta sukaldean"
+      - "esaidazu zein argi dagoen piztuta sukaldean"
+      - "zein argi daude piztuta sukaldean?"
+      - "zein argi dago piztuta sukaldean?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        area: "Sukaldea"
+        state: "on"
+    response: "Sukaldeko armairuak, Sukaldeko mahaigainekoa eta Sukaldeko sabaia"
+
+  - sentences:
+      - "esaidazu zenbat argi dauden piztuta"
+      - "esan zenbat argi dauden piztuta"
+      - "zenbat argi daude piztuta?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        state: "on"
+    response: "5"
+
+  - sentences:
+      - "esaidazu zenbat argi dauden piztuta sukaldean"
+      - "esan zenbat argi dauden piztuta sukaldean"
+      - "zenbat argi daude piztuta sukaldean?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "light"
+        area: "Sukaldea"
+        state: "on"
+    response: "3"

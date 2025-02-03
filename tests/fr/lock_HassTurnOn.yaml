@@ -1,31 +1,87 @@
 language: fr
 tests:
+  # name
   - sentences:
-      - "verrouille la porte d'entrée"
+      - barre la porte d'entrée
+      - verrouille la porte d'entrée
+      - verrouiller la porte d'entrée
     intent:
       name: HassTurnOn
       context:
         domain: lock
       slots:
         name: porte d'entrée
-    response: "Fermé"
+    response: "Verrouillé"
 
+  # area
   - sentences:
-      - "verrouille toutes les serrures du garage"
-      - "verrouille le garage"
-      - "verrouille tout dans le garage"
+      - verrouiller le salon
+      - verrouille les serrures du salon
+      - verrouille toutes les serrures du salon
     intent:
       name: HassTurnOn
       slots:
-        area: garage
+        area: salon
         domain: lock
-    response: "Fermé"
+    response: "Verrouillé"
 
+  # name and area
   - sentences:
-      - "verrouille l'entrée"
+      - verrouille la serrure Aqara de la cuisine
+    intent:
+      name: HassTurnOn
+      context:
+        domain: lock
+      slots:
+        name: serrure Aqara
+        area: cuisine
+    response: "Verrouillé"
+
+  # Context area awareness
+  - sentences:
+      - Verrouille le loquet
+      - Verrouille toutes les serrures ici
+      - Verrouille les serrures dans cette pièce
+    intent:
+      name: HassTurnOn
+      context:
+        area: salon
+      slots:
+        area: salon
+        domain: lock
+    response: "Verrouillé"
+
+  # floor
+  - sentences:
+      - Verrouille le premier étage
+      - Verrouille les loquets du premier étage
+      - Verrouille tous les loquets du premier étage
     intent:
       name: HassTurnOn
       slots:
-        area: entrée
+        floor: Premier Étage
         domain: lock
-    response: "Fermé"
+    response: "Verrouillé"
+
+  # name and floor
+  - sentences:
+      - Verrouille la serrure Aqara du rez-de-chaussée
+    intent:
+      name: HassTurnOn
+      context:
+        domain: lock
+      slots:
+        name: serrure Aqara
+        floor: Rez-De-Chaussée
+    response: "Verrouillé"
+
+  # the whole house
+  - sentences:
+      - Verrouille les portes dans toute la maison
+      - Verrouiller toutes les serrures
+      - Verrouiller toutes les serrures dans toute la maison
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: lock
+    response: "Verrouillé"

@@ -99,8 +99,8 @@ responses:
       {%- else -%}
         Désolé, je n'ai rien trouvé de correspondant dans cette pièce
       {%- endif %}
-    no_entity: "Désolé, je ne connais pas l'appareil {{ entity }}"
-    no_entity_in_area: "Désolé, je ne connais pas l'appareil {{ entity }}"
+    no_entity: "Désolé, je ne connais pas cet appareil"
+    no_entity_in_area: "Désolé, je ne connais pas cet appareil"
     no_floor: "Désolé, je ne connais pas l'étage {{ floor }}"
     no_domain_in_floor: |
       {% set translations = {
@@ -148,7 +148,7 @@ responses:
       {%- else -%}
         Désolé, je n'ai rien trouvé de correspondant dans cet étage
       {%- endif %}
-    no_entity_in_floor: "Désolé, je ne connais pas l'appareil {{ entity }}"
+    no_entity_in_floor: "Désolé, je ne connais pas cet appareil"
     entity_wrong_state: |
       {% set translations = {
         "paused": "en pause",
@@ -161,8 +161,8 @@ responses:
       {%- endif %}
     feature_not_supported: Désolé, je n'ai pas trouvé d'appareil qui supporte cette fonctionnalité
     # Errors for when user is logged in and we can give more information
-    no_entity_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
-    no_entity_in_area_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
+    no_entity_exposed: "Désolé, cet appareil n'est pas exposé"
+    no_entity_in_area_exposed: "Désolé, cet appareil n'est pas exposé"
     no_domain_exposed: |
       {% set translations = {
         "button": "aucun bouton n'est exposé",
@@ -255,7 +255,7 @@ responses:
       {%- else -%}
         Désolé, aucun appareil de ce type n'est exposé
       {%- endif %}
-    no_entity_in_floor_exposed: "Désolé, l'appareil {{ entity }} n'est pas exposé"
+    no_entity_in_floor_exposed: "Désolé, cet appareil n'est pas exposé"
     no_domain_in_floor_exposed: |
       {% set translations = {
         "button": "aucun bouton de cet étage n'est exposé",
@@ -309,9 +309,9 @@ responses:
     duplicate_entities_in_floor: "Désolé, plusieurs appareils de cet étage sont nommés {{entity}}"
 
     # Errors for timers
-    timer_not_found: Désole, je n'ai pas trouvé ce minuteur
-    multiple_timers_matched: Désole, je ne peux pas cibler plusieurs minutuers
-    no_timer_support: Désolé, cet appareil ne supporte pas les fonctions lié aux minuteurs.
+    timer_not_found: "Désolé, je n'ai pas trouvé ce minuteur"
+    multiple_timers_matched: "Désolé, je ne peux pas cibler plusieurs minuteurs"
+    no_timer_support: "Désolé, cet appareil ne supporte pas les fonctions lié aux minuteurs"
 
 lists:
   color:
@@ -346,14 +346,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - "celsius"
-      - in: "c"
-        out: "celsius"
-      - "fahrenheit"
-      - in: "f"
-        out: "fahrenheit"
   on_off_states:
     values:
       - in: "allumé[e][s]"
@@ -403,51 +395,12 @@ lists:
     values:
       - in: "verrouill[e][er][é][ée][s]"
         out: "locked"
-      - in: "ferm[e][er][é][ée][s]"
+      - in: "ferm[e][er][é][ée][s] à (clé|clef)"
         out: "locked"
       - in: "déverrouill[e][er][é][ée][s]"
         out: "unlocked"
-      - in: "ouvert[e][s]"
-        out: "unlocked"
-      - in: "ouvr[e][s]"
-        out: "unlocked"
 
   # binary_sensors"
-  bs_battery_states:
-    values:
-      - in: "(basse[s]|faible[s]|vide[s]|déchargé[e][s])"
-        out: "on"
-      - in: "(normale[s]|chargée[s]|pleine[s])"
-        out: "off"
-
-  bs_battery_charging_states:
-    values:
-      - in: "([en] [cours de] charge[ment]|en[ ]train de charger)"
-        out: "on"
-      - in: "pas en charge"
-        out: "off"
-
-  bs_carbon_monoxide_states:
-    values:
-      - in: "(déclenché[e][s]|détecté[e][s]|en alarme)"
-        out: "on"
-      - in: "(non détecté[e][s]|sécurisé[e][s]|ok)"
-        out: "off"
-
-  bs_cold_states:
-    values:
-      - in: "froid[e][s]"
-        out: "on"
-      - in: "norma[l][e][(s|aux)]"
-        out: "off"
-
-  bs_connectivity_states:
-    values:
-      - in: "(connecté[e][s]|en ligne)"
-        out: "on"
-      - in: "(déconnecté[e][s]|hors ligne)"
-        out: "off"
-
   bs_door_states:
     values:
       - in: "ouvert[e][s]"
@@ -462,137 +415,11 @@ lists:
       - in: "fermé[e][s]"
         out: "off"
 
-  bs_gas_states:
-    values:
-      - in: "(déclenché[e][s]|détecté[e][s]|en alarme)"
-        out: "on"
-      - in: "(non détecté[e][s]|sécurisé[e][s]|ok)"
-        out: "off"
-
-  bs_heat_states:
-    values:
-      - in: "(chaud[e][s]|chauffe[nt])"
-        out: "on"
-      - in: "norma[l][e][(s|aux)]"
-        out: "off"
-
-  bs_light_states:
-    values:
-      - in: "(détecté[e][s]|déclenché[e][s]|activé[e][s])"
-        out: "on"
-      - in: "pas de lumière"
-        out: "off"
-
-  bs_lock_states:
-    values:
-      - in: "déverrouillé[e][s]"
-        out: "on"
-      - in: "verrouillé[e][s]"
-        out: "off"
-
-  bs_moisture_states:
-    values:
-      - in: "(humide[s]|innondation[s]|fuite[s]|déclenché[e][s])"
-        out: "on"
-      - in: "(sec[che][s]|non détecté[e][s]|désactivé[e][s])"
-        out: "off"
-
-  bs_motion_states:
-    values:
-      - in: "(mouvement[s]|déclenché[e][s]|acti(f|ve)[s]|détecté[e][s])"
-        out: "on"
-      - in: "(désactivé[e][s]|non détecté[e][s]|inacti(f|ve)[s])"
-        out: "off"
-
   bs_occupancy_states:
     values:
       - in: "(présent[e][s]|occupé[e][s]|déclenché[e][s]|détecté[e][s]|acti(f|ve)[s])"
         out: "on"
       - in: "(désactivé[e][s]|non détecté[e][s]|inacti(f|ve)[s])"
-        out: "off"
-
-  bs_opening_states:
-    values:
-      - in: "ouvert[e][s]"
-        out: "on"
-      - in: "fermé[e][s]|clos[e][s]"
-        out: "off"
-
-  bs_plug_states:
-    values:
-      - in: "branché[e][s]"
-        out: "on"
-      - in: "débranché[e][s]"
-        out: "off"
-
-  bs_power_states:
-    values:
-      - in: "alimenté[e][s]"
-        out: "on"
-      - in: "non alimenté[e][s]"
-        out: "off"
-
-  bs_presence_states:
-    values:
-      - in: "(présent[e][s]|à la maison)"
-        out: "on"
-      - in: "(non présent[e][s]|à l'extérieur[e]|en dehors de la maison)"
-        out: "off"
-
-  bs_problem_states:
-    values:
-      - in: "(détecté[e][s]|problème[s])"
-        out: "on"
-      - in: "(ok|non détecté[e][s])"
-        out: "off"
-
-  bs_running_states:
-    values:
-      - in: "(en cours [d'exécution]|tourne[nt])"
-        out: "on"
-      - in: "(pas en cours d'exécution|arrêté[e][s])"
-        out: "off"
-
-  bs_safety_states:
-    values:
-      - in: "(risqué[e][s]|non sécurosé[e][s]|pas sûr[e][s])"
-        out: "on"
-      - in: "(sécurisé[e][s]|sain[e][s]|sûr[e][s])"
-        out: "off"
-
-  bs_smoke_states:
-    values:
-      - in: "(déclenché[e][s]|détecté[e][s]|en alarme)"
-        out: "on"
-      - in: "(non détecté[e][s]|sécurisé[e][s]|ok)"
-        out: "off"
-
-  bs_sound_states:
-    values:
-      - in: "(déclenché[e][s]|détecté[e][s])"
-        out: "on"
-      - in: "non détecté[e][s]"
-        out: "off"
-
-  bs_tamper_states:
-    values:
-      - in: "(détecté[e]|altéré[e][s])"
-        out: "on"
-      - in: "(ok|non détecté[e][s])"
-        out: "off"
-
-  bs_update_states:
-    values:
-      - in: "[mise[s] à jour ]disponible[s]"
-        out: "on"
-      - in: "à jour"
-        out: "off"
-
-  bs_vibration_states:
-    values:
-      - in: "(détecté[e][s]|vibre[s][r])"
-        out: "on"
-      - in: "(ok|ne vibre pas|non détecté)"
         out: "off"
 
   bs_window_states:
@@ -624,17 +451,24 @@ lists:
     range:
       from: 1
       to: 100
+
   timer_minutes:
     range:
       from: 1
       to: 100
+
   timer_hours:
     range:
       from: 1
       to: 100
+
   timer_name:
     wildcard: true
+
   timer_command:
+    wildcard: true
+
+  message:
     wildcard: true
 
 expansion_rules:
@@ -645,11 +479,15 @@ expansion_rules:
   dans: "(dans|du|de|des|à|au|aux|sur)"
   de: "(du|de|des)"
   tous: "(tout|tous|toute[s])"
+  completement: "(complètement|totalement|entièrement)"
+  aujourdhui: "(aujourd'hui|maintenant|actuellement)"
 
   # Context awareness
   maison: maison|domicile|appartement|appart|logement
-  ici: "(<dans> (cette|la) pièce)|(ici)"
-  partout: ([de] partout)|(<dans> [<tous>] [<le>]<maison>)|(<dans> toutes les pièces)
+  piece: (pièce|endroit) [(actuelle|actuel|courant|courante)]
+  ou_je_suis: (où je suis)|(où je me trouve)|(où je me situe)|(où nous sommes)|(où nous nous trouvons)|(où nous nous situons)|(où on est)|(où on se trouve)|(où on se situe)
+  ici: "([<dans>] (cet |cette |<le>)<piece>)|(ici)|(ici même)|<ou_je_suis>"
+  partout: ([de] partout)|([<dans>] [<tous>] [<le>]<maison>)|([<dans>] toutes les pièces)
 
   # Verbs
   active: "(active|activer|joue|jouer|exécute|exécuter|démarre|démarrer|lance|lancer)"
@@ -659,27 +497,35 @@ expansion_rules:
   diminue: "(diminue|diminuer|baisse|baisser)"
   eclaire: "(éclaire|éclairer|illumine|illuminer)"
   eteins: "(éteint|eteint|éteins|eteins|éteindre|eteindre|désactive|désactiver|stoppe|stopper|arrête|arrêter|coupe|couper|<eteins_dirty>)"
-  ferme: "(ferme|fermer|baisse|baisser)"
+  ferme: "(ferme|fermer|<baisse>|<ferme_dirty>)"
   lis: "(lis|lire)"
-  mets: "(mets|mettre|passe|passer|mets_dirty)"
-  ouvre: "(ouvre|ouvrir|monte|monter)"
-  regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer|mets_dirty)"
+  mets: "(mets|mettre|passe|passer|<mets_dirty>)"
+  ouvre: "(ouvre|ouvrir|<monte>)"
+  regle: "(règle|régler|met|mets|mettre|ajuste|ajuster|change|changer|<mets_dirty>)"
   renvoie: "(renvoie|renvoyer|arrête|arrêter|stop[pe]|stopper)"
   reprends: "(remets|remettre|reprends|reprend|reprendre|reprise|relance|relancer)"
   cree: "(créer|crée)"
-  supprime: "(supprime|supprimer)"
+  supprime: "(supprime|supprimer|annule|annuler)"
   enleve: "(enlève|enlever|soustrais|soustrait|soustraire|retranche|retrancher)"
-  ajoute: "(ajoute|ajouter|rajoute|rajotuer)"
+  ajoute: "(ajoute|ajouter|ajoutez|rajoute|rajouter|rajoutez)"
+  verrouille: "(verrouiller|verrouille|barre|barrer)"
+  deverrouille: "(déverrouiller|déverrouille)"
+  monte: (monte|monter)
+  baisse: (baisse|baisser|descendre|descends)
+  nettoie: (aspire|aspirer|nettoie|nettoyer)
+  annonce: "(annonce|annoncer)"
 
   # Dirty Verbs. We have some heavy STT limitations today. We're willing to support this hack for now. Ideally this should be removed once we have a better STT engine. Hence the fact that we decided to put it on a different expansion rules. The goal of this expansion rule is to be removed in the future.
   # Éteins
-  eteins_dirty: "(étant|étends|étend|étendre|état|et tant|et teins|et teint|et teints|et t'as|été|étais|était)"
+  eteins_dirty: "(étant|etant|étends|étend|étendre|état|et tant|et teins|et teint|et teints|et t'as|été|étais|était)"
   # Mets
   mets_dirty: "(mais|maître)"
+  # ferme
+  ferme_dirty: "faire"
+  minuteur_dirty: "minuteurs"
 
   # Domains and Things
-  lumiere: "(lumière|lampe|ampoule)"
-  lumieres: "(lumières|lampes|ampoules)"
+  lumiere: "(lumière[s]|lampe[s]|ampoule[s]|éclairage[s])"
   ventilateur: "[le ](ventilateur|brasseur d'air)"
   ventilateurs: "[les ](ventilateurs|brasseurs d'air)"
   fenetre: "(fenetre[s]|fenêtre[s]|baie[s]|velux|vélux|lucarne[s])"
@@ -688,18 +534,46 @@ expansion_rules:
   media: "(morceau|chanson|musique|son|élément|podcast|film|vidéo|épisode|radio|média)"
   lecture: "(lecture|visionnage)"
   volume: "(volume|son|watt[s])"
-  minuteur: "(compte a rebours)|(compte à rebours)|(minuteur)|(décompte)"
+  minuteur: "(compte a rebours)|(compte à rebours)|(minuteur)|(décompte)|<minuteur_dirty>"
+  minuteurs: "(comptes a rebours)|(comptes à rebours)|(minuteurs)|(décomptes)"
+  serrure: "(verrou[s]|serrure[s]|loquet[s]|porte[s])"
 
-  # Timers
-  timer_duration_seconds: "{timer_seconds:seconds} seconde[s]"
-  timer_duration_minutes: "{timer_minutes:minutes} minute[s][ [et ]{timer_seconds:seconds} seconde[s]]"
-  timer_duration_hours: "{timer_hours:hours} heure[s][ [et ]{timer_minutes:minutes} minute[s]][ [et ]{timer_seconds:seconds} seconde[s]]"
-  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+  ### Timers ###
+  # mix numerical and litteral value for seconds, minutes and hours for the setting of the duration of the timmer
+  nb_seconds_duration: "{timer_seconds:seconds}"
+  nb_minutes_duration: "{timer_minutes:minutes}"
+  nb_hours_duration: "{timer_hours:hours}"
 
-  timer_start_seconds: "{timer_seconds:start_seconds} seconde[s]"
-  timer_start_minutes: "{timer_minutes:start_minutes} minute[s][ [et ]{timer_seconds:start_seconds} seconde[s]]"
-  timer_start_hours: "{timer_hours:start_hours} heure[s][ [et ]{timer_minutes:start_minutes} minute[s]][ [et ]{timer_seconds:start_seconds} seconde[s]]"
-  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+  # mix numerical and litteral value for seconds, minutes and hours for the request of the status of a timmer by its initial duration
+  nb_seconds_start: "{timer_seconds:start_seconds}"
+  nb_minutes_start: "{timer_minutes:start_minutes}"
+  nb_hours_start: "{timer_hours:start_hours}"
+
+  # definition of the units for seconds, minutes and hours
+  second_unit: "(seconde|secondes|sec|s)"
+  minute_unit: "(minute|minutes|min|m)"
+  hour_unit: "(heure|heures|h)"
+  s_unit: "(sec|s)"
+  m_unit: "(min|m)"
+  h_unit: "h"
+
+  # definition of all possible values for the setting of the duration of the timmer
+  timer_duration_seconds: "<nb_seconds_duration> <second_unit>"
+  timer_duration_minutes: "<nb_minutes_duration> <minute_unit>[( | et )<nb_seconds_duration> [<second_unit>]]"
+  timer_duration_hours: "<nb_hours_duration> <hour_unit>[( | et )<nb_minutes_duration> [<minute_unit>]][( | et )<nb_seconds_duration> [<second_unit>]]"
+  timer_duration_s: "<nb_seconds_duration><s_unit>"
+  timer_duration_m: "<nb_minutes_duration><m_unit>[<nb_seconds_duration>[<s_unit>]]"
+  timer_duration_h: "<nb_hours_duration><h_unit>[<nb_minutes_duration>[<m_unit>][<nb_seconds_duration>[<s_unit>]]]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>|<timer_duration_s>|<timer_duration_m>|<timer_duration_h>"
+
+  # definition of all possible values for the request of the status of a timmer by its initial duration
+  timer_start_seconds: "<nb_seconds_start> <second_unit>"
+  timer_start_minutes: "<nb_minutes_start> <minute_unit>[( | et )<nb_seconds_start> [<second_unit>]]"
+  timer_start_hours: "<nb_hours_start> <hour_unit>[( | et )<nb_minutes_start> [<minute_unit>]][( | et )<nb_seconds_start> [<second_unit>]]"
+  timer_start_s: "<nb_seconds_start><s_unit>"
+  timer_start_m: "<nb_minutes_start><m_unit>[<nb_seconds_start>[<s_unit>]]"
+  timer_start_h: "<nb_hours_start><h_unit>[<nb_minutes_start>[<m_unit>][<nb_seconds_start>[<s_unit>]]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>|<timer_start_s>|<timer_start_m>|<timer_start_h>"
 
   # Others
   en_route: (en route)|(en marche)
@@ -710,7 +584,7 @@ expansion_rules:
   atil: "(ont|a)[-][ ][t][ ][-][(il[s]|elle[s])]"
   quel: "quel[le][s]"
   quelest: "<quel> (est|sont)"
-  what_is_the_class_of_name: "<quelest> (le |la |l'|les )<class> [(indiqué[e][s]|mesuré[e][s]|renvoyé[e][s]|restant[e][s]|retourné[e][s]|utilisé[e][s]|produit[e][s]|consommé[e][s]|donné[e][s]) ][(par|<dans>|sur)] [<le>]{name} [<dans> [<le>]{area}]"
+  donnemoi: "(donne[s]|dis)[(-| )moi]"
 
 skip_words:
   - "s'il te plaît"

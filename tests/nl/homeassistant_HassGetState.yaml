@@ -23,10 +23,13 @@ tests:
       slots:
         name: "Speelhoek"
         area: "Woonkamer"
+      context:
+        domain: fan
     response: "Speelhoek is uit"
 
   - sentences:
       - "Staat het slaapkamerlampje aan?"
+      - "Is de huidige status van slaapkamerlampje aan"
     intent:
       name: HassGetState
       slots:
@@ -36,6 +39,32 @@ tests:
 
   - sentences:
       - "Staat de werkbank in de garage aan?"
+      - "Is de huidige status van werkbank aan in de garage"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Werkbank"
+        area: "Garage"
+        state: "on"
+    response: "Ja"
+
+  - sentences:
+      - "Wat is de status van de werkbank licht in garage"
+      - "Wat is in de garage de werkbank verlichting status"
+      - "Wat is in de garage de staat van de werkbank lamp"
+      - "huidige status van werkbanklampen in garage"
+      - "Status werkbank verlichting in garage"
+      - "garagewerkbank lichten status"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Werkbank"
+        area: "Garage"
+      context:
+        domain: light
+    response: "Werkbank is aan"
+
+  - sentences:
       - "Staat in de garage de werkbankverlichting aan?"
       - "Staat in garage de huidige stand van werkbank lamp op aan?"
     intent:
@@ -44,6 +73,64 @@ tests:
         name: "Werkbank"
         area: "Garage"
         state: "on"
+      context:
+        domain: light
+    response: "Ja"
+
+  - sentences:
+      - "Wat is de status van de waterkokerschakelaar in de keuken"
+      - "Wat is in de keuken waterkokerswitch status"
+      - "Wat is in de keuken de staat van de waterkoker schakelaar"
+      - "in keuken huidige status van waterkoker switch"
+      - "Status keukenwaterkokerschakelaar"
+      - "waterkoker switch status in keuken"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Waterkoker"
+        area: "Keuken"
+      context:
+        domain: switch
+    response: "Waterkoker is uit"
+
+  - sentences:
+      - "Staat in de keuken de waterkokerswitch aan?"
+      - "Staat in keuken de huidige stand van waterkoker schakelaar op aan?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Waterkoker"
+        area: "Keuken"
+        state: "on"
+      context:
+        domain: switch
+    response: "Nee, die is uit"
+
+  - sentences:
+      - "Wat is de status van de speelhoekfan"
+      - "Wat is speelhoekventilator status"
+      - "Wat is de staat van de speelhoek fan"
+      - "huidige status van speelhoekfan"
+      - "Status speelhoekventilator"
+      - "speelhoekfan status"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Speelhoek"
+      context:
+        domain: fan
+    response: "Speelhoek is uit"
+
+  - sentences:
+      - "Staat de speelhoekventilator uit?"
+      - "Staat de huidige stand van speelhoek fan op uit?"
+    intent:
+      name: HassGetState
+      slots:
+        name: "Speelhoek"
+        state: "off"
+      context:
+        domain: fan
     response: "Ja"
 
   - sentences:

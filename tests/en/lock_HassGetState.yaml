@@ -2,6 +2,8 @@ language: en
 tests:
   - sentences:
       - "is the front door locked?"
+      - "is the front door locked currently?"
+      - "is the front door currently locked?"
     intent:
       name: HassGetState
       slots:
@@ -11,15 +13,18 @@ tests:
     response: "Yes"
 
   - sentences:
-      - "are any doors unlocked?"
+      - "are the sliding doors locked?"
     intent:
       name: HassGetState
       slots:
         domain: lock
-        state: "unlocked"
-    response: "Yes, Back Door"
+        name: "Sliding Doors"
+        state: "locked"
+    response: "Yes"
 
   - sentences:
+      - "are any doors unlocked?"
+      - "do I have any unlocked doors?"
       - "are there any unlocked doors?"
     intent:
       name: HassGetState
@@ -30,6 +35,7 @@ tests:
 
   - sentences:
       - "are all the doors locked?"
+      - "are all doors locked?"
     intent:
       name: HassGetState
       slots:
@@ -39,18 +45,30 @@ tests:
 
   - sentences:
       - "which doors are locked?"
+      - "which doors are securely locked?"
+      - "which doors are securely locked right now?"
+      - "which doors are currently locked?"
     intent:
       name: HassGetState
       slots:
         domain: lock
         state: "locked"
-    response: "Front Door and Side Door"
+    response: "Front Door, Side Door and Sliding Doors"
 
   - sentences:
-      - "how many doors are locked?"
+      - "how many doors are locked right now?"
     intent:
       name: HassGetState
       slots:
         domain: lock
         state: "locked"
-    response: "2"
+    response: "3"
+
+  - sentences:
+      - "tell me the status of Front Door"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: "Front Door"
+    response: "Front door is locked"

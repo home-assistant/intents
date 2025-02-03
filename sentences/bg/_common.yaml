@@ -38,12 +38,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - in: "c|[по|в] целзий"
-        out: "celsius"
-      - in: "f|[по|във] фаренхайт"
-        out: "fahrenheit"
   on_off_states:
     values:
       - in: "включен[а|о|и|ият|ите|ото|ата]"
@@ -161,7 +155,7 @@ lists:
 
   bs_light_states:
     values:
-      - in: "(засечен[а|о|и|ия|ият|ата|ите]|задействан[а|о|и|ия|ият|ата|ите]|светъл|светл(а|о|и|ия|ият|ата|ото|ите)|отчита[т][ се]|отчетен[а|о|и|ия|ият|ата|ото|ите])"
+      - in: "(засечен[а|о|и|ия|ият|ата|ите]|задействан[а|о|и|ия|ият|ата|ите]|светъл|светл(а|о|и|ия|ият|ата|ото|ите)|отчита[т][ се]|отчетен[а|о|и|ия|ият|ата|ото|ите]|свет(я|ят|и|я|нат|нати|натите|нато|ната|натата|натото|натият))"
         out: "on"
       - in: "((няма|без) светлина|неосветен[а|о|и|ия|ият|ата|ите]|тъм(ен|на|но|ни|ния|ният|ната|ното|ните)|мрач(ен|на|но|ни|ния|ният|ната|ното|ните)|чист[а|о|и|ия|ият|ата|ите]|незадействан[а|о|и|ия|ият|ата|ите]|не [се ]отчита[т])"
         out: "off"
@@ -288,6 +282,63 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+
+  timer_half:
+    values:
+      - in: "половин"
+        out: 30
+      - in: "половина"
+        out: 30
+
+  timer_words_seconds:
+    values:
+      - in: "една"
+        out: 1
+
+  timer_words_minutes:
+    values:
+      - in: "една"
+        out: 1
+
+  timer_words_hours:
+    values:
+      - in: "един"
+        out: 1
+      - in: "два"
+        out: 2
+
+  timer_name:
+    wildcard: true
+
+  timer_command:
+    wildcard: true
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
   name: "{name}"
   area: "[в|на|във] {area}"
@@ -301,12 +352,26 @@ expansion_rules:
   max: "max|максимална[та]|макс|край|най[-]висока[та]"
   min: "минимална|минимум|най[-]ниска"
   temp: "температур(а|ата|ите)|градус[а|и|те|ът]|термостат[а|ът|ите]"
-  temperature: "{temperature}[°| градуса] [{temperature_unit}]"
+  temperature: "{temperature}[°| градуса]"
   turn_on: "пусни|включи|светни|запали"
   turn_off: "спри|изключи|изгаси|угаси|загаси"
   set: "направи|сложи|постави|смени|промени|настрой|задай|нагласи|тури|навий"
   close: "затвори|смъкни|спусни|закрий|свали"
   open: "отвори|вдигни|открий"
+  # Timers
+  timer_set: "(стартирай|настрой|създай)"
+  timer_cancel: "(изключи|спри)"
+  timer_duration_seconds: "({timer_seconds:seconds}|{timer_words_seconds:seconds}) секунд(а|и|ен)"
+  timer_duration_minutes: "(({timer_minutes:minutes}|{timer_words_minutes:minutes}) минут(а|и|ен)[ [и] ({timer_seconds:seconds}|{timer_words_seconds:seconds}) секунд(а|и)])|(({timer_minutes:minutes}|{timer_words_minutes:minutes}) минут(а|и) и {timer_half:seconds})|({timer_half:seconds} минута)"
+  timer_duration_hours: "(({timer_hours:hours}|{timer_words_hours:hours}) час[а|ов][ [и] ({timer_minutes:minutes}|{timer_words_minutes:minutes}) минут(а|и)][ [и] ({timer_seconds:seconds}|{timer_words_seconds:seconds}) секунд(а|и)])|(({timer_hours:hours}||{timer_words_hours:hours}) час[а] и {timer_half:minutes})|({timer_half:minutes} час[а])"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+  timer_start_seconds: "{timer_seconds:start_seconds} секунд(а|и)"
+  timer_start_minutes: "{timer_minutes:start_minutes} минут(а|и)[ [и ]{timer_seconds:start_seconds} секунд(а|и)]"
+  timer_start_hours: "{timer_hours:start_hours} час[а][ [и ]{timer_minutes:start_minutes} минут(а|и)][ [и ]{timer_seconds:start_seconds} секунд(а|и)]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+  volume: "{volume:volume_level}[([ ]%)| процент[а]]"
+  position: "{position}[%| процент[а]]"
+
 skip_words:
   - "извинявай"
   - "можеш ли"

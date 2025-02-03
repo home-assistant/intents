@@ -3,4 +3,14 @@ language: de
 responses:
   intents:
     HassDecreaseTimer:
-      default: "Timer aktualisiert"
+      default: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' Stunde' if h in [ "1", 'eine'] else ' Stunden') if h else '' %}
+        {% set m_text = m ~ (' Minute' if m in [ "1", 'eine'] else ' Minuten') if m else '' %}
+        {% set s_text = s ~ (' Sekunde' if s in [ "1", 'eine'] else ' Sekunden') if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' und ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' und ') %}
+        {% set name = (' namens ' ~ slots.name | trim) if slots.name is defined else '' %}
+        Timer{{ name }} um {{ text }} verringert

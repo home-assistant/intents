@@ -344,7 +344,7 @@ intents:
           device_class: light
 
       - sentences:
-          - "Все ли[ ли] (датчики|сенсоры) {bs_light_states:state} [свет|освещенность] [<area>]"
+          - "все[ ли] (датчики|сенсоры) {bs_light_states:state} (свет|освещенность) [<area>]"
           - "везде[ ли] {bs_light_states:state} (свет|освещенность) [<area>]"
         response: all
         slots:
@@ -352,14 +352,22 @@ intents:
           device_class: light
 
       - sentences:
-          - "как(ая|ой|ие)[ из] [датчик[и|ов]|сенсор[ы|ов]] (свет[а]|освещенност(и|ь)) {bs_light_states:state} [<area>]"
+          - "везде ли нет света [<area>]"
+        response: all
+        slots:
+          domain: binary_sensor
+          device_class: light
+          state: "off"
+
+      - sentences:
+          - "как(ой|ие)[ из] (датчик[и|ов]|сенсор[ы|ов]) (света|освещенности) {bs_light_states:state} [<area>]"
         response: which
         slots:
           domain: binary_sensor
           device_class: light
 
       - sentences:
-          - "(сколько|как много) [датчиков|сенсоров] (света|освещенности)  {bs_light_states:state} [<area>]"
+          - "(сколько|как много) (датчиков|сенсоров) (света|освещенности)  {bs_light_states:state} [<area>]"
         response: how_many
         slots:
           domain: binary_sensor

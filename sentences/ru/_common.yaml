@@ -1,12 +1,177 @@
 language: "ru"
 responses:
   errors:
-    no_intent: "обращение не распознано"
-    no_area: "нет зоны {{ area }}"
-    no_domain_in_area: "в зоне {{ area }} нет объектов {{ domain }}"
-    no_device_class_in_area: "в зоне {{ area }} нет устройств {{ device_class }}"
-    no_entity: "объекта {{ entity }} не существует"
-    handle_error: "во время обработки действий произошла ошибка"
+    # General errors
+    no_intent: "Обращение не распознано"
+    handle_error: "Во время обработки действия произошла ошибка"
+
+    # Errors for when user is not logged in
+    no_area: "Нет зоны {{ area }}"
+    no_floor: "Нет этажа {{ floor }}"
+    no_domain: |
+      {% set translations = {
+        "button": "кнопка",
+        "camera": "камера",
+        "input_button": "кнопка",
+        "alarm_control_panel": "охрана",
+        "automation": "автоматизация",
+        "fan": "вентилятор",
+        "climate": "термостат",
+        "humidifier": "увлажнитель",
+        "input_boolean": "переключатель",
+        "siren": "сирена",
+        "water_heater": "бойлер",
+        "light": "лампа",
+        "switch": "переключатель",
+        "script": "скрипт",
+        "remote": "ИК пульт",
+        "lock": "замок",
+        "vacuum": "пылесос",
+        "scene": "сцена",
+        "media_player": "плеер",
+        "lawn_mower": "газонокосилка",
+        "valve": "кран"
+        } %}
+      {% if domain in translations -%}
+        Нет объектов типа {{ translations[domain] }}
+      {%- else -%}
+        Нет объектов запрашиваемого типа
+      {%- endif %}
+    no_domain_in_area: |
+      {% set translations = {
+        "button": "кнопка",
+        "camera": "камера",
+        "input_button": "кнопка",
+        "alarm_control_panel": "охрана",
+        "automation": "автоматизация",
+        "fan": "вентилятор",
+        "climate": "термостат",
+        "humidifier": "увлажнитель",
+        "input_boolean": "переключатель",
+        "siren": "сирена",
+        "water_heater": "бойлер",
+        "light": "лампа",
+        "switch": "переключатель",
+        "script": "скрипт",
+        "remote": "ИК пульт",
+        "lock": "замок",
+        "vacuum": "пылесос",
+        "scene": "сцена",
+        "media_player": "плеер",
+        "lawn_mower": "газонокосилка",
+        "valve": "кран"
+        } %}
+      {% if domain in translations -%}
+        Нет объектов типа {{ translations[domain] }} в {{ area }}
+      {%- else -%}
+        Нет объектов запрашиваемого типа в {{ area }}
+    no_domain_in_floor: |
+      {% set translations = {
+        "button": "кнопка",
+        "camera": "камера",
+        "input_button": "кнопка",
+        "alarm_control_panel": "охрана",
+        "automation": "автоматизация",
+        "fan": "вентилятор",
+        "climate": "термостат",
+        "humidifier": "увлажнитель",
+        "input_boolean": "переключатель",
+        "siren": "сирена",
+        "water_heater": "бойлер",
+        "light": "лампа",
+        "switch": "переключатель",
+        "script": "скрипт",
+        "remote": "ИК пульт",
+        "lock": "замок",
+        "vacuum": "пылесос",
+        "scene": "сцена",
+        "media_player": "плеер",
+        "lawn_mower": "газонокосилка",
+        "valve": "кран"
+        } %}
+      {% if domain in translations -%}
+        Нет объектов типа {{ translations[domain] }} на этаже
+      {%- else -%}
+        Нет объектов запрашиваемого типа на этаже
+
+    no_device_class: |
+      {% set translations = {
+        "awning": "навесы",
+        "blind": "жалюзи",
+        "curtain": "шторы",
+        "door": "двери",
+        "garage": "гаражные ворота",
+        "gate": "ворота",
+        "shade": "рулонные шторы",
+        "shutter": "ставни",
+        "window": "окна"
+        } %}
+      {% if device_class in translations -%}
+        {{ translations[device_class] }} отсутствуют
+      {%- else -%}
+        Отсутствуют объекты класса {{ device_class }}
+      {%- endif %}
+    no_device_class_in_area: |
+      {% set translations = {
+        "awning": "навесы",
+        "blind": "жалюзи",
+        "curtain": "шторы",
+        "door": "двери",
+        "garage": "гаражные ворота",
+        "gate": "ворота",
+        "shade": "рулонные шторы",
+        "shutter": "ставни",
+        "window": "окна"
+        } %}
+      {% if device_class in translations -%}
+        Отсутствуют {{ translations[device_class] }} в {{ area }}
+      {%- else -%}
+        Отсутствуют объекты класса {{ device_class }} в {{ area }}
+      {%- endif %}
+    no_device_class_in_floor: |
+      {% set translations = {
+        "awning": "навесы",
+        "blind": "жалюзи",
+        "curtain": "шторы",
+        "door": "двери",
+        "garage": "гаражные ворота",
+        "gate": "ворота",
+        "shade": "рулонные шторы",
+        "shutter": "ставни",
+        "window": "окна"
+        } %}
+      {% if device_class in translations -%}
+        Отсутствуют {{ translations[device_class] }} на этаже
+      {%- else -%}
+        Отсутствуют объекты класса {{ device_class }} на этаже
+      {%- endif %}
+
+    no_entity: "Отсутствует объект {{ entity }}"
+    no_entity_in_area: "Отсутствует объект {{ entity }} в {{ area }}"
+    no_entity_in_floor: "Отсутствует объект {{ entity }} на этаже"
+    entity_wrong_state: "Нет объектов со статусом {{ state | lower }}"
+    feature_not_supported: "Функция не поддерживается объектом"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Доступ к объекту {{ entity }} не предоставлен"
+    no_entity_in_area_exposed: "Доступ к объекту {{ entity }} в {{ area }} не предоставлен"
+    no_entity_in_floor_exposed: "Доступ к объекту {{ entity }} на этаже не предоставлен"
+    no_domain_exposed: "Доступ к {{ domain }} не предоставлен"
+    no_domain_in_area_exposed: "Доступ к {{ domain }} в {{ area }} не предоставлен"
+    no_domain_in_floor_exposed: "Доступ к {{ domain }} на этаже не предоставлен"
+    no_device_class_exposed: "Доступ к {{ device_class }} не предоставлен"
+    no_device_class_in_area_exposed: "Доступ к {{ device_class }} в {{ area }} не предоставлен"
+    no_device_class_in_floor_exposed: "Доступ к {{ device_class }} на этаже не предоставлен"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Дублирование названий. Несколько объектов {{ entity }}"
+    duplicate_entities_in_area: "Дублирование названий. Несколько объектов {{ entity }} в {{ area }}"
+    duplicate_entities_in_floor: "Дублирование названий. Несколько объектов {{ entity }} на этаже"
+
+    # Errors for timers
+    timer_not_found: "Таймер не найден"
+    multiple_timers_matched: "Ошибка обращения к совпадающим таймерам"
+    no_timer_support: "Таймеры не поддерживаются на данном устройстве"
 lists:
   color:
     values:
@@ -38,12 +203,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - in: "c|цельсия|по цельсию"
-        out: "celsius"
-      - in: "f|фаренгейта|по фаренгейту"
-        out: "fahrenheit"
   on_off_states:
     values:
       - in: "включен[н][а|ы[е]|о[й]]"
@@ -52,11 +211,11 @@ lists:
         out: "off"
   on_off_domains:
     values:
-      - in: "(свет[а]|освещение|ламп[а|ы|ой|ами|у]|светильник(а|у|ом|и|ами))"
+      - in: "(свет[а]|освещение|ламп[у|ы]|светильник[и|ов])"
         out: light
-      - in: "вентилятор[ы]"
+      - in: "вентилятор[ы|ов]"
         out: fan
-      - in: "выключател(и|ь|ей|ем|ями)"
+      - in: "выключател(и|ь|ей)"
         out: switch
   cover_states:
     values:
@@ -70,33 +229,33 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: "навес[а[м[и]]|у|ы|ом]"
+      - in: "навес[ы|ов]"
         out: "awning"
       - in: "жалюзи"
         out: "blind"
-      - in: "штор[а[м[и]]|у|ы|ой]"
+      - in: "штор[у|а|ы]|занавеск(у|а|и|ок)"
         out: "curtain"
-      - in: "[приточн(ы(й|е|м[и])|о(й|го|му))][ ]клапан[а[м[и]]|у|ы|ом]|заслонк(а[м[и]]|у|е|и|ой)"
+      - in: "[приточн(ый|ые|ых) ]клапан[ы|и|ов]|заслонк(у|а|и|ок)"
         out: "damper"
-      - in: "двер(ь[ю]|и|(я|ь)м[и])|калитк(а[м[и]]|у|и|ой)"
+      - in: "двер(ь|и|ей)|калитк(а|и|ок)"
         out: "door"
-      - in: "гараж[а[м[и]]|у|ом|и|н(ая|ую|ой|ы(е|х|м[и]))][ ][двер(ь[ю]|и|(я|ь)м[и])|ворот[а[м[и]]]]"
+      - in: "гаражн(ую|ые|ых) (двер(ь|и|ей)|ворот[а])"
         out: "garage"
-      - in: "ворот[а[м[и]]]"
+      - in: "ворот[а]"
         out: "gate"
-      - in: "занавес[а[м[и]]|у|ы|ом]"
+      - in: "рулонн(ая|ую|ые|ых) штор[у|а|ы]"
         out: "shade"
-      - in: "ставн(я[м[и]]|и)"
+      - in: "ставн(и|ей)"
         out: "shutter"
-      - in: "окн(о[м]|а[м[и]])"
+      - in: "окн(о|а)|окон"
         out: "window"
 
   # binary_sensor
   bs_battery_states:
     values:
-      - in: "разряжен[(а|о|ы|ные|ная|ных)]"
+      - in: "разряжен[а|о|ы|ные|ная|ных]"
         out: "on"
-      - in: "(полн(ая|ый|ых|ые)|заряжен[(а|ная|ные|ы)]|[в ]норме)"
+      - in: "(полн(ая|ый|ых|ые)|заряжен[а|о|ы|ные|ная|ных]|в норме)"
         out: "off"
 
   bs_battery_charging_states:
@@ -159,7 +318,7 @@ lists:
     values:
       - in: "(обнаружен[а|о]|присутствует|активирован[ы|о|х]|обнаружива(ет|ют|ющий|ющие))"
         out: "on"
-      - in: "(нет света|не обнаружен[а|о]|не присутствует|не активирован[ы|о|х]|не обнаружива(ет|ют|ющий|ющие))"
+      - in: "(не обнаружен[а|о]|отсутствует|не активирован[ы|о|х]|не обнаружива(ет|ют|ющий|ющие))"
         out: "off"
 
   bs_lock_states:
@@ -269,7 +428,7 @@ lists:
 
   bs_vibration_states:
     values:
-      - in: "(обнаруженно|вибрирует)"
+      - in: "(обнаружено|вибрирует)"
         out: "on"
       - in: "(не вибрирует)"
         out: "off"
@@ -283,6 +442,12 @@ lists:
 
   shopping_list_item:
     wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
 
   volume:
     range:
@@ -307,12 +472,15 @@ lists:
   timer_command:
     wildcard: true
 
+  message:
+    wildcard: true
+
 expansion_rules:
   name: "{name}"
   area: "[в|во|на] {area}"
   brightness: "{brightness}[%| процент[ов|а]]"
   temp: "(температур(а|у)|градус[ов|а])"
-  temperature: "{temperature}[°|градус[ов|а]] [{temperature_unit}]"
+  temperature: "{temperature}[([ ]°)| градус[ов|а]]"
   turn_on: "(запусти|включи)[ть]"
   turn_off: "(выключи|отключи)[ть]"
   set: "(сдела(й|ть)|установи[ть]|постав(ь|ить)|поменя(й|ть)|измени[ть]|выстав(ь|ить)|переключи[ть]|переве(сти|ди)|увелич(ь|ить)|уменьш(и|ить)|подн(ими|ять)|опусти[ть]|прибав(ь|ить)|отн(ими|ять)|повыс(ь|ить)|пониз(ь|ить))"
@@ -320,6 +488,7 @@ expansion_rules:
   open: "(откр(ой|ыть)|подн(ими|ять))"
   what_is: "какая|како(е|й)|как(ую|ие)|каков[о|a|ы]|[на]сколько|когда|как"
   what_is_the_class_of_name: "<what_is> [показани(е|я)|значени(е|я)|уровен(и|ь)|концентраци(я|ю)] <class> [показывает[ся]|отображает[ся]] [у|на|в] [датчик(а|е)|сенсор(а|е)] <name> [<area>]"
+  position: "{position}[[ ]%| процентов]"
   volume: "{volume:volume_level}[[ ]%| процентов]"
   # Timers
   timer_duration_seconds: "{timer_seconds:seconds} секунд[у|ы]"

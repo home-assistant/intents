@@ -5,15 +5,17 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from typing import Any, Dict
+from collections.abc import Iterable
+from typing import Any, Dict, Optional
 
 import yaml
 from hassil.intents import Intents
-from hassil.recognize import recognize
+from hassil.recognize import RecognizeResult, recognize_all, recognize_best
 from hassil.util import merge_dict, normalize_whitespace
 
 from shared import (
     get_areas,
+    get_floors,
     get_matched_states,
     get_slot_lists,
     get_states,
@@ -49,6 +51,11 @@ def get_arguments() -> argparse.Namespace:
         metavar=("key", "value"),
         help="Add key/value pair to context",
     )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="List all possible matches instead of just the best one",
+    )
     return parser.parse_args()
 
 
@@ -63,6 +70,7 @@ def run() -> int:
     slot_lists = get_slot_lists(fixtures)
     states = get_states(fixtures)
     areas = get_areas(fixtures)
+    floors = get_floors(fixtures)
 
     # Load intents
     intents_dict: Dict[str, Any] = {}
@@ -81,28 +89,50 @@ def run() -> int:
 
     # Parse sentences
     for sentence in args.sentence:
-        result = recognize(
-            sentence, intents, slot_lists=slot_lists, intent_context=intent_context
-        )
-        output_dict = {"text": sentence, "match": result is not None}
-        if result is not None:
-            output_dict["intent"] = result.intent.name
-            output_dict["slots"] = {
-                entity.name: entity.value for entity in result.entities_list
-            }
-            output_dict["context"] = result.context
-
-            # Response
-            matched, unmatched = get_matched_states(states, areas, result)
-            output_dict["response_key"] = result.response
-            response_template = responses.get(result.intent.name, {}).get(
-                result.response
+        if args.all:
+            results: Iterable[Optional[RecognizeResult]] = recognize_all(
+                sentence, intents, slot_lists=slot_lists, intent_context=intent_context
             )
-            output_dict["response"] = normalize_whitespace(
-                render_response(response_template, result, matched, unmatched)
-            ).strip()
+        else:
+            results = [
+                recognize_best(
+                    sentence,
+                    intents,
+                    slot_lists=slot_lists,
+                    intent_context=intent_context,
+                    best_slot_name="name",
+                )
+            ]
 
-        json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)
+        for result in results:
+            if result is None:
+                continue
+
+            output_dict = {"text": sentence, "match": result is not None}
+            if result is not None:
+                output_dict["intent"] = result.intent.name
+                output_dict["slots"] = {
+                    entity.name: entity.value for entity in result.entities_list
+                }
+                output_dict["context"] = result.context
+                output_dict["text_chunks_matched"] = result.text_chunks_matched
+
+                # Response
+                matched, unmatched = get_matched_states(states, areas, floors, result)
+                output_dict["response_key"] = result.response
+                response_template = responses.get(result.intent.name, {}).get(
+                    result.response
+                )
+                output_dict["response"] = normalize_whitespace(
+                    render_response(response_template, result, matched, unmatched)
+                ).strip()
+
+                if result.intent_sentence is not None:
+                    output_dict["template"] = result.intent_sentence.text
+
+            json.dump(output_dict, sys.stdout, ensure_ascii=False, indent=2)
+            print("")
+
         print("")
 
     return 0

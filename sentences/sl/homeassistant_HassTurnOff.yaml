@@ -3,11 +3,19 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<izklopi> {name}"
-          - "<izklopi> {name} [v|na] {area}"
-          - "<izključi> {name}"
-          - "<izključi> {name} [v|na] {area}"
-        response: default_name
+          #- "<izklopi> {name}"
+          #- "<izklopi> {name} [v|na] {area}"
+          #- "<izključi> {name}"
+          #- "<izključi> {name} [v|na] {area}"
+          - "<izklopi> (<area> <name>|<name> [[v|na] <area>])"
+        #response: default_name
+        expansion_rules:
+          izklopi: "(iz(ključi|klopi)|ugasni)"
         excludes_context:
           domain:
+            - binary_sensor
             - cover
+            - lock
+            - scene
+            - script
+            - sensor

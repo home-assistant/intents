@@ -69,9 +69,9 @@ def do_test_language_sentences(
     )
 
     # Add placeholder slots that HA will generate
-    language_sentences.slot_lists["area"] = TextSlotList(values=[])
-    language_sentences.slot_lists["name"] = TextSlotList(values=[])
-    language_sentences.slot_lists["floor"] = TextSlotList(values=[])
+    language_sentences.slot_lists["area"] = TextSlotList(name="area", values=[])
+    language_sentences.slot_lists["name"] = TextSlotList(name="name", values=[])
+    language_sentences.slot_lists["floor"] = TextSlotList(name="floor", values=[])
 
     # Lint sentences
     for intent_name, intent in language_sentences.intents.items():
@@ -109,7 +109,7 @@ def do_test_language_sentences(
                         expression,
                         language_sentences,
                         intent_name,
-                        slot_schema,
+                        slot_schema=slot_schema,
                         visited_rules=set(),
                         found_slots=found_slots,
                         expansion_rules=expansion_rules,
@@ -151,6 +151,7 @@ def _verify(
     expression: Expression,
     intents: Intents,
     intent_name: str,
+    *,
     slot_schema: dict[str, Any],
     visited_rules: set[str],
     found_slots: set[str],
@@ -189,10 +190,10 @@ def _verify(
                 body_expression,
                 intents,
                 intent_name,
-                slot_schema,
-                visited_rules,
-                found_slots,
-                expansion_rules,
+                slot_schema=slot_schema,
+                visited_rules=visited_rules,
+                found_slots=found_slots,
+                expansion_rules=expansion_rules,
             )
             visited_rules.remove(rule_ref.rule_name)
 

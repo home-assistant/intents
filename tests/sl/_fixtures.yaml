@@ -1,14 +1,23 @@
 language: sl
+floors:
+  - name: "pritlič(ju|e)"
+    id: ground_floor_id
+  - name: "klet[i]"
+    id: basement_id
+  - name: "drug(o|em) nadstropj(e|u)"
+    id: second_floor_id
+  - name: "prv(o|em) nadstropj(u|e)"
+    id: first_floor_id
 areas:
   - name: "spalnic(i|a|o|e)"
     id: bedroom
-    floor: "drug(o|em) nadstropj(e|u)"
+    floor: second_floor_id
   - name: "garaž(a|e|i|o|na|ne|ni)"
     id: garage
-    floor: "pritlič(ju|e)"
+    floor: ground_floor_id
   - name: "pisarn(a|i|o)|kabinet(a|u)"
     id: office
-    floor: "klet[i]"
+    floor: basement_id
   - name: "balkon(u)"
     id: balcony
   - name: "teras(a|i|o)"
@@ -29,23 +38,23 @@ areas:
     id: staircase
   - name: "kuhinj(o|a|i|ska|sko|ski|ske)"
     id: kitchen
-    floor: "prv(o|em) nadstropj(u|e)"
+    floor: first_floor_id
   - name: "dnevna soba|dnevni sobi|dnevne sobe|dnevn(a|i)"
     id: living_room
-    floor: "prv(o|em) nadstropj(u|e)"
-  - name: "kopalni(ca|ci|co|cah|cama|ška|ški|ške)"
+    floor: first_floor_id
+  - name: "kopalni(ca|ci|co|cah|cama|ška|ški|ške|ško)"
     id: bathroom
-    floor: "drug(o|em) nadstropj(u|e)"
+    floor: second_floor_id
   - name: "utility"
     id: utility
-    floor: "klet[i]"
+    floor: basement_id
 entities:
-  - name: "spaln(a|o|e) luč[ka|ko|i]"
+  - name: "luč[ko|i|ka] v spalnici"
     id: light.bedroom_lamp
     area: bedroom
     state: "off"
 
-  - name: "luč[i|ke|ki] na terasi"
+  - name: "luč[i|ke|ki|ka] na terasi"
     id: light.terrace
     area: terrace
     state: "off"
@@ -55,12 +64,12 @@ entities:
     area: terrace
     state: "closed"
 
-  - name: "luč[i|ke|ki] na balkonu"
+  - name: "balkon"
     id: light.balcony
     area: balcony
     state: "off"
 
-  - name: "kuhinjs(ko|ka|ki) stikal(o|la|li)|tipk(a|lo|li)"
+  - name: "stikal(o|la|li)|tipk(a|o|i|e|lo|li)"
     id: switch.kitchen
     area: kitchen
     state: "on"
@@ -85,12 +94,7 @@ entities:
     area: living_room
     state: "on"
 
-  - name: "[stropn(i|o|a)] ventila(cijo|cije|tor|torje|torja) [na stropu]"
-    id: fan.ceiling
-    area: living_room
-    state: "on"
-
-  - name: "[kuhinjsk(a|o|e)] [ventila(cijo|tor|ja|torji|torje)] [napa|napo]"
+  - name: "nap(a|o)"
     id: fan.kitchen_hood
     area: kitchen
     state: "on"
@@ -100,7 +104,7 @@ entities:
     area: living_room
     state: "on"
 
-  - name: "lev(a|o|i|e) zaves(a|i|o|e)"
+  - name: "levo zaveso"
     id: cover.curtain_left
     area: living_room
     state: "open"
@@ -142,21 +146,15 @@ entities:
     attributes:
       device_class: blinds
 
-  - name: "kopalnišk(o|a|i) okn(a|o|i)"
+  - name: "levo okno"
     id: cover.bathroom_window
     area: "bathroom"
     state: "open"
     attributes:
       device_class: window
 
-  - name: "strešno okno"
+  - name: "strešno"
     id: cover.ceiling_window
-    area: "kitchen"
-    state: "open"
-    attributes:
-      device_class: window
-  - name: "kuhinj(sko|ski|ska) okn(o|a|i)"
-    id: cover.kitchen_window
     area: "kitchen"
     state: "open"
     attributes:
@@ -194,21 +192,28 @@ entities:
     area: "living_room"
     state: "heat"
     attributes:
-      current_temperature: 21
+      current_temperature: 21.2
+
+  - name: "Zunanja temperatura"
+    id: "sensor.outside_temperature"
+    area: "terrace"
+    state: "13"
+    attributes:
+      unit_of_measurement: "°C"
 
   - name: "Kuhinja temperatura"
     id: "sensor.kitchen_temperature"
     state: "21"
     area: "kitchen"
     attributes:
-      current_temperature: 21
+      current_temperature: 21.2
 
   - name: "termostat"
     id: "climate.thermostat"
     area: "living_room"
     state: "heat"
     attributes:
-      current_temperature: 21
+      current_temperature: 2
   #locks
   - name: "vhodna vrata"
     id: "lock.front_door"
@@ -236,10 +241,10 @@ entities:
 
   - name: "v Mariboru"
     id: "weather.maribor"
-    state: "deževno"
+    state: "rainy"
     attributes:
-      temperature: "21"
-      temperature_unit: "stopinj"
+      temperature: "2"
+      temperature_unit: "°C"
 
   - name: "opravila|opravilom"
     id: "todo.opravila"
@@ -247,10 +252,10 @@ entities:
 
   - name: "v Benetkah"
     id: "weather.benetke"
-    state: "jasno"
+    state: "clear"
     attributes:
-      temperature: "28"
-      temperature_unit: "stopinj"
+      temperature: "-1.3"
+      temperature_unit: "°C"
 
   - name: "Lev"
     id: "person.Lev"
@@ -528,7 +533,7 @@ entities:
       device_class: apparent_power
       unit_of_measurement: "VA"
 
-  - name: "kuhinjsk(ega|i) senzor[ja] kakovosti zraka"
+  - name: "zrak"
     id: "sensor.kitchen_aqi_sensor"
     state: "50"
     attributes:
@@ -794,7 +799,7 @@ entities:
 
   - name: "kamin[u|a]"
     id: "sensor.furnace_temperature"
-    state: "380"
+    state: "380,1"
     attributes:
       device_class: temperature
       unit_of_measurement: "°C"
@@ -854,3 +859,23 @@ entities:
     attributes:
       device_class: wind_speed
       unit_of_measurement: "km/h"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: pizza|pizzo
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "kitchen_id"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

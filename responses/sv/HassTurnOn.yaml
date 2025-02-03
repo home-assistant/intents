@@ -2,10 +2,36 @@ language: sv
 responses:
   intents:
     HassTurnOn:
-      default: "Slog på {{ slots.name }}"
+      default: >-
+        {% set translations = {
+          "button": "knappen",
+          "camera": "kameran",
+          "input_button": "knappen",
+          "alarm_control_panel": "alarmet",
+          "automation": "automationen",
+          "fan": "fläkten",
+          "climate": "termonstaten",
+          "humidifier": "luftfuktaren",
+          "input_boolean": "switchen",
+          "siren": "sirenen",
+          "water_heater": "vattenvärmaren",
+          "switch": "switchen",
+          "remote": "fjärrkontrollen",
+          "vacuum": "dammsugaren",
+          "media_player": "mediespelaren",
+          "lawn_mower": "gräsklipparen"
+        } %}
+        Slog på {{ translations.get(state.domain) }}
       lights: "Tände {{ slots.name }}"
       lights_area: "Tände lamporna i {{ slots.area }}"
+      lights_all: "Tände alla lamporna"
+      lights_floor: "Tände lamporna på {{ slots.floor }}"
       fans_area: "Startade fläktarna i {{ slots.area }}"
+      fans_all: "Slog på alla fläktar"
       cover: "Öppnade {{ slots.name }}"
       cover_area: "Öppnade i {{ slots.area }}"
       cover_device_class: "Öppnade {{ slots.device_class }}"
+      lock: "Låste"
+      scene: "Aktiverat"
+      script: "Startade"
+      valve: "Öppnade"

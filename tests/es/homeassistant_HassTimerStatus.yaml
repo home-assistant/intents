@@ -1,0 +1,48 @@
+---
+language: es
+tests:
+  - sentences:
+      - "estado de temporizadores"
+      - "cómo va la cuenta atrás"
+      - "cuánto tiempo le queda a mis temporizadores"
+    intent:
+      name: HassTimerStatus
+    response: |
+      2 temporizadores activos. 1 temporizador en pausa. Al temporizador del área cocina de 5 minutos le quedan 3 minutos.
+
+  - sentences:
+      - "estado del temporizador de 1 hora"
+      - "tiempo restante para cuenta atrás de 1 hora"
+      - "qué le queda al temporizador de 1 hora"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 1
+    response: |
+      El temporizador está en pausa. Le quedan 1 minuto y 40 segundos.
+
+  - sentences:
+      - "Estado temporizador pizza"
+      - "Cuál es el estado de la cuenta atrás para la pizza"
+      - "Qué resta para el temporizador pizza"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name:
+          - "pizza "
+          - "pizza"
+    response: |
+      Le quedan 25 minutos.
+
+  - sentences:
+      - "estado de temporizador de la cocina"
+      - "cual es el estado del temporizador en la cocina"
+      - "qué queda para la cuenta atrás de la cocina"
+      - "tiempo restante para mi temporizador en cocina"
+      - "cuanto falta para el temporizador de cocina"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: Cocina
+    response: |
+      Le quedan 3 minutos.

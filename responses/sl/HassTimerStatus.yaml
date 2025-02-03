@@ -1,0 +1,102 @@
+---
+language: sl
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+        {% if num_timers == 0: %}
+          Ni časovnikov.
+        {% elif num_active_timers == 0: %}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Časovnik je pavziran.
+          {% else: %}
+            {% if num_paused_timers == 2: %}
+              2 pavzirana časovnika.
+            {% else: %}
+              {{ num_paused_timers }} pavziranih časovnikov.
+            {% endif %}
+          {% endif %}
+        {% else: %}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {% if num_active_timers == 2: %}
+              2 aktivna časovnika.
+            {% else: %}
+              {{ num_active_timers }} aktivnih časovnikov.
+            {% endif %}
+          {% endif %}
+          {% if num_paused_timers == 1: %}
+            1 pavziran časovnik.
+          {% elif num_paused_timers > 0: %}
+            {% if num_paused_timers == 2: %}
+              2 pavzirana časovnika.
+            {% else: %}
+              {{ num_paused_timers }} pavziranih časovnikov.
+            {% endif %}
+          {% endif %}
+        {% endif %}
+        {% if next_timer: %}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 ura in {{ next_timer.rounded_minutes_left }} minut
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 ura
+          {% elif (next_timer.rounded_hours_left == 2) and (next_timer.rounded_minutes_left > 0): %}
+            2 uri in {{ next_timer.rounded_minutes_left }} minuti
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} ur in {{ next_timer.rounded_minutes_left }} minut
+          {% elif (next_timer.rounded_hours_left == 2): %}
+            2 uri
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} ur
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 minuta in {{ next_timer.rounded_seconds_left }} sekund
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 minuta
+          {% elif (next_timer.rounded_minutes_left == 2) and (next_timer.rounded_seconds_left > 0): %}
+            2 minuti in {{ next_timer.rounded_seconds_left }} sekundi
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} minut in {{ next_timer.rounded_seconds_left }} sekund
+          {% elif (next_timer.rounded_minutes_left == 2): %}
+            2 minuti
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} minut
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 sekunda
+          {% elif (next_timer.rounded_seconds_left == 2): %}
+            2 sekundi
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} sekund
+          {% endif %}
+          {% if num_timers > 1: %}
+            ostalo na
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} urni in {{ next_timer.start_minutes }} minutni
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} urni
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} minutni in {{ next_timer.start_seconds }} sekundni
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} minutni
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} sekundni
+            {% endif %}
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              {{ next_timer.area }}
+            {% endif %}
+            časovnik.
+          {% else: %}
+            ostalo.
+          {% endif %}
+        {% endif %}

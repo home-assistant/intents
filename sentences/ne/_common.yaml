@@ -1,0 +1,657 @@
+language: ne
+settings:
+  filter_with_regex: false
+responses:
+  errors:
+    no_intent: "माफ गर्नुहोस, मैले यो कुरा बुज्न सकिन"
+    handle_error: "अनपेक्षित त्रुटि भएको छ"
+
+    # Errors for when user is not logged in
+    no_area: "माफ गर्नुहोस, मैले {{ area }} नामको कुनै क्षेत्र चिन्न सकिन"
+    no_floor: "माफ गर्नुहोस, मैले {{ floor }} नामको कुनै तल्ला चिन्न सकिन"
+    no_domain: |
+      {% set translations = {
+        "alarm_control_panel": "अलार्म नियन्त्रण प्यानल",
+        "automation": "अटोमेसन",
+        "button": "बटन",
+        "camera": "क्यामेरा",
+        "climate": "थर्मोस्टेट",
+        "fan": "पंखा",
+        "humidifier": "ह्यूमिडिफायर",
+        "input_boolean": "स्विच सहायक",
+        "input_button": "बटन सहायक",
+        "lawn_mower": "घाँस काट्ने मेसिन",
+        "light": "बत्ती",
+        "lock": "ताल्चा",
+        "media_player": "मिडिया प्लेयर",
+        "remote": "रिमोट",
+        "scene": "सिन",
+        "script": "स्क्रिप्ट",
+        "siren": "साईरेन",
+        "switch": "स्विच",
+        "vacuum": "भ्याक्यूम",
+        "valve": "भल्भ",
+        "water_heater": "पानी तातो पार्ने यन्त्र",
+        "weather": "मौसम जानकारी"
+        } %}
+      {% if domain in translations -%}
+        माफ गर्नुहोस, मैले कुनै {{ translations[domain] }} भेट्न सकिन
+      {%- else -%}
+        माफ गर्नुहोस, मैले कुनै मिल्दो सामग्री भेट्न सकिन
+      {%- endif %}
+    no_domain_in_area: |
+      {% set translations = {
+        "alarm_control_panel": "अलार्म नियन्त्रण प्यानल",
+        "automation": "अटोमेसन",
+        "button": "बटन",
+        "camera": "क्यामेरा",
+        "climate": "थर्मोस्टेट",
+        "fan": "पंखा",
+        "humidifier": "ह्यूमिडिफायर",
+        "input_boolean": "स्विच सहायक",
+        "input_button": "बटन सहायक",
+        "lawn_mower": "घाँस काट्ने मेसिन",
+        "light": "बत्ती",
+        "lock": "ताल्चा",
+        "media_player": "मिडिया प्लेयर",
+        "remote": "रिमोट",
+        "scene": "सिन",
+        "script": "स्क्रिप्ट",
+        "siren": "साईरेन",
+        "switch": "स्विच",
+        "vacuum": "भ्याक्यूम",
+        "valve": "भल्भ",
+        "water_heater": "पानी तातो पार्ने यन्त्र",
+        "weather": "मौसम जानकारी"
+        } %}
+      {% if domain in translations -%}
+        माफ गर्नुहोस, मैले {{ area }} भन्ने क्षेत्रमा कुनै पनि {{ translations[domain] }} भेट्न सकिन
+      {%- else -%}
+         माफ गर्नुहोस, मैले {{ area }} भन्ने क्षेत्रमा कुनै पनि मिल्दो सामग्री भेट्न सकिन
+      {%- endif %}
+    no_domain_in_floor: |
+      {% set translations = {
+        "alarm_control_panel": "अलार्म नियन्त्रण प्यानल",
+        "automation": "अटोमेसन",
+        "button": "बटन",
+        "camera": "क्यामेरा",
+        "climate": "थर्मोस्टेट",
+        "fan": "पंखा",
+        "humidifier": "ह्यूमिडिफायर",
+        "input_boolean": "स्विच सहायक",
+        "input_button": "बटन सहायक",
+        "lawn_mower": "घाँस काट्ने मेसिन",
+        "light": "बत्ती",
+        "lock": "ताल्चा",
+        "media_player": "मिडिया प्लेयर",
+        "remote": "रिमोट",
+        "scene": "सिन",
+        "script": "स्क्रिप्ट",
+        "siren": "साईरेन",
+        "switch": "स्विच",
+        "vacuum": "भ्याक्यूम",
+        "valve": "भल्भ",
+        "water_heater": "पानी तातो पार्ने यन्त्र",
+        "weather": "मौसम जानकारी"
+        } %}
+      {% if domain in translations -%}
+        माफ गर्नुहोस, मैले {{ floor }} भन्ने तल्लामा कुनै पनि {{ translations[domain] }} भेट्न सकिन
+      {%- else -%}
+         माफ गर्नुहोस, मैले {{ floor }} भन्ने तल्लामा कुनै पनि मिल्दो सामग्री भेट्न सकिन
+      {%- endif %}
+    no_device_class: |
+      {% set translations = {
+        "awning": "छानो",
+        "blind": "पर्दा",
+        "curtain": "परदा",
+        "door": "ढोका",
+        "garage": "ग्यारेज ढोका",
+        "gate": "गेट",
+        "shade": "छायाँ",
+        "shutter": "शटर",
+        "window": "झ्याल"
+        } %}
+      {% if device_class in translations -%}
+        माफ गर्नुहोस, मैले कुनै पनि {{ translations[domain] }} भेट्न सकिन
+      {%- else -%}
+        माफ गर्नुहोस, मैले कुनै पनि मिल्दो सामग्री भेट्न सकिन
+      {%- endif %}
+    no_device_class_in_area: |
+      {% set translations = {
+        "awning": "छानो",
+        "blind": "पर्दा",
+        "curtain": "परदा",
+        "door": "ढोका",
+        "garage": "ग्यारेज ढोका",
+        "gate": "गेट",
+        "shade": "छायाँ",
+        "shutter": "शटर",
+        "window": "झ्याल"
+        } %}
+      {% if domain in translations -%}
+        माफ गर्नुहोस, मैले {{ area }} भन्ने क्षेत्रमा कुनै पनि {{ translations[domain] }} भेट्न सकिन
+      {%- else -%}
+         माफ गर्नुहोस, मैले {{ area }} भन्ने क्षेत्रमा कुनै पनि मिल्दो सामग्री भेट्न सकिन
+      {%- endif %}
+    no_device_class_in_floor: |
+      {% set translations = {
+        "awning": "छानो",
+        "blind": "पर्दा",
+        "curtain": "परदा",
+        "door": "ढोका",
+        "garage": "ग्यारेज ढोका",
+        "gate": "गेट",
+        "shade": "छायाँ",
+        "shutter": "शटर",
+        "window": "झ्याल"
+        } %}
+      {% if domain in translations -%}
+        माफ गर्नुहोस, मैले {{ floor }} भन्ने तल्लामा कुनै पनि {{ translations[domain] }} भेट्न सकिन
+      {%- else -%}
+         माफ गर्नुहोस, मैले {{ floor }} भन्ने तल्लामा कुनै पनि मिल्दो सामग्री भेट्न सकिन
+      {%- endif %}
+    no_entity: "माफ गर्नुहोस, मैले कुनै {{ entity }} नामको सामग्री भेट्न सकिन"
+    no_entity_in_area: "माफ गर्नुहोस, मैले कुनै {{ entity }} नामको सामग्री, {{ area }} नामको क्षेत्रमा भेट्न सकिन"
+    no_entity_in_floor: "माफ गर्नुहोस, मैले कुनै {{ entity }} नामको सामग्री, {{ floor }} नामको क्षेत्रमा भेट्न सकिन"
+    entity_wrong_state: "माफ गर्नुहोस, कुनै पनि सामग्री {{ state | lower }}  छैन"
+    feature_not_supported: "माफ गर्नुहोस, यो सुभिदा कुनै पनि सामग्रीसंग उपलब्ध छैन"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "माफ गर्नुहोस, यो {{ entity }} खुला गरिएको छैन"
+    no_entity_in_area_exposed: "माफ गर्नुहोस, यो {{ entity }}, {{ area }} नामको क्षेत्रमा खुला गरिएको छैन"
+    no_entity_in_floor_exposed: "माफ गर्नुहोस, यो {{ entity }}, {{ floor }} नामको क्षेत्रमा खुला गरिएको छैन"
+    no_domain_exposed: |
+      {% set translations = {
+        "alarm_control_panel": "अलार्म नियन्त्रण प्यानल",
+        "automation": "अटोमेसन",
+        "button": "बटन",
+        "camera": "क्यामेरा",
+        "climate": "थर्मोस्टेट",
+        "fan": "पंखा",
+        "humidifier": "ह्यूमिडिफायर",
+        "input_boolean": "स्विच सहायक",
+        "input_button": "बटन सहायक",
+        "lawn_mower": "घाँस काट्ने मेसिन",
+        "light": "बत्ती",
+        "lock": "ताल्चा",
+        "media_player": "मिडिया प्लेयर",
+        "remote": "रिमोट",
+        "scene": "सिन",
+        "script": "स्क्रिप्ट",
+        "siren": "साईरेन",
+        "switch": "स्विच",
+        "vacuum": "भ्याक्यूम",
+        "valve": "भल्भ",
+        "water_heater": "पानी तातो पार्ने यन्त्र",
+        "weather": "मौसम जानकारी"
+        } %}
+      {% if domain in translations -%}
+      "माफ गर्नुहोस, कुनै पनि {{ translations[domain] }} खुला गरिएको छैन"
+      {%- else -%}
+        माफ गर्नुहोस,कुनै पनि मिल्दो सामाग्री खुला गरिएको छैन
+      {%- endif %}
+    no_domain_in_area_exposed: |
+      {% set translations = {
+        "alarm_control_panel": "अलार्म नियन्त्रण प्यानल",
+        "automation": "अटोमेसन",
+        "button": "बटन",
+        "camera": "क्यामेरा",
+        "climate": "थर्मोस्टेट",
+        "fan": "पंखा",
+        "humidifier": "ह्यूमिडिफायर",
+        "input_boolean": "स्विच सहायक",
+        "input_button": "बटन सहायक",
+        "lawn_mower": "घाँस काट्ने मेसिन",
+        "light": "बत्ती",
+        "lock": "ताल्चा",
+        "media_player": "मिडिया प्लेयर",
+        "remote": "रिमोट",
+        "scene": "सिन",
+        "script": "स्क्रिप्ट",
+        "siren": "साईरेन",
+        "switch": "स्विच",
+        "vacuum": "भ्याक्यूम",
+        "valve": "भल्भ",
+        "water_heater": "पानी तातो पार्ने यन्त्र",
+        "weather": "मौसम जानकारी"
+        } %}
+      {% if domain in translations -%}
+        माफ गर्नुहोस, {{ area }} भन्ने क्षेत्रमा कुनै पनि {{ translations[domain] }} खुला गरिएको छैन
+      {%- else -%}
+         माफ गर्नुहोस, {{ area }} भन्ने क्षेत्रमा कुनै पनि मिल्दो सामाग्री खुला गरिएको छैन
+      {%- endif %}
+    no_domain_in_floor_exposed: |
+      {% set translations = {
+        "alarm_control_panel": "अलार्म नियन्त्रण प्यानल",
+        "automation": "अटोमेसन",
+        "button": "बटन",
+        "camera": "क्यामेरा",
+        "climate": "थर्मोस्टेट",
+        "fan": "पंखा",
+        "humidifier": "ह्यूमिडिफायर",
+        "input_boolean": "स्विच सहायक",
+        "input_button": "बटन सहायक",
+        "lawn_mower": "घाँस काट्ने मेसिन",
+        "light": "बत्ती",
+        "lock": "ताल्चा",
+        "media_player": "मिडिया प्लेयर",
+        "remote": "रिमोट",
+        "scene": "सिन",
+        "script": "स्क्रिप्ट",
+        "siren": "साईरेन",
+        "switch": "स्विच",
+        "vacuum": "भ्याक्यूम",
+        "valve": "भल्भ",
+        "water_heater": "पानी तातो पार्ने यन्त्र",
+        "weather": "मौसम जानकारी"
+        } %}
+      {% if domain in translations -%}
+        माफ गर्नुहोस, {{ floor }} भन्ने तल्लामा कुनै पनि {{ translations[domain] }} खुला गरिएको छैन
+      {%- else -%}
+         माफ गर्नुहोस, {{ floor }} भन्ने तल्लामा कुनै पनि मिल्दो सामाग्री खुला गरिएको छैन
+      {%- endif %}
+    no_device_class_exposed: |
+      {% set translations = {
+        "awning": "छानो",
+        "blind": "पर्दा",
+        "curtain": "परदा",
+        "door": "ढोका",
+        "garage": "ग्यारेज ढोका",
+        "gate": "गेट",
+        "shade": "छायाँ",
+        "shutter": "शटर",
+        "window": "झ्याल"
+        } %}
+      {% if device_class in translations -%}
+        माफ गर्नुहोस, कुनै पनि {{ translations[domain] }} खुला गरिएको छैन
+      {%- else -%}
+        माफ गर्नुहोस, कुनै पनि मिल्दो सामग्री खुला गरिएको छैन
+      {%- endif %}
+    no_device_class_in_area_exposed: |
+      {% set translations = {
+        "awning": "छानो",
+        "blind": "पर्दा",
+        "curtain": "परदा",
+        "door": "ढोका",
+        "garage": "ग्यारेज ढोका",
+        "gate": "गेट",
+        "shade": "छायाँ",
+        "shutter": "शटर",
+        "window": "झ्याल"
+        } %}
+      {% if domain in translations -%}
+        माफ गर्नुहोस, {{ area }} भन्ने क्षेत्रमा कुनै पनि {{ translations[domain] }} खुला गरिएको छैन
+      {%- else -%}
+         माफ गर्नुहोस, {{ area }} भन्ने क्षेत्रमा कुनै पनि मिल्दो सामग्री खुला गरिएको छैन
+      {%- endif %}
+    no_device_class_in_floor_exposed: |
+      {% set translations = {
+        "awning": "छानो",
+        "blind": "पर्दा",
+        "curtain": "परदा",
+        "door": "ढोका",
+        "garage": "ग्यारेज ढोका",
+        "gate": "गेट",
+        "shade": "छायाँ",
+        "shutter": "शटर",
+        "window": "झ्याल"
+        } %}
+      {% if domain in translations -%}
+        माफ गर्नुहोस, {{ floor }} भन्ने तल्लामा कुनै पनि {{ translations[domain] }} खुला गरिएको छैन
+      {%- else -%}
+         माफ गर्नुहोस, {{ floor }} भन्ने तल्लामा कुनै पनि मिल्दो सामग्री खुला गरिएको छैन
+      {%- endif %}
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "{{ entity }} नामको धेरै सामाग्रीहरु भेटिएका छन्‌"
+    duplicate_entities_in_area: "{{ area }} नामको क्षेत्रमा, {{ entity }} नामको धेरै सामाग्रीहरु भेटिएका छन्‌"
+    duplicate_entities_in_floor: "{{ floor }} नामको तल्लामा, {{ entity }} नामको धेरै सामाग्रीहरु भेटिएका छन्‌"
+
+    # Errors for timers
+    timer_not_found: "माफ गर्नुहोस, मैले यो टाइमर भेट्न सकिन"
+    multiple_timers_matched: "यो नामको धेरै टाइमरहरु भेटिएका छन्‌"
+    no_timer_support: "माफ गर्नुहोस, येस समग्रीमा टाइमरको सुभिधा छैन"
+
+lists:
+  color:
+    values:
+      - in: "सेतो"
+        out: "white"
+      - in: "कालो"
+        out: "black"
+      - in: "रातो"
+        out: "red"
+      - in: "सुंतला"
+        out: "orange"
+      - in: "पहेंलो"
+        out: "yellow"
+      - in: "हरियो"
+        out: "green"
+      - in: "निलो"
+        out: "blue"
+      - in: "प्याजी"
+        out: "purple"
+      - in: "खैरो"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  brightness_level:
+    values:
+      - in: (अधिकतम|सर्वोच्चम|उच्चतम)
+        out: 100
+      - in: (न्यूनतम)
+        out: 1
+  cover_states:
+    values:
+      - in: "(खुल्ला (छ|छ्न))"
+        out: "open"
+      - in: "(बन्द|लागेको) छ|(बन्द|लागेका) छन"
+        out: "closed"
+      - in: "(खुल्दै (छ|छ्न))"
+        out: "opening"
+      - in: "(बन्द हुदै (छ|छ्न)|लाग्दै (छ|छ्न))"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "(छानो|छाना)"
+        out: awning
+      - in: "(पर्दा|पर्दाहरु)"
+        out: blind
+      - in: "(परदा|परदाहरु)"
+        out: curtain
+      - in: "(ढोका|ढोकाहरु)"
+        out: door
+      - in: "(ग्यारेजको ढोका|ग्यारेजका ढोकाहरु)"
+        out: garage
+      - in: "(गेट[हरु])"
+        out: gate
+      - in: "(छायाँ[हरु])"
+        out: shade
+      - in: "(शटर[हरु])"
+        out: shutter
+      - in: "(झ्याल[हरु])"
+        out: window
+  lock_domains:
+    values:
+      - in: "(ताल्चा[हरु])"
+        out: "lock"
+  lock_states:
+    values:
+      - in: "(बन्द|लागेको) (छ)|(बन्द|लागेका) (छन)"
+        out: "locked"
+      - in: "खुल्ला (छ|छ्न)|(बन्द|लागेको) (छैन)|(बन्द|लागेका) (छैन्न)"
+        out: "unlocked"
+  on_off_domains:
+    values:
+      - in: बत्ती[हरु]
+        out: light
+      - in: पंखा[हरु]
+        out: fan
+      - in: स्विच[हरु]
+        out: switch
+  on_off_states:
+    values:
+      - in: "((अन|चालु) (छ|छ्न))"
+        out: "on"
+      - in: "(अफ (छ|छ्न))|((अन|चालु) (छैन|छैन्न))"
+        out: "off"
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "(कम (छ|छ्न))"
+        out: "on"
+      - in: "(चार्ज|नरमल|पुरा|भरी) (छ|छ्न)"
+        out: "off"
+  bs_battery_charging_states:
+    values:
+      - in: "(चार्ज हुदै|भरिदै) (छ|छ्न)"
+        out: "on"
+      - in: "(चार्ज हुदै|भरिदै) ((छैन|छैन्न))"
+        out: "off"
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(सफा|सामान्य) (छ|छ्न)"
+        out: "off"
+  bs_cold_states:
+    values:
+      - in: "(चिसो) (छ|छ्न)"
+        out: "on"
+      - in: "(ठीक|नरमल|सामान्य) (छ|छ्न)"
+        out: "off"
+  bs_connectivity_states:
+    values:
+      - in: "जोडिए(को छ|का छ्न)"
+        out: "on"
+      - in: "(जोडिए(को छैन|का छैन्न)|टुटे(को छ|का छ्न))"
+        out: "off"
+  bs_door_states:
+    values:
+      - in: "(खुल्ला (छ|छ्न))"
+        out: "on"
+      - in: "(लागे(को छ|का छ्न))"
+        out: "off"
+  bs_garage_door_states:
+    values:
+      - in: "(खुल्ला|मथी) (छ|छ्न)"
+        out: "on"
+      - in: "(लागे(को छ|का छ्न)|तल (छ|छ्न))"
+        out: "off"
+  bs_window_states:
+    values:
+      - in: "(खुल्ला (छ|छ्न))"
+        out: "on"
+      - in: "(लागे(को छ|का छ्न))"
+        out: "off"
+  bs_gas_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(सफा|सामान्य) (छ|छ्न)"
+        out: "off"
+  bs_heat_states:
+    values:
+      - in: "ततो (छ|छ्न)"
+        out: "on"
+      - in: "(ठीक|नरमल|सामान्य) (छ|छ्न)"
+        out: "off"
+  bs_light_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(अध्या(रो छ|रा छ्न))|(उज्यालो (छैन|छैन्न))"
+        out: "off"
+  bs_problem_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(सफा|सामान्य) (छ|छ्न)"
+        out: "off"
+  bs_safety_states:
+    values:
+      - in: "(सुरक्षित (छैन|छैन्न)|(असुरक्षित|जानलेवा) (छ|छ्न))"
+        out: "on"
+      - in: "(सुरक्षित (छ|छ्न)|(असुरक्षित|जानलेवा) (छैन|छैन्न))"
+        out: "off"
+  bs_lock_states:
+    values:
+      - in: "खुल्ला (छ|छ्न)"
+        out: "on"
+      - in: "(बन्द (छ|छ्न))|(लागे(को छ|का छ्न))"
+        out: "off"
+  bs_moisture_states:
+    values:
+      - in: "ओसिलो (छ|छ्न)"
+        out: "on"
+      - in: "सुख्खा (छ|छ्न)"
+        out: "off"
+  bs_motion_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(सफा|सामान्य) (छ|छ्न)"
+        out: "off"
+  bs_occupancy_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(सफा|सामान्य) (छ|छ्न)"
+        out: "off"
+  bs_opening_states:
+    values:
+      - in: "खुल्ला (छ|छ्न)"
+        out: "on"
+      - in: "(बन्द (छ|छ्न))|(लागे(को छ|का छ्न))"
+        out: "off"
+  bs_plug_states:
+    values:
+      - in: "जोडिए(को छ|का छ्न)"
+        out: "on"
+      - in: "जोडिए(को छैन|का छैन्न)"
+        out: "off"
+  bs_power_states:
+    values:
+      - in: "(पावर अन गरिए(को छ|का छ्न))|(शक्ति चालु गरिए(को छ|का छ्न))"
+        out: "on"
+      - in: "(पावर अफ गरिए(को छ|का छ्न))|(शक्ति बन्द गरिए(को छ|का छ्न))"
+        out: "off"
+  bs_presence_states:
+    values:
+      - in: "(घरमा|उपस्थित) (छ|छन)"
+        out: "on"
+      - in: "(बाहिर (छ|छन)|(घरमा|उपस्थित) (छैन|छैन्न))"
+        out: "off"
+  bs_running_states:
+    values:
+      - in: "((चलिरहेको|चालु)(छ)|(चलिरहेका|चालु)(छन))"
+        out: "on"
+      - in: "(चलिरहेको|चालु)(छैन)|(चलिरहेका|चालु)(छैन्न)"
+        out: "off"
+  bs_smoke_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(सफा|सामान्य) (छ|छ्न)"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(सफा|सामान्य) (छ|छ्न)"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(छेडखाड गरिए(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(सफा|सामान्य) (छ|छ्न)|(छेडखाड गरिए(को छैन|का छैन्न))"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "(अपडेट उपलब्ध छ|अपडेटहरु उपलब्ध छन)"
+        out: "on"
+      - in: "पुरा अपडेट भइसके(को छ|का छ्न)"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(ट्रिगर भए(को छ|का छ्न))|(थर्किरहे(को छ|का छ्न))|(सक्रिय|चालु) (छ|छ्न)"
+        out: "on"
+      - in: "(थर्किरहे(को छैन|का छैन्न))|(सफा|सामान्य) (छ|छ्न)"
+        out: "off"
+
+  shopping_list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  position_level:
+    values:
+      - in: (अधिकतम|सर्वोच्चम|उच्चतम)
+        out: 100
+      - in: (न्यूनतम)
+        out: 1
+
+  volume_level:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  volume_mapping:
+    values:
+      - in: (अधिकतम|सर्वोच्चम|उच्चतम)
+        out: 100
+      - in: (न्यूनतम)
+        out: 1
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
+expansion_rules:
+  name: "{name}"
+  area: "{area}[ कोठा| क्षेत्र| कक्क्ष][को|मा| भित्र| भित्रको]"
+  floor: "{floor}[ तल्ला| तह| फ्लोर][को|मा| भित्र| भित्रको]"
+  area_floor: "(<area>|<floor>)"
+  सबै: "(सबै|सम्पूर्ण|भ[ऐ/ये] भरको|पुरा|पुरै)"
+  गर्नु: "(गर्नु|गर्दिनु[होस|होस्‌|स|स्‌]|ग(र|र्‌‌‌‌‌)|गर्दे[उ|ऊ])[न| न]"
+  बाल्नु: "(बाल्नु|बाल्दिनु[होस|होस्‌|स|स्‌]|बा(ल|ल्)|बाल्दे[उ|ऊ])[न| न]"
+  हान्नु: "(हान्नु|हान्दिनु[होस|होस्‌|स|स्‌]|हा(न|न्‌)|हान्दे[उ|ऊ])[न| न]"
+  लगाउनु: "(लगाउनु|लगाइदिनु[होस|होस्‌|स|स्‌]|ल(गा[उ|ऊ])[न| न]|लगाइदे[उ|ऊ])[न| न]"
+  मार्नु: "(मार्नु|मार्दिनु[होस|होस्‌|स|स्‌]|मा(र|र्‌)|मार्दे[उ|ऊ])[न| न]"
+  राख्नु: "(राख्नु|राख्दिनु[होस|होस्‌|स|स्‌]|रा(ख|ख्‌)|राख्दे[उ|ऊ])[न| न]"
+  निबाउनु: "(निबाउनु|निबाइदिनु[होस|होस्‌|स|स्‌]|नि(बा[उ|ऊ])|निबाइदे[उ|ऊ])[न| न]"
+  बनाउनु: "(बनाउनु|बनाइदिनु[होस|होस्‌|स|स्‌]|ब(ना[उ|ऊ])|बनाइदे[उ|ऊ])[न| न]"
+  खोल्नु: "((खोल्नु|खोल्दिनु[होस|होस्‌|स|स्‌]|खो(ल|ल्‌)|खोल्दे[उ|ऊ])[न| न])"
+  पार्नु: "((पार्नु|पार्दिनु[होस|होस्‌|स|स्‌]|पा(र|र्‌)|पार्दे[उ|ऊ])[न| न])"
+  बत्ती: "(बत्ती[हरु]|बत्ति[हरु]|झिलिमिलि[हरु]|(ला(इ|ई)ट)[हरु]|बल्ब[हरु])"
+skip_words:
+  - "यो"
+  - "त्यो"
+  - "त्याँ"
+  - "त्या"
+  - "अनि"
+  - "अनी"
+  - "पनी"
+  - "पनि"
+  - "एक छिनमा"
+  - "एक छीनमा"
+  - "क्रिपयाँ"
+  - "धन्यवाद"
+  - "धन्यबाद"
+  - "मिल्छ"
+  - "मील्छ"
+  - "अमः"
+  - "पिलिज"
+  - "सक्छौ"
+  - "के"

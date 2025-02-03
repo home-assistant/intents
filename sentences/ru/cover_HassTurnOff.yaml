@@ -3,19 +3,34 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<close> [дверь] гаража"
-          - "<close> гаражную дверь"
-        slots:
-          device_class: "garage"
+          - <close> <name>
+        requires_context:
           domain: cover
-        response: "cover_device_class"
+        response: cover
       - sentences:
-          - "<close> (штор(ы|у)|занавеск(и|у)|жалюзи|окн(о|а)) <area>"
-        slots:
-          device_class:
-            - "window"
-            - "blind"
-            - "curtain"
-            - "shutter"
+          - <close> <name> <area>
+        requires_context:
           domain: cover
-        response: "cover_area"
+        response: cover_area
+      - sentences:
+          - <close>[ дверь| ворота] гараж[а]
+        slots:
+          device_class: garage
+          domain: cover
+        response: cover_device_class
+      - sentences:
+          - "<close> {cover_classes:device_class} <area>"
+          - "<close> <area> {cover_classes:device_class}"
+        slots:
+          domain: cover
+        response: cover_device_class
+
+      - sentences:
+          - "<close> {cover_classes:device_class}[ здесь| в (комнате|помещении)]"
+          - "<close>[ здесь| в (комнате|помещении)] {cover_classes:device_class}"
+        slots:
+          domain: cover
+        response: cover_device_class
+        requires_context:
+          area:
+            slot: true

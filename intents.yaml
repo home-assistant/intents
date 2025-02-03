@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------
-# homassistant
+# homeassistant
 # -----------------------------------------------------------------------------
 
 HassTurnOn:
@@ -115,6 +115,9 @@ HassGetState:
     area:
       description: "Name of an area"
       required: false
+    floor:
+      description: "Name of a floor"
+      required: false
     domain:
       description: "Domain of devices/entities in an area"
       required: false
@@ -137,6 +140,24 @@ HassNevermind:
   domain: homeassistant
   description: "Does nothing. Used to cancel a request"
 
+HassRespond:
+  supported: true
+  domain: homeassistant
+  description: "Returns response but takes no action."
+  slots:
+    response:
+      description: "Text to respond with"
+      required: false
+
+HassBroadcast:
+  supported: true
+  domain: assist_satellite
+  description: "Announces a message on other satellites."
+  slots:
+    message:
+      description: "Message to broadcast"
+      required: true
+
 HassSetPosition:
   supported: true
   domain: homeassistant
@@ -147,6 +168,9 @@ HassSetPosition:
       required: false
     area:
       description: "Name of an area"
+      required: false
+    floor:
+      description: "Name of a floor"
       required: false
     domain:
       description: "Domain of devices/entities in an area"
@@ -177,6 +201,16 @@ HassSetPosition:
       - "domain"
       - "device_class"
 
+HassGetCurrentDate:
+  supported: true
+  domain: homeassistant
+  description: "Gets the current date"
+
+HassGetCurrentTime:
+  supported: true
+  domain: homeassistant
+  description: "Gets the current time"
+
 # -----------------------------------------------------------------------------
 # light
 # -----------------------------------------------------------------------------
@@ -192,6 +226,9 @@ HassLightSet:
     area:
       description: "Name of an area"
       required: false
+    floor:
+      description: "Name of a floor"
+      required: false
     brightness:
       description: "Brightness percentage from 0 to 100"
       required: false
@@ -204,7 +241,7 @@ HassLightSet:
 # -----------------------------------------------------------------------------
 
 HassClimateSetTemperature:
-  supported: false
+  supported: true
   domain: climate
   description: "Sets the desired temperature of a climate device or entity"
   slots:
@@ -214,12 +251,24 @@ HassClimateSetTemperature:
     area:
       description: "Name of an area"
       required: false
+    floor:
+      description: "Name of a floor"
+      required: false
     temperature:
       description: "Temperature in degrees"
-      required: false
-    temperature_unit:
-      description: "Temperature unit"
-      required: false
+      required: true
+  slot_combinations:
+    temperature_only:
+      - "temperature"
+    name:
+      - "temperature"
+      - "name"
+    area:
+      - "temperature"
+      - "area"
+    floor:
+      - "temperature"
+      - "floor"
 
 HassClimateGetTemperature:
   supported: true
@@ -293,11 +342,16 @@ HassVacuumStart:
     area:
       description: "Name of an area"
       required: false
+    floor:
+      description: "Name of an floor"
+      required: false
   slot_combinations:
     name_only:
       - "name"
     area_only:
       - "area"
+    floor_only:
+      - "floor"
     area_name:
       - "name"
       - "area"
@@ -362,6 +416,18 @@ HassMediaNext:
       description: "Name of an area"
       required: false
 
+HassMediaPrevious:
+  supported: true
+  domain: media_player
+  description: "Skips a media player back to the previous item"
+  slots:
+    name:
+      description: "Name of a device or entity"
+      required: false
+    area:
+      description: "Name of an area"
+      required: false
+
 HassSetVolume:
   supported: true
   domain: media_player
@@ -383,7 +449,7 @@ HassSetVolume:
 
 HassStartTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Starts a timer"
   slots:
     hours:
@@ -407,9 +473,18 @@ HassStartTimer:
       - "minutes"
       - "seconds"
 
+HassCancelAllTimers:
+  supported: true
+  domain: homeassistant
+  description: "Cancels all timers"
+  slots:
+    area:
+      description: "Area of the device used to start the timer"
+      required: false
+
 HassCancelTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Cancels a timer"
   slots:
     start_hours:
@@ -430,7 +505,7 @@ HassCancelTimer:
 
 HassIncreaseTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Adds time to a timer"
   slots:
     hours:
@@ -465,8 +540,8 @@ HassIncreaseTimer:
 
 HassDecreaseTimer:
   supported: true
-  domain: intent
-  description: "Adds time to a timer"
+  domain: homeassistant
+  description: "Removes time from a timer"
   slots:
     hours:
       description: "Number of hours"
@@ -500,7 +575,7 @@ HassDecreaseTimer:
 
 HassPauseTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Pauses a running timer"
   slots:
     start_hours:
@@ -521,7 +596,7 @@ HassPauseTimer:
 
 HassUnpauseTimer:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Resumes a paused timer"
   slots:
     start_hours:
@@ -542,7 +617,7 @@ HassUnpauseTimer:
 
 HassTimerStatus:
   supported: true
-  domain: intent
+  domain: homeassistant
   description: "Reports status of one or more timers"
   slots:
     start_hours:

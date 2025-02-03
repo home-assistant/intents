@@ -1,12 +1,41 @@
-language: "sk"
+language: sk
 responses:
   errors:
+    # Všeobecné
     no_intent: "Prepáč, nerozumel som tomu"
-    no_area: "Žiadna oblasť s názvom {{ area }}"
-    no_domain_in_area: "{{ area }} neobsahuje {{ domain }}"
-    no_device_class_in_area: "{{ area }} neobsahuje {{ device_class }}"
-    no_entity: "Žiadne zariadenie alebo entita s názvom {{ entity }}"
     handle_error: "Pri spracovaní došlo k neočakávanej chybe"
+    # Ostatné
+    no_area: "Prepáč, nepoznám žiadnu oblasť s názvom {{ area }}"
+    no_floor: "Prepáč, nepoznám žiadne poschodie s názvom {{ floor }}"
+    no_domain: "Prepáč, nepoznám {{ domain }}"
+    no_domain_in_area: "Prepáč, nepoznám {{ domain }} v oblasti {{ area }}"
+    no_domain_in_floor: "Prepáč, nepoznám {{ domain }} na poschodí {{ floor }}"
+    no_device_class: "Prepáč, nepoznám {{ domain }}"
+    no_device_class_in_area: "Prepáč, nepoznám {{ device_class }} v oblasti {{ area }}"
+    no_device_class_in_floor: "Prepáč, nepoznám {{ device_class }} na poschodí {{ floor }}"
+    no_entity: "Prepáč, nepoznám žiadne zariadenie ani entitu s názvom {{ entity }}"
+    no_entity_in_area: "Prepáč, nepoznám žiadne zariadenie ani entitu s názvom {{ entity }} v oblasti {{ area }}"
+    no_entity_in_floor: "Prepáč, nepoznám žiadne zariadenie ani entitu s názvom {{ entity }} na poschodí {{ floor }}"
+    feature_not_supported: "Prepáč, žiadne zariadenie nepodporuje požadovanú schopnosť"
+
+    no_entity_exposed: "Prepáč, {{ entity }} nie je zverejnená"
+    no_entity_in_area_exposed: "Prepáč, {{ entity }} v oblasti {{ area }} nie je zverejnená"
+    no_entity_in_floor_exposed: "Prepáč, {{ entity }} na poschodí {{ floor }} nie je zverejnená"
+    no_domain_exposed: "Prepáč, žiadna {{ domain }} nie je zverejnená"
+    no_domain_in_area_exposed: "Prepáč, žiadna {{ domain }} v oblasti {{ area }} nie je zverejnená"
+    no_domain_in_floor_exposed: "Prepáč, žiadna {{ domain }} na poschodí {{ floor }} nie je zverejnená"
+    no_device_class_exposed: "Prepáč, žiadna {{ device_class }} nie je zverejnená"
+    no_device_class_in_area_exposed: "Prepáč, žiadna {{ device_class }} v oblasti {{ area }} nie je zverejnená"
+    no_device_class_in_floor_exposed: "Prepáč, žiadna {{ device_class }} na poschodí {{ floor }} nie je zverejnená"
+
+    duplicate_entities: "Prepáč, existuje viacero zariadení s názvom {{ entity }}"
+    duplicate_entities_in_area: "Prepáč, existuje viacero zariadení s názvom {{ entity }} v oblasti {{ area }}"
+    duplicate_entities_in_floor: "Prepáč, existuje viacero zariadení s názvom {{ entity }} na poschodí {{ floor }}"
+
+    timer_not_found: "Prepáč, nemohol som nájsť daný časovač"
+    multiple_timers_matched: "Prepáč, nemôžem reagovať s viacerými časovačmi naraz"
+    no_timer_support: "Prepáč, časovače nie sú podporované na tomto zariadení"
+
 lists:
   color:
     values:
@@ -28,21 +57,26 @@ lists:
         out: "purple"
       - in: "hned(á|é|ý|o|ú)"
         out: "brown"
+      - in: "ružov(á|é|ý|o|ú)"
+        out: "pink"
+      - in: "tyrkysov(á|é|ý|o|ú)"
+        out: "turquoise"
   brightness:
     range:
       type: "percentage"
       from: 0
       to: 100
-  position:
+  temperature:
     range:
-      type: "percentage"
+      type: "temperature"
       from: 0
       to: 100
-  volume:
-    range:
-      type: "percentage"
-      from: 0
-      to: 100
+  brightness_level:
+    values:
+      - in: (max|maximum|(najvyšš|najväčš(ie|í|iu)))
+        out: 100
+      - in: (min|minimum|(namenš|najnižš(ie|í|iu)))
+        out: 1
   on_off_states:
     values:
       - in: "(zapnut(ý|á|é|ých)|zasvieten(ý|á|é|ých)|otvoren(ý|á|é|ých))"
@@ -57,42 +91,103 @@ lists:
         out: fan
       - in: vypínač[e|ov]
         out: switch
-  temperature:
+  # binary_sensor
+  bs_classes:
+    values:
+      - in: "dver(e|í)"
+        out: door
+      - in: "(garážov(é|ých) dver(e|í)|garáž)"
+        out: garage_door
+      - in: "ok[ie]n[(o|a|á)]"
+        out: window
+  bs_states:
+    values:
+      - in: "otvoren(ý|á|é|ých)"
+        out: "on"
+      - in: "zatvoren(é|á|ý|ých)"
+        out: "off"
+  position:
     range:
-      type: "temperature"
+      type: "percentage"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - "celsius"
-      - in: "c|Celzia"
-        out: "Celsius"
-      - "fahrenheit"
-      - in: "f|Fahrenheita"
-        out: "Fahrenheit"
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   shopping_list_item:
     wildcard: true
+  # Timers
+  timer_range:
+    range:
+      from: 1
+      to: 100
+  timer_range_fonetic:
+    values:
+      - in: "jedno|minút(u|ový)|hodin(u|ový)"
+        out: 1
+      - in: "dvoj"
+        out: 2
+      - in: "troj"
+        out: 3
+      - in: "štvor"
+        out: 4
+  timer_parts:
+    values:
+      - in: "pol"
+        out: 30
+      - in: "štvrť"
+        out: 15
+      - in: "trištvrte"
+        out: 45
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
 expansion_rules:
+  in: "(v|vo|na)"
   name: "{name}"
-  area: "{area}"
+  area: "[<in> ]{area}"
   what_is: "((ak(á|é|ý|o)[ je])|je)"
   is: "(je|sú)"
   any: "nejak(ý|á|é)"
   all: "(všetk(y)|každ(ý|á|é))"
   which: "ktor(ý|í|á|é|ú)"
-  in: "(v|vo)"
   how_many: "koľko[ je]"
   brightness: "{brightness}[%| percent]"
   temp: "teplot(a|u)"
-  temperature: "{temperature}[°| stupňov ][{temperature_unit}]"
+  temperature: "{temperature}[°| stupňov]"
   turn_on: "(zapni|zapnúť)"
   turn_off: "(vypni|vypnúť)"
   turn_on_light: "(zasvieť|zažni|rozžni|rozsvieť)"
   turn_off_light: "(zahas|zhasni)"
-  set: "(nastav|prestav|zmeň|zvýš|zníž)"
-  open: "(otvor|odostri|(roz|vy)tiahni)"
-  close: "(zatvor|zavri|zastri|(s|za)tiahni)"
+  set: "(nastav[iť]|prestav[iť]|zme(ň|niť)|zvýš[iť]|zníž[iť])"
+  open: "(otvor[iť]|odostri[eť]|(roz|vy)tiahn[i|uť])"
+  close: "(zatvor[iť]|zavri[eť]|zatvor[iť]|zastri[eť]|(s|za)tiahn(i|uť))"
   position: "{position}[[ ]%| percent]"
   volume: "{volume:volume_level}[[ ]%| percent]"
+  # Timers
+  timer_set: "nasta(v[te|iť]|l)"
+  timer_cancel: "(zruš[í|te|iť]|zastav(í|te|iť))"
+  timer_type: "(časovač[e]|stopky)"
+  timer_unit_second: "sek(únd|(und(a|u|y|ov(ý|é|ej))))"
+  timer_unit_minute: "minút[a|u|y|ov(ý|é|ej)]"
+  timer_unit_hour: "hod(ín|(in(a|u|y|ov(ý|é|ej))))"
+  timer_value_second: ({timer_range:seconds}|{timer_range_fonetic:seconds})
+  timer_value_minute: ({timer_range:minutes}|{timer_range_fonetic:minutes})
+  timer_value_hour: ({timer_range:hours}|{timer_range_fonetic:hours})
+  timer_duration_seconds: "<timer_value_second> <timer_unit_second>"
+  timer_duration_minutes: "(<timer_value_minute> <timer_unit_minute> [[a] <timer_value_second> <timer_unit_second>])|([<timer_value_minute> a ]{timer_parts:seconds} <timer_unit_minute>)|({timer_range_fonetic:minutes} [a {timer_parts:seconds}])"
+  timer_duration_hours: "(<timer_value_hour> <timer_unit_hour> [[a] <timer_value_minute> <timer_unit_minute>] [[a] <timer_value_second> <timer_unit_second>])|([<timer_value_hour> a ]{timer_parts:minutes} <timer_unit_hour>)|({timer_range_fonetic:hours} [a {timer_parts:minutes}])"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_value_start_second: ({timer_range:start_seconds}|{timer_range_fonetic:start_seconds})
+  timer_value_start_minute: ({timer_range:start_minutes}|{timer_range_fonetic:start_minutes})
+  timer_value_start_hour: ({timer_range:start_hours}|{timer_range_fonetic:start_hours})
+  timer_start_seconds: "<timer_value_start_second> <timer_unit_second>"
+  timer_start_minutes: "(<timer_value_start_minute> <timer_unit_minute> [[a] <timer_value_start_second> <timer_unit_second>])|([<timer_value_start_minute> a ]{timer_parts:start_seconds} <timer_unit_minute>)|({timer_range_fonetic:start_minutes} [a {timer_parts:start_seconds}])"
+  timer_start_hours: "(<timer_value_start_hour> <timer_unit_hour> [[a] <timer_value_start_minute> <timer_unit_minute>] [[a] <timer_value_start_second> <timer_unit_second>])|([<timer_value_start_hour> a ]{timer_parts:start_minutes} <timer_unit_hour>)|({timer_range_fonetic:start_hours} [a {timer_parts:start_minutes}])"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 skip_words:
   - "prosím"

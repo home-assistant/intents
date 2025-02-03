@@ -51,6 +51,36 @@ responses:
           {% set ending = male_ending %}
         {% endif %}
         {{ slots.name ~ " открыт" ~ ending }}
-      cover_area: "Открытие в {{ slots.area }} выполнено"
-      cover_device_class: "Открытие выполнено"
+      cover_area: "Открытие в {{ slots.area }} запущено"
+      cover_device_class: |
+        {% set cover_class = slots.device_class %}
+        {% set translations = {
+            "awning": "навесов",
+            "навесы": "навесов",
+            "навес": "навеса",
+            "blind": "жалюзи",
+            "curtain": "штор",
+            "шторы": "штор",
+            "штору": "шторы",
+            "door": "дверей",
+            "двери": "дверей",
+            "дверь": "двери",
+            "garage": "гаража",
+            "gate": "ворот",
+            "ворота": "ворот",
+            "shade": "рулонных штор",
+            "рулонные шторы": "рулонных штор",
+            "рулонную штору": "рулонной шторы",
+            "shutter": "ставней",
+            "ставни": "ставней",
+            "window": "окон",
+            "окна": "окон",
+            "окно": "окна"
+          } %}
+        {% if cover_class in translations -%}
+          Открытие {{ translations[cover_class] }} запущено
+        {%- else -%}
+          Открытие {{ slots.device_class }} запущено
+        {%- endif %}
       script: "Выполнено"
+      valve: "Открываю"

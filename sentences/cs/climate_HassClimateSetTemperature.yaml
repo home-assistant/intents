@@ -3,4 +3,13 @@ intents:
   HassClimateSetTemperature:
     data:
       - sentences:
-          - "(<nastavit>|<zvysit>|<ztlumit>|<zmenit>) teplotu [<area>] na <teplota>"
+          - "<obecne_zmenit> teplotu <area> na <teplota>"
+      - sentences:
+          - "<obecne_zmenit> teplotu {name} na <teplota>"
+        requires_context:
+          domain: climate
+      - sentences:
+          - "<obecne_zmenit> [<tady> ]teplotu na <teplota>"
+        requires_context:
+          area:
+            slot: true

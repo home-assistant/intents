@@ -1,0 +1,42 @@
+language: zh-hk
+intents:
+  HassGetState:
+    #    data: []
+    data:
+      - sentences:
+          - "[<area>]{name}(是不是|有没有|係唔係){lock_states:state}[嗎|不]"
+          - "[<area>]{name}[是|有|有無|有冇]{lock_states:state}[嗎|不]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "[{area}][有|有没有|有無|有冇](門|鎖|門鎖)[是|係]{lock_states:state}[嗎|不]"
+          - "{area}(門|鎖|門鎖)[有|有没有|有無|有冇]{lock_states:state}[嗎|不]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "[<area>][<all>](門|鎖|門鎖)[是|是不是|係唔係]都[是|係]{lock_states:state}[嗎|不]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "[<area>](<which>|(哪|邊)[一](扇|道|個))(門|鎖|門鎖)[是|係]{lock_states:state}"
+          - "(<which>|(哪|邊)[一](扇|道|個))[<area>](門|鎖|門鎖)[是|係]{lock_states:state}"
+          - "<area>(門|鎖|門鎖)(<which>|(哪|邊)[一](扇|道|個))[是|係]{lock_states:state}"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "[{area}](<how_many_is>|有幾(扇|道|個))(門|鎖|門鎖)[是|係]{lock_states:state}"
+          - "(<how_many_is>|有幾(扇|道|個))[<area>](門|鎖|門鎖)[是|係]{lock_states:state}"
+          - "{area}(門|鎖|門鎖)(<how_many_is>|有幾(扇|道|個))[是|係]{lock_states:state}"
+        response: how_many
+        slots:
+          domain: lock

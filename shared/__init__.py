@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import datetime
 from functools import partial
 from typing import Any, Dict, Optional, List, Set, Tuple
 
@@ -7,6 +8,8 @@ from hassil.intents import SlotList, TextSlotList, is_template
 from hassil.recognize import RecognizeResult
 from hassil.sample import sample_expression
 from jinja2 import BaseLoader, Environment, StrictUndefined
+
+_TEST_DATETIME = datetime(year=2013, month=9, day=17, hour=1, minute=2)
 
 
 @dataclass
@@ -52,6 +55,16 @@ class AreaEntry:
     id: str
     name: str
     aliases: Set[str] = field(default_factory=set)
+    floor_id: Optional[str] = None
+
+
+@dataclass
+class FloorEntry:
+    """Minimal HA-like floor object for responses."""
+
+    id: str
+    name: str
+    aliases: Set[str] = field(default_factory=set)
 
 
 @dataclass
@@ -86,7 +99,10 @@ class Timer:
 
 
 def get_matched_states(
-    states: List[State], areas: List[AreaEntry], result: RecognizeResult
+    states: List[State],
+    areas: List[AreaEntry],
+    floors: List[FloorEntry],
+    result: RecognizeResult,
 ) -> Tuple[List[State], List[State]]:
     """Split states into matched/unmatched."""
     if result.intent.name in ("HassClimateGetTemperature", "HassClimateSetTemperature"):
@@ -107,6 +123,11 @@ def get_matched_states(
     if area_entity is not None:
         area_name = _normalize_name(area_entity.value)
 
+    floor_name: Optional[str] = None
+    floor_entity = result.entities.get("floor")
+    if floor_entity is not None:
+        floor_name = _normalize_name(floor_entity.value)
+
     domain_name: Optional[str] = None
     domain_entity = result.entities.get("domain")
     if domain_entity is not None:
@@ -124,10 +145,19 @@ def get_matched_states(
 
     # name -> id
     area_ids: Dict[str, str] = {}
+    id_to_area: Dict[str, AreaEntry] = {}
     for area in areas:
+        id_to_area[area.id] = area
         area_ids[_normalize_name(area.name)] = area.id
         for area_alias in area.aliases:
             area_ids[_normalize_name(area_alias)] = area.id
+
+    # name -> id
+    floor_ids: Dict[str, str] = {}
+    for floor in floors:
+        floor_ids[_normalize_name(floor.name)] = floor.id
+        for floor_alias in floor.aliases:
+            floor_ids[_normalize_name(floor_alias)] = floor.id
 
     matched: List[State] = []
     unmatched: List[State] = []
@@ -146,6 +176,16 @@ def get_matched_states(
             if not name_match:
                 # Filter by entity name
                 continue
+
+        state_floor_id: Optional[str] = None
+        if state.area_id:
+            state_area = id_to_area.get(state.area_id)
+            if (state_area is not None) and state_area.floor_id:
+                state_floor_id = state_area.floor_id
+
+        if (floor_name is not None) and (state_floor_id != floor_ids.get(floor_name)):
+            # Filter by floor
+            continue
 
         if (area_name is not None) and (state.area_id != area_ids.get(area_name)):
             # Filter by area
@@ -178,6 +218,7 @@ def get_matched_timers(timers: List[Timer], result: RecognizeResult) -> List[Tim
     if result.intent.name not in (
         "HassTimerStatus",
         "HassCancelTimer",
+        "HassCancelAllTimers",
         "HassIncreaseTimer",
         "HassDecreaseTimer",
         "HassPauseTimer",
@@ -271,8 +312,14 @@ def render_response(
     # For timer intents
     if timers:
         slots["timers"] = [t.asdict() for t in timers]
+        slots["canceled"] = len(timers)
     else:
         slots["timers"] = []
+        slots["canceled"] = 0
+
+    # For date/time intents
+    slots["date"] = _TEST_DATETIME.date()
+    slots["time"] = _TEST_DATETIME.time()
 
     return env.from_string(response_template).render(
         {
@@ -302,9 +349,19 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
     slot_lists: dict[str, SlotList] = {}
 
     # area/floor
-    area_names: List[str] = []
     floor_names: List[str] = []
-    for area in fixtures["areas"]:
+    for floor in fixtures.get("floors", []):
+        floor_name = floor["name"]
+        if is_template(floor_name):
+            floor_names.extend(
+                floor_name.strip()
+                for floor_name in sample_expression(parse_sentence(floor_name))
+            )
+        else:
+            floor_names.append(floor_name.strip())
+
+    area_names: List[str] = []
+    for area in fixtures.get("areas", []):
         area_name = area["name"]
         if is_template(area_name):
             area_names.extend(
@@ -313,18 +370,6 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
             )
         else:
             area_names.append(area_name.strip())
-
-        floor_name = area.get("floor")
-        if not floor_name:
-            continue
-
-        if is_template(floor_name):
-            floor_names.extend(
-                floor_name.strip()
-                for floor_name in sample_expression(parse_sentence(floor_name))
-            )
-        else:
-            floor_names.append(floor_name.strip())
 
     slot_lists["area"] = TextSlotList.from_strings(area_names)
     slot_lists["floor"] = TextSlotList.from_strings(floor_names)
@@ -408,9 +453,36 @@ def get_areas(fixtures: dict[str, Any]) -> List[AreaEntry]:
             area_names.append(area_name.strip())
 
         areas.append(
-            AreaEntry(id=area["id"], name=area_names[0], aliases=set(area_names[1:]))
+            AreaEntry(
+                id=area["id"],
+                name=area_names[0],
+                aliases=set(area_names[1:]),
+                floor_id=area.get("floor"),
+            )
         )
     return areas
+
+
+def get_floors(fixtures: dict[str, Any]) -> List[FloorEntry]:
+    """Load floors from test fixtures."""
+    floors: List[FloorEntry] = []
+    for floor in fixtures.get("floors", []):
+        floor_names: List[str] = []
+        floor_name = floor["name"]
+        if is_template(floor_name):
+            floor_names.extend(
+                floor_name.strip()
+                for floor_name in sample_expression(parse_sentence(floor_name))
+            )
+        else:
+            floor_names.append(floor_name.strip())
+
+        floors.append(
+            FloorEntry(
+                id=floor["id"], name=floor_names[0], aliases=set(floor_names[1:])
+            )
+        )
+    return floors
 
 
 def get_timers(fixtures: dict[str, Any]) -> List[Timer]:

@@ -50,13 +50,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - in: "(celsius|c|centígrados)"
-        out: "celsius"
-      - "fahrenheit"
-      - in: "f"
-        out: "fahrenheit"
   brightness_level:
     values:
       - in: (max | maximum | highest)
@@ -118,24 +111,89 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_words_seconds:
+    values:
+      - in: "um|uma"
+        out: 1
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_words_minutes:
+    values:
+      - in: "um|uma"
+        out: 1
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_words_hours:
+    values:
+      - in: "um|uma"
+        out: 1
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
 expansion_rules:
   abre: "(abra|abre|abrir)"
-  adicionar: adicione|adiciona[r]
+  adicionar: "adicione|adiciona[r]"
   algum: "(algum|alguma|alguns|algumas)"
   brilho: "{brightness}[%| porcento]"
-  colocar: coloque|coloca[r]
+  colocar: "coloque|coloca[r]"
   desliga: "(desliga|desligue|apaga|apague|desligar|apagar)"
   esta: "(está|estão|existe|existem)"
   fecha: "(fecha|feche|fechar)"
   juntar: "(junte|junta[r])"
   liga: "(liga[r]|ligue|acende[r]|acenda|ativa[r]|ative)"
-  muda: "(põe|ponha|muda|altera|coloca|deixa|pôr|mudar|alterar|colocar|deixar)"
+  muda: "(altera[r]|aumenta[r]|baixa[r]|coloca[r]|define|definir|desce[r]|diminui[r]|muda[r]|ponha|põe|pôr|reduz[ir]sobe|subir)"
   na_zona: "(no|na|da|do) {area}"
   nome: "[(o|os|a|as)] {name}"
-  por: pôr|põe|ponha
+  por: "pôr|põe|ponha"
   qual: "(que|qual|qual é|quais)"
-  temperatura: "{temperature}[°| graus] [{temperature_unit}]"
+  temperatura: "{temperature}[°| graus]"
   zona: "[(o|os|a|as)] {area}"
+  estores: "[as|os|a|o] (cortina|cortinas|cortinado|cortinados|estore|estores|persiana|persianas)"
+  posicao: "{position}[[ ]%| porcento]"
+  luz: (luz | luzes | candeeiro | candeeiros)
+  volume: "{volume:volume_level}[%|por cento]"
+
+  # Timers
+  temporizador: "[o ][meu ](temporizador|cronómetro|timer)"
+  temporizadores: "[os ][meus ](temporizadores|cronómetros|timers)"
+  temporizador_cancelar: "(cancela[r]|elimina[r]|aborta[r])"
+
+  nb_seconds: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
+  nb_minutes: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
+  nb_hours: "({timer_hours:hours}|{timer_words_hours:hours})"
+  nb_start_seconds: "({timer_seconds:start_seconds}|{timer_words_seconds:start_seconds})"
+  nb_start_minutes: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
+  nb_start_hours: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
+
+  timer_duration_seconds: "<nb_seconds> segundo[s]"
+  timer_duration_minutes: "<nb_minutes> minuto[s][ [e ]<timer_duration_seconds>]"
+  timer_duration_hours: "<nb_hours> hora[s][ [e ]<timer_duration_minutes>]"
+  timer_duration: "(<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>)"
+
+  timer_start_seconds: "<nb_start_seconds> segundo[s]"
+  timer_start_minutes: "<nb_start_minutes> minuto[s][ [e ]<timer_start_seconds>]"
+  timer_start_hours: "<nb_start_hours> hora[s][ [e ]<timer_start_minutes>]"
+  timer_start: "(<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>)"
 
 skip_words:
   - "por favor"

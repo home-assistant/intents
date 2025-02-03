@@ -1,0 +1,12 @@
+language: ar
+intents:
+  HassListAddItem:
+    data:
+      - sentences:
+          - <add> <item> (<to>|<in> )<my_list>
+        response: item_added
+        requires_context:
+          domain: todo
+        expansion_rules:
+          my_list: "[ال](قائمة|قائمتي|لائحة|لائحتي) {name} [الخاصة بي]"
+          item: "{shopping_list_item:item}"

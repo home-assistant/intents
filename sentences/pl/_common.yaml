@@ -7,24 +7,241 @@ responses:
 
     # Errors for when user is not logged in
     no_area: "Brak obszaru o nazwie {{ area }}"
-    no_domain: "Brak {{ domain }} domeny"
-    no_domain_in_area: "W obszarze {{ area }} nie ma {{ domain }}"
+    no_floor: "Brak piętra o nazwie {{ floor }}"
+    no_domain: "Brak domeny {{ domain }}"
+    no_domain_in_area: "W obszarze {{ area }} nie ma domeny {{ domain }}"
+    no_domain_in_floor: "Brak domeny {{ domain }} dla piętra {{ floor}}"
     no_device_class: "Brak urzadzenia {{ device_class }}"
     no_device_class_in_area: "Obszar {{ area }} nie zawiera {{ device_class }}"
+    no_device_class_in_floor: "Piętro {{ floor }} nie zawiera {{ device_class }}"
     no_entity: "Brak urządzenia lub encji o nazwie {{ entity }}"
     no_entity_in_area: "Obszar {{ area }} nie zawiera urządzenia lub encji o nazwie {{ entity }}"
+    no_entity_in_floor: "Piętro {{ floor }} nie zawiera urządzenia lub encji o nazwie {{ entity }}"
+    entity_wrong_state: "Niestety, żadne urządzenie nie jest {{ state | lower }}"
+    feature_not_supported: "Przepraszam, żadne urządzenie nie obsługuje wymaganych funkcji"
 
     # Errors for when user is logged in and we can give more information
     no_entity_exposed: "Encja {{ entity }} nie została udostępniona"
-    no_entity_in_area_exposed: "W obszarze {{ area }} {{ entity }} nie została udostępniona"
-    no_domain_exposed: "Domena {{ domena }} nie została udostępniona"
-    no_domain_in_area_exposed: "W obszarze {{ area }} domena {{ domena }} nie została udostępniona"
+    no_entity_in_area_exposed: "W obszarze {{ area }} encja {{ entity }} nie została udostępniona"
+    no_entity_in_floor_exposed: "Na piętrze {{ floor }} encja {{ entity }} nie została udostępniona"
+    # https://www.home-assistant.io/docs/configuration/entities_domains/
+    no_domain_exposed: |
+      {% set translations = {
+        "alert": "Żaden alert nie został udostępniony",
+        "air_quality": "Żaden czujnik jakości powietrza nie został udostępniony",
+        "alarm_control_panel": "Żaden alarm nie został udostępniony",
+        "assist_satellite": "Żaden satelita wspomagający komunikację głosową nie został udostępniony",
+        "automation": "Żadna automatyzacja nie została udostępniona",
+        "binary_sensor": "Żaden czujnik binarny nie został udostępniony",
+        "bodymiscale": "Żadna waga nie została udostępniona",
+        "button": "Żaden przycisk nie zostały udostępniony",
+        "calendar": "Żaden kalendaż nie zostały udostępniony",
+        "camera": "Żadna kamera nie została udostępniona",
+        "climate": "Żaden termostat nie został udostępniony",
+        "conversation": "Żadna konwersacja nie została udostępniona",
+        "counter": "Żaden licznik nie został udostępniony",
+        "cover": "Żadne urządzenie osłonowe nie zostało udostępnione",
+        "date": "Żadna data nie została udostępniona",
+        "datetime": "Żadna data i godzina nie zostały udostępnione",
+        "device_tracker": "Żadne urządzenie śledzące nie zostało udostępnione",
+        "event": "Żadne wydarzenie nie zostało udostępnione",
+        "fan": "Żaden wentylator nie został udostępniony",
+        "geolocation": "Żadna geolokalizacja nie została udostępniona",
+        "group": "Żadna grupa nie została udostępniona",
+        "humidifier": "Żaden nawilżacz nie został udostępniony",
+        "image": "Żaden obraz nie został udostępniony",
+        "image_processing": "Żadne przetważanie obrazu nie zostało udostępnione",
+        "input_boolean": "Żadne pole przełącznika nie zostało udostępnione",
+        "input_button": "Żadne pole przycisku nie zostało udostępnione",
+        "input_datetime": "Żadne pole daty i godziny nie zostało udostępnione",
+        "input_number": "Żadne pole numeryczne nie zostało udostępnione",
+        "input_select": "Żadne pole wyboru nie zostało udostępnione",
+        "input_text": "Żadne pole tekstowe nie zostało udostępnione",
+        "lawn_mower": "Żadna kosiarka nie została udostępniona",
+        "light": "Żadne światło nie zostało udostępnione",
+        "lock": "Żaden zamek nie został udostępniony",
+        "media_player": "Żaden odtwarzacz multimedialny nie został udostępniony",
+        "notify": "Żadne powiadomienie nie zostało udostępnione",
+        "number": "Żadna liczba nie została udostępniona",
+        "person": "Żadna osoba nie została udostępniona",
+        "remote": "Żaden pilot nie został udostępniony",
+        "scene": "Żadna scena nie została udostępniona",
+        "schedule": "Żaden harmonogram nie został udostępniony",
+        "script": "Żaden skrypt nie został udostępniony",
+        "select": "Żadna opcja wyboru nie została udostępniona",
+        "sensor": "Żaden sensor nie został udostępniony",
+        "siren": "Żadna syrena nie została udostępniona",
+        "stt": "Żaden serwis zamiany mowy na tekst nie został udostępniony",
+        "sun": "Żadna konfiguracja słońca nie została udostępniona",
+        "switch": "Żaden przełącznik nie został udostępniony",
+        "tags": "Żaden tag nie został udostępniony",
+        "text": "Żaden tekst nie został udostępniony",
+        "time": "Żaden czas nie został udostępniony",
+        "timer": "Żaden minutnik nie został udostępniony",
+        "todo": "Żadna lista zadań nie została udostępniona",
+        "tts": "Żaden serwis zamiany tekst na mowę nie został udostępniony",
+        "update": "Żadna aktualizacja nie została udostępniona",
+        "vacuum": "Żaden odkurzacz nie został udostępniony",
+        "valve": "Żaden zawór nie został udostępniony",
+        "wake_word": "Żadne słowo budzenia nie zostało udostępnione",
+        "water_heater": "Żaden zbiornik ciepłej wody nie został udostępniony",
+        "weather": "Żaden serwis pogodowy nie został udostępnion",
+        "zone": "Żadna strefa nie została udostępniona", 
+        } %}
+      {% if domain in translations -%}
+        {{ translations[domain] }}
+      {%- else -%}
+        Domena {{ domain }} nie została udostępniona
+      {%- endif %}
+    no_domain_in_area_exposed: |
+      {% set translations = {
+        "alert": "żaden alert nie został udostępniony",
+        "air_quality": "żaden czujnik jakości powietrza nie został udostępniony",
+        "alarm_control_panel": "żaden alarm nie został udostępniony",
+        "assist_satellite": "żaden satelita wspomagający komunikację głosową nie został udostępniony",
+        "automation": "żadna automatyzacja nie została udostępniona",
+        "binary_sensor": "żadem czujnik binarny nie został udostępniony",
+        "bodymiscale": "żadna waga nie została udostępniona",
+        "button": "żaden przycisk nie zostały udostępniony",
+        "calendar": "żaden kalendaż nie zostały udostępniony",
+        "camera": "żadna kamera nie została udostępniona",
+        "climate": "żaden termostat nie został udostępniony",
+        "conversation": "żadna konwersacja nie została udostępniona",
+        "counter": "żaden licznik nie został udostępniony",
+        "cover": "żadne urządzenie osłonowe nie zostało udostępnione",
+        "date": "żadna data nie została udostępniona",
+        "datetime": "żadna data i godzina nie zostały udostępnione",
+        "device_tracker": "żadne urządzenie śledzące nie zostało udostępnione",
+        "event": "żadne wydarzenie nie zostało udostępnione",
+        "fan": "żaden wentylator nie został udostępniony",
+        "geolocation": "żadna geolokalizacja nie została udostępniona",
+        "group": "żadna grupa nie została udostępniona",
+        "humidifier": "żaden nawilżacz nie został udostępniony",
+        "image": "żaden obraz nie został udostępniony",
+        "image_processing": "żadne przetważanie obrazu nie zostało udostępnione",
+        "input_boolean": "żadne pole przełącznika nie zostało udostępnione",
+        "input_button": "żadne pole przycisku nie zostało udostępnione",
+        "input_datetime": "żadne pole daty i godziny nie zostało udostępnione",
+        "input_number": "żadne pole numeryczne nie zostało udostępnione",
+        "input_select": "żadne pole wyboru nie zostało udostępnione",
+        "input_text": "żadne pole tekstowe nie zostało udostępnione",
+        "lawn_mower": "żadna kosiarka nie została udostępniona",
+        "light": "żadne światło nie zostało udostępnione",
+        "lock": "żaden zamek nie został udostępniony",
+        "media_player": "żaden odtwarzacz multimedialny nie został udostępniony",
+        "notify": "żadne powiadomienie nie zostało udostępnione",
+        "number": "żadna liczba nie została udostępniona",
+        "person": "żadna osoba nie została udostępniona",
+        "remote": "żaden pilot nie został udostępniony",
+        "scene": "żadna scena nie została udostępniona",
+        "schedule": "żaden harmonogram nie został udostępniony",
+        "script": "żaden skrypt nie został udostępniony",
+        "select": "żadna opcja wyboru nie została udostępniona",
+        "sensor": "żaden sensor nie został udostępniony",
+        "siren": "żadna syrena nie została udostępniona",
+        "stt": "żaden serwis zamiany mowy na tekst nie został udostępniony",
+        "sun": "żadna konfiguracja słońca nie została udostępniona",
+        "switch": "żaden przełącznik nie został udostępniony",
+        "tags": "żaden tag nie został udostępniony",
+        "text": "żaden tekst nie został udostępniony",
+        "time": "żaden czas nie został udostępniony",
+        "timer": "żaden minutnik nie został udostępniony",
+        "todo": "żadna lista zadań nie została udostępniona",
+        "tts": "żaden serwis zamiany tekst na mowę nie został udostępniony",
+        "update": "żadna aktualizacja nie została udostępniona",
+        "vacuum": "żaden odkurzacz nie został udostępniony",
+        "valve": "żaden zawór nie został udostępniony",
+        "wake_word": "żadne słowo budzenia nie zostało udostępnione",
+        "water_heater": "żaden zbiornik ciepłej wody nie został udostępniony",
+        "weather": "żaden serwis pogodowy nie został udostępnion",
+        "zone": "żadna strefa nie została udostępniona", 
+        } %}
+      {% if domain in translations -%}
+         W obszarze {{ area }} {{ translations[domain] }}
+      {%- else -%}
+        W obszarze {{ area }} domena {{ domain }} nie została udostępniona
+      {%- endif %}
+    no_domain_in_floor_exposed: |
+      {% set translations = {
+        "alert": "żaden alert nie został udostępniony",
+        "air_quality": "żaden czujnik jakości powietrza nie został udostępniony",
+        "alarm_control_panel": "żaden alarm nie został udostępniony",
+        "assist_satellite": "żaden satelita wspomagający komunikację głosową nie został udostępniony",
+        "automation": "żadna automatyzacja nie została udostępniona",
+        "binary_sensor": "żadem czujnik binarny nie został udostępniony",
+        "bodymiscale": "żadna waga nie została udostępniona",
+        "button": "żaden przycisk nie zostały udostępniony",
+        "calendar": "żaden kalendaż nie zostały udostępniony",
+        "camera": "żadna kamera nie została udostępniona",
+        "climate": "żaden termostat nie został udostępniony",
+        "conversation": "żadna konwersacja nie została udostępniona",
+        "counter": "żaden licznik nie został udostępniony",
+        "cover": "żadne urządzenie osłonowe nie zostało udostępnione",
+        "date": "żadna data nie została udostępniona",
+        "datetime": "żadna data i godzina nie zostały udostępnione",
+        "device_tracker": "żadne urządzenie śledzące nie zostało udostępnione",
+        "event": "żadne wydarzenie nie zostało udostępnione",
+        "fan": "żaden wentylator nie został udostępniony",
+        "geolocation": "żadna geolokalizacja nie została udostępniona",
+        "group": "żadna grupa nie została udostępniona",
+        "humidifier": "żaden nawilżacz nie został udostępniony",
+        "image": "żaden obraz nie został udostępniony",
+        "image_processing": "żadne przetważanie obrazu nie zostało udostępnione",
+        "input_boolean": "żadne pole przełącznika nie zostało udostępnione",
+        "input_button": "żadne pole przycisku nie zostało udostępnione",
+        "input_datetime": "żadne pole daty i godziny nie zostało udostępnione",
+        "input_number": "żadne pole numeryczne nie zostało udostępnione",
+        "input_select": "żadne pole wyboru nie zostało udostępnione",
+        "input_text": "żadne pole tekstowe nie zostało udostępnione",
+        "lawn_mower": "żadna kosiarka nie została udostępniona",
+        "light": "żadne światło nie zostało udostępnione",
+        "lock": "żaden zamek nie został udostępniony",
+        "media_player": "żaden odtwarzacz multimedialny nie został udostępniony",
+        "notify": "żadne powiadomienie nie zostało udostępnione",
+        "number": "żadna liczba nie została udostępniona",
+        "person": "żadna osoba nie została udostępniona",
+        "remote": "żaden pilot nie został udostępniony",
+        "scene": "żadna scena nie została udostępniona",
+        "schedule": "żaden harmonogram nie został udostępniony",
+        "script": "żaden skrypt nie został udostępniony",
+        "select": "żadna opcja wyboru nie została udostępniona",
+        "sensor": "żaden sensor nie został udostępniony",
+        "siren": "żadna syrena nie została udostępniona",
+        "stt": "żaden serwis zamiany mowy na tekst nie został udostępniony",
+        "sun": "żadna konfiguracja słońca nie została udostępniona",
+        "switch": "żaden przełącznik nie został udostępniony",
+        "tags": "żaden tag nie został udostępniony",
+        "text": "żaden tekst nie został udostępniony",
+        "time": "żaden czas nie został udostępniony",
+        "timer": "żaden minutnik nie został udostępniony",
+        "todo": "żadna lista zadań nie została udostępniona",
+        "tts": "żaden serwis zamiany tekst na mowę nie został udostępniony",
+        "update": "żadna aktualizacja nie została udostępniona",
+        "vacuum": "żaden odkurzacz nie został udostępniony",
+        "valve": "żaden zawór nie został udostępniony",
+        "wake_word": "żadne słowo budzenia nie zostało udostępnione",
+        "water_heater": "żaden zbiornik ciepłej wody nie został udostępniony",
+        "weather": "żaden serwis pogodowy nie został udostępnion",
+        "zone": "żadna strefa nie została udostępniona", 
+        } %}
+      {% if domain in translations -%}
+         Na piętrze {{ floor }} {{ translations[domain] }}
+      {%- else -%}
+        Na piętrze {{ floor }} domena {{ domain }} nie została udostępniona
+      {%- endif %}
     no_device_class_exposed: "Urządzenie {{ device_class }} nie zostało udostępnione"
     no_device_class_in_area_exposed: "W obszarze {{ area }} urządzenie {{ device_class }} nie zostało udostępnione"
+    no_device_class_in_floor_exposed: "Na piętrze {{ floor }} urządzenie {{ device_class }} nie zostało udostępnione"
 
     # Used when multiple (exposed) devices have the same name
     duplicate_entities: "Przykro mi, ale istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
     duplicate_entities_in_area: "Przykro mi, ale w obszarze {{ area }} istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
+    duplicate_entities_in_floor: "Przykro mi, ale na piętrze {{ floor }} istnieje zbyt wiele urządzeń o nazwie {{ entity }}"
+
+    # Errors for timers
+    timer_not_found: "Nie znaleziono takiego minutnika"
+    multiple_timers_matched: "Nie monżna ustawić wielu minutników jednocześnie"
+    no_timer_support: "To urządzenie nie obsługuje minutników"
 lists:
   color:
     values:
@@ -56,12 +273,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - in: "c|celsjusza|celcjusza"
-        out: "celsius"
-      - in: "f|fahrenheita"
-        out: "fahrenheit"
   brightness_level:
     values:
       - in: "(maksymalny | maksymalną | maksymalnie | najjaśniej | maksa)"
@@ -84,9 +295,9 @@ lists:
         out: "switch"
   cover_states:
     values:
-      - in: "(otw(órz|arta|arte|artych)|odsunięt(e|ych)|odsłonięt(e|ych))"
+      - in: "(otw(órz|arta|arte|arty|artych)|odsunięt(e|y|ych)|odsłonięt(e|y|ych))"
         out: "open"
-      - in: "(zamkni(j|ęta|ęte|ętych)|zasunięt(e|ych)|zasłonięt(e|ych))"
+      - in: "(zamkni(j|ęta|ęte|ęty|ętych)|zasunięt(e|y|ych)|zasłonięt(e|y|ych))"
         out: "closed"
       - in: "otwieranie"
         out: "opening"
@@ -94,19 +305,19 @@ lists:
         out: "closing"
   cover_classes:
     values:
-      - in: "markiz[a|y]"
+      - in: "markiz[a|e|ę|y]"
         out: "awning"
-      - in: "rolet[a|y]"
+      - in: "rolet[e|ę|a|y]"
         out: "blind"
-      - in: "zasłon[a|y]"
+      - in: "zasłon[a|e|ę|y]"
         out: "curtain"
       - in: "drzwi"
         out: "door"
       - in: "(garaż(e)|brama garażowa|(drzwi|bramy) garażowe|(drzwi|brama|bramy) do garażu)"
         out: "garage"
-      - in: "bram[a|y]"
+      - in: "bram[a|e|ę|y]"
         out: "gate"
-      - in: "osłon[a|y]"
+      - in: "osłon[a|e|ę|y]"
         out: "shade"
       - in: "żaluzj(i|a|e)"
         out: "shutter"
@@ -311,9 +522,11 @@ lists:
       - in: "zamknięte"
         out: "closed"
 
+  # Shopping list
   shopping_list_item:
     wildcard: true
 
+  # Zone
   zone:
     wildcard: true
 
@@ -336,17 +549,49 @@ lists:
       - in: "poza domem"
         out: "not_home"
 
+  # Timer
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+
+  timer_half:
+    values:
+      - in: "pół"
+        out: 30
+      - in: "półtor[a|ej]"
+        out: 90
+
+  timer_name:
+    wildcard: true
+
+  timer_command:
+    wildcard: true
+
+  message:
+    wildcard: true
+
 expansion_rules:
   name: "{name}"
-  set: "(ustaw|zmień|przestaw|nastaw)"
-  area: "[w|na] {area}"
+  set: "(ustaw|zmień|przestaw|nastaw|obróć)"
+  area: "[w|na|z] {area}"
+  floor: "[w|na|z] {floor}"
   where: "Gdzie"
   now: "teraz|obecnie|w tej chwili"
   is: "jest|przebywa|znajduje się"
-  what_is: "Jak(a jest|i jest|ie są| jest)"
+  what_is: "Jak(a jest|i jest|ie [jest|są]|ą| jest)"
   where_is: "<where> [<is>]"
   in_here: "(tutaj|w tym miejscu|w tym pokoju|w tym pomieszczeniu)"
-  all: "(wszystkie|wszystkich|każde|całe)"
   how_many_is: "Ile jest"
   activate: "(aktywuj|uaktywnij|rozpocznij|zacznij|uruchom)"
   lock: "zablokuj"
@@ -365,12 +610,42 @@ expansion_rules:
   light: "(światło|lamp(a|ę)|oświetleni(a|e)|żarów(ka|kę))"
   lights: "(świat(ła|eł)|lamp[y]|oświetleni(a|e)|żarów(ki|ek))"
   temp: "temperatur(a|ę|y)|stopni|zimno|gorąco"
-  temperature: "{temperature}[°| stopni] [{temperature_unit}]"
+  temperature: "{temperature}[°| stopni]"
   numeric_value_set: "(ustaw|zmień|przestaw|nastaw|zwiększ|zmniejsz)"
+  in: "(w|na)"
   position: "{position}[[ ]%| procent]"
   volume: "{volume:volume_level}[[ ]%| procent]"
+  currently: "(obecnie|w tej chwili)"
+
+  # Context awareness expansion rules
+  all: "(wszys[cy|tkie|tkich]|każd[y|a|e]|całe)"
+  home: "(dom[u]|mieszkani[e|u]|apartamen[t|cie])"
+  everywhere: "(wszędzie|we wszystkich pokojach|w każdym pokoju|w <home>)"
+  here: "(tutaj|w tym pokoju|w pokoju|w tym pomieszczeniu|w pomieszczeniu)"
+
   # Questions
-  what_is_the_class_of_name: "(<what_is> <class> (w|z|wskaz(any|ywana przez)|wymierzon(a|y)) <name> [<area>]|<what_is> <name> <class> [<area>]|<what_is> <area> <name> <class>)"
+  what_is_the_class_of_name: "(<what_is> <class> [z [urzadzenia]|w [urządzeniu]|urządzenia|czujnika|wskaz(uje|any|ywan[a|e|y|ego] [przez])|zmierzone przez [czujnik]] <name> [<area>]|<what_is> <name> <class> [<area>]|<what_is> <area> <name> <class>)"
+
+  # Timers
+  timer: "(minutnik[a|i|u|ów]|zegar[a|ze|y|ów]|tajmer[a|ze|y|ów]|timer[a|ze|y|ów]|licznik[a|u|i|ów]|czasomierz[a|u|e|y]|stoper[a|ze|y|ów])"
+  timer_plural: "(minutnik[ów|ach]|zegar[ów|ach]|tajmer[ów|ach]|timer[a|ze|y|ów]|licznik[ów|ach]|czasomierz[y|ach]|stoper[ów|ach])"
+  timer_set: "(uruchom|ustaw|utwórz|rozpocznij|zacznij|włącz|nastaw)"
+  timer_stop: "(zatrzymaj|zastopuj|uśpij|wstrzymaj)"
+  timer_resume: "(wznów|kontynuuj|przywróć|reaktywuj)"
+  timer_remove: "(usu(ń|nąć)|zmniejsz[yć]|odjąć|odejmij|skró(ć|cić)|zreduk(uj|ować))"
+  timer_add: "(doł(óż|ożyć)|zwiększ[yć]|doda(ć|j)|wydłuż[yć]|powiększ[ać])"
+  timer_cancel: "(wyłącz|anuluj|przerwij|zakończ)"
+  timer_state: "(stan|status|podsumowanie)"
+
+  timer_duration_seconds: "{timer_seconds:seconds} sekund[a|ę|y|owy]"
+  timer_duration_minutes: "({timer_minutes:minutes} minut[a|ę|y|owy][ [i |oraz ]{timer_seconds:seconds} sekund[a|ę|y|owy]])|({timer_minutes:minutes} i {timer_half:seconds} minut[a|ę|y|owy])|({timer_half:seconds} minut[a|ę|y|owy])"
+  timer_duration_hours: "({timer_hours:hours} godzin[a|ę|y|ny][ [i |oraz ]{timer_minutes:minutes} minut[a|ę|y|owy]][ [i |oraz ]{timer_seconds:seconds} sekund[a|ę|y|owy]])|({timer_hours:hours} i {timer_half:minutes} godzin[a|ę|y|ny])|({timer_half:minutes} godzin[a|ę|y|ny])"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} sekund[a|ę|y|owy|owym]"
+  timer_start_minutes: "{timer_minutes:start_minutes} minut[a|ę|y|owy|owym][ [i |oraz ]{timer_seconds:start_seconds} sekund[a|ę|y|owy|owym]]"
+  timer_start_hours: "{timer_hours:start_hours} godzin[a|ę|y|ny|nym|nego][ [i |oraz ]{timer_minutes:start_minutes} minut[a|ę|y|owy|owym]][ [i |oraz ]{timer_seconds:start_seconds} sekund[a|ę|y|owy|owym]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - "Proszę"
@@ -382,5 +657,4 @@ skip_words:
   - "Sprawdź mi"
   - "Sprawdź proszę"
   - "Zerknij"
-  - "Podaj"
-  - "Podaj mi"
+  - "Zerknij czy"

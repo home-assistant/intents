@@ -2,10 +2,31 @@ language: hr
 responses:
   intents:
     HassTurnOff:
-      default: "Gasim {{ state.domain }}"
+      default: >-
+        {% set translations = {
+          "button": "sklopku",
+          "camera": "kameri",
+          "input_button": "sklopku",
+          "alarm_control_panel": "alarm",
+          "automation": "automatizaciju",
+          "fan": "ventilator",
+          "climate": "termostat",
+          "humidifier": "ovlaživač",
+          "input_boolean": "prekidač",
+          "siren": "sirenu",
+          "water_heater": "grijalo vode",
+          "light": "svjetlo",
+          "switch": "prekidač",
+          "remote": "daljinski",
+          "vacuum": "usisavač",
+          "media_player": "media player",
+          "lawn_mower": "kosilicu"
+        } %}
+        Gasim {{ translations.get(state.domain) }}
       default_name: "Gasim {{ slots.name }}"
       lights_area: "Svjetla su ugašena"
       cover_device_class: "Zatvaram {{ slots.device_class }}"
       cover_single: "Zatvaram {{ slots.name }}"
       fans_area: "Ventilatori su isključeni"
       lock: "Otključana"
+      valve: "Zatvoren"

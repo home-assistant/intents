@@ -2,7 +2,19 @@ language: "ru"
 intents:
   HassClimateSetTemperature:
     data:
+      # Current area or floor
       - sentences:
-          - "<set> <temp> [на] [<name>][е|ы|а] [<area>] [на|до] <temperature> [<area>]"
-          - "<set> <area> <temp> [на|до] <temperature>"
-          - "<set> <temp> <area> [на|до] <temperature>"
+          - "<set> <temp>[ на| до] <temperature>"
+
+      # By area name
+      - sentences:
+          - "<set> <area> <temp>[ на| до] <temperature>"
+          - "<set> <temp> <area>[ на| до] <temperature>"
+          - "<set> <temp>[ на| до] <temperature> <area>"
+
+      # By climate entity name
+      - sentences:
+          - "<set> <temp>[ на| у] <name>[ на| до] <temperature>"
+          - "<set> <name>[ на| до] <temperature>"
+        requires_context:
+          domain: "climate"

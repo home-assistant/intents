@@ -1,0 +1,72 @@
+language: pl
+tests:
+  - sentences:
+      - "stan minutnika"
+      - "status minutnika"
+      - "podsumowanie minutnika"
+      - "jaki stan minutnika"
+      - "jaki jest stan minutnika"
+      - "stan moich minutników"
+      - "jaki jest stan moich minutników"
+      - "ile czasu pozostało na moich minutnikach"
+      - "ile jest uruchomionych minutników"
+      - "jakie są uruchomione minutniki"
+      - "jakie mam uruchomione minutniki"
+      - "czy są uruchomione minutniki"
+      - "czy są jakieś uruchomione minutniki"
+      - "czy są uruchomione jakieś minutniki"
+      - "czy mam jakieś uruchomione minutniki"
+    intent:
+      name: HassTimerStatus
+    response: |
+      2 uruchomione minutniki. 1 wstrzymany minutnik. Pozostały 3 minuty na 5 minutowym minutniku w kuchni[a].
+
+  - sentences:
+      - "stan 1 godzinnego minutnika"
+      - "status 1 godzinnego minutnika"
+      - "podsumowanie 1 godzinnego minutnika"
+      - "jaki stan 1 godzinnego minutnika"
+      - "jaki stan 1 godzinnego timera"
+      - "jaki jest stan 1 godzinnego minutnika"
+      - "stan mojego 1 godzinnego minutnika"
+      - "ile czasu pozostało na 1 godzinnym minutniku"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 1
+    response: |
+      Minutnik jest wstrzymany. Pozostała jedna minuta i 40 sekund do zakończenia.
+
+  - sentences:
+      - "stan minutnika pizza"
+      - "status minutnika pizza"
+      - "podsumowanie minutnika pizza"
+      - "jaki stan minutnika pizza"
+      - "jaki jest stan minutnika pizza"
+      - "stan mojego minutnika pizza"
+      - "ile czasu pozostało na minutniku pizza"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name: "pizza"
+    response: |
+      Pozostało 25 minut do zakończenia.
+
+  # TODO: Bug in pytest, timer can not recognise area correctly, correct response: "Pozostały 3 minuty do zakończenia."
+  # ISSUE: https://github.com/home-assistant/intents/issues/2393
+  - sentences:
+      - "stan minutnika w kuchni"
+      - "status minutnika w kuchni"
+      - "podsumowanie minutnika w kuchni"
+      - "jaki stan minutnika w kuchni"
+      - "jaki jest stan minutnika w kuchni"
+      - "jaki jest w kuchni stan mojego minutnika"
+      - "w kuchni jaki jest stan minutnika"
+      - "stan mojego minutnika w kuchni"
+      - "ile czasu pozostało na minutniku w kuchni"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: "Kuchni"
+    response: |
+      Brak uruchomionych minutników.

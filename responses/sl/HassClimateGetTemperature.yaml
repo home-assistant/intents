@@ -4,20 +4,16 @@ responses:
     HassClimateGetTemperature:
       default: |
         {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
-        {% set temperature_abs = temperature | float | abs %}
+        {% set temperature_sl = (temperature|string).replace(".", ",") %}
+        {% set temperature_num = temperature | float %}
+        {% set temperature_abs = temperature_num | abs %}
 
         {% if temperature_abs == 1 %}
-            {{ temperature }} stopinja
-        {% elif temperature == 0 or temperature | float % 1 != 0 or temperature | float % 100 | abs < 20 %}
-            {{ temperature }} stopinje
+          {{ temperature_sl }} stopinja
+        {% elif temperature_abs == 2 %}
+          {{ temperature_sl }} stopinji
+        {% elif temperature_num == 0 or temperature_num % 1 != 0 or (temperature_num % 100 | abs) < 20 %}
+          {{ temperature_sl }} stopinje
         {% else %}
-            {{ temperature }} stopinj
-            {% if temperature | float % 1 != 0 %}
-                {% set decimal_part = temperature | string | regex_replace('\\d+\\.', '') %}
-                {% if decimal_part != '1' %}
-                    cela {{ decimal_part }} stopinje
-                {% else %}
-                    cela {{ decimal_part }} stopinja
-                {% endif %}
-            {% endif %}
+          {{ temperature_sl }} stopinj
         {% endif %}

@@ -3,11 +3,18 @@ intents:
   HassShoppingListAddItem:
     data:
       - sentences:
-          - "füge <item> <meine_liste> hinzu"
-          - "füge <meine_liste> <item> hinzu"
-          - "(setz[e]|schreib[e]|nehme|nimm) <item> (auf|in) <meine_liste>"
-          - "<item> (auf|in) <meine_liste>[ (setzen|schreiben|nehmen)]"
+          - "füge <item>[ (zu|zur)] <meine_liste_dativ> hinzu"
+          - "füge <item>[ (zu|zum)] <mein_einkauf_dativ> hinzu"
+          - "füge[ (zu|zur)] <meine_liste_dativ> <item> hinzu"
+          - "füge[ (zu|zum)] <mein_einkauf_dativ> <item> hinzu"
+          - "(setz[e]|schreib[e]|nehme|nimm) <item> (auf|in) <meine_liste_akkusativ>"
+          - "<item> (auf|in) <meine_liste_akkusativ>[ (setzen|schreiben|nehmen)]"
+          - "<item>[ (zu|zur)] <meine_liste_dativ> hinzufügen"
+          - "<item>[ (zu|zum)] <mein_einkauf_dativ> hinzufügen"
+          - "<item>[ (auf|in)] <meine_liste_akkusativ> hinzufügen"
         response: item_added
         expansion_rules:
-          meine_liste: "[meine[r]|die|der] [Einkaufs]Liste"
+          mein_einkauf_dativ: "[meinem|dem] Einkauf"
+          meine_liste_dativ: "[meiner|der] [Einkaufs]Liste"
+          meine_liste_akkusativ: "[meine|die] [Einkaufs]Liste"
           item: "{shopping_list_item:item}"

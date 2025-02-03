@@ -4,21 +4,36 @@ responses:
     HassGetWeather:
       default: >
         {% set weather_condition = {
-          'jasno': 'in jasno',
-          'jasno': 'in jasno',
-          'oblačno': 'in oblačno',
-          'izjemno': 'in izjemno',
-          'megla': 'z meglo',
-          'toča': 's točo',
-          'strela': 'bliskovito',
-          'bliskovito deževno': 'bliskovito in deževno',
-          'delno oblačno': 'in delno oblačno',
-          'nalivi': 'in nalivi',
-          'deževno': 'in deževno',
-          'sneženje': 'in sneženje',
-          'snežno deževno': 's snegom in dežjem',
-          'sončno': 'in sončno',
-          'vetrovno': 'in vetrovno',
-          'vetrovna varianata': 'z vetrom in oblaki'
+          'clear': 'in jasno',
+          'clear-night': 'in jasno',
+          'cloudy': 'in oblačno',
+          'exceptional': 'in izjemno',
+          'fog': 'z meglo',
+          'hail': 's točo',
+          'lightning': 'bliskovito',
+          'lightning-rainy': 'bliskovito in deževno',
+          'partlycloudy': 'in delno oblačno',
+          'pouring': 'z nalivi',
+          'rainy': 'in deževno',
+          'snowy': 'in snežno',
+          'snowy-rainy': 's snegom in dežjem',
+          'sunny': 'in sončno',
+          'windy': 'in vetrovno',
+          'windy-variant': 'z vetrom in oblaki'
         } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {% set temperature = state.attributes.get('temperature') %}
+        {% if temperature is not none %}
+          {% set temperature_sl = (temperature|string).replace(".", ",") %}
+          {% set temperature_num = temperature | float %}
+          {% if temperature_num | abs == 1 %}
+            {{ temperature_sl }} stopinja
+          {% elif temperature_num | abs == 2 %}
+            {{ temperature_sl }} stopinji
+          {% elif temperature_num == 0 or temperature_num % 1 != 0 or temperature_num % 100 | abs < 20 %}
+            {{ temperature_sl }} stopinje
+          {% else %}
+            {{ temperature_sl }} stopinj
+          {% endif %}
+        {% else %}
+          Temperatura ni na voljo
+        {% endif %} {{ weather_condition.get((state.state | string).lower(), "") }}

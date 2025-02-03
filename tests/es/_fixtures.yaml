@@ -1,40 +1,60 @@
 language: es
+floors:
+  - name: "Planta alta"
+    id: upstairs_id
+  - name: "Planta baja"
+    id: ground_floor_id
+  - name: "Primera planta"
+    id: first_floor_id
+  - name: "Sótano"
+    id: basement_id
+  - name: "Planta suelo"
+    id: outside_id
 areas:
+  - name: "Habitación de invitados"
+    id: id_habitacion_invitados
+    floor: upstairs_id
+
+  - name: Fuera
+    # área preposicional
+    id: id_fuera
+    floor: outside_id
+
   - name: Cocina
-    id: cocina
-    floor: "Planta baja"
+    id: id_cocina
+    floor: ground_floor_id
 
   - name: Salón
-    id: salon
-    floor: "Planta baja"
+    id: id_salon
+    floor: ground_floor_id
 
   - name: Dormitorio
-    id: dormitorio
-    floor: "Primera planta"
+    id: id_dormitorio
+    floor: first_floor_id
 
   - name: Garaje
-    id: garaje
-    floor: "Planta baja"
+    id: id_garaje
+    floor: ground_floor_id
 
   - name: Entrada
-    id: entrada
-    floor: "Planta baja"
+    id: id_entrada
+    floor: ground_floor_id
 
   - name: Oficina
-    id: oficina
-    floor: "Sótano"
+    id: id_oficina
+    floor: basement_id
 
 entities:
   - name: Lámpara de la mesilla
     id: light.lampara_mesilla
-    area: dormitorio
+    area: id_dormitorio
     state:
       in: "apagada"
       out: "off"
 
   - name: Cortina dormitorio
     id: cover.cortina_dormitorio
-    area: dormitorio
+    area: id_dormitorio
     state:
       in: "cerrada"
       out: "closed"
@@ -44,34 +64,43 @@ entities:
 
   - name: Interruptor dormitorio
     id: switch.interruptor_dormitorio
-    area: dormitorio
+    area: id_dormitorio
     state:
-      in: "apadado"
+      in: "apagado"
       out: "off"
 
   - name: Interruptor
     id: switch.interruptor_cocina
-    area: cocina
+    area: id_cocina
     state:
       in: "encendido"
       out: "on"
 
   - name: Ventilador de techo
     id: fan.ventilador_techo
-    area: salon
+    area: id_salon
 
   - name: Cortina izquierda
     id: cover.cortina_izquierda
-    area: salon
+    area: id_salon
     state:
       in: "abierta"
       out: "open"
     attributes:
       device_class: curtain
 
+  - name: Estor izquierdo
+    id: cover.estor_izquierdo
+    area: id_habitacion_invitados
+    state:
+      in: "abierto"
+      out: "open"
+    attributes:
+      device_class: shade
+
   - name: Cortina derecha
     id: cover.cortina_derecha
-    area: salon
+    area: id_salon
     state:
       in: "cerrada"
       out: "closed"
@@ -80,56 +109,56 @@ entities:
 
   - name: Lámpara techo salón
     id: light.lampara_techo_salon
-    area: salon
+    area: id_salon
     state:
       in: "encendida"
       out: "on"
 
   - name: Luz techo cocina
     id: light.luz_cocina
-    area: cocina
+    area: id_cocina
     state:
       in: "encendida"
       out: "on"
 
   - name: Luz armarios de cocina
     id: light.armarios_cocina
-    area: cocina
+    area: id_cocina
     state:
       in: "encendida"
       out: "on"
 
   - name: Luz encimera
     id: light.encimera_cocina
-    area: cocina
+    area: id_cocina
     state:
       in: "encendida"
       out: "on"
 
   - name: "Rincón de juegos"
     id: "light.rincon_juegos"
-    area: "salon"
+    area: "id_salon"
     state:
       in: "Encendido"
       out: "on"
 
   - name: Termómetro cocina
     id: sensor.termometro_cocina
-    area: cocina
+    area: id_cocina
     state: "23"
     attributes:
       unit_of_measurement: "°C"
 
   - name: "Temperatura exterior"
     id: "sensor.temperatura_exterior"
-    area: "garaje"
+    area: "id_garaje"
     state: "14"
     attributes:
       unit_of_measurement: "°C"
 
   - name: Termostato salon
     id: climate.termostato_salon
-    area: salon
+    area: id_salon
     state: "off"
     attributes:
       unit_of_measurement: "°C"
@@ -137,7 +166,7 @@ entities:
 
   - name: Termostato cocina
     id: climate.termostato_cocina
-    area: cocina
+    area: id_cocina
     state: "heat"
     attributes:
       unit_of_measurement: "°C"
@@ -145,14 +174,14 @@ entities:
 
   - name: Luz de garaje
     id: light.luz_garaje
-    area: garaje
+    area: id_garaje
     state:
       in: "encendida"
       out: "on"
 
   - name: "Puerta principal"
     id: "lock.puerta_principal"
-    area: "entrada"
+    area: "id_entrada"
     state: "locked"
 
   - name: "Puerta trasera"
@@ -186,9 +215,9 @@ entities:
     attributes:
       device_class: battery_charging
 
-  - name: "Sensor CO2"
-    id: "binary_sensor.co2"
-    area: "cocina"
+  - name: "Sensor CO"
+    id: "binary_sensor.co"
+    area: "id_cocina"
     state:
       in: "despejado"
       out: "off"
@@ -229,7 +258,7 @@ entities:
 
   - name: "Sensor de Gas"
     id: "binary_sensor.gas"
-    area: "cocina"
+    area: "id_cocina"
     state:
       in: "despejado"
       out: "off"
@@ -262,7 +291,7 @@ entities:
 
   - name: "Sensor de fuga de agua"
     id: "binary_sensor.water_sensor"
-    area: cocina
+    area: id_cocina
     state:
       in: "seco"
       out: "off"
@@ -271,7 +300,7 @@ entities:
 
   - name: "Movimiento en el garaje"
     id: "binary_sensor.garage_motion"
-    area: "garaje"
+    area: "id_garaje"
     state:
       in: "activo"
       out: "on"
@@ -280,7 +309,7 @@ entities:
 
   - name: "Sensor de presencia"
     id: "binary_sensor.kitchen_occupancy"
-    area: "cocina"
+    area: "id_cocina"
     state:
       in: "detectado"
       out: "on"
@@ -321,7 +350,7 @@ entities:
 
   - name: "Alimentador de mascotas"
     id: "binary_sensor.problem"
-    area: "cocina"
+    area: "id_cocina"
     state:
       in: "ok"
       out: "off"
@@ -346,7 +375,7 @@ entities:
 
   - name: "Humo en la cocina"
     id: "binary_sensor.kitchen_smoke"
-    area: "cocina"
+    area: "id_cocina"
     state:
       in: "despejado"
       out: "off"
@@ -355,7 +384,7 @@ entities:
 
   - name: "Sirena"
     id: "binary_sensor.sound"
-    area: "garaje"
+    area: "id_garaje"
     state:
       in: "detectada"
       out: "on"
@@ -404,7 +433,7 @@ entities:
 
   - name: "Sensor de calidad de aire"
     id: "sensor.calidad_aire_cocina"
-    area: cocina
+    area: id_cocina
     state: "50"
     attributes:
       device_class: aqi
@@ -767,3 +796,23 @@ entities:
   - name: "Aspiradora"
     id: "vacuum.aspiradora"
     state: "idle"
+
+timers:
+  - is_active: false
+    start_hours: 1
+    total_seconds_left: 100
+    rounded_hours_left: 0
+    rounded_minutes_left: 1
+    rounded_seconds_left: 40
+  - name: "pizza"
+    start_minutes: 30
+    total_seconds_left: 1505
+    rounded_hours_left: 0
+    rounded_minutes_left: 25
+    rounded_seconds_left: 0
+  - area: "id_cocina"
+    start_minutes: 5
+    total_seconds_left: 190
+    rounded_hours_left: 0
+    rounded_minutes_left: 3
+    rounded_seconds_left: 0

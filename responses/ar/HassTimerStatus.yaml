@@ -1,0 +1,94 @@
+---
+language: ar
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0 %}
+          لا يوجد مؤقتات.
+        {% elif num_active_timers == 0 %}
+          {# No active timers #}
+          {% if num_paused_timers == 1 %}
+            {% set next_timer = paused_timers[0] %}
+            المؤقت متوقف مؤقتاً.
+          {% else %}
+            يوجد {{ num_paused_timers }} مؤقتات متوقفة.
+          {% endif %}
+        {% else %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1 %}
+            {% set next_timer = active_timers[0] %}
+          {% else %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            يوجد {{ num_active_timers }} مؤقتات نشطة.
+          {% endif %}
+
+          {% if num_paused_timers == 1 %}
+            و1 مؤقت متوقف.
+          {% elif num_paused_timers > 0 %}
+            و{{ num_paused_timers }} مؤقتات متوقفة.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer %}
+          {# At least one active timer #}
+          {% set minute_name = 'دقيقة' if next_timer.rounded_minutes_left | int > 10 else 'دقائق' %}
+          {% set second_name = 'ثانية' if next_timer.rounded_seconds_left | int > 10 else 'ثواني' %}
+
+          تبقى
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0) %}
+            ساعة و{{ next_timer.rounded_minutes_left }} {{minute_name}}
+          {% elif (next_timer.rounded_hours_left == 1) %}
+            ساعة
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0) %}
+            {{ next_timer.rounded_hours_left }} ساعات و{{ next_timer.rounded_minutes_left }} {{minute_name}}
+          {% elif (next_timer.rounded_hours_left > 1) %}
+            {{ next_timer.rounded_hours_left }} ساعات
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0) %}
+            دقيقة و{{ next_timer.rounded_seconds_left }} {{second_name}}
+          {% elif (next_timer.rounded_minutes_left == 1) %}
+            دقيقة
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0) %}
+            {{ next_timer.rounded_minutes_left }} {{minute_name}} و{{ next_timer.rounded_seconds_left }} {{second_name}}
+          {% elif (next_timer.rounded_minutes_left > 1) %}
+            {{ next_timer.rounded_minutes_left }} {{minute_name}}
+          {% elif (next_timer.rounded_seconds_left == 1) %}
+            ثانية واحدة
+          {% elif (next_timer.rounded_seconds_left > 1) %}
+            {{ next_timer.rounded_seconds_left }} ثوانٍ
+          {% endif %}
+
+          {% if num_timers > 1 %}
+            {# Give some extra information to disambiguate #}
+            على مؤقت طوله
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0) %}
+              {{ next_timer.start_hours }} ساعة و{{ next_timer.start_minutes }} {{minute_name}}
+            {% elif (next_timer.start_hours > 0) %}
+              {{ next_timer.start_hours }} ساعة
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0) %}
+              {{ next_timer.start_minutes }} {{minute_name}} و{{ next_timer.start_seconds }} {{second_name}}
+            {% elif (next_timer.start_minutes > 0) %}
+              {{ next_timer.start_minutes }} {{minute_name}}
+            {% elif (next_timer.start_seconds > 0) %}
+              {{ next_timer.start_seconds }} {{second_name}}
+            {% endif %}
+
+            {% if next_timer.name %}
+              اسم المؤقت: {{ next_timer.name }}.
+            {% elif next_timer.area %}
+              في {{ next_timer.area }}.
+            {% endif %}
+
+          {% else %}
+            .
+          {% endif %}
+        {% endif %}

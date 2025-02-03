@@ -1,0 +1,90 @@
+language: da
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Ingen nedtællinger.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Nedtællingen er pauseret.
+          {% else: %}
+            {{ num_paused_timers }} pauserede nedtællinger.
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} aktive nedtællinger.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 pauseret nedtælling.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} pauserede nedtællinger.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 time og {{ next_timer.rounded_minutes_left }} minutter
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 time
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} timer og {{ next_timer.rounded_minutes_left }} minutter
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} timer
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 minut og {{ next_timer.rounded_seconds_left }} sekunder
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 minut
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} minutter og {{ next_timer.rounded_seconds_left }} sekunder
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} minutter
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 sekund
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} sekunder
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            tilbage på
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} timer og {{ next_timer.start_minutes }} minutter
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} timer
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} minut og {{ next_timer.start_seconds }} sekunder
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} minutter
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} sekunder
+            {% endif %}
+
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              {{ next_timer.area }}
+            {% endif %}
+
+            nedtælling.
+          {% else: %}
+            tilbage.
+          {% endif %}
+        {% endif %}

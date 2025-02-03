@@ -3,12 +3,41 @@ settings:
   ignore_whitespace: true
 responses:
   errors:
-    no_intent: "對唔住，我聽不明白"
-    no_area: "沒有區域名叫 {{ area }}"
-    no_domain_in_area: "區域名 {{ area }} 不包含 {{ domain }}"
-    no_device_class_in_area: "區域名 {{ area }} 不包含 {{ device_class }}"
-    no_entity: "無設備或實體叫 {{ entity }}"
+    # General errors
+    no_intent: "對唔住，我聽唔明白"
     handle_error: "處理時發生意外錯誤"
+
+    # Errors for when user is not logged in
+    no_area: "唔好意思，無區域名叫 {{ area }}"
+    no_floor: "唔好意思，無樓層名叫 {{ floor }}"
+    no_domain: "唔好意思，無領域名叫 {{ domain }}"
+    no_domain_in_area: "唔好意思，區域名 {{ area }} 不包括領域名 {{ domain }}"
+    no_domain_in_floor: "唔好意思，樓層名 {{ floor }} 不包括領域名 {{ domain }}"
+    no_device_class: "唔好意思，無設備類別名叫 {{ device_class }}"
+    no_device_class_in_area: "唔好意思，區域名 {{ area }} 不包括備類別 {{ device_class }}"
+    no_device_class_in_floor: "唔好意思，樓層名 {{ floor }} 不包括備類別 {{ device_class }}"
+    no_entity: "唔好意思，無設備或實體叫 {{ entity }}"
+    no_entity_in_area: "唔好意思，區域名 {{ area }} 不包括實體 {{ device_class }}"
+    no_entity_in_floor: "唔好意思，樓層名 {{ floor }} 不包括實體 {{ device_class }}"
+    entity_wrong_state: "唔好意思，無實體狀況係 {{ state | lower }}"
+    feature_not_supported: "唔好意思，無設備支援所需的功能"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "唔好意思， {{ entity }} 無暴露"
+    no_entity_in_area_exposed: "唔好意思， {{ entity }} 係 {{ area }} 地區 無暴露"
+    no_entity_in_floor_exposed: "唔好意思， {{ entity }} 係 {{ floor }} 樓層 無暴露"
+    no_domain_exposed: "唔好意思， 無 {{ domain }} 暴露"
+    no_domain_in_area_exposed: "唔好意思， 無 {{ domain }} 係 {{ area }} 地區 暴露"
+    no_domain_in_floor_exposed: "唔好意思， 無 {{ domain }} 係 {{ floor }} 樓層 暴露"
+    no_device_class_exposed: "唔好意思， 無 {{ device_class }} 暴露"
+    no_device_class_in_area_exposed: "唔好意思， 無 {{ device_class }} 係 {{ area }} 地區 暴露"
+    no_device_class_in_floor_exposed: "唔好意思， 無 {{ device_class }} 係 {{ floor }} 樓層 暴露"
+
+    # Errors for timers
+    timer_not_found: "唔好意思，找不到那個計時器"
+    multiple_timers_matched: "唔好意思，我無法定位多個計時器"
+    no_timer_support: "唔好意思，本設備不支援計時器"
+
 lists:
   color:
     values:
@@ -30,34 +59,33 @@ lists:
         out: "black"
       - in: "棕色"
         out: "brown"
+
   brightness:
     range:
       type: "percentage"
       from: 0
       to: 100
+
   temperature:
     range:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - in: "c|攝氏|度|°C|℃"
-        out: "celsius"
-      - in: "f|華氏|度|°F|℉"
-        out: "fahrenheit"
+
   brightness_level:
     values:
-      - in: (最大|最光|最高|最亮)
+      - in: "(最大|最光|最高|最亮)"
         out: 100
-      - in: (最小|最暗|最低|最黑)
+      - in: "(最小|最暗|最低|最黑)"
         out: 1
+
   on_off_states:
     values:
       - in: "(打開|開著|開了|開咗|開)[的]"
         out: "on"
       - in: "(關閉|關著|關了|關咗|閂咗|閂)[的]"
         out: "off"
+
   on_off_domains:
     values:
       - in: "(燈|天花燈|筒燈|射燈|檯燈|床頭燈|燈光)"
@@ -66,6 +94,7 @@ lists:
         out: fan
       - in: "(開關|開關制|電源|插座|通斷器)"
         out: switch
+
   cover_states:
     values:
       - in: "(打開|開著|開了|開咗|打開)[的|咗]"
@@ -76,6 +105,7 @@ lists:
         out: opening
       - in: "關閉緊"
         out: closing
+
   cover_classes:
     values:
       - in: "(遮陽|雨)(蓬|棚)"
@@ -96,6 +126,7 @@ lists:
         out: shutter
       - in: "窗戶"
         out: window
+
   lock_states:
     values:
       - in: "(已上鎖|鎖著|鎖上|鎖了|鎖咗)[的|嘅]"
@@ -103,12 +134,88 @@ lists:
       - in: "(已解鎖|沒[有][上]鎖|無[上]鎖)[的|嘅]"
         out: unlocked
 
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  shopping_list_item:
+    wildcard: true
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+
+  timer_half:
+    values:
+      - in: "半"
+        out: 30
+      - in: "1/2"
+        out: 30
+
+  timer_5minute:
+    values:
+      - in: "一個字"
+        out: 5
+      - in: "兩個字"
+        out: 10
+      - in: "三個字"
+        out: 15
+      - in: "四個字"
+        out: 20
+      - in: "五個字"
+        out: 25
+      - in: "七個字"
+        out: 35
+      - in: "八個字"
+        out: 40
+      - in: "九個字"
+        out: 45
+      - in: "十個字"
+        out: 50
+      - in: "十一個字"
+        out: 55
+
+  timer_name:
+    wildcard: true
+
+  timer_command:
+    wildcard: true
+
+  volume_percentage:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  message:
+    wildcard: true
+
 expansion_rules:
   name: "{name}[的|嘅]"
   area: "{area}[的|嘅]"
-  let: "[請|把|给|讓]"
+  what_is: "(什麼係|是什麼|而家|今日|幾|what's|whats|what is)"
+  today: "(今日|今天)"
+  date: "號|日"
+  time: "(點|時間)"
+  weather: "(天氣|weather)"
+  like: "(怎樣|點|like|咩|點樣)"
+  in: "(係)"
+  current: "現在|依家|目前"
+  let: "[請|把|给|讓|張]"
   all: "(全部|所有)[的|嘅]"
-  what_is: "是什麼"
   how_many_is: "(是|有)(多少|幾|幾個)"
   which: "[有|有没有|有無]哪[一](個|些)"
   brightness: "[百分之]{brightness}[%]"
@@ -116,9 +223,64 @@ expansion_rules:
   set_to: "(設置|設定|調節|調)(為|到|至)"
   turn_on: "(打開|開啟|開|着)"
   turn_off: "(關閉|關掉|關了|關|閂)"
-  open: "(打開|開)"
+  open: "(打開|開|開大|開放|擴大)"
   close: "(關閉|關掉|關了|關|閂)"
   light: "(燈|吸頂燈|筒燈|射燈|檯燈|台燈|床頭燈|燈光)[的|嘅]"
   temp: "溫度"
-  temperature: "{temperature} [{temperature_unit}]"
+  temperature: "{temperature}度"
+  numeric_value_set: "(設定|調整|調教||調|set|change|increase|decrease|make)"
+  position: "{position}[[ ]%| percent]"
+  volume_percentage: "{volume_percentage:volume_level}[[ ]%| percent]"
+  volume: "(音量)"
+  start: "(開始|開動)"
+  return: "(返回)"
+  add: "(加[添]|增加)"
+  increase: "(增加)"
+  decrease: "(撤除|減少)"
+  status: "(狀況)"
+  timer: "(計時器|倒時器|倒數器)"
+  the: "(嗰個)"
+  my: "(我的|我個|我嗰個|我嘅)"
+  how much: "(幾多)"
+  left: "([還|重]剩)"
+  resume: "(恢復|繼續)"
+  for: "(到)"
+  hour: "(小時|鐘|個|個鐘|鐘頭|個鐘頭|)"
+  minute: "(分鐘|分|)"
+  second: "(秒|)"
+  up: "(高)"
+  down: "(低)"
+  pause: "(暫停)"
+  unpause: "(取消暫停|恢復|繼續)"
+  next: "(跳|轉)[到](下一)(個|首)"
+  replay: "(再播放這)(個|首)"
+  previous: "(再播放上一)(個|首)"
+  item: "(台|曲|曲目|歌)"
+
+  # Timers
+  timer_set: "(開始|放置|撥|set)"
+  timer_cancel: "(取消|停止|cancel|stop)"
+
+  timer_duration_seconds: "{timer_seconds:seconds} <second>"
+  timer_duration_minutes: "({timer_minutes:minutes} <minute>[ [and ]{timer_seconds:seconds} <second>])|({timer_minutes:minutes} [and[ a]] {timer_half:seconds}[<minute>])|({timer_half:seconds} <minute>)|({timer_5minute:minutes} [<minute>])"
+  timer_duration_hours: "({timer_hours:hours} <hour>[ [and ]{timer_minutes:minutes} <minute>][ [and ]{timer_seconds:seconds} <second>])|({timer_hours:hours}[<hour>] [and[ a]] {timer_half:minutes} [<hour>])|({timer_half:minutes} <hour>)"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} <second>"
+  timer_start_minutes: "{timer_minutes:start_minutes} <minute>[ [and ]{timer_seconds:start_seconds} <second>]"
+  timer_start_hours: "{timer_hours:start_hours} <hour>[ [and ]{timer_minutes:start_minutes} <minute>][ [and ]{timer_seconds:start_seconds} <second>]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
+  # Response
+  listening: "聆聽"
+  ask: "(問|講)"
+  how: "(怎|點)樣"
+  who: "(邊個)"
+  made: "(創造咗)"
+  you: "(你)"
+
+  # Broadcast
+  broadcast: "(broadcast|announce|播放)"
+  everywhere: "(everywhere|到處)"
+
 skip_words: []

@@ -2,7 +2,23 @@ language: da
 intents:
   HassClimateSetTemperature:
     data:
+      # Current area or floor
       - sentences:
-          - "(sæt | ændr | juster) temperatur[en] til <temperatur>"
-          - "(sæt | ændr | juster) temperatur[en] <i_på> <område> til <temperatur>"
-          - "(sæt | ændr | juster) <område>[s] temperatur til <temperatur>"
+          - "<sæt_numerisk_værdi> <temperaturen> til <temperatur>"
+
+      # By area name
+      - sentences:
+          - "<sæt_numerisk_værdi> <temperaturen> <i_på> <område> til <temperatur>"
+          - "<sæt_numerisk_værdi> <område>[s] temperatur til <temperatur>"
+
+      # By floor name
+      - sentences:
+          - "<sæt_numerisk_værdi> <temperaturen> <i_på> <etage> til <temperatur>"
+          - "<sæt_numerisk_værdi> <etage>[s] temperatur til <temperatur>"
+
+      # By climate entity name
+      - sentences:
+          - "<sæt_numerisk_værdi> <temperaturen> <i_på> <navn> til <temperatur>"
+          - "<sæt_numerisk_værdi> <navn>[s] [temperatur] til <temperatur>"
+        requires_context:
+          domain: "climate"

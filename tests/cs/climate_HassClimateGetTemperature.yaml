@@ -1,20 +1,12 @@
 language: cs
 tests:
   - sentences:
-      - Jaká je teplota v obývacím pokoji?
-      - Kolik stupňů je v obývacím pokoji?
-    intent:
-      name: HassClimateGetTemperature
-      slots:
-        area:
-          - Obývacím pokoji
-  - sentences:
       - jaká je teplota v kuchyni
       - jaká je teplota kuchyně
       - jaká je v kuchyni teplota
       - jaká teplota je v kuchyni
       - jak teplo je v kuchyni
-      - kolik je v kuchyni
+      - jak chladno je v kuchyni
       - kolik je v kuchyni stupňů
       - kolik stupňů je v kuchyni
     intent:
@@ -23,3 +15,29 @@ tests:
         area:
           - Kuchyni
           - Kuchyně
+    response: "18.5 stupně"
+  - sentences:
+      - jaká je teplota na termostat obývák
+      - jaká je nastavená teplota na termostat obývák
+      - kolik stupňů má termostat obývák
+      - kolik stupňů je na termostat obývák
+    intent:
+      name: HassClimateGetTemperature
+      slots:
+        name: Termostat obývák
+    response: "20 stupňů"
+  - sentences:
+      - jaká je teplota
+      - jaká je tady teplota
+      - jaká je tu teplota
+      - kolik je stupňů
+      - kolik je tady stupňů
+      - jak je tu teplo
+      - jak je tu chladno
+    intent:
+      name: HassClimateGetTemperature
+      context:
+        area: Obývací pokoj
+      slots:
+        area: Obývací pokoj
+    response: "20 stupňů"

@@ -38,22 +38,184 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
+
+  # binary_sensor
+  bs_battery_states:
     values:
-      - in: "c | celsija | pēc celsija"
-        out: "celsius"
-      - in: "f | fārenheita | pēc fārenheita"
-        out: "fahrenheit"
+      - in: "izlādē(ts|ta|jies|jusies|jušies|jušās)"
+        out: "on"
+      - in: "uzlādē(ts|ta|jies|jusies|jušies|jušās)"
+        out: "off"
+  bs_battery_charging_states:
+    values:
+      - in: "[uz]lād(es|ējas|ēšanās)"
+        out: "on"
+      - in: "ne[uz]lād(es|ējas|ēšanās)"
+        out: "off"
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(detektēt(s|a|i)|aktiv[iz]ēt(s|a|i)|ieslēgt(s|a|i|as)|[ir ]CO2)"
+        out: "on"
+      - in: "(nav (detektēt(s|a|i)|CO2)|deaktiv[iz]ēt(s|a|i)|izslēgt(s|a|i|as))"
+        out: "off"
+  bs_cold_states:
+    values:
+      - in: "aukst(s|a|i|as)"
+        out: "on"
+      - in: "nav aukst(s|a|i|as)"
+        out: "off"
+  bs_connectivity_states:
+    values:
+      - in: "(savieno(ts|ta|ti|tas)|pieslē(gts|gta|gti|gtas))"
+        out: "on"
+      - in: "(atvieno(ts|ta|ti|tas)|atslē(gts|gta|gti|gtas))"
+        out: "off"
+  bs_door_states:
+    values:
+      - in: "atvērt(a|as)"
+        out: "on"
+      - in: "aizvērt(a|as)"
+        out: "off"
+  bs_garage_door_states:
+    values:
+      - in: "atvērt(a|as)"
+        out: "on"
+      - in: "aizvērt(a|as)"
+        out: "off"
+  bs_gas_states:
+    values:
+      - in: "(detektēt(s|a|i)|aktiv[iz]ēt(s|a|i)|ieslēgt(s|a|i|as)|[ir ]gāze)"
+        out: "on"
+      - in: "(nav (detektēt(s|a|i)|gāze[s])|deaktiv[iz]ēt(s|a|i)|izslēgt(s|a|i|as))"
+        out: "off"
+  bs_heat_states:
+    values:
+      - in: "karst(s|a|i|as)"
+        out: "on"
+      - in: "nav karst(s|a|i|as)"
+        out: "off"
+  bs_light_states:
+    values:
+      - in: "(gaiš(s|a|i|as)|detektēt(s|a|i|as)|[ir ]gaisma[s])"
+        out: "on"
+      - in: "(tumš(s|a|i|as)|nav gaism(a|as|u))"
+        out: "off"
+  bs_lock_states:
+    values:
+      - in: "atslēgt(a|as)"
+        out: "on"
+      - in: "[aiz]slēgt(a|as)"
+        out: "off"
+  bs_moisture_states:
+    values:
+      - in: "(slapj(š|a|i)|applūd(is|usi|uši|ušas))"
+        out: "on"
+      - in: "saus(s|a|i)"
+        out: "off"
+  bs_motion_states:
+    values:
+      - in: "(detektēt(s|a|i)|aktiv[iz]ēt(s|a|i)|ieslēgt(s|a|i|as)|[ir ]kustība)"
+        out: "on"
+      - in: "(nav detektēt(s|a|i)|deaktiv[iz]ēt(s|a|i)|izslēgt(s|a|i|as)|nav kustība[s])"
+        out: "off"
+  bs_occupancy_states:
+    values:
+      - in: "([ir ](kād(s|a|i|as)|cilvēk(s|i)|[māj]dzīvniek(s|i)|aizņemt[īb](s|a|i|as)|aktiv[iz]ēt(s|a|i)|ieslēgt(s|a|i|as)))"
+        out: "on"
+      - in: "(nav (nevien(s|a)|cilvēk(s|i)|[māj]dzīvniek(s|i)|aizņemt[īb](s|a|i|as)|aktiv[iz]ēt(s|a|i)|ieslēgt(s|a|i|as)))"
+        out: "off"
+  bs_opening_states:
+    values:
+      - in: "atvērt(s|a|i|as)"
+        out: "on"
+      - in: "aizvērt(s|a|i|as)"
+        out: "off"
+  bs_plug_states:
+    values:
+      - in: "([p]ie)spraust(s|a|i|as)"
+        out: "on"
+      - in: "(iz|at)spraust(s|a|i|as)"
+        out: "off"
+  bs_power_states:
+    values:
+      - in: "[ir ]enerģij(a|as)"
+        out: "on"
+      - in: "nav enerģij(a|as)"
+        out: "off"
+  bs_presence_states:
+    values:
+      - in: "mājās"
+        out: "on"
+      - in: "(ārpus|prom[ no]|nav) māj(as|ām)"
+        out: "off"
+  bs_problem_states:
+    values:
+      - in: "[ir|sagādā][ ]problēm(a|as|u)"
+        out: "on"
+      - in: "[nav|nesagādā] problēm(a|as|u)"
+        out: "off"
+  bs_running_states:
+    values:
+      - in: "(darbojas|strādā|ieslēgt(s|a|i||as))"
+        out: "on"
+      - in: "(nedarbojas|nestrādā|izslēgt(s|a|i||as))"
+        out: "off"
+  bs_safety_states:
+    values:
+      - in: "nedroš(s|a|i)"
+        out: "on"
+      - in: "droš(s|a|i)"
+        out: "off"
+  bs_smoke_states:
+    values:
+      - in: "((detektēt|aktiv[iz]ēt|ieslēgt)(s|a|i|as))"
+        out: "on"
+      - in: "((nav |ne)detektēt(s|a|i)|(deaktiv[iz]ēt|izslēgt)(s|a|i|as))"
+        out: "off"
+  bs_sound_states:
+    values:
+      - in: "((aktiv[iz]ēt|ieslēgt)(s|a|i|as))"
+        out: "on"
+      - in: "((deaktiv[iz]ēt|izslēgt)(s|a|i|as))"
+        out: "off"
+  bs_tamper_states:
+    values:
+      - in: "aiztikt(s|a|i|as)"
+        out: "on"
+      - in: "(nav |ne)aiztikt(s|a|i|as)"
+        out: "off"
+  bs_update_states:
+    values:
+      - in: "[(pieejam(s|i|ie)|var) ]atjaun(ot[(s|a|i)]|ojam(s|a|i)|inā(t[(s|a|i)]|jum(s|i|am)|(ms|ma|mi|mas)))"
+        out: "on"
+      - in: "(nav|nevar) [pieejam(s|i|ie) ]atjaun(ot(s|a|i)|ojam(s|a|i)|inā(t(s|a|i)|jum(s|i|am)))"
+        out: "off"
+  bs_vibration_states:
+    values:
+      - in: "vibrē"
+        out: "on"
+      - in: "nevibrē"
+        out: "off"
+  bs_window_states:
+    values:
+      - in: "atvērt(s|i)"
+        out: "on"
+      - in: "aizvērt(s|i)"
+        out: "closed"
+  response:
+    wildcard: true
+
 expansion_rules:
   name: "{name}"
   area: "{area}"
   ieslēgt: "(palaid | ieslēgt | ieslēdz | ieslēdziet)"
   izslēgt: "(atslēgt | atslēdz | izslēgt | izslēdz | izslēdziet)"
   set: "(uzstādi | ieliec[iet] | [(iz|pa)]maini[et] | uzseto)"
+  aktivizēt: "(aktivizē | aktivizēt)"
   close: "(aizver[iet] | nolaist)"
   open: "(atver | pacel)"
   brightness: "{brightness}[%| procent(i|iem|u|us)]"
-  temperature: "{temperature}[°| grād(s|u|i|iem)] [pēc] [{temperature_unit}]"
+  temperature: "{temperature}[°| grād(s|u|i|iem)]"
 skip_words:
   - "lūdzu"
   - "paldies"

@@ -1,30 +1,91 @@
 language: ru
 tests:
   - sentences:
+      - "подними левую штору"
+    intent:
+      name: HassTurnOn
+      slots:
+        name:
+          - "Левую штору"
+      context:
+        domain: cover
+        device_class: curtain
+    response: "левую штору открыта"
+  - sentences:
+      - "открой левую штору в гостиной"
+    intent:
+      name: HassTurnOn
+      slots:
+        name:
+          - "Левую штору"
+        area:
+          - "Гостиной"
+      context:
+        domain: cover
+        device_class: curtain
+    response: "Открытие в гостиной запущено"
+  - sentences:
+      - "открой ворота гаража"
       - "открой дверь гаража"
     intent:
       name: HassTurnOn
       slots:
         device_class: garage
         domain: cover
-    response: "Открытие выполнено"
+    response: "Открытие гаража запущено"
   - sentences:
-      - "открой гаражную дверь"
+      - "подними жалюзи в кухне"
     intent:
       name: HassTurnOn
       slots:
-        device_class: garage
-        domain: cover
-    response: "Открытие выполнено"
-  - sentences:
-      - "открой шторы в кухня"
-    intent:
-      name: HassTurnOn
-      slots:
-        area: "Кухня"
+        area:
+          - "Кухне"
         device_class:
           - blind
-          - curtain
-          - shutter
         domain: cover
-    response: "Открытие в кухня выполнено"
+    response: "Открытие жалюзи запущено"
+  - sentences:
+      - "открой на кухне окно"
+    intent:
+      name: HassTurnOn
+      slots:
+        area:
+          - "Кухне"
+        device_class:
+          - window
+        domain: cover
+    response: "Открытие окна запущено"
+  - sentences:
+      - "открой на кухне двери"
+    intent:
+      name: HassTurnOn
+      slots:
+        area:
+          - "Кухне"
+        device_class:
+          - door
+        domain: cover
+    response: "Открытие дверей запущено"
+  - sentences:
+      - "открой на кухне дверь"
+    intent:
+      name: HassTurnOn
+      slots:
+        area:
+          - "Кухне"
+        device_class:
+          - door
+        domain: cover
+    response: "Открытие двери запущено"
+
+  - sentences:
+      - "Открой шторы"
+    intent:
+      name: HassTurnOn
+      context:
+        area: Зал
+      slots:
+        domain: cover
+        area: Зал
+        device_class: curtain
+    response: "Открытие штор запущено"

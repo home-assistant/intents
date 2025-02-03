@@ -3,8 +3,18 @@ intents:
   HassClimateGetTemperature:
     data:
       - sentences:
-          - "Jaká [je] teplota [je] [<area>]"
-          - "Jaká je [<area>] teplota"
-          - "Kolik [je] [stupňů] [je] [<area>] [stupňů]"
-          - "jaká je [<area>] teplota"
-          - "jak teplo je <area>"
+          - "jaká (je;teplota;<area>)"
+          - "kolik (je;stupňů;<area>)"
+          - "jak ((teplo|chladno);je) <area>"
+      - sentences:
+          - "jaká (je;[nastavená ]teplota;[<v> ]{name})"
+          - "kolik ((je|má);stupňů;[<v> ]{name})"
+        requires_context:
+          domain: climate
+      - sentences:
+          - "jaká (je;[<tady>];teplota)"
+          - "kolik (je;[<tady>];stupňů)"
+          - "jak ((teplo|chladno);je;[<tady>])"
+        requires_context:
+          area:
+            slot: true

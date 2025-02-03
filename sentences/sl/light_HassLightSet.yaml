@@ -12,15 +12,25 @@ intents:
 
       - sentences:
           - "[<numeric_value_set>] svetlost [v|na] <area> [na] <brightness>"
-          - "[<numeric_value_set>] svetlost [na] <brightness>"
+          #- "[<numeric_value_set>] svetlost [na] <brightness>"
           - "[<numeric_value_set>] [v|na] <area> [na] <brightness>"
         slots:
           name: "all"
         response: "brightness"
 
+      - sentences:
+          - "[<numeric_value_set>] svetlost [na] <brightness>"
+          - "[<numeric_value_set>] svetlost (<in_here>; [na] <brightness>)"
+        expansion_rules:
+          in_here: "tu[kaj] | v tem prostoru | v tej sobi"
+        response: "brightness"
+        requires_context:
+          area:
+            slot: true
+
       # Max/Min brightness
       - sentences:
-          - "[<numeric_value_set>] <name> [na] {brightness_level:brightness} [svetlost]"
+          - "[<numeric_value_set>] <name> [na] {brightness_level:brightness} [svetlost[i]]"
           - "[<numeric_value_set>] [svetlost] <name> [na] {brightness_level:brightness} [svetlost]"
         requires_context:
           domain: light
@@ -41,6 +51,7 @@ intents:
         requires_context:
           domain: light
         response: "color"
+
       - sentences:
           - "[<set>] [barvo] [v|na] <area> [na|v] {color} [barvo]"
           - "[<set>] [barvo] [<luč>] [vs[o|eh|e]] [<luč>] [v|na] <area> [na|v] {color} [barvo]"

@@ -1,12 +1,44 @@
 language: hr
 responses:
   errors:
+    # Errors for when user is not logged in
     no_intent: "Nažalost, ne razumijem zahtjev"
     no_area: "Prostorija s imenom {{ area }} ne postoji"
     no_domain_in_area: "Ne postoji {{ domain }} u prostoriji {{ area }}"
     no_device_class_in_area: "Prostorija {{ area }} ne sadrži {{ device_class }}"
     no_entity: "Ne postoji uređaj ili entitet pod imenom {{ entity }}"
     handle_error: "Došlo je do neočekivane pogreške prilikom obrade zahtjeva"
+    no_floor: "Kat s nazivom {{ floor }} ne postoji"
+    no_domain: "Domena {{ domain }} nije poznata"
+    no_domain_in_floor: "Na katu {{ floor }} ne postoji {{ domain }}"
+    no_device_class: "Nema {{ device_class }}"
+    no_device_class_in_floor: "Na katu {{ floor }} ne postoji {{ device_class }}"
+    no_entity_in_area: "Ne postoji uređaj ili entitet {{ entity }} u prostoriji {{ area }}"
+    no_entity_in_floor: "Ne postoji uređaj ili entitet {{ entity }} na katu {{ floor }}"
+    entity_wrong_state: "Ne postoji uređaj ili entitet u stanju {{ state | lower }}"
+    feature_not_supported: "Ne postoji uređaj ili entitet koji podržava funkcionalnost"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "{{ entity }} nije izložen"
+    no_entity_in_area_exposed: "{{ entity }} u prostoriji {{ area }} nije izložen"
+    no_entity_in_floor_exposed: "{{ entity }} na katu {{ floor }} nije izložen"
+    no_domain_exposed: "Nijedan {{ domain }} nije izložen"
+    no_domain_in_area_exposed: "Nijedan {{ domain }} u području {{ area }} nije izložen"
+    no_domain_in_floor_exposed: "Nijedan {{ domain }} na katu {{ floor }} nije izložen"
+    no_device_class_exposed: "Nijedan {{ device_class }} nije izložen"
+    no_device_class_in_area_exposed: "Nijedan {{ device_class }} u prostorji {{ area }} nije izložen"
+    no_device_class_in_floor_exposed: "Nijedan {{ device_class }} na katu {{ floor }} nije izložen"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Postoji više uređaja s nazivom {{ entity }}"
+    duplicate_entities_in_area: "Postoji više uređaja s nazivom {{ entity }} u prostoriji {{ area }}"
+    duplicate_entities_in_floor: "Postoji više uređaja s nazivom {{ entity }} na katu {{ floor }}"
+
+    # Errors for timers
+    timer_not_found: "Nisam mogao pronaći taj brojač vremena"
+    multiple_timers_matched: "Ne mogu ciljati više brojača vremena"
+    no_timer_support: "Brojač vremena nije moguće podržati na ovom uređaju"
+
 lists:
   color:
     values:
@@ -46,14 +78,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - "celsius"
-      - in: "c|celzijus|celzijusa|celzija|celzijev|celzijevih|celczijeva"
-        out: "celsius"
-      - "fahrenheit"
-      - in: "f | faranhajd | faranhajda"
-        out: "fahrenheit"
   on_off_states:
     values:
       - in: "uključen[a|e|i|o|ih]|upaljen[a|e|i|o|ih]"
@@ -106,22 +130,82 @@ lists:
         out: "unlocked"
   shopping_list_item:
     wildcard: true
+  zone:
+    wildcard: true
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+    # values:
+    #   - in: "pola"
+    #     out: "50"
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "pol[a]"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   name: "{name}"
-  area: "[prostorij[i|a]] {area}"
+  area: "[prostorij(i|a)] {area}"
   brightness: "{brightness}[%| posto]"
-  temperature: "{temperature}[°| <stupanj>] [{temperature_unit}]"
+  temperature: "{temperature}[°| <stupanj>]"
   stupanj: "[stupanj|stupnjeva]"
   temp: "temperatura|temperaturu"
   uključi: "uključi[te|mo]|[u]pali[te|mo]"
   isključi: "isključi[te|mo]|[u]gasi[te|mo]"
-  promijeni: "podesi[te|mo]|namjesti[te|mo]|postavi[te|mo]|stavi|promijeni[te|mo]|smanji|povećaj"
+  promijeni: "podesi[te|mo]|namjesti[te|mo]|postavi[te|mo]|stavi|promijeni[te|mo]|smanji|povećaj|postavi"
   otvori: "otvori[te|mo]|[po]digni[te|mo]"
   zatvori: "zatvori[te|mo]|spusti[te|mo]|navuci"
   koja_je: "koja je|kolika je|kakva je|koji je|kolik(i|a|o) [je]|koliko [je]|kada je|reci [mi]|koju|kojom se"
   sve: "[sve|sva|svi]"
   lock: "vrata|brav[a|u|e]"
   koja_je_vrijednost_senzora: "<koja_je> <class> [u|na] [pokazuje] [senzor|senzora] [pokazuje] <name> [senzor|senzora] [(u|na) <area>]|<koja_je> <class> [senzor|senzora|uređaja] <name> [(u|na) <area>]|<koja_je> <name> <class> [(u|na) <area>]"
+  pozicija: "{position}[%| posto]"
+  prognoza: "vrijeme|prognoza"
+  kakvo_je: "kakvo je|koje je|kakva je"
+  volume: "{volume:volume_level}[[ ]%| (posto)]"
+
+  # Timers
+  timer: "timer[u]|tajmer|štoperic(a|u)|brojač vremena|mjerač vremena|sat za vrijeme|podsjetnik|minutnik(a)"
+  timer_plural: "timer(a|e|ima)|tajmer(a|e|ima)|štoperic(e|a|ima)|brojač(a|e|ima) vremena|mjerač(a|i|e) vremena|sat(|a|e|ovima) za vrijeme|podsjet(nicimai|ka|ke)|minutni[ci|ke]"
+  timer_set: "(postavi|pokreni|napravi|započni)"
+  timer_cancel: "(otkaži|zaustavi|stop[iraj]|prekini|isključi|prekini|poništi)"
+  timer_state: "(status|stanje|preostalo vrijeme|ostalo vrijemes)"
+  timer_duration_seconds: "{timer_seconds:seconds} sekund(a|e|i|ni)"
+  timer_duration_minutes: "({timer_minutes:minutes} minut(a|e|i)[ [i ]{timer_seconds:seconds} sekund(a|e|i|ni)])|({timer_minutes:minutes} [i] {timer_half:seconds} minut(a|e|i|ni|nu))|({timer_half:seconds} minut(a|e|i|ni|nu))"
+  timer_duration_hours: "({timer_hours:hours} sat[a|i|ni|nog|nom][ [i ]{timer_minutes:minutes} minut(a|e|i|ni|nu)][ [i ]{timer_seconds:seconds} sekund(a|e|i|ni)])|({timer_hours:hours} i {timer_half:minutes} sat[a|i|ni|nog|nom])|({timer_half:minutes} sat[a|i|ni|nog|nom])"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} sekund(a|e|i|ni)"
+  timer_start_minutes: "{timer_minutes:start_minutes} minut(a|e|i)[ [i ]{timer_seconds:start_seconds} sekund(a|e|i|ni)]"
+  timer_start_hours: "{timer_hours:start_hours} sat[a|i|ni|nog|nom][ [i ]{timer_minutes:start_minutes} minut(a|e|i)][ [i ]{timer_seconds:start_seconds} sekund(a|e|i|ni)]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
 skip_words:
   - "molim [te|vas] [da]"
   - "može(š|te) [li] [da]"

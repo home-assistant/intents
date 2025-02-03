@@ -14,6 +14,18 @@ tests:
     response: "No, su estado es normal"
 
   - sentences:
+      - "¿está normal la batería del teléfono?"
+      - "¿está la batería del teléfono cargada?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "battery"
+        name: "Teléfono"
+        state: "off"
+    response: "Sí"
+
+  - sentences:
       - "¿hay alguna batería baja?"
       - "¿está baja alguna batería?"
     intent:
@@ -114,14 +126,14 @@ tests:
 
   # Carbon monoxide
   - sentences:
-      - "¿está el sensor CO2 activo?"
-      - "¿está activo el sensor CO2?"
+      - "¿está el sensor CO activo?"
+      - "¿está activo el sensor CO?"
     intent:
       name: HassGetState
       slots:
         domain: "binary_sensor"
         device_class: "carbon_monoxide"
-        name: "Sensor CO2"
+        name: "Sensor CO"
         state: "on"
     response: "No, su estado es despejado"
 
@@ -157,7 +169,7 @@ tests:
         domain: binary_sensor
         device_class: carbon_monoxide
         state: "on"
-    response: "No, el dispositivo Sensor CO2 no tiene ese estado"
+    response: "No, el dispositivo Sensor CO no tiene ese estado"
 
   - sentences:
       - "¿están todos los sensores de monóxido de carbono de la cocina activos?"
@@ -168,7 +180,7 @@ tests:
         device_class: carbon_monoxide
         state: "on"
         area: "Cocina"
-    response: "No, el dispositivo Sensor CO2 no tiene ese estado"
+    response: "No, el dispositivo Sensor CO no tiene ese estado"
 
   - sentences:
       - "¿Qué sensores de monóxido de carbono están activos?"
@@ -317,6 +329,18 @@ tests:
         domain: "binary_sensor"
         device_class: "garage_door"
         name: "Puerta de cochera secundaria"
+        state: "off"
+    response: "Sí"
+
+  - sentences:
+      - "¿Está la puerta del cobertizo cerrada?"
+      - "¿Está cerrada la puerta del cobertizo?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: "binary_sensor"
+        device_class: "opening"
+        name: "Puerta del cobertizo"
         state: "off"
     response: "Sí"
 
