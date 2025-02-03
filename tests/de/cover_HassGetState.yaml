@@ -24,6 +24,29 @@ tests:
         name: "Rollo links"
         state: "opening"
     response: "Nein"
+  - sentences:
+      - "ist das Rollo links im Erdgeschoss offen?"
+      - "ist im Erdgeschoss das Rollo links offen?"
+      - "ist im Erdgeschoss das Rollo links geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        name: "Rollo links"
+        state: "open"
+    response: "Ja"
+  - sentences:
+      - "öffnet das Rollo links im Erdgeschoss?"
+      - "öffnet sich das Rollo links im Erdgeschoss?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        name: "Rollo links"
+        state: "opening"
+    response: "Nein"
 
   # response irgendeins
   - sentences:
@@ -51,6 +74,31 @@ tests:
         device_class: blind
         state: "closed"
     response: "Ja, Rollo rechts"
+  - sentences:
+      - "sind irgendwelche Rollos offen im Erdgeschoss?"
+      - "sind irgendwelche Rollos im Erdgeschoss offen?"
+      - "sind irgendwelche Rollos im Erdgeschoss geöffnet?"
+      - "sind im Erdgeschoss irgendwelche Rollos offen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: blind
+        state: "open"
+    response: "Ja, Rollo links, Vorhang links und Vorhang rechts"
+  - sentences:
+      - "sind irgendwelche Rollos geschlossen im Erdgeschoss?"
+      - "sind irgendwelche Rollos im Erdgeschoss geschlossen?"
+      - "sind im Erdgeschoss irgendwelche Rollos geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: blind
+        state: "closed"
+    response: "Ja, Rollo rechts und Rollo vorn"
 
   # response alle
   - sentences:
@@ -65,6 +113,18 @@ tests:
         device_class: blind
         state: "open"
     response: "Nein, Rollo rechts ist es nicht"
+  - sentences:
+      - "sind alle Rollos im Erdgeschoss oben?"
+      - "ist jedes Rollo im Erdgeschoss oben?"
+      - "ist jedes Rollo im Erdgeschoss geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: blind
+        state: "open"
+    response: "Nein, Rollo rechts und Rollo vorn sind es nicht"
 
   # response welches
   - sentences:
@@ -88,6 +148,27 @@ tests:
         device_class: blind
         state: "closed"
     response: "Rollo rechts"
+  - sentences:
+      - "welche Rollos im Erdgeschoss sind offen?"
+      - "welche Rollos im Erdgeschoss sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: blind
+        state: "open"
+    response: "Rollo links, Vorhang links und Vorhang rechts"
+  - sentences:
+      - "welche Rollos im Erdgeschoss sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: blind
+        state: "closed"
+    response: "Rollo rechts und Rollo vorn"
 
   # response wie_viele
   - sentences:
@@ -106,6 +187,16 @@ tests:
       name: HassGetState
       slots:
         domain: cover
+        device_class: blind
+        state: "closed"
+    response: "2"
+  - sentences:
+      - "Wie viele Rollos im Erdgeschoss sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
         device_class: blind
         state: "closed"
     response: "2"
