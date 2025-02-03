@@ -3,5 +3,36 @@ language: ru
 responses:
   intents:
     HassStartTimer:
-      default: "Таймер запущен"
-      command: "Задача принята"
+      default: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' час' if (h | int % 10 == 1 and h | int != 11)
+          else (' часа' if (h | int % 10 in [2, 3, 4] and h | int not in [12, 13, 14])
+          else ' часов')) if h else '' %}
+        {% set m_text = m ~ (' минуту' if (m | int % 10 == 1 and m | int != 11)
+          else (' минуты' if (m | int % 10 in [2, 3, 4] and m | int not in [12, 13, 14])
+          else ' минут')) if m else '' %}
+        {% set s_text = s ~ (' секунду' if (s | int % 10 == 1 and s | int != 11)
+          else (' секунды' if (s | int % 10 in [2, 3, 4] and s | int not in [12, 13, 14])
+          else ' секунд')) if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(' ') ~ ' и ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' и ') %}
+        {% set name = (slots.name | trim) if slots.name is defined else '' %}
+          Таймер {{ name }} на {{ text }} запущен
+      command: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' час' if (h | int % 10 == 1 and h | int != 11)
+          else (' часа' if (h | int % 10 in [2, 3, 4] and h | int not in [12, 13, 14])
+          else ' часов')) if h else '' %}
+        {% set m_text = m ~ (' минуту' if (m | int % 10 == 1 and m | int != 11)
+          else (' минуты' if (m | int % 10 in [2, 3, 4] and m | int not in [12, 13, 14])
+          else ' минут')) if m else '' %}
+        {% set s_text = s ~ (' секунду' if (s | int % 10 == 1 and s | int != 11)
+          else (' секунды' if (s | int % 10 in [2, 3, 4] and s | int not in [12, 13, 14])
+          else ' секунд')) if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(' ') ~ ' и ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' и ') %}
+          Команда будет выполнена через {{ text }}

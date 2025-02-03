@@ -1,25 +1,64 @@
 language: it
+# Current area or floor
 tests:
   - sentences:
-      - imposta temperatura a 30
+      - imposta temperatura a 30°
     intent:
       name: HassClimateSetTemperature
       slots:
         temperature: 30
+    response: "Temperatura impostata a 30 gradi"
   - sentences:
-      - imposta temperatura a 30° C
-    intent:
-      name: HassClimateSetTemperature
-      slots:
-        temperature: 30
-        temperature_unit: celsius
-  - sentences:
-      - imposta la temperatura in camera da letto a 50 gradi Fahrenheit
-      - imposta la temperatura di 50 gradi Fahrenheit in camera da letto
-      - imposta in camera da letto la temperatura di 50 gradi Fahrenheit
+      - imposta la temperatura in camera da letto a 50 gradi
+      - imposta la temperatura di 50 gradi in camera da letto
+      - imposta in camera da letto la temperatura di 50 gradi
     intent:
       name: HassClimateSetTemperature
       slots:
         area: Camera da Letto
         temperature: 50
-        temperature_unit: fahrenheit
+    response: "Temperatura impostata a 50 gradi"
+
+  # By area name
+  - sentences:
+      - "imposta temperatura nella camera da letto a 50 gradi"
+      - "imposta in camera da letto una temperatura di 50 gradi"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        area: Camera da Letto
+        temperature: 50
+    response: "Temperatura impostata a 50 gradi"
+
+  # By floor name
+  - sentences:
+      - "metti la temperatura del primo piano a 50 gradi"
+      - "metti primo piano temperatura a 50 gradi"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        floor: Primo piano
+        temperature: 50
+    response: "Temperatura impostata a 50 gradi"
+
+  # By climate entity name
+  - sentences:
+      - "imposta ufficio termostato a 1°"
+      - "imposta la temperatura di ufficio termostato a 1°"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        name: "Ufficio Termostato"
+        temperature: 1
+    response: "Temperatura impostata a 1 grado"
+
+  # Fractional temperature (numeric)
+  - sentences:
+      - "imposta temperatura a 20.5°"
+      - "imposta temperatura a 20.5 °"
+      - "imposta temperatura a 20.5 gradi"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        temperature: 20.5
+    response: "Temperatura impostata a 20.5 gradi"

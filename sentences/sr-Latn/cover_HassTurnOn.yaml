@@ -1,0 +1,45 @@
+language: sr-Latn
+intents:
+  HassTurnOn:
+    data:
+      #common
+      - sentences:
+          - "<otvori> <sve> {cover_classes:device_class} [u|na] [<area>]"
+          - "<otvori> <area> {cover_classes:device_class}"
+        slots:
+          domain: cover
+        response: cover_device_class
+
+      - sentences:
+          - <otvori> <name>
+        requires_context:
+          domain: cover
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - garage
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover_single
+
+      - sentences:
+          - <otvori> <name> [u|na] {area}
+        requires_context:
+          domain: cover
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - garage
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover_single

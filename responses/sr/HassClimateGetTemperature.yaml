@@ -3,6 +3,7 @@ responses:
   intents:
     HassClimateGetTemperature:
       default: >
+        {% set temperature = state_attr(state.entity_id, 'current_temperature') %}
         {% set value = state.state | int | abs %}
         {% set variant = 0 if (value % 10 == 1 and value != 11) else 1 if (value % 10 in [2, 3, 4] and (value < 10 or value > 20)) else 2 %}
-        {{ state.state }} {{ ['степен', 'степена', 'степени'][variant] }}
+        {{ temperature}} {{ ['степен', 'степена', 'степени'][variant] }}
