@@ -2,9 +2,38 @@ language: nl
 intents:
   HassClimateSetTemperature:
     data:
+      # sentences either needs to mention 'temperatuur' and/or 'graden' to avoid conflicts with other numeric settings
+
+      # current area or floor
       - sentences:
-          - "<numeric_value_set> [de] temperatuur [[<in>] <area>] <to> <temperature> [graden]"
-          - "<numeric_value_set> [de] temperatuur <to> <temperature> [graden] [[<in>] <area>]"
-          - "<numeric_value_set> [de] <area>[ ]temperatuur <to> <temperature> [graden]"
-          - "(<area>|temperatuur [<to>]) <temperature> graden [(zetten|draaien|doen)]"
-          - "[<would>] (<area>|[<area>[ ]|de ]temperatuur|temperatuur <in> <area>) [<to>] <temperature> graden (zetten|draaien|doen)"
+          # 'temperatuur' required, 'graden' optional
+          - "[<numeric_value_set>] [de] temperatuur <to> <temperature>"
+          - "temperatuur [<to>] <temperature> [(zetten|draaien|doen)]"
+          - "[<would>] [de] temperatuur [<to>] <temperature> (zetten|draaien|doen)"
+          # 'graden' required
+          - "<numeric_value_set> <to> {temperature}([ ]°| graad| graden)"
+
+      # by area or floor name
+      - sentences:
+          # 'temperatuur' required, 'graden' optional
+          - "<numeric_value_set> [de] temperatuur [<in>] (<area>|<floor>) <to> <temperature>"
+          - "<numeric_value_set> [de] temperatuur <to> <temperature> <in> (<area>|<floor>)"
+          - "<numeric_value_set> [de] (<area>|<floor>)[ ]temperatuur <to> <temperature>"
+          - "[<would>] (<area>|<floor>)[ ]temperatuur [<to>] <temperature> [(zetten|draaien|doen)]"
+          - "[<would>] [de] temperatuur [<in>] (<area>|<floor>) [<to>] <temperature> [(zetten|draaien|doen)]"
+          # 'graden' required
+          - "<numeric_value_set> (<area>|<floor>) <to> {temperature}([ ]°| graad| graden)"
+          - "[<would>] (<area>|<floor>) [<to>] {temperature}([ ]°| graad| graden) [(zetten|draaien|doen)]"
+
+      # by climate entity name
+      - sentences:
+          # 'temperatuur' required, 'graden' optional
+          - "<numeric_value_set> [de] temperatuur van <name> <to> <temperature>"
+          - "<numeric_value_set> [de] <name>[ ]temperatuur <to> <temperature>"
+          - "[<would>] <name>[ ]temperatuur [<to>] <temperature> [(zetten|draaien|doen)]"
+          - "[<would>] [de] temperatuur van <name> [<to>] <temperature> [(zetten|draaien|doen)]"
+          # 'graden' required
+          - "<numeric_value_set> <name> <to> {temperature}([ ]°| graad| graden)"
+          - "[<would>] <name> [<to>] {temperature}([ ]°| graad| graden) [(zetten|draaien|doen)]"
+        requires_context:
+          domain: "climate"
