@@ -3,6 +3,20 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - <slå_av> <name>
-          - <stäng_gardiner> <name>
+          - <slå_av> <name> # turn off
+        excludes_context:
+          domain:
+            - light
+            - cover
+      - sentences:
+          - <stäng_gardiner> <name> #close curtains
+        requires_context:
+          domain:
+            - cover
         response: cover
+      - sentences:
+          - <slå_av> <name> # lights off
+        requires_context:
+          domain:
+            - light
+        response: light
