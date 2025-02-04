@@ -1,19 +1,41 @@
 language: pt-br
 tests:
   - sentences:
-      - põe a temperatura a 30°
+      - põe a temperatura para 30°
     intent:
       name: HassClimateSetTemperature
       slots:
         temperature: 30
-    response: Temperatura definida
+    response: Temperatura definida para 30 graus
 
+  # By area name
   - sentences:
-      - põe a temperatura do quarto a 50 graus
-      - põe o quarto a 50 graus
+      - põe a temperatura do Quarto para 50 graus
+      - mude para 50 graus a temperatura do Quarto
     intent:
       name: HassClimateSetTemperature
       slots:
         area: Quarto
         temperature: 50
-    response: Temperatura definida
+    response: Temperatura definida para 50 graus
+
+  # By floor name
+  - sentences:
+      - "altere a temperatura do Térreo para 50 graus"
+      - "mude para 50 graus a temperatura do Térreo"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        floor: Térreo
+        temperature: 50
+    response: Temperatura definida para 50 graus
+
+  # By climate entity name
+  - sentences:
+      - "mude a temperatura do Ar condicionado para 22 graus"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        name: "Ar condicionado"
+        temperature: 22
+    response: Temperatura definida para 22 graus
