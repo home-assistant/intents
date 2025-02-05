@@ -9,6 +9,7 @@ intents:
         slots:
           domain: "light"
         response: "lights"
+
       - sentences:
           - "<slå_av> [<alla>] <ljuskällor> <i_på> <area>"
           - "<slå_av> [<alla>] <area> <ljuskällor>"
@@ -18,8 +19,18 @@ intents:
         slots:
           domain: light
         response: "lights_area"
+
       - sentences:
+          - "<slå_av> <name>"
           - "<slå_av> <ljuskällor> <name>"
+        requires_context:
+          domain: "light"
         slots:
-          domain: light
+          domain: "light"
         response: "lights"
+
+      - sentences:
+          - "<slå_av> [<alla>] <ljuskällor>"
+        slots:
+          domain: "light"
+        response: "lights_all"

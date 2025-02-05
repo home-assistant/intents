@@ -1,0 +1,51 @@
+language: da
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "hvor er <navn>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      # Two sentences are nessesary to handle both translation
+      # of "home" states to danish and user defined zone names
+      - sentences:
+          - "er <navn> {person_states:state}" # match: "home"/"not_home"
+          - "er <navn> [<i_på>] {zone:state}" # default match: wildcard string
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "er <nogen> {person_states:state}"
+          - "er <nogen> [<i_på>] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "er alle {person_states:state}"
+          - "er alle [<i_på>] {zone:state}"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "hvem er {person_states:state}"
+          - "hvem er [<i_på>] {zone:state}"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "hvor mange [personer] er {person_states:state}"
+          - "hvor mange [personer] er [<i_på>] {zone:state}"
+        response: how_many
+        slots:
+          domain: person
