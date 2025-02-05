@@ -2,9 +2,20 @@ language: da
 intents:
   HassClimateGetTemperature:
     data:
+      # Get temperature of a climate in the same area as a satellite device
       - sentences:
-          - "hvad er temperatur[en] [<i_på> <område>]"
-          - "hvor <koldt_varmt> er <område>"
-          - "hvor <koldt_varmt> er (der | det) [<i_på> <område>]"
-          - "er (der | det) <koldt_varmt> [<i_på> <område>]"
-          - "hvad er <område>[s] temperatur"
+          - "<spørg_om_værdi> [den <aktuelle>] temperatur[en] [<her>]"
+          - "hvor <koldt_varmt> er (det|der) [<her>]"
+        requires_context:
+          area:
+            slot: true
+
+      # Get temperature of a climate in an area or with a name
+      - sentences:
+          - "<spørg_om_værdi> [den <aktuelle>] temperatur[en] på <navn>"
+          - "<spørg_om_værdi> [den <aktuelle>] temperatur[en] <i_på> <område>"
+          - "hvor <koldt_varmt> er [(det|der) <i_på>] <område>"
+          - "er (det|der) <koldt_varmt> <i_på> <område>"
+          - "<spørg_om_værdi> <område> [<aktuelle>] temperatur"
+          - "<spørg_om_værdi> <navn> [<aktuelle>] temperatur"
+          - "hvor <koldt_varmt> er <navn>"
