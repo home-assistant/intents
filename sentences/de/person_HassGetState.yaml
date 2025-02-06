@@ -22,11 +22,29 @@ intents:
           domain: person
 
       - sentences:
+          - "(ist|befindet sich) <name> [im ]zuhause"
+          - "hält sich <name> [im ]zuhause auf"
+        response: einzeln_janein
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
           - "(ist|befindet sich) [irgend]jemand <im_bereich>"
           - "hält sich [irgend]jemand <im_bereich> auf"
         response: irgendeins
         slots:
           domain: person
+
+      - sentences:
+          - "(ist|befindet sich) [irgend]jemand [im ]zuhause"
+          - "hält sich [irgend]jemand [im ]zuhause auf"
+        response: irgendeins
+        slots:
+          domain: person
+          state: home
 
       - sentences:
           - "([ist|befindet sich] jeder|[sind|befinden sich] alle) <im_bereich>"
@@ -36,6 +54,14 @@ intents:
           domain: person
 
       - sentences:
+          - "([ist|befindet sich] jeder|[sind|befinden sich] alle) [im ]zuhause"
+          - "halten sich alle zuhause auf"
+        response: alle
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
           - "wer (ist|befindet sich) <im_bereich>"
           - "wer hält sich <im_bereich> auf"
         response: wer
@@ -43,8 +69,24 @@ intents:
           domain: person
 
       - sentences:
+          - "wer (ist|befindet sich) [im ]zuhause"
+          - "wer hält sich zuhause auf"
+        response: wer
+        slots:
+          domain: person
+          state: home
+
+      - sentences:
           - "wie viele [(Leute|Personen) ](sind|befinden sich) <im_bereich>"
           - "wie viele [(Leute|Personen) ]halten sich <im_bereich> auf"
         response: wie_viele
         slots:
           domain: person
+
+      - sentences:
+          - "wie viele [(Leute|Personen) ](sind|befinden sich) [im ]zuhause"
+          - "wie viele [(Leute|Personen) ]halten sich [im ]zuhause auf"
+        response: wie_viele
+        slots:
+          domain: person
+          state: home

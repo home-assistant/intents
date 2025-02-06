@@ -119,6 +119,13 @@ lists:
         out: "on"
       - in: "(af|slukket)"
         out: "off"
+  person_states:
+    values:
+      - in: "hjemme"
+        out: "home"
+      - in: "(ude|ikke hjemme)"
+        out: "not_home"
+
   on_off_domains:
     values:
       - in: lys[(et|ene)]
@@ -132,14 +139,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - "celsius"
-      - in: "c"
-        out: "celsius"
-      - "fahrenheit"
-      - in: "f"
-        out: "fahrenheit"
 
   # binary_sensor
   bs_battery_states:
@@ -308,7 +307,16 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  zone:
+    wildcard: true
+
   position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
     range:
       type: "percentage"
       from: 0
@@ -347,7 +355,7 @@ lists:
 expansion_rules:
   al: "(alle | alt | samtlige)"
   blæser: "blæser[(e|en|ne)]"
-  etage: "{area}[(n)]"
+  etage: "{floor}[(n|en)]"
   garagedør: "garage(dør|port)[(en|e|ene)]"
   gardin: "gardin[(et|er|erne)]"
   i_på: "(i | på)"
@@ -357,15 +365,18 @@ expansion_rules:
   lys: "lys[(ene|et)]"
   lysstyrke: "{brightness}[%| procent]"
   navn: "((den|det) {name}[s]|{name}[(en|ene|et|n|t|men|ten)][s])"
-  område: "{area}[(en|et|n|t)]"
+  område: "{area}[(en|et|n|t)][s]"
   persienne: "persienne[(n|r|rne)]"
   rullegardin: "rullegardin[(et|er|erne)]"
   skodde: "skodde[(n|r|rne)]"
   sluk: "sluk [for]"
-  temperatur: "{temperature}[°| grader] [{temperature_unit}]"
+  temperatur: "{temperature}[°| grader]"
+  temperaturen: "(temperatur[en]|varmen)"
+  her: "(her[inde]|på dette sted|i dette rum)"
+  aktuelle: "(aktuelle|nuværende)"
   tænd: "tænd [for]"
   åbn: "(åben|åbn[e]) [for]"
-  sæt_numerisk_værdi: "(indstil|sæt|ændr|ændre|skru (op|ned)|forøg|formindsk)"
+  sæt_numerisk_værdi: "(indstil|juster|sæt|ændr|ændre|skru[ (op|ned)]|forøg|formindsk)"
   procent: "([ ]%| procent)"
   position_pct: "{position}<procent>"
   nogen: "(nogen|nogle)"
@@ -395,6 +406,23 @@ expansion_rules:
   skabte: "(skabte|har skabt|lavede|har lavet)"
   kommandoer: "(kommandoer|ord|sætninger)"
   med_navnet: "([med|ved] navn[et]|som hedder|kaldet)"
+  rengør: "(rengør|rens|støvsug)"
+  lydstyrke: "(lydstyrke|volume)[n]"
+  volume: "{volume:volume_level}[([ ]%)| procent]"
+  sang: "(sang|melodi|nummer|spor)[en|et]"
+  medie: "(musik[k]|tv|fjernsyn|film|serie|podcast)[en|et]"
+  spring: "(spring|hop|gå)"
+  spring_til: "(<spring> [tilbage] til|[af]spil)"
+  forrige: "(forrige|sidste)"
+  afspil: "([af]spil)"
+  afspiller: "(afspiller)[en]"
+  genoptag: "(genoptag|genstart|fortsæt)"
+  den: "(den|det)"
+  denne: "(<den>|denne|dette)"
+  låsbar: "(lås|dør|vindue|port|låge|garagedør|skodde)[e|r][n]"
+  status: "(status|tilstand)"
+  start: "(start|begynd|aktiver|kør|tænd|udfør)"
+  script: "(script|[manu]skript)[et]"
 
   # Timers
   timer: "(nedtælling|timer)[en]"
