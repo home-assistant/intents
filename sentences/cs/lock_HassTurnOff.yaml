@@ -1,0 +1,26 @@
+language: cs
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - "<odemknout> {name} [<area>]"
+        requires_context:
+          domain: lock
+        response: lock
+
+      - sentences:
+          - "<odemknout> [všechny] (zámek|zámky) <area>"
+        slots:
+          domain: lock
+          name: all
+        response: lock
+
+      - sentences:
+          - "<odemknout> [tady] [všechny] (zámek|zámky)"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: lock
+          name: all
+        response: lock
