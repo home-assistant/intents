@@ -3,29 +3,29 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <åbn> <persienne> <i_på> <område>
-          - <åbn> <rullegardin> <i_på> <område>
-          - rul <rullegardin> op <i_på> <område>
-        response: cover_device_class
-        slots:
-          device_class: blind
+          - "<åbn> <navn> [<i_på> <område>]"
+        requires_context:
           domain: cover
+        response: cover
+
       - sentences:
-          - <åbn> <gardin> <i_på> <område>
-          - træk <gardin> fra <i_på> <område>
-        response: cover_device_class
+          - "<åbn> <garagedør>"
         slots:
-          device_class: curtain
           domain: cover
-      - sentences:
-          - <åbn> <garagedør>
-        response: cover_device_class
-        slots:
           device_class: garage
-          domain: cover
-      - sentences:
-          - <åbn> <skodde> <i_på> <område>
         response: cover_device_class
+
+      - sentences:
+          - "(<åbn>|rul|træk) {cover_classes:device_class} [op|fra] <i_på> <område>"
         slots:
-          device_class: shutter
           domain: cover
+        response: cover_device_class
+
+      - sentences:
+          - "(<åbn>|rul|træk) {cover_classes:device_class} [op|fra] [<her>]"
+        slots:
+          domain: cover
+        requires_context:
+          area:
+            slot: true
+        response: cover_device_class
