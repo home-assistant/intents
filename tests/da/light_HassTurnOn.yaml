@@ -1,5 +1,17 @@
 language: da
 tests:
+  # Turn on a specific light
+  - sentences:
+      - "tænd for soveværelseslys"
+    intent:
+      name: HassTurnOn
+      slots:
+        name: "Soveværelseslys"
+      context:
+        domain: light
+    response: "Tændte lyset"
+
+  # Turn on all lights in an area
   - sentences:
       - tænd lys i køkken
       - tænd lyset i køkkenet
@@ -16,6 +28,7 @@ tests:
       slots:
         area: Køkken
         domain: light
+    response: "Tændte lyset"
 
   - sentences:
       - tænd lys på badeværelse
@@ -29,6 +42,7 @@ tests:
       slots:
         area: Badeværelse
         domain: light
+    response: "Tændte lyset"
 
   - sentences:
       - tænd lyset i saunaen
@@ -37,6 +51,7 @@ tests:
       slots:
         area: Sauna
         domain: light
+    response: "Tændte lyset"
 
   - sentences:
       - tænd lyset i stuen
@@ -45,3 +60,40 @@ tests:
       slots:
         area: Stue
         domain: light
+    response: "Tændte lyset"
+
+  # Turn on all lights on a floor
+  - sentences:
+      - "tænd for alle lys i stueetagen"
+      - "tænd al stueetagens lys"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        floor: Stueetage
+    response: "Tændte lyset"
+
+  # Turn on all lights in the home
+  - sentences:
+      - "tænd lyset overalt"
+      - "tænd alle lys"
+      - "tænd for lyset overalt"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+    response: "Tændte alle lys"
+
+  # Turn on lights in the same area as a satellite device
+  - sentences:
+      - "tænd lyset her"
+      - "tænd alle lys herinde"
+      - "tænd for lyset her"
+    intent:
+      name: HassTurnOn
+      context:
+        area: Stue
+      slots:
+        domain: light
+        area: Stue
+    response: "Tændte lyset"
