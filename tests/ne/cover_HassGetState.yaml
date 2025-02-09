@@ -1,0 +1,130 @@
+language: ne
+tests:
+  - sentences:
+      - "is curtain left closed?"
+      - "is the curtain left closed?"
+      - "is the curtain left shut?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Curtain Left"
+        state: "closed"
+    response: "No, open"
+
+  - sentences:
+      - "what is the state of curtain left?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "Curtain Left"
+    response: "Curtain left is open"
+
+  - sentences:
+      - "are any curtains open in the living room?"
+      - "are any living room curtains open?"
+      - "are any of the living room curtains open?"
+      - "are there any curtains open in the living room?"
+      - "are there any living room curtains open?"
+      - "any living room curtains open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Living Room"
+        device_class: curtain
+        state: "open"
+    response: "Yes, Curtain Left"
+
+  - sentences:
+      - "are any shades open upstairs?"
+      - "are any of the shades open upstairs?"
+      - "any shades open upstairs?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Upstairs"
+        device_class: shade
+        state: "open"
+    response: "Yes, Shade Left"
+
+  - sentences:
+      - "are any shades open outside?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Outside"
+        device_class: shade
+        state: "open"
+    response: "No"
+
+  - sentences:
+      - "are all curtains open in the living room?"
+      - "are all living room curtains open?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Living Room"
+        device_class: curtain
+        state: "open"
+    response: "No, Curtain Right is not open"
+
+  - sentences:
+      - "are all curtains open on the first floor?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "First Floor"
+        device_class: curtain
+        state: "open"
+    response: "No, Curtain Right is not open"
+
+  - sentences:
+      - "which curtains are closed?"
+      - "which of the curtains are closed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "Bedroom Curtain and Curtain Right"
+
+  - sentences:
+      - "which bedroom curtains are closed?"
+      - "which of the bedroom curtains are closed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Bedroom"
+        device_class: curtain
+        state: "closed"
+    response: "Bedroom Curtain"
+
+  - sentences:
+      - "how many curtains are closed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "closed"
+    response: "2"
+
+  - sentences:
+      - "how many bedroom curtains are closed?"
+      - "how many of the bedroom curtains are closed?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area: "Bedroom"
+        state: "closed"
+    response: "1"
