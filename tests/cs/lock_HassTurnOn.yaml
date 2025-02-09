@@ -1,0 +1,49 @@
+language: cs
+tests:
+  - sentences:
+      - "zamkni vstupní dveře"
+      - "zamknout vstupní dveře"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: lock
+      slots:
+        name: vstupní dveře
+    response: Zamčeno
+
+  - sentences:
+      - "zamkni vstupní dveře v předsíni"
+    intent:
+      name: HassTurnOn
+      context:
+        domain: lock
+      slots:
+        name: vstupní dveře
+        area: Předsíni
+    response: Zamčeno
+
+  - sentences:
+      - "zamkni všechny zámky v kuchyni"
+      - "zamkni zámky v kuchyni"
+      - "zamkni zámek v kuchyni"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: lock
+        area:
+          - Kuchyni
+          - Kuchyňské
+        name: all
+    response: Zamčeno
+
+  - sentences:
+      - "zamkni tady všechny zámky"
+    intent:
+      name: HassTurnOn
+      context:
+        area: Předsíň
+      slots:
+        domain: lock
+        area: Předsíň
+        name: all
+    response: Zamčeno

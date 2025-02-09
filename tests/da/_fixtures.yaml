@@ -17,10 +17,16 @@ areas:
     id: bedroom
   - name: Garage
     id: garage
+  - name: Entre
+    id: entrance
+  - name: Kontor
+    id: office
 entities:
   - name: Badeværelsespersienne
     id: cover.bathroom_blind
     area: bathroom
+    attributes:
+      device_class: blind
     state:
       in: lukket
       out: closed
@@ -70,6 +76,39 @@ entities:
     state: "14"
     attributes:
       unit_of_measurement: °C
+
+  - name: "Stuetermostat"
+    id: "climate.stuetermostat"
+    area: "living_room"
+    state: "heat"
+    attributes:
+      current_temperature: 21
+
+  - name: "Kontortermostat"
+    id: "climate.kontortermostat"
+    area: "office"
+    state: "heat"
+    attributes:
+      current_temperature: 20
+
+  - name: "Hoveddør"
+    id: "lock.hoveddor"
+    area: "entrance"
+    state:
+      in: "låst"
+      out: "locked"
+
+  - name: "Bagdør"
+    id: "lock.bagdor"
+    state:
+      in: "ulåst"
+      out: "unlocked"
+
+  - name: "Skydedør"
+    id: "lock.skydedor"
+    state:
+      in: "låst"
+      out: "locked"
 
   # https://www.home-assistant.io/integrations/binary_sensor/
   - name: "Telefon"
@@ -303,6 +342,336 @@ entities:
   - name: "Party Mode"
     id: "scene.party_mode"
 
+  - name: "Snigertilstand"
+    id: "script.snigertilstand"
+
+  # https://www.home-assistant.io/integrations/sensor/
+  - name: "Vaskemaskine tilsyneladende effekt"
+    id: "sensor.vaskemaskine_tilsyneladende_effekt"
+    state: "2"
+    attributes:
+      device_class: apparent_power
+      unit_of_measurement: "VA"
+
+  - name: "Køkken luftkvalitetssensor"
+    id: "sensor.køkken_luftskvalitetssensor"
+    state: "50"
+    attributes:
+      device_class: aqi
+
+  - name: "Udendørs lufttrykssensor"
+    id: "sensor.udendørs_lufttrykssensor"
+    state: "1000"
+    attributes:
+      device_class: atmospheric_pressure
+      unit_of_measurement: "hPa"
+
+  - name: "Min telefon"
+    id: "sensor.min_telefon_batteri"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "Varmepumpe CO2 sensor"
+    id: "sensor.heat_pump_co2"
+    state: "50"
+    attributes:
+      device_class: carbon_dioxide
+      unit_of_measurement: "ppm"
+
+  - name: "Varmepumpe CO sensor"
+    id: "sensor.varmepumpe_co"
+    state: "48"
+    attributes:
+      device_class: carbon_monoxide
+      unit_of_measurement: "ppm"
+
+  - name: "Hus strømstyrke"
+    id: "sensor.hus_stromstyrke"
+    state: "19"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"
+
+  - name: "Macrotorrent"
+    id: "sensor.macrotorrent_download_speed"
+    state: "22.9"
+    attributes:
+      device_class: data_rate
+      unit_of_measurement: "MB/s"
+
+  - name: "Logfil"
+    id: "sensor.logfil_size"
+    state: "106"
+    attributes:
+      device_class: data_size
+      unit_of_measurement: "kB"
+
+  - name: "Næste fødselsdag"
+    id: "sensor.naeste_fodselsdag"
+    state: "2025-04-01"
+    attributes:
+      device_class: date
+
+  - name: "Bil kilometerstand"
+    id: "sensor.bil_kilometerstand"
+    state: "65536"
+    attributes:
+      device_class: distance
+      unit_of_measurement: "km"
+
+  - name: "Opvaskemaskine nuværende program"
+    id: "sensor.opvaskemaskine_program_varighed"
+    state: "64"
+    attributes:
+      device_class: duration
+      unit_of_measurement: "min"
+
+  - name: "Solproduktion"
+    id: "sensor.solproduktion"
+    state: "3.2"
+    attributes:
+      device_class: energy
+      unit_of_measurement: "kWh"
+
+  - name: "Batteripakke lagret energi"
+    id: "sensor.batteripakke_lagret_energi"
+    state: "6"
+    attributes:
+      device_class: energy_storage
+      unit_of_measurement: "kWh"
+
+  - name: "Netfrekvens"
+    id: "sensor.netfrekvens"
+    state: "51"
+    attributes:
+      device_class: frequency
+      unit_of_measurement: "Hz"
+
+  - name: "Månedlig gas forbrug"
+    id: "sensor.maanedlig_gas_forbrug"
+    state: "12"
+    attributes:
+      device_class: gas
+      unit_of_measurement: "m³"
+
+  - name: "Stue luftfugtighed"
+    id: "sensor.stue_luftfugtighed"
+    state: "48"
+    attributes:
+      device_class: humidity
+      unit_of_measurement: "%"
+
+  - name: "Stue belysning"
+    id: "sensor.stue_belysning"
+    state: "438"
+    attributes:
+      device_class: illuminance
+      unit_of_measurement: "lux"
+
+  - name: "Stuevarmer"
+    id: "sensor.living_room_heater_irradiance"
+    state: "155"
+    attributes:
+      device_class: irradiance
+      unit_of_measurement: "W/m²"
+
+  - name: "Terrarium fugtighed"
+    id: "sensor.terrarium_fugtighed"
+    state: "83"
+    attributes:
+      device_class: moisture
+      unit_of_measurement: "%"
+
+  - name: "Pris per kWh"
+    id: "sensor.pris_per_kwh"
+    state: "3"
+    attributes:
+      device_class: monetary
+      unit_of_measurement: "DKK"
+
+  - name: "Varmepumpe NO2 sensor"
+    id: "sensor.varmepumpe_no2"
+    state: "50"
+    attributes:
+      device_class: nitrogen_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Varmepumpe NO sensor"
+    id: "sensor.varmepumpe_no"
+    state: "50"
+    attributes:
+      device_class: nitrogen_monoxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Varmepumpe N2O sensor"
+    id: "sensor.varmepumpe_n2o"
+    state: "50"
+    attributes:
+      device_class: nitrous_oxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Stue ozonsensor"
+    id: "sensor.stue_ozonsensor"
+    state: "50"
+    attributes:
+      device_class: ozone
+      unit_of_measurement: "µg/m³"
+
+  - name: "Stue PM1 sensor"
+    id: "sensor.stue_pm1"
+    state: "50"
+    attributes:
+      device_class: pm1
+      unit_of_measurement: "µg/m³"
+
+  - name: "Stue PM2.5 sensor"
+    id: "sensor.stue_pm25"
+    state: "50"
+    attributes:
+      device_class: pm25
+      unit_of_measurement: "µg/m³"
+
+  - name: "Stue PM10 sensor"
+    id: "sensor.stue_pm10"
+    state: "50"
+    attributes:
+      device_class: pm10
+      unit_of_measurement: "µg/m³"
+
+  - name: "Stikkontakt effektfaktor"
+    id: "sensor.stikkontakt_effektfaktor"
+    state: "2"
+    attributes:
+      device_class: power_factor
+
+  - name: "Motor effekt"
+    id: "sensor.motor_effekt"
+    state: "380"
+    attributes:
+      device_class: power
+      unit_of_measurement: "W"
+
+  - name: "Regnmåler"
+    id: "sensor.regnmaler_total"
+    state: "29"
+    attributes:
+      device_class: precipitation
+      unit_of_measurement: "mm"
+
+  - name: "Regnmåler"
+    id: "sensor.regnmaler_intensitet"
+    state: "144"
+    attributes:
+      device_class: precipitation_intensity
+      unit_of_measurement: "mm/h"
+
+  - name: "Bildæk trykmåler"
+    id: "sensor.bildaek_tryk"
+    state: "2.1"
+    attributes:
+      device_class: pressure
+      unit_of_measurement: "bar"
+
+  - name: "Vandpumpe reaktiv effekt"
+    id: "sensor.vandpumpe_reaktiv_effekt"
+    state: "22"
+    attributes:
+      device_class: reactive_power
+      unit_of_measurement: "VAR"
+
+  - name: "Telefon GSM signal"
+    id: "sensor.telefon_gsm_signal"
+    state: "-43"
+    attributes:
+      device_class: signal_strength
+      unit_of_measurement: "dBm"
+
+  - name: "Soundbar lydtryk"
+    id: "sensor.soundbar_lydtryk"
+    state: "62"
+    attributes:
+      device_class: sound_pressure
+      unit_of_measurement: "dB"
+
+  - name: "Rejsehastighed"
+    id: "sensor.rejsehastighed"
+    state: "67"
+    attributes:
+      device_class: speed
+      unit_of_measurement: "km/h"
+
+  - name: "Varmepumpe SO2 sensor"
+    id: "sensor.varmepumpe_so2"
+    state: "50"
+    attributes:
+      device_class: sulphur_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Fyr"
+    id: "sensor.fyr_temperatur"
+    state: "380"
+    attributes:
+      device_class: temperature
+      unit_of_measurement: "°C"
+
+  - name: "Bæ sensor"
+    id: "sensor.bae_sensor"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds
+      unit_of_measurement: "µg/m³"
+
+  - name: "Bæ sensor 2"
+    id: "sensor.bae_sensor_ppm"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds_parts
+      unit_of_measurement: "ppm"
+
+  - name: "Inputspænding"
+    id: "sensor.inputspaending"
+    state: "12"
+    attributes:
+      device_class: voltage
+      unit_of_measurement: "V"
+
+  - name: "Vandpumpe forbrug i dag"
+    id: "sensor.candpumpe_forbrug_i_dag"
+    state: "1356"
+    attributes:
+      device_class: volume
+      unit_of_measurement: "L"
+
+  - name: "Vandpumpe buffer"
+    id: "sensor.water_pump_buffer"
+    state: "28"
+    attributes:
+      device_class: volume_storage
+      unit_of_measurement: "L"
+
+  - name: "Vandpumpe forbrug"
+    id: "sensor.vandpumpe_forbrug"
+    state: "5987"
+    attributes:
+      device_class: water
+      unit_of_measurement: "L"
+
+  - name: "Sengesensor vægt"
+    id: "sensor.sengesensor_vaegt"
+    state: "87"
+    attributes:
+      device_class: weight
+      unit_of_measurement: "kg"
+
+  - name: "Vindhastighed"
+    id: "sensor.vindhastighed"
+    state: "33"
+    attributes:
+      device_class: wind_speed
+      unit_of_measurement: "km/h"
+
   - name: "København"
     id: "weather.københavn"
     state: "cloudy"
@@ -316,6 +685,29 @@ entities:
     attributes:
       temperature: "21"
       temperature_unit: "°C"
+
+  - name: "Søren"
+    id: "person.soren"
+    state: "home"
+  - name: "Mette"
+    id: "person.mette"
+    state: "arbejde"
+  - name: "Emil"
+    id: "person.emil"
+    state: "not_home"
+
+  - name: "Hovedhane"
+    id: "valve.hovedhane"
+    state: "open"
+    attributes:
+      position: "100"
+
+  - name: "Fjernsyn"
+    id: "media_player.fjernsyn"
+    area: "living_room"
+    state: "idle"
+    attributes:
+      volume_level: "50"
 
   - name: "Støver"
     id: "vacuum.stover"
