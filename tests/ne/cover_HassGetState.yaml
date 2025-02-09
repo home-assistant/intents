@@ -1,130 +1,115 @@
 language: ne
 tests:
   - sentences:
-      - "is curtain left closed?"
-      - "is the curtain left closed?"
-      - "is the curtain left shut?"
+      - "के देब्रे पर्दा लागेको छ"
+      - "के देब्रे पर्दा बन्द छ"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        name: "Curtain Left"
+        name: "देब्रे पर्दा"
         state: "closed"
-    response: "No, open"
+    response: "छैन"
 
   - sentences:
-      - "what is the state of curtain left?"
+      - "के बैठकमा कुनै परदा खुल्ला छन्"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        name: "Curtain Left"
-    response: "Curtain left is open"
-
-  - sentences:
-      - "are any curtains open in the living room?"
-      - "are any living room curtains open?"
-      - "are any of the living room curtains open?"
-      - "are there any curtains open in the living room?"
-      - "are there any living room curtains open?"
-      - "any living room curtains open?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: cover
-        area: "Living Room"
+        area: "बैठक"
         device_class: curtain
         state: "open"
-    response: "Yes, Curtain Left"
-
+    response: "छ, देब्रे पर्दा"
+  # - sentences:
+  #     - "देब्रे पर्दाको अवस्था के छ"
+  #   intent:
+  #     name: HassGetState
+  #     slots:
+  #       domain: cover
+  #       name: "देब्रे पर्दा"
+  #   response: "देब्रे पर्दा खुल्ला छ"
   - sentences:
-      - "are any shades open upstairs?"
-      - "are any of the shades open upstairs?"
-      - "any shades open upstairs?"
+      - "के पहिलो तल्लामा कुनै छायाँहरु खुल्ला छन्"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        floor: "Upstairs"
+        floor: "पहिलो तल्ला"
         device_class: shade
         state: "open"
-    response: "Yes, Shade Left"
+    response: "छैन"
 
   - sentences:
-      - "are any shades open outside?"
+      - "के भान्छामा कुनै शटरहरु खुल्ला छन्"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        area: "Outside"
-        device_class: shade
+        area: "भान्छा"
+        device_class: shutter
         state: "open"
-    response: "No"
+    response: "छैन"
 
   - sentences:
-      - "are all curtains open in the living room?"
-      - "are all living room curtains open?"
+      - "के बैठकको सबै परदा खुल्ला छन्"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        area: "Living Room"
-        device_class: curtain
-        state: "open"
-    response: "No, Curtain Right is not open"
-
-  - sentences:
-      - "are all curtains open on the first floor?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: cover
-        floor: "First Floor"
+        area: "बैठक"
         device_class: curtain
         state: "open"
-    response: "No, Curtain Right is not open"
+    response: "छैन, दाइने पर्दा"
+  - sentences:
+      - "के पहिलो तल्लामा सबै परदा खुल्ला छन्"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "पहिलो तल्ला"
+        device_class: curtain
+        state: "open"
+    response: "छैन, दाइने पर्दा"
 
   - sentences:
-      - "which curtains are closed?"
-      - "which of the curtains are closed?"
+      - "कुन परदाहरु बन्द छन्"
     intent:
       name: HassGetState
       slots:
         domain: cover
         device_class: curtain
         state: "closed"
-    response: "Bedroom Curtain and Curtain Right"
+    response: "दाइने पर्दा र सुत्ने कोठाको पर्दा"
 
   - sentences:
-      - "which bedroom curtains are closed?"
-      - "which of the bedroom curtains are closed?"
+      - "बैठकको कुन परदाहरु बन्द छन्"
     intent:
       name: HassGetState
       slots:
         domain: cover
-        area: "Bedroom"
+        area: "बैठक"
         device_class: curtain
         state: "closed"
-    response: "Bedroom Curtain"
+    response: "दाइने पर्दा"
 
   - sentences:
-      - "how many curtains are closed?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: cover
-        device_class: curtain
-        state: "closed"
-    response: "2"
-
-  - sentences:
-      - "how many bedroom curtains are closed?"
-      - "how many of the bedroom curtains are closed?"
+      - "कति ओटा परदाहरु बन्द छन्"
     intent:
       name: HassGetState
       slots:
         domain: cover
         device_class: curtain
-        area: "Bedroom"
         state: "closed"
-    response: "1"
+    response: "2 ओटा"
+
+  - sentences:
+      - "सुत्ने कोठाको कति ओटा परदाहरु बन्द छन्"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area: "सुत्ने कोठा"
+        state: "closed"
+    response: "1 ओटा"

@@ -13,18 +13,18 @@ responses:
         {% if query.matched %}
           छ
         {% else %}
-          छैन, {{ state.state_with_unit }} छ
+          छैन
         {% endif %}
 
       any: |
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            छ, {{ match[:3] | join(", ") }} र अरु {{ (match | length - 3) }} ओटा {{ slots.state }} छन्
+            छ, {{ match[:3] | join(", ") }} र अरु {{ (match | length - 3) }} ओटा
           {%- else -%}
             छ,
             {% for name in match -%}
-              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} र % endif -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} र {% endif -%}
               {{ name }}
             {%- endfor -%}
           {% endif %}
@@ -33,25 +33,25 @@ responses:
         {% endif %}
 
       all: |
-        {% if not query.unmatched: %}
+        {% if not query.unmatched %}
           छ
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            छैन, {{ no_match[:3] | join(", ") }} र अरु {{ (no_match | length - 3) }} {{ slots.state }} छैन्न
+            छैन, {{ no_match[:3] | join(", ") }} र अरु {{ (no_match | length - 3) }} ओटा
           {%- else -%}
-            No,
+            छैन,
             {% for name in no_match -%}
               {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} र {% endif -%}
               {{ name }}
-            {%- endfor %} {{ slots.state }} {% if no_match | length > 1 %}छैन्न{% else %}छैन{% endif %} 
+            {%- endfor %}
           {% endif %}
         {% endif %}
 
       which: |
         {% if not query.matched %}
           कुनै पनि छैन
-        {% else: %}
+        {% else %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
             {{ match[:3] | join(", ") }} र अरु {{ (match | length - 3) }} ओटा
