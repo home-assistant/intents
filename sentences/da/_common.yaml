@@ -55,25 +55,25 @@ lists:
         out: 1
   color:
     values:
-      - in: hvid
+      - in: hvid[t]
         out: white
       - in: sort
         out: black
-      - in: rød
+      - in: rød[t]
         out: red
       - in: orange
         out: orange
-      - in: gul
+      - in: gul[t]
         out: yellow
-      - in: grøn
+      - in: grøn[t]
         out: green
-      - in: blå
+      - in: blå[t]
         out: blue
       - in: lilla
         out: purple
-      - in: brun
+      - in: brun[t]
         out: brown
-      - in: lyserød
+      - in: lyserød[t]
         out: pink
       - in: turkis
         out: turquoise
@@ -362,9 +362,13 @@ expansion_rules:
   koldt_varmt: "(kold[t] | varm[t])"
   koldt: "kold[(t|e)]"
   luk: "luk [for]"
-  lys: "lys[(ene|et)]"
-  lysstyrke: "{brightness}[%| procent]"
-  navn: "((den|det) {name}[s]|{name}[(en|ene|et|n|t|men|ten)][s])"
+  lys: "(lys[et|ene] | lyskilde[n|r|rne] | pære[n|r|rne] | lampe[n|r|rne])[s]"
+  lysstyrke: "{brightness}[<procent>]"
+  lysstyrke_input: "(<lysstyrke>|[<den>] {brightness_level:brightness}) [lysstyrke]"
+  farve: "(farve[n]|kulør[en])"
+  farve_input: "({color} [lys])"
+  på_alle_lys: "[på] [[alle] <lys>]"
+  navn: "(<den> {name}|{name}[(en|ene|et|n|t|men|ten)][s])"
   område: "{area}[(en|et|n|t)][s]"
   persienne: "persienne[(n|r|rne)]"
   rullegardin: "rullegardin[(et|er|erne)]"
@@ -381,7 +385,7 @@ expansion_rules:
   dække_åbn: "(<åbn>|rul|træk)"
   dække_op: "(op|fra)"
   sæt_numerisk_værdi: "(indstil|juster|sæt|ændr|ændre|skru[ (op|ned)]|forøg|formindsk)"
-  procent: "([ ]%| procent)"
+  procent: "([ ]%| procent[s])"
   position_pct: "{position}<procent>"
   nogen: "(nogen|nogle)"
   enhed: "enhed[(en|er|erne)]"
@@ -432,7 +436,7 @@ expansion_rules:
   totalt: "(total[t]|samle(t|de))"
 
   # Questions
-  hvad_er_class_af_navn: "(<spørg_om_værdi> [den] <class> [(målt|angivet)] (af|på|for|fra|i|ved) [min|mit] <navn> [<i_på> <område>]|<spørg_om_værdi> [min|mit] <navn>[s] <class> [<i_på> <område>]|<spørg_om_værdi> <område>[s] <navn>[s] <class>)"
+  hvad_er_class_af_navn: "(<spørg_om_værdi> [<den>] <class> [(målt|angivet)] (af|på|for|fra|i|ved) [min|mit] <navn> [<i_på> <område>]|<spørg_om_værdi> [min|mit] <navn>[s] <class> [<i_på> <område>]|<spørg_om_værdi> <område>[s] <navn>[s] <class>)"
 
   # Timers
   timer: "(nedtælling|timer)[en]"
