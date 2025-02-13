@@ -99,12 +99,14 @@ entities:
   - name: Bastun
     id: climate.sauna
     area: sauna
-  - name: Vänster garagedörr
-    id: cover.left_garage_door
-    area: garage
+
   - name: Sovrumsgardinen
     id: cover.bedroom_curtain
     area: bedroom
+    state: "open"
+    attributes:
+      device_class: curtain
+
   - name: Rover
     id: vacuum.rover
     area: livingroom
@@ -114,6 +116,38 @@ entities:
   - name: Bakdörren
     id: lock.backdorren
     area: hallen
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
+  - name: Telefon
+    id: binary_sensor.phone_battery
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "Telefon"
+    id: "binary_sensor.phone_battery_charging"
+    state:
+      in: "laddar"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "Telefon"
+    id: "sensor.phone_battery"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "Telefon"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "ansluten"
+      out: "on"
+    attributes:
+      device_class: connectivity
 
   - name: "Stockholm"
     id: "weather.stockholm"
