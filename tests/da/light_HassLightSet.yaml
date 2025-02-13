@@ -1,56 +1,163 @@
 language: da
 tests:
   # Brightness
+  # Specific light
   - sentences:
-      - sæt soveværelseslys lysstyrke til 50%
-      - sæt soveværelseslysets lysstyrke til 50 procent
-      - sæt lysstyrke på soveværelseslys til 50%
-      - sæt lysstyrken på soveværelseslyset til 50 procent
-      - sæt soveværelseslys til lysstyrke 50%
-      - sæt soveværelseslyset til 50 procent
+      - "sæt soveværelseslys lysstyrke til 50%"
+      - "sæt soveværelseslysets lysstyrke til 50 procent"
+      - "sæt lysstyrke på soveværelseslys til 50%"
+      - "sæt lysstyrken på soveværelseslyset til 50 procent"
+      - "sæt soveværelseslys til lysstyrke 50%"
+      - "sæt soveværelseslyset til 50 procent"
+      - "sæt 50 procent lysstyrke på soveværelseslyset"
     intent:
       name: HassLightSet
       slots:
         brightness: 50
-        name: Soveværelseslys
+        name: "Soveværelseslys"
+    response: "Lysstyrke indstillet"
+
   - sentences:
-      - sæt lysstyrke i soveværelse til 50%
-      - sæt lysstyrken i soveværelset til 50 procent
-      - sæt soveværelse lysstyrke til 50%
-      - sæt soveværelsets lysstyrke til 50 procent
-      - sæt soveværelse til lysstyrke 50%
-      - sæt soveværelse til 50 procent
+      - "sæt soveværelseslys lysstyrke til maksimum"
+      - "sæt soveværelseslysets til den højeste lysstyrke"
+      - "sæt lysstyrke på soveværelseslys til max"
+      - "sæt lysstyrken på soveværelseslyset til det maksimale"
+      - "sæt den maksimale lysstyrke på soveværelseslyset"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 100
+        name: "Soveværelseslys"
+    response: "Lysstyrke indstillet"
+
+  # Area
+  - sentences:
+      - "sæt lysstyrke i soveværelse til 50%"
+      - "sæt lysstyrken i soveværelset til 50 procent"
+      - "sæt soveværelse lysstyrke til 50%"
+      - "sæt soveværelsets lysstyrke til 50 procent"
+      - "sæt soveværelse til lysstyrke 50%"
+      - "sæt soveværelse til 50 procent"
+      - "sæt 50 procent lysstyrke i soveværelset"
+      - "sæt 50 procent lysstyrke på lamperne i soveværelset"
+      - "indstil lysstyrken på lamperne i soveværelset til 50 procent"
+      - "sæt lysene i soveværelset til 50 %"
+      - "sæt lampernes lysstyrke i soveværelset til 50%"
+      - "sæt soveværelsets lamper til 50 procent lysstyrke"
     intent:
       name: HassLightSet
       slots:
         brightness: 50
-        area: Soveværelse
-        name: all
-      # Color
+        area: "Soveværelse"
+    response: "Lysstyrke indstillet"
+
+  # Floor
   - sentences:
-      - sæt soveværelseslys farve til rød
-      - sæt soveværelseslysets farve til rød
-      - sæt farve på soveværelseslys til rød
-      - sæt farven på soveværelseslyset til rød
-      - sæt soveværelseslys til rød
+      - "sæt lysstyrke i stueetage til 50%"
+      - "sæt lysstyrken på lamperne i stueetagen til 50%"
+      - "sæt lysstyrken i stueetagen til 50 procent"
+      - "sæt stueetage lysstyrke til 50%"
+      - "sæt stueetagens lysstyrke til 50 procent"
+      - "sæt 50 procent lysstyrke i stueetagen"
+      - "sæt stueetagens lamper til 50 procents lysstyrke"
+    intent:
+      name: HassLightSet
+      slots:
+        brightness: 50
+        floor: "Stueetage"
+    response: "Lysstyrke indstillet"
+
+  # In the same area as a satellite device
+  - sentences:
+      - "sæt lysstyrke til 50%"
+      - "sæt lysstyrke her til 50 procent"
+      - "sæt lysstyrken på lamperne herinde til 50 procent"
+      - "sæt lysstyrken til 50 procent herinde"
+      - "sæt 50 procent lysstyrke"
+      - "sæt 50 procent lysstyrke på alle lysene herinde"
+    intent:
+      name: HassLightSet
+      context:
+        area: "Soveværelse"
+      slots:
+        brightness: 50
+        area: "Soveværelse"
+    response: "Lysstyrke indstillet"
+
+  # Color
+  # Specific light
+  - sentences:
+      - "sæt soveværelseslys farve til rød"
+      - "sæt soveværelseslysets farve til rød"
+      - "sæt farve på soveværelseslys til rød"
+      - "sæt farven på soveværelseslyset til rød"
+      - "sæt soveværelseslyset til rød"
+      - "sæt rødt lys på soveværelseslyset"
     intent:
       name: HassLightSet
       slots:
         color: red
-        name: Soveværelseslys
+        name: "Soveværelseslys"
+    response: "Farve indstillet"
+
+  # Area
   - sentences:
-      - sæt rødt lys i soveværelse
+      - "sæt rødt lys i soveværelse"
+      - "indstil soveværelset til rødt lys"
+      - "sæt soveværelse til farven rød"
+      - "sæt soveværelse farven til rød"
     intent:
       name: HassLightSet
       slots:
-        area: Soveværelse
+        area: "Soveværelse"
         color: red
-        name: all
+    response: "Farve indstillet"
+
   - sentences:
-      - sæt blåt lys på badeværelset
+      - "sæt blåt lys på badeværelset"
     intent:
       name: HassLightSet
       slots:
-        area: Badeværelse
+        area: "Badeværelse"
         color: blue
-        name: all
+    response: "Farve indstillet"
+
+  # Floor
+  - sentences:
+      - "sæt rødt lys i stueetagen"
+      - "sæt rødt lys på i stueetagen"
+      - "sæt rødt lys på lamperne i stueetagen"
+      - "sæt rødt lys i stueetagens lamper"
+      - "indstil stueetage til rødt lys"
+      - "sæt stueetagen til farven rød"
+      - "sæt stueetagens lamper til farven rød"
+      - "sæt stueetage farven til rød"
+      - "sæt stueetages lys til rød"
+    intent:
+      name: HassLightSet
+      slots:
+        floor: "Stueetage"
+        color: red
+    response: "Farve indstillet"
+
+  # In the same area as a satellite device
+  - sentences:
+      - "sæt farven til rød"
+      - "sæt farven her til rødt lys"
+      - "sæt kuløren til rød herinde"
+      - "sæt rødt lys her"
+      - "sæt rødt lys på"
+      - "sæt farven på alle lysene her til rød"
+      - "sæt farven på alle lamperne til rød herinde"
+      - "sæt farven til rød på alle lamperne herinde"
+      - "sæt farven her på alle lamperne til rød"
+      - "sæt farven her til rød på alle lamperne"
+      - "sæt rødt lys på alle lamperne her"
+    intent:
+      name: HassLightSet
+      context:
+        area: "Soveværelse"
+      slots:
+        color: red
+        area: "Soveværelse"
+    response: "Farve indstillet"
