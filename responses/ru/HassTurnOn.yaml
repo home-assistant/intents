@@ -8,8 +8,8 @@ responses:
         {% set male_ending = "" %}
         {% set plural_ending = "ы" %}
         {% if slots.name[-1].lower() in "ь" %}
-          {% if ((slots.name.split().lower() + ["выключатель","пользователь","день","дождь"])
-                | count != dict.fromkeys(slots.name.split().lower() + ["выключатель","пользователь","день","дождь"]) | count)  or
+          {% if ((slots.name.lower().split() + ["выключатель","пользователь","день","дождь"])
+                | count != dict.fromkeys(slots.lower().name.split() + ["выключатель","пользователь","день","дождь"]) | count)  or
                 (slots.name[-2].lower() in "рь" and slots.name.lower() != "дверь") %}
             {% set ending = male_ending %}
           {% else %}
