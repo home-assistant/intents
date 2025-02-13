@@ -2,24 +2,74 @@ language: da
 intents:
   HassLightSet:
     data:
+      # Brightness
+      # Specific light
       - sentences:
-          - sæt <navn>[s] lysstyrke til <lysstyrke>
-          - sæt lysstyrke[n] på <navn> til <lysstyrke>
-          - sæt <navn> til [lysstyrke] <lysstyrke>
-        response: brightness
+          - "<sæt_numerisk_værdi> <navn> ([lysstyrke];til) <lysstyrke_input>"
+          - "<sæt_numerisk_værdi> lysstyrke[n] på <navn> til <lysstyrke_input>"
+          - "<sæt_numerisk_værdi> <lysstyrke_input> lysstyrke på <navn>"
+        response: "brightness"
+        requires_context:
+          domain: light
+
+      # Area
       - sentences:
-          - sæt lysstyrke[n] <i_på> <område> til <lysstyrke>
-          - sæt <område>[s] lysstyrke til <lysstyrke>
-          - sæt <område> til [lysstyrke] <lysstyrke>
-        slots:
-          name: all
-        response: brightness
+          - "<sæt_numerisk_værdi> <område> [<lys>] ([lysstyrke];til) <lysstyrke_input>"
+          - "<sæt_numerisk_værdi> <lys> (<i_på> <område>;[lysstyrke];til) <lysstyrke_input>"
+          - "<sæt_numerisk_værdi> lysstyrke[n] (<på_alle_lys>;<i_på> <område>) til <lysstyrke_input>"
+          - "<sæt_numerisk_værdi> <lysstyrke_input> (<på_alle_lys>;<i_på> <område>)"
+        response: "brightness"
+
+      # Floor
       - sentences:
-          - sæt <navn>[s] farve til {color}
-          - sæt [farve[n] på] <navn> til {color}
-        response: color
+          - "<sæt_numerisk_værdi> <etage> [<lys>] ([lysstyrke];til) <lysstyrke_input>"
+          - "<sæt_numerisk_værdi> <lys> <i_på> <etage> ([lysstyrke];til) <lysstyrke_input>"
+          - "<sæt_numerisk_værdi> lysstyrke[n] (<på_alle_lys>;<i_på> <etage>) til <lysstyrke_input>"
+          - "<sæt_numerisk_værdi> <lysstyrke_input> (<på_alle_lys>;<i_på> <etage>)"
+        response: "brightness"
+
+      # In the same area as a satellite device
       - sentences:
-          - sæt {color}[t] lys <i_på> <område>
-        slots:
-          name: all
-        response: color
+          - "<sæt_numerisk_værdi> lysstyrke[n] (<på_alle_lys>;[<her>];til <lysstyrke_input>)"
+          - "<sæt_numerisk_værdi> <lys> [lysstyrke] (til <lysstyrke_input>;[<her>])"
+          - "<sæt_numerisk_værdi> <lysstyrke_input> <på_alle_lys> [<her>]"
+        requires_context:
+          area:
+            slot: true
+        response: "brightness"
+
+      # Color
+      # Specific light
+      - sentences:
+          - "<sæt_numerisk_værdi> <navn> ([<farve>];til) <farve_input>"
+          - "<sæt_numerisk_værdi> <farve> på <navn> til <farve_input>"
+          - "<sæt_numerisk_værdi> <farve_input> på <navn>"
+        requires_context:
+          domain: light
+        response: "color"
+
+      # Area
+      - sentences:
+          - "<sæt_numerisk_værdi> <område> [<lys>] ([<farve>];til) <farve_input>"
+          - "<sæt_numerisk_værdi> <lys> <i_på> <område> ([<farve>];til) <farve_input>"
+          - "<sæt_numerisk_værdi> <farve> (<på_alle_lys>;<i_på> <område>) til <farve_input>"
+          - "<sæt_numerisk_værdi> <farve_input> (<på_alle_lys>;<i_på> <område>)"
+        response: "color"
+
+      # Floor
+      - sentences:
+          - "<sæt_numerisk_værdi> <etage> [<lys>] ([<farve>];til) <farve_input>"
+          - "<sæt_numerisk_værdi> <lys> <i_på> <etage> ([<farve>];til) <farve_input>"
+          - "<sæt_numerisk_værdi> <farve> (<på_alle_lys>;<i_på> <etage>) til <farve_input>"
+          - "<sæt_numerisk_værdi> <farve_input> (<på_alle_lys>;<i_på> <etage>)"
+        response: "color"
+
+      # In the same area as a satellite device
+      - sentences:
+          - "<sæt_numerisk_værdi> <farve> (<på_alle_lys>;[<her>];til <farve_input>)"
+          - "<sæt_numerisk_værdi> <lys> [<farve>] (til <farve_input>;[<her>])"
+          - "<sæt_numerisk_værdi> <farve_input> <på_alle_lys> [<her>]"
+        requires_context:
+          area:
+            slot: true
+        response: "color"
