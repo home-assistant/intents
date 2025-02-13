@@ -2,13 +2,34 @@ language: da
 responses:
   intents:
     HassTurnOn:
-      default: "Tændte {{ slots.name }}"
-      lights_area: "Tændte lys i {{ slots.area }}"
-      lights_floor: "Tændte lys på {{ slots.floor }}"
+      default: >-
+        {% set translations = {
+          "button": "knappen",
+          "camera": "kameraet",
+          "input_button": "knappen",
+          "alarm_control_panel": "alarmen",
+          "automation": "automatiseringen",
+          "fan": "ventilatoren",
+          "climate": "termostaten",
+          "humidifier": "luftfugteren",
+          "input_boolean": "omskifteren",
+          "siren": "sirenen",
+          "water_heater": "vandvarmeren",
+          "light": "lyset",
+          "switch": "kontakten",
+          "remote": "fjernebetjeningen",
+          "vacuum": "støvsugeren",
+          "media_player": "medieafspilleren",
+          "lawn_mower": "plæneklipperen"
+        } %}
+        Tændte {{ translations.get(state.domain, state.domain) }}
+      light_area: "Tændte lyset"
       light_all: "Tændte alle lys"
       fans_area: "Tændte blæsere i {{ slots.area }}"
       cover: "Åbnede {{ slots.name }}"
       cover_area: "Åbnede {{ slots.area }}"
       cover_device_class: "Åbnede {{ slots.device_class }}"
       scene: "Aktiveret"
+      script: "Startet"
       lock: "Låste"
+      valve: "Åbnede"

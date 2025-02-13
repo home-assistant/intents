@@ -1,39 +1,58 @@
 language: sv
 tests:
   - sentences:
+      - Stäng sovrumsgardinen
+      - Dra ner sovrumsgardinen
+      - Dra igen sovrumsgardinen
+      - Stäng igen sovrumsgardinen
+      - Veckla ner sovrumsgardinen
+      - Veckla igen sovrumsgardinen
+      - Tillslut sovrumsgardinen
+    intent:
+      name: HassTurnOff
+      slots:
+        name: Sovrumsgardinen
+        domain: cover
+    response: "Stängde sovrumsgardinen"
+
+  - sentences:
+      - Stäng garagedörren
+      - Dra igen garagedörren
       - regla garagedörren
     intent:
       name: HassTurnOff
       slots:
         device_class: garage
         domain: cover
-    response: Stängde garage
+    response: "Stängde garage"
+
+  - sentences:
+      - Stäng gardiner i sovrummet
+      - Dra för persiennerna i sovrummet
+      - Dra igen sovrummets gardiner
+      - Stäng igen alla sovrumspersienner
+      - Dra för alla sovrumets gardiner
+      - Hissa ner alla sovrumsgardiner
+      - Slå igen sovrumspersiennerna
+      - Slå för förhängena i sovrummet
+      - Dra ner alla sovrumets rullgardiner
+      - Rulla ner alla sovrumsgardiner
+    intent:
+      name: HassTurnOff
+      slots:
+        area: Sovrum
+        device_class:
+          - blind
+          - curtain
+          - shutter
+        domain: cover
+    response: "Stängde i sovrum"
+
   - sentences:
       - stäng igen rullgardiner i kökets
-    intent:
-      name: HassTurnOff
-      slots:
-        area: Kök
-        device_class:
-          - blind
-          - curtain
-          - shutter
-        domain: cover
-    response: Stängde i kök
-  - sentences:
-      - stäng igen all köketssrullgardiner
-    intent:
-      name: HassTurnOff
-      slots:
-        area: Kök
-        device_class:
-          - blind
-          - curtain
-          - shutter
-        domain: cover
-    response: Stängde i kök
-  - sentences:
+      - stäng igen alla köketssrullgardiner
       - stäng igen all kökets rullgardiner
+      - stäng alla kökets rullgardiner
     intent:
       name: HassTurnOff
       slots:

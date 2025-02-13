@@ -2,10 +2,32 @@ language: da
 responses:
   intents:
     HassTurnOff:
-      default: "Slukkede {{ slots.name }}"
-      lights_area: "Slukkede lys i {{ slots.name }}"
+      default: >-
+        {% set translations = {
+          "button": "knappen",
+          "camera": "kameraet",
+          "input_button": "knappen",
+          "alarm_control_panel": "alarmen",
+          "automation": "automatiseringen",
+          "fan": "ventilatoren",
+          "climate": "termostaten",
+          "humidifier": "luftfugteren",
+          "input_boolean": "omskifteren",
+          "siren": "sirenen",
+          "water_heater": "vandvarmeren",
+          "light": "lyset",
+          "switch": "kontakten",
+          "remote": "fjernebetjeningen",
+          "vacuum": "støvsugeren",
+          "media_player": "medieafspilleren",
+          "lawn_mower": "plæneklipperen"
+        } %}
+        Slukkede {{ translations.get(state.domain, state.domain) }}
+      light_area: "Slukkede lyset"
+      light_all: "Slukkede alle lys"
       fans_area: "Slukkede blæsere i {{ slots.name }}"
       cover: "Lukkede {{ slots.name }}"
       cover_area: "Lukkede {{ slots.area}}"
       cover_device_class: "Lukkede {{ slots.device_class }}"
       lock: "Låste op"
+      valve: "Lukkede"
