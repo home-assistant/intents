@@ -8,8 +8,8 @@ responses:
         {% set male_ending = "" %}
         {% set plural_ending = "ы" %}
         {% if slots.name[-1].lower() in "ь" %}
-          {% if ((slots.name.split() + ["выключатель","пользователь","день","дождь","ночь"])
-                | count != dict.fromkeys(slots.name.split() + ["выключатель","пользователь","день","дождь","ночь"]) | count)  or
+          {% if ((slots.name.split().lower() + ["выключатель","пользователь","день","дождь"])
+                | count != dict.fromkeys(slots.name.split().lower() + ["выключатель","пользователь","день","дождь"]) | count)  or
                 (slots.name[-2].lower() in "рь" and slots.name.lower() != "дверь") %}
             {% set ending = male_ending %}
           {% else %}
@@ -29,7 +29,7 @@ responses:
         {% else %}
           {% set ending = male_ending %}
         {% endif %}
-        {{ (name_new.split()[-1].title() if  slots.name[-1].lower() in "у, ю" else slots.name.split()[-1].title()) ~ " включен" ~ ending }}
+        {{ (name_new.split()[-1].title() if slots.name[-1].lower() in "у, ю" else slots.name.split()[-1].title()) ~ " включен" ~ ending }}
       lights_area: "Свет в {{ slots.area }} включен"
       light_all: "Весь свет включен"
       fans_area: "Включены вентиляторы в {{ slots.area }}"
