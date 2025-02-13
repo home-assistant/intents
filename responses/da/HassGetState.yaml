@@ -2,6 +2,8 @@ language: da
 responses:
   intents:
     HassGetState:
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
@@ -63,3 +65,12 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state.state == "not_home" %}
+          {{ slots.name | capitalize }} er ikke hjemme
+        {% elif state.state == "home" %}
+          {{ slots.name | capitalize }} er hjemme
+        {% else %}
+          {{ slots.name | capitalize }} er i zonen {{ state.state }}
+        {% endif %}

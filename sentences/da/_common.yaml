@@ -37,9 +37,9 @@ responses:
     duplicate_entities_in_floor: "Undskyld, er er flere enheder med navnet {{ entity }} på {{ floor }} etage"
 
     # Errors for timers / Fejl for nedtælling
-    timer_not_found: "Undskyld, den timer kunne jeg ikke finde"
-    multiple_timers_matched: "Undskyld, jeg kan ikke håndtere flere timer"
-    no_timer_support: "Undskyld, timer er ikk eunderstøttet på denne enhed"
+    timer_not_found: "Undskyld, den nedtælling kunne jeg ikke finde"
+    multiple_timers_matched: "Undskyld, jeg kan ikke håndtere flere nedtællinger"
+    no_timer_support: "Undskyld, nedtælling er ikke understøttet på denne enhed"
 
 lists:
   brightness:
@@ -55,25 +55,25 @@ lists:
         out: 1
   color:
     values:
-      - in: hvid
+      - in: hvid[t]
         out: white
       - in: sort
         out: black
-      - in: rød
+      - in: rød[t]
         out: red
       - in: orange
         out: orange
-      - in: gul
+      - in: gul[t]
         out: yellow
-      - in: grøn
+      - in: grøn[t]
         out: green
-      - in: blå
+      - in: blå[t]
         out: blue
       - in: lilla
         out: purple
-      - in: brun
+      - in: brun[t]
         out: brown
-      - in: lyserød
+      - in: lyserød[t]
         out: pink
       - in: turkis
         out: turquoise
@@ -91,7 +91,7 @@ lists:
         out: garage
       - in: låge[(en|r|rne)]
         out: gate
-      - in: (persienne[(en|r|rne)]|rullegardin[(et|er|erne)])
+      - in: rullegardin[(et|er|erne)]
         out: shade
       - in: skodde[(n|r|rne)]
         out: shutter
@@ -119,6 +119,13 @@ lists:
         out: "on"
       - in: "(af|slukket)"
         out: "off"
+  person_states:
+    values:
+      - in: "hjemme"
+        out: "home"
+      - in: "(ude|ikke hjemme)"
+        out: "not_home"
+
   on_off_domains:
     values:
       - in: lys[(et|ene)]
@@ -132,14 +139,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - "celsius"
-      - in: "c"
-        out: "celsius"
-      - "fahrenheit"
-      - in: "f"
-        out: "fahrenheit"
 
   # binary_sensor
   bs_battery_states:
@@ -308,6 +307,21 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
   timer_seconds:
     range:
       from: 1
@@ -335,31 +349,48 @@ lists:
   timer_command:
     wildcard: true
 
+  message:
+    wildcard: true
+
 expansion_rules:
-  al: "(alle | alt | samtlige)"
+  al: "(al|alt|alle|samtlige)"
   blæser: "blæser[(e|en|ne)]"
-  etage: "{area}[(n)]"
+  etage: "{floor}[(n|en)][s]"
   garagedør: "garage(dør|port)[(en|e|ene)]"
   gardin: "gardin[(et|er|erne)]"
   i_på: "(i | på)"
   koldt_varmt: "(kold[t] | varm[t])"
   koldt: "kold[(t|e)]"
   luk: "luk [for]"
-  lys: "lys[(ene|et)]"
-  lysstyrke: "{brightness}[%| procent]"
-  navn: "((den|det) {name}[s]|{name}[(en|ene|et|n|t|men|ten)][s])"
-  område: "{area}[(en|et|n|t)]"
+  lys: "(lys[et|ene] | lyskilde[n|r|rne] | pære[n|r|rne] | lampe[n|r|rne])[s]"
+  lysstyrke: "{brightness}[<procent>]"
+  lysstyrke_input: "(<lysstyrke>|[<den>] {brightness_level:brightness}) [lysstyrke]"
+  farve: "(farve[n]|kulør[en])"
+  farve_input: "({color} [lys])"
+  på_alle_lys: "[på] [[alle] <lys>]"
+  navn: "(<den> {name}|{name}[(en|ene|et|n|t|men|ten)][s])"
+  område: "{area}[(en|et|n|t)][s]"
   persienne: "persienne[(n|r|rne)]"
   rullegardin: "rullegardin[(et|er|erne)]"
   skodde: "skodde[(n|r|rne)]"
   sluk: "sluk [for]"
-  temperatur: "{temperature}[°| grader] [{temperature_unit}]"
+  temperatur: "{temperature}[°| grader]"
+  temperaturen: "(temperatur[en]|varmen)"
+  her: "(her[inde]|på dette sted|i dette rum)"
+  aktuelle: "(aktuelle|nuværende)"
   tænd: "tænd [for]"
   åbn: "(åben|åbn[e]) [for]"
+  dække_luk: "(<luk>|rul|træk)"
+  dække_ned: "(i|ned|for)"
+  dække_åbn: "(<åbn>|rul|træk)"
+  dække_op: "(op|fra)"
+  sæt_numerisk_værdi: "(indstil|juster|sæt|ændr|ændre|skru[ (op|ned)]|forøg|formindsk)"
+  procent: "([ ]%| procent[s])"
+  position_pct: "{position}<procent>"
   nogen: "(nogen|nogle)"
   enhed: "enhed[(en|er|erne)]"
   hvor_mange: "hvor[ ]mange"
-  hvilke: "hvilke[(t|n)]"
+  hvilke: "(hvilke[(t|n)]|hvad[ for])"
   er_nogen: "er [der] <nogen>"
   er_noget: "er [der] noget"
   carbonmonoxid: "(carbonmonoxid|kulilte|kulmonoxid|kulos)"
@@ -368,14 +399,52 @@ expansion_rules:
   gas_ikke_fundet: "er [der] ikke [noget] gas (detekteret|fundet|registreret)"
   bevaegelses_sensor: "bevægelses[ ]sensorer[ne]"
   i: "(i|[oppe ]på)"
+  spørg_om_værdi: "(hvad er|hvor meget er|(giv|fortæl) mig)"
+  spørg_om_destination: "(hvor sendes|hvad sker der med)"
+  aktuel_tid: "(klokken|tiden)"
+  nu: "[lige ]nu"
+  dato: "(dato|dag)"
+  dags_dato: "(dagens|i dags) dato"
+  broadcast: "(broadcast|meddel|annoncer|sig til)"
+  alle_destinationer: "(overalt|alle steder|til alle [enheder]|over det hele)"
+  hilsen: "(hej|hallo|halløj)"
+  altid: "(altid|hele tiden)"
+  opfanger: "(lytter|hører|optager|skanner)"
+  mine_data: "(mine data|det jeg siger|det du <opfanger>|optagelser[ne])"
+  skabte: "(skabte|har skabt|lavede|har lavet)"
+  kommandoer: "(kommandoer|ord|sætninger)"
+  med_navnet: "([med|ved] navn[et]|som hedder|kaldet)"
+  rengør: "(rengør|rens|støvsug)"
+  lydstyrke: "(lydstyrke|volume)[n]"
+  volume: "{volume:volume_level}[([ ]%)| procent]"
+  sang: "(sang|melodi|nummer|spor)[en|et]"
+  medie: "(musik[k]|tv|fjernsyn|film|serie|podcast)[en|et]"
+  spring: "(spring|hop|gå)"
+  spring_til: "(<spring> [tilbage] til|[af]spil)"
+  forrige: "(forrige|sidste)"
+  afspil: "([af]spil)"
+  afspiller: "(afspiller)[en]"
+  genoptag: "(genoptag|genstart|fortsæt)"
+  den: "(den|det)"
+  denne: "(<den>|denne|dette)"
+  låsbar: "(lås|dør|vindue|port|låge|garagedør|skodde)[e|r][n]"
+  status: "(status|tilstand)"
+  start: "(start|begynd|aktiver|kør|tænd|udfør)"
+  script: "(script|[manu]skript)[et]"
+  nedbør: "(nedbør|regn[vejr|byger]|sne[fald])"
+  koncentration: "(niveau[et]|koncentration[en]|mængde[n]|forhold[et])"
+  totalt: "(total[t]|samle(t|de))"
+
+  # Questions
+  hvad_er_class_af_navn: "(<spørg_om_værdi> [<den>] <class> [(målt|angivet)] (af|på|for|fra|i|ved) [min|mit] <navn> [<i_på> <område>]|<spørg_om_værdi> [min|mit] <navn>[s] <class> [<i_på> <område>]|<spørg_om_værdi> <område>[s] <navn>[s] <class>)"
 
   # Timers
-  timer: "(timer | nedtælling)"
-  timers: "(timere | nedtællinger)"
+  timer: "(nedtælling|timer)[en]"
+  timers: "(nedtællinger|timere)[ne]"
   timer_pause: "(pause|[midlertidig ](stop|stands)[e])"
-  timer_unpause: "(fortsæt|genoptage)"
-  timer_add: "(læg til|øge)"
-  timer_decrease: "(sænk|trække fra|reducer)"
+  timer_unpause: "(fortsæt|genoptag[e])"
+  timer_add: "(læg|øg)"
+  timer_decrease: "(sænk|træk|reducer)"
   timer_set: "(sæt|start|læg|opret|lav)[ en]"
   timer_cancel: "(stop|afbryd|slet|fjern)"
   timer_duration_seconds: "{timer_seconds:seconds} sekund[er]"

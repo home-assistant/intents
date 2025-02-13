@@ -1,0 +1,82 @@
+language: sr-Latn
+responses:
+  intents:
+    HassGetState:
+      default: "{{ state.state_with_unit }}"
+      one: "{{ slots.name | capitalize }} je {{ state.state_with_unit }}
+
+        "
+      one_yesno: |
+        {% if query.matched %}
+          Da
+        {% else %}
+          Ne
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            Da, {{ match[:3] | join(", ") }} i još {{ (match | length - 3) }}
+          {%- else -%}
+            Da,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          Ne
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched: %}
+          Da
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Ne, nisu {{ no_match[:3] | join(", ") }} i još {{ (no_match | length - 3) }}
+          {%- else -%}
+            Ne,
+              {% if no_match | length > 1 %}
+                nisu
+              {%- else -%}
+                nije
+              {% endif %}
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor %}
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          Nema {{ slots.state[:-1]}}ih {{ slots.device_class[:-1] }}a
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} i {{ (match | length - 3) }} više
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} i {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} je odsutan
+        {% else %}
+          {{ slots.name | capitalize }} je na lokaciji {{ state.state}}
+        {% endif %}
+
+      sensor_value: |
+        Vrednost senzora je {{ state.state_with_unit }}
+
+      sensor_value_temperature: |
+        Temperatura je {{ state.state_with_unit }}

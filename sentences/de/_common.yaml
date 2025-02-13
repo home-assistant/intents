@@ -403,12 +403,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - in: "(c|celsius)"
-        out: "Celsius"
-      - in: "(f|fahrenheit)"
-        out: "Fahrenheit"
   # binary_sensor
   bs_battery_states:
     values:
@@ -535,7 +529,8 @@ lists:
     wildcard: true
   timer_command:
     wildcard: true
-  response:
+
+  message:
     wildcard: true
 
 expansion_rules:
@@ -568,7 +563,7 @@ expansion_rules:
   luefter: "[(der|die|den) ](Ventilator[en]|Lüfter)"
   alle_luefter: "<alle> (Ventilatoren|Lüfter)"
   brightness: "{brightness}[ (Prozent|%)]"
-  temperature: "{temperature}[ ][°|Grad][ ][{temperature_unit}]"
+  temperature: "{temperature}[ ][°|Grad]"
   licht: "[(das|die) ](Licht|Lampe|Beleuchtung)"
   lichter: "[(die|der|von den) ](Lichter|Lichtern|Lampen|Leuchten|Beleuchtungen)"
   alle_lichter: "(<alle> (<lichter>|Beleuchtung)|von allen[ (Lichtern|Lampen|Leuchten|Beleuchtungen)])"
@@ -599,6 +594,7 @@ expansion_rules:
   position: "{position}[ (Prozent|%)]"
   volume: "{volume_level}[ (Prozent|%)]"
   im_bereich: "[((in|auf)[ <artikel_bestimmt>]|im)] {zone:state}"
+  im_zuhause: "(zu Hause|[im ]Zuhause)"
 
   # Timers
   timer_set: "(starte|setze|stelle|erstelle)"

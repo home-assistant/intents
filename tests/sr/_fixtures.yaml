@@ -1,4 +1,4 @@
-language: sr
+language: "sr"
 floors:
   - name: "На спрату"
     id: "upstairs_id"
@@ -11,71 +11,156 @@ floors:
   - name: "Подрум"
     id: "basement_id"
 areas:
-  - name: "купатил(о|у)"
-    id: bathroom
-  - name: "спаваћ(а|ој) соб(а|и)"
-    id: bedroom
-  - name: "офис | канцеларија"
-    id: office
-  - name: "радн(а|ој) соб(а|и)"
-    id: study
-  - name: "терас(а|и) | балкон(у) | лођ(а|и)"
-    id: balcony
-  - name: "ормар(у) | плакар(у)"
-    id: closet
-  - name: "улаз(у) | предсобљ(е|у) | прецобљ(е|у)"
-    id: entrance
-  - name: "ходник(у) | пролаз(у)"
-    id: hallway
-  - name: "шпаиз(у) | шпјз(у) | остав(а|и)"
-    id: pantry
-  - name: "гардероб(и|а|ер|еру)"
-    id: wardrobe
-  - name: "веце(у) | вц(у)"
-    id: wc
-  - name: "степенице | степеништ(е|у)"
-    id: staircase
+  - name: "Соб(а|у) за госте"
+    id: "guest_room_id"
+    # prepositional floor
+    floor: "upstairs_id"
+
+  - name: "Напољу|Вани"
+    # prepositional area
+    id: "outside_id"
+    floor: "ground_floor_id"
+
   - name: "кухињ(а|и|у|е|ску|ска|ске|ски|ског|ском)"
-    id: kitchen
+    id: "kitchen_id"
+    floor: "first_floor_id"
+
   - name: "дневн(а|ој) соб(а|и)"
-    id: living_room
+    id: "living_room_id"
+    floor: "first_floor_id"
+
+  - name: "спаваћ(а|ој) соб(а|и)"
+    id: "bedroom_id"
+    floor: "second_floor_id"
+
   - name: "гараж(а|и)"
-    id: garage
+    id: "garage_id"
+    floor: "first_floor_id"
+
+  - name: "Entrance"
+    id: "entrance_id"
+    floor: "first_floor_id"
+
+  - name: "офис|канцеларија"
+    id: "office_id"
+    floor: "basement_id"
 entities:
   - name: "ноћн(а|у|е) ламп(а|у|е)"
-    id: light.bedroom_lamp
-    area: bedroom
+    id: "light.bedroom_lamp"
+    area: "bedroom_id"
+    state: "off"
+
+  - name: "Прекидач за спаваћу собу"
+    id: "switch.bedroom"
+    area: "bedroom_id"
+    state: "off"
+
   - name: "кухињски прекидач"
-    id: switch.kitchen
-    area: kitchen
+    id: "switch.kitchen"
+    area: "kitchen_id"
+    state: "on"
+
+  - name: "Кухињска плоча"
+    id: "light.kitchen_countertop"
+    area: "kitchen_id"
+    state: "on"
+
+  - name: "Кухињски плафон"
+    id: "light.kitchen_ceiling"
+    area: "kitchen_id"
+    state: "on"
+
+  - name: "Кухињски (плакари|ормари)"
+    id: "light.kitchen_cabinets"
+    area: "kitchen_id"
+    state: "on"
+
   - name: "(плафонски) вентилатор (на плафону)"
-    id: fan.ceiling
-    area: living_room
+    id: "fan.ceiling"
+    area: "living_room_id"
+    state: "off"
+
   - name: "лев(а|у) завес(а|у)"
     id: "cover.curtain_left"
-    area: "living_room"
+    area: "living_room_id"
     state: "open"
     attributes:
       device_class: curtain
+
   - name: "десн(а|у) завес(а|у)"
     id: "cover.curtain_right"
-    area: "living_room"
+    area: "living_room_id"
     state: "closed"
     attributes:
       device_class: curtain
+
   - name: "завес(а|у) [за|у] спаваћ(у|ој) соб(у|и)"
     id: "cover.bedroom"
-    area: "bedroom"
+    area: "bedroom_id"
     state: "closed"
     attributes:
       device_class: curtain
       position: "0"
+
+  - name: "Спољашња температура"
+    id: "sensor.outside_temperature"
+    area: "garage_id"
+    state: "42"
+    attributes:
+      unit_of_measurement: "°F"
+
+  - name: "Лампа за дневну собу"
+    id: "light.living_room_lamp"
+    area: "living_room_id"
+    state: "on"
+
+  - name: "Гаражно светло"
+    id: "light.garage"
+    area: "garage_id"
+    state: "on"
+
+  - name: "Кутак за игру"
+    id: light.play_corner
+    area: "living_room_id"
+    state: "on"
   - name: "Термостат"
     id: "climate.thermostat"
-    area: living_room
-    state: "20"
+    area: "living_room_id"
+    state: "heat"
     attributes:
-      unit_of_measurement: "°C"
+      current_temperature: 20
+
+  - name: "Канцеларијски термостат"
+    id: "climate.office_thermostat"
+    area: "office_id"
+    state: "heat"
+    attributes:
+      current_temperature: 1
+
+  - name: "Предња врата"
+    id: "lock.front_door"
+    area: "entrance_id"
+    state: "locked"
+
+  - name: "Задња врата"
+    id: "lock.back_door"
+    state: "unlocked"
+
+  - name: "Бочна врата"
+    id: "lock.side_door"
+    state: "locked"
+
+  - name: "Клизна врата"
+    id: "lock.sliding_doors"
+    state: "locked"
+
+  - name: "Режим за забаву"
+    id: "scene.party_mode"
+
+  - name: "Прикривени режим"
+    id: "script.stealth_mode"
+
+  # https://www.home-assistant.io/integrations/binary_sensor/
   - name: "телефон[а|е]"
     id: "binary_sensor.phone_battery"
     state:
@@ -83,6 +168,7 @@ entities:
       out: "off"
     attributes:
       device_class: battery
+
   - name: "телефон[а|е]"
     id: "binary_sensor.phone_battery_charging"
     state:
@@ -90,37 +176,586 @@ entities:
       out: "on"
     attributes:
       device_class: battery_charging
+
   - name: "ЦО2"
     id: "binary_sensor.co2"
-    area: "kitchen"
+    area: "kitchen_id"
     state:
       in: "clear"
       out: "off"
     attributes:
       device_class: carbon_monoxide
+
+  - name: "Водоводне цеви"
+    id: "binary_sensor.computer_cold"
+    state:
+      in: "normal"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "Телефон"
+    id: "binary_sensor.phone_connectivity"
+    state:
+      in: "connected"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "Врата за Кућни љубимац"
+    id: "binary_sensor.pet_door"
+    state:
+      in: "closed"
+      out: "off"
+    attributes:
+      device_class: door
+
+  - name: "Друга гаражна врата"
+    id: "binary_sensor.garage_door"
+    state:
+      in: "closed"
+      out: "off"
+    attributes:
+      device_class: garage_door
+
+  - name: "Гас"
+    id: "binary_sensor.gas"
+    area: "kitchen_id"
+    state:
+      in: "clear"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "(Рачунар|Компјутер)"
+    id: "binary_sensor.computer_heat"
+    state:
+      in: "hot"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "Светло"
+    id: "binary_sensor.light"
+    state:
+      in: "no light"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "Врата за Кућни љубимац"
+    id: "binary_sensor.pet_door_lock"
+    state:
+      in: "unlocked"
+      out: "on"
+    attributes:
+      device_class: lock
+
+  - name: "Кухињски сензор цурења"
+    id: "binary_sensor.water_sensor"
+    area: "kitchen_id"
+    state:
+      in: "dry"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "Сензор покрета"
+    id: "binary_sensor.garage_motion"
+    area: "garage_id"
+    state:
+      in: "detected"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "(Попуњеност|Заузетост)"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "kitchen_id"
+    state:
+      in: "detected"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "Врата од шупе"
+    id: "binary_sensor.shed_door_opening"
+    state:
+      in: "closed"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "Телефон"
+    id: "binary_sensor.phone_plug"
+    state:
+      in: "plugged in"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "Мрежно напајање"
+    id: "binary_sensor.power"
+    state:
+      in: "powered"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "Телефон"
+    id: "binary_sensor.presence"
+    state:
+      in: "away"
+      out: "off"
+    attributes:
+      device_class: presence
+
+  - name: "Хранилица за Кућн(и|е) љубим(ац|це)"
+    id: "binary_sensor.problem"
+    area: "kitchen_id"
+    state:
+      in: "ok"
+      out: "off"
+    attributes:
+      device_class: problem
+
+  - name: "Перилица"
+    id: "binary_sensor.washer_running"
+    state:
+      in: "running"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "Пут"
+    id: "binary_sensor.road_safety"
+    state:
+      in: "safe"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "Кухињски дим"
+    id: "binary_sensor.kitchen_smoke"
+    area: "kitchen_id"
+    state:
+      in: "clear"
+      out: "off"
+    attributes:
+      device_class: smoke
+
+  - name: "Сирена"
+    id: "binary_sensor.sound"
+    area: "garage_id"
+    state:
+      in: "detected"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "Цоокие Стасх"
+    id: "binary_sensor.cookie_stash_tamper"
+    state:
+      in: "clear"
+      out: "off"
+    attributes:
+      device_class: tamper
+
+  - name: "Телефон"
+    id: "binary_sensor.phone_update"
+    state:
+      in: "update available"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "Телефон"
+    id: "binary_sensor.phone_vibration"
+    state:
+      in: "not vibrating"
+      out: "off"
+    attributes:
+      device_class: vibration
+
+  - name: "Прозор од шупе"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "open"
+      out: "on"
+    attributes:
+      device_class: window
+
+  # https://www.home-assistant.io/integrations/sensor/
+  - name: "Привидна снага уређаја"
+    id: "sensor.appliance_apparent_power"
+    state: "2"
+    attributes:
+      device_class: apparent_power
+      unit_of_measurement: "VA"
+
+  - name: "Сензор квалитета ваздуха у кухињи"
+    id: "sensor.kitchen_aqi_sensor"
+    state: "50"
+    attributes:
+      device_class: aqi
+
+  - name: "Сензор спољног ваздуха"
+    id: "sensor.outside_pressure"
+    state: "1000"
+    attributes:
+      device_class: atmospheric_pressure
+      unit_of_measurement: "hPa"
+
+  - name: "Мој телефон"
+    id: "sensor.my_phone_battery"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "Топлотна пумпа ЦО2 сензор"
+    id: "sensor.heat_pump_co2"
+    state: "50"
+    attributes:
+      device_class: carbon_dioxide
+      unit_of_measurement: "ppm"
+
+  - name: "Топлотна пумпа ЦО сензор"
+    id: "sensor.heat_pump_co"
+    state: "48"
+    attributes:
+      device_class: carbon_monoxide
+      unit_of_measurement: "ppm"
+
+  - name: "Тренутни жреб куће"
+    id: "sensor.house_current"
+    state: "19"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"
+
+  - name: "Макроторент"
+    id: "sensor.macrotorrent_download_speed"
+    state: "22.9"
+    attributes:
+      device_class: data_rate
+      unit_of_measurement: "MB/s"
+
+  - name: "Лог фајл"
+    id: "sensor.log_file_size"
+    state: "106"
+    attributes:
+      device_class: data_size
+      unit_of_measurement: "kB"
+
+  - name: "Следећи рођендан"
+    id: "sensor.next_birthday"
+    state: "2024-04-01"
+    attributes:
+      device_class: date
+
+  - name: "Километража аутомобила"
+    id: "sensor.car_mileage"
+    state: "65536"
+    attributes:
+      device_class: distance
+      unit_of_measurement: "km"
+
+  - name: "Актуелни програм машине за прање судова"
+    id: "sensor.dishwasher_program_duration"
+    state: "64"
+    attributes:
+      device_class: duration
+      unit_of_measurement: "min"
+
+  - name: "Соларна производња"
+    id: "sensor.solar_production"
+    state: "3.2"
+    attributes:
+      device_class: energy
+      unit_of_measurement: "kWh"
+
+  - name: "Повервалл ускладиштена енергија"
+    id: "sensor.powerwall_stored_energy"
+    state: "6"
+    attributes:
+      device_class: energy_storage
+      unit_of_measurement: "kWh"
+
+  - name: "Мрежна фреквенција наизменичне струје"
+    id: "sensor.grid_frequency"
+    state: "51"
+    attributes:
+      device_class: frequency
+      unit_of_measurement: "Hz"
+
+  - name: "Месечна потрошња гаса"
+    id: "sensor.monthly_gas_consumption"
+    state: "12"
+    attributes:
+      device_class: gas
+      unit_of_measurement: "m³"
+
+  - name: "Влажност у дневној соби"
+    id: "sensor.living_room_humidity"
+    state: "48"
+    attributes:
+      device_class: humidity
+      unit_of_measurement: "%"
+
+  - name: "Осветљеност дневне собе"
+    id: "sensor.living_room_illuminance"
+    state: "438"
+    attributes:
+      device_class: illuminance
+      unit_of_measurement: "lux"
+
+  - name: "Осветљење грејача у дневној соби"
+    id: "sensor.living_room_heater_irradiance"
+    state: "155"
+    attributes:
+      device_class: irradiance
+      unit_of_measurement: "W/m²"
+
+  - name: "Миксер за пивару"
+    id: "sensor.bewery_mixer_moisture"
+    state: "83"
+    attributes:
+      device_class: moisture
+      unit_of_measurement: "%"
+
+  - name: "Цена по кВ"
+    id: "sensor.price_per_kW"
+    state: "1"
+    attributes:
+      device_class: monetary
+      unit_of_measurement: "EUR"
+
+  - name: "Топлотна пумпа НО2 сензор"
+    id: "sensor.heat_pump_no2"
+    state: "50"
+    attributes:
+      device_class: nitrogen_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Топлотна пумпа НО сензора"
+    id: "sensor.heat_pump_no"
+    state: "50"
+    attributes:
+      device_class: nitrogen_monoxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Топлотна пумпа Н2О сензор"
+    id: "sensor.heat_pump_n2o"
+    state: "50"
+    attributes:
+      device_class: nitrous_oxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Сензор озона у дневној соби"
+    id: "sensor.living_room_ozone"
+    state: "50"
+    attributes:
+      device_class: ozone
+      unit_of_measurement: "µg/m³"
+
+  - name: "ПМ1 сензор за дневни боравак"
+    id: "sensor.living_room_pm1"
+    state: "50"
+    attributes:
+      device_class: pm1
+      unit_of_measurement: "µg/m³"
+
+  - name: "Сензор ПМ2,5 дневне собе"
+    id: "sensor.living_room_pm25"
+    state: "50"
+    attributes:
+      device_class: pm25
+      unit_of_measurement: "µg/m³"
+
+  - name: "Сензор ПМ10 у дневној соби"
+    id: "sensor.living_room_pm10"
+    state: "50"
+    attributes:
+      device_class: pm10
+      unit_of_measurement: "µg/m³"
+
+  - name: "Фактор снаге зидног утикача"
+    id: "sensor.wall_plug_power_factor"
+    state: "2"
+    attributes:
+      device_class: power_factor
+
+  - name: "Снага клима уређаја"
+    id: "sensor.aircon_power"
+    state: "380"
+    attributes:
+      device_class: power
+      unit_of_measurement: "W"
+
+  - name: "Спољни сензор за кишу"
+    id: "sensor.rain_sensor_total"
+    state: "29"
+    attributes:
+      device_class: precipitation
+      unit_of_measurement: "mm"
+
+  - name: "Спољни сензор за кишу"
+    id: "sensor.rain_sensor_intensity"
+    state: "144"
+    attributes:
+      device_class: precipitation_intensity
+      unit_of_measurement: "mm/h"
+
+  - name: "Притисак у гумама аутомобила"
+    id: "sensor.tyre_pressure"
+    state: "2.1"
+    attributes:
+      device_class: pressure
+      unit_of_measurement: "bar"
+
+  - name: "Реактивна снага пумпе за воду"
+    id: "sensor.water_pump_reactive_power"
+    state: "22"
+    attributes:
+      device_class: reactive_power
+      unit_of_measurement: "VAR"
+
+  - name: "ГСМ сигнал мог телефона"
+    id: "sensor.my_phone_gsm_signal"
+    state: "-43"
+    attributes:
+      device_class: signal_strength
+      unit_of_measurement: "dBm"
+
+  - name: "Акустични притисак звучне траке"
+    id: "sensor.sound_bar_sound_pressure"
+    state: "62"
+    attributes:
+      device_class: sound_pressure
+      unit_of_measurement: "dB"
+
+  - name: "Брзина путовања"
+    id: "sensor.traveling speed"
+    state: "67"
+    attributes:
+      device_class: speed
+      unit_of_measurement: "km/h"
+
+  - name: "Топлотна пумпа СО2 сензор"
+    id: "sensor.heat_pump_so2"
+    state: "50"
+    attributes:
+      device_class: sulphur_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Пећ"
+    id: "sensor.furnace_temperature"
+    state: "380"
+    attributes:
+      device_class: temperature
+      unit_of_measurement: "°C"
+
+  - name: "Пу пу сензор"
+    id: "sensor.voc_sensor"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds
+      unit_of_measurement: "µg/m³"
+
+  - name: "Пу пу сензор 2"
+    id: "sensor.voc_sensor_parts"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds_parts
+      unit_of_measurement: "ppm"
+
+  - name: "Улазни напон"
+    id: "sensor.input_voltage"
+    state: "12"
+    attributes:
+      device_class: voltage
+      unit_of_measurement: "V"
+
+  - name: "Употреба пумпе за воду данас"
+    id: "sensor.water_pump_usage_today"
+    state: "1356"
+    attributes:
+      device_class: volume
+      unit_of_measurement: "L"
+
+  - name: "Пуфер водене пумпе"
+    id: "sensor.water_pump_buffer"
+    state: "28"
+    attributes:
+      device_class: volume_storage
+      unit_of_measurement: "L"
+
+  - name: "Употреба водене пумпе"
+    id: "sensor.water_pump_usage"
+    state: "5987"
+    attributes:
+      device_class: water
+      unit_of_measurement: "L"
+
+  - name: "Сензор тежина кревета"
+    id: "sensor.bed_sensor_weight"
+    state: "87"
+    attributes:
+      device_class: weight
+      unit_of_measurement: "kg"
+
+  - name: "Мистрал"
+    id: "sensor.mistral_speed"
+    state: "33"
+    attributes:
+      device_class: wind_speed
+      unit_of_measurement: "km/h"
+
   - name: "Београд[y]"
     id: "weather.beograd"
     state: "rainy"
     attributes:
       temperature: "8"
       temperature_unit: "°C"
+
   - name: "Јагодин(a|и|y)"
     id: "weather.jagodina"
     state: "snowy"
     attributes:
       temperature: "8"
       temperature_unit: "°C"
+
+  - name: "Драган"
+    id: "person.драган"
+    state: "home"
+  - name: "Јелена"
+    id: "person.јелена"
+    state: "Work"
+  - name: "Новак"
+    id: "person.новак"
+    state: "not_home"
+
   - name: "данас"
     id: "todo.today"
     state: ""
+
   - name: "главн(и|ог) вентил[а]"
     id: "valve.main_valve"
     state: "open"
     attributes:
       position: "100"
+
+  - name: "ТВ"
+    id: "media_player.tv"
+    area: "living_room_id"
+    state: "idle"
+    attributes:
+      volume_level: "50"
+
   - name: "Roborock"
     id: "vacuum.roborock"
-    area: "living_room"
+    area: "living_room_id"
     state: "idle"
 
 timers:
@@ -136,7 +771,7 @@ timers:
     rounded_hours_left: 0
     rounded_minutes_left: 25
     rounded_seconds_left: 0
-  - area: "kitchen"
+  - area: "kitchen_id"
     start_minutes: 5
     total_seconds_left: 190
     rounded_hours_left: 0

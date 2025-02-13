@@ -3,7 +3,9 @@ intents:
   HassGetState:
     data:
       - sentences:
-          - (ba [<ahal>] dakizu|esaidazu|zein da) [uneko|momentu honetako] <name>[[r]en (egoera|balioa)] [<area>] [zein den]
+          - (ba [<ahal>] dakizu|esaidazu) [uneko|(une|momentu) honetako] {name}ren (egoera|balioa) [{area}n] [zein den]
+          - (zein da|esan) [uneko|(une|momentu) honetako] {name}ren (egoera|balioa) [{area}n]
+          - (zein da|esan) {name} [{area}n]
         response: one
         excludes_context:
           domain:
@@ -11,26 +13,28 @@ intents:
             - script
 
       - sentences:
-          - <name> [<area>[n]] {on_off_states:state} [<ahal>] (dago|da)
+          - "{name} [{area}n] {on_off_states:state} [<ahal>] dago"
         response: one_yesno
         excludes_context:
           domain:
             - cover
 
       - sentences:
-          - ba [<ahal>] dago [batere] {on_off_domains:domain} {on_off_states:state} [<area>]
-          - (ba [<ahal>] dakizu|esaidazu) [batere] {on_off_domains:domain} {on_off_states:state} badagoen [<area>]
+          - ba [<ahal>] dago [batere] {on_off_domains:domain}rik {on_off_states:state} [{area}n]
+          - (ba [<ahal>] dakizu|esaidazu) [batere] {on_off_domains:domain}rik {on_off_states:state} ([ba <ahal> ]dagoen|badagoen) [{area}n]
         response: any
 
       - sentences:
-          - "{on_off_domains:domain} guztiak {on_off_states:state} [<ahal>] daude [<area>]"
-          - <area> {on_off_domains:domain} guztiak {on_off_states:state} [<ahal>] daude
+          - "{on_off_domains:domain} guztiak {on_off_states:state} [<ahal>] daude [{area}n]"
+          - "{area}n {on_off_domains:domain} guztiak {on_off_states:state} [<ahal>] daude"
         response: all
 
       - sentences:
-          - "[ba [<ahal>] dakizu] zein {on_off_domains:domain} (dago|daude|dagoen|dauden) {on_off_states:state} [<area>]"
+          - "(ba [<ahal>] dakizu|esaidazu) zein {on_off_domains:domain} (dagoen|dauden) {on_off_states:state} [{area}n]"
+          - "zein {on_off_domains:domain} (dago|daude) {on_off_states:state} [{area}n]"
         response: which
 
       - sentences:
-          - "[(esaidazu|esan)] zenbat {on_off_domains:domain} (daude|dauden) {on_off_states:state} [<area>]"
+          - "(esaidazu|esan) zenbat {on_off_domains:domain} dauden {on_off_states:state} [{area}n]"
+          - "zenbat {on_off_domains:domain} daude {on_off_states:state} [{area}n]"
         response: how_many
