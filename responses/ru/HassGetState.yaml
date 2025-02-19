@@ -5,7 +5,17 @@ responses:
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
-        {{ slots.name | capitalize }} {{ state.state_with_unit }}
+        {% if state.state_with_unit == 'open': %}
+           Открыто
+        {% elif state.state_with_unit == 'closed': %}
+           Закрыто
+        {% elif state.state_with_unit == 'on': %}
+           Включено
+        {% elif state.state_with_unit == 'off': %}
+           Выключено
+        {% else %}
+           {{ slots.name | capitalize }} {{ state.state_with_unit }}
+        {% endif %}
 
       one_yesno: |
         {% if query.matched %}
