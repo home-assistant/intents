@@ -342,6 +342,30 @@ lists:
     wildcard: true
   zone:
     wildcard: true
+
+  numbers_fonetic:
+    values:
+      - in: "jedn(a|u)"
+        out: 1
+      - in: "dv(a|ě)"
+        out: 2
+  timer_range_seconds:
+    range:
+      from: 1
+      to: 120
+  timer_range_minutes:
+    range:
+      from: 1
+      to: 120
+  timer_range_hours:
+    range:
+      from: 1
+      to: 24
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
   message:
     wildcard: true
 
@@ -384,6 +408,7 @@ expansion_rules:
   y_e: "(ý|ej|á|é|ých|ejch|o)"
   ktere: "(kter<y_e>|jak[<y_e>])"
   nektere: "(někter<y_e>|nějak[<y_e>])"
+  vsechny: "(všechny|každ<y_e>)"
   byl: "byl[(a|o|i|y)]"
   je: "(je|jsou)"
   bude: "bud(e|ou)"
@@ -393,6 +418,27 @@ expansion_rules:
       <jaky_je> (<class>;[[na|z]měřen<y_e>]) [<v>] [sen(z|s)or(u|em)] {name} [<area>]|
       <jaky_je> <area> (<class>;[[na|z]měřen<y_e>]) [<v>] [sen(z|s)or(u|em)] {name}
     )
+  sekunda: "(sekund[(a|u|y)]|vteřin[(a|u|y)])"
+  minuta: "minut[(a|u|y)]"
+  hodina: "hodin[(a|u|y)]"
+  casovac: "časovač[e|i|ů]"
+  konc_prid_jm_tvrd: "(ý|ého|ému|ém|ým|á|é|ou|ém|ým|í|ých|ými)"
+  nazvany: "(nazvan<konc_prid_jm_tvrd>|[po]jmenovan<konc_prid_jm_tvrd>)"
+
+  # Timers
+  timer_set: "[s]pus(ť|tit)|nastav[it]"
+  timer_cancel: "zastav[it]|zruš[it]|vypn(i|out)"
+  timer_pause: "pozastav[it]|přeruš[it]"
+  timer_unpause: "znovu spus(ť|tit)"
+  timer_duration_seconds: "({timer_range_seconds:seconds}|{numbers_fonetic:seconds}) <sekunda>"
+  timer_duration_minutes: "({timer_range_minutes:minutes}|{numbers_fonetic:minutes}) <minuta> [[a] <timer_duration_seconds>]"
+  timer_duration_hours: "({timer_range_hours:hours}|{numbers_fonetic:hours}) <hodina> [[a] <timer_duration_minutes>]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "({timer_range_seconds:start_seconds}|{numbers_fonetic:start_seconds}) <sekunda>"
+  timer_start_minutes: "({timer_range_minutes:start_minutes}|{numbers_fonetic:start_minutes}) <minuta> [[a] <timer_start_seconds>]"
+  timer_start_hours: "({timer_range_hours:start_hours}|{numbers_fonetic:start_hours}) <hodina> [[a] <timer_start_minutes>]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - "prosím"

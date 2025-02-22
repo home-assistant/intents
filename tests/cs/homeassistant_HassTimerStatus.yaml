@@ -1,0 +1,51 @@
+---
+language: cs
+tests:
+  - sentences:
+      - "stav časovače"
+      - "stav časovačů"
+      - "kolik zbývá času na časovač"
+      - "jaký je zbývající čas do časovače"
+    intent:
+      name: HassTimerStatus
+    response: |
+      2 časovače spuštěny. 1 časovač pozastaven. Zbývající čas 3 minuty na časovači spuštěném na 5 minut v kuchyni.
+
+  - sentences:
+      - "stav časovače na 1 hodinu"
+      - "kolik zbývá času na časovač na 1 hodinu"
+      - "jaký je zbývající čas do časovače na 1 hodinu"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 1
+    response: |
+      Časovač je pozastaven. Zbývající čas 1 minuta 40 sekund.
+
+  - sentences:
+      - "stav časovače pizza"
+      - "stav časovače pojmenovaného pizza"
+      - "kolik zbývá času na časovač pojmenovaný pizza"
+      - "kolik zbývá času na časovač pizza"
+      - "jaký je zbývající čas do časovače pojmenovaného pizza"
+      - "jaký je zbývající čas do časovače pizza"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name: "pizza"
+    response: |
+      Zbývající čas 25 minut.
+
+  - sentences:
+      - "stav časovače v kuchyni"
+      - "kolik zbývá času na časovač v kuchyni"
+      - "jaký je zbývající čas do časovače v kuchyni"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area:
+          - Kuchyň
+          - Kuchyni
+          - Kuchyně
+    response: |
+      Zbývající čas 3 minuty.
