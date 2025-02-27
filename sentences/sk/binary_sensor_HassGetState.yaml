@@ -2,66 +2,1041 @@ language: sk
 intents:
   HassGetState:
     data:
+      # https://www.home-assistant.io/integrations/binary_sensor/
+      # Batéria
       - sentences:
-          - "<is> {name} {bs_states:state} [<area>]"
-        response: one_yesno
+          - "<is> ([senzor] [batéri(e|a|í)] {name};[<area>]) {bs_battery_states:state}"
+        response: bs_yesno
         requires_context:
           domain: binary_sensor
+          device_class: battery
         slots:
           domain: binary_sensor
+          device_class: battery
 
       - sentences:
-          - "<is> <area> {bs_classes:device_class} {bs_states:state}"
-          - "<is> <area> {bs_states:state} {bs_classes:device_class}"
-          - "<is> {bs_states:state} [<area>] {bs_classes:device_class} [<area>]"
-          - "<is> {bs_classes:device_class} [<area>] {bs_states:state} [<area>]"
-        response: one_yesno
-        slots:
-          domain: binary_sensor
-          device_class:
-            - door
-            - garage_door
-            - window
-
-      - sentences:
-          - "<is> <any> {bs_classes:device_class} {bs_states:state} [<area>]"
-          - "<is> {bs_states:state} <any> {bs_classes:device_class} [<area>]"
+          - "<is> (<any> batéri(a|e);[<area>]) {bs_battery_states:state}"
         response: any
         slots:
           domain: binary_sensor
-          device_class:
-            - door
-            - garage_door
-            - window
+          device_class: battery
 
       - sentences:
-          - "<is> <all> {bs_classes:device_class} {bs_states:state} [<area>]"
-          - "<is> {bs_states:state} <all> {bs_classes:device_class} [<area>]"
-        response: all
+          - "sú (všetky batérie;[<area>]) {bs_battery_states:state}"
+        response: bs_all
         slots:
           domain: binary_sensor
-          device_class:
-            - door
-            - garage_door
-            - window
+          device_class: battery
 
       - sentences:
-          - "<which> {bs_classes:device_class} [<is>] [<area>] [<is>] {bs_states:state} [<area>]"
+          - "<which> batéri(a|e) ([<area>];<is>) {bs_battery_states:state}"
         response: which
         slots:
           domain: binary_sensor
-          device_class:
-            - door
-            - garage_door
-            - window
+          device_class: battery
 
       - sentences:
-          - "<how_many> {bs_classes:device_class} [<is>] [<area>] [<is>] {bs_states:state} [<area>]"
-          - "<how_many> [<is>] {bs_states:state} [<area>] {bs_classes:device_class} [<is>] [<area>]"
+          - "koľko batérií ([<area>];je) {bs_battery_states:state}"
         response: how_many
         slots:
           domain: binary_sensor
-          device_class:
-            - door
-            - garage_door
-            - window
+          device_class: battery
+
+      # Nabíjanie batérie
+      - sentences:
+          - "<is> ([senzor] [nabíjania] {name};[<area>]) [v stave] {bs_battery_charging_states:state}"
+          - "{bs_battery_charging_states:state} ([batéria] {name};[<area>])"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: battery_charging
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "{bs_battery_charging_states:state} ((niektoré|nejak(á|é)) batéri(a|e);[<area>])"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "nabíjajú sa (všetky batérie;[<area>])"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+          state: "on"
+
+      - sentences:
+          - "vybíjajú sa (všetky batérie;[<area>])"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+          state: "off"
+
+      - sentences:
+          - "<which> batéri(a|e) [<area>] {bs_battery_charging_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      - sentences:
+          - "koľko batérií [<area>] {bs_battery_charging_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: battery_charging
+
+      # Oxid uhoľnatý
+      - sentences:
+          - "<is> ([senzor] [CO|oxidu uhoľnatého] {name};[<area>]) [v stave] {bs_carbon_monoxide_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "<is> (<any> senzor[y] (CO|oxidu uhoľnatého);[<area>]) [v stave] {bs_carbon_monoxide_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "je [niekde|<area>] (detegovaný|zistený|zistená prítomnosť) (CO|oxid uhoľnat(ý|ého))"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+          state: "on"
+
+      - sentences:
+          - "sú (všetky senzory (CO|oxidu uhoľnatého);[<area>]) v stave {bs_carbon_monoxide_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "<which> senzor[y] (CO|oxidu uhoľnatého) ([<area>];<is>) v stave {bs_carbon_monoxide_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      - sentences:
+          - "koľko senzorov (CO|oxidu uhoľnatého) ([<area>];je) v stave {bs_carbon_monoxide_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: carbon_monoxide
+
+      # Chlad/zima
+      - sentences:
+          - "<is> ([senzor] [chladu] {name};[<area>]) [v stave] {bs_cold_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: cold
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "<is> (<any> senzor[y] chladu;[<area>]) [v stave] {bs_cold_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "sú (všetky senzory chladu;[<area>]) [v stave] {bs_cold_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "<which> senzor[y] chladu ([<area>];<is>) [v stave] {bs_cold_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      - sentences:
+          - "koľko senzorov chladu ([<area>];je) [v stave] {bs_cold_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: cold
+
+      # Konektivita
+      - sentences:
+          - "<is> ([senzor] [pripojeni(a|e)] {name};[<area>]) [v stave] {bs_connectivity_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: connectivity
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<is> (<any> zariadeni(e|a);[<area>]) {bs_connectivity_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "sú (všetky zariadenia;[<area>]) {bs_connectivity_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "<which> zariadeni(a|e) ([<area>];<is>) {bs_connectivity_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      - sentences:
+          - "koľko zariadení ([<area>];je) {bs_connectivity_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: connectivity
+
+      # Dvere
+      - sentences:
+          - "<is> ({name};[<area>]) {bs_door_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: door
+        slots:
+          domain: binary_sensor
+          device_class: door
+
+      # Garážová brána
+      - sentences:
+          - "<is> ({name};[<area>]) {bs_garage_door_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: garage_door
+        slots:
+          domain: binary_sensor
+          device_class: garage_door
+
+      # Plyn
+      - sentences:
+          - "<is> ([senzor] [plynu] {name};[<area>]) [v stave] {bs_gas_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: gas
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "<is> (<any> senzor[y] plynu;[<area>]) [v stave] {bs_gas_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "je [niekde|<area>] [detegovaný|zistený] [nejaký] plyn [<area>]"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: gas
+          state: "on"
+
+      - sentences:
+          - "sú (všetky senzory plynu;[<area>]) [v stave] {bs_gas_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "<which> senzor[y] plynu ([<area>];<is>) [v stave] {bs_gas_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      - sentences:
+          - "koľko senzorov plynu ([<area>];je) [v stave] {bs_gas_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: gas
+
+      # Teplo
+      - sentences:
+          - "<is> ([senzor] [prehriatia|tepla] {name};[<area>]) [v stave] {bs_heat_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: heat
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "<is> (<any> senzor[y] (prehriatia|tepla);[<area>]) [v stave] {bs_heat_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "sú (všetky senzory (prehriatia|tepla);[<area>]) [v stave] {bs_heat_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "<which> senzor[y] (prehriatia|tepla) ([<area>];<is>) [v stave] {bs_heat_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      - sentences:
+          - "koľko senzorov (prehriatia|tepla) ([<area>];je) [v stave] {bs_heat_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: heat
+
+      # Svetlo
+      - sentences:
+          - "(<is>|deteguje) ([senzor] [svetla] {name};[<area>]) [v stave] {bs_light_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: light
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "(<is>|deteguj(e|ú)) (<any> senzor[y] svetla;[<area>]) [v stave] {bs_light_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "(sú|detegujú) (všetky senzory svetla;[<area>]) [v stave] {bs_light_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "<which> senzor[y] svetla ([<area>];<is> [v stave]) {bs_light_states:state}"
+          - "<which> senzor[y] svetla ([<area>];detegujú) {bs_light_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      - sentences:
+          - "koľko senzorov svetla ([<area>];je [v stave]) {bs_light_states:state}"
+          - "koľko senzorov svetla ([<area>];deteguje) {bs_light_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: light
+
+      # Zámok
+      - sentences:
+          - "<is> ([zámok] {name};[<area>]) {bs_lock_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: lock
+        slots:
+          domain: binary_sensor
+          device_class: lock
+
+      # Vlhkosť
+      - sentences:
+          - "<is> ([senzor] [vlhkosti] {name};[<area>]) {bs_moisture_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: moisture
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "<is> (<any> senzor[y] (vlhkosti|záplavy|potopy);[<area>]) {bs_moisture_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "je (niekde|<area>) [(zistený|detegovaný)] (únik vody|záplava|potopa)"
+          - "je <area> (únik vody|pod vodou|voda|zaplaven[á])"
+          - "je voda <area>"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+          state: "on"
+
+      - sentences:
+          - "sú (všetky senzory (vlhkosti|záplavy|potopy);[<area>]) [v stave] {bs_moisture_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "<which> senzor[y] (vlhkosti|záplavy|potopy) ([<area>];<is>) {bs_moisture_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      - sentences:
+          - "koľko senzorov (vlhkosti|záplavy|potopy) ([<area>];je) {bs_moisture_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: moisture
+
+      # Pohyb
+      - sentences:
+          - "<is> ([senzor] [pohybu] {name};[<area>]) [v stave] {bs_motion_states:state}"
+          - "<is> ([na senzore] {name};[<area>]) {bs_motion_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "<is> (<any> senzor[y] pohybu;[<area>]) [v stave] {bs_motion_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "(je|bol) ([detegovaný|zistený] [nejaký] pohyb;[<area>|niekde])"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: motion
+          state: "on"
+
+      - sentences:
+          - "sú (všetky (senzory|detektory) pohybu;[<area>]) [v stave] {bs_motion_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "<which> (senzor|detektor)[y] pohybu ([<area>];<is>) [v stave] {bs_motion_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
+          - "koľko (senzorov|detektorov) pohybu ([<area>];<is>) [v stave] {bs_motion_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      # Obsadenosť/prítomnosť
+      - sentences:
+          - "(<is>|deteguje) ([senzor] [prítomnosti|obsadenosti] {name};[<area>]) [v stave] {bs_occupancy_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: occupancy
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "(<is>|deteguje) (<any> senzor[y] (prítomnosti|obsadenosti);[<area>]) [v stave] {bs_occupancy_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "je ([niekde|<area>];(zisten|detegovan)(á|é) {bs_occupancy_states:state})"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+          state: "on"
+
+      - sentences:
+          - "sú (všetky senzory (prítomnosti|obsadenosti);[<area>]) [v stave] {bs_occupancy_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "<which> senzor[y] (prítomnosti|obsadenosti) ([<area>];<is>) [v stave] {bs_occupancy_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      - sentences:
+          - "koľko senzorov (prítomnosti|obsadenosti) ([<area>];<is>) [v stave] {bs_occupancy_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: occupancy
+
+      # Otváranie
+      - sentences:
+          - "<is> ([senzor] [otvorenia] {name};[<area>]) [v stave] {bs_opening_states:state}"
+          - "<is> {bs_opening_states:state} {name}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: opening
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "<is> (<any> senzor[y] otvorenia;[<area>]) [v stave] {bs_opening_states:state}"
+          - "je niekde [<area>] {bs_opening_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "sú (všetky senzory otvorenia;[<area>]) [v stave] {bs_opening_states:state}"
+          - "je všade [<area>] {bs_opening_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "<which> senzor[y] otvorenia ([<area>];<is>) [v stave] {bs_opening_states:state}"
+          - "kde [<area>] je {bs_opening_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      - sentences:
+          - "koľko senzorov otvorenia ([<area>];<is>) [v stave] {bs_opening_states:state}"
+          - "koľko (dverí|okien) [<area>] je {bs_opening_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: opening
+
+      # Zásuvka
+      - sentences:
+          - "<is> ([zásuvka] {name};[<area>]) {bs_plug_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: plug
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "<is> (<any> zásuvk(a|y);[<area>]) {bs_plug_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "sú (všetky zásuvky;[<area>]) {bs_plug_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "<which> zásuvk(a|y) ([<area>];<is>) {bs_plug_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      - sentences:
+          - "koľko zásuviek ([<area>];<is>) {bs_plug_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: plug
+
+      # Napájanie
+      - sentences:
+          - "<is> [senzor] ({name};[<area>]) {bs_power_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: power
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "<is> (<any> zariadeni(e|a);[<area>]) {bs_power_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "sú (všetky zariadenia;[<area>]) {bs_power_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "<which> zariadeni(e|a) ([<area>];<is>) {bs_power_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      - sentences:
+          - "koľko zariadení ([<area>];je) {bs_power_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: power
+
+      # Prítomnosť
+      - sentences:
+          - "<is> ({name};[<area>]) [v stave] {bs_presence_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: presence
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "<is> (<any> zariadeni(e|a);[<area>]) [v stave] {bs_presence_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "sú (všetky zariadenia;[<area>]) [v stave] {bs_presence_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "<which> zariadeni(e|a) ([<area>];<is>) [v stave] {bs_presence_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      - sentences:
+          - "koľko zariadení ([<area>];je) [v stave] {bs_presence_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: presence
+
+      # Problém
+      - sentences:
+          - "(<is>|hlási[a]) ({name};[<area>]) [v stave|stav] {bs_problem_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: problem
+        slots:
+          domain: binary_sensor
+          device_class: problem
+
+      - sentences:
+          - "(<is>|hlási[a]) (<any> zariadeni(e|a);[<area>]) [v stave|stav] {bs_problem_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: problem
+
+      - sentences:
+          - "(sú|hlásia) (všetky zariadenia;[<area>]) [v stave|stav] {bs_problem_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: problem
+
+      - sentences:
+          - "<which> zariadeni(e|a) ([<area>];(<is>|hlási[a])) [v stave|stav] {bs_problem_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: problem
+
+      - sentences:
+          - "koľko zariadení ([<area>];(je|hlási)) [v stave|stav] {bs_problem_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: problem
+
+      # Spustenie
+      - sentences:
+          - "<is> ({name};[<area>]) [v stave] {bs_running_states:state}"
+          - "{bs_running_states:state} ({name};[<area>])"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: running
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "<is> (<any> zariadeni(e|a);[<area>]) [v stave] {bs_running_states:state}"
+          - "{bs_running_states:state} (<any> zariadeni(e|a);[<area>])"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "sú (všetky zariadenia;[<area>]) [v stave] {bs_running_states:state}"
+          - "{bs_running_states:state} (všetky zariadenia;[<area>])"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "<which> zariadeni(e|a) ([<area>];<is>) [v stave] {bs_running_states:state}"
+          - "<which> zariadeni(e|a) {bs_running_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      - sentences:
+          - "koľko zariadení ([<area>];je) [v stave] {bs_running_states:state}"
+          - "koľko zariadení [<area>] {bs_running_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: running
+
+      # Bezpečnosť
+      - sentences:
+          - "<is> ({name};[<area>]) [v stave] {bs_safety_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: safety
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      - sentences:
+          - "<is> (<any> zariadeni(e|a);[<area>]) [v stave] {bs_safety_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      - sentences:
+          - "sú (všetky zariadenia;[<area>]) [v stave] {bs_safety_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      - sentences:
+          - "<which> zariadeni(e|a) ([<area>];<is>) [v stave] {bs_safety_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      - sentences:
+          - "koľko zariadení ([<area>];je) [v stave] {bs_safety_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: safety
+
+      # Dym
+      - sentences:
+          - "(<is>|deteguje) ([senzor] [dymu] {name};[<area>]) [v stave] {bs_smoke_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: smoke
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "<is> (<any> senzor[y] dymu;[<area>]) [v stave] {bs_smoke_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "je [niekde|<area>] (detegova|ziste)ný dym"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
+
+      - sentences:
+          - "sú (všetky senzory dymu;[<area>]) [v stave] {bs_smoke_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "<which> senzor[y] dymu ([<area>];<is>) [v stave] {bs_smoke_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      - sentences:
+          - "<which> senzor[y] [dymu] detegujú dym"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+          state: "on"
+
+      - sentences:
+          - "koľko senzorov dymu ([<area>];je) [v stave] {bs_smoke_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: smoke
+
+      # Zvuk
+      - sentences:
+          - "(<is>|deteguje) ([senzor] [zvuku|hluku] {name};[<area>]) [v stave] {bs_sound_states:state}"
+          - "{bs_sound_states:state} ([senzor] [zvuku|hluku] {name};[<area>])"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: sound
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "(<is>|deteguj(e|ú)) (<any> senzor[y] (zvuku|hluku);[<area>]) [v stave] {bs_sound_states:state}"
+          - "{bs_sound_states:state} (<any> senzor (zvuku|hluku);[<area>])"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "detegujú (všetky senzory (zvuku|hluku);[<area>]) {bs_sound_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "<which> senzor[y] (zvuku|hluku) ([<area>];deteguj(e|ú)) {bs_sound_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      - sentences:
+          - "koľko senzorov (zvuku|hluku) ([<area>];deteguje) {bs_sound_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: sound
+
+      # Manipulácia
+      - sentences:
+          - "<is> ([senzor] [manipulácie] {name};[<area>]) [v stave] {bs_tamper_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: tamper
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      - sentences:
+          - "<is> (<any> senzor[y] manipulácie;[<area>]) [v stave] {bs_tamper_states:state}"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      - sentences:
+          - "sú (všetky senzory manipulácie;[<area>]) [v stave] {bs_tamper_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      - sentences:
+          - "<which> senzor[y] manipulácie ([<area>];<is>) [v stave] {bs_tamper_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      - sentences:
+          - "koľko senzorov manipulácie ([<area>];je) [v stave] {bs_tamper_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: tamper
+
+      # Aktualizácie
+      - sentences:
+          - "má ({name};[<area>]) {bs_update_states:state}"
+          - "je pre ({name};[<area>]) {bs_update_states:state}"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: update
+        slots:
+          domain: binary_sensor
+          device_class: update
+
+      - sentences:
+          - "<is> k dispozícii <any> aktualizáci(a|e)"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "sú všetky zariadenia aktuálne"
+          - "je všetko aktuálne"
+          - "používa všetko aktuálnu verziu"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "off"
+
+      - sentences:
+          - "pre <which> zariadeni(e|a) <is> k dispozícii aktualizáci(a|e)"
+          - "<which> zariadeni(e|a) (je možné|sa dá) aktualizovať"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      - sentences:
+          - "koľko aktualizácií je k dispozícii"
+          - "koľko zariadení má k dispozícii aktualizáciu"
+          - "koľko zariadení (je možné|sa dá) aktualizovať"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: update
+          state: "on"
+
+      # Vibrácia
+      - sentences:
+          - "<is> ([senzor] [vibráci(e|í)] {name};[<area>]) [v stave] {bs_vibration_states:state}"
+          - "{bs_vibration_states:state} ([senzor] {name};[<area>])"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: vibration
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "<is> (<any> senzor[y] vibráci(e|í);[<area>]) [v stave] {bs_vibration_states:state}"
+          - "{bs_vibration_states:state} (<any> (senzor[y]|zariadeni(e|a));[<area>])"
+        response: any
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "sú (všetky senzory vibráci(e|í);[<area>]) [v stave] {bs_vibration_states:state}"
+        response: bs_all
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "<which> senzor[y] vibráci(e|í) ([<area>];<is>) [v stave] {bs_vibration_states:state}"
+          - "<which> (senzor[y]|zariadeni(e|a)) [<area>] {bs_vibration_states:state}"
+        response: which
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      - sentences:
+          - "koľko senzorov vibráci(e|í) ([<area>];je) [v stave] {bs_vibration_states:state}"
+          - "koľko (seznrov|zariadení) {bs_vibration_states:state}"
+        response: how_many
+        slots:
+          domain: binary_sensor
+          device_class: vibration
+
+      # Okno
+      - sentences:
+          - "<is> {name} {bs_window_states:state} [<area>]"
+        response: bs_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: window
+        slots:
+          domain: binary_sensor
+          device_class: window

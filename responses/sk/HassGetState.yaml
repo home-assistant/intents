@@ -2,6 +2,8 @@ language: sk
 responses:
   intents:
     HassGetState:
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
       one: "{{ slots.name }} je {{ state.state_with_unit }}"
 
       one_yesno: |
@@ -20,13 +22,24 @@ responses:
 
       all: |
         {% if not query.unmatched: %}
-        Áno
-        {% else: %}
-          {% set match = query.matched | map(attribute="name") | sort | list %}
-          {% if match | length > 4 %}
-            Nie, {{ match[:3] | join(", ") }} a {{ (match | length - 3) }} ďalšie
+          Áno
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nie, {{ no_match[:3] | join(", ") }} a {{ (no_match | length - 3) }} ďalšie sú {{ state.state_with_unit }}
           {%- else -%}
-            Nie, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
+            Nie,
+            {% if state.state_with_unit == "home" %}
+              {% set state_with_unit = "doma" %}
+            {% elif state.state_with_unit == "not_home" %}
+              {% set state_with_unit = "mimo domu" %}
+            {% else %}
+              {% set state_with_unit = state.state_with_unit %}
+            {% endif %}
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} a {% endif -%}
+              {{ name }}
+            {%- endfor %} {{ 'nie je' if no_match | length == 1 else 'nie sú'}} {{ state_with_unit }}
           {% endif %}
         {% endif %}
 
@@ -47,4 +60,42 @@ responses:
         0
         {% else: %}
         {{ query.matched | length }}
+        {% endif %}
+
+      one_cover: |
+        {% set present_continuous = ('je', 'jú', 'ra') %}
+        {% set present_simple = ('no', 'ná', 'né') %}
+
+        {{ slots.name | capitalize }} {{ 'sa' if state.state_with_unit.endswith(present_continuous) else 'je' }} {{ state.state_with_unit }}
+
+      bs_all: |
+        {% if not query.unmatched: %}
+          Áno
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nie, {{ no_match[:3] | join(", ") }} a {{ (no_match | length - 3) }} ďalšie nie sú
+          {%- else -%}
+            Nie,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} a {% endif -%}
+              {{ name }}
+            {%- endfor %} {{ 'nie je' if no_match | length == 1 else 'nie sú'}}
+          {% endif %}
+        {% endif %}
+
+      bs_yesno: |
+        {% if query.matched %}
+          Áno
+        {% else %}
+          Nie
+        {% endif %}
+
+      where: |
+        {% if state.state == "not_home" %}
+          {{ slots.name | capitalize }} je mimo domu
+        {% elif state.state == "home" %}
+          {{ slots.name | capitalize }} je doma
+        {% else %}
+          {{ slots.name | capitalize }} je v zóne {{ state.state }}
         {% endif %}
