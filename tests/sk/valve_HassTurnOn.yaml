@@ -1,0 +1,69 @@
+language: sk
+tests:
+  - sentences:
+      - "otvor rozstrekovač"
+      - "otvoriť ventil rozstrekovača"
+      - "otvor hlavný uzáver vody"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: valve
+        name:
+          - rozstrekovač
+          - rozstrekovača
+          - hlavný uzáver vody
+    response:
+          - Otváram rozstrekovač
+          - Otváram rozstrekovača
+          - Otváram hlavný uzáver vody
+
+  - sentences:
+      - "otvoriť rozstrekovač záhrada"
+      - "spusti rozstrekovač na záhrade"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: valve
+        name:
+          - rozstrekovač
+          - rozstrekovača
+        area:
+          - záhrada
+          - záhrade
+    response: "Otváram rozstrekovač"
+
+  - sentences:
+      - "otvoriť ventil záhrada"
+      - "spustiť ventily na záhrade"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: valve
+        area:
+          - záhrada
+          - záhrade
+    response: "Otváram"
+
+  - sentences:
+      - "otvoriť ventil na spodnom poschodí"
+      - "otvor ventil na prízemí"
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: valve
+        floor:
+          - spodnom poschodí
+          - prízemí
+    response: "Otváram"
+
+  - sentences:
+      - "otvoriť ventil"
+      - "otvor tu ventily"
+    intent:
+      name: HassTurnOn
+      context:
+        area: záhrada
+      slots:
+        domain: valve
+        area: záhrada
+    response: "Otváram"

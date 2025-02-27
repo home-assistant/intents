@@ -3,19 +3,74 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <open> <name>
-        response: cover_device_class
+          - "<open_door> (garáž|bránu od garáže|garážovú bránu)"
         slots:
-          device_class: garage
           domain: cover
-          name: <name>
+          device_class: garage
+        response: garage
+
       - sentences:
-          - <open> <name> <area>
-        response: cover_area
-        slots:
+          - "<open_door> {name} [<area>]"
+        requires_context:
+          domain: cover
           device_class:
+            - garage
+        slots:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<open_curtain> {name} [<area>]"
+        requires_context:
+          domain: cover
+          device_class:
+            - awning
             - blind
             - curtain
+            - shade
+            - shutter
+        slots:
+          domain: cover
+        response: curtain
+
+      - sentences:
+          - "<open_door> ({cover_classes:device_class};<area_floor>)"
+        slots:
+          domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+        response: cover
+
+      - sentences:
+          - "<open_curtain> ({cover_classes:device_class};<area_floor>)"
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
             - shutter
           domain: cover
-          name: <name>
+        response: curtain
+
+      - sentences:
+          - "<open_door> ({cover_classes:device_class};[<here>])"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<open_curtain> ({cover_classes:device_class};[<here>])"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: cover
+        response: curtain

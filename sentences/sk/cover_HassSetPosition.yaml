@@ -1,0 +1,31 @@
+language: sk
+intents:
+  HassSetPosition:
+    data:
+      - sentences:
+          - "(<close_curtain>|<open_curtain>|<set>) ([(pozíciu|(ná|s)klon|uhol|polohu)] {name};[<area>]) [na] <position>"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<close_curtain>|<open_curtain>|<set>) ([(pozíciu|(ná|s)klon|uhol|polohu)] {cover_classes:device_class};<area>) [na] <position>"
+        requires_context:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<close_curtain>|<open_curtain>|<set>) [<here>] [(pozíciu|(ná|s)klon|uhol|polohu)] {cover_classes:device_class} [na] <position>"
+        requires_context:
+          area:
+            domain: cover
+            slot: true
+        slots:
+          domain: cover

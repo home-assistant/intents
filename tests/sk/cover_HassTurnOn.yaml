@@ -2,15 +2,39 @@ language: sk
 tests:
   - sentences:
       - otvor garážovú bránu
+      - otvor garáž
+      - otvoriť garáž
     intent:
       name: HassTurnOn
       slots:
         device_class: garage
         domain: cover
-        name: garážovú bránu
-    response: Otváram garážovú bránu
+    response: Otváram
+
+  - sentences:
+      - otvor malú garážovú bránu
+      - otvoriť malú garážovú bránu
+      - prosím otvor malú garážovú bránu
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: cover
+        name: malú garážovú bránu
+    response: Otváram malú garážovú bránu
+
+  - sentences:
+      - vytiahni prednú roletu
+      - vytiahnuť prednú roletu
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: cover
+        name: prednú roletu
+    response: "Vyťahujem prednú roletu"
+
   - sentences:
       - otvor rolety v kuchyni
+      - otvor žalúzie v kuchyni
     intent:
       name: HassTurnOn
       slots:
@@ -21,17 +45,8 @@ tests:
           - curtain
           - shutter
         domain: cover
-        name: rolety
-    response: Otváram rolety v kuchyni
-  - sentences:
-      - Otvor garáž
-    intent:
-      name: HassTurnOn
-      slots:
-        domain: cover
-        device_class: garage
-        name: garáž
-    response: Otváram garáž
+    response: Otváram
+
   - sentences:
       - odostri závesy v obývačke
     intent:
@@ -44,10 +59,10 @@ tests:
           - blind
           - curtain
           - shutter
-        name: závesy
-    response: Otváram závesy v obývačke
+    response: Vyťahujem
+
   - sentences:
-      - vytiahni rolety v obývačke
+      - vytiahni závesy v obývačke
     intent:
       name: HassTurnOn
       slots:
@@ -58,5 +73,40 @@ tests:
           - blind
           - curtain
           - shutter
-        name: rolety
-    response: Otváram rolety v obývačke
+    response: Otváram
+
+  - sentences:
+      - otvor tu rolety
+    intent:
+      name: HassTurnOn
+      context:
+        area: kuchyni
+      slots:
+        domain: cover
+        area:
+          - kuchyni
+        device_class:
+          - awning
+          - blind
+          - curtain
+          - shade
+          - shutter
+    response: Otváram
+
+  - sentences:
+      - odostri žalúzie v tejto miestnosti
+    intent:
+      name: HassTurnOn
+      context:
+        area: kuchyni
+      slots:
+        domain: cover
+        area:
+          - kuchyni
+        device_class:
+          - awning
+          - blind
+          - curtain
+          - shade
+          - shutter
+    response: Vyťahujem
