@@ -1,0 +1,407 @@
+language: kw
+responses:
+  errors:
+    no_intent: "Drog yw genev, ny yllis vy konvedhes henna"
+    handle_error: "Kamm anwaytys re hwarva"
+
+    # Errors for when user is not logged in
+    no_area: "Drog yw genev, ny aswonav arenebedh henwys {{ area }}"
+    no_floor: "Drog yw genev, ny aswonav leur henwys {{ floor }}"
+    no_domain: "Drog yw genev, ny aswonav {{ domain }} vyth"
+    no_domain_in_area: "Drog yw genev, ny aswonav {{ domain }} vyth y'n arenebedh {{ area }}"
+    no_domain_in_floor: "Drog yw genev, ny aswonav {{ domain }} vyth war an leur {{ floor }}"
+    no_device_class: "Drog yw genev, ny aswonav {{ device_class }} vyth"
+    no_device_class_in_area: "Drog yw genev, ny aswonav {{ device_class }} vyth y'n {{ area }} arenebedh"
+    no_device_class_in_floor: "Drog yw genev, ny aswonav {{ device_class }} vyth y'n y'n leur {{ floor }}"
+    no_entity: "Drog yw genev, ny aswonav devis vyth henwys {{ entity }}"
+    no_entity_in_area: "Drog yw genev, ny aswonav devis vyth henwys {{ entity }} y'n arenebedh {{ area }}"
+    no_entity_in_floor: "Drog yw genev, ny aswonav devis vyth henwys {{ entity }} y'n leur {{ floor }}"
+    entity_wrong_state: "Drog yw genev, nyns eus devis vyth neb yw {{ state | lower }}"
+    feature_not_supported: "Drog yw genev, nyns eus devis a yll skodha an nasyow res"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Drog yw genev, nyns yw {{ entity }} diskevrys"
+    no_entity_in_area_exposed: "Drog yw genev, nyns yw {{ entity }} y'n arenebedh {{ area }} diskevrys"
+    no_entity_in_floor_exposed: "Drog yw genev, {{ entity }} in the {{ floor }} floor is not exposed"
+    no_domain_exposed: "Drog yw genev, nyns eus {{ domain }} diskevrys"
+    no_domain_in_area_exposed: "Drog yw genev, nyns eus {{ domain }} diskevrys y'n arenebedh {{ area }}"
+    no_domain_in_floor_exposed: "Drog yw genev, nyns eus {{ domain }} diskevrys y'n leur {{ floor }}"
+    no_device_class_exposed: "Drog yw genev, nyns eus {{ device_class }} diskevrys"
+    no_device_class_in_area_exposed: "Drog yw genev, nyns eus {{ device_class }} diskevrys y'n arenebedh {{ area }}"
+    no_device_class_in_floor_exposed: "Drog yw genev, nyns eus {{ device_class }} diskevrys y'n leur {{ floor }}"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Drog yw genev, yma devisyow liesplek henwys {{ entity }}"
+    duplicate_entities_in_area: "Drog yw genev, yma devisyow liesplek henwys {{ entity }} y'n arenebedh {{ area }}"
+    duplicate_entities_in_floor: "Drog yw genev, yma devisyow liesplek henwys {{ entity }} y'n leur {{ floor }}"
+
+    # Errors for timers
+    timer_not_found: "Drog yw genev, ny yllis vy kavos an termynador na"
+    multiple_timers_matched: "Drog yw genev, ny allav vy kostenna termynadoryon liesplek"
+    no_timer_support: "Drog yw genev, nyns yw termynadoryon skodhys gans an devis ma"
+lists:
+  color:
+    values:
+      - in: "(gwynn|wynn)"
+        out: "white"
+      - in: "(du|dhu)"
+        out: "black"
+      - in: "rudh"
+        out: "red"
+      - in: "(rudhvelyn|melynrudh)"
+        out: "orange"
+      - in: "(melyn|velyn)"
+        out: "yellow"
+      - in: "(gwyrdh|wyrdh)"
+        out: "green"
+      - in: "(glas|las)"
+        out: "blue"
+      - in: "(purpur|glasrudh|rudhlas)"
+        out: "purple"
+      - in: "(gorm|gell)"
+        out: "brown"
+      - in: "(rudhwyn|gwynnrudh)"
+        out: "pink"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+      fractions: "halves"
+  brightness_level:
+    values:
+      - in: (ughboynt|an moyha)
+        out: 100
+      - in: (ispoynt|an lyha)
+        out: 1
+  on_off_states:
+    values:
+      - in: "yn fyw"
+        out: "on"
+      - in: "yn farow"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: golow[ys]
+        out: light
+      - in: (gwynsell[ow]|wynsell[ow])
+        out: fan
+      - in: skwychell[ow]
+        out: switch
+  cover_states:
+    values:
+      - in: "ygor"
+        out: "open"
+      - in: "deges"
+        out: "closed"
+      - in: "owth ygeri"
+        out: "opening"
+      - in: "ow tegea"
+        out: "closing"
+  cover_classes:
+    values:
+      #- in: awning[s]
+      #  out: awning
+      - in: (lenn dhu|lennow du)
+        out: blind
+      - in: korglen[now]
+        out: curtain
+      - in: daras[ow]
+        out: door
+      - in: (daras karrji|darasow karrji)
+        out: garage
+      - in: (yet|yetys|yetow)
+        out: gate
+      - in: (goskes|gosketter)
+        out: shade
+      #- in: shutter[s]
+      #  out: shutter
+      - in: (fenester|fenestri)
+        out: window
+  lock_states:
+    values:
+      - in: "alhwedhys [yn tiogel]"
+        out: "locked"
+      - in: "analhwedys"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "isel"
+        out: "on"
+      - in: "(usys|usadow|normal|charjys)"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "ow charjya"
+        out: "on"
+      - in: "ow kortos"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(helerghys|yn fyw)"
+        out: "on"
+      - in: "kler"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "yeyn"
+        out: "on"
+      - in: "(usys|usadow|normal)"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "(junys|rosweythys|omjunys)"
+        out: "on"
+      - in: "(anjunys|anrosweythys)"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "ygor"
+        out: "on"
+      - in: "deges"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "ygor"
+        out: "on"
+      - in: "deges"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(helerghys|yn fyw)"
+        out: "on"
+      - in: "kler"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "(tomm|pooth)"
+        out: "on"
+      - in: "(normal|usys|usadow)"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "helerghys"
+        out: "on"
+      - in: "(nyns eus golow|golow vyth)"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "(analhwedhys|anbrennys)"
+        out: "on"
+      - in: "(alhwedhys|prennys)"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "glyb"
+        out: "on"
+      - in: "sygh"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "(helerghys|yn fyw)"
+        out: "on"
+      - in: "kler"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(helerghys|yn fyw)"
+        out: "on"
+      - in: "kler"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "ygor"
+        out: "on"
+      - in: "deges"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "ebilys"
+        out: "on"
+      - in: "anebilys"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "nerth helerghys"
+        out: "on"
+      - in: "nyns eus nerth"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "tre"
+        out: "on"
+      - in: "(dhe ves|gyllys)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "helerghys"
+        out: "on"
+      - in: "da lowr"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "owth oberi"
+        out: "on"
+      - in: "nyns eus owth oberi"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "diantel"
+        out: "on"
+      - in: "(saw|salow)"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "(helerghys|yn fyw)"
+        out: "on"
+      - in: "kler"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(helerghys|yn fyw)"
+        out: "on"
+      - in: "kler"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "helerghys"
+        out: "on"
+      - in: "kler"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "nowedheans kavadow"
+        out: "on"
+      - in: "nowedhys"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(helerghys|ow krena)"
+        out: "on"
+      - in: "(kler|nyns eus ow krena)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "ygor"
+        out: "on"
+      - in: "deges"
+        out: "off"
+
+  shopping_list_item:
+    wildcard: true
+
+  zone:
+    wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "half"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
+  message:
+    wildcard: true
+
+expansion_rules:
+  the: "(an|ow|agan)"
+  name: "[<the>] {name}"
+  area: "[<the>] {area}"
+  floor: "[<the>] [leur] {floor}"
+  area_floor: "(<area>|<floor>)"
+  in_area_floor: "[<in>] <area_floor>"
+  in: "(yn|y'n|war|orth|dhe|dres|a-dro [dhe])"
+  turn: "(treyl|skwych|chanj|dro)"
+  light: "(golow|golowys|golowyans|lugarn|lugern)"
+
+  what_is: "(pyth|pyth yw|lavar dhymm) [<the>]"
+  lockable: "[<the>] (lock|door|window|gate|garage door|shutter)[s]"
+  where_is: "ple'ma"
+  which: "py [(a'n|anedha)]"
+  is: "(yw|eus) [<the>]"
+  are: "<is>"
+  any: "nebes [<the>]"
+  are_any: "[<are>] <any>"
+  how_many: "(py lies|pygemmys) [<the>]"
+  brightness: "{brightness}[([ ]%)| kannsrann]"
+  temp: "tempredh"
+  temperature: "{temperature}[([ ]°)|( degre)]"
+  open: "(ygeri|drehevel)"
+  close: "degea"
+  set: "(sett|gorr|chanj|treyl)"
+  clean: glanha
+
+  numeric_value_set: "(set|change|turn [(up|down)]|increase|decrease|make)"
+  position: "{position}[([ ]%)| percent]"
+  volume: "{volume:volume_level}[([ ]%)| percent]"
+  currently: "(currently|presently|right now|at the moment)"
+  state: "[(present|current)] (state|status)"
+
+skip_words:
+  - "mar pleg"
+  - "a yll'ta"
+  - "ragov [vy]"
+  - "y fia da genev [vy]"
+  - "my a vynn"
+  - "my a vynnsa"
