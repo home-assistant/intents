@@ -86,7 +86,7 @@ LANGUAGES_SCHEMA = vol.Schema(
                 str: {
                     vol.Optional("speech-to-text"): {
                         vol.Optional("speech-to-phrase"): bool,
-                        vol.Optional("whisper-wer"): vol.Any(float, int),
+                        vol.Optional("whisper"): bool,
                     },
                     vol.Optional("text-to-speech"): {
                         vol.Optional("piper"): bool,
