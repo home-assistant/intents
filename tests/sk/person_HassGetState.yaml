@@ -1,0 +1,136 @@
+language: sk
+tests:
+  - sentences:
+      - "kde je Oľga"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Oľga
+    response: "Oľga je doma"
+
+  - sentences:
+      - "je Jozef doma"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Jozef
+        state: home
+    response: "Jozef je v zóne práca"
+
+  - sentences:
+      - "je Jozef v zóne práca"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Jozef
+        state: práca
+    response: "Áno"
+
+  - sentences:
+      - "je Xavier mimo domu"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Xavier
+        state: not_home
+    response: "Xavier je mimo domu"
+
+  - sentences:
+      - "sú všetci doma"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: home
+    response: "Nie, Jozef a Xavier nie sú doma"
+
+  - sentences:
+      - "sú všetci preč"
+      - "sú všetci na ceste"
+      - "sú všetci mimo domu"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Nie, Jozef a Oľga nie sú mimo domu"
+
+  - sentences:
+      - "koľko ľudí je v zóne práca"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: práca
+    response: "1"
+
+  - sentences:
+      - "kde je Jozef"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Jozef
+    response: "Jozef je v zóne práca"
+
+  - sentences:
+      - "je niekto doma"
+      - "kto je doma"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: home
+    response: "Oľga"
+
+  - sentences:
+      - "kto je v zóne práca"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: práca
+    response: "Áno, Jozef"
+
+  - sentences:
+      - "Je Xavier mimo domu"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Xavier
+        state: not_home
+    response: "Xavier je mimo domu"
+
+  - sentences:
+      - "kto nie je doma"
+      - "je niekto mimo domu"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "Xavier"
+
+  - sentences:
+      - "koľko ľudí je doma"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: home
+    response: "1"
+
+  - sentences:
+      - "koľko ľudí nie je doma"
+      - "koľko ľudí je preč"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: not_home
+    response: "1"

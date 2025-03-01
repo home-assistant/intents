@@ -9,15 +9,35 @@ intents:
         slots:
           domain: "fan"
         response: "fan"
+
       - sentences:
           - "<turn_on> (ventiláciu|vetranie) <area>"
         slots:
           domain: "fan"
           name: all
         response: "fans_ventilation"
+
       - sentences:
-          - "<turn_on> [(všetky|všetko)] (ventilátory|vetráky|ventiláciu|vetranie) <area>"
+          - "<turn_on> [(všetky|všetko)] [stropné] (ventilátory|vetráky|ventiláciu|vetranie) <area>"
         slots:
           domain: "fan"
           name: "all"
         response: "fans_area"
+
+      - sentences:
+          - "<turn_on> ([<here>];[všetky] [stropné] (ventilátory|vetráky))"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: fan
+        response: "fans_area"
+
+      - sentences:
+          - "<turn_on> ([<here>];[stropné] (ventilátory|vetráky))"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: fan
+        response: "fan"
