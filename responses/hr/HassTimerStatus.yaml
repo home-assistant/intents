@@ -66,6 +66,7 @@ responses:
 
         {% if next_timer: %}
           {# Najmanje jedan aktivan timer #}
+          Preostalo je
           {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
             1 sat i {{ next_timer.rounded_minutes_left }} minuta
           {% elif (next_timer.rounded_hours_left == 1): %}
@@ -90,7 +91,7 @@ responses:
 
           {% if num_timers > 1: %}
             {# Dodatne informacije za razlikovanje #}
-            preostalo na
+            od
             {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
               {{ next_timer.start_hours }} sat i {{ next_timer.start_minutes }} minuta
             {% elif (next_timer.start_hours > 0): %}
@@ -102,7 +103,7 @@ responses:
             {% elif (next_timer.start_seconds > 0): %}
               {{ next_timer.start_seconds }} sekunda
             {% endif %}
-            timeru
+            na timeru
             {% if next_timer.name: %}
               {{ next_timer.name }}
             {% elif next_timer.area: %}
@@ -113,7 +114,6 @@ responses:
               {{ area_name }}
 
             {% endif %}
-          {% else: %}
-            preostalo.
+
           {% endif %}
         {% endif %}
