@@ -2,33 +2,128 @@ language: sk
 tests:
   - sentences:
       - zatvor garáž
+      - zavrieť garáž
+      - zavri garážovú bránu
+      - zatvor bránu od garáže
     intent:
       name: HassTurnOff
       slots:
-        device_class: garage
         domain: cover
-        name: garáž
+        device_class: garage
     response: Zatváram garáž
+
   - sentences:
-      - zatvor garážovú bránu
+      - zatvor malú garážovú bránu
+      - zatvoriť malú garážovú bránu
+      - prosím zatvor malú garážovú bránu
     intent:
       name: HassTurnOff
       slots:
-        device_class: garage
         domain: cover
-        name: garážovú bránu
-    response: Zatváram garážovú bránu
+        name: malú garážovú bránu
+    response: Zatváram malú garážovú bránu
+
   - sentences:
-      - zatvor rolety v kuchyni
+      - zatiahni rolety v kuchyni
+      - zatiahni rolety kuchyňa
     intent:
       name: HassTurnOff
       slots:
         domain: cover
         area:
           - kuchyni
+          - kuchyňa
         device_class:
+          - awning
           - blind
           - curtain
+          - shade
           - shutter
-        name: rolety
-    response: Zatváram rolety v kuchyni
+    response: Zaťahujem
+
+  - sentences:
+      - stiahni prednú roletu
+      - stiahnuť prednú roletu
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        name: prednú roletu
+        device_class:
+          - awning
+          - blind
+          - curtain
+          - shade
+          - shutter
+    response: "Zaťahujem prednú roletu"
+
+  - sentences:
+      - zatiahni modrý záves
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        device_class:
+          - awning
+          - blind
+          - curtain
+          - shade
+          - shutter
+        name: modrý záves
+    response: Zaťahujem modrý záves
+
+  - sentences:
+      - stiahni rolety
+    intent:
+      name: HassTurnOff
+      context:
+        area: obývačka
+      slots:
+        domain: cover
+        device_class:
+          - awning
+          - blind
+          - curtain
+          - shade
+          - shutter
+        area: obývačka
+    response: Zaťahujem
+
+  - sentences:
+      - zatvor markízy na dolnom poschodí
+      - zatvor markízy na spodnom poschodí
+      - zatvoriť závesy na vrchnom poschodí
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: cover
+        device_class:
+          - awning
+          - blind
+          - curtain
+          - shade
+          - shutter
+        floor:
+          - dolnom poschodí
+          - spodnom poschodí
+          - vrchnom poschodí
+    response: Zatváram
+
+  - sentences:
+      - "stiahni žalúzie v tejto miestnosti"
+      - "stiahni tu žalúzie"
+    intent:
+      name: HassTurnOff
+      context:
+        area: kuchyni
+      slots:
+        domain: cover
+        area:
+          - kuchyni
+        device_class:
+          - awning
+          - blind
+          - curtain
+          - shade
+          - shutter
+    response: Zaťahujem

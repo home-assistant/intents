@@ -1,17 +1,40 @@
 language: sk
 tests:
   - sentences:
+      - zapni biely ventilátor
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: fan
+        name:
+          - biely ventilátor
+    response: Ventilátor bol zapnutý
+
+  - sentences:
+      - zapni stropný ventilátor
+      - zapni tu stropný ventilátor
+      - stropný ventilátor zapnúť
+      - zapnúť ventilátor v tejto miestnosti
+    intent:
+      name: HassTurnOn
+      slots:
+        area: obývačka
+        domain: fan
+      context:
+        area: obývačka
+    response: Ventilátory v obývačka boli zapnuté
+
+  - sentences:
+      - stropný ventilátor v obývačke zapnúť
       - zapni ventilátor v obývačke
       - zapni vetrák v obývačke
     intent:
       name: HassTurnOn
       slots:
+        area: obývačke
         domain: fan
-        area:
-          - obývačka
-          - obývačke
-          - obývačku
-          - obývačky
+    response: Ventilátor bol zapnutý
+
   - sentences:
       - zapni všetky ventilátory v obývačke
       - zapni všetky vetráky v obývačke
@@ -30,6 +53,10 @@ tests:
           - obývačky
         domain: fan
         name: all
+    response:
+      - Ventilátory v obývačke boli zapnuté
+      - Vetranie obývačky bolo spustené
+      - Vetranie obývačke bolo spustené
 
   - sentences:
       - zapni všetky ventilátory v kuchyni
@@ -39,7 +66,6 @@ tests:
       - zapni ventiláciu v kuchyni
       - zapni vetranie v kuchyni
       - zapni vetranie kuchyne
-
     intent:
       name: HassTurnOn
       slots:
@@ -50,6 +76,11 @@ tests:
           - kuchyňu
         domain: fan
         name: all
+    response:
+      - Ventilátory v kuchyni boli zapnuté
+      - Vetranie kuchyni bolo spustené
+      - Vetranie kuchyne bolo spustené
+
   - sentences:
       - zapni ventilátor v spálni
       - zapni vetrák v spálni
@@ -62,6 +93,8 @@ tests:
           - spálne
           - spálňu
         domain: fan
+    response: Ventilátor bol zapnutý
+
   - sentences:
       - zapni všetky ventilátory v spálni
       - zapni všetky vetráky v spálni
@@ -80,3 +113,8 @@ tests:
           - spálňu
         domain: fan
         name: all
+    response:
+      - Ventilátory v spálni boli zapnuté
+      - Vetranie spálni bolo spustené
+      - Vetranie spálne bolo spustené'
+      - Vetranie spálne bolo spustené
