@@ -1,0 +1,23 @@
+language: sk
+intents:
+  HassSetPosition:
+    data:
+      - sentences:
+          - "(<open_valve>|<close_valve>|<set>) ([(pozíciu|polohu)] {name};[<area>]) [na] <position>"
+        requires_context:
+          domain: valve
+        slots:
+          domain: valve
+
+      - sentences:
+          - "(<open_valve>|<close_valve>|<set>) ([(pozíciu|polohu)] ventil[u|y|ov];<area>) [na] <position>"
+        slots:
+          domain: valve
+
+      - sentences:
+          - "(<open_valve>|<close_valve>|<set>) [<here>] [(pozíciu|polohu)] ventil[u|y|ov] [na] <position>"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: valve

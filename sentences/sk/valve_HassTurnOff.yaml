@@ -1,0 +1,30 @@
+language: sk
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - "<close_valve> [ventil] {name} [<area>]"
+        requires_context:
+          domain: valve
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "<close_valve> (ventil[y];<area_floor>)"
+          - "<close_valve> ventil[y] <area_floor>"
+          - "x <area_floor>"
+          - "x <floor>"
+          - x
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "<close_valve> (ventil[y];[<here>])"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: valve
+        response: valve
