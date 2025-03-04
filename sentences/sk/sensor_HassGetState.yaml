@@ -1,0 +1,574 @@
+language: sk
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/sensor/
+      # Zdanlivý výkon
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: apparent_power
+        slots:
+          domain: sensor
+          device_class: apparent_power
+        expansion_rules:
+          class: "zdanlivý výkon"
+
+      # Index kvality ovzdušia
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: aqi
+        slots:
+          domain: sensor
+          device_class: aqi
+        expansion_rules:
+          class: "[index] kvalit(y|a) (vzduchu|ovzdušia)"
+
+      # Atmosferický tlak
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: atmospheric_pressure
+        slots:
+          domain: sensor
+          device_class: atmospheric_pressure
+        expansion_rules:
+          class: "[atmosferický] tlak [vzduchu]"
+
+      # Batéria
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: battery
+        slots:
+          domain: sensor
+          device_class: battery
+        expansion_rules:
+          class: "(nabitá|[(stav|úroveň|percento)] [nabitia]) batéri(a|e)"
+
+      # CO2
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: carbon_dioxide
+        slots:
+          domain: sensor
+          device_class: carbon_dioxide
+        expansion_rules:
+          class: "[(koncentrácia|úroveň)] (oxid[u] uhličit(ý|ého)|CO2)"
+
+      # CO
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: carbon_monoxide
+        slots:
+          domain: sensor
+          device_class: carbon_monoxide
+        expansion_rules:
+          class: "[(koncentrácia|úroveň)] (oxid[u] uhoľnat(ý|ého)|CO)"
+
+      # Prúd
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: current
+        slots:
+          domain: sensor
+          device_class: current
+        expansion_rules:
+          class: "[elektrick(ý|ého)] prúd[u]"
+
+      # Rýchlosť sťahovania/nahrávania
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: data_rate
+        slots:
+          domain: sensor
+          device_class: data_rate
+        expansion_rules:
+          class: "rýchlosť (sťahovania|preberania|uploadu|nahrávania) [dát|údajov]"
+
+      # Veľkosť dát
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: data_size
+        slots:
+          domain: sensor
+          device_class: data_size
+        expansion_rules:
+          class: "(veľkosť (dát|údajov|súboru)|objem dát|veľký súbor)"
+
+      # Dátum
+      - sentences:
+          - "aký (<was>|<is>|<will_be>) {name}"
+          - "kedy (<was>|<is>|<will_be>) {name}"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: date
+        slots:
+          domain: sensor
+          device_class: date
+
+      # Vzdialenosť
+      - sentences:
+          - "<what_is_the_class_of_name>"
+          - "ako (ďaleko|dlh(ý|á|é)) <is> {name}"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: distance
+        slots:
+          domain: sensor
+          device_class: distance
+        expansion_rules:
+          class: "vzdialenosť"
+
+      # Trvanie
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: duration
+        slots:
+          domain: sensor
+          device_class: duration
+        expansion_rules:
+          class: "(doba [trvania]|dlho [bude] trv(á|alo|ať))"
+
+      # Energia
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: energy
+        slots:
+          domain: sensor
+          device_class: energy
+        expansion_rules:
+          class: "[množstvo] energie"
+
+      # Uložená energia
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: energy_storage
+        slots:
+          domain: sensor
+          device_class: energy_storage
+        expansion_rules:
+          class: "[množstvo] uložen(ej|á) energi(a|e)"
+
+      # Frekvencia
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: frequency
+        slots:
+          domain: sensor
+          device_class: frequency
+        expansion_rules:
+          class: "frekvencia"
+
+      # Plyn
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: gas
+        slots:
+          domain: sensor
+          device_class: gas
+        expansion_rules:
+          class: "(objem|množstvo) plynu"
+
+      # Vlhkosť
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: humidity
+        slots:
+          domain: sensor
+          device_class: humidity
+        expansion_rules:
+          class: "[relatívna] vlhkosť [vzduchu]"
+
+      # Osvetlenie
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: illuminance
+        slots:
+          domain: sensor
+          device_class: illuminance
+        expansion_rules:
+          class: "[intenzita] (osvetleni(a|e)|svetl(a|o))"
+
+      # Ožiarenie
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: irradiance
+        slots:
+          domain: sensor
+          device_class: irradiance
+        expansion_rules:
+          class: "[množstvo|úroveň] ožiareni(e|a)"
+
+      # Vlhkosť
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: moisture
+        slots:
+          domain: sensor
+          device_class: moisture
+        expansion_rules:
+          class: "[relativna] vlhkosť"
+
+      # Peniaze
+      - sentences:
+          - "<what_is_the_class_of_name>"
+          - "koľko [peňazí] (stojí|stál[o|a|i]) {name}"
+        response: one
+        requires_context:
+          domain: sensor
+          device_class: monetary
+        slots:
+          domain: sensor
+          device_class: monetary
+        expansion_rules:
+          class: "(náklady|[množstvo|objem] peňazí|čiastka)"
+
+      # Oxid dusičitý
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: nitrogen_dioxide
+        slots:
+          domain: sensor
+          device_class: nitrogen_dioxide
+        expansion_rules:
+          class: "(koncentrácia|úroveň) (oxidu dusičitého|NO2)"
+
+      # Oxid dusnatý
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: nitrogen_monoxide
+        slots:
+          domain: sensor
+          device_class: nitrogen_monoxide
+        expansion_rules:
+          class: "(koncentrácia|úroveň) (oxidu dusnatého|NO)"
+
+      # Oxid dusný
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: nitrous_oxide
+        slots:
+          domain: sensor
+          device_class: nitrous_oxide
+        expansion_rules:
+          class: "(koncentrácia|úroveň) (oxidu dusného|N2O)"
+
+      # Ozón
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: ozone
+        slots:
+          domain: sensor
+          device_class: ozone
+        expansion_rules:
+          class: "(koncentrácia|úroveň) (ozónu|O3)"
+
+      # PM1
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: pm1
+        slots:
+          domain: sensor
+          device_class: pm1
+        expansion_rules:
+          class: "(koncentrácia|úroveň) [častíc] pm1 [častíc] [vo vzduchu]"
+
+      # PM2.5
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: pm25
+        slots:
+          domain: sensor
+          device_class: pm25
+        expansion_rules:
+          class: "(koncentrácia|úroveň) [častíc] pm2.5 [častíc] [vo vzduchu]"
+
+      # PM10
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: pm10
+        slots:
+          domain: sensor
+          device_class: pm10
+        expansion_rules:
+          class: "(koncentrácia|úroveň) [častíc] pm10 [častíc] [vo vzduchu]"
+
+      # Účinník
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: power_factor
+        slots:
+          domain: sensor
+          device_class: power_factor
+        expansion_rules:
+          class: "účinník"
+
+      # Výkon
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: power
+        slots:
+          domain: sensor
+          device_class: power
+        expansion_rules:
+          class: "výkon"
+
+      # Zrážky
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: precipitation
+        slots:
+          domain: sensor
+          device_class: precipitation
+        expansion_rules:
+          class: "[[s]úhrn[y]|celkové] [množstvo] [dažďových|snehových]"
+
+      # Intenzita zrážok
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: precipitation_intensity
+        slots:
+          domain: sensor
+          device_class: precipitation_intensity
+        expansion_rules:
+          class: "intenzita [(dažďových|snehových)] zrážok"
+
+      # Tlak
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: pressure
+        slots:
+          domain: sensor
+          device_class: pressure
+        expansion_rules:
+          class: "tlak"
+
+      # Jalový výkon
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: reactive_power
+        slots:
+          domain: sensor
+          device_class: reactive_power
+        expansion_rules:
+          class: "jalový výkon"
+
+      # Sila signálu
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: signal_strength
+        slots:
+          domain: sensor
+          device_class: signal_strength
+        expansion_rules:
+          class: "(signál|sila signálu)"
+
+      # Akustický talk
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: sound_pressure
+        slots:
+          domain: sensor
+          device_class: sound_pressure
+        expansion_rules:
+          class: "(zvukový|akustický) tlak"
+
+      # Rýchlosť
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: speed
+        slots:
+          domain: sensor
+          device_class: speed
+        expansion_rules:
+          class: "rýchlosť"
+
+      # Oxid siričitý
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: sulphur_dioxide
+        slots:
+          domain: sensor
+          device_class: sulphur_dioxide
+        expansion_rules:
+          class: "(koncentrácia|úroveň) (oxidu siričitého|SO2)"
+
+      # Teplota
+      - sentences:
+          - "<what_is_the_class_of_name>"
+          - "koľko stupňov [je|bolo] [(na|z)merané] [na] [senzor(e|om)] {name} [<area>]"
+        requires_context:
+          domain: sensor
+          device_class: temperature
+        slots:
+          domain: sensor
+          device_class: temperature
+        expansion_rules:
+          class: "teplota"
+
+      # Voľné organické látky
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: volatile_organic_compounds
+        slots:
+          domain: sensor
+          device_class: volatile_organic_compounds
+        expansion_rules:
+          class: "[množstvo] voľných organických látok"
+
+      # Častice voľných organických látok
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: volatile_organic_compounds_parts
+        slots:
+          domain: sensor
+          device_class: volatile_organic_compounds_parts
+        expansion_rules:
+          class: "koncentrácia voľných organických látok"
+
+      # Napätie
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: voltage
+        slots:
+          domain: sensor
+          device_class: voltage
+        expansion_rules:
+          class: "napätie"
+
+      # Objem
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: volume
+        slots:
+          domain: sensor
+          device_class: volume
+        expansion_rules:
+          class: "objem"
+
+      # Uložený objem
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: volume_storage
+        slots:
+          domain: sensor
+          device_class: volume_storage
+        expansion_rules:
+          class: "celkový [uložený] objem"
+
+      # Voda
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: water
+        slots:
+          domain: sensor
+          device_class: water
+        expansion_rules:
+          class: "[celkov(é|ý)] (množstvo|objem) [spotrebovanej] vody"
+
+      # Hmotnosť
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: weight
+        slots:
+          domain: sensor
+          device_class: weight
+        expansion_rules:
+          class: "(hmotnosť|váha)"
+
+      # Rýchlosť vetra
+      - sentences:
+          - "<what_is_the_class_of_name>"
+        requires_context:
+          domain: sensor
+          device_class: wind_speed
+        slots:
+          domain: sensor
+          device_class: wind_speed
+        expansion_rules:
+          class: "rýchlosť vetra"
