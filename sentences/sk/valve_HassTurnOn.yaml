@@ -1,0 +1,26 @@
+language: sk
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<open_valve> [ventil] {name} [<area>]"
+        requires_context:
+          domain: valve
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "<open_valve> (ventil[y];<area_floor>)"
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "<open_valve> (ventil[y];[<here>])"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: valve
+        response: valve
