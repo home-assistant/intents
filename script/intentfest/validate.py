@@ -82,6 +82,18 @@ LANGUAGES_SCHEMA = vol.Schema(
             vol.Required("nativeName"): str,
             vol.Optional("isRTL"): bool,
             vol.Optional("leaders"): [str],
+            vol.Optional("support"): {
+                str: {
+                    vol.Optional("speech-to-text"): {
+                        vol.Optional("speech-to-phrase"): bool,
+                        vol.Optional("whisper"): bool,
+                    },
+                    vol.Optional("text-to-speech"): {
+                        vol.Optional("piper"): bool,
+                        vol.Optional("cloud"): bool,
+                    },
+                }
+            },
         }
     }
 )
