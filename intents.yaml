@@ -259,6 +259,10 @@ HassLightSet:
   slot_combinations:
     # brightness
     - slots:
+        - "brightness"
+      context_area: true
+      example: "set the brightness in here to 50%"
+    - slots:
         - "name"
         - "brightness"
       example: "set the overhead light brightness to 50%"
@@ -271,6 +275,10 @@ HassLightSet:
         - "brightness"
       example: "set the main floor brightness to 50%"
     # color
+    - slots:
+        - "color"
+      context_area: true
+      example: "set the lights in here to red"
     - slots:
         - "name"
         - "color"
@@ -337,6 +345,7 @@ HassClimateGetTemperature:
       required: false
   slot_combinations:
     - slots: []
+      context_area: true
       example: "what is the temperature"
     - slots: "name"
       example: "what is the temperature of the EcoBee"
@@ -363,7 +372,6 @@ HassShoppingListAddItem:
   slot_combinations:
     - slots:
         - "item"
-        - "name"
       example: "add apples to my shopping list"
 
 # -----------------------------------------------------------------------------
@@ -458,6 +466,7 @@ HassMediaPause:
       required: false
   slot_combinations:
     - slots: []
+      context_area: true
       example: "pause"
     - slots: "name"
       example: "pause TV"
@@ -477,6 +486,7 @@ HassMediaUnpause:
       required: false
   slot_combinations:
     - slots: []
+      context_area: true
       example: "resume"
     - slots: "name"
       example: "resume TV"
@@ -496,6 +506,7 @@ HassMediaNext:
       required: false
   slot_combinations:
     - slots: []
+      context_area: true
       example: "next track"
     - slots: "name"
       example: "next track on the stereo"
@@ -515,6 +526,7 @@ HassMediaPrevious:
       required: false
   slot_combinations:
     - slots: []
+      context_area: true
       example: "previous track"
     - slots: "name"
       example: "previous track on the stereo"
@@ -537,6 +549,7 @@ HassSetVolume:
       required: true
   slot_combinations:
     - slots: []
+      context_area: true
       example: "set volume to 50%"
     - slots: "name"
       example: "set TV volume to 50%"
@@ -579,6 +592,10 @@ HassStartTimer:
         - "minutes"
       example: "set a timer for 1 hour and 10 minutes"
     - slots:
+        - "hours"
+        - "seconds"
+      example: "set a timer for 1 hour and 30 seconds"
+    - slots:
         - "minutes"
         - "seconds"
       example: "set a timer for 10 minutes and 30 seconds"
@@ -600,6 +617,16 @@ HassStartTimer:
         - "name"
         - "seconds"
       example: "set a timer for 30 seconds named pizza"
+    - slots:
+        - "name"
+        - "hours"
+        - "minutes"
+      example: "set a timer for 1 hour and 10 minutes named pizza"
+    - slots:
+        - "name"
+        - "hours"
+        - "seconds"
+      example: "set a timer for 1 hour and 30 seconds named pizza"
     - slots:
         - "name"
         - "minutes"
@@ -629,6 +656,11 @@ HassStartTimer:
         - "hours"
         - "minutes"
       example: "turn off the lights in 1 hour and 10 minutes"
+    - slots:
+        - "conversation_command"
+        - "hours"
+        - "seconds"
+      example: "turn off the lights in 1 hour and 30 seconds"
     - slots:
         - "conversation_command"
         - "minutes"
@@ -698,6 +730,10 @@ HassCancelTimer:
       example: "cancel the 1 hour and 10 minutes timer"
     - slots:
         - "start_hours"
+        - "start_seconds"
+      example: "cancel the 1 hour and 30 seconds timer"
+    - slots:
+        - "start_hours"
         - "start_minutes"
         - "start_seconds"
       example: "cancel the 1 hour and 10 minutes and 30 seconds timer"
@@ -743,6 +779,10 @@ HassIncreaseTimer:
         - "minutes"
       example: "add 1 hour and 10 minutes to my timer"
     - slots:
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to my timer"
+    - slots:
         - "minutes"
         - "seconds"
       example: "add 10 minutes and 30 seconds to my timer"
@@ -764,6 +804,16 @@ HassIncreaseTimer:
         - "name"
         - "seconds"
       example: "add 30 seconds to the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "minutes"
+      example: "add 1 hour and 10 minutes to the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to the pizza timer"
     - slots:
         - "name"
         - "minutes"
@@ -793,6 +843,16 @@ HassIncreaseTimer:
         - "minutes"
         - "seconds"
       example: "add 10 minutes and 30 seconds to the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "minutes"
+      example: "add 1 hour and 10 minutes to the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to the kitchen timer"
     - slots:
         - "area"
         - "hours"
@@ -827,6 +887,142 @@ HassIncreaseTimer:
         - "start_seconds"
         - "hours"
       example: "add 1 hour to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+      example: "add 1 hour the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + minutes + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "minutes"
+      example: "add 1 hour and 10 minutes to the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+      example: "add 1 hour and 10 minutes to the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      example: "add 1 hour and 10 minutes to the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+      example: "add 1 hour and 10 minutes to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      example: "add 1 hour and 10 minutes to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      example: "add 1 hour and 10 minutes to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      example: "add 1 hour and 10 minutes to the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + seconds + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      example: "add 1 hour and 30 seconds to the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + minutes + seconds + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 2 hours and 20 minutes and 40 seconds timer"
     # minutes + start
     - slots:
         - "start_hours"
@@ -846,6 +1042,11 @@ HassIncreaseTimer:
         - "minutes"
       example: "add 10 minutes to the 2 hours and 20 minutes timer"
     - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "minutes"
+      example: "add 10 minutes to the 2 hours and 40 seconds timer"
+    - slots:
         - "start_minutes"
         - "start_seconds"
         - "minutes"
@@ -856,6 +1057,47 @@ HassIncreaseTimer:
         - "start_seconds"
         - "minutes"
       example: "add 10 minutes to the 2 hours and 20 minutes and 40 seconds timer"
+    # minutes + seconds + start
+    - slots:
+        - "start_hours"
+        - "minutes"
+        - "seconds"
+      example: "add 10 minutes and 30 seconds to my timer"
+    - slots:
+        - "start_minutes"
+        - "minutes"
+        - "seconds"
+      example: "add 10 minutes and 30 seconds to the 20 minute timer"
+    - slots:
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      example: "add 10 minutes and 30 seconds to the 40 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "minutes"
+        - "seconds"
+      example: "add 10 minutes and 30 seconds to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      example: "add 10 minutes and 30 seconds to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      example: "add 10 minutes and 30 seconds to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      example: "add 10 minutes and 30 seconds to the 2 hours and 20 minutes and 40 seconds timer"
     # seconds + start
     - slots:
         - "start_hours"
@@ -874,6 +1116,11 @@ HassIncreaseTimer:
         - "start_minutes"
         - "seconds"
       example: "add 30 seconds to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "seconds"
+      example: "add 30 seconds to the 2 hours and 40 seconds timer"
     - slots:
         - "start_minutes"
         - "start_seconds"
@@ -927,6 +1174,10 @@ HassDecreaseTimer:
         - "minutes"
       example: "remove 1 hour and 10 minutes from my timer"
     - slots:
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from my timer"
+    - slots:
         - "minutes"
         - "seconds"
       example: "remove 10 minutes and 30 seconds from my timer"
@@ -948,6 +1199,16 @@ HassDecreaseTimer:
         - "name"
         - "seconds"
       example: "remove 30 seconds from the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "minutes"
+      example: "remove 1 hour and 10 minutes from the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from the pizza timer"
     - slots:
         - "name"
         - "minutes"
@@ -977,6 +1238,16 @@ HassDecreaseTimer:
         - "minutes"
         - "seconds"
       example: "remove 10 minutes and 30 seconds from the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "minutes"
+      example: "remove 1 hour and 10 minutes from the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from the kitchen timer"
     - slots:
         - "area"
         - "hours"
@@ -1011,6 +1282,142 @@ HassDecreaseTimer:
         - "start_seconds"
         - "hours"
       example: "remove 1 hour from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+      example: "remove 1 hour the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + minutes + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "minutes"
+      example: "remove 1 hour and 10 minutes from the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+      example: "remove 1 hour and 10 minutes from the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      example: "remove 1 hour and 10 minutes from the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+      example: "remove 1 hour and 10 minutes from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      example: "remove 1 hour and 10 minutes from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      example: "remove 1 hour and 10 minutes from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      example: "remove 1 hour and 10 minutes from the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + seconds + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      example: "remove 1 hour and 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + minutes + seconds + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
     # minutes + start
     - slots:
         - "start_hours"
@@ -1030,6 +1437,11 @@ HassDecreaseTimer:
         - "minutes"
       example: "remove 10 minutes from the 2 hours and 20 minutes timer"
     - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "minutes"
+      example: "remove 10 minutes from the 2 hours and 40 seconds timer"
+    - slots:
         - "start_minutes"
         - "start_seconds"
         - "minutes"
@@ -1040,6 +1452,47 @@ HassDecreaseTimer:
         - "start_seconds"
         - "minutes"
       example: "remove 10 minutes from the 2 hours and 20 minutes and 40 seconds timer"
+    # minutes + seconds + start
+    - slots:
+        - "start_hours"
+        - "minutes"
+        - "seconds"
+      example: "remove 10 minutes and 30 seconds from my timer"
+    - slots:
+        - "start_minutes"
+        - "minutes"
+        - "seconds"
+      example: "remove 10 minutes and 30 seconds from the 20 minute timer"
+    - slots:
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      example: "remove 10 minutes and 30 seconds from the 40 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "minutes"
+        - "seconds"
+      example: "remove 10 minutes and 30 seconds from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      example: "remove 10 minutes and 30 seconds from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      example: "remove 10 minutes and 30 seconds from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      example: "remove 10 minutes and 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
     # seconds + start
     - slots:
         - "start_hours"
@@ -1058,6 +1511,11 @@ HassDecreaseTimer:
         - "start_minutes"
         - "seconds"
       example: "remove 30 seconds from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "seconds"
+      example: "remove 30 seconds from the 2 hours and 40 seconds timer"
     - slots:
         - "start_minutes"
         - "start_seconds"
@@ -1113,6 +1571,10 @@ HassPauseTimer:
       example: "pause the 1 hour and 10 minutes timer"
     - slots:
         - "start_hours"
+        - "start_seconds"
+      example: "pause the 1 hour and 30 seconds timer"
+    - slots:
+        - "start_hours"
         - "start_minutes"
         - "start_seconds"
       example: "pause the 1 hour and 10 minutes and 30 seconds timer"
@@ -1160,6 +1622,10 @@ HassUnpauseTimer:
       example: "resume the 1 hour and 10 minutes timer"
     - slots:
         - "start_hours"
+        - "start_seconds"
+      example: "resume the 1 hour and 30 seconds timer"
+    - slots:
+        - "start_hours"
         - "start_minutes"
         - "start_seconds"
       example: "resume the 1 hour and 10 minutes and 30 seconds timer"
@@ -1205,6 +1671,10 @@ HassTimerStatus:
         - "start_hours"
         - "start_minutes"
       example: "how much time is left on the 1 hour and 10 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+      example: "how much time is left on the 1 hour and 30 seconds timer"
     - slots:
         - "start_hours"
         - "start_minutes"
