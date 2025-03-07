@@ -3,14 +3,14 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "<open_door> (garáž|bránu od garáže|garážovú bránu)"
+          - "<open_door> (garáž|bránu od garáže|garážovú bránu)" # otvor garáž
         slots:
           domain: cover
           device_class: garage
         response: garage
 
       - sentences:
-          - "<open_door> {name} [<area>]"
+          - "<open_door> {name} [<area>]" # otvor malú garážovú bránu
         requires_context:
           domain: cover
           device_class:
@@ -20,7 +20,7 @@ intents:
         response: cover
 
       - sentences:
-          - "<open_curtain> {name} [<area>]"
+          - "<open_curtain> {name} [<area>]" # vytiahni spálňovú roletu
         requires_context:
           domain: cover
           device_class:
@@ -34,7 +34,7 @@ intents:
         response: curtain
 
       - sentences:
-          - "<open_door> ({cover_classes:device_class};<area_floor>)"
+          - "<open_door> ({cover_classes:device_class};<area_floor>)" # otvor dvere/žalúzie v kuchyni
         slots:
           domain: cover
           device_class:
@@ -43,10 +43,10 @@ intents:
             - curtain
             - shade
             - shutter
-        response: cover
+        response: covers_area
 
       - sentences:
-          - "<open_curtain> ({cover_classes:device_class};<area_floor>)"
+          - "<open_curtain> ({cover_classes:device_class};<area_floor>)" # odostri rolety v kuchyni
         slots:
           device_class:
             - awning
@@ -55,22 +55,37 @@ intents:
             - shade
             - shutter
           domain: cover
-        response: curtain
+        response: curtains_area
 
       - sentences:
-          - "<open_door> ({cover_classes:device_class};[<here>])"
+          - "<open_door> ({cover_classes:device_class};[<here>])" # otvor (tu) bránu/roletu/dvere/okno
         requires_context:
           area:
             slot: true
         slots:
           domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - gate
+            - shade
+            - shutter
+            - window
         response: cover
 
       - sentences:
-          - "<open_curtain> ({cover_classes:device_class};[<here>])"
+          - "<open_curtain> ({cover_classes:device_class};[<here>])" # odostri/vytiahni (tu) žalúzie
         requires_context:
           area:
             slot: true
         slots:
           domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
         response: curtain

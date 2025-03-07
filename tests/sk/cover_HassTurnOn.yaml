@@ -9,7 +9,7 @@ tests:
       slots:
         device_class: garage
         domain: cover
-    response: Otváram
+    response: Otváram garáž
 
   - sentences:
       - otvor malú garážovú bránu
@@ -45,7 +45,7 @@ tests:
           - curtain
           - shutter
         domain: cover
-    response: Otváram
+    response: Otváram v kuchyni
 
   - sentences:
       - odostri závesy v obývačke
@@ -59,7 +59,7 @@ tests:
           - blind
           - curtain
           - shutter
-    response: Vyťahujem
+    response: Vyťahujem v obývačke
 
   - sentences:
       - vytiahni závesy v obývačke
@@ -73,28 +73,43 @@ tests:
           - blind
           - curtain
           - shutter
-    response: Otváram
+    response: Otváram v obývačke
 
   - sentences:
-      - otvor tu rolety
+      - otvor tu roletu
+      - otvor tu žalúzie
+      - vytiahni v tejto izbe žalúzie
+      - otvor tu okenice
+      - otvor tu okno
     intent:
       name: HassTurnOn
       context:
-        area: kuchyni
+        area: kuchyňa
+      slots:
+        device_class:
+          - blind
+          - shutter
+          - window
+        domain: cover
+        area: kuchyňa
+    response: Otváram
+
+  - sentences:
+      - otvor tu bránu
+    intent:
+      name: HassTurnOn
+      context:
+        area: garáž
       slots:
         domain: cover
-        area:
-          - kuchyni
+        area: garáž
         device_class:
-          - awning
-          - blind
-          - curtain
-          - shade
-          - shutter
+          - gate
     response: Otváram
 
   - sentences:
       - odostri žalúzie v tejto miestnosti
+      - odostri tu rolety
     intent:
       name: HassTurnOn
       context:
