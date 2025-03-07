@@ -3,21 +3,21 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<turn_off_light> {name}"
+          - "<turn_off_light> {name}" # vypni modrú lampu
         requires_context:
           domain: light
         slots:
           domain: light
-        response: light
+        response: light_named
 
       - sentences:
-          - "(<turn_off>|<turn_off_light>) (svetlo|lampu) <area>"
+          - "(<turn_off>|<turn_off_light>) (svetlo|lampu) <area>" # zapni svetlo v spálni
         slots:
           domain: light
-        response: "lights_area"
+        response: "light_unnamed"
 
       - sentences:
-          - "(<turn_off>|<turn_off_light>) [(všetky|všetko)] [(svetlá|osvetlenie|lampy)] <area>"
+          - "(<turn_off>|<turn_off_light>) [(všetky|všetko)] [(svetlá|osvetlenie|lampy)] <area>" # vypni všetky svetlá v spálni
         slots:
           domain: light
           name: all
@@ -25,12 +25,12 @@ intents:
 
       # satellite
       - sentences:
-          - "<turn_off_light>"
-          - "(<turn_off>|<turn_off_light>) (svetlo|lampu)"
-          - "(<turn_off>|<turn_off_light>) [(všetky|všetko)] (svetlá|osvetlenie|lampy)"
+          - "([<here>];<turn_off_light>)" # vypni (tu) svetlo
+          - "(<turn_off>|<turn_off_light>) (svetlo|lampu)" # zapni svetlo/lampu
+          - "(<turn_off>|<turn_off_light>) [(všetky|všetko)] (svetlá|osvetlenie|lampy)" # zapni (všetky) lampy
         slots:
           domain: light
         requires_context:
           area:
             slot: true
-        response: "lights_area"
+        response: "lights_here"
