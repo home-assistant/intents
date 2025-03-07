@@ -15,5 +15,11 @@ responses:
       cover: "Zatváram {{ slots.name }}"
       garage: "Zatváram garáž"
       curtain: "Zaťahujem {% if slots.name | default(false) %}{{ slots.name }} {% else %} {{ slots.device_class }} {% endif %}"
-      lock: "Odomykám {{ slots.name }}"
+      lock: >
+        Odomykám
+        {% if slots.name == 'all' %}
+        všetky zámky
+        {% else %}
+        {{ slots.name }}
+        {% endif %}
       valve: "Zatváram {{ slots.name }}"
