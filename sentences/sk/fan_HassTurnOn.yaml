@@ -5,7 +5,7 @@ intents:
       # predpriprava na buduce rozsirenie rozdielu jedneho konkretneho vetraka, rekuperacie a vsetkych vetrakov,
       # chyba doplnit nastavenie rychlosti vetraku
       - sentences:
-          - "<turn_on> [[stropný] (ventilátor|vetrák)] <name>"
+          - "<turn_on> [[stropný] (ventilátor|vetrák)] <name>" # zapni biely ventilátor
         requires_context:
           domain: fan
         slots:
@@ -13,46 +13,31 @@ intents:
         response: "fan"
 
       - sentences:
-          - "(<turn_on>;[stropný] (ventilátor|vetrák) <area>)"
+          - "(<turn_on>;[stropný] (ventilátor|vetrák) <area>)" # zapni ventilátor v spálni (lokál)
         slots:
           domain: "fan"
         response: "fan"
 
       - sentences:
-          - "(<turn_on>;[stropný] (ventilátor|vetrák) <area>)"
-        slots:
-          domain: "fan"
-        response: "fan"
-
-      - sentences:
-          - "<turn_on> [stropnú] (ventiláciu|vetranie) <area>"
+          - "<turn_on> [stropnú] (ventiláciu|vetranie) <area>" # zapni ventiláciu spálne (akuzatív)
         slots:
           domain: "fan"
           name: all
         response: "fans_ventilation"
 
       - sentences:
-          - "<turn_on> [(všetky|všetko)] [stropn(é|ú)] (ventilátory|vetráky|ventiláciu|vetranie) <area>"
+          - "<turn_on> [všetky] [stropné] (ventilátory|vetráky) <area>" # zapni všetky (stropné) ventilátory v spálni
         slots:
           domain: "fan"
           name: "all"
         response: "fans_area"
 
       - sentences:
-          - "<turn_on> ([<here>];[všetky] [stropn(ý|é|ú)] (ventilátor[y]|vetrák[y]|ventiláciu))"
-          - "[všetky] [stropn(ý|é|ú)] (ventilátor[y]|vetrák[y]|ventiláciu) <turn_on>"
+          - "<turn_on> ([<here>];[všetky] [stropn(ý|é|ú)] (ventilátor[y]|vetrák[y]|ventiláciu))" # zapni tu vsetky ventilátory
+          - "[všetky] [stropn(ý|é|ú)] (ventilátor[y]|vetrák[y]|ventiláciu) <turn_on>" # zapni všetky ventilátory
         requires_context:
           area:
             slot: true
         slots:
           domain: fan
-        response: "fans_area"
-
-      - sentences:
-          - "<turn_on> ([<here>];[stropn(é|ú)] (ventilátory|vetráky|ventiláciu))"
-        requires_context:
-          area:
-            slot: true
-        slots:
-          domain: fan
-        response: "fan"
+        response: "fans_here"

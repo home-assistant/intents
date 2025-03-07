@@ -1,5 +1,6 @@
 language: sk
 tests:
+  # zapni konkrétny ventilátor
   - sentences:
       - zapni biely ventilátor
     intent:
@@ -8,8 +9,46 @@ tests:
         domain: fan
         name:
           - biely ventilátor
+    response: Ventilátor biely ventilátor bol zapnutý
+
+  # zapni ventilátor v konkrétnej miestnosti
+  - sentences:
+      - stropný ventilátor v obývačke zapnúť
+      - zapni ventilátor v obývačke
+      - zapni vetrák v obývačke
+    intent:
+      name: HassTurnOn
+      slots:
+        area: obývačke
+        domain: fan
     response: Ventilátor bol zapnutý
 
+  # zapni všetky ventilátory v konkrétnej miestnosti
+  - sentences:
+      - zapni všetky ventilátory v obývačke
+      - zapni všetky vetráky v obývačke
+      - zapni vetráky v obývačke
+    intent:
+      name: HassTurnOn
+      slots:
+        area: obývačke
+        domain: fan
+        name: all
+    response: Ventilátory v obývačke boli zapnuté
+
+  # zapni vetranie konkrétnej miestnosti
+  - sentences:
+      - zapni vetranie kuchyne
+      - zapni ventiláciu kuchyne
+    intent:
+      name: HassTurnOn
+      slots:
+        area: kuchyne
+        domain: fan
+        name: all
+    response: Vetranie kuchyne bolo zapnuté
+
+  # zapni vetranie v aktuálnej miestnosti
   - sentences:
       - zapni stropný ventilátor
       - zapni tu stropný ventilátor
@@ -22,99 +61,4 @@ tests:
         domain: fan
       context:
         area: obývačka
-    response: Ventilátory v obývačka boli zapnuté
-
-  - sentences:
-      - stropný ventilátor v obývačke zapnúť
-      - zapni ventilátor v obývačke
-      - zapni vetrák v obývačke
-    intent:
-      name: HassTurnOn
-      slots:
-        area: obývačke
-        domain: fan
-    response: Ventilátor bol zapnutý
-
-  - sentences:
-      - zapni všetky ventilátory v obývačke
-      - zapni všetky vetráky v obývačke
-      - zapni ventilátory v obývačke
-      - zapni vetráky v obývačke
-      - zapni vetranie obývačky
-      - zapni ventiláciu v obývačke
-      - zapni vetranie v obývačke
-    intent:
-      name: HassTurnOn
-      slots:
-        area:
-          - obývačka
-          - obývačke
-          - obývačku
-          - obývačky
-        domain: fan
-        name: all
-    response:
-      - Ventilátory v obývačke boli zapnuté
-      - Vetranie obývačky bolo spustené
-      - Vetranie obývačke bolo spustené
-
-  - sentences:
-      - zapni všetky ventilátory v kuchyni
-      - zapni všetky vetráky v kuchyni
-      - zapni ventilátory v kuchyni
-      - zapni vetráky v kuchyni
-      - zapni ventiláciu v kuchyni
-      - zapni vetranie v kuchyni
-      - zapni vetranie kuchyne
-    intent:
-      name: HassTurnOn
-      slots:
-        area:
-          - kuchyňa
-          - kuchyni
-          - kuchyne
-          - kuchyňu
-        domain: fan
-        name: all
-    response:
-      - Ventilátory v kuchyni boli zapnuté
-      - Vetranie kuchyni bolo spustené
-      - Vetranie kuchyne bolo spustené
-
-  - sentences:
-      - zapni ventilátor v spálni
-      - zapni vetrák v spálni
-    intent:
-      name: HassTurnOn
-      slots:
-        area:
-          - spálňa
-          - spálni
-          - spálne
-          - spálňu
-        domain: fan
-    response: Ventilátor bol zapnutý
-
-  - sentences:
-      - zapni všetky ventilátory v spálni
-      - zapni všetky vetráky v spálni
-      - zapni ventilátory v spálni
-      - zapni vetráky v spálni
-      - zapni ventiláciu v spálni
-      - zapni vetranie v spálni
-      - zapni vetranie spálne
-    intent:
-      name: HassTurnOn
-      slots:
-        area:
-          - spálňa
-          - spálni
-          - spálne
-          - spálňu
-        domain: fan
-        name: all
-    response:
-      - Ventilátory v spálni boli zapnuté
-      - Vetranie spálni bolo spustené
-      - Vetranie spálne bolo spustené'
-      - Vetranie spálne bolo spustené
+    response: Vetranie tu bolo zapnuté
