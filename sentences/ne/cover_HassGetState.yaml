@@ -1,0 +1,44 @@
+language: ne
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "के [<area_floor_in>] <name> {cover_states:state} (छ|छन्|छन)"
+        response: one_yesno
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      # - sentences:
+      #     - "[<area_floor_in>] <name>को <अवस्था> के छ"
+      #   response: one
+      #   requires_context:
+      #     domain: cover
+      #   slots:
+      #     domain: cover
+
+      - sentences:
+          - "के [<area_floor_in>] कुनै {cover_classes:device_class} {cover_states:state} (छ|छन्|छन)"
+        response: any
+        slots:
+          domain: cover
+
+      - sentences:
+          - "के [<area_floor_in>] <सबै> {cover_classes:device_class} {cover_states:state} (छ|छन्|छन)"
+
+        response: all
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area_floor_in>] कुन {cover_classes:device_class} {cover_states:state} (छ|छन्|छन)"
+        response: which
+        slots:
+          domain: cover
+
+      - sentences:
+          - "[<area_floor_in>] कति ओटा {cover_classes:device_class} {cover_states:state} (छ|छन्|छन)"
+        response: how_many
+        slots:
+          domain: cover
