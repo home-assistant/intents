@@ -1,4 +1,12 @@
 language: "sk"
+floors:
+  - name: "(prízem(ie|í)|spodn(é|om) poschod(í|ie)|doln(é|om) poschod(í|ie))"
+    id: ground_floor_id
+  - name: "[prv(é|om)|horn(é|om)|vrchn(é|om)] poschod(í|ie)"
+    id: first_floor_id
+  - name: "poval(a|e)|podkrovie"
+    id: attic_floor_id
+
 areas:
   - name: "kuchy(ňa|ni|ne|ňu|nsk(ý|é)) "
     id: kitchen
@@ -14,6 +22,13 @@ areas:
     id: entrance
   - name: "pred vchodom"
     id: outside_entrance
+  - name: "záhrad(a|e|u)"
+    id: garden
+    floor: ground_floor_id
+  - name: "izb(a|e) pre hostí"
+    id: guest_room
+    floor: attic_floor_id
+
 entities:
   - name: "nočn(á|ú|ej) lamp(a|u|y|e)"
     id: light.bedroom_lamp
@@ -30,17 +45,19 @@ entities:
     area: kitchen
     state: "on"
 
-  - name: "rohová lampa"
+  - name: "rohov(á|ú) lamp(a|u)"
     id: light.living_room_lamp
     area: living_room
     state: "on"
+    attributes:
+      device_class: light
 
   - name: "garážové svetlo"
     id: light.garage
     area: "garage"
     state: "on"
 
-  - name: "stropný ventilátor"
+  - name: "biely ventilátor"
     id: fan.ceiling
     area: living_room
 
@@ -65,6 +82,10 @@ entities:
     area: hallway
 
   - name: "garáž[(ová|ovú) brán(a|u)]"
+    id: cover.garage_doors
+    area: garage
+
+  - name: "mal(á|ú) garáž[(ová|ovú) brán(a|u)]"
     id: cover.garage_doors
     area: garage
 
@@ -186,6 +207,87 @@ entities:
       out: "off"
     attributes:
       device_class: door
+
+  - name: "garáž[(ová|ovú) brán(a|u)]"
+    id: cover.garage_doors
+    area: garage
+
+  - name: "mal(á|ú) garážov(á|ú) brán(a|u)"
+    id: cover.garage_doors
+    attributes:
+      device_class: garage
+    area: garage
+
+  - name: predn(á|ú|é) rolet(a|u|y)
+    id: cover.blind_front
+    area: bedroom
+    state:
+      in: "otvorená"
+      out: open
+    attributes:
+      device_class: blind
+
+  - name: zadn(á|ú|é) rolet(a|u|y)
+    id: cover.blind_back
+    area: bedroom
+    state:
+      in: "zatvorená"
+      out: closed
+    attributes:
+      device_class: blind
+
+  - name: "spálňov(á|ú|é|ej|ého) žalúzi(a|u|e)"
+    id: cover.blind_bedroom
+    area: bedroom
+    state:
+      in: zatiahnuté
+      out: closed
+    attributes:
+      device_class: blind
+
+  - name: "modr(ý|ého) záves[u]"
+    id: cover.blue_curtain
+    area: guest_room
+    state:
+      in: zatiahnuté
+      out: closed
+    attributes:
+      device_class: curtain
+
+  - name: "Spálňov(á|ú|é) rolet(a|u|y)"
+    id: "cover.bedroom"
+    area: "bedroom"
+    state: "closed"
+    attributes:
+      device_class: curtain
+      position: "0"
+
+  - name: "vstupné dvere"
+    id: "lock.main_door"
+    area: "entrance"
+    state:
+      in: zamknuté
+      out: locked
+
+  - name: "hlavný uzáver vody"
+    id: "valve.main_valve"
+    state: "open"
+    attributes:
+      position: "100"
+
+  - name: "rozstrekovač[a]"
+    id: "valve.sprinkler"
+    area: "garden"
+    state: "open"
+    attributes:
+      position: "50"
+
+  - name: "párty"
+    id: "scene.party"
+
+  - name: "prišla návšteva"
+    id: "script.guests_came"
+
 timers:
   - name: "pizza"
     start_minutes: 15

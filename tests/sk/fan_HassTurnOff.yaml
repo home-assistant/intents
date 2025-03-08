@@ -1,5 +1,17 @@
 language: sk
 tests:
+  # vypni konkrétny ventilátor
+  - sentences:
+      - vypni biely ventilátor
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: fan
+        name:
+          - biely ventilátor
+    response: Ventilátor biely ventilátor bol vypnutý
+
+  # vypni ventilátor v konkrétnej miestnosti
   - sentences:
       - vypni ventilátor v obývačke
       - vypni vetrák v obývačke
@@ -7,19 +19,15 @@ tests:
       name: HassTurnOff
       slots:
         domain: fan
-        area:
-          - obývačka
-          - obývačke
-          - obývačku
-          - obývačky
+        area: obývačke
+    response: Ventilátor bol vypnutý
+
+  # vypni všetky ventilátory v miestnosti
   - sentences:
       - vypni všetky ventilátory v obývačke
       - vypni všetky vetráky v obývačke
       - vypni ventilátory v obývačke
       - vypni vetráky v obývačke
-      - vypni vetranie obývačky
-      - vypni ventiláciu v obývačke
-      - vypni vetranie v obývačke
     intent:
       name: HassTurnOff
       slots:
@@ -27,55 +35,33 @@ tests:
           - obývačka
           - obývačke
           - obývačku
-          - obývačky
         domain: fan
         name: all
+    response: Ventilátory v obývačke boli vypnuté
 
+  # zapni vetranie konkrétnej miestnosti
   - sentences:
-      - vypni všetky ventilátory v kuchyni
-      - vypni všetky vetráky v kuchyni
-      - vypni ventilátory v kuchyni
-      - vypni vetráky v kuchyni
-      - vypni ventiláciu v kuchyni
-      - vypni vetranie v kuchyni
-      - vypni vetranie kuchyne
+      - vypni ventiláciu obývačky
+      - vypni vetranie obývačky
+    intent:
+      name: HassTurnOff
+      slots:
+        area: obývačky
+        domain: fan
+        name: all
+    response: Vetranie obývačky bolo vypnuté
 
-    intent:
-      name: HassTurnOff
-      slots:
-        area:
-          - kuchyňa
-          - kuchyni
-          - kuchyne
-        domain: fan
-        name: all
+  # vypni ventilátor v aktuálnej miestnosti
   - sentences:
-      - vypni ventilátor v spálni
-      - vypni vetrák v spálni
+      - vypni stropný ventilátor
+      - vypni tu stropný ventilátor
+      - stropný ventilátor vypnúť
+      - vypnúť ventilátor v tejto miestnosti
     intent:
       name: HassTurnOff
       slots:
-        area:
-          - spálňa
-          - spálni
-          - spálne
-          - spálňu
+        area: obývačka
         domain: fan
-  - sentences:
-      - vypni všetky ventilátory v spálni
-      - vypni všetky vetráky v spálni
-      - vypni ventilátory v spálni
-      - vypni vetráky v spálni
-      - vypni ventiláciu v spálni
-      - vypni vetranie v spálni
-      - vypni vetranie spálne
-    intent:
-      name: HassTurnOff
-      slots:
-        area:
-          - spálňa
-          - spálni
-          - spálne
-          - spálňu
-        domain: fan
-        name: all
+      context:
+        area: obývačka
+    response: Vetranie tu bolo vypnuté

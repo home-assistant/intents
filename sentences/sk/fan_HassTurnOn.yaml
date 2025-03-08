@@ -2,22 +2,42 @@ language: sk
 intents:
   HassTurnOn:
     data:
-      # predpriprava na buduce rozsirenie rozdielu jedneho konktretneho vetraka, rekuperacie a vsetkych vetrakov,
+      # predpriprava na buduce rozsirenie rozdielu jedneho konkretneho vetraka, rekuperacie a vsetkych vetrakov,
       # chyba doplnit nastavenie rychlosti vetraku
       - sentences:
-          - "<turn_on> (ventilátor|vetrák) <area>"
+          - "<turn_on> [[stropný] (ventilátor|vetrák)] <name>" # zapni biely ventilátor (konkrétnu entitu)
+        requires_context:
+          domain: fan
         slots:
           domain: "fan"
         response: "fan"
+
       - sentences:
-          - "<turn_on> (ventiláciu|vetranie) <area>"
+          - "(<turn_on>;[stropný] (ventilátor|vetrák) <area>)" # zapni ventilátor v spálni (lokál)
+        slots:
+          domain: "fan"
+        response: "fan_unnamed"
+
+      - sentences:
+          - "<turn_on> [stropnú] (ventiláciu|vetranie) <area>" # zapni ventiláciu spálne (akuzatív)
         slots:
           domain: "fan"
           name: all
         response: "fans_ventilation"
+
       - sentences:
-          - "<turn_on> [(všetky|všetko)] (ventilátory|vetráky|ventiláciu|vetranie) <area>"
+          - "<turn_on> [všetky] [stropné] (ventilátory|vetráky) <area>" # zapni všetky (stropné) ventilátory v spálni
         slots:
           domain: "fan"
           name: "all"
         response: "fans_area"
+
+      - sentences:
+          - "<turn_on> ([<here>];[všetky] [stropn(ý|é|ú)] (ventilátor[y]|vetrák[y]|ventiláciu))" # zapni tu vsetky ventilátory
+          - "[všetky] [stropn(ý|é|ú)] (ventilátor[y]|vetrák[y]|ventiláciu) <turn_on>" # zapni všetky ventilátory
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: fan
+        response: "fans_here"

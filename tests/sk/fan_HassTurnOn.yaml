@@ -1,82 +1,64 @@
 language: sk
 tests:
+  # zapni konkrétny ventilátor
   - sentences:
+      - zapni biely ventilátor
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: fan
+        name:
+          - biely ventilátor
+    response: Ventilátor biely ventilátor bol zapnutý
+
+  # zapni ventilátor v konkrétnej miestnosti
+  - sentences:
+      - stropný ventilátor v obývačke zapnúť
       - zapni ventilátor v obývačke
       - zapni vetrák v obývačke
     intent:
       name: HassTurnOn
       slots:
+        area: obývačke
         domain: fan
-        area:
-          - obývačka
-          - obývačke
-          - obývačku
-          - obývačky
+    response: Ventilátor bol zapnutý
+
+  # zapni všetky ventilátory v konkrétnej miestnosti
   - sentences:
       - zapni všetky ventilátory v obývačke
       - zapni všetky vetráky v obývačke
-      - zapni ventilátory v obývačke
       - zapni vetráky v obývačke
-      - zapni vetranie obývačky
-      - zapni ventiláciu v obývačke
-      - zapni vetranie v obývačke
     intent:
       name: HassTurnOn
       slots:
-        area:
-          - obývačka
-          - obývačke
-          - obývačku
-          - obývačky
+        area: obývačke
         domain: fan
         name: all
+    response: Ventilátory v obývačke boli zapnuté
 
+  # zapni vetranie konkrétnej miestnosti
   - sentences:
-      - zapni všetky ventilátory v kuchyni
-      - zapni všetky vetráky v kuchyni
-      - zapni ventilátory v kuchyni
-      - zapni vetráky v kuchyni
-      - zapni ventiláciu v kuchyni
-      - zapni vetranie v kuchyni
       - zapni vetranie kuchyne
+      - zapni ventiláciu kuchyne
+    intent:
+      name: HassTurnOn
+      slots:
+        area: kuchyne
+        domain: fan
+        name: all
+    response: Vetranie kuchyne bolo zapnuté
 
-    intent:
-      name: HassTurnOn
-      slots:
-        area:
-          - kuchyňa
-          - kuchyni
-          - kuchyne
-          - kuchyňu
-        domain: fan
-        name: all
+  # zapni vetranie v aktuálnej miestnosti
   - sentences:
-      - zapni ventilátor v spálni
-      - zapni vetrák v spálni
+      - zapni stropný ventilátor
+      - zapni tu stropný ventilátor
+      - stropný ventilátor zapnúť
+      - zapnúť ventilátor v tejto miestnosti
     intent:
       name: HassTurnOn
       slots:
-        area:
-          - spálňa
-          - spálni
-          - spálne
-          - spálňu
+        area: obývačka
         domain: fan
-  - sentences:
-      - zapni všetky ventilátory v spálni
-      - zapni všetky vetráky v spálni
-      - zapni ventilátory v spálni
-      - zapni vetráky v spálni
-      - zapni ventiláciu v spálni
-      - zapni vetranie v spálni
-      - zapni vetranie spálne
-    intent:
-      name: HassTurnOn
-      slots:
-        area:
-          - spálňa
-          - spálni
-          - spálne
-          - spálňu
-        domain: fan
-        name: all
+      context:
+        area: obývačka
+    response: Vetranie tu bolo zapnuté

@@ -1,0 +1,32 @@
+language: sk
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - "<close_valve> [ventil] {name} [<area>]" # zatvor (ventil) hlavný uzáver vody (konkrétnu entitu)
+        requires_context:
+          domain: valve
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "<close_valve> (ventil;<area_floor>)" # zatvor ventil v obývačke
+        slots:
+          domain: valve
+        response: valve_unnamed
+
+      - sentences:
+          - "<close_valve> (ventily;<area_floor>)" # zatvor ventily v obývačke
+        slots:
+          domain: valve
+        response: valves_area
+
+      - sentences:
+          - "<close_valve> (ventil[y];[<here>])" # zatvor tu ventil
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: valve
+        response: valve
