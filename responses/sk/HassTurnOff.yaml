@@ -9,10 +9,11 @@ responses:
       lights_area: "Svetlá boli zhasnuté"
       lights_here: "Svetlá tu boli zhasnuté"
       fan: "Ventilátor {{ slots.name }} bol vypnutý" # ventilátor názov (nominatív)
+      fan_unnamed: "Ventilátor bol vypnutý"
       fans_area: "Ventilátory v {{ slots.area }} boli vypnuté" # vetranie v oblasti (lokál)
       fans_ventilation: "Vetranie {{ slots.area }} bolo vypnuté" # vetranie oblasti (akuzatív)
       fans_here: "Vetranie tu bolo vypnuté" # vetranie na tomto mieste
-      cover: "Zatváram {{ slots.name }}"
+      cover: "Zatváram {% if slots.name | default(false) %}{{ slots.name }} {% else %} {{ slots.device_class }} {% endif %}"
       garage: "Zatváram garáž"
       curtain: "Zaťahujem {% if slots.name | default(false) %}{{ slots.name }} {% else %} {{ slots.device_class }} {% endif %}"
       lock: >
@@ -23,3 +24,5 @@ responses:
         {{ slots.name }}
         {% endif %}
       valve: "Zatváram {{ slots.name }}"
+      valve_unnamed: "Zatváram ventil"
+      valves_area: "Ventily boli zatvorené"
