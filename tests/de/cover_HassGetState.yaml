@@ -61,7 +61,7 @@ tests:
         area: "Wohnzimmer"
         device_class: blind
         state: "open"
-    response: "Ja, Rollo links, Vorhang links und Vorhang rechts"
+    response: "Ja, Rollo links"
   - sentences:
       - "sind irgendwelche Rollos geschlossen im Wohnzimmer?"
       - "sind irgendwelche Rollos im Wohnzimmer geschlossen?"
@@ -86,7 +86,7 @@ tests:
         floor: "Erdgeschoss"
         device_class: blind
         state: "open"
-    response: "Ja, Rollo links, Vorhang links und Vorhang rechts"
+    response: "Ja, Rollo links"
   - sentences:
       - "sind irgendwelche Rollos geschlossen im Erdgeschoss?"
       - "sind irgendwelche Rollos im Erdgeschoss geschlossen?"
@@ -128,6 +128,28 @@ tests:
 
   # response welches
   - sentences:
+      - "welche Markisen auf der Terrasse sind offen?"
+      - "welche Markisen auf der Terrasse sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Terrasse"
+        device_class: awning
+        state: "open"
+    response: "Markise Osten"
+  - sentences:
+      - "welche Markisen im Erdgeschoss sind offen?"
+      - "welche Markisen im Erdgeschoss sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: awning
+        state: "open"
+    response: "Markise Osten"
+  - sentences:
       - "welche Rollos im Wohnzimmer sind offen?"
       - "welche Rollos im Wohnzimmer sind geöffnet?"
     intent:
@@ -137,7 +159,7 @@ tests:
         area: "Wohnzimmer"
         device_class: blind
         state: "open"
-    response: "Rollo links, Vorhang links und Vorhang rechts"
+    response: "Rollo links"
   - sentences:
       - "welche Rollos im Wohnzimmer sind geschlossen?"
     intent:
@@ -158,7 +180,7 @@ tests:
         floor: "Erdgeschoss"
         device_class: blind
         state: "open"
-    response: "Rollo links, Vorhang links und Vorhang rechts"
+    response: "Rollo links"
   - sentences:
       - "welche Rollos im Erdgeschoss sind geschlossen?"
     intent:
@@ -169,8 +191,118 @@ tests:
         device_class: blind
         state: "closed"
     response: "Rollo rechts und Rollo vorn"
+  - sentences:
+      - "welche Vorhänge im Wohnzimmer sind offen?"
+      - "welche Vorhänge im Wohnzimmer sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: curtain
+        state: "open"
+    response: "Vorhang links und Vorhang rechts"
+  - sentences:
+      - "welche Vorhänge im Erdgeschoss sind offen?"
+      - "welche Vorhänge im Erdgeschoss sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: curtain
+        state: "open"
+    response: "Vorhang links und Vorhang rechts"
+  - sentences:
+      - "welche Garagentüren sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: garage
+        state: "closed"
+    response: "Garagentür"
+  - sentences:
+      - "welche Tore in der Auffahrt sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Auffahrt"
+        device_class: gate
+        state: "closed"
+    response: "Einfahrtstor"
+  - sentences:
+      - "welche Schirme auf der Terrasse sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Terrasse"
+        device_class: shade
+        state: "closed"
+    response: "Schirm Westen"
+  - sentences:
+      - "welche Schirme im Erdgeschoss sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: shade
+        state: "closed"
+    response: "Schirm Westen"
+  - sentences:
+      - "welche Rollläden im Wohnzimmer sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: shutter
+        state: "closed"
+    response: "Rollladen links"
+  - sentences:
+      - "welche Rollläden im Erdgeschoss sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: shutter
+        state: "closed"
+    response: "Rollladen links"
 
   # response wie_viele
+  - sentences:
+      - "Wie viele Markisen auf der Terrasse sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Terrasse"
+        device_class: awning
+        state: "open"
+    response: "1"
+  - sentences:
+      - "Wie viele Markisen sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: awning
+        state: "open"
+    response: "1"
+  - sentences:
+      - "Wie viele Markisen im Erdgeschoss sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: awning
+        state: "open"
+    response: "1"
   - sentences:
       - "Wie viele Rollos im Wohnzimmer sind geschlossen?"
     intent:
@@ -200,3 +332,128 @@ tests:
         device_class: blind
         state: "closed"
     response: "2"
+  - sentences:
+      - "Wie viele Vorhänge im Wohnzimmer sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: curtain
+        state: "open"
+    response: "2"
+  - sentences:
+      - "Wie viele Vorhänge sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        state: "open"
+    response: "2"
+  - sentences:
+      - "Wie viele Vorhänge im Erdgeschoss sind geöffnet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: curtain
+        state: "open"
+    response: "2"
+  - sentences:
+      - "Wie viele Garagentüren sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: garage
+        state: "closed"
+    response: "1"
+  - sentences:
+      - "Wie viele Tore in der Auffahrt sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Auffahrt"
+        device_class: gate
+        state: "closed"
+    response: "1"
+  - sentences:
+      - "Wie viele Tore sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: gate
+        state: "closed"
+    response: "1"
+  - sentences:
+      - "Wie viele Tore im Erdgeschoss sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: gate
+        state: "closed"
+    response: "0"
+  - sentences:
+      - "Wie viele Schirme auf der Terrasse sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Terrasse"
+        device_class: shade
+        state: "closed"
+    response: "1"
+  - sentences:
+      - "Wie viele Schirme sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: shade
+        state: "closed"
+    response: "1"
+  - sentences:
+      - "Wie viele Schirme im Erdgeschoss sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: shade
+        state: "closed"
+    response: "1"
+  - sentences:
+      - "Wie viele Rollläden im Wohnzimmer sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        area: "Wohnzimmer"
+        device_class: shutter
+        state: "closed"
+    response: "1"
+  - sentences:
+      - "Wie viele Rollläden sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: shutter
+        state: "closed"
+    response: "1"
+  - sentences:
+      - "Wie viele Rollläden im Erdgeschoss sind geschlossen?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        floor: "Erdgeschoss"
+        device_class: shutter
+        state: "closed"
+    response: "1"

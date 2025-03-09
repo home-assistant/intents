@@ -1,40 +1,44 @@
 language: sk
 responses:
   errors:
-    # Všeobecné
-    no_intent: "Prepáč, nerozumel som tomu"
+    # Všeobecné chyby
+    no_intent: "Prepáč, tomuto povelu nerozumiem"
     handle_error: "Pri spracovaní došlo k neočakávanej chybe"
-    # Ostatné
+
+    # Chyby v prípadoch, kedy nie je používateľ prihlásený
     no_area: "Prepáč, nepoznám žiadnu oblasť s názvom {{ area }}"
     no_floor: "Prepáč, nepoznám žiadne poschodie s názvom {{ floor }}"
-    no_domain: "Prepáč, nepoznám {{ domain }}"
-    no_domain_in_area: "Prepáč, nepoznám {{ domain }} v oblasti {{ area }}"
-    no_domain_in_floor: "Prepáč, nepoznám {{ domain }} na poschodí {{ floor }}"
-    no_device_class: "Prepáč, nepoznám {{ domain }}"
-    no_device_class_in_area: "Prepáč, nepoznám {{ device_class }} v oblasti {{ area }}"
-    no_device_class_in_floor: "Prepáč, nepoznám {{ device_class }} na poschodí {{ floor }}"
+    no_domain: "Prepáč, nepoznám žiadne zariadenie typu {{ domain }}"
+    no_domain_in_area: "Prepáč, ale v oblasti {{ area }} sa nenašlo žiadne zariadenie typu {{ domain }}"
+    no_domain_in_floor: "Prepáč, ale na poschodí {{ floor }} sa nenašlo žiadne zariadenie typu {{ domain }}"
+    no_device_class: "Prepáč, nepoznám žiadne zariadenie typu {{ domain }}"
+    no_device_class_in_area: "Prepáč, ale v oblasti {{ area }} sa nenašlo žiadne zariadenie typu {{ device_class }}"
+    no_device_class_in_floor: "Prepáč, ale na poschodí {{ floor }} sa nenašlo žiadne zariadenie typu {{ device_class }}"
     no_entity: "Prepáč, nepoznám žiadne zariadenie ani entitu s názvom {{ entity }}"
-    no_entity_in_area: "Prepáč, nepoznám žiadne zariadenie ani entitu s názvom {{ entity }} v oblasti {{ area }}"
-    no_entity_in_floor: "Prepáč, nepoznám žiadne zariadenie ani entitu s názvom {{ entity }} na poschodí {{ floor }}"
-    feature_not_supported: "Prepáč, žiadne zariadenie nepodporuje požadovanú schopnosť"
+    no_entity_in_area: "Prepáč, v oblasti {{ area }} nepoznám žiadne zariadenie ani entitu s názvom {{ entity }}"
+    no_entity_in_floor: "Prepáč, na poschodí {{ floor }} nepoznám žiadne zariadenie ani entitu s názvom {{ entity }}"
+    feature_not_supported: "Prepáč, žiadne zariadenie nepodporuje požadovanú funkciu"
 
-    no_entity_exposed: "Prepáč, {{ entity }} nie je zverejnená"
-    no_entity_in_area_exposed: "Prepáč, {{ entity }} v oblasti {{ area }} nie je zverejnená"
-    no_entity_in_floor_exposed: "Prepáč, {{ entity }} na poschodí {{ floor }} nie je zverejnená"
-    no_domain_exposed: "Prepáč, žiadna {{ domain }} nie je zverejnená"
-    no_domain_in_area_exposed: "Prepáč, žiadna {{ domain }} v oblasti {{ area }} nie je zverejnená"
-    no_domain_in_floor_exposed: "Prepáč, žiadna {{ domain }} na poschodí {{ floor }} nie je zverejnená"
-    no_device_class_exposed: "Prepáč, žiadna {{ device_class }} nie je zverejnená"
-    no_device_class_in_area_exposed: "Prepáč, žiadna {{ device_class }} v oblasti {{ area }} nie je zverejnená"
-    no_device_class_in_floor_exposed: "Prepáč, žiadna {{ device_class }} na poschodí {{ floor }} nie je zverejnená"
+    # Chyby v prípadoch, kedy je používateľ prihlásený a môžeme poskytnúť dodatočné informácie
+    no_entity_exposed: "Prepáč, entita s názvom {{ entity }} nie je zverejnená"
+    no_entity_in_area_exposed: "Prepáč, entita s názvom {{ entity }} v oblasti {{ area }} nie je zverejnená"
+    no_entity_in_floor_exposed: "Prepáč, entita s názvom {{ entity }} na poschodí {{ floor }} nie je zverejnená"
+    no_domain_exposed: "Prepáč, žiadne zariadenie typu {{ domain }} nie je zverejnené"
+    no_domain_in_area_exposed: "Prepáč, v oblasti {{ area }} nie je zverejnené žiadne zariadenie typu {{ domain }}"
+    no_domain_in_floor_exposed: "Prepáč, na poschodí {{ floor }} nie je zverejnené žiadne zariadenie typu {{ domain }}"
+    no_device_class_exposed: "Prepáč, žiadne zariadenie typu {{ device_class }} nie je zverejnené"
+    no_device_class_in_area_exposed: "Prepáč, v oblasti {{ area }} nie je zverejnené žiadne zariadenie typu {{ device_class }}"
+    no_device_class_in_floor_exposed: "Prepáč, na poschodí {{ floor }} nie je zverejnené žiadne zariadenie typu {{ device_class }}"
 
+    # Použité, ak viacero (zverejnených) zariadení používa rovnaký názov
     duplicate_entities: "Prepáč, existuje viacero zariadení s názvom {{ entity }}"
-    duplicate_entities_in_area: "Prepáč, existuje viacero zariadení s názvom {{ entity }} v oblasti {{ area }}"
-    duplicate_entities_in_floor: "Prepáč, existuje viacero zariadení s názvom {{ entity }} na poschodí {{ floor }}"
+    duplicate_entities_in_area: "Prepáč, v oblasti {{ area }} existuje viacero zariadení s názvom {{ entity }}"
+    duplicate_entities_in_floor: "Prepáč, na poschodí {{ floor }} existuje viacero zariadení s názvom {{ entity }}"
 
-    timer_not_found: "Prepáč, nemohol som nájsť daný časovač"
-    multiple_timers_matched: "Prepáč, nemôžem reagovať s viacerými časovačmi naraz"
-    no_timer_support: "Prepáč, časovače nie sú podporované na tomto zariadení"
+    # Chyby týkajúce sa časovačov
+    timer_not_found: "Prepáč, nemohol som nájsť tento časovač"
+    multiple_timers_matched: "Prepáč, nemôžem obsluhovať viacero časovačov"
+    no_timer_support: "Prepáč, toto zariadenie nepodporuje viacero časovačov"
 
 lists:
   color:
@@ -61,6 +65,281 @@ lists:
         out: "pink"
       - in: "tyrkysov(á|é|ý|o|ú)"
         out: "turquoise"
+  brightness_level:
+    values:
+      - in: (max|maximum|(najvyšš|najväčš(ie|í|iu)))
+        out: 100
+      - in: (min|minimum|(namenš|najnižš(ie|í|iu)))
+        out: 1
+  on_off_states:
+    values:
+      - in: "(zapnut(ý|á|é|ých)|zasvieten(ý|á|é|ých))"
+        out: "on"
+      - in: "(vypnut(ý|á|é|ých)|zhasnut(ý|á|é|ých))"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: svet(lo|lá|iel)
+        out: light
+      - in: ventilátor[y|ov]
+        out: fan
+      - in: vypínač[e|ov]
+        out: switch
+  cover_states:
+    values:
+      - in: "(otvoren(ý|á|é|ých)|roztiahnut(ý|á|é|ých))"
+        out: "open"
+      - in: "(zavret(ý|á|é|ých)|zatvoren(ý|á|é|ých)|zatiahnut(ý|á|é|ých))"
+        out: "closed"
+      - in: "[sa] otvára[jú] [sa]"
+        out: "opening"
+      - in: "[sa] zatvára[jú] [sa]"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "markíz(a|y|u)"
+        out: awning
+      - in: "(žalúzi(e|í|a)|rol[i]et[(a|y|u)])"
+        out: blind
+      - in: "záves[y|ov]"
+        out: curtain
+      - in: "dver(e|í)"
+        out: door
+      - in: "((garážov(é|á|ých) (dver(e|í)|brán[a|u|y]))|garáž[e])"
+        out: garage
+      - in: "brán(a|y)"
+        out: gate
+      - in: "(clon(a|y)|tienidl(o|a))"
+        out: shade
+      - in: "okenica"
+        out: shutter
+      - in: "(okien|okn(o|a|á))"
+        out: window
+
+  lock_states:
+    values:
+      - in: "zamknut(ý|á|é|ých)"
+        out: "locked"
+      - in: "odomknut(ý|á|é|ých)"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_classes:
+    values:
+      - in: "dver(e|í)"
+        out: door
+      - in: "(garážov(é|ých) dver(e|í)|garáž)"
+        out: garage_door
+      - in: "ok[ie]n[(o|a|á)]"
+        out: window
+
+  bs_battery_states:
+    values:
+      - in: "(nízk(y|a|e|ych)|vybit(ý|á|é|ých))"
+        out: "on"
+      - in: "(normáln(y|a|e|ych)|nabit(ý|á|é|ých))"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "((nabíja[jú];sa)|nabíjani(a|e))"
+        out: "on"
+      - in: "(nenabíja[jú];sa)"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "(zisten|detegovan)(ý|á|é|ých)"
+        out: "on"
+      - in: "(nezisten(ý|á|é|ých)|čist(é|o|ý))"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "(studen(ý|á|é|ých)|chladn(ý|o|á|é|ých))"
+        out: "on"
+      - in: "(normálne|v poriadku)"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "pripojen(ý|á|é|ých)"
+        out: "on"
+      - in: "odpojen(ý|á|é|ých)"
+        out: "off"
+
+  bs_states:
+    values:
+      - in: "otvoren(ý|á|é|ých)"
+        out: "on"
+      - in: "zatvoren(é|á|ý|ých)"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "otvoren(é|ých)"
+        out: "on"
+      - in: "zatvoren(é|ých)"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "otvoren(é|ých)"
+        out: "on"
+      - in: "zatvoren(é|ých)"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "(detegovan|zisten)é"
+        out: "on"
+      - in: "ne(detegovan|zisten)é"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "(horúc(i|a|e|ich)|prehriat(y|a|e|ych))"
+        out: "on"
+      - in: "(normálne|v poriadku)"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "[((ziste|detegova)né|detegujú)] svetlo"
+        out: "on"
+      - in: "[(ziste|detegova)ná] tm(a|u)"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "odomknut(ý|á|é|ých)"
+        out: "on"
+      - in: "[u]zamknut(ý|á|é|ých)"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "(vlhk(ý|á|é|ých)|zaplaven(ý|á|é|ých))"
+        out: "on"
+      - in: "(such(ý|á|é|ých))"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "([zistený|detegovaný] pohyb|zistený|detegovaný)"
+        out: "on"
+      - in: "bez pohybu"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "(prítomn|obsaden)(ý|osť|é)"
+        out: "on"
+      - in: "ne(prítomn|obsaden)(ý|osť|é)"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "otvoren(ý|á|é|ých)"
+        out: "on"
+      - in: "(zatvoren|zavret)(ý|á|é|ých)"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "(za|pri)pojen(ý|á|é|ých)"
+        out: "on"
+      - in: "(od|vy)pojen(ý|á|é|ých)"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "zapnut(ý|á|é|ých)"
+        out: "on"
+      - in: "vypnut(ý|á|é|ých)"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(doma|prítomn(ý|á|é|ých))"
+        out: "on"
+      - in: "(preč|neprítomn(ý|á|é|ých)|mimo [domu])"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "(problém|závad(a|u)|poruch(a|u))"
+        out: "on"
+      - in: "(ok|v poriadku)"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "(bež(í|ia)|[(je|sú)] spusten(ý|á|é|ých))"
+        out: "on"
+      - in: "(nebež(í|ia)|zastaven(ý|á|é|ých))"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "ne(zaisten|zabezpečen)(ý|á|é|ých)"
+        out: "on"
+      - in: "(zaisten|zabezpečen)(ý|á|é|ých)"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "([(detegova|ziste)ný] dym|(detegova|ziste)né)"
+        out: "on"
+      - in: "([ne(detegova|ziste)ný] dym|bez dymu|čist(é|o|ý))"
+        out: "off"
+
+  bs_sound_states:
+    values:
+      - in: "(hrá|hluk|hlučn(ý|á|é|ých)|zvuk[y])"
+        out: "on"
+      - in: "(nehrá|tich(ý|á|é|ých|o))"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(detegovan|zisten|zaznamenan|manipulovan)(ý|á|é|ých)"
+        out: "on"
+      - in: "ne(detegovan|zisten|zaznamenan|manipulovan)(ý|á|é|ých)"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "[aktualizáci(a|e|u)] k dispozícii [aktualizáci(a|e|u)]"
+        out: "on"
+      - in: "(najnovšia|posledná) verzia"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(zisten(á|é)|vibruj(e|ú))"
+        out: "on"
+      - in: "(v kľude|v pokoji|nevibruj(e|ú))"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "otvorené"
+        out: "on"
+      - in: "zatvorené"
+        out: "closed"
+
+  # might be used for all MIN/MAX sentences,
+  # so intended to leave just min_max rather then brightness_level
+  # in need to change declaration - change also light_HassLightSet
+  max:
+    values:
+      - in: "(max|maximum|(najvyšš|najväčš(ie|í|iu)))"
+        out: 100
+  min:
+    values:
+      - in: "(min|minimum|(najmenš|najnižš(ie|í|iu)))"
+        out: 1
   brightness:
     range:
       type: "percentage"
@@ -71,41 +350,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  brightness_level:
-    values:
-      - in: (max|maximum|(najvyšš|najväčš(ie|í|iu)))
-        out: 100
-      - in: (min|minimum|(namenš|najnižš(ie|í|iu)))
-        out: 1
-  on_off_states:
-    values:
-      - in: "(zapnut(ý|á|é|ých)|zasvieten(ý|á|é|ých)|otvoren(ý|á|é|ých))"
-        out: "on"
-      - in: "(vypnut(ý|á|é|ých)|zhasnut(ý|á|é|ých)|zatvoren(ý|á|é|ých))"
-        out: "off"
-  on_off_domains:
-    values:
-      - in: svet(lo|lá|iel)
-        out: light
-      - in: ventilátor[y|ov]
-        out: fan
-      - in: vypínač[e|ov]
-        out: switch
-  # binary_sensor
-  bs_classes:
-    values:
-      - in: "dver(e|í)"
-        out: door
-      - in: "(garážov(é|ých) dver(e|í)|garáž)"
-        out: garage_door
-      - in: "ok[ie]n[(o|a|á)]"
-        out: window
-  bs_states:
-    values:
-      - in: "otvoren(ý|á|é|ých)"
-        out: "on"
-      - in: "zatvoren(é|á|ý|ých)"
-        out: "off"
   position:
     range:
       type: "percentage"
@@ -118,7 +362,12 @@ lists:
       to: 100
   shopping_list_item:
     wildcard: true
-  # Timers
+  zone:
+    wildcard: true
+  message:
+    wildcard: true
+
+  # Časovače
   timer_range:
     range:
       from: 1
@@ -149,31 +398,52 @@ expansion_rules:
   in: "(v|vo|na)"
   name: "{name}"
   area: "[<in> ]{area}"
+  floor: "na {floor}"
+  area_floor: "(<area>|<floor>)"
   what_is: "((ak(á|é|ý|o)[ je])|je)"
   is: "(je|sú)"
-  any: "nejak(ý|á|é)"
+  was: "bol[o|i|a]"
+  will_be: "bud(e|ú)"
+  any: "(nejak(ý|á|é)|niektor(ý|á|é))"
   all: "(všetk(y)|každ(ý|á|é))"
-  which: "ktor(ý|í|á|é|ú)"
+  which: "(ktor(ý|í|á|é|ú)|ak(ý|á|é|ú))"
   how_many: "koľko[ je]"
   brightness: "{brightness}[%| percent]"
   temp: "teplot(a|u)"
   temperature: "{temperature}[°| stupňov]"
-  turn_on: "(zapni|zapnúť)"
-  turn_off: "(vypni|vypnúť)"
+  turn_on: "zapn(i|úť)"
+  turn_on_activate: "(zapn(i|úť)|aktiv(uj|ovať))"
+  turn_off: "vypn(i|úť)"
   turn_on_light: "(zasvieť|zažni|rozžni|rozsvieť)"
   turn_off_light: "(zahas|zhasni)"
   set: "(nastav[iť]|prestav[iť]|zme(ň|niť)|zvýš[iť]|zníž[iť])"
-  open: "(otvor[iť]|odostri[eť]|(roz|vy)tiahn[i|uť])"
-  close: "(zatvor[iť]|zavri[eť]|zatvor[iť]|zastri[eť]|(s|za)tiahn(i|uť))"
+  open_door: "(otvor[iť]|vytiahn(i|uť))"
+  open_valve: "(otvor[iť]|[s]pust(i|iť))"
+  open_curtain: "(odostri[eť]|(roz|vy)tiahn(i|uť))"
+  close_door: "(zatvor[iť]|zavri[eť]|spusti[ť])"
+  close_valve: "(zatvor[iť]|zavri[eť]|zatiahn(i|uť))"
+  close_curtain: "(zastri[eť]|(s|za)tiahn(i|uť))"
   position: "{position}[[ ]%| percent]"
   volume: "{volume:volume_level}[[ ]%| percent]"
-  # Timers
+  broadcast: "(oznám|povedz|ohlás)"
+  everywhere: "(všade|všetkým|v celom dome)"
+  here: "(tu|v tejto (miestnosti|izbe)|(na|v) tomto mieste)"
+  that: "že"
+  lock: "[u]zamkn(i|úť)"
+  scene: "scén(a|u)"
+  switch_to: "(prej(di|sť)|zme(ň|niť))"
+  unlock: "odomkn(i|úť)"
+  previous_nom: "(predchádzajúc(a|i)|(predošl|minul|posledn)(ý|á))"
+  previous_acc: "(predchádzajúc(u|i)|(predošl|minul|posledn)(ý|ú))"
+  # Časovače
+  timer: "(časovač[a|i]|minútk(y|ach)|odpočítavan(ie|í))"
+  timer_plural: "(časovač(e|ov|och)|minút(ky|iek|kach)|odpočítavania[ch])"
   timer_set: "nasta(v[te|iť]|l)"
   timer_cancel: "(zruš[í|te|iť]|zastav(í|te|iť))"
   timer_type: "(časovač[e]|stopky)"
   timer_unit_second: "sek(únd|(und(a|u|y|ov(ý|é|ej))))"
   timer_unit_minute: "minút[a|u|y|ov(ý|é|ej)]"
-  timer_unit_hour: "hod(ín|(in(a|u|y|ov(ý|é|ej))))"
+  timer_unit_hour: "hod(ín|(in(a|u|y|ov(ý|é|ej|ého))))"
   timer_value_second: ({timer_range:seconds}|{timer_range_fonetic:seconds})
   timer_value_minute: ({timer_range:minutes}|{timer_range_fonetic:minutes})
   timer_value_hour: ({timer_range:hours}|{timer_range_fonetic:hours})
@@ -189,5 +459,23 @@ expansion_rules:
   timer_start_minutes: "(<timer_value_start_minute> <timer_unit_minute> [[a] <timer_value_start_second> <timer_unit_second>])|([<timer_value_start_minute> a ]{timer_parts:start_seconds} <timer_unit_minute>)|({timer_range_fonetic:start_minutes} [a {timer_parts:start_seconds}])"
   timer_start_hours: "(<timer_value_start_hour> <timer_unit_hour> [[a] <timer_value_start_minute> <timer_unit_minute>] [[a] <timer_value_start_second> <timer_unit_second>])|([<timer_value_start_hour> a ]{timer_parts:start_minutes} <timer_unit_hour>)|({timer_range_fonetic:start_hours} [a {timer_parts:start_minutes}])"
   timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
+  # otázky
+  what_is_the_class_of_name: >
+    (
+      <what_is> (<class>;[[na|z]meran(ý|á|é)]) [<in>] [senzor(a|om|e|mi)] {name} [<area>]|
+      <what_is> <area> (<class>;[[na|z]meran(ý|á|é)]) [<in>] [senzor(a|om|e|mi)] {name}|
+      <how_many> (<class>;[[na|z]meran(ý|á|é)]) [<in>] [senzor(a|om|e|mi)] {name}
+    )
+
+  open: "(otvor[iť]|odostri[eť]|(roz|vy)tiahn[i|uť])"
+  close: "(zatvor[iť]|zavri[eť]|zatvor[iť]|zastri[eť]|(s|za)tiahn(i|uť))"
+
 skip_words:
   - "prosím"
+  - "môžeš"
+  - "mohol by si"
+  - "mohla by si"
+  - "mrkni sa či"
+  - "skontroluj či"
+  - "povedz mi"
