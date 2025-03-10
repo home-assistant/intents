@@ -13,7 +13,7 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from functools import partial
 from pathlib import Path
-from typing import Any, Dict, List, Set, Tuple, Union
+from typing import Any, Dict, List, Set, TextIO, Tuple, Union
 
 import yaml
 from hassil.expression import (
@@ -34,14 +34,25 @@ CONTEXT_AREA_SLOT = "__context_area__"
 
 
 class SupportLevel(str, Enum):
+    """Level of support for an intent for a given language."""
+
     FULL = "full"
+    """All slot combinations are covered, with no extras."""
+
     PARTIAL = "partial"
+    """Some slot combinations are covered, with no extras."""
+
     EXTRA = "extra"
+    """More slot combinations are covered than are supported by the intent."""
+
     NONE = "none"
+    """No support."""
 
 
 @dataclass
 class LanguageIntentSupport:
+    """Intent support details for a language."""
+
     intent_name: str
     level: str
     # matching: List[List[str]] = field(default_factory=list)
@@ -51,13 +62,9 @@ class LanguageIntentSupport:
 
 @dataclass
 class IntentSupport:
+    """Support for an intent."""
+
     support_by_language: Dict[str, LanguageIntentSupport] = field(default_factory=dict)
-
-
-@dataclass
-class Node:
-    children: "List[Node]" = field(default_factory=list)
-    slot_names: Set[str] = field(default_factory=set)
 
 
 def get_arguments() -> argparse.Namespace:
@@ -77,6 +84,7 @@ def get_arguments() -> argparse.Namespace:
 
 
 def run() -> int:
+    """Run function."""
     args = get_arguments()
 
     if args.debug:
@@ -107,12 +115,12 @@ def run() -> int:
                     language
                 ] = lang_support
 
+    yaml_file: TextIO = sys.stdout
+
     if args.output:
         yaml_path = Path(args.output)
         yaml_path.parent.mkdir(parents=True, exist_ok=True)
         yaml_file = open(yaml_path, "w", encoding="utf-8")
-    else:
-        yaml_file = sys.stdout
 
     yaml.safe_dump(
         {
@@ -123,10 +131,13 @@ def run() -> int:
         yaml_file,
     )
 
+    return 0
+
 
 def _get_support(language: str, intents: Dict[str, Any], args: argparse.Namespace):
     lang_intents = Intents.from_files((SENTENCE_DIR / language).glob("*.yaml"))
     lang_supports: List[LanguageIntentSupport] = []
+    rule_slot_cache: Dict[Tuple[str, bool], Any] = {}
 
     for intent_name, intent_info in intents.items():
         if not intent_info.get("supported", False):
@@ -142,7 +153,6 @@ def _get_support(language: str, intents: Dict[str, Any], args: argparse.Namespac
 
         slot_combinations = intent_info.get("slot_combinations")
         if not slot_combinations:
-            # CI should fail
             _LOGGER.warning("Missing slot_combinations for intent: %s", intent_name)
             continue
 
@@ -175,7 +185,7 @@ def _get_support(language: str, intents: Dict[str, Any], args: argparse.Namespac
         combo_sentences = defaultdict(set)
 
         for data in intent.data:
-            auto_slots = set()
+            auto_slots: Set[str] = set()
             if data.slots:
                 # Inferred slots
                 auto_slots.update(data.slots.keys())
@@ -186,14 +196,12 @@ def _get_support(language: str, intents: Dict[str, Any], args: argparse.Namespac
 
             for sentence in data.sentences:
                 sentence_combos: Set[Tuple[str, ...]] = set()
-                for combo in _get_slots(sentence, data, lang_intents):
-                    if combo is None:
-                        combo_tuple = tuple(auto_slots)
-                    else:
-                        # Must be sorted to match expected
-                        combo_tuple = tuple(
-                            sorted(itertools.chain(auto_slots, _flatten(combo)))
-                        )
+                for _, combo in _get_slots(
+                    sentence, data, lang_intents, rule_slot_cache
+                ):
+                    combo_tuple = tuple(
+                        sorted(itertools.chain(auto_slots, _flatten(combo)))
+                    )
 
                     sentence_combos.add(combo_tuple)
                     combo_sentences[combo_tuple].add(sentence.text)
@@ -220,8 +228,8 @@ def _get_support(language: str, intents: Dict[str, Any], args: argparse.Namespac
             lang_support.level = SupportLevel.EXTRA.value
             lang_support.extra = [
                 {
-                    "slots": list(combo),
-                    "sentences": sorted(sentences),
+                    "slots": list(combo),  # type: ignore
+                    "sentences": sorted(sentences),  # type: ignore
                 }
                 for combo, sentences in sorted(combo_sentences.items())
                 if combo in extra_combos
@@ -237,33 +245,68 @@ def _get_support(language: str, intents: Dict[str, Any], args: argparse.Namespac
 
 
 def _get_slots(
-    e: Expression, data: IntentData, intents: Intents
-) -> Iterable[Union[str, None]]:
+    e: Expression,
+    data: IntentData,
+    intents: Intents,
+    rule_slot_cache: Dict[Tuple[str, bool], Any],
+) -> Iterable[Tuple[bool, Any]]:
     if isinstance(e, Sequence):
         seq: Sequence = e
         if seq.type == SequenceType.GROUP:
-            seq_slots = map(partial(_get_slots, data=data, intents=intents), seq.items)
-            yield from itertools.product(*seq_slots)
+            seq_with_slots: List[List[Iterable[Union[str, None]]]] = [[]]
+            for item in seq.items:
+                for item_has_slot, item_slots in _get_slots(
+                    item, data, intents, rule_slot_cache
+                ):
+                    if not item_has_slot:
+                        continue
+
+                    seq_with_slots[-1].append(item_slots)
+
+                if seq_with_slots[-1]:
+                    seq_with_slots.append([])
+
+            if not seq_with_slots[-1]:
+                seq_with_slots.pop()
+
+            for slot_combo in itertools.product(*seq_with_slots):
+                yield (True, slot_combo)
         elif seq.type == SequenceType.ALTERNATIVE:
             for item in seq.items:
-                yield from _get_slots(item, data, intents)
+                for item_has_slot, item_slots in _get_slots(
+                    item, data, intents, rule_slot_cache
+                ):
+                    if not item_has_slot:
+                        continue
+
+                    yield (True, item_slots)
+
+            if seq.is_optional:
+                yield (True, None)
         else:
             raise ValueError(f"Unexpected sequence type: {seq.type}")
     elif isinstance(e, ListReference):
         list_ref: ListReference = e
-        yield list_ref.slot_name
+        yield (True, list_ref.slot_name)
     elif isinstance(e, RuleReference):
         rule_ref: RuleReference = e
         rule_body = data.expansion_rules.get(rule_ref.rule_name)
+        from_data = True
+
         if rule_body is None:
             rule_body = intents.expansion_rules[rule_ref.rule_name]
+            from_data = False
 
         if rule_body is None:
             raise ValueError(f"Missing body for expansion rule: {rule_ref.rule_name}")
 
-        yield from _get_slots(rule_body, data, intents)
-    else:
-        yield None
+        cache_key = (rule_ref.rule_name, from_data)
+        cached_slots = rule_slot_cache.get(cache_key)
+        if cached_slots is None:
+            cached_slots = list(_get_slots(rule_body, data, intents, rule_slot_cache))
+            rule_slot_cache[cache_key] = cached_slots
+
+        yield from cached_slots
 
 
 def _flatten(items: Iterable[Any]) -> Iterable[str]:
