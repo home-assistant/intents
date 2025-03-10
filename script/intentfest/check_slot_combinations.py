@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import argparse
 import itertools
+import logging
 import sys
 from collections import defaultdict
 from collections.abc import Iterable
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from functools import partial
@@ -26,6 +28,8 @@ from hassil.intents import IntentData, Intents
 from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR
 from .util import get_base_arg_parser
 
+_LOGGER = logging.getLogger(__name__)
+
 CONTEXT_AREA_SLOT = "__context_area__"
 
 
@@ -38,8 +42,9 @@ class SupportLevel(str, Enum):
 
 @dataclass
 class LanguageIntentSupport:
+    intent_name: str
     level: str
-    matching: List[List[str]] = field(default_factory=list)
+    # matching: List[List[str]] = field(default_factory=list)
     missing: List[List[str]] = field(default_factory=list)
     extra: List[List[str]] = field(default_factory=list)
 
@@ -74,6 +79,11 @@ def get_arguments() -> argparse.Namespace:
 def run() -> int:
     args = get_arguments()
 
+    if args.debug:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+
     with open(INTENTS_FILE, "r", encoding="utf-8") as intents_file:
         intents = yaml.safe_load(intents_file)
 
@@ -82,112 +92,20 @@ def run() -> int:
     else:
         languages = [args.language]
 
-    support_by_intent: Dict[str, IntentSupport] = {}
+    support_by_intent: Dict[str, IntentSupport] = defaultdict(IntentSupport)
 
-    for intent_name, intent_info in intents.items():
-        if not intent_info.get("supported", False):
-            # Skip intents that aren't supported in HA core
-            continue
+    with ProcessPoolExecutor() as executor:
+        for language, lang_supports in executor.map(
+            partial(_get_support, intents=intents, args=args), languages
+        ):
+            for lang_support in lang_supports:
+                if args.skip_full and (lang_support.level == SupportLevel.FULL.value):
+                    # Exclude from report
+                    continue
 
-        if intent_name in ("HassGetState",):
-            # Ignore HassGetState for now
-            continue
-
-        if args.intent and (intent_name != args.intent):
-            continue
-
-        slot_combinations = intent_info.get("slot_combinations")
-        if not slot_combinations:
-            # CI should fail
-            raise ValueError(f"Missing slot_combinations for intent: {intent_name}")
-
-        intent_support = IntentSupport()
-        support_by_intent[intent_name] = intent_support
-
-        for language in languages:
-            lang_support = LanguageIntentSupport(level=SupportLevel.NONE.value)
-            intent_support.support_by_language[language] = lang_support
-
-            lang_intents = Intents.from_files((SENTENCE_DIR / language).glob("*.yaml"))
-            intent = lang_intents.intents.get(intent_name)
-            if intent is None:
-                # Language does not have intent at all
-                continue
-
-            expected_slot_combos: Set[Tuple[str, ...]] = set()
-            for combo in slot_combinations:
-                combo_slots = combo["slots"]
-                if isinstance(combo_slots, str):
-                    combo_slots = [combo_slots]
-
-                if combo.get("context_area", False):
-                    combo_slots.append(CONTEXT_AREA_SLOT)
-
-                expected_slot_combos.update(
-                    tuple(sorted(combo_slots)) for combo in slot_combinations
-                )
-
-            actual_slot_combos: Set[Tuple[str, ...]] = set()
-            combo_sentences = defaultdict(set)
-
-            for data in intent.data:
-                auto_slots = set()
-                if data.slots:
-                    # Inferred slots
-                    auto_slots.update(data.slots.keys())
-
-                if data.requires_context.get("area", {}).get("slot"):
-                    # Context area
-                    auto_slots.add(CONTEXT_AREA_SLOT)
-
-                for sentence in data.sentences:
-                    sentence_combos: Set[Tuple[str, ...]] = set()
-                    for combo in _get_slots(sentence, data, lang_intents):
-                        if combo is None:
-                            combo_tuple = tuple(auto_slots)
-                        else:
-                            # Must be sorted to match expected
-                            combo_tuple = tuple(
-                                sorted(itertools.chain(auto_slots, _flatten(combo)))
-                            )
-
-                        sentence_combos.add(combo_tuple)
-                        combo_sentences[combo_tuple].add(sentence.text)
-
-                    actual_slot_combos.update(sentence_combos)
-
-            # lang_support.matching = [
-            #     {
-            #         "slots": list(combo),
-            #         "sentences": sorted(sentences),
-            #     }
-            #     for combo, sentences in sorted(combo_sentences.items())
-            #     if combo in expected_slot_combos
-            # ]
-
-            missing_combos = expected_slot_combos - actual_slot_combos
-            if missing_combos:
-                lang_support.level = SupportLevel.PARTIAL.value
-                lang_support.missing = [list(combo) for combo in sorted(missing_combos)]
-                continue
-
-            extra_combos = actual_slot_combos - expected_slot_combos
-            if extra_combos:
-                lang_support.level = SupportLevel.EXTRA.value
-                lang_support.extra = [
-                    {
-                        "slots": list(combo),
-                        "sentences": sorted(sentences),
-                    }
-                    for combo, sentences in sorted(combo_sentences.items())
-                    if combo in extra_combos
-                ]
-                continue
-
-            lang_support.level = SupportLevel.FULL.value
-            if args.skip_full:
-                # Exclude from report
-                intent_support.support_by_language.pop(language)
+                support_by_intent[lang_support.intent_name].support_by_language[
+                    language
+                ] = lang_support
 
     if args.output:
         yaml_path = Path(args.output)
@@ -204,6 +122,115 @@ def run() -> int:
         },
         yaml_file,
     )
+
+
+def _get_support(language: str, intents: Dict[str, Any], args: argparse.Namespace):
+    lang_intents = Intents.from_files((SENTENCE_DIR / language).glob("*.yaml"))
+    lang_supports: List[LanguageIntentSupport] = []
+
+    for intent_name, intent_info in intents.items():
+        if not intent_info.get("supported", False):
+            # Skip intents that aren't supported in HA core
+            continue
+
+        if intent_name in ("HassGetState",):
+            # Ignore HassGetState for now
+            continue
+
+        if args.intent and (intent_name != args.intent):
+            continue
+
+        slot_combinations = intent_info.get("slot_combinations")
+        if not slot_combinations:
+            # CI should fail
+            _LOGGER.warning("Missing slot_combinations for intent: %s", intent_name)
+            continue
+
+        _LOGGER.debug("Processing %s for %s", language, intent_name)
+
+        lang_support = LanguageIntentSupport(
+            intent_name=intent_name, level=SupportLevel.NONE.value
+        )
+        lang_supports.append(lang_support)
+
+        intent = lang_intents.intents.get(intent_name)
+        if intent is None:
+            # Language does not have intent at all
+            continue
+
+        expected_slot_combos: Set[Tuple[str, ...]] = set()
+        for combo in slot_combinations:
+            combo_slots = combo["slots"]
+            if isinstance(combo_slots, str):
+                combo_slots = [combo_slots]
+
+            if combo.get("context_area", False):
+                combo_slots.append(CONTEXT_AREA_SLOT)
+
+            expected_slot_combos.update(
+                tuple(sorted(combo_slots)) for combo in slot_combinations
+            )
+
+        actual_slot_combos: Set[Tuple[str, ...]] = set()
+        combo_sentences = defaultdict(set)
+
+        for data in intent.data:
+            auto_slots = set()
+            if data.slots:
+                # Inferred slots
+                auto_slots.update(data.slots.keys())
+
+            if data.requires_context.get("area", {}).get("slot"):
+                # Context area
+                auto_slots.add(CONTEXT_AREA_SLOT)
+
+            for sentence in data.sentences:
+                sentence_combos: Set[Tuple[str, ...]] = set()
+                for combo in _get_slots(sentence, data, lang_intents):
+                    if combo is None:
+                        combo_tuple = tuple(auto_slots)
+                    else:
+                        # Must be sorted to match expected
+                        combo_tuple = tuple(
+                            sorted(itertools.chain(auto_slots, _flatten(combo)))
+                        )
+
+                    sentence_combos.add(combo_tuple)
+                    combo_sentences[combo_tuple].add(sentence.text)
+
+                actual_slot_combos.update(sentence_combos)
+
+        # lang_support.matching = [
+        #     {
+        #         "slots": list(combo),
+        #         "sentences": sorted(sentences),
+        #     }
+        #     for combo, sentences in sorted(combo_sentences.items())
+        #     if combo in expected_slot_combos
+        # ]
+
+        missing_combos = expected_slot_combos - actual_slot_combos
+        if missing_combos:
+            lang_support.level = SupportLevel.PARTIAL.value
+            lang_support.missing = [list(combo) for combo in sorted(missing_combos)]
+            continue
+
+        extra_combos = actual_slot_combos - expected_slot_combos
+        if extra_combos:
+            lang_support.level = SupportLevel.EXTRA.value
+            lang_support.extra = [
+                {
+                    "slots": list(combo),
+                    "sentences": sorted(sentences),
+                }
+                for combo, sentences in sorted(combo_sentences.items())
+                if combo in extra_combos
+            ]
+            continue
+
+        lang_support.level = SupportLevel.FULL.value
+
+    return (language, lang_supports)
 
 
 # -----------------------------------------------------------------------------
