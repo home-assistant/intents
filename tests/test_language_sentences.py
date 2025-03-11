@@ -178,6 +178,7 @@ def do_test_language_sentences_file(
                     best_slot_name="name",
                 )
                 assert result is not None, f"Recognition failed for '{sentence}'"
+                assert result.intent_sentence is not None
                 assert (
                     result.intent.name == intent["name"]
                 ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
@@ -222,7 +223,7 @@ def do_test_language_sentences_file(
                 for actual_name in actual_slots:
                     assert (
                         actual_name in matched_slots
-                    ), f"Slot {actual_name} was not expected for: {sentence}"
+                    ), f"Slot {actual_name} was not expected for: {sentence} (matched template='{result.intent_sentence.text}')"
 
                 # Verify context if it's used in the test.
                 #

@@ -81,7 +81,7 @@ def do_test_language_sentences(
 
         intent_schema = intent_schemas[intent_name]
         slot_schema = intent_schema.get("slots", {})
-        slot_combinations = intent_schema.get("slot_combinations")
+        slot_combinations = intent_schema.get("slot_combinations", [])
         slot_groups = intent_schema.get("slot_groups")
 
         for data in intent.data:
@@ -134,17 +134,20 @@ def do_test_language_sentences(
                             group_slots
                         ), f"Slot group not matched: group='{group_name}' intent='{intent_name}', slots={found_slots}, sentence='{sentence.text}'"
 
-                if slot_combinations:
-                    # Verify one of the combinations is matched
-                    combo_matched = False
-                    for combo_slots in slot_combinations.values():
-                        if found_slots.issuperset(combo_slots):
-                            combo_matched = True
-                            break
+                # Verify one of the combinations is matched
+                combo_matched = False
+                for combo_info in slot_combinations:
+                    combo_slots = combo_info.get("slots", [])
+                    if isinstance(combo_slots, str):
+                        combo_slots = [combo_slots]
 
-                    assert (
-                        combo_matched
-                    ), f"Slot combination not matched: intent='{intent_name}', slots={found_slots}, sentence='{sentence.text}'"
+                    if found_slots.issuperset(combo_slots):
+                        combo_matched = True
+                        break
+
+                assert (
+                    combo_matched
+                ), f"Slot combination not found for intent '{intent_name}', slots={found_slots}, sentence='{sentence.text}'"
 
 
 def _verify(

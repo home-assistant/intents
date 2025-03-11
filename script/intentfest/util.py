@@ -24,6 +24,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
         type=str,
         choices=[
             "add_language",
+            "check_slot_combinations",
             "codeowners",
             "count_sentences",
             "language_table",
