@@ -222,7 +222,7 @@ def do_test_language_sentences_file(
                 for actual_name in actual_slots:
                     assert (
                         actual_name in matched_slots
-                    ), f"Slot {actual_name} was not expected for: {sentence}"
+                    ), f"Slot {actual_name} was not expected for: {sentence} (matched template='{result.intent_sentence.text}')"
 
                 # Verify context if it's used in the test.
                 #
