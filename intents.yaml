@@ -136,6 +136,48 @@ HassGetState:
       description: "List of states that matched the query and state name"
     query.unmatched:
       description: "List of states that matched everything except state name"
+  slot_combinations:
+    - slots: "name"
+      example: "what is the value of sensor 1"
+    - slots:
+        - "name"
+        - "area"
+      example: "what is the value of sensor 1 in the kitchen"
+    - slots:
+        - "name"
+        - "floor"
+      example: "what is the value of sensor 1 on the first floor"
+    - slots:
+        - "state"
+        - "domain"
+      example: "are there any lights on"
+    - slots:
+        - "state"
+        - "domain"
+        - "area"
+      example: "are there any lights on in the kitchen"
+    - slots:
+        - "state"
+        - "domain"
+        - "floor"
+      example: "are there any lights on upstairs"
+    - slots:
+        - "state"
+        - "device_class"
+        - "domain"
+      example: "are any batteries charging"
+    - slots:
+        - "state"
+        - "device_class"
+        - "domain"
+        - "area"
+      example: "are any batteries charging in the garage"
+    - slots:
+        - "state"
+        - "device_class"
+        - "domain"
+        - "floor"
+      example: "are any batteries charging in the basement"
 
 HassNevermind:
   supported: true
@@ -200,6 +242,11 @@ HassSetPosition:
     - slots:
         - "area"
         - "domain"
+        - "position"
+      example: "set kitchen valves to 50%"
+    - slots:
+        - "area"
+        - "domain"
         - "device_class"
         - "position"
       example: "set living room shades to 50%"
@@ -209,6 +256,16 @@ HassSetPosition:
         - "device_class"
         - "position"
       example: "set main floor shades to 50%"
+    - slots:
+        - "floor"
+        - "domain"
+        - "position"
+      example: "set main floor valves to 50%"
+    - slots:
+        - "domain"
+        - "device_class"
+        - "position"
+      example: "set all curtains to 50%"
 
 HassGetCurrentDate:
   supported: true
@@ -428,12 +485,17 @@ HassVacuumStart:
     name:
       description: "Name of a device or entity"
       required: false
+    area:
+      description: "Name of an area"
+      required: false
     floor:
-      description: "Name of an floor"
+      description: "Name of a floor"
       required: false
   slot_combinations:
     - slots: "name"
       example: "start rover"
+    - slots: "area"
+      example: "vacuum the kitchen"
     - slots: "floor"
       example: "vacuum the main floor"
 
@@ -445,9 +507,14 @@ HassVacuumReturnToBase:
     name:
       description: "Name of a device or entity"
       required: false
+    area:
+      description: "Name of an area"
+      required: false
   slot_combinations:
     - slots: "name"
       example: "return rover to base"
+    - slots: "area"
+      example: "return kitchen vacuum to base"
 
 # -----------------------------------------------------------------------------
 # media_player

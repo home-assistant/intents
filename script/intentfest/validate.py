@@ -111,7 +111,7 @@ INTENTS_SCHEMA = vol.Schema(
                     vol.Optional("required"): bool,
                 }
             },
-            vol.Optional("slot_combinations"): [
+            vol.Required("slot_combinations"): [
                 {
                     vol.Required("slots"): vol.Any(str, [str]),
                     vol.Required("example"): str,
