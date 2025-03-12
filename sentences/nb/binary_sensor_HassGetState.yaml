@@ -416,6 +416,15 @@ intents:
       # Motion
       - sentences:
           - "er <navn> [<i_på> <område>] {bs_motion_states:state}"
+        response: one_yesno
+        requires_context:
+          domain: binary_sensor
+          device_class: motion
+        slots:
+          domain: binary_sensor
+          device_class: motion
+
+      - sentences:
           - "er det bevegelse <i_på> <område>"
         response: one_yesno
         requires_context:
@@ -424,6 +433,7 @@ intents:
         slots:
           domain: binary_sensor
           device_class: motion
+          state: "on"
 
       - sentences:
           - "er [det] [<noe>] bevegelse[[s][-| ]sensor[er|ene]] {bs_motion_states:state} [<i_på> <område>]"
