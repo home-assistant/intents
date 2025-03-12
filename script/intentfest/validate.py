@@ -105,7 +105,9 @@ INTENTS_SCHEMA = vol.Schema(
             vol.Optional("supported"): bool,
             vol.Required("domain"): str,
             vol.Required("description"): str,
-            vol.Required("importance"): vol.Any("required", "complete", "optional"),
+            vol.Required("importance"): vol.Any(
+                "required", "usable", "complete", "optional"
+            ),
             vol.Optional("slots"): {
                 str: {
                     vol.Required("description"): str,
