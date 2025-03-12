@@ -1,2 +1,206 @@
 language: sk
-tests: []
+tests:
+  - sentences:
+      - "je garáž zatvorená?"
+      - "je zatvorená garáž?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "garáž"
+        state: closed
+    response: "Nie"
+
+  - sentences:
+      - "zatvára sa garáž?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name: "garáž"
+        state: closing
+    response: "Nie"
+
+  - sentences:
+      - aký stav má spálňové žalúzie?
+      - aký je stav spálňového žalúzia?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name:
+          - spálňové žalúzie
+          - spálňového žalúzia
+    response:
+      - Spálňové žalúzie je zatiahnuté
+      - Spálňového žalúzia je zatiahnuté
+
+  - sentences:
+      - "sú niektoré žalúzie zatvorené?"
+      - "sú nejaké žalúzie zavreté?"
+      - "sú zavreté niektoré žalúzie?"
+      - "sú zavreté nejaké žalúzie?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        state: closed
+    response: "Áno, spálňová žalúzia, zadná roleta"
+
+  - sentences:
+      - "sú niektoré žalúzie v spálni zavreté?"
+      - "sú nejaké žalúzie v spálni zavreté?"
+      - "je zavretá niektorá žalúzia v spálni?"
+      - "je zavretá nejaká žalúzia v spálni?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        area: spálni
+        state: closed
+    response: "Áno, spálňová žalúzia, zadná roleta"
+
+  - sentences:
+      - "sú niektoré žalúzie na hornom poschodí zavreté?"
+      - "sú nejaké žalúzia na vrchnom poschodí zatvorené?"
+      - "je zatvorená niektorá žalúzia na prvom poschodí?"
+      - "je na vrchnom poschodí zavretá nejaká žalúzia?"
+      - "sú na poschodí zavreté nejaké žalúzie?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        floor:
+          - hornom poschodí
+          - prvom poschodí
+          - vrchnom poschodí
+          - poschodí
+        state: closed
+    response: "Áno, spálňová žalúzia, zadná roleta"
+
+  - sentences:
+      - "otvárajú sa niektoré garážové brány?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: garage
+        state: opening
+    response: "Nie"
+
+  - sentences:
+      - "sú všetky rolety otvorené?"
+      - "sú otvorené všetky rolety?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        state: open
+    response: "Nie, spálňová žalúzia a zadná roleta nie sú v stave otvorená"
+
+  - sentences:
+      - "sú všetky rolety v spálni otvorené?"
+      - "sú v spálni otvorené všetky rolety?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        area: spálni
+        state: open
+    response: "Nie, spálňová žalúzia a zadná roleta nie sú v stave otvorená"
+
+  - sentences:
+      - "sú všetky rolety na prvom poschodí otvorené?"
+      - "sú otvorené všetky rolety na hornom poschodí?"
+      - "sú na vrchnom poschodí otvorené všetky rolety?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        floor:
+          - hornom poschodí
+          - vrchnom poschodí
+          - prvom poschodí
+        state: open
+    response: "Nie, spálňová žalúzia a zadná roleta nie sú v stave otvorená"
+
+  - sentences:
+      - "ktoré rolety sú otvorené?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        state: open
+    response: "predná roleta"
+
+  - sentences:
+      - "ktoré závesy v izbe pre hostí sú zatiahnuté?"
+      - "ktorý záves v izbe pre hostí je zatiahnutý?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area: izbe pre hostí
+        state: closed
+    response: "modrý závesu"
+
+  - sentences:
+      - "ktoré závesy na hornom poschodí sú zatiahnuté?"
+      - "ktorý záves na prvom poschodí je zatiahnutý?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        floor:
+          - hornom poschodí
+          - prvom poschodí
+        state: closed
+    response: "Spálňová roleta"
+
+  - sentences:
+      - "koľko roliet sa zatvára?"
+      - "koľko sa zatvára roliet?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: blind
+        state: closing
+    response: "0"
+
+  - sentences:
+      - "koľko závesov v izbe pre hostí je zatiahnutých?"
+      - "koľko je zatiahnutých závesov v izbe pre hostí?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        area: izbe pre hostí
+        state: closed
+    response: "1"
+
+  - sentences:
+      - "koľko závesov na prvom poschodí je zatiahnutých?"
+      - "koľko je zatiahnutých závesov na hornom poschodí?"
+      - "koľko je na poschodí zatiahnutých závesov?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        device_class: curtain
+        floor:
+          - hornom poschodí
+          - prvom poschodí
+          - poschodí
+        state: closed
+    response: "1"

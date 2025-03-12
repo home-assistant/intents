@@ -1,0 +1,41 @@
+language: sk
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "<is> ({name};{lock_states:state}) [<area_floor>]"
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+        response: one_yesno
+
+      - sentences:
+          - "<what_is> (stav;(je|má|majú)) {name} [<area_floor>]"
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+        response: one_cover
+
+      - sentences:
+          - "<is> <any> (dvere|zámky|zámok) [<area_floor>] {lock_states:state}"
+          - "<is> ({lock_states:state} <any> (dvere|zámky|zámok);[<area_floor>])"
+        slots:
+          domain: lock
+        response: any
+
+      - sentences:
+          - "je všade [<area_floor>] {lock_states:state}"
+          - "sú všetky (dvere|zámky) [<area_floor>] {lock_states:state}"
+          - "sú ({lock_states:state} všetky (dvere|zámky);[<area_floor>])"
+          - "{lock_states:state} všetky (dvere|zámky)"
+        slots:
+          domain: lock
+        response: all
+
+      - sentences:
+          - "<which> (dvere|zámky|zámok) [<area_floor>] <is> {lock_states:state}"
+        slots:
+          domain: lock
+        response: which
