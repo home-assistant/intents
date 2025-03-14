@@ -7,8 +7,7 @@ from typing import Any
 
 import pytest
 import yaml
-from hassil import Intents
-from hassil.util import merge_dict
+from hassil import Intents, merge_dict
 
 from . import INTENTS_FILE, LANGUAGES, RESPONSES_DIR, load_sentences
 

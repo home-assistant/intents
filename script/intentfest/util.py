@@ -3,7 +3,7 @@
 import argparse
 
 import yaml
-from hassil.util import merge_dict
+from hassil import merge_dict
 
 from .const import RESPONSE_DIR, SENTENCE_DIR
 

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 import yaml
-from hassil.util import merge_dict
+from hassil import merge_dict
 
 from .const import INTENTS_FILE, LANGUAGES, RESPONSE_DIR, SENTENCE_DIR
 from .util import get_base_arg_parser
