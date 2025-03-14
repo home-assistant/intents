@@ -3,30 +3,33 @@ intents:
   HassLightSet:
     data:
       - sentences:
-          - <set> <name> na <brightness>
-          - <set> jas <name> na <brightness>
-          - <set> <name> jas <brightness>
+          - <set> <name> na <brightness> [jas] # nastav nočnú lampu na 30% (jas)
+          - <set> jas <name> na <brightness> # nastav jas nočnej lampy na 20 (%)
+          - <set> <name> jas [na] <brightness> # nastav nočnú lampu jas (na) 10 (%)
         response: brightness
         requires_context:
           domain: light
+
       - sentences:
-          - <set> jas [svetla] <area> na <brightness>
-          - <set> jas <area> <brightness>
-          - <set> <area> <brightness> jas
+          - <set> jas [svetla] <area> na <brightness> # nastav jas (svetla) v obývačke na 50 (%)
+          - <set> jas [svetla] <area> <brightness> # nastav jas (svetla) v obývačke 30 (%)
+          - <set> <area> <brightness> jas # nastav v obývačke 20% jas
         slots:
           name: all
         response: brightness_area
+
       - sentences:
-          - <set> {color} [farbu] <name>
-          - <set> <name> {color} [farbu]
-          - <set> <name> na {color}
+          - <set> {color} [farbu] <name> # nastav modrú (farbu) nočnej lampe
+          - <set> <name> {color} [farbu] # nastav nočnej lampe zelenú farbu
+          - <set> <name> na {color} # nastaviť nočnú lampu na červenú
+        response: color
         requires_context:
           domain: light
-        response: color
+
       - sentences:
-          - <set> {color} [farbu] <area>
-          - <set> [v] <area> {color} [farbu]
-          - <set> [v] <area> na {color}
+          - <set> {color} [farbu] <area> # nastav červenú (farbu) v obývačke
+          - <set> [v] <area> {color} [farbu] # nastav v obývačke modrú (farbu)
+          - <set> [v] <area> na {color} # nastav spálňu na žltú
         slots:
           name: all
         response: color_area
