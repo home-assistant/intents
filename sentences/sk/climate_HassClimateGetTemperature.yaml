@@ -3,7 +3,19 @@ intents:
   HassClimateGetTemperature:
     data:
       - sentences:
-          - "<what_is> <temp> [je] <area>"
-          - "<how_many> stupňov [je] <area>"
-          - "<how_many> stupňov"
-          - "<what_is> <temp>"
+          - "<what_is> <temp> [je] <area>" # aká teplota je v obývačke?
+          - "<how_many> stupňov [je] <area>" # koľko stupňov je v obývačke?
+
+      - sentences:
+          - "ak(á|o) (je;[nastavená ]teplota;[<in> ]{name})" # aká je teplota nastavená na mojej klíme? (konkrétna entita)
+          - "koľko ((je|má);stupňov;[<in> ]{name})" # koľko stupňov má moja klíma? (konkrétna entita)
+        requires_context:
+          domain: climate
+
+      - sentences:
+          - "aká (je;[<here>];teplota)" # aká je tu teplota?
+          - "koľko (je;[<here>];stupňov)" # koľko je tu stupňov?
+          - "ako ((teplo|chladno);je;[<here>])" # ako teplo/chladno tu je?
+        requires_context:
+          area:
+            slot: true
