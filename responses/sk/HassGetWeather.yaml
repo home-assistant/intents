@@ -21,4 +21,375 @@ responses:
           'windy': 'a veterno',
           'windy-variant': 's vetrom a oblačno'
         } %}
-        {{ state.attributes.get('temperature') }} {{ state.attributes.get('temperature_unit') }} {{ weather_condition.get((state.state | string).lower(), "") }}
+        {% set temperature = state.attributes.get('temperature') %}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% set temperature_sk = (temperature | string).replace(".", ",") %}
+        {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+        {% set negative_name = "" %}
+        {% if temperature | float < 0 %}
+          {% set negative_name = "mínus " %}
+        {% endif %}
+        {# teplota je v celých číslach (napr. 3 stupne, 10 stupňov) #}
+        {% if temperature_decmal == 0 %}
+          {% if temperature | int | abs == 1 %}
+            {% set degree_name = 'stupeň' %}
+          {% elif temperature | int | abs in [2, 3, 4] %}
+            {% set degree_name = 'stupne' %}
+          {% else %}
+            {% set degree_name = 'stupňov' %}
+          {% endif %}
+        {% else %}
+          {# teplota je v desatinných číslach (napr. 12.8 stupňa) #}
+          {% set degree_name = "stupňa" %}
+        {% endif %}
+        {% if temperature_unit == "°F" %}
+          {% set temperature_unit = degree_name ~ " fahrenheita" %}
+        {% else %}
+          {% set temperature_unit = degree_name ~ " celzia" %}
+        {% endif %}
+        {{ negative_name }}{{ temperature_sk.replace("-", "") }} {{ temperature_unit }} {{ weather_condition.get((state.state | string).lower(), "") }}
+
+      detailed_weather: >
+        {% set report = [] %}
+
+        {% set temperature = state.attributes.get('temperature') %}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% if temperature is not none %}
+          {% set temperature_sk = (temperature|string).replace(".", ",") %}
+          {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+          {% set negative_name = '' %}
+          {% if temperature | float < 0 %}
+            {% set negative_name = 'mínus ' %}
+          {% endif %}
+          {% if temperature_decmal == 0 %}
+            {% if temperature | int | abs == 1 %}
+              {% set degree_name = 'stupeň' %}
+            {% elif temperature | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stupne' %}
+            {% else %}
+              {% set degree_name = 'stupňov' %}
+            {% endif %}
+          {% else %}
+            {% set degree_name = "stupňa" %}
+          {% endif %}
+          {% if temperature_unit == "°F" %}
+            {% set temperature_unit = degree_name ~ " fahrenheita" %}
+          {% else %}
+            {% set temperature_unit = degree_name ~ " celzia" %}
+          {% endif %}
+          {% set report = report + ['Aktuálna predpoveď je '~ negative_name ~ temperature_sk.replace("-", "") ~ ' ' ~ temperature_unit ~ ' '] %}
+        {% endif %}
+
+        {% set weather_condition_dict = {
+          'clear': 'a jasno',
+          'clear-night': 'a jasno',
+          'cloudy': 'a oblačno',
+          'exceptional': 'a výstrahy',
+          'fog': 'a hmla',
+          'hail': 'a krúpy',
+          'lightning': 'a blesky',
+          'lightning-rainy': 's bleskami a dážďom',
+          'partlycloudy': 'a čiastočne oblačno',
+          'pouring': 'a silný dážď',
+          'rainy': 'a dážď',
+          'snowy': 'a sneží',
+          'snowy-rainy': 'so snehom a dážďom',
+          'sunny': 'a slnečno',
+          'windy': 'a veterno',
+          'windy-variant': 's vetrom a oblačno'
+        } %}
+
+        {% set weather_condition = weather_condition_dict.get(state.state, '') %}
+        {% if weather_condition %}
+          {% set report = report + [weather_condition] %}
+        {% endif %}
+
+        {% set humidity = state.attributes.get('humidity') %}
+        {% if humidity is not none %}
+          {% set report = report + [', vlhkosť vzduchu je ' ~ humidity ~ ' percent'] %}
+        {% endif %}
+
+        {% set pressure = state.attributes.get('pressure') %}
+        {% if pressure is not none %}
+          {% set pressure_unit = state.attributes.get('pressure_unit', '') %}
+          {% if pressure_unit == 'Pa' %}
+            {% set pressure_unit = 'paskalov' %}
+          {% elif pressure_unit == 'hPa' %}
+            {% set pressure_unit = 'hektopaskalov' %}
+          {% elif pressure_unit == 'bar' %}
+            {% set pressure_unit = 'barov' %}
+          {% elif pressure_unit == 'mbar' %}
+            {% set pressure_unit = 'milibarov' %}
+          {% endif %}
+          {% set report = report + [', tlak vzduchu je na úrovni ' ~ ((pressure|string).replace(".", ",")) ~ ' ' ~ pressure_unit] %}
+        {% endif %}
+
+        {% set wind_speed = state.attributes.get('wind_speed') %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') %}
+        {% if wind_speed is not none %}
+          {% set wind_speed_unit = state.attributes.get('wind_speed_unit', 'km/h') %}
+          {% if wind_speed_unit == 'm/s' %}
+            {% set wind_speed_unit = 'metrov za sekundu' %}
+          {% elif wind_speed_unit == 'km/h' %}
+            {% set wind_speed_unit = 'kilometrov za hodinu' %}
+          {% elif wind_speed_unit == 'mi/h' %}
+            {% set wind_speed_unit = 'míľ za hodinu' %}
+          {% elif wind_speed_unit == 'ft/s' %}
+            {% set wind_speed_unit = 'stôp za sekundu' %}
+          {% elif wind_speed_unit == 'kn' %}
+            {% set wind_speed_unit = 'uzlov' %}
+          {% endif %}
+
+          {% set wind_speed_text = '' %}
+          {% if wind_speed < 1 %}
+            {% set wind_speed_text = 'je bezvetrie' %}
+          {% elif 1 <= wind_speed < 6 %}
+            {% set wind_speed_text = 'vanie jemný vánok' %}
+          {% elif 6 <= wind_speed < 12 %}
+            {% set wind_speed_text = 'fúka ľahký vetrík' %}
+          {% elif 12 <= wind_speed < 20 %}
+            {% set wind_speed_text = 'fúka mierny vietor' %}
+          {% elif 20 <= wind_speed < 29 %}
+            {% set wind_speed_text = 'fúka silný vietor' %}
+          {% elif 29 <= wind_speed < 39 %}
+            {% set wind_speed_text = 'je víchrica' %}
+          {% elif 39 <= wind_speed < 50 %}
+            {% set wind_speed_text = 'je silná víchrica' %}
+          {% else %}
+            {% set wind_speed_text = 'je neobvykle silný vietor' %}
+          {% endif %}
+          {% set report = report + [', rýchlosť vetra je ' ~ ((wind_speed|string).replace(".", ",")) ~ ' ' ~ wind_speed_unit ~ ', ' ~ wind_speed_text ~ ', '] %}
+
+          {% if wind_gust_speed != None %}
+            {% set report = report + ['v nárazoch až ' ~ wind_gust_speed | string | replace('.', ',') ~ ' ' ~ wind_speed_unit] %}
+          {% endif %}
+        {% endif %}
+
+        {% set cloud_coverage = state.attributes.get('cloud_coverage') %}
+        {% if wind_speed is not none %}
+          {% set report = report + ['. Oblačnosť dosahuje ' ~ cloud_coverage ~ ' percent '] %}
+        {% endif %}
+
+        {% set uv_index = state.attributes.get('uv_index') %}
+        {% if uv_index is not none %}
+          {% set uv_category = 'nízky' %}
+          {% if uv_index <= 2 %}
+            {% set uv_category = 'nízky' %}
+          {% elif 3 <= uv_index <= 4 %}
+            {% set uv_category = 'stredný' %}
+          {% elif 5 <= uv_index <= 7 %}
+            {% set uv_category = 'vysoký' %}
+          {% elif 8 <= uv_index <= 10 %}
+            {% set uv_category = 'veľmi vysoký' %}
+          {% elif uv_index >= 11 %}
+            {% set uv_category = 'extrémny' %}
+          {% endif %}
+          {% set report = report + ['a aktuálny index UV žiarenia je ' ~ uv_index ~ ', čo predstavuje ' ~ uv_category ~ ' stupeň.'] %}
+        {% endif %}
+
+        {{ report | join('') }}
+
+      temperature: >
+        {% set temperature = state.attributes.get('temperature') %}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% if temperature is not none %}
+          {% set temperature_sk = (temperature | string).replace(".", ",") %}
+          {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+          {% set negative_name = "" %}
+          {% if temperature | float < 0 %}
+            {% set negative_name = "mínus " %}
+          {% endif %}
+          {% if temperature_decmal == 0 %}
+            {% if temperature | int | abs == 1 %}
+              {% set degree_name = 'stupeň' %}
+            {% elif temperature | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stupne' %}
+            {% else %}
+              {% set degree_name = 'stupňov' %}
+            {% endif %}
+          {% else %}
+            {% set degree_name = "stupňa" %}
+          {% endif %}
+          {% if temperature_unit == "°F" %}
+            {% set temperature_unit = degree_name ~ " fahrenheita" %}
+          {% else %}
+            {% set temperature_unit = degree_name ~ " celzia" %}
+          {% endif %}
+          Aktuálna teplota je {{ negative_name }}{{ temperature_sk.replace("-", "") }} {{ temperature_unit }}
+        {% else %}
+          Chýbajú informácie o teplote
+        {% endif %}
+
+      humidity: >
+        {% set humidity = state.attributes.get('humidity') %}
+        {% set humidity_sk = (humidity|string).replace(".", ",") %}
+        {% if humidity != "" %}
+          Vlhkosť vzduchu je {{ humidity_sk }} percent
+        {% else %}
+          Chýbajú informácie o vlhkosti
+        {% endif %}
+
+      dew_point: >
+        {% set dew_point = state.attributes.get('dew_point') %}
+        {% set temperature_unit = state.attributes.get('temperature_unit') %}
+        {% if dew_point is not none %}
+          {% set dew_point_sk = (dew_point | string).replace(".", ",") %}
+          {% set dew_point_decmal = (dew_point | float - dew_point | int) | round(2) %}
+          {% set negative_name = "" %}
+          {% if dew_point < 0 %}
+            {% set negative_name = "minus " %}
+          {% endif %}
+          {% if dew_point_decmal == 0 %}
+            {% if dew_point | int | abs == 1 %}
+              {% set degree_name = 'stupeň' %}
+            {% elif dew_point | int | abs in [2, 3, 4] %}
+              {% set degree_name = 'stupne' %}
+            {% else %}
+              {% set degree_name = 'stupňov' %}
+            {% endif %}
+          {% else %}
+            {% set degree_name = "stupňa" %}
+          {% endif %}
+          {% if temperature_unit == "°F" %}
+            {% set temperature_unit = degree_name ~ " fahrenheita" %}
+          {% else %}
+            {% set temperature_unit = degree_name ~ " celzia" %}
+          {% endif %}
+          Rosný bod je {{ negative_name }}{{ dew_point_sk.replace("-", "") }} {{ temperature_unit }}
+        {% else %}
+          Chýbajú informácie o rosnom bode
+        {% endif %}
+
+      pressure: >
+        {% set pressure = state.attributes.get('pressure') %}
+        {% set pressure_sk = (pressure|string).replace(".", ",") %}
+        {% set pressure_unit = state.attributes.get('pressure_unit') %}
+        {% if pressure != "" %}
+          {% set pressure_unit_name = '' %}
+          {% if pressure_unit == 'Pa' %}
+            {% set pressure_unit_name = 'paskalov' %}
+          {% elif pressure_unit == 'hPa' %}
+            {% set pressure_unit_name = 'hektopaskalov' %}
+          {% elif pressure_unit == 'bar' %}
+            {% set pressure_unit_name = 'barov' %}
+          {% elif pressure_unit == 'mbar' %}
+            {% set pressure_unit_name = 'milibarov' %}
+          {% endif %}
+          Tlak vzduchu je {{ pressure_sk }} {{ pressure_unit_name }}
+        {% else %}
+          Chýbajú informácie o tlaku vzduchu
+        {% endif %}
+
+      wind_speed: >
+        {% set wind_bearing = state.attributes.get('wind_bearing') %}
+        {% set wind_gust_speed = state.attributes.get('wind_gust_speed') %}
+        {% set wind_speed = state.attributes.get('wind_speed') %}
+        {% set wind_speed_unit = state.attributes.get('wind_speed_unit') %}
+        {% set wind_bearing_text = '' %}
+
+        {% if wind_bearing is not none %}
+          {% if 0 <= wind_bearing < 45 %}
+            {% set wind_bearing_text = 'severný' %}
+          {% elif 45 <= wind_bearing < 90 %}
+            {% set wind_bearing_text = 'severovýchodný' %}
+          {% elif 90 <= wind_bearing < 135 %}
+            {% set wind_bearing_text = 'východný' %}
+          {% elif 135 <= wind_bearing < 180 %}
+            {% set wind_bearing_text = 'juhovýchodný' %}
+          {% elif 180 <= wind_bearing < 225 %}
+            {% set wind_bearing_text = 'južný' %}
+          {% elif 225 <= wind_bearing < 270 %}
+            {% set wind_bearing_text = 'juhozápadný' %}
+          {% elif 270 <= wind_bearing < 315 %}
+            {% set wind_bearing_text = 'západný' %}
+          {% elif 315 <= wind_bearing <= 360 %}
+            {% set wind_bearing_text = 'severozápadný' %}
+          {% else %}
+            {% set wind_bearing_text = 'neznámy' %}
+          {% endif %}
+        {% endif %}
+
+        {% set wind_report = [] %}
+        {% set wind_speed_unit_name = 'kilometrov za hodinu' %}
+        {% if wind_speed_unit == 'm/s' %}
+          {% set wind_speed_unit_name = 'metrov za sekundu' %}
+        {% elif wind_speed_unit == 'km/h' %}
+          {% set wind_speed_unit_name = 'kilometrov za hodinu' %}
+        {% elif wind_speed_unit == 'mi/h' %}
+          {% set wind_speed_unit_name = 'míľ za hodinu' %}
+        {% elif wind_speed_unit == 'ft/s' %}
+          {% set wind_speed_unit_name = 'stôp za sekundu' %}
+        {% elif wind_speed_unit == 'kn' %}
+          {% set wind_speed_unit_name = 'uzlov' %}
+        {% endif %}
+
+        {% if wind_speed != None %}
+          {% set wind = wind_bearing_text | default('') ~ ' vietor ' %}
+          {% set wind_report = wind_report + ['Fúkať bude ' ~ wind ~ 'o rýchlosti ' ~ wind_speed | string | replace('.', ',') ~ ' ' ~ wind_speed_unit_name] %}
+        {% endif %}
+
+        {% if wind_gust_speed != None %}
+          {% set wind_report = wind_report + [', v nárazoch až ' ~ wind_gust_speed | string | replace('.', ',') ~ ' ' ~ wind_speed_unit_name] %}
+        {% endif %}
+
+        {{ wind_report | join('') }}
+
+      ozone: >
+        {% set ozone = state.attributes.get('ozone') %}
+        {% set ozone_sk = (ozone|string).replace(".", ",") %}
+        {% if ozone != "" %}
+        Úroveň ozónu je {{ ozone_sk }}
+        {% else %}
+        Chýbajú informácie o úrovni ozónu
+        {% endif %}
+
+      cloud_coverage: >
+        {% set cloud_coverage = state.attributes.get('cloud_coverage') %}
+        {% if cloud_coverage != "" %}
+        Oblačnosť je {{ cloud_coverage }} percent
+        {% else %}
+        Chýbajú informácie o oblačnosti
+        {% endif %}
+
+      visibility: >
+        {% set visibility = state.attributes.get('visibility') %}
+        {% set visibility_sk = (visibility|string).replace(".", ",") %}
+        {% set visibility_unit = state.attributes.get('visibility_unit') %}
+        {% if visibility != "" %}
+          {% set visibility_unit_name = 'kilometrov' %}
+          {% if visibility_unit == 'km' %}
+            {% set visibility_unit_name = 'kilometrov' %}
+          {% elif visibility_unit == 'mi' %}
+            {% set visibility_unit_name = 'míľ' %}
+          {% endif %}
+          Viditeľnosť je {{ visibility_sk }} {{ visibility_unit_name }}
+        {% else %}
+          Chýbajú informácie o viditeľnosti
+        {% endif %}
+
+      uv_index: >
+        {% set uv_index = state.attributes.get('uv_index') %}
+        {% if uv_index != None %}
+          {% set uv_index = uv_index | round %}
+          {% set uv_category = '' %}
+          {% set uv_comment = '' %}
+          {% if uv_index <= 2 %}
+            {% set uv_category = 'nízky' %}
+            {% set uv_comment = '' %}
+          {% elif 3 <= uv_index <= 4 %}
+            {% set uv_category = 'stredný' %}
+            {% set uv_comment = 'Odporúča sa používať krém s UV filtrom, nosiť slnečné okuliare a pokrývku hlavy.' %}
+          {% elif 5 <= uv_index <= 7 %}
+            {% set uv_category = 'vysoký' %}
+            {% set uv_comment = 'Odporúča sa vyhýbať slnku v čase najvyššieho slnečného žiarenia (zvyčajne okolo poludnia) a používať primeranú ochranu pred slnkom.' %}
+          {% elif 8 <= uv_index <= 10 %}
+            {% set uv_category = 'veľmi vysoký' %}
+            {% set uv_comment = 'Vyhýbajte sa slnku počas najvyššieho slnečného žiarenia a používajte účinnú ochranu pred UV žiarením.' %}
+          {% elif uv_index >= 11 %}
+            {% set uv_category = 'extrémne vysoký' %}
+            {% set uv_comment = 'Dôrazne odporúčam čo najviac obmedziť pobyt na slnku a používať ochranu pred UV žiarením.' %}
+          {% endif %}
+          Aktuálny index UV žiarenia je {{ uv_index }}, čo predstavuje {{ uv_category }} stupeň. {{ uv_comment }}
+        {% else %}
+          Chýbajú informácie o indexe UV žiarenia
+        {% endif %}
