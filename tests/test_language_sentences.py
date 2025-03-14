@@ -7,11 +7,15 @@ from contextlib import AbstractContextManager, nullcontext
 from typing import Any, List
 
 import pytest
-from hassil import Intents, recognize_best
-from hassil.expression import TextChunk
-from hassil.intents import SlotList, TextSlotList
-from hassil.trie import Trie
-from hassil.util import normalize_whitespace
+from hassil import (
+    Intents,
+    SlotList,
+    TextChunk,
+    TextSlotList,
+    Trie,
+    normalize_whitespace,
+    recognize_best,
+)
 from jinja2 import BaseLoader, Environment
 from yaml import safe_load
 
