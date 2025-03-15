@@ -12,7 +12,7 @@ responses:
           'hail': 'a krúpy',
           'lightning': 'a blesky',
           'lightning-rainy': 's bleskami a dážďom',
-          'partlycloudy': 'a čiastočne oblačno',
+          'partlycloudy': 'a polooblačno',
           'pouring': 'a silný dážď',
           'rainy': 'a dážď',
           'snowy': 'a sneží',
@@ -24,13 +24,13 @@ responses:
         {% set temperature = state.attributes.get('temperature') %}
         {% set temperature_unit = state.attributes.get('temperature_unit') %}
         {% set temperature_sk = (temperature | string).replace(".", ",") %}
-        {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+        {% set temperature_decimal = (temperature | float - temperature | int) | round(2) %}
         {% set negative_name = "" %}
         {% if temperature | float < 0 %}
           {% set negative_name = "mínus " %}
         {% endif %}
         {# teplota je v celých číslach (napr. 3 stupne, 10 stupňov) #}
-        {% if temperature_decmal == 0 %}
+        {% if temperature_decimal == 0 %}
           {% if temperature | int | abs == 1 %}
             {% set degree_name = 'stupeň' %}
           {% elif temperature | int | abs in [2, 3, 4] %}
@@ -56,12 +56,12 @@ responses:
         {% set temperature_unit = state.attributes.get('temperature_unit') %}
         {% if temperature is not none %}
           {% set temperature_sk = (temperature|string).replace(".", ",") %}
-          {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+          {% set temperature_decimal = (temperature | float - temperature | int) | round(2) %}
           {% set negative_name = '' %}
           {% if temperature | float < 0 %}
             {% set negative_name = 'mínus ' %}
           {% endif %}
-          {% if temperature_decmal == 0 %}
+          {% if temperature_decimal == 0 %}
             {% if temperature | int | abs == 1 %}
               {% set degree_name = 'stupeň' %}
             {% elif temperature | int | abs in [2, 3, 4] %}
@@ -89,7 +89,7 @@ responses:
           'hail': 'a krúpy',
           'lightning': 'a blesky',
           'lightning-rainy': 's bleskami a dážďom',
-          'partlycloudy': 'a čiastočne oblačno',
+          'partlycloudy': 'a polooblačno',
           'pouring': 'a silný dážď',
           'rainy': 'a dážď',
           'snowy': 'a sneží',
@@ -194,12 +194,12 @@ responses:
         {% set temperature_unit = state.attributes.get('temperature_unit') %}
         {% if temperature is not none %}
           {% set temperature_sk = (temperature | string).replace(".", ",") %}
-          {% set temperature_decmal = (temperature | float - temperature | int) | round(2) %}
+          {% set temperature_decimal = (temperature | float - temperature | int) | round(2) %}
           {% set negative_name = "" %}
           {% if temperature | float < 0 %}
             {% set negative_name = "mínus " %}
           {% endif %}
-          {% if temperature_decmal == 0 %}
+          {% if temperature_decimal == 0 %}
             {% if temperature | int | abs == 1 %}
               {% set degree_name = 'stupeň' %}
             {% elif temperature | int | abs in [2, 3, 4] %}
@@ -234,12 +234,12 @@ responses:
         {% set temperature_unit = state.attributes.get('temperature_unit') %}
         {% if dew_point is not none %}
           {% set dew_point_sk = (dew_point | string).replace(".", ",") %}
-          {% set dew_point_decmal = (dew_point | float - dew_point | int) | round(2) %}
+          {% set dew_point_decimal = (dew_point | float - dew_point | int) | round(2) %}
           {% set negative_name = "" %}
           {% if dew_point < 0 %}
             {% set negative_name = "minus " %}
           {% endif %}
-          {% if dew_point_decmal == 0 %}
+          {% if dew_point_decimal == 0 %}
             {% if dew_point | int | abs == 1 %}
               {% set degree_name = 'stupeň' %}
             {% elif dew_point | int | abs in [2, 3, 4] %}
