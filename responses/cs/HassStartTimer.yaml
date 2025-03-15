@@ -1,0 +1,26 @@
+---
+language: cs
+responses:
+  intents:
+    HassStartTimer:
+      default: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' hodinu' if h in [ "1", 'jedna', 'jednu'] else ' hodiny' if h in [ "2", "3", "4"] else ' hodin') if h else '' %}
+        {% set m_text = m ~ (' minutu' if m in [ "1", 'jedna', 'jednu'] else ' minuty' if m in [ "2", "3", "4"] else ' minut') if m else '' %}
+        {% set s_text = s ~ (' sekundu' if s in [ "1", 'jedna', 'jednu'] else ' sekundy' if s in [ "2", "3", "4"] else ' sekund') if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' a ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' a ') %}
+        {% set name = ('pojmenovaný ' ~ slots.name | trim) if slots.name is defined else '' %}
+        Časovač {{ name }} nastaven na {{ text }}
+      command: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' hodinu' if h in [ "1", 'jedna', 'jednu'] else ' hodiny' if h in [ "2", "3", "4"] else ' hodin') if h else '' %}
+        {% set m_text = m ~ (' minutu' if m in [ "1", 'jedna', 'jednu'] else ' minuty' if m in [ "2", "3", "4"] else ' minut') if m else '' %}
+        {% set s_text = s ~ (' sekundu' if s in [ "1", 'jedna', 'jednu'] else ' sekundy' if s in [ "2", "3", "4"] else ' sekund') if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' a ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' a ') %}
+        Příkaz bude proveden za {{ text }}
