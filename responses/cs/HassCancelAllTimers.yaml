@@ -1,0 +1,25 @@
+---
+language: cs
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Žádné časovače nebyly zrušeny.
+        {% elif slots.canceled == 1: %}
+        Zrušen 1 časovač.
+        {% elif slots.canceled < 5: %}
+        Zrušeny {{ slots.canceled }} časovače.
+        {% else: %}
+        Zrušeno {{ slots.canceled }} časovačů.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Žádné časovače v {{ slots.area }} nebyly zrušeny.
+        {% elif slots.canceled == 1: %}
+        Zrušen časovač v {{ slots.area }}.
+        {% elif slots.canceled < 5: %}
+        Zrušeny {{ slots.canceled }} časovače v {{ slots.area }}.
+        {% else: %}
+        Zrušeno {{ slots.canceled }} časovačů v {{ slots.area }}.
+        {% endif %}
