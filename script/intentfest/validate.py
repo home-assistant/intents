@@ -117,13 +117,14 @@ INTENTS_SCHEMA = vol.Schema(
             vol.Required("slot_combinations"): [
                 {
                     vol.Required("slots"): vol.Any(str, [str]),
-                    vol.Required("example"): str,
+                    vol.Required("example"): vol.Any(str, [str]),
+                    vol.Required("importance"): vol.Any(
+                        "required", "usable", "complete", "optional"
+                    ),
                     vol.Optional("context_area"): bool,
+                    vol.Optional("domain"): vol.Any(str, [str]),
                 }
             ],
-            vol.Optional("slot_groups"): {
-                str: [str],
-            },
             vol.Optional("response_variables"): {
                 str: {
                     vol.Required("description"): str,
