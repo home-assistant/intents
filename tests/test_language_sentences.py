@@ -7,11 +7,15 @@ from contextlib import AbstractContextManager, nullcontext
 from typing import Any, List
 
 import pytest
-from hassil import Intents, recognize_best
-from hassil.expression import TextChunk
-from hassil.intents import SlotList, TextSlotList
-from hassil.trie import Trie
-from hassil.util import normalize_whitespace
+from hassil import (
+    Intents,
+    SlotList,
+    TextChunk,
+    TextSlotList,
+    Trie,
+    normalize_whitespace,
+    recognize_best,
+)
 from jinja2 import BaseLoader, Environment
 from yaml import safe_load
 
@@ -178,6 +182,7 @@ def do_test_language_sentences_file(
                     best_slot_name="name",
                 )
                 assert result is not None, f"Recognition failed for '{sentence}'"
+                assert result.intent_sentence is not None
                 assert (
                     result.intent.name == intent["name"]
                 ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
@@ -222,7 +227,7 @@ def do_test_language_sentences_file(
                 for actual_name in actual_slots:
                     assert (
                         actual_name in matched_slots
-                    ), f"Slot {actual_name} was not expected for: {sentence}"
+                    ), f"Slot {actual_name} was not expected for: {sentence} (matched template='{result.intent_sentence.text}')"
 
                 # Verify context if it's used in the test.
                 #

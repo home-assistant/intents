@@ -1,4 +1,49 @@
 language: sk
 intents:
   HassGetState:
-    data: []
+    data:
+      - sentences:
+          - "je ({name};{cover_states:state}) [<area_floor>]" # je moja roleta zatvorená? (konkrétna entita)
+          - "{cover_states:state} {name} [<area_floor>]" # otvára/zatvára sa roleta moja roleta? (konkrétna entita)
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+        response: one_yesno
+
+      - sentences:
+          - "aký (stav;(má|je)) {name} [<area_floor>]" # aký stav má moja roleta? (konkrétna entita)
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+        response: one_cover
+
+      - sentences:
+          - "<is> <any> {cover_classes:device_class} [<area_floor>] {cover_states:state}" # sú nejaké závesy zatiahnuté?
+          - "<is> ({cover_states:state} <any> {cover_classes:device_class};[<area_floor>])" # je otvorená nejaká žalúzia?
+          - "{cover_states:state} <any> {cover_classes:device_class}" # otvára sa nejaké okno?
+        slots:
+          domain: cover
+        response: any
+
+      - sentences:
+          - "sú všetky {cover_classes:device_class} [<area_floor>] {cover_states:state}" # sú všetky závesy (na poschodí) roztiahnuté?
+          - "sú ({cover_states:state} všetky {cover_classes:device_class};[<area_floor>])" # sú roztiahnuté všetky závesy (na poschodí)?
+          - "{cover_states:state} všetky {cover_classes:device_class}" # rozťahujú sa všetky závesy?
+        slots:
+          domain: cover
+        response: all
+
+      - sentences:
+          - "<which> {cover_classes:device_class} [<area_floor>] (<is>|sa) {cover_states:state}" # ktoré rolety (na poschodí) sa zatvárajú?
+        slots:
+          domain: cover
+        response: which
+
+      - sentences:
+          - "koľko {cover_classes:device_class} ((je|sa) {cover_states:state};[<area_floor>])" # koľko žalúzií (na poschodí) sa zatvára?
+          - "koľko (je|sa) ({cover_states:state} {cover_classes:device_class};[<area_floor>])" # koľko roliet je (na prízemí) zatvorených?
+        slots:
+          domain: cover
+        response: how_many
