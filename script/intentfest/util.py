@@ -3,7 +3,7 @@
 import argparse
 
 import yaml
-from hassil.util import merge_dict
+from hassil import merge_dict
 
 from .const import RESPONSE_DIR, SENTENCE_DIR
 
@@ -24,6 +24,7 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
         type=str,
         choices=[
             "add_language",
+            "check_slot_combinations",
             "codeowners",
             "count_sentences",
             "language_table",

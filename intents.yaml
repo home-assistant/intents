@@ -6,6 +6,7 @@ HassTurnOn:
   supported: true
   domain: homeassistant
   description: "Turns on a device or entity"
+  importance: "required"
   slots:
     name:
       description: "Name of a device or entity"
@@ -23,40 +24,64 @@ HassTurnOn:
       description: "Device class of devices/entities in an area"
       required: false
   slot_combinations:
-    name_only:
-      - "name"
-    area_only:
-      - "area"
-    floor_only:
-      - "floor"
-    domain_only:
-      - "domain"
-    floor_name:
-      - "name"
-      - "floor"
-    area_name:
-      - "name"
-      - "area"
-    area_domain:
-      - "area"
-      - "domain"
-    floor_domain:
-      - "floor"
-      - "domain"
-    area_device_class:
-      - "area"
-      - "device_class"
-    floor_device_class:
-      - "floor"
-      - "device_class"
-    domain_device_class:
-      - "domain"
-      - "device_class"
+    - slots: "domain"
+      context_area: true
+      importance: "required"
+      domain: "light"
+      example: "turn on the lights in here"
+    - slots: "name"
+      importance: "required"
+      domain:
+        - "light"
+        - "cover"
+      example:
+        - "turn on the overhead light"
+        - "open the sliding door"
+    - slots:
+        - "area"
+        - "domain"
+      importance: "required"
+      domain: "light"
+      example: "turn on the lights in the kitchen"
+    - slots:
+        - "name"
+        - "area"
+      importance: "complete"
+      example: "turn on the overhead light in the kitchen"
+    - slots:
+        - "area"
+        - "domain"
+        - "device_class"
+      importance: "complete"
+      domain: "cover"
+      example: "open the curtains in the living room"
+    - slots:
+        - "floor"
+        - "domain"
+      importance: "complete"
+      domain: "light"
+      example: "turn on the upstairs lights"
+    - slots:
+        - "floor"
+        - "domain"
+        - "device_class"
+      importance: "complete"
+      domain: "cover"
+      example: "open the curtains on the main floor"
+    - slots:
+        - "name"
+        - "floor"
+      importance: "complete"
+      example: "turn on the overhead light upstairs"
+    - slots: "domain"
+      importance: "optional"
+      example: "turn on all the lights in the house"
 
 HassTurnOff:
   supported: true
   domain: homeassistant
   description: "Turns off a device or entity"
+  importance: "required"
   slots:
     name:
       description: "Name of a device or entity"
@@ -74,40 +99,60 @@ HassTurnOff:
       description: "Device class of devices/entities in an area"
       required: false
   slot_combinations:
-    name_only:
-      - "name"
-    area_only:
-      - "area"
-    floor_only:
-      - "floor"
-    domain_only:
-      - "domain"
-    area_name:
-      - "name"
-      - "area"
-    floor_name:
-      - "name"
-      - "floor"
-    area_domain:
-      - "area"
-      - "domain"
-    floor_domain:
-      - "floor"
-      - "domain"
-    area_device_class:
-      - "area"
-      - "device_class"
-    floor_device_class:
-      - "floor"
-      - "device_class"
-    domain_device_class:
-      - "domain"
-      - "device_class"
+    - slots: "domain"
+      context_area: true
+      importance: "required"
+      domain: "light"
+      example: "turn off the lights in here"
+    - slots: "name"
+      importance: "required"
+      domain:
+        - "light"
+        - "cover"
+      example:
+        - "turn off the overhead light"
+        - "close the sliding door"
+    - slots:
+        - "area"
+        - "domain"
+      importance: "required"
+      example: "turn off the lights in the kitchen"
+    - slots:
+        - "name"
+        - "area"
+      importance: "complete"
+      example: "turn off the overhead light in the kitchen"
+    - slots:
+        - "area"
+        - "domain"
+        - "device_class"
+      importance: "complete"
+      example: "close the curtains in the living room"
+    - slots:
+        - "floor"
+        - "domain"
+      importance: "complete"
+      example: "turn off the upstairs lights"
+    - slots:
+        - "floor"
+        - "domain"
+        - "device_class"
+      importance: "complete"
+      example: "close the curtains on the main floor"
+    - slots:
+        - "name"
+        - "floor"
+      importance: "complete"
+      example: "turn off the overhead light upstairs"
+    - slots: "domain"
+      importance: "optional"
+      example: "turn off all the lights in the house"
 
 HassGetState:
   supported: true
   domain: homeassistant
   description: "Gets or checks the state of an entity"
+  importance: "complete"
   slots:
     name:
       description: "Name of a device or entity"
@@ -134,34 +179,102 @@ HassGetState:
       description: "List of states that matched the query and state name"
     query.unmatched:
       description: "List of states that matched everything except state name"
+  slot_combinations:
+    - slots: "name"
+      importance: "required"
+      domain: "sensor"
+      example: "what is the value of sensor 1"
+    - slots:
+        - "name"
+        - "area"
+      importance: "complete"
+      example: "what is the value of sensor 1 in the kitchen"
+    - slots:
+        - "name"
+        - "floor"
+      importance: "complete"
+      example: "what is the value of sensor 1 on the first floor"
+    - slots:
+        - "state"
+        - "domain"
+      importance: "optional"
+      example: "are there any lights on"
+    - slots:
+        - "state"
+        - "domain"
+        - "area"
+      importance: "optional"
+      example: "are there any lights on in the kitchen"
+    - slots:
+        - "state"
+        - "domain"
+        - "floor"
+      importance: "optional"
+      example: "are there any lights on upstairs"
+    - slots:
+        - "state"
+        - "device_class"
+        - "domain"
+      importance: "optional"
+      example: "are any batteries charging"
+    - slots:
+        - "state"
+        - "device_class"
+        - "domain"
+        - "area"
+      importance: "optional"
+      example: "are any batteries charging in the garage"
+    - slots:
+        - "state"
+        - "device_class"
+        - "domain"
+        - "floor"
+      importance: "optional"
+      example: "are any batteries charging in the basement"
 
 HassNevermind:
   supported: true
   domain: homeassistant
   description: "Does nothing. Used to cancel a request"
+  importance: "usable"
+  slot_combinations:
+    - slots: []
+      importance: "usable"
+      example: "nevermind"
 
 HassRespond:
   supported: true
   domain: homeassistant
   description: "Returns response but takes no action."
+  importance: "optional"
   slots:
     response:
       description: "Text to respond with"
       required: false
+  slot_combinations:
+    - slots: []
+      importance: "optional"
+      example: "hello"
 
 HassBroadcast:
   supported: true
   domain: assist_satellite
   description: "Announces a message on other satellites."
+  importance: "optional"
   slots:
     message:
       description: "Message to broadcast"
       required: true
+  slot_combinations:
+    - slots: "message"
+      importance: "optional"
+      example: "broadcast that dinner is ready"
 
 HassSetPosition:
   supported: true
   domain: homeassistant
   description: "Sets the position of an entity"
+  importance: "complete"
   slots:
     name:
       description: "Name of a device or entity"
@@ -182,34 +295,69 @@ HassSetPosition:
       description: "Position from 0 to 100"
       required: true
   slot_combinations:
-    name_only:
-      - "name"
-    area_only:
-      - "area"
-    domain_only:
-      - "domain"
-    area_name:
-      - "name"
-      - "area"
-    area_domain:
-      - "area"
-      - "domain"
-    area_device_class:
-      - "area"
-      - "device_class"
-    domain_device_class:
-      - "domain"
-      - "device_class"
+    - slots:
+        - "name"
+        - "position"
+      importance: "complete"
+      example: "set curtain left to 50%"
+    - slots:
+        - "area"
+        - "domain"
+        - "position"
+      importance: "complete"
+      example: "set kitchen valves to 50%"
+    - slots:
+        - "area"
+        - "domain"
+        - "device_class"
+        - "position"
+      importance: "complete"
+      example: "set living room shades to 50%"
+    - slots:
+        - "floor"
+        - "domain"
+        - "device_class"
+        - "position"
+      importance: "complete"
+      example: "set main floor shades to 50%"
+    - slots:
+        - "floor"
+        - "domain"
+        - "position"
+      importance: "complete"
+      example: "set main floor valves to 50%"
+    - slots:
+        - "domain"
+        - "device_class"
+        - "position"
+      importance: "complete"
+      example: "set all curtains to 50%"
 
 HassGetCurrentDate:
   supported: true
   domain: homeassistant
   description: "Gets the current date"
+  importance: "usable"
+  slot_combinations:
+    - slots: []
+      importance: "usable"
+      example: "what is the date"
+  response_variables:
+    date:
+      description: "Date object with day, month, and year"
 
 HassGetCurrentTime:
   supported: true
   domain: homeassistant
   description: "Gets the current time"
+  importance: "usable"
+  slot_combinations:
+    - slots: []
+      importance: "usable"
+      example: "what time is it"
+  response_variables:
+    time:
+      description: "Time object with hours, minutes, and seconds"
 
 # -----------------------------------------------------------------------------
 # light
@@ -219,6 +367,7 @@ HassLightSet:
   supported: true
   domain: light
   description: "Sets the brightness or color of a light"
+  importance: "usable"
   slots:
     name:
       description: "Name of a device or entity"
@@ -235,6 +384,49 @@ HassLightSet:
     color:
       description: "Name of color"
       required: false
+  slot_combinations:
+    # brightness
+    - slots:
+        - "brightness"
+      context_area: true
+      importance: "usable"
+      example: "set the brightness in here to 50%"
+    - slots:
+        - "name"
+        - "brightness"
+      importance: "usable"
+      example: "set the overhead light brightness to 50%"
+    - slots:
+        - "area"
+        - "brightness"
+      importance: "usable"
+      example: "set the living room brightness to 50%"
+    - slots:
+        - "floor"
+        - "brightness"
+      importance: "complete"
+      example: "set the main floor brightness to 50%"
+    # color
+    - slots:
+        - "color"
+      context_area: true
+      importance: "usable"
+      example: "set the lights in here to red"
+    - slots:
+        - "name"
+        - "color"
+      importance: "usable"
+      example: "set the overhead light to red"
+    - slots:
+        - "area"
+        - "color"
+      importance: "usable"
+      example: "set the living room to red"
+    - slots:
+        - "floor"
+        - "color"
+      importance: "complete"
+      example: "set the main floor to red"
 
 # -----------------------------------------------------------------------------
 # climate
@@ -244,6 +436,7 @@ HassClimateSetTemperature:
   supported: true
   domain: climate
   description: "Sets the desired temperature of a climate device or entity"
+  importance: "complete"
   slots:
     name:
       description: "Name of a device or entity"
@@ -258,22 +451,30 @@ HassClimateSetTemperature:
       description: "Temperature in degrees"
       required: true
   slot_combinations:
-    temperature_only:
-      - "temperature"
-    name:
-      - "temperature"
-      - "name"
-    area:
-      - "temperature"
-      - "area"
-    floor:
-      - "temperature"
-      - "floor"
+    - slots: "temperature"
+      importance: "complete"
+      example: "set the temperature to 30 degrees"
+    - slots:
+        - "name"
+        - "temperature"
+      importance: "complete"
+      example: "set the EcoBee to 30 degrees"
+    - slots:
+        - "area"
+        - "temperature"
+      importance: "complete"
+      example: "set the bedroom temperature to 30 degrees"
+    - slots:
+        - "floor"
+        - "temperature"
+      importance: "complete"
+      example: "set the temperature of the main floor to 30 degrees"
 
 HassClimateGetTemperature:
   supported: true
   domain: climate
   description: "Gets the current temperature of a climate device or entity"
+  importance: "usable"
   slots:
     name:
       description: "Name of a device or entity"
@@ -281,6 +482,23 @@ HassClimateGetTemperature:
     area:
       description: "Name of an area"
       required: false
+    floor:
+      description: "Name of a floor"
+      required: false
+  slot_combinations:
+    - slots: []
+      context_area: true
+      importance: "usable"
+      example: "what is the temperature"
+    - slots: "name"
+      importance: "usable"
+      example: "what is the temperature of the EcoBee"
+    - slots: "area"
+      importance: "usable"
+      example: "what is the temperature in the bedroom"
+    - slots: "floor"
+      importance: "usable"
+      example: "what is the temperature downstairs"
   response_variables:
     state:
       description: "State of the entity that contains the temperature"
@@ -293,10 +511,15 @@ HassShoppingListAddItem:
   supported: true
   domain: shopping_list
   description: "Adds an item to the shopping list"
+  importance: "optional"
   slots:
     item:
       description: "Item to add"
       required: true
+  slot_combinations:
+    - slots: "item"
+      importance: "optional"
+      example: "add apples to my shopping list"
 
 # -----------------------------------------------------------------------------
 # weather
@@ -306,10 +529,21 @@ HassGetWeather:
   supported: true
   domain: weather
   description: "Gets the current weather"
+  importance: "usable"
   slots:
     name:
       description: "Name of the weather entity to use"
       required: false
+  slot_combinations:
+    - slots: []
+      example: "what is the weather"
+      importance: "usable"
+    - slots: "name"
+      importance: "usable"
+      example: "what is the weather in New York"
+  response_variables:
+    state:
+      description: "State of the entity that contains the weather"
 
 # -----------------------------------------------------------------------------
 # todo
@@ -319,6 +553,7 @@ HassListAddItem:
   supported: true
   domain: todo
   description: "Adds an item to a todo list"
+  importance: "complete"
   slots:
     item:
       description: "Item to add"
@@ -326,6 +561,12 @@ HassListAddItem:
     name:
       description: "Name of the list"
       required: true
+  slot_combinations:
+    - slots:
+        - "item"
+        - "name"
+      importance: "complete"
+      example: "add apples to my shopping list"
 
 HassListCompleteItem:
   supported: false
@@ -347,6 +588,7 @@ HassVacuumStart:
   supported: true
   domain: vacuum
   description: "Starts a vacuum"
+  importance: "complete"
   slots:
     name:
       description: "Name of a device or entity"
@@ -355,23 +597,24 @@ HassVacuumStart:
       description: "Name of an area"
       required: false
     floor:
-      description: "Name of an floor"
+      description: "Name of a floor"
       required: false
   slot_combinations:
-    name_only:
-      - "name"
-    area_only:
-      - "area"
-    floor_only:
-      - "floor"
-    area_name:
-      - "name"
-      - "area"
+    - slots: "name"
+      importance: "complete"
+      example: "start rover"
+    - slots: "area"
+      importance: "complete"
+      example: "vacuum the kitchen"
+    - slots: "floor"
+      importance: "complete"
+      example: "vacuum the main floor"
 
 HassVacuumReturnToBase:
   supported: true
   domain: vacuum
   description: "Returns a vacuum to base"
+  importance: "complete"
   slots:
     name:
       description: "Name of a device or entity"
@@ -380,13 +623,12 @@ HassVacuumReturnToBase:
       description: "Name of an area"
       required: false
   slot_combinations:
-    name_only:
-      - "name"
-    area_only:
-      - "area"
-    area_name:
-      - "name"
-      - "area"
+    - slots: "name"
+      importance: "complete"
+      example: "return rover to base"
+    - slots: "area"
+      importance: "complete"
+      example: "return kitchen vacuum to base"
 
 # -----------------------------------------------------------------------------
 # media_player
@@ -396,6 +638,7 @@ HassMediaPause:
   supported: true
   domain: media_player
   description: "Pauses a media player"
+  importance: "usable"
   slots:
     name:
       description: "Name of a device or entity"
@@ -403,11 +646,23 @@ HassMediaPause:
     area:
       description: "Name of an area"
       required: false
+  slot_combinations:
+    - slots: []
+      context_area: true
+      importance: "usable"
+      example: "pause"
+    - slots: "name"
+      importance: "usable"
+      example: "pause TV"
+    - slots: "area"
+      importance: "usable"
+      example: "pause music in kitchen"
 
 HassMediaUnpause:
   supported: true
   domain: media_player
   description: "Unpauses a media player"
+  importance: "usable"
   slots:
     name:
       description: "Name of a device or entity"
@@ -415,11 +670,23 @@ HassMediaUnpause:
     area:
       description: "Name of an area"
       required: false
+  slot_combinations:
+    - slots: []
+      context_area: true
+      importance: "usable"
+      example: "resume"
+    - slots: "name"
+      importance: "usable"
+      example: "resume TV"
+    - slots: "area"
+      importance: "usable"
+      example: "resume music in kitchen"
 
 HassMediaNext:
   supported: true
   domain: media_player
   description: "Skips a media player to the next item"
+  importance: "usable"
   slots:
     name:
       description: "Name of a device or entity"
@@ -427,11 +694,23 @@ HassMediaNext:
     area:
       description: "Name of an area"
       required: false
+  slot_combinations:
+    - slots: []
+      context_area: true
+      importance: "usable"
+      example: "next track"
+    - slots: "name"
+      importance: "usable"
+      example: "next track on the stereo"
+    - slots: "area"
+      importance: "usable"
+      example: "next track in the kitchen"
 
 HassMediaPrevious:
   supported: true
   domain: media_player
   description: "Skips a media player back to the previous item"
+  importance: "complete"
   slots:
     name:
       description: "Name of a device or entity"
@@ -439,11 +718,23 @@ HassMediaPrevious:
     area:
       description: "Name of an area"
       required: false
+  slot_combinations:
+    - slots: []
+      context_area: true
+      importance: "complete"
+      example: "previous track"
+    - slots: "name"
+      importance: "complete"
+      example: "previous track on the stereo"
+    - slots: "area"
+      importance: "complete"
+      example: "previous track in the kitchen"
 
 HassSetVolume:
   supported: true
   domain: media_player
   description: "Sets the volume of a media player"
+  importance: "complete"
   slots:
     name:
       description: "Name of a device or entity"
@@ -454,6 +745,17 @@ HassSetVolume:
     volume_level:
       description: "Volume level from 0 to 100"
       required: true
+  slot_combinations:
+    - slots: []
+      context_area: true
+      importance: "complete"
+      example: "set volume to 50%"
+    - slots: "name"
+      importance: "complete"
+      example: "set TV volume to 50%"
+    - slots: "area"
+      importance: "complete"
+      example: "set volume in kitchen to 50%"
 
 # -----------------------------------------------------------------------------
 # timers
@@ -463,6 +765,7 @@ HassStartTimer:
   supported: true
   domain: homeassistant
   description: "Starts a timer"
+  importance: "usable"
   slots:
     hours:
       description: "Number of hours"
@@ -479,25 +782,142 @@ HassStartTimer:
     conversation_command:
       description: "Command to execute when timer finishes"
       required: false
-  slot_groups:
-    duration:
-      - "hours"
-      - "minutes"
-      - "seconds"
+  slot_combinations:
+    - slots: "hours"
+      importance: "usable"
+      example: "set a timer for 1 hour"
+    - slots: "minutes"
+      importance: "usable"
+      example: "set a timer for 10 minutes"
+    - slots: "seconds"
+      importance: "usable"
+      example: "set a timer for 30 seconds"
+    - slots:
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "set a timer for 1 hour and 10 minutes"
+    - slots:
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "set a timer for 1 hour and 30 seconds"
+    - slots:
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "set a timer for 10 minutes and 30 seconds"
+    - slots:
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "set a timer for 1 hour and 10 minutes and 30 seconds"
+    # name
+    - slots:
+        - "name"
+        - "hours"
+      importance: "complete"
+      example: "set a timer for 1 hour named pizza"
+    - slots:
+        - "name"
+        - "minutes"
+      importance: "complete"
+      example: "set a timer for 10 minutes named pizza"
+    - slots:
+        - "name"
+        - "seconds"
+      importance: "complete"
+      example: "set a timer for 30 seconds named pizza"
+    - slots:
+        - "name"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "set a timer for 1 hour and 10 minutes named pizza"
+    - slots:
+        - "name"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "set a timer for 1 hour and 30 seconds named pizza"
+    - slots:
+        - "name"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "set a timer for 10 minutes and 30 seconds named pizza"
+    - slots:
+        - "name"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "set a timer for 1 hour and 10 minutes and 30 seconds named pizza"
+    # conversation_command
+    - slots:
+        - "conversation_command"
+        - "hours"
+      importance: "optional"
+      example: "turn off the lights in 1 hour"
+    - slots:
+        - "conversation_command"
+        - "minutes"
+      importance: "optional"
+      example: "turn off the lights in 10 minutes"
+    - slots:
+        - "conversation_command"
+        - "seconds"
+      importance: "optional"
+      example: "turn off the lights in 30 seconds"
+    - slots:
+        - "conversation_command"
+        - "hours"
+        - "minutes"
+      importance: "optional"
+      example: "turn off the lights in 1 hour and 10 minutes"
+    - slots:
+        - "conversation_command"
+        - "hours"
+        - "seconds"
+      importance: "optional"
+      example: "turn off the lights in 1 hour and 30 seconds"
+    - slots:
+        - "conversation_command"
+        - "minutes"
+        - "seconds"
+      importance: "optional"
+      example: "turn off the lights in 10 minutes and 30 seconds"
+    - slots:
+        - "conversation_command"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "optional"
+      example: "turn off the lights in 1 hour and 10 minutes and 30 seconds"
 
 HassCancelAllTimers:
   supported: true
   domain: homeassistant
   description: "Cancels all timers"
+  importance: "usable"
   slots:
     area:
       description: "Area of the device used to start the timer"
       required: false
+  slot_combinations:
+    - slots: []
+      importance: "usable"
+      example: "cancel all timers"
+    - slots: "area"
+      importance: "complete"
+      example: "cancel all timers in the kitchen"
 
 HassCancelTimer:
   supported: true
   domain: homeassistant
   description: "Cancels a timer"
+  importance: "usable"
   slots:
     start_hours:
       description: "Hours the timer was started with"
@@ -514,11 +934,52 @@ HassCancelTimer:
     area:
       description: "Area of the device used to start the timer"
       required: false
+  slot_combinations:
+    - slots: []
+      importance: "usable"
+      example: "cancel my timer"
+    - slots: "name"
+      importance: "complete"
+      example: "cancel the pizza timer"
+    - slots: "area"
+      importance: "complete"
+      example: "cancel the kitchen timer"
+    - slots: "start_hours"
+      importance: "usable"
+      example: "cancel the 1 hour timer"
+    - slots: "start_minutes"
+      importance: "usable"
+      example: "cancel the 10 minute timer"
+    - slots: "start_seconds"
+      importance: "usable"
+      example: "cancel the 30 second timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+      importance: "complete"
+      example: "cancel the 10 minutes and 30 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+      importance: "complete"
+      example: "cancel the 1 hour and 10 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+      importance: "complete"
+      example: "cancel the 1 hour and 30 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+      importance: "complete"
+      example: "cancel the 1 hour and 10 minutes and 30 seconds timer"
 
 HassIncreaseTimer:
   supported: true
   domain: homeassistant
   description: "Adds time to a timer"
+  importance: "complete"
   slots:
     hours:
       description: "Number of hours"
@@ -544,16 +1005,447 @@ HassIncreaseTimer:
     area:
       description: "Area of the device used to start the timer"
       required: false
-  slot_groups:
-    duration:
-      - "hours"
-      - "minutes"
-      - "seconds"
+  slot_combinations:
+    - slots: "hours"
+      importance: "complete"
+      example: "add 1 hour to my timer"
+    - slots: "minutes"
+      importance: "complete"
+      example: "add 10 minutes to my timer"
+    - slots: "seconds"
+      importance: "complete"
+      example: "add 30 seconds to my timer"
+    - slots:
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to my timer"
+    - slots:
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to my timer"
+    - slots:
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to my timer"
+    - slots:
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes and 30 seconds to my timer"
+    # name
+    - slots:
+        - "name"
+        - "hours"
+      importance: "complete"
+      example: "add 1 hour to the pizza timer"
+    - slots:
+        - "name"
+        - "minutes"
+      importance: "complete"
+      example: "add 10 minutes to the pizza timer"
+    - slots:
+        - "name"
+        - "seconds"
+      importance: "complete"
+      example: "add 30 seconds to the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to the pizza timer"
+    - slots:
+        - "name"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes and 30 seconds to the pizza timer"
+    # area
+    - slots:
+        - "area"
+        - "hours"
+      importance: "complete"
+      example: "add 1 hour to the kitchen timer"
+    - slots:
+        - "area"
+        - "minutes"
+      importance: "complete"
+      example: "add 10 minutes to the kitchen timer"
+    - slots:
+        - "area"
+        - "seconds"
+      importance: "complete"
+      example: "add 30 seconds to the kitchen timer"
+    - slots:
+        - "area"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes and 30 seconds to the kitchen timer"
+    # hours + start
+    - slots:
+        - "start_hours"
+        - "hours"
+      importance: "complete"
+      example: "add 1 hour to the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+      importance: "complete"
+      example: "add 1 hour to the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+      importance: "complete"
+      example: "add 1 hour to the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+      importance: "complete"
+      example: "add 1 hour to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+      importance: "complete"
+      example: "add 1 hour to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+      importance: "complete"
+      example: "add 1 hour to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+      importance: "complete"
+      example: "add 1 hour the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + minutes + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 1 hour and 10 minutes to the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + seconds + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour and 30 seconds to the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + minutes + seconds + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 1 hour  and 10 minutes and 30 seconds to the 2 hours and 20 minutes and 40 seconds timer"
+    # minutes + start
+    - slots:
+        - "start_hours"
+        - "minutes"
+      importance: "complete"
+      example: "add 10 minutes to my timer"
+    - slots:
+        - "start_minutes"
+        - "minutes"
+      importance: "complete"
+      example: "add 10 minutes to the 20 minute timer"
+    - slots:
+        - "start_seconds"
+        - "minutes"
+      importance: "complete"
+      example: "add 10 minutes to the 40 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "minutes"
+      importance: "complete"
+      example: "add 10 minutes to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "minutes"
+      importance: "complete"
+      example: "add 10 minutes to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+      importance: "complete"
+      example: "add 10 minutes to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+      importance: "complete"
+      example: "add 10 minutes to the 2 hours and 20 minutes and 40 seconds timer"
+    # minutes + seconds + start
+    - slots:
+        - "start_hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to my timer"
+    - slots:
+        - "start_minutes"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to the 20 minute timer"
+    - slots:
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to the 40 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 10 minutes and 30 seconds to the 2 hours and 20 minutes and 40 seconds timer"
+    # seconds + start
+    - slots:
+        - "start_hours"
+        - "seconds"
+      importance: "complete"
+      example: "add 30 seconds to my timer"
+    - slots:
+        - "start_minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 30 seconds to the 20 minute timer"
+    - slots:
+        - "start_seconds"
+        - "seconds"
+      importance: "complete"
+      example: "add 30 seconds to the 40 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "seconds"
+      importance: "complete"
+      example: "add 30 seconds to the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "seconds"
+      importance: "complete"
+      example: "add 30 seconds to the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "seconds"
+      importance: "complete"
+      example: "add 30 seconds to the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "seconds"
+      importance: "complete"
+      example: "add 30 seconds to the 2 hours and 20 minutes and 40 seconds timer"
 
 HassDecreaseTimer:
   supported: true
   domain: homeassistant
   description: "Removes time from a timer"
+  importance: "complete"
   slots:
     hours:
       description: "Number of hours"
@@ -579,16 +1471,447 @@ HassDecreaseTimer:
     area:
       description: "Area of the device used to start the timer"
       required: false
-  slot_groups:
-    duration:
-      - "hours"
-      - "minutes"
-      - "seconds"
+  slot_combinations:
+    - slots: "hours"
+      importance: "complete"
+      example: "remove 1 hour from my timer"
+    - slots: "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from my timer"
+    - slots: "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from my timer"
+    - slots:
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from my timer"
+    - slots:
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from my timer"
+    - slots:
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from my timer"
+    - slots:
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes and 30 seconds from my timer"
+    # name
+    - slots:
+        - "name"
+        - "hours"
+      importance: "complete"
+      example: "remove 1 hour from the pizza timer"
+    - slots:
+        - "name"
+        - "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from the pizza timer"
+    - slots:
+        - "name"
+        - "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from the pizza timer"
+    - slots:
+        - "name"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from the pizza timer"
+    - slots:
+        - "name"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes and 30 seconds from the pizza timer"
+    # area
+    - slots:
+        - "area"
+        - "hours"
+      importance: "complete"
+      example: "remove 1 hour from the kitchen timer"
+    - slots:
+        - "area"
+        - "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from the kitchen timer"
+    - slots:
+        - "area"
+        - "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from the kitchen timer"
+    - slots:
+        - "area"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from the kitchen timer"
+    - slots:
+        - "area"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes and 30 seconds from the kitchen timer"
+    # hours + start
+    - slots:
+        - "start_hours"
+        - "hours"
+      importance: "complete"
+      example: "remove 1 hour from the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+      importance: "complete"
+      example: "remove 1 hour from the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+      importance: "complete"
+      example: "remove 1 hour from the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+      importance: "complete"
+      example: "remove 1 hour from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+      importance: "complete"
+      example: "remove 1 hour from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+      importance: "complete"
+      example: "remove 1 hour from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+      importance: "complete"
+      example: "remove 1 hour the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + minutes + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 1 hour and 10 minutes from the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + seconds + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour and 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
+    # hours + minutes + seconds + start
+    - slots:
+        - "start_hours"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 2 hour timer"
+    - slots:
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 10 minute timer"
+    - slots:
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 30 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 1 hour  and 10 minutes and 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
+    # minutes + start
+    - slots:
+        - "start_hours"
+        - "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from my timer"
+    - slots:
+        - "start_minutes"
+        - "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from the 20 minute timer"
+    - slots:
+        - "start_seconds"
+        - "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from the 40 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+      importance: "complete"
+      example: "remove 10 minutes from the 2 hours and 20 minutes and 40 seconds timer"
+    # minutes + seconds + start
+    - slots:
+        - "start_hours"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from my timer"
+    - slots:
+        - "start_minutes"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from the 20 minute timer"
+    - slots:
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from the 40 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 10 minutes and 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
+    # seconds + start
+    - slots:
+        - "start_hours"
+        - "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from my timer"
+    - slots:
+        - "start_minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from the 20 minute timer"
+    - slots:
+        - "start_seconds"
+        - "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from the 40 second timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from the 2 hours and 20 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+        - "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from the 2 hours and 40 seconds timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+        - "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from the 20 minutes and 40 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+        - "seconds"
+      importance: "complete"
+      example: "remove 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
 
 HassPauseTimer:
   supported: true
   domain: homeassistant
   description: "Pauses a running timer"
+  importance: "usable"
   slots:
     start_hours:
       description: "Hours the timer was started with"
@@ -605,11 +1928,52 @@ HassPauseTimer:
     area:
       description: "Area of the device used to start the timer"
       required: false
+  slot_combinations:
+    - slots: []
+      importance: "usable"
+      example: "pause my timer"
+    - slots: "name"
+      importance: "complete"
+      example: "pause the pizza timer"
+    - slots: "area"
+      importance: "complete"
+      example: "pause the kitchen timer"
+    - slots: "start_hours"
+      importance: "complete"
+      example: "pause the 1 hour timer"
+    - slots: "start_minutes"
+      importance: "complete"
+      example: "pause the 10 minute timer"
+    - slots: "start_seconds"
+      importance: "complete"
+      example: "pause the 30 second timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+      importance: "complete"
+      example: "pause the 10 minutes and 30 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+      importance: "complete"
+      example: "pause the 1 hour and 10 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+      importance: "complete"
+      example: "pause the 1 hour and 30 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+      importance: "complete"
+      example: "pause the 1 hour and 10 minutes and 30 seconds timer"
 
 HassUnpauseTimer:
   supported: true
   domain: homeassistant
   description: "Resumes a paused timer"
+  importance: "usable"
   slots:
     start_hours:
       description: "Hours the timer was started with"
@@ -626,11 +1990,52 @@ HassUnpauseTimer:
     area:
       description: "Area of the device used to start the timer"
       required: false
+  slot_combinations:
+    - slots: []
+      importance: "usable"
+      example: "resume my timer"
+    - slots: "name"
+      importance: "complete"
+      example: "resume the pizza timer"
+    - slots: "area"
+      importance: "complete"
+      example: "resume the kitchen timer"
+    - slots: "start_hours"
+      importance: "complete"
+      example: "resume the 1 hour timer"
+    - slots: "start_minutes"
+      importance: "complete"
+      example: "resume the 10 minute timer"
+    - slots: "start_seconds"
+      importance: "complete"
+      example: "resume the 30 second timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+      importance: "complete"
+      example: "resume the 10 minutes and 30 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+      importance: "complete"
+      example: "resume the 1 hour and 10 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+      importance: "complete"
+      example: "resume the 1 hour and 30 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+      importance: "complete"
+      example: "resume the 1 hour and 10 minutes and 30 seconds timer"
 
 HassTimerStatus:
   supported: true
   domain: homeassistant
   description: "Reports status of one or more timers"
+  importance: "usable"
   slots:
     start_hours:
       description: "Hours the timer was started with"
@@ -647,3 +2052,57 @@ HassTimerStatus:
     area:
       description: "Area of the device used to start the timer"
       required: false
+  slot_combinations:
+    - slots: []
+      importance: "usable"
+      example: "how much time is left on my timer"
+    - slots: "name"
+      importance: "complete"
+      example: "how much time is left on the pizza timer"
+    - slots: "area"
+      importance: "complete"
+      example: "how much time is left on the kitchen timer"
+    - slots: "start_hours"
+      importance: "complete"
+      example: "how much time is left on the 1 hour timer"
+    - slots: "start_minutes"
+      importance: "complete"
+      example: "how much time is left on the 10 minute timer"
+    - slots: "start_seconds"
+      importance: "complete"
+      example: "how much time is left on the 30 second timer"
+    - slots:
+        - "start_minutes"
+        - "start_seconds"
+      importance: "complete"
+      example: "how much time is left on the 10 minutes and 30 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+      importance: "complete"
+      example: "how much time is left on the 1 hour and 10 minutes timer"
+    - slots:
+        - "start_hours"
+        - "start_seconds"
+      importance: "complete"
+      example: "how much time is left on the 1 hour and 30 seconds timer"
+    - slots:
+        - "start_hours"
+        - "start_minutes"
+        - "start_seconds"
+      importance: "complete"
+      example: "how much time is left on the 1 hour and 10 minutes and 30 seconds timer"
+  response_variables:
+    timers:
+      description: >-
+        List of timer objects with:
+          - is_active: true if timer is running (not paused)
+          - name: name of the timer (optional)
+          - area: area name of the device used to start the timer (optional)
+          - total_seconds_left: seconds remaining for timer
+          - rounded_hours_left: hours remaining for timer (rounded)
+          - rounded_minutes_left: minutes remaining for timer (rounded)
+          - rounded_seconds_left: seconds remaining for timer (rounded)
+          - start_hours: hours that the timer was started with
+          - start_minutes: minutes that the timer was started with
+          - start_seconds: seconds that the timer was started with

@@ -87,6 +87,7 @@ LANGUAGES_SCHEMA = vol.Schema(
                     vol.Optional("speech-to-text"): {
                         vol.Optional("speech-to-phrase"): bool,
                         vol.Optional("whisper"): bool,
+                        vol.Optional("cloud"): bool,
                     },
                     vol.Optional("text-to-speech"): {
                         vol.Optional("piper"): bool,
@@ -104,18 +105,26 @@ INTENTS_SCHEMA = vol.Schema(
             vol.Optional("supported"): bool,
             vol.Required("domain"): str,
             vol.Required("description"): str,
+            vol.Required("importance"): vol.Any(
+                "required", "usable", "complete", "optional"
+            ),
             vol.Optional("slots"): {
                 str: {
                     vol.Required("description"): str,
                     vol.Optional("required"): bool,
                 }
             },
-            vol.Optional("slot_combinations"): {
-                str: [str],
-            },
-            vol.Optional("slot_groups"): {
-                str: [str],
-            },
+            vol.Required("slot_combinations"): [
+                {
+                    vol.Required("slots"): vol.Any(str, [str]),
+                    vol.Required("example"): vol.Any(str, [str]),
+                    vol.Required("importance"): vol.Any(
+                        "required", "usable", "complete", "optional"
+                    ),
+                    vol.Optional("context_area"): bool,
+                    vol.Optional("domain"): vol.Any(str, [str]),
+                }
+            ],
             vol.Optional("response_variables"): {
                 str: {
                     vol.Required("description"): str,

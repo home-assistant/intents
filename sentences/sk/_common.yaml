@@ -99,7 +99,7 @@ lists:
     values:
       - in: "markíz(a|y|u)"
         out: awning
-      - in: "(žalúzi(e|í|a)|rol[i]et[(a|y|u)])"
+      - in: "(žalúzi(e|í|a|u)|rol[i]et[(a|y|u)])"
         out: blind
       - in: "záves[y|ov]"
         out: curtain
@@ -107,11 +107,11 @@ lists:
         out: door
       - in: "((garážov(é|á|ých) (dver(e|í)|brán[a|u|y]))|garáž[e])"
         out: garage
-      - in: "brán(a|y)"
+      - in: "brán(a|y|u)"
         out: gate
       - in: "(clon(a|y)|tienidl(o|a))"
         out: shade
-      - in: "okenica"
+      - in: "okenic(a|e|u)"
         out: shutter
       - in: "(okien|okn(o|a|á))"
         out: window
@@ -198,14 +198,14 @@ lists:
 
   bs_heat_states:
     values:
-      - in: "(horúc(i|a|e|ich)|prehriat(y|a|e|ych))"
+      - in: "(horúc(i|a|e|ich|o)|prehriat(y|a|e|ych))"
         out: "on"
       - in: "(normálne|v poriadku)"
         out: "off"
 
   bs_light_states:
     values:
-      - in: "[((ziste|detegova)né|detegujú)] svetlo"
+      - in: "[(ziste|detegova)né|deteg(ujú|ované)] svetlo"
         out: "on"
       - in: "[(ziste|detegova)ná] tm(a|u)"
         out: "off"
@@ -277,7 +277,7 @@ lists:
     values:
       - in: "(bež(í|ia)|[(je|sú)] spusten(ý|á|é|ých))"
         out: "on"
-      - in: "(nebež(í|ia)|zastaven(ý|á|é|ých))"
+      - in: "(nebež(í|ia)|[(je|sú)] zastaven(ý|á|é|ých))"
         out: "off"
 
   bs_safety_states:
@@ -371,10 +371,10 @@ lists:
   timer_range:
     range:
       from: 1
-      to: 100
+      to: 300
   timer_range_fonetic:
     values:
-      - in: "jedno|minút(u|ový)|hodin(u|ový)"
+      - in: "jedn(o|u)|minút(u|ový)|hodin(u|ový)"
         out: 1
       - in: "dvoj"
         out: 2
@@ -414,9 +414,9 @@ expansion_rules:
   turn_on: "zapn(i|úť)"
   turn_on_activate: "(zapn(i|úť)|aktiv(uj|ovať))"
   turn_off: "vypn(i|úť)"
-  turn_on_light: "(zasvieť|zažni|rozžni|rozsvieť)"
-  turn_off_light: "(zahas|zhasni)"
-  set: "(nastav[iť]|prestav[iť]|zme(ň|niť)|zvýš[iť]|zníž[iť])"
+  turn_on_light: "(zasvie(ť|tiť)|zažn(i|úť)|rozžn(i|úť)|rozsvie(ť|iť))"
+  turn_off_light: "(zahas[iť]|zhasn(i|úť))"
+  set: "(da(ť|j)|nastav[iť]|uprav[iť]|prestav[iť]|zme(ň|niť)|zvýš[iť]|zníž[iť])"
   open_door: "(otvor[iť]|vytiahn(i|uť))"
   open_valve: "(otvor[iť]|[s]pust(i|iť))"
   open_curtain: "(odostri[eť]|(roz|vy)tiahn(i|uť))"
@@ -425,25 +425,29 @@ expansion_rules:
   close_curtain: "(zastri[eť]|(s|za)tiahn(i|uť))"
   position: "{position}[[ ]%| percent]"
   volume: "{volume:volume_level}[[ ]%| percent]"
-  broadcast: "(oznám|povedz|ohlás)"
+  broadcast: "(oznám[iť]|poved(z|ať)|ohlás[iť])"
   everywhere: "(všade|všetkým|v celom dome)"
   here: "(tu|v tejto (miestnosti|izbe)|(na|v) tomto mieste)"
-  that: "že"
+  that: "[, ]že"
   lock: "[u]zamkn(i|úť)"
   scene: "scén(a|u)"
-  switch_to: "(prej(di|sť)|zme(ň|niť))"
+  switch_to: "(prej(di|sť)|zme(ň|niť)|prepn(i|úť))"
   unlock: "odomkn(i|úť)"
   previous_nom: "(predchádzajúc(a|i)|(predošl|minul|posledn)(ý|á))"
   previous_acc: "(predchádzajúc(u|i)|(predošl|minul|posledn)(ý|ú))"
   # Časovače
-  timer: "(časovač[a|i]|minútk(y|ach)|odpočítavan(ie|í))"
+  timer: "(časovač[a|i|u]|minútk(y|ach|am)|odpočítavan(ia|ie|iu|í)|minútiek)"
   timer_plural: "(časovač(e|ov|och)|minút(ky|iek|kach)|odpočítavania[ch])"
   timer_set: "nasta(v[te|iť]|l)"
-  timer_cancel: "(zruš[í|te|iť]|zastav(í|te|iť))"
+  timer_cancel: "zruš[í|te|iť]"
+  timer_add: "(prida(ť|j)|zväčši[ť]|(z|na)výš[iť]|predĺž[iť])"
+  timer_stop: "[po]zastav[iť]|usp(i|ať)"
+  timer_resume: "spus([ti][ť])|obnov[iť]|aktiv(uj|ovať)"
+  timer_remove: "((odo|u)b(rať|er)|skrá(ť|tiť)|zníž[iť])"
   timer_type: "(časovač[e]|stopky)"
-  timer_unit_second: "sek(únd|(und(a|u|y|ov(ý|é|ej))))"
-  timer_unit_minute: "minút[a|u|y|ov(ý|é|ej)]"
-  timer_unit_hour: "hod(ín|(in(a|u|y|ov(ý|é|ej|ého))))"
+  timer_unit_second: "sek(únd|(und(a|u|y|ov(ý|é|ej|ému|ého))))"
+  timer_unit_minute: "minút[a|u|y|ov(ý|é|ej|ému|ého)]"
+  timer_unit_hour: "hod(ín|(in(a|u|y|ov(ý|é|ej|ého|ému))))"
   timer_value_second: ({timer_range:seconds}|{timer_range_fonetic:seconds})
   timer_value_minute: ({timer_range:minutes}|{timer_range_fonetic:minutes})
   timer_value_hour: ({timer_range:hours}|{timer_range_fonetic:hours})
