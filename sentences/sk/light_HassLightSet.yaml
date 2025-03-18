@@ -2,34 +2,89 @@ language: sk
 intents:
   HassLightSet:
     data:
+      # jas - konkrétna entita
       - sentences:
-          - <set> <name> na <brightness> [jas] # nastav nočnú lampu na 30% (jas)
-          - <set> jas <name> na <brightness> # nastav jas nočnej lampy na 20 (%)
-          - <set> <name> jas [na] <brightness> # nastav nočnú lampu jas (na) 10 (%)
+          # nastav entitu na 20 % (jas/jasu)
+          - <set> <name> na <brightness> [jas[u]] # nastav moju lampu na 30% jas
+                                                  # nastav moju lampu na 30 percent jasu
+          # nastav jas (svetla) entity na 20 %
+          - <set> jas [svetla] <name> na <brightness> # nastav jas (svetla) mojej lampy na 20 (%)
+
+          # nastav 20% jas na entite
+          - <set> ([na] <name>;<brightness> jas) # nastav 20% jas na mojej lampe
+                                                 # nastav (na) mojej lampe 20% jas
+          # nastav jas na 20 % na entite
+          # nastav entite jas 20 %
+          - <set> ([na] <name>;jas) [na] <brightness> # nastav (na) mojej lampe jas (na) 10 (%)
+                                                      # nastav jas mojej lampy na 10 (%)
+                                                      # nastav jas na mojej lampe na 10 (%)
         response: brightness
         requires_context:
           domain: light
 
+      # jas - oblasť
       - sentences:
-          - <set> jas [svetla] <area> na <brightness> # nastav jas (svetla) v obývačke na 50 (%)
-          - <set> jas [svetla] <area> <brightness> # nastav jas (svetla) v obývačke 30 (%)
-          - <set> <area> <brightness> jas # nastav v obývačke 20% jas
+          # nastav svetlo v oblasti na 30% (jas)
+          - <set> (<area>;svetl(á|o)) na <brightness> [jas] # nastav v obývačke svetlo na 30 % (jas)
+          # nastav jas svetla v oblasti na 30 %
+          - <set> (jas [svetla|svetiel];<area>) na <brightness> # nastav jas (svetla) v obývačke na 50 (%)
+          # nastav v oblasti 20% jas (svetiel)
+          - <set> (<area>;<brightness> jas [svetla|svetiel]) # nastav v obývačke 20% jas (svetiel)
+          # nepodporované: nastav oblasť na 20 %
         slots:
           name: all
         response: brightness_area
 
+      # farba - konkrétna entita
       - sentences:
-          - <set> {color} [farbu] <name> # nastav modrú (farbu) nočnej lampe
-          - <set> <name> {color} [farbu] # nastav nočnej lampe zelenú farbu
-          - <set> <name> na {color} # nastaviť nočnú lampu na červenú
+          # nastav entitu na modrú (farbu)
+          - <set> <name> na {color} [farbu] # nastav moju lampu na modrú (farbu)
+          # nastav farbu (svetla) entity na modrú (farbu)
+          # nastav svetlo entity na modrú
+          - <set> (svetl[o|á]|farbu [svetla]) <name> na {color} [farbu] # nastav farbu (svetla) mojej lampy na modrú
+                                                                        # nastav svetlo mojej lampy na modrú (farbu)
+          # nastav modrú (farbu) na entite
+          - <set> ([na] <name>;{color} [farbu] [svetiel|svetla]) # nastav na mojej lampe modrú (farbu)
+                                                                 # nastav modrú (farbu) (na) mojej lampe
+          # nastav farbu na entite na modrú
+          # nastav na entite farbu na modro
+          - <set> ([na] <name>;farbu) na {color} # nastav (na) mojej lampe farbu na modrú
+                                                 # nastav farbu mojej lampy na modrú
+                                                 # nastav na mojej lampe farbu na modrú
         response: color
         requires_context:
           domain: light
 
+      # farba - oblasť
       - sentences:
-          - <set> {color} [farbu] <area> # nastav červenú (farbu) v obývačke
-          - <set> [v] <area> {color} [farbu] # nastav v obývačke modrú (farbu)
-          - <set> [v] <area> na {color} # nastav spálňu na žltú
+          # nastav oblasť na červenú (farbu)
+          - <set> <area> na {color} [farbu] # nastav spálňu na žltú (farbu)
+          # nastav svetlo v oblasti na červenú (farbu)
+          - <set> (<area>;svetl(á|o)) na {color} [farbu] # nastav svetlo v obývačke na červenú (farbu)
+          # nastav farbu (svetla) v oblasti na červenú
+          - <set> (farbu [svetla|svetiel];<area>) na {color} # nastav farbu (svetiel) v obývačke na červenú
+          # nastav červenú (farbu) v oblasti
+          - <set> (<area>;{color} [farbu] [svetla|svetiel]) # nastav v obývačke červenú (farbu svetiel)
+
         slots:
           name: all
         response: color_area
+
+      # jas - satelit
+      - sentences:
+          - "[<set>] ([<here>];jas) na <brightness>" # nastav (tu) jas na 30 (%)
+          - "[<set>] ([<here>];<brightness> jas)" # nastav 30% jas (v tejto miestnosti)
+        requires_context:
+          area:
+            slot: true
+        response: brightness_here
+
+      # farba - satelit
+      - sentences:
+          - "[<set>] ([<here>];farbu na {color})" # nastav (tu) farbu na červenú
+          - "[<set>] ([<here>];{color} [farbu])" # nastav (tu) červenú (farbu)
+          - "[<set>] túto (miestnosť|izbu) na {color}" # nastav túto miestnosť na modro
+        requires_context:
+          area:
+            slot: true
+        response: color_here
