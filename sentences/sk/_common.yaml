@@ -115,6 +115,33 @@ lists:
         out: shutter
       - in: "(okien|okn(o|a|á))"
         out: window
+  pure_cover_classes:
+    values:
+      - in: "markíz(a|y|u)"
+        out: awning
+      - in: "(žalúzi(e|í|a|u)|rol[i]et[(a|y|u)])"
+        out: blind
+      - in: "záves[y|ov]"
+        out: curtain
+      - in: "((garážov(é|á|ých) (dver(e|í)|brán[a|u|y]))|garáž[e])"
+        out: garage
+      - in: "brán(a|y|u)"
+        out: gate
+      - in: "(clon(a|y)|tienidl(o|a))"
+        out: shade
+      - in: "okenic(a|e|u)"
+        out: shutter
+  # states for both binary sensors and covers
+  bs_cover_states:
+    values:
+      - in: "(otvoren(ý|á|é|ých)|roztiahnut(ý|á|é|ých))"
+        out: ["open", "on"]
+      - in: "(zavret(ý|á|é|ých)|zatvoren(ý|á|é|ých)|zatiahnut(ý|á|é|ých))"
+        out: ["closed", "off"]
+      - in: "[sa] (otvára|rozťahu)[jú] [sa]"
+        out: ["opening"]
+      - in: "[sa] (zatvára|zaťahu)[jú] [sa]"
+        out: ["closing"]
 
   lock_states:
     values:
@@ -327,7 +354,7 @@ lists:
       - in: "otvorené"
         out: "on"
       - in: "zatvorené"
-        out: "closed"
+        out: "off"
 
   # might be used for all MIN/MAX sentences,
   # so intended to leave just min_max rather then brightness_level

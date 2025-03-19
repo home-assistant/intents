@@ -2,8 +2,9 @@ language: sk
 intents:
   HassGetState:
     data:
+      # aká je entita (v oblasti)?
       - sentences:
-          - <what_is> <name> [<area>]
+          - <what_is> <name> [<area>] # aký/aká je ... (v obývačke)
         response: one
         excludes_context:
           device_class:
@@ -21,25 +22,43 @@ intents:
             - sulphur_dioxide
             - volume_storage
 
+      # je zapnutá entita?
       - sentences:
-          - <is> <name> {on_off_states:state} [<area>]
+          - <is> (<name> [<area>];{on_off_states:state}) # je počítač (v pracovni) vypnutý?
         response: one_yesno
         excludes_context:
           domain:
             - cover
 
+      # je zapnutý/vypnutý nejaký svetlo/ventilátor/vypínač (v oblasti)?
       - sentences:
-          - <is> {on_off_states:state} <any> {on_off_domains:domain} [<area>]
+          - <is> ([<area>];{on_off_states:state} <any> {on_off_domains:domain}) # je (v spálni) zapnutý nejaký ventilátor?
         response: any
 
+      # sú všetky svetlá/ventilátory/vypínače (v oblasti) zapnuté/vypnuté?
       - sentences:
-          - <is> <all> {on_off_domains:domain} [<area>] {on_off_states:state}
+          - <is> (<all> {on_off_domains:domain} [<area>];{on_off_states:state}) # je každý ventilátor (v spálni) vypnutý?
+          # sú vypnuté všetky ventilátory (v spálni)?
+          - <is> [<area>] (<all> {on_off_domains:domain};{on_off_states:state}) # sú (v spálni) všetky vypínače vypnuté?
+            # sú (v spálni) vypnuté všetky vypínače?
         response: all
 
+      # ktoré svetlá/ventilátory/vypínače sú vypnuté/zapnuté (v oblasti)?
       - sentences:
-          - <which> {on_off_domains:domain} <is> {on_off_states:state} [<area>]
+          - <which> {on_off_domains:domain} (<is> {on_off_states:state};[<area>]) # ktoré ventilátory sú zapnuté (v spálni)?
+            # ktoré ventilátory (v spálni) sú vypnuté?
         response: which
 
+      # disabled until a way to query entities from multiple domains is found
+      # ktoré okná sa zatvárajú
+      # - sentences:
+      #     - "<which> okná [<area_floor>] (<is>|sa) {bs_cover_states:state}" # ktoré okná (na poschodí) sa zatvárajú?
+      #   response: which_windows
+
+      # koľko svetiel/ventilátorov/vypínačov je zapnutých (v oblasti)?
       - sentences:
-          - <how_many> {on_off_domains:domain} <is> {on_off_states:state} [<area>]
+          - <how_many> {on_off_domains:domain} (<is> {on_off_states:state};[<area>]) # koľko vypínačov je zapnutých (v spálni)?
+            # koľko vypínačov (v spálni) je zapnutých?
+          - <how_many> <is> ({on_off_domains:domain} {on_off_states:state};<area>) # koľko je vypínačov zapnutých v spálni?
+            # koľko je v spálni zapnutých vypínačov?
         response: how_many
