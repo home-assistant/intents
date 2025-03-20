@@ -1,14 +1,30 @@
 language: sk
 tests:
-  # jas
+  # jas - konkrétna entita
   - sentences:
       - nastav nočnú lampu na 50 %
+      - nastav nočnú lampu na 50% jas
+      - nastav nočnú lampu na 50 % jasu
+      - nastav nočnú lampu na minimum
+
       - nastav jas nočnej lampy na 50 percent
-      - nastav nočnej lampe jas 50 %
+      - nastav jas svetla nočnej lampy na 50 percent
+      - nastav jas svetla nočnej lampy na minimum
+
+      - nastav na nočnej lampe jas 50 %
+      - nastav na nočnej lampe 50% jas
+      - nastav 50% jas na nočnej lampe
+
+      - nastav nočnej lampe jas 50 percent
+      - nastav na nočnej lampe jas na 50 percent
+      - nastav nočnej lampe jas 50
+      - nastav nočnej lampe jas na 50 %
     intent:
       name: HassLightSet
       slots:
-        brightness: 50
+        brightness:
+          - 50
+          - 1
         name:
           - nočná lampa
           - nočná lampu
@@ -22,31 +38,59 @@ tests:
           - nočnej lampu
           - nočnej lampy
           - nočnej lampe
-    response: Jas nastavený na 50 %
+    response:
+      - Jas nastavený na 50 %
+      - Jas nastavený na minimum
 
+  # jas - oblasť
   - sentences:
-      - nastav jas v spálni na 50 %
-      - nastav jas v spálni 50 percent
-      - nastav v spálni 50 % jas
+      - nastav svetlo v spálni na 50 %
+      - nastaviť svetlo v spálni na 50 % jas
+      - nastav v spálni svetlo na 50
+      - daj v spálni svetlo na maximum
+
+      - nastav jas svetla v spálni na 50
+      - nastav v spálni jas svetiel na 50 %
+      - nastav jas v spálni na 50 percent
       - prestav jas v spálni na 50 %
+      - prestav jas svetiel v spálni na 50 %
+      - daj jas svetla v spálni na maximálnu hodnotu
+
+      - nastav v spálni 50% jas
+      - nastav 50% jas v spálni
+      - nastav 50% jas svetiel v spálni
+      - nastav čo najvyšší jas svetiel v spálni
     intent:
       name: HassLightSet
       slots:
-        brightness: 50
+        brightness:
+          - 50
+          - 100
         area:
           - spálňa
           - spálni
           - spálne
           - spálňu
         name: all
-    response: Jas v oblasti nastavený na 50 %
+    response:
+      - Jas v oblasti nastavený na 50 %
+      - Jas v oblasti nastavený na maximum
+      - Jas v oblasti nastavený na maximálnu hodnotu
+      - Jas v oblasti nastavený na čo najvyšší
 
-  # farba
+  # farba - konkrétna entita
   - sentences:
-      - nastav červenú farbu nočnej lampe
-      - nastav nočnej lampe červenú farbu
-      - nastav nočnú lampu na červeno
       - zmeň nočnú lampu na červeno
+      - nastav nočnú lampu na červenú farbu
+
+      - nastav červenú farbu nočnej lampe
+      - nastav červenú na nočnej lampe
+      - nastav na nočnej lampe červenú farbu
+      - nastav nočnej lampe červenú
+
+      - nastav na nočnej lampe farbu na červenú
+      - nastav farbu nočnej lampy na červenú
+      - nastav nočnej lampe farbu na červenú
     intent:
       name: HassLightSet
       slots:
@@ -69,10 +113,21 @@ tests:
       - Farba zmenená na červeno
 
   - sentences:
-      - nastav červenú farbu v spálni
-      - nastav v spálni červenú farbu
       - nastav spálňu na červeno
       - zmeň spálňu na červeno
+      - nastaviť spálňu na červenú farbu
+
+      - nastav svetlo v spálni na červenú
+      - nastav svetlá v spálni na červenú farbu
+
+      - nastav farbu v spálni na červenú
+      - nastav farbu svetiel v spálni na červenú
+      - nastav farbu svetla v spálni na červeno
+
+      - nastav červenú farbu v spálni
+      - nastav červenú farbu svetiel v spálni
+      - nastav v spálni červenú farbu
+      - nastav v spálni červenú farbu svetiel
     intent:
       name: HassLightSet
       slots:
@@ -86,3 +141,37 @@ tests:
     response:
       - Farba v oblasti zmenená na červenú
       - Farba v oblasti zmenená na červeno
+
+  - sentences:
+      - nastav tu jas na 50 %
+      - nastav jas na 50
+      - nastav jas v tejto miestnosti na 50 %
+
+      - nastav 50% jas v tejto miestnosti
+    intent:
+      name: HassLightSet
+      context:
+        area: kuchyňa
+      slots:
+        area: kuchyňa
+        brightness: 50
+    response:
+      - Jas tu bol nastavený na 50 %
+
+  - sentences:
+      - nastav tu farbu na modrú
+
+      - nastav v tejto miestnosti modrú farbu
+      - nastav tu modrú
+
+      - nastav túto miestnosť na modro
+    intent:
+      name: HassLightSet
+      context:
+        area: kuchyňa
+      slots:
+        area: kuchyňa
+        color: blue
+    response:
+      - Farba tu bola nastavená na modrú
+      - Farba tu bola nastavená na modro
