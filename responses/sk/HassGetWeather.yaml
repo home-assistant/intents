@@ -166,11 +166,13 @@ responses:
         {% endif %}
 
         {% set cloud_coverage = state.attributes.get('cloud_coverage') %}
+        {% set cloud_coverage = cloud_coverage | float | round | int %}
         {% if wind_speed is not none %}
           {% set report = report + ['. Oblačnosť dosahuje ' ~ cloud_coverage ~ ' percent '] %}
         {% endif %}
 
         {% set uv_index = state.attributes.get('uv_index') %}
+        {% set uv_index = uv_index | float | round | int %}
         {% if uv_index is not none %}
           {% set uv_category = 'nízky' %}
           {% if uv_index <= 2 %}
@@ -262,7 +264,7 @@ responses:
 
       pressure: >
         {% set pressure = state.attributes.get('pressure') %}
-        {% set pressure_sk = (pressure|string).replace(".", ",") %}
+        {% set pressure = pressure | float | round | int %}
         {% set pressure_unit = state.attributes.get('pressure_unit') %}
         {% if pressure != "" %}
           {% set pressure_unit_name = '' %}
@@ -275,7 +277,7 @@ responses:
           {% elif pressure_unit == 'mbar' %}
             {% set pressure_unit_name = 'milibarov' %}
           {% endif %}
-          Tlak vzduchu je {{ pressure_sk }} {{ pressure_unit_name }}
+          Tlak vzduchu je {{ pressure }} {{ pressure_unit_name }}
         {% else %}
           Chýbajú informácie o tlaku vzduchu
         {% endif %}
@@ -345,8 +347,9 @@ responses:
 
       cloud_coverage: >
         {% set cloud_coverage = state.attributes.get('cloud_coverage') %}
+        {% set cloud_coverage_sk = (cloud_coverage | string).replace(".", ",") %}
         {% if cloud_coverage != "" %}
-        Oblačnosť je {{ cloud_coverage }} percent
+        Oblačnosť je {{ cloud_coverage_sk }} percent
         {% else %}
         Chýbajú informácie o oblačnosti
         {% endif %}
@@ -370,7 +373,7 @@ responses:
       uv_index: >
         {% set uv_index = state.attributes.get('uv_index') %}
         {% if uv_index != None %}
-          {% set uv_index = uv_index | round %}
+          {% set uv_index = uv_index | round | int %}
           {% set uv_category = '' %}
           {% set uv_comment = '' %}
           {% if uv_index <= 2 %}
