@@ -136,7 +136,7 @@ entities:
   - name: "vchodové dvere"
     id: "binary_sensor.main_door_opening"
     state:
-      in: "closed"
+      in: "zatvorené"
       out: "off"
     attributes:
       device_class: opening
@@ -176,14 +176,21 @@ entities:
   - name: "garáž[(ová|ovú) brán(a|u)]"
     id: cover.garage_doors
     area: garage
+    state: "closed"
 
   - name: "mal(á|ú) garáž[(ová|ovú) brán(a|u)]"
     id: cover.garage_doors
     area: garage
+    state: "closed"
+    attributes:
+      device_class: garage
 
   - name: "strakat(ý|é|ých) záves[y|ov]"
     id: cover.living_room_curtain
     area: living_room
+    state:
+      in: "odtiahnuté"
+      out: "open"
     attributes:
       device_class: curtain
       position: "30"
@@ -191,6 +198,9 @@ entities:
   - name: "hned(á|é|ú) rolet(a|y|u)"
     id: cover.living_room_blind
     area: living_room
+    state:
+      in: "otvorené"
+      out: "open"
     attributes:
       device_class: blind
       position: "80"
@@ -198,6 +208,7 @@ entities:
   - name: "brán(a|u)"
     id: cover.gate
     area: entrance
+    state: "closed"
 
   - name: "vonkajšia teplota"
     id: sensor.outside_temperature
@@ -217,7 +228,9 @@ entities:
   - name: "spálňov(á|ú|é|ej) rolet(a|u|y)"
     id: "cover.bedroom_blind"
     area: "bedroom"
-    state: "closed"
+    state:
+      in: "zatvorené"
+      out: "closed"
     attributes:
       device_class: blind
       position: "0"
@@ -238,17 +251,26 @@ entities:
     id: "binary_sensor.door_garden"
     area: "kitchen"
     state:
-      in: "closed"
+      in: "zatvorené"
       out: "off"
     attributes:
       device_class: door
 
-  - name: "Velké okno"
+  - name: "Veľké okno"
     id: "binary_sensor.window_living"
     area: "living_room"
     state:
-      in: "open"
+      in: "otvorené"
       out: "on"
+    attributes:
+      device_class: window
+
+  - name: "Ovládateľné okno"
+    id: "cover.window_living"
+    area: "living_room"
+    state:
+      in: "otvorené"
+      out: "open"
     attributes:
       device_class: window
 
@@ -256,7 +278,7 @@ entities:
     id: "binary_sensor.window_living"
     area: "living_room"
     state:
-      in: "closed"
+      in: "zatvorené"
       out: "off"
     attributes:
       device_class: window
@@ -264,7 +286,7 @@ entities:
   - name: "Garážové dvere"
     id: "binary_sensor.door_garage_main"
     state:
-      in: "open"
+      in: "otvorené"
       out: "on"
     attributes:
       device_class: garage_door
@@ -273,27 +295,17 @@ entities:
     id: "binary_sensor.door_garage_to_house"
     area: "garage"
     state:
-      in: "closed"
+      in: "zatvorené"
       out: "off"
     attributes:
       device_class: door
-
-  - name: "garáž[(ová|ovú) brán(a|u)]"
-    id: cover.garage_doors
-    area: garage
-
-  - name: "mal(á|ú) garážov(á|ú) brán(a|u)"
-    id: cover.garage_doors
-    attributes:
-      device_class: garage
-    area: garage
 
   - name: predn(á|ú|é) rolet(a|u|y)
     id: cover.blind_front
     area: bedroom
     state:
       in: "otvorená"
-      out: open
+      out: "open"
     attributes:
       device_class: blind
 
@@ -302,7 +314,7 @@ entities:
     area: bedroom
     state:
       in: "zatvorená"
-      out: closed
+      out: "closed"
     attributes:
       device_class: blind
 
@@ -311,7 +323,7 @@ entities:
     area: bedroom
     state:
       in: zatiahnuté
-      out: closed
+      out: "closed"
     attributes:
       device_class: blind
 
@@ -320,7 +332,7 @@ entities:
     area: guest_room
     state:
       in: zatiahnuté
-      out: closed
+      out: "closed"
     attributes:
       device_class: curtain
 
@@ -410,14 +422,6 @@ entities:
       out: "on"
     attributes:
       device_class: power
-
-  - name: "Garážové dvere"
-    id: "binary_sensor.door_garage_main"
-    state:
-      in: "zatvorené"
-      out: "off"
-    attributes:
-      device_class: garage_door
 
   - name: "únik plynu"
     id: "binary_sensor.gas_leak"

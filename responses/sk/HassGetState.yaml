@@ -55,12 +55,67 @@ responses:
           {% endif %}
         {% endif %}
 
+      # disabled until a way to query entities from multiple domains is found
+      # which_windows: |
+      #   {% if slots.state.startswith('otvor') or slots.state.startswith('roztia') %}
+      #   {% set states = ["on", "open"] %}
+      #   {% elif 'otvár' in slots.state or 'rozťahu' in slots.state %}
+      #   {% set states = ["opening"] %}
+      #   {% elif 'zatvára' in slots.state or 'zaťahu' in slots.state %}
+      #   {% set states = ["closing"] %}
+      #   {% else %}
+      #   {% set states = ["off", "closed"] %}
+      #   {% endif %}
+      #
+      #   {% set matched_windows = query.unmatched
+      #     | selectattr('attributes.device_class', 'defined')
+      #     | selectattr('attributes.device_class', 'eq', 'window')
+      #     | selectattr('hass_state', 'in', states)
+      #     | list %}
+      #   {% if not matched_windows %}
+      #   Žiadne
+      #   {% else: %}
+      #     {% set match = matched_windows | map(attribute="name") | sort | list %}
+      #     {% if match | length > 4 %}
+      #       {{ match[:3] | join(", ") }} a {{ (match | length - 3) }} ďalšie
+      #     {%- else -%}
+      #       {{ matched_windows | map(attribute="name") | sort | join(", ") }}
+      #     {% endif %}
+      #   {% endif %}
+
       how_many: |
         {% if not query.matched: %}
         0
         {% else: %}
         {{ query.matched | length }}
         {% endif %}
+
+      # disabled until a way to query entities from multiple domains is found
+      # how_many_windows: |
+      #   {% if slots.state.startswith('otvor') or slots.state.startswith('roztia') %}
+      #   {% set states = ["on", "open"] %}
+      #   {% elif 'otvár' in slots.state or 'rozťahu' in slots.state %}
+      #   {% set states = ["opening"] %}
+      #   {% elif 'zatvára' in slots.state or 'zaťahu' in slots.state %}
+      #   {% set states = ["closing"] %}
+      #   {% else %}
+      #   {% set states = ["off", "closed"] %}
+      #   {% endif %}
+      #
+      #   {{ query.unmatched
+      #     | selectattr('attributes.device_class', 'defined')
+      #     | selectattr('attributes.device_class', 'eq', 'window')
+      #     | selectattr('hass_state', 'in', states)
+      #     | list
+      #     | count }}
+      #
+      # how_many_doors: |
+      #   {% set matches = query.matched | selectattr('attributes.device_class', 'in', ('door', 'garage_door')) | list | count %}
+      #   {% if not matches %}
+      #   Žiadne
+      #   {% else: %}
+      #   {{ matches }}
+      #   {% endif %}
 
       one_cover: |
         {% set present_continuous = ('je', 'jú', 'ra') %}
