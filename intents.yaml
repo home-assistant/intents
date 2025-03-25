@@ -521,6 +521,20 @@ HassShoppingListAddItem:
       importance: "optional"
       example: "add apples to my shopping list"
 
+HassShoppingListCompleteItem:
+  supported: false
+  domain: shopping_list
+  description: "Checks off an item from a shopping list"
+  importance: "optional"
+  slots:
+    item:
+      description: "Item to check off"
+      required: true
+  slot_combinations:
+    - slots: "item"
+      importance: "optional"
+      example: "check off apples from my shopping list"
+
 # -----------------------------------------------------------------------------
 # weather
 # -----------------------------------------------------------------------------
@@ -567,6 +581,25 @@ HassListAddItem:
         - "name"
       importance: "complete"
       example: "add apples to my shopping list"
+
+HassListCompleteItem:
+  supported: false
+  domain: todo
+  description: "Checks off an item from a todo list"
+  importance: "complete"
+  slots:
+    item:
+      description: "Item to check off"
+      required: true
+    name:
+      description: "Name of the list"
+      required: true
+  slot_combinations:
+    - slots:
+        - "item"
+        - "name"
+      importance: "complete"
+      example: "check off take out the trash from my chores list"
 
 # -----------------------------------------------------------------------------
 # vacuum
