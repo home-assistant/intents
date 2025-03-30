@@ -77,6 +77,7 @@ lists:
         out: "on"
       - in: "(vypnut(ý|á|é|ých)|zhasnut(ý|á|é|ých))"
         out: "off"
+  # domény, ktorých entity reagujú na povel vypnúť/zapnúť
   on_off_domains:
     values:
       - in: svet(lo|lá|iel)
@@ -85,6 +86,7 @@ lists:
         out: fan
       - in: vypínač[e|ov]
         out: switch
+  # stavy entít patriacich pod doménu cover (https://www.home-assistant.io/integrations/cover/)
   cover_states:
     values:
       - in: "(otvoren(ý|á|é|ých)|roztiahnut(ý|á|é|ých))"
@@ -95,6 +97,7 @@ lists:
         out: "opening"
       - in: "[sa] zatvára[jú] [sa]"
         out: "closing"
+  # triedy zariadení patriacich pod doménu cover (https://www.home-assistant.io/integrations/cover/)
   cover_classes:
     values:
       - in: "markíz(a|y|u)"
@@ -115,6 +118,7 @@ lists:
         out: shutter
       - in: "(okien|okn(o|a|á))"
         out: window
+  # triedy zariadení patriacich pod doménu cover - bez dverí a okien
   pure_cover_classes:
     values:
       - in: "markíz(a|y|u)"
@@ -131,7 +135,9 @@ lists:
         out: shade
       - in: "okenic(a|e|u)"
         out: shutter
-  # states for both binary sensors and covers
+  # stavy entít patriacich pod doménu binary_sensor alebo cover
+  # zatiaľ sa nepoužíva, pretože HA nevie pracovať s viacerými doménami v rámci
+  # jedného intentu
   bs_cover_states:
     values:
       - in: "(otvoren(ý|á|é|ých)|roztiahnut(ý|á|é|ých))"
@@ -143,6 +149,7 @@ lists:
       - in: "[sa] (zatvára|zaťahu)[jú] [sa]"
         out: ["closing"]
 
+  # stavy entít patriacich pod doménu lock (https://www.home-assistant.io/integrations/lock)
   lock_states:
     values:
       - in: "zamknut(ý|á|é|ých)"
