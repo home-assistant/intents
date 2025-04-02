@@ -1,0 +1,14 @@
+language: de
+intents:
+  HassListCompleteItem:
+    data:
+      - sentences:
+          - (entferne|lösche) <item> von <meine_liste_dativ>
+          - (schließe|hake) <item> auf <meine_liste_dativ> ab
+          - <item> auf <meine_liste_dativ> (entfernen|löschen|abschließen|abhaken)
+        response: item_completed
+        requires_context:
+          domain: todo
+        expansion_rules:
+          meine_liste_dativ: "[meiner|der] ({name}[ Liste]|[Liste] {name})"
+          item: "{shopping_list_item:item}"
