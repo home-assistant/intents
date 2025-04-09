@@ -117,11 +117,18 @@ responses:
       #   {{ matches }}
       #   {% endif %}
 
-      one_cover: |
-        {% set present_continuous = ('je', 'jú', 'ra') %}
-        {% set present_simple = ('no', 'ná', 'né') %}
+      one_cover_nominative: |
+        {{ slots.name | capitalize }}
+        {# "sa .." ak dej prebieha (sa zatvára), "je v stave .." ak je dokonaný (je v stave zatvorené) #}
+        {% if state.state_with_unit and state.state_with_unit.split() | last != "sa" %}
+        je v stave {{ state.state_with_unit }}
+        {% else %}
+        {# meníme "zatvára sa" na "sa zatvára" #}
+        {{ state.state_with_unit.split() | reverse | join(' ') }}
+        {% endif %}
 
-        {{ slots.name | capitalize }} {{ 'sa' if state.state_with_unit.endswith(present_continuous) else 'je' }} {{ state.state_with_unit }}
+      one_cover_accusative: |
+        Stav {{ slots.name | capitalize }} je {{ state.state_with_unit }}
 
       bs_all: |
         {% if not query.unmatched: %}

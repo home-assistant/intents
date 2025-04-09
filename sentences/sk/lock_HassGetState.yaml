@@ -2,6 +2,7 @@ language: sk
 intents:
   HassGetState:
     data:
+      # je .. zamknutý/odomknutý? (konkrétna entita)
       - sentences:
           - "<is> ({name};{lock_states:state}) [<area_floor>]"
         requires_context:
@@ -10,14 +11,28 @@ intents:
           domain: lock
         response: one_yesno
 
+      # aký stav má .. (konkrétna entita - nominatív)
+      # v akom stave je .. (konkrétna entita - nominatív)
       - sentences:
-          - "<what_is> (stav;(je|má|majú)) {name} [<area_floor>]"
+          - "aký (stav;(má|majú)) {name} [<area_floor>]" # aký stav má môj zámok
+          - "v akom stave je {name} [<area_floor>]" # v akom stave je môj zámok
         requires_context:
           domain: lock
         slots:
           domain: lock
-        response: one_cover
+        response: one_cover_nominative
 
+      # aký je stav .. (konkrétnej entity - akuzatív)
+      - sentences:
+          - "aký je stav {name} [<area_floor>]" # aký je stav môjho zámku
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+        response: one_cover_accusative
+
+      # sú nejaké dvere/zámky/zámoky (na poschodí) zamknuté/odomknuté?
+      # sú zamknuté/odomknuté nejaké dvere/zámky/zámok (na poschodí)?
       - sentences:
           - "<is> <any> (dvere|zámky|zámok) [<area_floor>] {lock_states:state}"
           - "<is> ({lock_states:state} <any> (dvere|zámky|zámok);[<area_floor>])"
@@ -25,6 +40,10 @@ intents:
           domain: lock
         response: any
 
+      # je všade odomknuté/zamknuté?
+      # sú všetky dvere/zámky odomknuté/zamknuté?
+      # sú odomknuté/zamknuté všetky dvere/zámky?
+      # odomykajú/zamykajú sa všetky dvere/zámky?
       - sentences:
           - "je všade [<area_floor>] {lock_states:state}"
           - "sú všetky (dvere|zámky) [<area_floor>] {lock_states:state}"
@@ -34,6 +53,7 @@ intents:
           domain: lock
         response: all
 
+      # ktoré dvere/zámky/zámok je/sú odomknuté/zamknuté
       - sentences:
           - "<which> (dvere|zámky|zámok) [<area_floor>] <is> {lock_states:state}"
         slots:
