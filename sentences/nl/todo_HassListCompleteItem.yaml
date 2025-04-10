@@ -1,0 +1,14 @@
+language: "nl"
+intents:
+  HassListCompleteItem:
+    data:
+      - sentences:
+          - (verwijder|delete) <item> van <my_list>
+          - (haal|vink) <item> van <my_list> af
+          - markeer <item> (op|van) <my_list> als (gekocht|compleet|uitgevoerd|afgewerkt)
+        response: item_completed
+        requires_context:
+          domain: todo
+        expansion_rules:
+          my_list: "[mijn|m'n|ons|onze|de|het] {name}[[ ][boodschappen[ ]]lijst[je]]"
+          item: "{shopping_list_item:item}"
