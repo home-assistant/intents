@@ -5,6 +5,7 @@ These are based on the languages.yaml file in the intents repo.
 
 import json
 import logging
+import sys
 from pathlib import Path
 from typing import Set
 
@@ -14,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def main() -> None:
-    """Main entry point."""
+    """Writes language scores JSON to stdout."""
     logging.basicConfig(level=logging.INFO)
     script_dir = Path(__file__).parent
     intents_dir = script_dir.parent
@@ -117,11 +118,7 @@ def main() -> None:
                 "full_local": full_local_score,
             }
 
-    scores_path = intents_dir / "language_scores.json"
-    with open(scores_path, "w", encoding="utf-8") as scores_file:
-        json.dump(language_scores, scores_file, indent=2)
-
-    _LOGGER.INFO("Wrote %s", scores_path)
+    json.dump(language_scores, sys.stdout, indent=2)
 
 
 if __name__ == "__main__":
