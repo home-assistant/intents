@@ -15,3 +15,16 @@ intents:
           domain: "lock"
           name: "all"
         response: lock
+
+      # Continued Conversation: Confirmation
+      - sentences:
+          - "unlock [all] <lockable> in the house"
+        slots:
+          domain: "lock"
+        follow_with:
+          AskForConfimration:
+            question: "Are you sure you want to unloack all doors at the same time?"
+            allowed_answers:
+              - yes:
+
+        response: lock
