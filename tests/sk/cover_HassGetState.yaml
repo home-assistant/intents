@@ -22,18 +22,58 @@ tests:
     response: "Nie" # už je zatvorená
 
   - sentences:
-      - aký stav má spálňové žalúzie?
-      - aký je stav spálňového žalúzia?
+      - aký stav má spálňová žalúzia?
+      - aký stav majú spálňové žalúzie?
+      - aký má stav spálňové žalúzie?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name:
+          - spálňová žalúzia
+          - spálňové žalúzie
+    response:
+      - Spálňová žalúzia je v stave zatvorené
+      - Spálňové žalúzie je v stave zatvorené
+
+  - sentences:
+      - aký je stav neznačkovej žalúzie?
+      - aký je stav neznačkových žalúzií?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name:
+          - neznačkovej žalúzie
+          - neznačkových žalúzií
+    response:
+      - Stav Neznačkovej žalúzie je zatvára sa
+      - Stav Neznačkových žalúzií je zatvára sa
+
+  - sentences:
+      - aký stav má neznačková žalúzia?
+      - aký stav majú neznačkové žalúzie?
+    intent:
+      name: HassGetState
+      slots:
+        domain: cover
+        name:
+          - neznačková žalúzia
+          - neznačkové žalúzie
+    response:
+      - Neznačková žalúzia sa zatvára
+      - Neznačkové žalúzie sa zatvára
+
+  - sentences:
+      - v akom stave je spálňové žalúzie?
     intent:
       name: HassGetState
       slots:
         domain: cover
         name:
           - spálňové žalúzie
-          - spálňového žalúzia
     response:
-      - Spálňové žalúzie je zatiahnuté
-      - Spálňového žalúzia je zatiahnuté
+      - Spálňové žalúzie je v stave zatvorené
 
   - sentences:
       - "sú niektoré žalúzie zatvorené?"
@@ -102,7 +142,7 @@ tests:
         domain: cover
         device_class: blind
         state: "open"
-    response: "Nie, spálňová roleta, spálňová žalúzia a zadná roleta nie sú v stave otvorené"
+    response: "Nie, neznačková žalúzia, spálňová roleta, spálňová žalúzia a zadná roleta nie sú v stave otvorené"
 
   - sentences:
       - "sú všetky rolety v spálni otvorené?"
@@ -114,7 +154,7 @@ tests:
         device_class: blind
         area: spálni
         state: "open"
-    response: "Nie, spálňová roleta, spálňová žalúzia a zadná roleta nie sú v stave otvorená"
+    response: "Nie, neznačková žalúzia, spálňová roleta, spálňová žalúzia a zadná roleta nie sú v stave otvorená"
 
   - sentences:
       - "sú všetky rolety na prvom poschodí otvorené?"
@@ -130,7 +170,7 @@ tests:
           - vrchnom poschodí
           - prvom poschodí
         state: "open"
-    response: "Nie, spálňová roleta, spálňová žalúzia a zadná roleta nie sú v stave otvorená"
+    response: "Nie, neznačková žalúzia, spálňová roleta, spálňová žalúzia a zadná roleta nie sú v stave otvorená"
 
   - sentences:
       - "ktoré rolety sú otvorené?"
@@ -177,7 +217,7 @@ tests:
         domain: cover
         device_class: blind
         state: "closing"
-    response: "0"
+    response: "1"
 
   - sentences:
       - "koľko závesov v izbe pre hostí je zatiahnutých?"

@@ -2,8 +2,10 @@ language: sk
 intents:
   HassGetState:
     data:
+      # je .. zatvorená/otvorená?
+      # otvára/zatvára sa ..?
       - sentences:
-          - "je ({name};{cover_states:state}) [<area_floor>]" # je moja roleta zatvorená? (konkrétna entita)
+          - "je ({name} [<area_floor>];{cover_states:state}) [<area_floor>]" # je moja roleta zatvorená? (konkrétna entita)
           - "{cover_states:state} {name} [<area_floor>]" # otvára/zatvára sa roleta moja roleta? (konkrétna entita)
         requires_context:
           domain: cover
@@ -11,13 +13,25 @@ intents:
           domain: cover
         response: one_yesno
 
+      # aký stav má .. (konkrétna entita - nominatív)
+      # v akom stave je .. (konkrétna entita - nominatív)
       - sentences:
-          - "aký (stav;(má|je)) {name} [<area_floor>]" # aký stav má moja roleta? (konkrétna entita)
+          - "aký (stav;(má|majú)) {name} [<area_floor>]" # aký stav má moja roleta?
+          - "v akom stave je {name} [<area_floor>]" # v akom stave je moja roleta?
         requires_context:
           domain: cover
         slots:
           domain: cover
-        response: one_cover
+        response: one_cover_nominative
+
+      # aký je stav .. (konkrétnej entity - akuzatív)
+      - sentences:
+          - "aký je stav {name} [<area_floor>]" # aký je stav mojej rolety?
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+        response: one_cover_accusative
 
       - sentences:
           - "<is> <any> {cover_classes:device_class} [<area_floor>] {cover_states:state}" # sú nejaké závesy zatiahnuté?
