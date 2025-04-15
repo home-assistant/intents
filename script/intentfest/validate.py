@@ -105,9 +105,6 @@ INTENTS_SCHEMA = vol.Schema(
             vol.Optional("supported"): bool,
             vol.Required("domain"): str,
             vol.Required("description"): str,
-            vol.Required("importance"): vol.Any(
-                "required", "usable", "complete", "optional"
-            ),
             vol.Optional("slots"): {
                 str: {
                     vol.Required("description"): str,
@@ -116,13 +113,14 @@ INTENTS_SCHEMA = vol.Schema(
             },
             vol.Required("slot_combinations"): [
                 {
-                    vol.Required("slots"): vol.Any(str, [str]),
-                    vol.Required("example"): vol.Any(str, [str]),
+                    vol.Required("description"): str,
                     vol.Required("importance"): vol.Any(
                         "required", "usable", "complete", "optional"
                     ),
-                    vol.Optional("context_area"): bool,
-                    vol.Optional("domain"): vol.Any(str, [str]),
+                    vol.Required("slots"): [str],
+                    vol.Optional("inferred_domain"): str,
+                    vol.Optional("name_domains"): [str],
+                    vol.Required("example"): vol.Any(str, [str]),
                 }
             ],
             vol.Optional("response_variables"): {
@@ -343,7 +341,40 @@ def run() -> int:
 
     load_errors: list[str] = []
     intent_schemas = _load_yaml_file(load_errors, None, INTENTS_FILE, INTENTS_SCHEMA)
-    if intent_schemas is None:
+
+    if intent_schemas:
+        # Verify that slot combinations refer only to slots that the intent supports
+        for intent_name, intent_info in intents_schemas.items():
+            valid_slot_names = set(intent_info["slots"])
+
+            for combo_name, combo_info in intents_schemas[intent_name][
+                "slot_combinations"
+            ].items():
+                error_info = f"intent_name={intent_name}, combo_name={combo_name}"
+                combo_slot_names = set(combo_info["slots"])
+                if not combo_slot_names.issubset(valid_slot_names):
+                    load_errors.append(
+                        f"Intent does not support slot(s) used in slot combination: {error_info}, "
+                        f"slots={combo_slot_names - valid_slot_names}"
+                    )
+
+                if ("name" in combo_slot_names) and (
+                    not "name_domains" in combo_slot_names
+                ):
+                    load_errors.append(
+                        f"name_domains must be provided when name slot is used: {error_info}"
+                    )
+
+                # name_domains restricts "name" slot
+                # inferred_domain is inferred by words used in the sentence
+                if ("name_domains" in combo_slot_names) and (
+                    "inferred_domain" in combo_slot_names
+                ):
+                    load_errors.append(
+                        f"Cannot have both name_domains and inferred_domain: {error_info}"
+                    )
+
+    if (intent_schemas is None) or load_errors:
         print("File intents.yaml has invalid format:")
         for error in load_errors:
             print(f" - {error}")
