@@ -2474,7 +2474,6 @@ HassDecreaseTimer:
   supported: true
   domain: homeassistant
   description: "Removes time from a timer"
-  importance: "complete"
   slots:
     hours:
       description: "Number of hours"
@@ -2501,439 +2500,798 @@ HassDecreaseTimer:
       description: "Area of the device used to start the timer"
       required: false
   slot_combinations:
-    - slots: "hours"
+    hours_only:
+      description: "Remove hours from the most recent timer"
       importance: "complete"
-      example: "remove 1 hour from my timer"
-    - slots: "minutes"
+      slots:
+        - "hours"
+      example: "remove 1 hour to my timer"
+
+    # -------------------------------------------------------------------------
+
+    minutes_only:
+      description: "Remove minutes from the most recent timer"
       importance: "complete"
-      example: "remove 10 minutes from my timer"
-    - slots: "seconds"
+      slots:
+        - "minutes"
+      example: "remove 10 minutes to my timer"
+
+    # -------------------------------------------------------------------------
+
+    seconds_only:
+      description: "Remove seconds from the most recent timer"
       importance: "complete"
-      example: "remove 30 seconds from my timer"
-    - slots:
+      slots:
+        - "seconds"
+      example: "remove 30 seconds to my timer"
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes:
+      description: "Remove hours and minutes from the most recent timer"
+      importance: "complete"
+      slots:
         - "hours"
         - "minutes"
+      example: "remove 1 hour and 10 minutes to my timer"
+
+    # -------------------------------------------------------------------------
+
+    hours_seconds:
+      description: "Remove hours and seconds from the most recent timer"
       importance: "complete"
-      example: "remove 1 hour and 10 minutes from my timer"
-    - slots:
+      slots:
         - "hours"
         - "seconds"
+      example: "remove 1 hour and 30 seconds to my timer"
+
+    # -------------------------------------------------------------------------
+
+    minutes_seconds:
+      description: "Remove minutes and seconds from the most recent timer"
       importance: "complete"
-      example: "remove 1 hour and 30 seconds from my timer"
-    - slots:
+      slots:
         - "minutes"
         - "seconds"
+      example: "remove 10 minutes and 30 seconds to my timer"
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_seconds:
+      description: "Remove hours, minutes, and seconds from the most recent timer"
       importance: "complete"
-      example: "remove 10 minutes and 30 seconds from my timer"
-    - slots:
+      slots:
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
-      example: "remove 1 hour and 10 minutes and 30 seconds from my timer"
+      example: "remove 1 hour and 10 minutes and 30 seconds to my timer"
+
+    # -------------------------------------------------------------------------
     # name
-    - slots:
+    # -------------------------------------------------------------------------
+
+    name_hours:
+      description: "Remove hours to a timer by name"
+      importance: "complete"
+      slots:
         - "name"
         - "hours"
-      importance: "complete"
       example: "remove 1 hour from the pizza timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    name_minutes:
+      description: "Remove minutes to a timer by name"
+      importance: "complete"
+      slots:
         - "name"
         - "minutes"
-      importance: "complete"
       example: "remove 10 minutes from the pizza timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    name_seconds:
+      description: "Remove seconds to a timer by name"
+      importance: "complete"
+      slots:
         - "name"
         - "seconds"
-      importance: "complete"
       example: "remove 30 seconds from the pizza timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    name_hours_minutes:
+      description: "Remove hours and minutes to a timer by name"
+      importance: "complete"
+      slots:
         - "name"
         - "hours"
         - "minutes"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes from the pizza timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    name_hours_seconds:
+      description: "Remove hours and seconds to a timer by name"
+      importance: "complete"
+      slots:
         - "name"
         - "hours"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 30 seconds from the pizza timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    name_minutes_seconds:
+      description: "Remove minutes and seconds to a timer by name"
+      importance: "complete"
+      slots:
         - "name"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 10 minutes and 30 seconds from the pizza timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    name_hours_minutes_seconds:
+      description: "Remove hours, minutes, and seconds to a timer by name"
+      importance: "complete"
+      slots:
         - "name"
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes and 30 seconds from the pizza timer"
+
+    # -------------------------------------------------------------------------
     # area
-    - slots:
+    # -------------------------------------------------------------------------
+
+    area_hours:
+      description: "Remove hours from the most recent timer in an area"
+      importance: "complete"
+      slots:
         - "area"
         - "hours"
-      importance: "complete"
       example: "remove 1 hour from the kitchen timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    area_minutes:
+      description: "Remove minutes from the most recent timer in an area"
+      importance: "complete"
+      slots:
         - "area"
         - "minutes"
-      importance: "complete"
       example: "remove 10 minutes from the kitchen timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    area_seconds:
+      description: "Remove seconds from the most recent timer in an area"
+      importance: "complete"
+      slots:
         - "area"
         - "seconds"
-      importance: "complete"
       example: "remove 30 seconds from the kitchen timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    area_minutes_seconds:
+      description: "Remove minutes and seconds from the most recent timer in an area"
+      importance: "complete"
+      slots:
         - "area"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 10 minutes and 30 seconds from the kitchen timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    area_hours_minutes:
+      description: "Remove hours and minutes from the most recent timer in an area"
+      importance: "complete"
+      slots:
         - "area"
         - "hours"
         - "minutes"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes from the kitchen timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    area_hours_seconds:
+      description: "Remove hours and seconds from the most recent timer in an area"
+      importance: "complete"
+      slots:
         - "area"
         - "hours"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 30 seconds from the kitchen timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    area_hours_minutes_seconds:
+      description: "Remove hours, minutes, and seconds from the most recent timer in an area"
+      importance: "complete"
+      slots:
         - "area"
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes and 30 seconds from the kitchen timer"
+
+    # -------------------------------------------------------------------------
     # hours + start
-    - slots:
+    # -------------------------------------------------------------------------
+
+    hours_start_hours:
+      description: "Remove hours from the timer that was started with a duration of hours"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "hours"
-      importance: "complete"
       example: "remove 1 hour from the 2 hour timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_start_minutes:
+      description: "Remove hours from the timer that was started with a duration of minutes"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "hours"
-      importance: "complete"
       example: "remove 1 hour from the 10 minute timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_start_seconds:
+      description: "Remove hours from the timer that was started with a duration of seconds"
+      importance: "complete"
+      slots:
         - "start_seconds"
         - "hours"
-      importance: "complete"
       example: "remove 1 hour from the 30 second timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_start_hours_minutes:
+      description: "Remove hours from the timer that was started with a duration of hours and minutes"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "hours"
-      importance: "complete"
       example: "remove 1 hour from the 2 hours and 20 minutes timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_start_hours_seconds:
+      description: "Remove hours from the timer that was started with a duration of hours and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_seconds"
         - "hours"
-      importance: "complete"
       example: "remove 1 hour from the 2 hours and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_start_minutes_seconds:
+      description: "Remove hours from the timer that was started with a duration of minutes and seconds"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "start_seconds"
         - "hours"
-      importance: "complete"
       example: "remove 1 hour from the 20 minutes and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_start_hours_minutes_seconds:
+      description: "Remove hours from the timer that was started with a duration of hours, minutes, and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "start_seconds"
         - "hours"
-      importance: "complete"
       example: "remove 1 hour the 2 hours and 20 minutes and 40 seconds timer"
+
+    # -------------------------------------------------------------------------
     # hours + minutes + start
-    - slots:
+    # -------------------------------------------------------------------------
+
+    hours_minutes_start_hours:
+      description: "Remove hours and minutes from the timer that was started with a duration of hours"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "hours"
         - "minutes"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes from the 2 hour timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_start_minutes:
+      description: "Remove hours and minutes from the timer that was started with a duration of minutes"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "hours"
         - "minutes"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes from the 10 minute timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_start_seconds:
+      description: "Remove hours and minutes from the timer that was started with a duration of seconds"
+      importance: "complete"
+      slots:
         - "start_seconds"
         - "hours"
         - "minutes"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes from the 30 second timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_start_hours_minutes:
+      description: "Remove hours and minutes from the timer that was started with a duration of hours and minutes"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "hours"
         - "minutes"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes from the 2 hours and 20 minutes timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_start_hours_seconds:
+      description: "Remove hours and minutes from the timer that was started with a duration of hours and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_seconds"
         - "hours"
         - "minutes"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes from the 2 hours and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_start_minutes_seconds:
+      description: "Remove hours and minutes from the timer that was started with a duration of minutes and seconds"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "start_seconds"
         - "hours"
         - "minutes"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes from the 20 minutes and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_start_hours_minutes_seconds:
+      description: "Remove hours and minutes from the timer that was started with a duration of hours, minutes, and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "start_seconds"
         - "hours"
         - "minutes"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes from the 2 hours and 20 minutes and 40 seconds timer"
+
+    # -------------------------------------------------------------------------
     # hours + seconds + start
-    - slots:
+    # -------------------------------------------------------------------------
+
+    hours_seconds_start_hours:
+      description: "Remove hours and seconds from the timer that was started with a duration of hours"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "hours"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 30 seconds from the 2 hour timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_seconds_start_minutes:
+      description: "Remove hours and seconds from the timer that was started with a duration of minutes"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "hours"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 30 seconds from the 10 minute timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_seconds_start_seconds:
+      description: "Remove hours and seconds from the timer that was started with a duration of seconds"
+      importance: "complete"
+      slots:
         - "start_seconds"
         - "hours"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 30 seconds from the 30 second timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_seconds_start_hours_minutes:
+      description: "Remove hours and seconds from the timer that was started with a duration of hours and minutes"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "hours"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 30 seconds from the 2 hours and 20 minutes timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_seconds_start_hours_seconds:
+      description: "Remove hours and seconds from the timer that was started with a duration of hours and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_seconds"
         - "hours"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 30 seconds from the 2 hours and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_seconds_start_minutes_seconds:
+      description: "Remove hours and seconds from the timer that was started with a duration of minutes and seconds"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "start_seconds"
         - "hours"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 30 seconds from the 20 minutes and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_seconds_start_hours_minutes_seconds:
+      description: "Remove hours and seconds from the timer that was started with a duration of hours, minutes, and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "start_seconds"
         - "hours"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
+
+    # -------------------------------------------------------------------------
     # hours + minutes + seconds + start
-    - slots:
+    # -------------------------------------------------------------------------
+
+    hours_minutes_seconds_start_hours:
+      description: "Remove hours, minutes, and seconds from the timer that was started with a duration of hours"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes and 30 seconds from the 2 hour timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_seconds_start_minutes:
+      description: "Remove hours, minutes, and seconds from the timer that was started with a duration of minutes"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes and 30 seconds from the 10 minute timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_seconds_start_seconds:
+      description: "Remove hours, minutes, and seconds from the timer that was started with a duration of seconds"
+      importance: "complete"
+      slots:
         - "start_seconds"
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes and 30 seconds from the 30 second timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_seconds_start_hours_minutes:
+      description: "Remove hours, minutes, and seconds from the timer that was started with a duration of hours and minutes"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes and 30 seconds from the 2 hours and 20 minutes timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_seconds_start_hours_seconds:
+      description: "Remove hours, minutes, and seconds from the timer that was started with a duration of hours and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_seconds"
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes and 30 seconds from the 2 hours and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_seconds_start_minutes_seconds:
+      description: "Remove hours, minutes, and seconds from the timer that was started with a duration of minutes and seconds"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "start_seconds"
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes and 30 seconds from the 20 minutes and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_seconds_start_hours_minutes_seconds:
+      description: "Remove hours, minutes, and seconds from the timer that was started with a duration of hours, minutes, and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "start_seconds"
         - "hours"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 1 hour and 10 minutes and 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
+
+    # -------------------------------------------------------------------------
     # minutes + start
-    - slots:
+    # -------------------------------------------------------------------------
+
+    minutes_start_hours:
+      description: "Remove minutes from the timer that was started with a duration of hours"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "minutes"
+      example: "remove 10 minutes to my timer"
+
+    # -------------------------------------------------------------------------
+
+    minutes_start_minutes:
+      description: "Remove minutes from the timer that was started with a duration of minutes"
       importance: "complete"
-      example: "remove 10 minutes from my timer"
-    - slots:
+      slots:
         - "start_minutes"
         - "minutes"
-      importance: "complete"
       example: "remove 10 minutes from the 20 minute timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_start_seconds:
+      description: "Remove minutes from the timer that was started with a duration of seconds"
+      importance: "complete"
+      slots:
         - "start_seconds"
         - "minutes"
-      importance: "complete"
       example: "remove 10 minutes from the 40 second timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_start_hours_minutes:
+      description: "Remove minutes from the timer that was started with a duration of hours and minutes"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "minutes"
-      importance: "complete"
       example: "remove 10 minutes from the 2 hours and 20 minutes timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_start_hours_seconds:
+      description: "Remove minutes from the timer that was started with a duration of hours and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_seconds"
         - "minutes"
-      importance: "complete"
       example: "remove 10 minutes from the 2 hours and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_start_minutes_seconds:
+      description: "Remove minutes from the timer that was started with a duration of minutes and seconds"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "start_seconds"
         - "minutes"
-      importance: "complete"
       example: "remove 10 minutes from the 20 minutes and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_start_hours_minutes_seconds:
+      description: "Remove minutes from the timer that was started with a duration of hours, minutes, and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "start_seconds"
         - "minutes"
-      importance: "complete"
       example: "remove 10 minutes from the 2 hours and 20 minutes and 40 seconds timer"
+
+    # -------------------------------------------------------------------------
     # minutes + seconds + start
-    - slots:
+    # -------------------------------------------------------------------------
+
+    minutes_seconds_start_hours:
+      description: "Remove minutes and seconds from the timer that was started with a duration of hours"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "minutes"
         - "seconds"
+      example: "remove 10 minutes and 30 seconds to my timer"
+
+    # -------------------------------------------------------------------------
+
+    minutes_seconds_start_minutes:
+      description: "Remove minutes and seconds from the timer that was started with a duration of minutes"
       importance: "complete"
-      example: "remove 10 minutes and 30 seconds from my timer"
-    - slots:
+      slots:
         - "start_minutes"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 10 minutes and 30 seconds from the 20 minute timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_seconds_start_seconds:
+      description: "Remove minutes and seconds from the timer that was started with a duration of seconds"
+      importance: "complete"
+      slots:
         - "start_seconds"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 10 minutes and 30 seconds from the 40 second timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_seconds_start_hours_minutes:
+      description: "Remove minutes and seconds from the timer that was started with a duration of hours and minutes"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 10 minutes and 30 seconds from the 2 hours and 20 minutes timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_seconds_start_hours_seconds:
+      description: "Remove minutes and seconds from the timer that was started with a duration of hours and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_seconds"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 10 minutes and 30 seconds from the 2 hours and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_seconds_start_minutes_seconds:
+      description: "Remove minutes and seconds from the timer that was started with a duration of minutes and seconds"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "start_seconds"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 10 minutes and 30 seconds from the 20 minutes and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_seconds_start_hours_minutes_seconds:
+      description: "Remove minutes and seconds from the timer that was started with a duration of hours, minutes, and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "start_seconds"
         - "minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 10 minutes and 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
+
+    # -------------------------------------------------------------------------
     # seconds + start
-    - slots:
+    # -------------------------------------------------------------------------
+
+    seconds_start_hours:
+      description: "Remove seconds from the timer that was started with a duration of hours"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "seconds"
+      example: "remove 30 seconds to my timer"
+
+    # -------------------------------------------------------------------------
+
+    seconds_start_minutes:
+      description: "Remove seconds from the timer that was started with a duration of minutes"
       importance: "complete"
-      example: "remove 30 seconds from my timer"
-    - slots:
+      slots:
         - "start_minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 30 seconds from the 20 minute timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    seconds_start_seconds:
+      description: "Remove seconds from the timer that was started with a duration of seconds"
+      importance: "complete"
+      slots:
         - "start_seconds"
         - "seconds"
-      importance: "complete"
       example: "remove 30 seconds from the 40 second timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    seconds_start_hours_minutes:
+      description: "Remove seconds from the timer that was started with a duration of hours and minutes"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "seconds"
-      importance: "complete"
       example: "remove 30 seconds from the 2 hours and 20 minutes timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    seconds_start_hours_seconds:
+      description: "Remove seconds from the timer that was started with a duration of hours and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_seconds"
         - "seconds"
-      importance: "complete"
       example: "remove 30 seconds from the 2 hours and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    seconds_start_minutes_seconds:
+      description: "Remove seconds from the timer that was started with a duration of minutes and seconds"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "start_seconds"
         - "seconds"
-      importance: "complete"
       example: "remove 30 seconds from the 20 minutes and 40 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    seconds_start_hours_minutes_seconds:
+      description: "Remove seconds from the timer that was started with a duration of hours, minutes, and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "start_seconds"
         - "seconds"
-      importance: "complete"
       example: "remove 30 seconds from the 2 hours and 20 minutes and 40 seconds timer"
 
 # -----------------------------------------------------------------------------
@@ -3088,44 +3446,102 @@ HassTimerStatus:
       description: "Area of the device used to start the timer"
       required: false
   slot_combinations:
-    - slots: []
+    # -------------------------------------------------------------------------
+    # Usable slot combinations
+    # -------------------------------------------------------------------------
+
+    default:
+      description: "Get status of all timers"
       importance: "usable"
+      slots: []
       example: "how much time is left on my timer"
-    - slots: "name"
+
+    # -------------------------------------------------------------------------
+    # Optional slot combinations
+    # -------------------------------------------------------------------------
+
+    name_only:
+      description: "Get status of a timer by name"
       importance: "complete"
+      slots:
+        - "name"
       example: "how much time is left on the pizza timer"
-    - slots: "area"
+
+    # -------------------------------------------------------------------------
+
+    area_only:
+      description: "Get status of all timers in an area"
       importance: "complete"
+      slots:
+        - "area"
       example: "how much time is left on the kitchen timer"
-    - slots: "start_hours"
+
+    # -------------------------------------------------------------------------
+
+    hours_only:
+      description: "Get status of all timers that was started with a duration of hours"
       importance: "complete"
+      slots:
+        - "start_hours"
       example: "how much time is left on the 1 hour timer"
-    - slots: "start_minutes"
+
+    # -------------------------------------------------------------------------
+
+    minutes_only:
+      description: "Get status of all timers that was started with a duration of minutes"
+      slots:
+        - "start_minutes"
       importance: "complete"
       example: "how much time is left on the 10 minute timer"
-    - slots: "start_seconds"
+
+    # -------------------------------------------------------------------------
+
+    seconds_only:
+      description: "Get status of all timers that was started with a duration of seconds"
       importance: "complete"
+      slots:
+        - "start_seconds"
       example: "how much time is left on the 30 second timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    minutes_seconds:
+      description: "Get status of all timers that was started with a duration of minutes and seconds"
+      importance: "complete"
+      slots:
         - "start_minutes"
         - "start_seconds"
-      importance: "complete"
       example: "how much time is left on the 10 minutes and 30 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes:
+      description: "Get status of all timers that was started with a duration of hours and minutes"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
-      importance: "complete"
       example: "how much time is left on the 1 hour and 10 minutes timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_seconds:
+      description: "Get status of all timers that was started with a duration of hours and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_seconds"
-      importance: "complete"
       example: "how much time is left on the 1 hour and 30 seconds timer"
-    - slots:
+
+    # -------------------------------------------------------------------------
+
+    hours_minutes_seconds:
+      description: "Get status of all timers that was started with a duration of hours, minutes, and seconds"
+      importance: "complete"
+      slots:
         - "start_hours"
         - "start_minutes"
         - "start_seconds"
-      importance: "complete"
       example: "how much time is left on the 1 hour and 10 minutes and 30 seconds timer"
   response_variables:
     timers:
