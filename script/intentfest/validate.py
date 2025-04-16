@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import itertools
 from collections import Counter, defaultdict
 from collections.abc import Callable
 from datetime import datetime
@@ -13,6 +14,14 @@ import jinja2
 import regex
 import voluptuous as vol
 import yaml
+from hassil import (
+    Alternative,
+    Expression,
+    Group,
+    ListReference,
+    RuleReference,
+    parse_sentence,
+)
 from voluptuous.humanize import validate_with_humanized_errors
 
 from shared import get_jinja2_environment
@@ -21,12 +30,16 @@ from .const import (
     INTENTS_FILE,
     LANGUAGES,
     LANGUAGES_FILE,
+    LIST_DIR,
     RESPONSE_DIR,
     ROOT,
+    RULE_DIR,
     SENTENCE_DIR,
     TESTS_DIR,
 )
 from .util import get_base_arg_parser
+
+HA_LIST_NAMES = {"name", "area", "floor"}
 
 
 def match_anything(value):
@@ -200,6 +213,32 @@ SENTENCE_SCHEMA = vol.Schema(
     # but we do not accept that in our repository.
 )
 
+
+def SLOT_COMBO_SENTENCE_SCHEMA(
+    language: str,
+    combo_name: str,
+    available_list_names: set[str],
+    available_slot_names: set[str],
+    available_rule_names: set[str],
+) -> vol.Schema:
+    return vol.Schema(
+        {
+            vol.Required("language"): language,
+            vol.Required("sentences"): [
+                vol.All(
+                    non_empty_string,
+                    not_optional,
+                    no_alternative_list_references,
+                    allowed_list_names(available_list_names),
+                    required_slots_names(available_slot_names),
+                    allowed_rule_names(available_rule_names),
+                )
+            ],
+            vol.Optional("response"): str,
+        }
+    )
+
+
 SENTENCE_COMMON_SCHEMA = vol.Schema(
     {
         vol.Required("language"): str,
@@ -327,6 +366,79 @@ RESPONSE_SCHEMA = vol.Schema(
 )
 
 
+def EXPANSION_RULES_SCHEMA(language: str, rule_name: str) -> vol.Schema:
+    return vol.Schema(
+        {
+            vol.Required("language"): language,
+            vol.Required(rule_name): vol.All(
+                non_empty_string, not_optional, no_list_or_rule_references
+            ),
+        }
+    )
+
+
+def SHARED_LISTS_SCHEMA(list_name: str) -> vol.Schema:
+    return vol.Schema(
+        {
+            vol.Required(list_name): vol.Any(
+                {
+                    # Range of numbers
+                    vol.Required("range"): {
+                        vol.Required("from"): int,
+                        vol.Required("to"): int,
+                        vol.Optional("step"): int,
+                        vol.Optional("type"): "percentage",
+                        vol.Optional("fractions"): "halves",
+                    }
+                },
+                {vol.Required("wildcard"): bool},
+            )
+        },
+    )
+
+
+def LANGUAGE_LISTS_SCHEMA(language: str, list_name: str) -> vol.Schema:
+
+    return vol.Schema(
+        {
+            vol.Required("language"): language,
+            vol.Required(list_name): vol.Any(
+                {
+                    # Fixed values
+                    vol.Required("values"): [
+                        vol.Any(
+                            vol.All(
+                                non_empty_string,
+                                not_optional,
+                                no_list_or_rule_references,
+                            ),
+                            {
+                                vol.Required("in"): vol.All(
+                                    non_empty_string,
+                                    not_optional,
+                                    no_list_or_rule_references,
+                                ),
+                                vol.Required("out"): vol.Any(str, int),
+                            },
+                        )
+                    ]
+                },
+                {
+                    # Range of numbers
+                    vol.Required("range"): {
+                        vol.Required("from"): int,
+                        vol.Required("to"): int,
+                        vol.Optional("step"): int,
+                        vol.Optional("type"): "percentage",
+                        vol.Optional("fractions"): "halves",
+                    }
+                },
+                {vol.Required("wildcard"): bool},
+            ),
+        }
+    )
+
+
 def get_arguments() -> argparse.Namespace:
     """Get parsed passed in arguments."""
     parser = get_base_arg_parser()
@@ -345,8 +457,9 @@ def run() -> int:
         languages = [args.language]
 
     load_errors: list[str] = []
-    intent_schemas = _load_yaml_file(load_errors, None, INTENTS_FILE, INTENTS_SCHEMA)
 
+    # intents.yaml
+    intent_schemas = _load_yaml_file(load_errors, None, INTENTS_FILE, INTENTS_SCHEMA)
     if intent_schemas:
         # Verify that slot combinations refer only to slots that the intent supports
         for intent_name, intent_info in intent_schemas.items():
@@ -392,6 +505,7 @@ def run() -> int:
             print(f" - {error}")
         return 1
 
+    # languages.yaml
     language_infos = _load_yaml_file(
         load_errors, None, LANGUAGES_FILE, LANGUAGES_SCHEMA
     )
@@ -405,11 +519,24 @@ def run() -> int:
         if sorted(language_infos) != list(language_infos):
             load_errors.append("Languages should be sorted alphabetically")
 
-    if language_infos is None or load_errors:
+    if (language_infos is None) or load_errors:
         print("File languages.yaml has invalid format:")
         for error in load_errors:
             print(f" - {error}")
         return 1
+
+    # shared lists
+    for list_path in LIST_DIR.glob("*.yaml"):
+        list_name = list_path.stem
+        list_info = _load_yaml_file(
+            load_errors, None, list_path, SHARED_LISTS_SCHEMA(list_name)
+        )
+
+        if (list_info is None) or load_errors:
+            print(f"File {list_path} has invalid format:")
+            for error in load_errors:
+                print(f" - {error}")
+            return 1
 
     errors: dict[str, list[str]] = {}
     warnings: dict[str, list[str]] = {}
@@ -424,6 +551,11 @@ def run() -> int:
             errors[language],
             warnings[language],
         )
+        validate_slot_combinations(
+            intent_schemas, language, errors[language], warnings[language]
+        )
+        validate_lists(language, errors[language])
+        validate_expansion_rules(language, errors[language])
         # Remove language if no errors
         if not errors[language]:
             errors.pop(language)
@@ -499,7 +631,7 @@ def validate_language(
     # intent -> sentence count
     num_intent_sentences: Counter[str] = Counter()
 
-    for sentence_file in sentence_dir.iterdir():
+    for sentence_file in sentence_dir.glob("*.yaml"):
         path = str(sentence_file.relative_to(ROOT))
 
         if sentence_file.name == "_common.yaml":
@@ -691,3 +823,224 @@ def validate_language(
             missing_response_keys = used_intent_response_keys - possible_response_keys
             for response_key in missing_response_keys:
                 errors.append(f"{path}: response not defined {response_key}")
+
+
+def validate_slot_combinations(
+    intent_schemas: dict, language: str, errors: list[str], warnings: list[str]
+) -> None:
+    """Validate the YAML files in sentences/<language>/<intent> for each slot combination."""
+    sentence_dir: Path = SENTENCE_DIR / language
+    available_list_names = HA_LIST_NAMES.union(
+        list_path.stem
+        for list_path in itertools.chain(
+            LIST_DIR.glob("*.yaml"),  # shared lists
+            (LIST_DIR / language).glob("*.yaml"),  # language-specific lists
+        )
+    )
+    available_rule_names = set(
+        rule_path.stem for rule_path in (RULE_DIR / language).glob("*.yaml")
+    )
+
+    for intent_name, intent_info in intent_schemas.items():
+        intent_dir = sentence_dir / intent_name
+
+        for combo_name, combo_info in intent_schemas[intent_name][
+            "slot_combinations"
+        ].items():
+            error_info = f"intent_name={intent_name}, combo_name={combo_name}"
+            combo_importance = combo_info["importance"]
+
+            combo_sentence_path = intent_dir / f"{combo_name}.yaml"
+            if not combo_sentence_path.exists():
+                if combo_importance == "required":
+                    errors.append(
+                        f"Missing sentences for required slot combination: {error_info}, "
+                        f"file={combo_sentence_path}"
+                    )
+                elif combo_importance == "usable":
+                    warnings.append(
+                        f"Missing sentences for usable slot combination: {error_info}, "
+                        f"file={combo_sentence_path}"
+                    )
+
+                continue
+
+            available_slot_names = set(combo_info.get("slots", []))
+            if "inferred_domain" in combo_info:
+                available_slot_names.discard("domain")
+
+            _load_yaml_file(
+                errors,
+                language,
+                combo_sentence_path,
+                SLOT_COMBO_SENTENCE_SCHEMA(
+                    language,
+                    combo_name,
+                    available_list_names,
+                    available_slot_names,
+                    available_rule_names,
+                ),
+            )
+
+
+def validate_lists(language: str, errors: list[str]) -> None:
+    lists_dir: Path = LIST_DIR / language
+    for list_path in lists_dir.glob("*.yaml"):
+        list_name = list_path.stem
+        _load_yaml_file(
+            errors, language, list_path, LANGUAGE_LISTS_SCHEMA(language, list_name)
+        )
+
+
+def validate_expansion_rules(language: str, errors: list[str]) -> None:
+    rules_dir: Path = RULE_DIR / language
+    for rule_path in rules_dir.glob("*.yaml"):
+        rule_name = rule_path.stem
+        _load_yaml_file(
+            errors, language, rule_path, EXPANSION_RULES_SCHEMA(language, rule_name)
+        )
+
+
+# -----------------------------------------------------------------------------
+
+
+def no_alternative_list_references(sentence: str):
+    """Validator that doesn't allow for {list} references in (an|alternative) or [an optional]."""
+
+    def visitor(e: Expression, arg: Any):
+        if isinstance(e, Alternative):
+            return True
+
+        in_alternative: bool = arg
+
+        if isinstance(e, ListReference) and in_alternative:
+            list_ref: ListReference = e
+            raise vol.Invalid(
+                f"List references not allow in alternatives (a|b) or optionals [c] ({{{list_ref.list_name}}})"
+            )
+
+        return in_alternative
+
+    _visit_expression(parse_sentence(sentence).expression, visitor, False)
+    return sentence
+
+
+def no_list_or_rule_references(sentence: str):
+    """Validator that doesn't allow for {list} or <rule> references in a sentence template."""
+
+    def visitor(e: Expression, arg: Any):
+        if isinstance(e, ListReference):
+            list_ref: ListReference = e
+            raise vol.Invalid(
+                f"List reference not allow in expansion rules: {{{list_ref.list_name}}}"
+            )
+
+        if isinstance(e, RuleReference):
+            rule_ref: RuleReference = e
+            raise vol.Invalid(
+                f"Rule reference not allowed in expansion rules: <{rule_ref.rule_name}>"
+            )
+
+    _visit_expression(parse_sentence(sentence).expression, visitor, None)
+    return sentence
+
+
+def non_empty_string(value: Any):
+    if not isinstance(value, str):
+        raise vol.Invalid(f"Not a string: {value}")
+
+    if not value.strip():
+        raise vol.Invalid("String cannot be empty")
+
+    return value
+
+
+def not_optional(sentence: str):
+    """Validator that ensures a sentence is not completely optional."""
+
+    top_expression = parse_sentence(sentence).expression
+    if isinstance(top_expression, Alternative):
+        alt: Alternative = top_expression
+        if alt.is_optional:
+            raise vol.Invalid("Expansion rule must have some required text")
+
+    return sentence
+
+
+def allowed_list_names(list_names: set[str]):
+    """Validator that ensures list reference names are valid."""
+
+    def validator(sentence: str):
+        def visitor(e: Expression, arg: Any):
+            if isinstance(e, ListReference):
+                list_ref: ListReference = e
+                if list_ref.list_name not in list_names:
+                    raise vol.Invalid(
+                        "List is not defined for language: "
+                        f"list_name=<{list_ref.list_name}>, "
+                        f"list_names={list_names}"
+                    )
+
+        _visit_expression(parse_sentence(sentence).expression, visitor, None)
+        return sentence
+
+    return validator
+
+
+def required_slots_names(slot_names: set[str]):
+    """Validator that ensures required slot names are present."""
+
+    def validator(sentence: str):
+
+        def visitor(e: Expression, arg: Any):
+            used_slot_names: set[str] = arg
+
+            if isinstance(e, ListReference):
+                list_ref: ListReference = e
+                used_slot_names.add(list_ref.slot_name)
+
+            return used_slot_names
+
+        used_slot_names: set[str] = set()
+        _visit_expression(parse_sentence(sentence).expression, visitor, used_slot_names)
+
+        missing_slots = slot_names - used_slot_names
+        if missing_slots:
+            raise vol.Invalid(f"Missing required slots in sentence: {missing_slots}")
+
+        extra_slots = used_slot_names - slot_names
+        if extra_slots:
+            raise vol.Invalid(f"Extra slots in sentence: {extra_slots}")
+
+        if sentence == "(light up|illuminate) [<the>]":
+            print(sentence, slot_names, used_slot_names)
+
+        return sentence
+
+    return validator
+
+
+def allowed_rule_names(rule_names: set[str]):
+    """Validator that ensures rule reference names are valid."""
+
+    def validator(sentence: str):
+        def visitor(e: Expression, arg: Any):
+            if isinstance(e, RuleReference):
+                rule_ref: RuleReference = e
+                if rule_ref.rule_name not in rule_names:
+                    raise vol.Invalid(
+                        f"Rule is not defined for language: <{rule_ref.rule_name}>"
+                    )
+
+        _visit_expression(parse_sentence(sentence).expression, visitor, None)
+        return sentence
+
+    return validator
+
+
+def _visit_expression(e: Expression, visitor, visitor_arg: Any):
+    result = visitor(e, visitor_arg)
+    if isinstance(e, Group):
+        grp: Group = e
+        for item in grp.items:
+            _visit_expression(item, visitor, result)
