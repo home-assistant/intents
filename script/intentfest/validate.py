@@ -106,13 +106,15 @@ INTENTS_SCHEMA = vol.Schema(
             vol.Required("domain"): str,
             vol.Required("description"): str,
             vol.Optional("slots"): {
+                # slot name
                 str: {
                     vol.Required("description"): str,
                     vol.Optional("required"): bool,
                 }
             },
-            vol.Required("slot_combinations"): [
-                {
+            vol.Required("slot_combinations"): {
+                # slot name
+                str: {
                     vol.Required("description"): str,
                     vol.Required("importance"): vol.Any(
                         "required", "usable", "complete", "optional"
@@ -120,10 +122,12 @@ INTENTS_SCHEMA = vol.Schema(
                     vol.Required("slots"): [str],
                     vol.Optional("inferred_domain"): str,
                     vol.Optional("name_domains"): [str],
+                    vol.Optional("context_area"): bool,
                     vol.Required("example"): vol.Any(str, [str]),
                 }
-            ],
+            },
             vol.Optional("response_variables"): {
+                # variable name
                 str: {
                     vol.Required("description"): str,
                 }
