@@ -40,6 +40,7 @@ from .const import (
 from .util import get_base_arg_parser
 
 HA_LIST_NAMES = {"name", "area", "floor"}
+SLOT_COMBO_VALIDATION_LANGUAGES = {"en"}
 
 
 def match_anything(value):
@@ -214,12 +215,14 @@ SENTENCE_SCHEMA = vol.Schema(
 )
 
 
+# pylint: disable=too-many-positional-arguments
 def SLOT_COMBO_SENTENCE_SCHEMA(
     language: str,
     combo_name: str,
     available_list_names: set[str],
     available_slot_names: set[str],
     available_rule_names: set[str],
+    available_response_names: set[str],
 ) -> vol.Schema:
     return vol.Schema(
         {
@@ -234,7 +237,7 @@ def SLOT_COMBO_SENTENCE_SCHEMA(
                     allowed_rule_names(available_rule_names),
                 )
             ],
-            vol.Optional("response"): str,
+            vol.Optional("response"): vol.In(available_response_names),
         }
     )
 
@@ -829,6 +832,9 @@ def validate_slot_combinations(
     intent_schemas: dict, language: str, errors: list[str], warnings: list[str]
 ) -> None:
     """Validate the YAML files in sentences/<language>/<intent> for each slot combination."""
+    if language not in SLOT_COMBO_VALIDATION_LANGUAGES:
+        return
+
     sentence_dir: Path = SENTENCE_DIR / language
     available_list_names = HA_LIST_NAMES.union(
         list_path.stem
@@ -841,8 +847,17 @@ def validate_slot_combinations(
         rule_path.stem for rule_path in (RULE_DIR / language).glob("*.yaml")
     )
 
-    for intent_name, intent_info in intent_schemas.items():
+    for intent_name in intent_schemas:
         intent_dir = sentence_dir / intent_name
+
+        available_response_names: set[str] = set()
+        responses_path = RESPONSE_DIR / language / f"{intent_name}.yaml"
+        if responses_path.exists():
+            with open(responses_path, "r", encoding="utf-8") as responses_file:
+                responses_dict = yaml.safe_load(responses_file)
+                available_response_names.update(
+                    responses_dict["responses"]["intents"][intent_name]
+                )
 
         for combo_name, combo_info in intent_schemas[intent_name][
             "slot_combinations"
@@ -879,6 +894,7 @@ def validate_slot_combinations(
                     available_list_names,
                     available_slot_names,
                     available_rule_names,
+                    available_response_names,
                 ),
             )
 
