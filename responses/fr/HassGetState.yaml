@@ -8,7 +8,13 @@ responses:
         {{ state.state_with_unit }}
 
       one: |
-        {{ slots.name | capitalize }} est {{ state.state_with_unit }}
+        {% if state.state == "on" %}
+          {{ slots.name | capitalize }} est allumée
+        {% elif state.state == "off" %}
+          {{ slots.name | capitalize }} est éteinte
+        {% else %}
+          {{ slots.name | capitalize }} est {{ state.state_with_unit }}
+        {% endif %}  
 
       one_yesno: |
         {% if query.matched %}
