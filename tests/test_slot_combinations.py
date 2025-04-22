@@ -1,12 +1,14 @@
 import sys
 import warnings
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from datetime import datetime
 from typing import Any
 
 import pytest
 import yaml
-from hassil import Intents, SlotList, TextSlotList, merge_dict, recognize_best
+from hassil import Intents, RecognizeResult, TextSlotList, recognize_best
+from jinja2 import BaseLoader, Environment, StrictUndefined
 
 from . import (
     BASE_DIR,
@@ -19,6 +21,7 @@ from . import (
 )
 
 CONTEXT_AREA_NAME = "__context_area__"
+TEST_DATETIME = datetime(year=2013, month=9, day=17, hour=1, minute=2)
 
 
 @dataclass
@@ -31,6 +34,12 @@ class LanguageResources:
 
     responses: dict[str, dict[str, str]]
     """Response by intent -> key"""
+
+    template_env: Environment = field(
+        default_factory=lambda: Environment(
+            loader=BaseLoader(), undefined=StrictUndefined
+        )
+    )
 
 
 @pytest.fixture(name="lang_resources", scope="session")
@@ -156,7 +165,13 @@ def do_test_slot_combination(
     slot_lists = {
         "name": TextSlotList.from_tuples(
             [
-                (e["name"], e["name"], {"domain": e["domain"]})
+                # text in, value out, context, metadata
+                (
+                    e["name"],
+                    e["name"],
+                    {"domain": e["domain"]},
+                    {"domain": e["domain"], "state": e.get("state")},
+                )
                 for e in test_dict.get("entities", [])
             ],
             name="name",
@@ -218,9 +233,7 @@ def do_test_slot_combination(
 
             # print(test_sentence)
             # TODO: render template
-            actual_response = lang_resources.responses.get(intent_name, {}).get(
-                result.response, ""
-            )
+            actual_response = _render_response(lang_resources, result)
             assert actual_response == expected_response
 
             actual_slots = {e_name: e.value for e_name, e in result.entities.items()}
@@ -253,6 +266,44 @@ def do_test_slot_combination(
     assert (
         not untested_sentence_templates
     ), f"{len(untested_sentence_templates)} untested sentence template(s): {error_info}"
+
+
+def _render_response(lang_resources: LanguageResources, result: RecognizeResult) -> str:
+    intent_name = result.intent.name
+    response_key = result.response
+
+    intent_responses = lang_resources.responses.get(intent_name)
+    if not intent_responses:
+        return ""
+
+    response_template = intent_responses.get(response_key)
+    if not response_template:
+        return ""
+
+    template_slots: dict[str, Any] = {
+        e_name: e.value for e_name, e in result.entities.items()
+    }
+    template_args = {"slots": template_slots}
+
+    if name_entity := result.entities.get("name"):
+        # TODO: better errors
+        assert name_entity.metadata
+        template_args["state"] = {
+            "domain": name_entity.metadata["domain"],
+            "state": name_entity.metadata.get("state"),
+        }
+
+    if intent_name == "HassGetCurrentDate":
+        template_slots["date"] = TEST_DATETIME.date()
+    elif intent_name == "HassGetCurrentDate":
+        template_slots["time"] = TEST_DATETIME.time()
+
+    response_text = lang_resources.template_env.from_string(response_template).render(
+        template_args
+    )
+    response_text = response_text.strip()
+
+    return response_text
 
 
 def gen_test(intent_name: str, combo_name: str, combo_info: dict[str, Any]) -> None:
