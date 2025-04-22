@@ -3,7 +3,7 @@ import warnings
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 import pytest
 import yaml
@@ -194,7 +194,10 @@ def do_test_slot_combination(
     inferred_domain = combo_info.get("inferred_domain")
 
     # Retrieved from metadata
-    untested_sentence_templates: set[str] = set()
+    untested_sentence_templates: Optional[set[str]] = None
+
+    # sentence text -> matched template
+    matching_sentence_templates: dict[str, str] = {}
 
     # TODO: add validation in script
     for test_group in test_dict["tests"]:
@@ -224,12 +227,13 @@ def do_test_slot_combination(
             assert result.intent_metadata is not None
             assert result.intent_metadata.get("slot_combination") == combo_name
 
-            if not untested_sentence_templates:
-                untested_sentence_templates.update(
+            if untested_sentence_templates is None:
+                untested_sentence_templates = set(
                     result.intent_metadata["sentence_templates"]
                 )
 
             untested_sentence_templates.discard(result.intent_sentence.text)
+            matching_sentence_templates[test_sentence] = result.intent_sentence.text
 
             # print(test_sentence)
             # TODO: render template
@@ -263,9 +267,11 @@ def do_test_slot_combination(
                 else:
                     assert expected_slot_value == actual_slot_value
 
-    assert (
-        not untested_sentence_templates
-    ), f"{len(untested_sentence_templates)} untested sentence template(s): {error_info}"
+    assert not untested_sentence_templates, (
+        f"{len(untested_sentence_templates)} untested sentence template(s): {error_info}, "
+        f"missing={untested_sentence_templates}, "
+        f"matching={matching_sentence_templates}"
+    )
 
 
 def _render_response(lang_resources: LanguageResources, result: RecognizeResult) -> str:
