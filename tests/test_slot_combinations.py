@@ -7,7 +7,13 @@ from typing import Any, Optional
 
 import pytest
 import yaml
-from hassil import Intents, RecognizeResult, TextSlotList, recognize_best
+from hassil import (
+    Intents,
+    RecognizeResult,
+    TextSlotList,
+    normalize_whitespace,
+    recognize_best,
+)
 from jinja2 import BaseLoader, Environment, StrictUndefined
 
 from . import (
@@ -170,7 +176,11 @@ def do_test_slot_combination(
                     e["name"],
                     e["name"],
                     {"domain": e["domain"]},
-                    {"domain": e["domain"], "state": e.get("state")},
+                    {  # metadata
+                        "domain": e["domain"],
+                        "state": e.get("state"),
+                        "state_with_unit": e.get("state_with_unit"),
+                    },
                 )
                 for e in test_dict.get("entities", [])
             ],
@@ -183,6 +193,8 @@ def do_test_slot_combination(
             [f["name"] for f in test_dict.get("floors", [])], name="floor"
         ),
     }
+
+    timers: list[dict[str, Any]] = test_dict.get("timers", [])
 
     # For quick look-up during individual tests
     entity_domains_by_name: dict[str, set[str]] = defaultdict(set)
@@ -210,8 +222,10 @@ def do_test_slot_combination(
         assert expected_slot_names == possible_slot_names
 
         expected_response = test_group["response"]
+        group_timers = test_group.get("timers", timers)
 
         for test_sentence in test_group["sentences"]:
+            sentence_error_info = f"sentence='{test_sentence}', {error_info}"
             result = recognize_best(
                 test_sentence,
                 lang_resources.intents,
@@ -219,13 +233,16 @@ def do_test_slot_combination(
                 intent_context={"area": CONTEXT_AREA_NAME},
                 best_slot_name="name",
             )
-            # TODO: better errors
             assert (
                 result is not None
-            ), f"Sentence was not recognized: '{test_sentence}', {error_info}"
-            assert result.intent.name == intent_name
-            assert result.intent_metadata is not None
-            assert result.intent_metadata.get("slot_combination") == combo_name
+            ), f"Sentence was not recognized: {sentence_error_info}"
+            assert (
+                result.intent.name == intent_name
+            ), f"Test sentence did not match expected intent: {sentence_error_info}"
+            assert result.intent_metadata is not None, sentence_error_info
+            assert (
+                result.intent_metadata.get("slot_combination") == combo_name
+            ), f"Wrong slot combination was matched: {sentence_error_info}"
 
             if untested_sentence_templates is None:
                 untested_sentence_templates = set(
@@ -235,27 +252,39 @@ def do_test_slot_combination(
             untested_sentence_templates.discard(result.intent_sentence.text)
             matching_sentence_templates[test_sentence] = result.intent_sentence.text
 
-            # print(test_sentence)
-            # TODO: render template
-            actual_response = _render_response(lang_resources, result)
-            assert actual_response == expected_response
+            actual_response = _render_response(
+                lang_resources, result, template_slots={"timers": group_timers}
+            )
+            assert (
+                actual_response == expected_response
+            ), f"Wrong response: {sentence_error_info}"
 
             actual_slots = {e_name: e.value for e_name, e in result.entities.items()}
 
             if combo_info.get("context_area"):
                 # Remove context area
-                assert actual_slots.pop("area") == CONTEXT_AREA_NAME
+                assert (
+                    actual_slots.pop("area") == CONTEXT_AREA_NAME
+                ), f"Expected context area: {sentence_error_info}"
 
             actual_slot_names = actual_slots.keys()
 
             if name_domains:
                 actual_name = actual_slots["name"]
-                assert actual_name in entity_domains_by_name
-                assert entity_domains_by_name[actual_name].issubset(name_domains)
+                assert (
+                    actual_name in entity_domains_by_name
+                ), f"Test entity name was not recognized: {sentence_error_info}"
+                assert entity_domains_by_name[actual_name].issubset(
+                    name_domains
+                ), f"Entity does not have expected domain: name={actual_name}, {sentence_error_info}"
             elif inferred_domain:
-                assert actual_slots.get("domain") == inferred_domain
+                assert (
+                    actual_slots.get("domain") == inferred_domain
+                ), f"Wrong inferred domain: {sentence_error_info}"
 
-            assert expected_slot_names == actual_slot_names
+            assert (
+                expected_slot_names == actual_slot_names
+            ), f"Slot names to not match expectations: {sentence_error_info}"
 
             for actual_slot_name in actual_slot_names:
                 actual_slot_value = actual_slots[actual_slot_name]
@@ -263,9 +292,13 @@ def do_test_slot_combination(
                 if isinstance(actual_slot_value, list):
                     # Multiple values are possible for some slots.
                     # For example, "open the curtains" may match shades as well.
-                    assert expected_slot_value in actual_slot_value
+                    assert (
+                        expected_slot_value in actual_slot_value
+                    ), f"Slot value is not in list of expected values: {sentence_error_info}"
                 else:
-                    assert expected_slot_value == actual_slot_value
+                    assert (
+                        expected_slot_value == actual_slot_value
+                    ), f"Slot value does not match expected value: {sentence_error_info}"
 
     assert not untested_sentence_templates, (
         f"{len(untested_sentence_templates)} untested sentence template(s): {error_info}, "
@@ -274,7 +307,11 @@ def do_test_slot_combination(
     )
 
 
-def _render_response(lang_resources: LanguageResources, result: RecognizeResult) -> str:
+def _render_response(
+    lang_resources: LanguageResources,
+    result: RecognizeResult,
+    template_slots: Optional[dict[str, Any]] = None,
+) -> str:
     intent_name = result.intent.name
     response_key = result.response
 
@@ -286,28 +323,58 @@ def _render_response(lang_resources: LanguageResources, result: RecognizeResult)
     if not response_template:
         return ""
 
-    template_slots: dict[str, Any] = {
-        e_name: e.value for e_name, e in result.entities.items()
-    }
+    if template_slots is None:
+        template_slots = {}
+
+    template_slots.update({e_name: e.value for e_name, e in result.entities.items()})
     template_args = {"slots": template_slots}
 
     if name_entity := result.entities.get("name"):
-        # TODO: better errors
         assert name_entity.metadata
+        name_state = name_entity.metadata.get("state")
         template_args["state"] = {
             "domain": name_entity.metadata["domain"],
-            "state": name_entity.metadata.get("state"),
+            "state": name_state,
+            "state_with_unit": name_entity.metadata.get("state_with_unit")
+            or name_state,
         }
+        if intent_name == "HassGetState":
+            query_state = template_args["state"]
+            query = {"matched": [], "unmatched": []}
+            if match_state := result.entities.get("state"):
+                # Put entity in matched or unmatched list depending on its state
+                if name_state == match_state.value:
+                    query["matched"].append(query_state)
+                else:
+                    query["unmatched"].append(query_state)
+            else:
+                query["matched"].append(query_state)
+
+            template_args["query"] = query
 
     if intent_name == "HassGetCurrentDate":
         template_slots["date"] = TEST_DATETIME.date()
     elif intent_name == "HassGetCurrentDate":
         template_slots["time"] = TEST_DATETIME.time()
 
+    if timers := template_slots.get("timers"):
+        # Add missing fields
+        for timer_dict in timers:
+            timer_dict.setdefault("name", "")
+            timer_dict.setdefault("area", "")
+            timer_dict.setdefault("is_active", False)
+            timer_dict.setdefault("total_seconds_left", 0)
+            timer_dict.setdefault("start_hours", 0)
+            timer_dict.setdefault("start_minutes", 0)
+            timer_dict.setdefault("start_seconds", 0)
+            timer_dict.setdefault("rounded_hours_left", 0)
+            timer_dict.setdefault("rounded_minutes_left", 0)
+            timer_dict.setdefault("rounded_seconds_left", 0)
+
     response_text = lang_resources.template_env.from_string(response_template).render(
         template_args
     )
-    response_text = response_text.strip()
+    response_text = normalize_whitespace(response_text).strip()
 
     return response_text
 
