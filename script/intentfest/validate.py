@@ -442,6 +442,52 @@ def LANGUAGE_LISTS_SCHEMA(language: str, list_name: str) -> vol.Schema:
     )
 
 
+def SLOT_COMBO_TEST_SCHEMA(
+    language: str,
+    available_slot_names: set[str],
+) -> vol.Schema:
+
+    return vol.Schema(
+        {
+            vol.Required("language"): language,
+            vol.Optional("entities"): [
+                {
+                    vol.Required("name"): str,
+                    vol.Required("domain"): str,
+                    vol.Optional("state"): str,
+                    vol.Optional("state_with_unit"): str,
+                }
+            ],
+            vol.Optional("areas"): [{vol.Required("name"): str}],
+            vol.Optional("floors"): [{vol.Required("name"): str}],
+            vol.Required("tests"): [
+                {
+                    vol.Required("sentences"): [str],
+                    vol.Required("response"): str,
+                    vol.Optional("slots"): {
+                        # slot name
+                        vol.In(available_slot_names): vol.Any(str, int, [str])
+                    },
+                    vol.Optional("timers"): [
+                        {
+                            vol.Optional("start_hours"): int,
+                            vol.Optional("start_minutes"): int,
+                            vol.Optional("start_seconds"): int,
+                            vol.Optional("total_seconds_left"): int,
+                            vol.Optional("rounded_hours_left"): int,
+                            vol.Optional("rounded_minutes_left"): int,
+                            vol.Optional("rounded_seconds_left"): int,
+                            vol.Optional("name"): str,
+                            vol.Optional("area"): str,
+                            vol.Optional("is_active"): bool,
+                        }
+                    ],
+                }
+            ],
+        }
+    )
+
+
 def get_arguments() -> argparse.Namespace:
     """Get parsed passed in arguments."""
     parser = get_base_arg_parser()
@@ -672,7 +718,7 @@ def validate_language(
         errors.append(f"{test_dir.relative_to(ROOT)}: Missing tests directory")
         return
 
-    for test_file in test_dir.iterdir():
+    for test_file in test_dir.glob("*.yaml"):
         path = str(test_file.relative_to(ROOT))
 
         if test_file.name == "_fixtures.yaml":
@@ -831,11 +877,12 @@ def validate_language(
 def validate_slot_combinations(
     intent_schemas: dict, language: str, errors: list[str], warnings: list[str]
 ) -> None:
-    """Validate the YAML files in sentences/<language>/<intent> for each slot combination."""
+    """Validate the sentence and test YAML files for each slot combination."""
     if language not in SLOT_COMBO_VALIDATION_LANGUAGES:
         return
 
-    sentence_dir: Path = SENTENCE_DIR / language
+    sentence_dir = SENTENCE_DIR / language
+    test_dir = TESTS_DIR / language
     available_list_names = HA_LIST_NAMES.union(
         list_path.stem
         for list_path in itertools.chain(
@@ -849,6 +896,7 @@ def validate_slot_combinations(
 
     for intent_name in intent_schemas:
         intent_dir = sentence_dir / intent_name
+        test_intent_dir = test_dir / intent_name
 
         available_response_names: set[str] = set()
         responses_path = RESPONSE_DIR / language / f"{intent_name}.yaml"
@@ -884,6 +932,7 @@ def validate_slot_combinations(
             if "inferred_domain" in combo_info:
                 available_slot_names.discard("domain")
 
+            # validate sentences
             _load_yaml_file(
                 errors,
                 language,
@@ -896,6 +945,22 @@ def validate_slot_combinations(
                     available_rule_names,
                     available_response_names,
                 ),
+            )
+
+            # validate tests
+            combo_test_path = test_intent_dir / f"{combo_name}.yaml"
+            if not combo_test_path.exists():
+                errors.append(
+                    f"Missing test file for slot combination: {error_info}, "
+                    f"file={combo_test_path}"
+                )
+                continue
+
+            _load_yaml_file(
+                errors,
+                language,
+                combo_test_path,
+                SLOT_COMBO_TEST_SCHEMA(language, available_slot_names),
             )
 
 
