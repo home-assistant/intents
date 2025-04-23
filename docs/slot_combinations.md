@@ -51,3 +51,44 @@ Many languages (inspired by the English sentences) have a `<name>` rule which co
 A rule cannot contain `<rule_name>`
 
 Nested rules require readers to follow a chain just to understand what text can be recognized. With alternatives in the rule (e.g., `(a|b|c)`) the possible sentences can also grow very large very quickly with nesting.
+
+## Tests
+
+Tests will also be transitioned to be per slot combination in `tests/<language>/<intent>/<slot_combination>.yaml`. Each test file is self-contained, including all of its test entities, areas, floors, and timers. The test format is now:
+
+```yaml
+language: "<language>"
+
+# Test fixtures
+entities:
+  - name: "Name of Entity"
+    domain: "entity_domain"
+    state: "entity_state"  # optional
+    state_with_unit: "entity_state + unit_of_measurement"  # optional
+    
+areas:
+  - name: "Name of Area"
+
+floors:
+  - name: "Name of Floor"
+
+tests:
+  # test group
+  - sentences:
+      - "test sentence 1"
+      - "test sentence 2"
+    slots:
+      expected_slot_name: expected_slot_value
+    response: "Response text"  # required
+    timers:  # optional
+      - is_active: true
+        start_hours: 1
+        start_minutes: 30
+        start_seconds: 0
+        total_seconds_left: 100
+        rounded_hours_left: 0
+        rounded_minutes_left: 1
+        rounded_seconds_left: 40
+        name: "pizza"
+        area: "Kitchen"
+```
