@@ -4,71 +4,29 @@ intents:
     data:
       # brightness
       - sentences:
-          - "[<numeric_value_set>] <name> <brightness_synonyms> [to] <brightness>"
-          - "[<numeric_value_set>] [the] <brightness_synonyms> [of] <name> [to] <brightness>"
-          - "[<numeric_value_set>] <name> [to] <brightness> [<brightness_synonyms>]"
+          - "[<numeric_value_set>] ([of] <name>;<light_value>;[[the] <brightness_synonyms>])"
         response: "brightness"
+        expansion_rules:
+          light_value: "[to] (<brightness>|[the] {brightness_level:brightness})"
         requires_context:
           domain: light
 
       - sentences:
-          - "<numeric_value_set> <name> to <brightness>"
-        requires_context:
-          domain: "light"
-        response: "brightness"
-      - sentences:
-          - "[<numeric_value_set>] [the] <brightness_synonyms> in <area> to <brightness>"
-          - "[<numeric_value_set>] [the] <brightness_synonyms> of <area> to <brightness>"
-          - "[<numeric_value_set>] <area> <brightness_synonyms> [to] <brightness>"
-          - "[<numeric_value_set>] <area> [to] <brightness> <brightness_synonyms>"
-          - "[<numeric_value_set>] <area> [to] <brightness>"
-          - "[<numeric_value_set>] [(<all>|<the>)] <light> [<in>] <area> to <brightness> [<brightness_synonyms>]"
-        response: "brightness"
-
-      - sentences:
-          - "<numeric_value_set> <area> to <brightness>"
-        response: "brightness"
-
-      - sentences:
-          - "[<numeric_value_set>] [the] <brightness_synonyms> to <brightness>"
-          - "[<numeric_value_set>] [the] <brightness_synonyms> (<in_here>;to <brightness>)"
+          - "[<numeric_value_set>] ([of] [(<all>|<the>)] <location>;<light_value>;[[the] <brightness_synonyms>])"
         expansion_rules:
-          in_here: "[in] here"
+          location: "([<light>];[<in>] (<area>|<floor>))"
+          light_value: "[to] (<brightness>|[the] {brightness_level:brightness})"
+        response: "brightness"
+
+      - sentences:
+          - "[<numeric_value_set>] [(<all>|<the>)] <light> (<light_value>;[<brightness_synonyms>])"
+          - "[<numeric_value_set>] [[(<all>|<the>)] <light>] (<light_value>;[the] <brightness_synonyms>)"
+        expansion_rules:
+          light_value: "[to] (<brightness>|[the] {brightness_level:brightness})"
         response: "brightness"
         requires_context:
           area:
             slot: true
-
-      # Max/Min brightness
-      - sentences:
-          - "[<numeric_value_set>] <name> <brightness_synonyms> to [the] {brightness_level:brightness}"
-          - "[<numeric_value_set>] [the] <brightness_synonyms> of <name> to [the] {brightness_level:brightness}"
-          - "[<numeric_value_set>] <name> [to] [the] {brightness_level:brightness} <brightness_synonyms>"
-        requires_context:
-          domain: light
-        response: "brightness"
-
-      - sentences:
-          - "[<numeric_value_set>] [the] <brightness_synonyms> in <area> to [the] {brightness_level:brightness}"
-          - "[<numeric_value_set>] [the] <brightness_synonyms> of <area> to [the] {brightness_level:brightness}"
-          - "[<numeric_value_set>] <area> <brightness_synonyms> to [the] {brightness_level:brightness}"
-          - "[<numeric_value_set>] <area> [to] [the] {brightness_level:brightness} <brightness_synonyms>"
-        response: "brightness"
-
-      - sentences:
-          - "[<numeric_value_set>] [the] <brightness_synonyms> to [the] {brightness_level:brightness}"
-          - "[<numeric_value_set>] [the] <brightness_synonyms> (<in_here>;to [the] {brightness_level:brightness})"
-        expansion_rules:
-          in_here: "[in] here"
-        response: "brightness"
-        requires_context:
-          area:
-            slot: true
-
-      # Floor support for brightness
-      - sentences:
-          - "[<numeric_value_set>] <floor> <brightness_synonyms> [to] <brightness>"
-        response: "brightness"
 
       # color
       - sentences:
@@ -84,9 +42,6 @@ intents:
 
       - sentences:
           - "[<set>] [[the] color of] [(<all>|<the>)] <light> [to] {color}"
-          - "[<set>] [[the] color of] [(<all>|<the>)] <light> (<in_here>;[to] {color})"
-        expansion_rules:
-          in_here: "[in] here"
         response: "color"
         requires_context:
           area:
