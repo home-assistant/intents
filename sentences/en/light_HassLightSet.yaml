@@ -3,26 +3,34 @@ intents:
   HassLightSet:
     data:
       # brightness
+      # specific entity control
       - sentences:
-          - "[<numeric_value_set>] ([of] <name>;<light_value>;[[the] <brightness_synonyms>])"
+          - "[<numeric_value_set>] ([of] <name>;[to] <light_value>)"
+          - "[<numeric_value_set>] ([of] <name>;[to] <light_value>;[the] <brightness_synonyms>)"
         response: "brightness"
-        expansion_rules:
-          light_value: "[to] (<brightness>|[the] {brightness_level:brightness})"
         requires_context:
           domain: light
 
+      # specific area/floor control
       - sentences:
-          - "[<numeric_value_set>] ([of] [(<all>|<the>)] <location>;<light_value>;[[the] <brightness_synonyms>])"
+          - "[<numeric_value_set>] ([of] [(<all>|<the>)] <location>;[to] <light_value>)"
+          - "[<numeric_value_set>] ([of] [(<all>|<the>)] <location>;[to] <light_value>;[the] <brightness_synonyms>)"
         expansion_rules:
-          location: "([<light>];[<in>] (<area>|<floor>))"
-          light_value: "[to] (<brightness>|[the] {brightness_level:brightness})"
+          location: "(<in_area_floor>|([<light>];<in_area_floor>))"
         response: "brightness"
 
+      # inferred current area control
       - sentences:
-          - "[<numeric_value_set>] [(<all>|<the>)] <light> (<light_value>;[<brightness_synonyms>])"
-          - "[<numeric_value_set>] [[(<all>|<the>)] <light>] (<light_value>;[the] <brightness_synonyms>)"
-        expansion_rules:
-          light_value: "[to] (<brightness>|[the] {brightness_level:brightness})"
+          - "[<numeric_value_set>] [<the>] <light> [to] <light_value>"
+          - "[<numeric_value_set>] [<the>] <light> ([to] <light_value>;<here>)"
+          - "[<numeric_value_set>] [(<all>|<the>)] <light> ([to] <light_value>;<here>)"
+
+          - "[<numeric_value_set>] [<the>] <light> ([to] <light_value>;<brightness_synonyms>)"
+          - "[<numeric_value_set>] [<the>] <light> (([to] <light_value>;<brightness_synonyms>);<here>)"
+          - "[<numeric_value_set>] [(<all>|<the>)] <light> (([to] <light_value>;<brightness_synonyms>);<here>)"
+
+          - "[<numeric_value_set>] ([to] <light_value>;[the] <brightness_synonyms>)"
+          - "[<numeric_value_set>] ([to] <light_value>;[the] <brightness_synonyms>;<here>)"
         response: "brightness"
         requires_context:
           area:
@@ -42,6 +50,9 @@ intents:
 
       - sentences:
           - "[<set>] [[the] color of] [(<all>|<the>)] <light> [to] {color}"
+          - "[<set>] [[the] color of] [(<all>|<the>)] <light> (<in_here>;[to] {color})"
+        expansion_rules:
+          in_here: "[in] here"
         response: "color"
         requires_context:
           area:
