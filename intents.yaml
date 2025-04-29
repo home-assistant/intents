@@ -52,220 +52,158 @@ HassTurnOn:
     # Required slot combinations
     # -------------------------------------------------------------------------
 
-    domain_light:
-      description: "Turns on the lights in the voice satellite's area"
-      importance: "required"
+    domain_only:
+      description: "Turns on devices by domain in the voice satellite's area"
       slots:
         - "domain"
       context_area: true
-      inferred_domain: "light"
-      example: "turn on the lights in here"
+      inferred_domains:
+        required:
+          - "light"
+        optional:
+          - "fan"
+      example:
+        - "turn on the lights in here"
+        - "turn on the fans"
 
     # -------------------------------------------------------------------------
 
     name_only:
-      description: "Turns on a device by name"
-      importance: "required"
+      description: "Turns on a device or opens a cover by name"
       slots:
         - "name"
       name_domains:
-        - "light"
-        - "switch"
-        - "fan"
-        - "media_player"
-        - "input_boolean"
-        - "button"
-        - "camera"
-        - "alarm_control_panel"
-        - "climate"
-        - "humidifier"
-        - "siren"
-        - "water_heater"
-        - "remote"
-        - "vacuum"
-        - "lawn_mower"
-      example: "turn on the overhead light"
+        required:
+          - "light"
+          - "switch"
+          - "fan"
+          - "media_player"
+          - "input_boolean"
+          - "cover"
+        complete:
+          - "lock"
+        optional:
+          - "valve"
+      example:
+        - "turn on the overhead light"
+        - "open sliding door"
 
     # -------------------------------------------------------------------------
 
-    name_cover:
-      description: "Opens a cover by name"
-      importance: "required"
-      slots:
-        - "name"
-      name_domains:
-        - "cover"
-        - "valve"
-      example: "open the sliding door"
-
-    # -------------------------------------------------------------------------
-
-    area_domain_light:
-      description: "Turns on all the lights in an area"
-      importance: "required"
+    area_domain:
+      description: "Turns on  devices by domain in an area"
       slots:
         - "area"
         - "domain"
-      inferred_domain: "light"
+      inferred_domains:
+        required:
+          - "light"
+        optional:
+          - "fan"
       example: "turn on the lights in the kitchen"
 
     # -------------------------------------------------------------------------
     # Optional slot combinations
     # -------------------------------------------------------------------------
 
-    domain_fan:
-      description: "Turns on the fans in the voice satellite's area"
-      importance: "optional"
-      slots:
-        - "domain"
-      context_area: true
-      inferred_domain: "fan"
-      example: "turn on the fans in here"
-
-    # -------------------------------------------------------------------------
-
     device_class_cover:
       description: "Opens the covers in the voice satellite's area by device class"
-      importance: "complete"
       slots:
         - "domain"
         - "device_class"
       context_area: true
-      inferred_domain: "cover"
+      inferred_domains:
+        complete:
+          - "cover"
       example: "open the windows in here"
 
     # -------------------------------------------------------------------------
 
-    name_valve:
-      description: "Opens a valve by name"
-      importance: "complete"
-      slots:
-        - "name"
-      name_domains:
-        - "valve"
-      example: "open the main valve"
-
-    # -------------------------------------------------------------------------
-
     name_area:
-      description: "Turns on a device in an area by name"
-      importance: "complete"
+      description: "Turns on a device or opens a cover in an area by name"
       slots:
         - "name"
         - "area"
       name_domains:
-        - "light"
-        - "switch"
-        - "fan"
-        - "media_player"
-        - "input_boolean"
-      example: "turn on the overhead light in the kitchen"
-
-    # -------------------------------------------------------------------------
-
-    name_area_cover:
-      description: "Opens a cover in an area by name"
-      importance: "complete"
-      slots:
-        - "name"
-        - "area"
-      name_domains:
-        - "cover"
-      example: "open the sliding door in the kitchen"
+        complete:
+          - "light"
+          - "switch"
+          - "fan"
+          - "media_player"
+          - "input_boolean"
+          - "cover"
+          - "lock"
+          - "valve"
+      example:
+        - "turn on the overhead light in the kitchen"
+        - "open the sliding door in the kitchen"
 
     # -------------------------------------------------------------------------
 
     name_floor:
-      description: "Turns on a device on a floor by name"
-      importance: "optional"
+      description: "Turns on a device or opens a cover on a floor by name"
       slots:
         - "name"
         - "floor"
       name_domains:
-        - "light"
-        - "switch"
-        - "fan"
-        - "media_player"
-        - "input_boolean"
-      example: "turn on the overhead light on the first floor"
+        optional:
+          - "light"
+          - "switch"
+          - "fan"
+          - "media_player"
+          - "input_boolean"
+          - "cover"
+          - "valve"
+      example:
+        - "turn on the overhead light on the first floor"
+        - "open the sliding door on the first floor"
 
     # -------------------------------------------------------------------------
 
     name_script:
       description: "Run a script by name"
-      importance: "complete"
       slots:
         - "name"
       name_domains:
-        - "script"
+        complete:
+          - "script"
       example: "run party time script"
 
     # -------------------------------------------------------------------------
 
     name_scene:
       description: "Activate a scene by name"
-      importance: "complete"
       slots:
         - "name"
       name_domains:
-        - "scene"
+        complete:
+          - "scene"
       example: "activate mood lighting scene"
-
-    # -------------------------------------------------------------------------
-
-    name_lock:
-      description: "Lock a lock by name"
-      importance: "complete"
-      slots:
-        - "name"
-      name_domains:
-        - "lock"
-      example: "lock front door"
 
     # -------------------------------------------------------------------------
 
     area_device_class_cover:
       description: "Opens the covers in an area by device class"
-      importance: "complete"
       slots:
         - "area"
         - "domain"
         - "device_class"
-      inferred_domain: "cover"
+      inferred_domains:
+        complete:
+          - "cover"
       example: "open the curtains in the living room"
-
-    # -------------------------------------------------------------------------
-
-    area_domain_fan:
-      description: "Turns on all the fans in an area"
-      importance: "optional"
-      slots:
-        - "area"
-        - "domain"
-      inferred_domain: "fan"
-      example: "turn on the fans in the kitchen"
-
-    # -------------------------------------------------------------------------
-
-    floor_domain_light:
-      description: "Turns on all the lights on a floor"
-      importance: "optional"
-      slots:
-        - "floor"
-        - "domain"
-      inferred_domain: "light"
-      example: "turn on the lights on the first floor"
 
     # -------------------------------------------------------------------------
 
     floor_device_class_cover:
       description: "Opens all the covers on a floor by device class"
-      importance: "optional"
       slots:
         - "floor"
         - "domain"
         - "device_class"
-      inferred_domain: "cover"
+      inferred_domains:
+        optional:
+          - "cover"
       example: "open the curtains on the first floor"
 
 # -----------------------------------------------------------------------------
@@ -295,209 +233,148 @@ HassTurnOff:
     # Required slot combinations
     # -------------------------------------------------------------------------
 
-    domain_light:
-      description: "Turns off the lights in the voice satellite's area"
-      importance: "required"
+    domain_only:
+      description: "Turns off devices by domain in the voice satellite's area"
       slots:
         - "domain"
       context_area: true
-      inferred_domain: "light"
-      example: "turn off the lights in here"
+      inferred_domains:
+        required:
+          - "light"
+        optional:
+          - "fan"
+      example:
+        - "turn off the lights in here"
+        - "turn off the fans"
 
     # -------------------------------------------------------------------------
 
     name_only:
-      description: "Turns off a device by name"
-      importance: "required"
+      description: "Turns off a device or closes a cover by name"
       slots:
         - "name"
       name_domains:
-        - "light"
-        - "switch"
-        - "fan"
-        - "media_player"
-        - "input_boolean"
-        - "button"
-        - "camera"
-        - "alarm_control_panel"
-        - "climate"
-        - "humidifier"
-        - "siren"
-        - "water_heater"
-        - "remote"
-        - "vacuum"
-        - "lawn_mower"
-      example: "turn off the overhead light"
+        required:
+          - "light"
+          - "switch"
+          - "fan"
+          - "media_player"
+          - "input_boolean"
+          - "cover"
+        complete:
+          - "lock"
+        optional:
+          - "valve"
+      example:
+        - "turn off the overhead light"
+        - "close sliding door"
 
     # -------------------------------------------------------------------------
 
-    name_cover:
-      description: "Closes a cover by name"
-      importance: "required"
-      slots:
-        - "name"
-      name_domains:
-        - "cover"
-        - "valve"
-      example: "close the sliding door"
-
-    # -------------------------------------------------------------------------
-
-    area_domain_light:
-      description: "Turns off all the lights in an area"
-      importance: "required"
+    area_domain:
+      description: "Turns off devices by domain in an area"
       slots:
         - "area"
         - "domain"
-      inferred_domain: "light"
+      inferred_domains:
+        required:
+          - "light"
+        optional:
+          - "fan"
       example: "turn off the lights in the kitchen"
 
     # -------------------------------------------------------------------------
     # Optional slot combinations
     # -------------------------------------------------------------------------
 
-    domain_fan:
-      description: "Turns off the fans in the voice satellite's area"
-      importance: "optional"
-      slots:
-        - "domain"
-      context_area: true
-      inferred_domain: "fan"
-      example: "turn off the fans in here"
-
-    # -------------------------------------------------------------------------
-
     device_class_cover:
       description: "Closes the covers in the voice satellite's area by device class"
-      importance: "complete"
       slots:
         - "domain"
         - "device_class"
       context_area: true
-      inferred_domain: "cover"
+      inferred_domains:
+        complete:
+          - "cover"
       example: "close the windows in here"
 
     # -------------------------------------------------------------------------
 
-    name_valve:
-      description: "Closes a valve by name"
-      importance: "complete"
-      slots:
-        - "name"
-      name_domains:
-        - "valve"
-      example: "close the main valve"
-
-    # -------------------------------------------------------------------------
-
     name_area:
-      description: "Turns off a device in an area by name"
-      importance: "complete"
+      description: "Turns off a device or close a cover in an area by name"
       slots:
         - "name"
         - "area"
       name_domains:
-        - "light"
-        - "switch"
-        - "fan"
-        - "media_player"
-        - "input_boolean"
-      example: "turn off the overhead light in the kitchen"
-
-    # -------------------------------------------------------------------------
-
-    name_area_cover:
-      description: "Closes a cover in an area by name"
-      importance: "complete"
-      slots:
-        - "name"
-        - "area"
-      name_domains:
-        - "cover"
-      example: "close the sliding door in the kitchen"
+        complete:
+          - "light"
+          - "switch"
+          - "fan"
+          - "media_player"
+          - "input_boolean"
+          - "cover"
+          - "lock"
+          - "optional"
+      example:
+        - "turn off the overhead light in the kitchen"
+        - "close the sliding door in the kitchen"
 
     # -------------------------------------------------------------------------
 
     name_floor:
-      description: "Turns off a device on a floor by name"
-      importance: "optional"
+      description: "Turns off a device or closes a cover on a floor by name"
       slots:
         - "name"
         - "floor"
       name_domains:
-        - "light"
-        - "switch"
-        - "fan"
-        - "media_player"
-        - "input_boolean"
-      example: "turn off the overhead light on the first floor"
-
-    # -------------------------------------------------------------------------
-
-    name_lock:
-      description: "Unlock a lock by name"
-      importance: "complete"
-      slots:
-        - "name"
-      name_domains:
-        - "lock"
-      example: "unlock front door"
+        optional:
+          - "light"
+          - "switch"
+          - "fan"
+          - "media_player"
+          - "input_boolean"
+          - "cover"
+          - "valve"
+      example:
+        - "turn off the overhead light on the first floor"
+        - "close the sliding door on the first floor"
 
     # -------------------------------------------------------------------------
 
     area_device_class_cover:
       description: "Closes the covers in an area by device class"
-      importance: "complete"
       slots:
         - "area"
         - "domain"
         - "device_class"
-      inferred_domain: "cover"
+      inferred_domains:
+        complete:
+          - "cover"
       example: "close the curtains in the living room"
-
-    # -------------------------------------------------------------------------
-
-    area_domain_fan:
-      description: "Turns off all the fans in an area"
-      importance: "optional"
-      slots:
-        - "area"
-        - "domain"
-      inferred_domain: "fan"
-      example: "turn off the fans in the kitchen"
-
-    # -------------------------------------------------------------------------
-
-    floor_domain_light:
-      description: "Turns off all the lights on a floor"
-      importance: "optional"
-      slots:
-        - "floor"
-        - "domain"
-      inferred_domain: "light"
-      example: "turn off the lights on the first floor"
 
     # -------------------------------------------------------------------------
 
     floor_device_class_cover:
       description: "Closes all the covers on a floor by device class"
-      importance: "optional"
       slots:
         - "floor"
         - "domain"
         - "device_class"
-      inferred_domain: "cover"
+      inferred_domains:
+        optional:
+          - "cover"
       example: "close the curtains on the first floor"
 
     # -------------------------------------------------------------------------
 
-    domain_all_lights:
-      description: "Turns off all the lights in the house"
-      importance: "optional"
+    domain_all:
+      description: "Turns off devices by domain in the house"
       slots:
         - "domain"
       context_area: false
-      inferred_domain: "light"
+      inferred_domains:
+        optional:
+          - "light"
       example: "turn off all the lights in the house"
 
 # -----------------------------------------------------------------------------
@@ -533,39 +410,28 @@ HassGetState:
     query.unmatched:
       description: "List of states that matched everything except state name"
   slot_combinations:
-    name_cover:
-      description: "Check if a cover is open or closed by name"
-      importance: "usable"
-      slots:
-        - "name"
-        - "state"
-      name_domains:
-        - "cover"
-        - "valve"
-      example: "is the sliding door open"
-
-    # -------------------------------------------------------------------------
-
-    name_lock:
-      description: "Check if a lock is locked or unlocked"
-      importance: "usable"
-      slots:
-        - "name"
-        - "state"
-      name_domains:
-        - "lock"
-      example: "is the front door locked"
-
-    # -------------------------------------------------------------------------
-
-    name_sensor:
-      description: "Get the value of a sensor by name"
-      importance: "usable"
+    name_only:
+      description: "Get the state of a device by name"
       slots:
         - "name"
       name_domains:
-        - "sensor"
+        usable:
+          - "sensor"
       example: "what is the value of sensor 1"
+
+    # -------------------------------------------------------------------------
+
+    name_state:
+      description: "Check if the state of a device matches by name"
+      slots:
+        - "name"
+        - "state"
+      name_domains:
+        usable:
+          - "cover"
+          - "lock"
+          - "valve"
+      example: "is the sliding door open"
 
 # -----------------------------------------------------------------------------
 
@@ -641,15 +507,15 @@ HassSetPosition:
       description: "Position from 0 to 100"
       required: true
   slot_combinations:
-    name_cover:
+    name_only:
       description: "Set the position of a cover by name"
-      importance: "complete"
       slots:
         - "name"
         - "position"
       name_domains:
-        - "cover"
-        - "valve"
+        complete:
+          - "cover"
+          - "valve"
       example: "set curtain left to 50%"
 
 # -----------------------------------------------------------------------------
@@ -715,24 +581,24 @@ HassLightSet:
 
     name_brightness:
       description: "Set the brightness of a light by name"
-      importance: "usable"
       slots:
         - "name"
         - "brightness"
       name_domains:
-        - "light"
+        usable:
+          - "light"
       example: "set the overhead light brightness to 50%"
 
     # -------------------------------------------------------------------------
 
     name_color:
       description: "Set the color of a light by name"
-      importance: "usable"
       slots:
         - "name"
         - "color"
       name_domains:
-        - "light"
+        usable:
+          - "light"
       example: "set the overhead light to red"
 
     # -------------------------------------------------------------------------
@@ -741,60 +607,72 @@ HassLightSet:
 
     brightness_only:
       description: "Set the brightness of lights in the voice satellite's area"
-      importance: "complete"
       slots:
         - "brightness"
       context_area: true
+      inferred_domains:
+        complete:
+          - "light"
       example: "set the brightness in here to 50%"
 
     # -------------------------------------------------------------------------
 
     area_brightness:
       description: "Set the brightness of all lights in an area"
-      importance: "complete"
       slots:
         - "area"
         - "brightness"
+      inferred_domains:
+        complete:
+          - "light"
       example: "set the living room brightness to 50%"
 
     # -------------------------------------------------------------------------
 
     floor_brightness:
       description: "Set the brightness of all lights on a floor"
-      importance: "complete"
       slots:
         - "floor"
         - "brightness"
+      inferred_domains:
+        complete:
+          - "light"
       example: "set the main floor brightness to 50%"
 
     # -------------------------------------------------------------------------
 
     color_only:
       description: "Set the color of all lights in the voice satellite's area"
-      importance: "complete"
       slots:
         - "color"
       context_area: true
+      inferred_domains:
+        complete:
+          - "light"
       example: "set the lights in here to red"
 
     # -------------------------------------------------------------------------
 
     area_color:
       description: "Set the color of all lights in an area"
-      importance: "complete"
       slots:
         - "area"
         - "color"
+      inferred_domains:
+        complete:
+          - "light"
       example: "set the living room to red"
 
     # -------------------------------------------------------------------------
 
     floor_color:
       description: "Set the color of all lights on a floor"
-      importance: "complete"
       slots:
         - "floor"
         - "color"
+      inferred_domains:
+        complete:
+          - "light"
       example: "set the main floor to red"
 
 # -----------------------------------------------------------------------------
@@ -835,12 +713,12 @@ HassClimateSetTemperature:
 
     name_temperature:
       description: "Sets the temperature of a climate entity by name"
-      importance: "complete"
       slots:
         - "name"
         - "temperature"
       name_domains:
-        - "climate"
+        complete:
+          - "climate"
       example: "set the EcoBee to 30 degrees"
 
     # -------------------------------------------------------------------------
@@ -895,11 +773,11 @@ HassClimateGetTemperature:
 
     name_only:
       description: "Gets the temperature of a climate entity by name"
-      importance: "usable"
       slots:
         - "name"
       name_domains:
-        - "climate"
+        usable:
+          - "climate"
       example: "what is the temperature of the EcoBee"
 
     area_only:
@@ -971,7 +849,7 @@ HassShoppingListCompleteItem:
 
 HassGetWeather:
   supported: true
-  domain: weather
+  domain: "weather"
   description: "Gets the current weather"
   slots:
     name:
@@ -988,11 +866,11 @@ HassGetWeather:
 
     name_only:
       description: "Get the current weather by name"
-      importance: "usable"
       slots:
         - "name"
       name_domains:
-        - "weather"
+        usable:
+          - "weather"
       example: "what is the weather in New York"
   response_variables:
     state:
@@ -1016,14 +894,14 @@ HassListAddItem:
   slot_combinations:
     name_item:
       description: "Adds an item to a todo list"
-      importance: "complete"
       slots:
         - "item"
         - "name"
       wildcard_slots:
         - "item"
       name_domains:
-        - "todo"
+        complete:
+          - "todo"
       example: "add apples to my shopping list"
 
 # -----------------------------------------------------------------------------
@@ -1042,14 +920,14 @@ HassListCompleteItem:
   slot_combinations:
     name_item:
       description: "Checks off an item from a todo list"
-      importance: "optional" # change to complete after 2025-07-01
       slots:
         - "item"
         - "name"
       wildcard_slots:
         - "item"
       name_domains:
-        - "name"
+        optional: # change to complete after 2025-07-01
+          - "name"
       example: "check off take out the trash from my chores list"
 
 # -----------------------------------------------------------------------------
@@ -1073,11 +951,11 @@ HassVacuumStart:
   slot_combinations:
     name_only:
       description: "Starts a vacuum by name"
-      importance: "complete"
       slots:
         - "name"
       name_domains:
-        - "vacuum"
+        complete:
+          - "vacuum"
       example: "start rover"
 
     # -------------------------------------------------------------------------
@@ -1114,11 +992,11 @@ HassVacuumReturnToBase:
   slot_combinations:
     name_only:
       description: "Returns a vacuum to base by name"
-      importance: "complete"
       slots:
         - "name"
       name_domains:
-        - "vacuum"
+        complete:
+          - "vacuum"
       example: "return rover to base"
 
     # -------------------------------------------------------------------------
@@ -1157,11 +1035,11 @@ HassMediaPause:
 
     name_only:
       description: "Pause a media player by name"
-      importance: "usable"
       slots:
         - "name"
       name_domains:
-        - "media_player"
+        usable:
+          - "media_player"
       example: "pause TV"
 
     # -------------------------------------------------------------------------
@@ -1198,11 +1076,11 @@ HassMediaUnpause:
 
     name_only:
       description: "Resume a media player by name"
-      importance: "usable"
       slots:
         - "name"
       name_domains:
-        - "media_player"
+        usable:
+          - "media_player"
       example: "resume TV"
 
     # -------------------------------------------------------------------------
@@ -1239,11 +1117,11 @@ HassMediaNext:
 
     name_only:
       description: "Skip to the next item on a media player by name"
-      importance: "usable"
       slots:
         - "name"
       name_domains:
-        - "media_player"
+        usable:
+          - "media_player"
       example: "next track on the stereo"
 
     # -------------------------------------------------------------------------
@@ -1280,11 +1158,11 @@ HassMediaPrevious:
 
     name_only:
       description: "Skip to the previous item on a media player by name"
-      importance: "complete"
       slots:
         - "name"
       name_domains:
-        - "media_player"
+        complete:
+          - "media_player"
       example: "previous track on the stereo"
 
     # -------------------------------------------------------------------------
@@ -1324,11 +1202,11 @@ HassSetVolume:
 
     name_only:
       description: "Set the volume of a media player by name"
-      importance: "complete"
       slots:
         - "name"
       name_domains:
-        - "media_player"
+        complete:
+          - "media_player"
       example: "set TV volume to 50%"
 
     # -------------------------------------------------------------------------

@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import itertools
 from collections import Counter, defaultdict
-from collections.abc import Callable
+from collections.abc import Callable, Collection
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -41,6 +41,7 @@ from .util import get_base_arg_parser
 
 HA_LIST_NAMES = {"name", "area", "floor"}
 SLOT_COMBO_VALIDATION_LANGUAGES = {"en"}
+IMPORTANCE_LEVELS = {"required", "usable", "complete", "optional"}
 
 
 def match_anything(value):
@@ -130,12 +131,12 @@ INTENTS_SCHEMA = vol.Schema(
                 # slot name
                 str: {
                     vol.Required("description"): str,
-                    vol.Required("importance"): vol.Any(
-                        "required", "usable", "complete", "optional"
-                    ),
+                    vol.Optional("importance"): vol.In(IMPORTANCE_LEVELS),
                     vol.Required("slots"): [str],
-                    vol.Optional("inferred_domain"): str,
-                    vol.Optional("name_domains"): [str],
+                    vol.Optional("inferred_domains"): {
+                        vol.In(IMPORTANCE_LEVELS): [str]
+                    },
+                    vol.Optional("name_domains"): {vol.In(IMPORTANCE_LEVELS): [str]},
                     vol.Optional("context_area"): bool,
                     vol.Required("example"): vol.Any(str, [str]),
                     vol.Optional("wildcard_slots"): [str],
@@ -219,25 +220,39 @@ SENTENCE_SCHEMA = vol.Schema(
 def SLOT_COMBO_SENTENCE_SCHEMA(
     language: str,
     combo_name: str,
-    available_list_names: set[str],
-    available_slot_names: set[str],
-    available_rule_names: set[str],
-    available_response_names: set[str],
+    name_domains: set[str],
+    inferred_domains: set[str],
+    list_names: set[str],
+    slot_names: set[str],
+    rule_names: set[str],
+    response_names: set[str],
 ) -> vol.Schema:
+    schema_sentences_dict = {
+        vol.Required("sentences"): [
+            vol.All(
+                non_empty_string,
+                not_optional,
+                no_alternative_list_references,
+                allowed_list_names(list_names),
+                required_slots_names(slot_names),
+                allowed_rule_names(rule_names),
+            )
+        ],
+        vol.Required("response"): vol.In(response_names),
+    }
+
+    if name_domains:
+        schema_sentences_dict[vol.Required("name_domains")] = [vol.In(name_domains)]
+
+    if inferred_domains:
+        schema_sentences_dict[vol.Required("inferred_domain")] = vol.In(
+            inferred_domains
+        )
+
     return vol.Schema(
         {
             vol.Required("language"): language,
-            vol.Required("sentences"): [
-                vol.All(
-                    non_empty_string,
-                    not_optional,
-                    no_alternative_list_references,
-                    allowed_list_names(available_list_names),
-                    required_slots_names(available_slot_names),
-                    allowed_rule_names(available_rule_names),
-                )
-            ],
-            vol.Optional("response"): vol.In(available_response_names),
+            vol.Required("data"): [schema_sentences_dict],
         }
     )
 
@@ -369,21 +384,23 @@ RESPONSE_SCHEMA = vol.Schema(
 )
 
 
-def EXPANSION_RULES_SCHEMA(language: str, rule_name: str) -> vol.Schema:
+def EXPANSION_RULES_SCHEMA(language: str) -> vol.Schema:
     return vol.Schema(
         {
             vol.Required("language"): language,
-            vol.Required(rule_name): vol.All(
-                non_empty_string, not_optional, no_list_or_rule_references
-            ),
+            vol.Required("expansion_rules"): {
+                # Rule name
+                str: vol.All(non_empty_string, not_optional),
+            },
         }
     )
 
 
-def SHARED_LISTS_SCHEMA(list_name: str) -> vol.Schema:
-    return vol.Schema(
-        {
-            vol.Required(list_name): vol.Any(
+SHARED_LISTS_SCHEMA = vol.Schema(
+    {
+        vol.Required("lists"): {
+            # list name
+            str: vol.Any(
                 {
                     # Range of numbers
                     vol.Required("range"): {
@@ -396,48 +413,51 @@ def SHARED_LISTS_SCHEMA(list_name: str) -> vol.Schema:
                 },
                 {vol.Required("wildcard"): bool},
             )
-        },
-    )
+        }
+    }
+)
 
 
-def LANGUAGE_LISTS_SCHEMA(language: str, list_name: str) -> vol.Schema:
-
+def LANGUAGE_LISTS_SCHEMA(language: str) -> vol.Schema:
     return vol.Schema(
         {
             vol.Required("language"): language,
-            vol.Required(list_name): vol.Any(
-                {
-                    # Fixed values
-                    vol.Required("values"): [
-                        vol.Any(
-                            vol.All(
-                                non_empty_string,
-                                not_optional,
-                                no_list_or_rule_references,
-                            ),
-                            {
-                                vol.Required("in"): vol.All(
+            vol.Required("lists"): {
+                # List name
+                str: vol.Any(
+                    {
+                        # Fixed values
+                        vol.Required("values"): [
+                            vol.Any(
+                                vol.All(
                                     non_empty_string,
                                     not_optional,
                                     no_list_or_rule_references,
                                 ),
-                                vol.Required("out"): vol.Any(str, int),
-                            },
-                        )
-                    ]
-                },
-                {
-                    # Range of numbers
-                    vol.Required("range"): {
-                        vol.Required("from"): int,
-                        vol.Required("to"): int,
-                        vol.Optional("step"): int,
-                        vol.Optional("type"): "percentage",
-                        vol.Optional("fractions"): "halves",
-                    }
-                },
-                {vol.Required("wildcard"): bool},
-            ),
+                                {
+                                    vol.Required("in"): vol.All(
+                                        non_empty_string,
+                                        not_optional,
+                                        no_list_or_rule_references,
+                                    ),
+                                    vol.Required("out"): vol.Any(str, int),
+                                },
+                            )
+                        ]
+                    },
+                    {
+                        # Range of numbers
+                        vol.Required("range"): {
+                            vol.Required("from"): int,
+                            vol.Required("to"): int,
+                            vol.Optional("step"): int,
+                            vol.Optional("type"): "percentage",
+                            vol.Optional("fractions"): "halves",
+                        }
+                    },
+                    {vol.Required("wildcard"): bool},
+                ),
+            },
         }
     )
 
@@ -541,11 +561,27 @@ def run() -> int:
                         f"name_domains must be provided when name slot is used: {error_info}"
                     )
 
-                # name_domains restricts "name" slot
-                # inferred_domain is inferred by words used in the sentence
-                if ("name_domains" in combo_info) and ("inferred_domain" in combo_info):
+                if ("domain" in combo_slot_names) and (
+                    "inferred_domains" not in combo_info
+                ):
                     load_errors.append(
-                        f"Cannot have both name_domains and inferred_domain: {error_info}"
+                        f"inferred_domains must be provided when domain slot is used: {error_info}"
+                    )
+
+                # name_domains restricts "name" slot
+                # inferred_domains are inferred by words used in the sentence
+                if ("name_domains" in combo_info) and (
+                    "inferred_domains" in combo_info
+                ):
+                    load_errors.append(
+                        f"Cannot have both name_domains and inferred_domains: {error_info}"
+                    )
+
+                if ("importance" in combo_info) and (
+                    ("name_domains" in combo_info) or ("inferred_domains" in combo_info)
+                ):
+                    load_errors.append(
+                        f"Importance level should come from name_domains or inferred_domains: {error_info}"
                     )
 
     if (intent_schemas is None) or load_errors:
@@ -575,17 +611,17 @@ def run() -> int:
         return 1
 
     # shared lists
+    shared_list_names: set[str] = set()
     for list_path in LIST_DIR.glob("*.yaml"):
-        list_name = list_path.stem
-        list_info = _load_yaml_file(
-            load_errors, None, list_path, SHARED_LISTS_SCHEMA(list_name)
-        )
+        list_info = _load_yaml_file(load_errors, None, list_path, SHARED_LISTS_SCHEMA)
 
         if (list_info is None) or load_errors:
             print(f"File {list_path} has invalid format:")
             for error in load_errors:
                 print(f" - {error}")
             return 1
+
+        shared_list_names.update(list_info["lists"].keys())
 
     errors: dict[str, list[str]] = {}
     warnings: dict[str, list[str]] = {}
@@ -600,11 +636,21 @@ def run() -> int:
             errors[language],
             warnings[language],
         )
-        validate_slot_combinations(
-            intent_schemas, language, errors[language], warnings[language]
+
+        lang_list_names = validate_lists(language, errors[language])
+        available_list_names = set.union(
+            HA_LIST_NAMES, shared_list_names, lang_list_names
         )
-        validate_lists(language, errors[language])
-        validate_expansion_rules(language, errors[language])
+        available_rule_names = validate_expansion_rules(language, errors[language])
+
+        validate_slot_combinations(
+            intent_schemas,
+            language,
+            available_list_names,
+            available_rule_names,
+            errors[language],
+            warnings[language],
+        )
         # Remove language if no errors
         if not errors[language]:
             errors.pop(language)
@@ -875,7 +921,12 @@ def validate_language(
 
 
 def validate_slot_combinations(
-    intent_schemas: dict, language: str, errors: list[str], warnings: list[str]
+    intent_schemas: dict,
+    language: str,
+    available_list_names: set[str],
+    available_rule_names: set[str],
+    errors: list[str],
+    warnings: list[str],
 ) -> None:
     """Validate the sentence and test YAML files for each slot combination."""
     if language not in SLOT_COMBO_VALIDATION_LANGUAGES:
@@ -883,16 +934,6 @@ def validate_slot_combinations(
 
     sentence_dir = SENTENCE_DIR / language
     test_dir = TESTS_DIR / language
-    available_list_names = HA_LIST_NAMES.union(
-        list_path.stem
-        for list_path in itertools.chain(
-            LIST_DIR.glob("*.yaml"),  # shared lists
-            (LIST_DIR / language).glob("*.yaml"),  # language-specific lists
-        )
-    )
-    available_rule_names = set(
-        rule_path.stem for rule_path in (RULE_DIR / language).glob("*.yaml")
-    )
 
     for intent_name in intent_schemas:
         intent_dir = sentence_dir / intent_name
@@ -910,42 +951,120 @@ def validate_slot_combinations(
         for combo_name, combo_info in intent_schemas[intent_name][
             "slot_combinations"
         ].items():
-            error_info = f"intent_name={intent_name}, combo_name={combo_name}"
-            combo_importance = combo_info["importance"]
-
             combo_sentence_path = intent_dir / f"{combo_name}.yaml"
+            error_info = f"intent_name={intent_name}, combo_name={combo_name}, file={combo_sentence_path}"
+
+            name_domains: dict[str, list[str]] = combo_info.get("name_domains", {})
+            inferred_domains: dict[str, list[str]] = combo_info.get(
+                "inferred_domains", {}
+            )
+
+            combo_importances: Collection[str]
+            if name_domains:
+                combo_importances = name_domains.keys()
+            elif inferred_domains:
+                combo_importances = inferred_domains.keys()
+            else:
+                combo_importances = [combo_info["importance"]]
+
             if not combo_sentence_path.exists():
-                if combo_importance == "required":
+                if "required" in combo_importances:
                     errors.append(
-                        f"Missing sentences for required slot combination: {error_info}, "
-                        f"file={combo_sentence_path}"
+                        f"Missing sentences for required slot combination: {error_info}"
                     )
-                elif combo_importance == "usable":
+                elif "usable" in combo_importances:
                     warnings.append(
-                        f"Missing sentences for usable slot combination: {error_info}, "
-                        f"file={combo_sentence_path}"
+                        f"Missing sentences for usable slot combination: {error_info}"
                     )
 
                 continue
 
             available_slot_names = set(combo_info.get("slots", []))
-            if "inferred_domain" in combo_info:
-                available_slot_names.discard("domain")
+            available_sentence_slot_names = set(available_slot_names)
+            if inferred_domains:
+                available_sentence_slot_names.discard("domain")
+
+            all_name_domains = set(itertools.chain.from_iterable(name_domains.values()))
+            all_inferred_domains = set(
+                itertools.chain.from_iterable(inferred_domains.values())
+            )
 
             # validate sentences
-            _load_yaml_file(
+            sentences_info = _load_yaml_file(
                 errors,
                 language,
                 combo_sentence_path,
                 SLOT_COMBO_SENTENCE_SCHEMA(
                     language,
                     combo_name,
-                    available_list_names,
-                    available_slot_names,
-                    available_rule_names,
-                    available_response_names,
+                    name_domains=all_name_domains,
+                    inferred_domains=all_inferred_domains,
+                    list_names=available_list_names,
+                    slot_names=available_sentence_slot_names,
+                    rule_names=available_rule_names,
+                    response_names=available_response_names,
                 ),
             )
+            if not sentences_info:
+                continue
+
+            required_name_domains = set(name_domains.get("required", []))
+            required_inferred_domains = set(inferred_domains.get("required", []))
+
+            for sentences_dict in sentences_info["data"]:
+                sentence_error_info = f"{error_info}, sentences={sentences_dict}"
+                sentence_name_domains = set(sentences_dict.get("name_domains", []))
+                sentence_inferred_domain = sentences_dict.get("inferred_domain")
+
+                if name_domains:
+                    assert (
+                        sentence_name_domains
+                    ), f"name_domains must be provided: {sentence_error_info}"
+
+                    assert sentence_name_domains.issubset(all_name_domains), (
+                        "Name domains must match slot combination definition: "
+                        f"actual={sentence_name_domains}, "
+                        f"expected={all_name_domains}, "
+                        f"{sentence_error_info}"
+                    )
+
+                    # Track if we've covered all required domains
+                    required_name_domains.difference_update(sentence_name_domains)
+                else:
+                    assert (
+                        not sentence_name_domains
+                    ), f"Slot combination definition does not specify name_domains: {sentence_error_info}"
+
+                if inferred_domains:
+                    assert (
+                        sentence_inferred_domain
+                    ), f"inferred_domain must be provided: {sentence_error_info}"
+
+                    assert sentence_inferred_domain in all_inferred_domains, (
+                        "Inferred domain must match slot combination definiiton: "
+                        f"actual={sentence_inferred_domain}, "
+                        f"expected={all_inferred_domains}, "
+                        f"{sentence_error_info}"
+                    )
+
+                    # Track if we've covered all required domains
+                    required_inferred_domains.remove(sentence_inferred_domain)
+                else:
+                    assert (
+                        not sentence_inferred_domain
+                    ), f"Slot combination definition does not specify inferred_domains: {sentence_error_info}"
+
+            if name_domains:
+                assert not required_name_domains, (
+                    "Required name domain(s) are not covered: "
+                    f"domains={required_name_domains}, {error_info}"
+                )
+
+            if inferred_domains:
+                assert not required_inferred_domains, (
+                    "Required inferred domain(s) are not covered: "
+                    f"domains={required_inferred_domains}, {error_info}"
+                )
 
             # validate tests
             combo_test_path = test_intent_dir / f"{combo_name}.yaml"
@@ -964,22 +1083,32 @@ def validate_slot_combinations(
             )
 
 
-def validate_lists(language: str, errors: list[str]) -> None:
+def validate_lists(language: str, errors: list[str]) -> set[str]:
+    lang_list_names: set[str] = set()
+
     lists_dir: Path = LIST_DIR / language
     for list_path in lists_dir.glob("*.yaml"):
-        list_name = list_path.stem
-        _load_yaml_file(
-            errors, language, list_path, LANGUAGE_LISTS_SCHEMA(language, list_name)
+        list_info = _load_yaml_file(
+            errors, language, list_path, LANGUAGE_LISTS_SCHEMA(language)
         )
+        if list_info:
+            lang_list_names.update(list_info["lists"].keys())
+
+    return lang_list_names
 
 
-def validate_expansion_rules(language: str, errors: list[str]) -> None:
+def validate_expansion_rules(language: str, errors: list[str]) -> set[str]:
+    lang_rule_names: set[str] = set()
+
     rules_dir: Path = RULE_DIR / language
     for rule_path in rules_dir.glob("*.yaml"):
-        rule_name = rule_path.stem
-        _load_yaml_file(
-            errors, language, rule_path, EXPANSION_RULES_SCHEMA(language, rule_name)
+        rule_info = _load_yaml_file(
+            errors, language, rule_path, EXPANSION_RULES_SCHEMA(language)
         )
+        if rule_info:
+            lang_rule_names.update(rule_info["expansion_rules"])
+
+    return lang_rule_names
 
 
 # -----------------------------------------------------------------------------

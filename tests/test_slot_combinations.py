@@ -1,5 +1,7 @@
+"""Slot combination tests."""
+
+import itertools
 import sys
-import warnings
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -28,6 +30,7 @@ from . import (
 
 CONTEXT_AREA_NAME = "__context_area__"
 TEST_DATETIME = datetime(year=2013, month=9, day=17, hour=1, minute=2)
+LANGUAGES_TO_TEST = {"en"}
 
 
 @dataclass
@@ -61,22 +64,22 @@ def lang_resources_fixture(language: str, intent_schemas: dict[str, Any]):
     rules_dict: dict[str, Any] = lang_intents_dict["expansion_rules"]
     for rule_path in (RULES_DIR / language).glob("*.yaml"):
         with open(rule_path, "r", encoding="utf-8") as rule_file:
-            rules_dict.update(yaml.safe_load(rule_file))
+            rule_dict = yaml.safe_load(rule_file)
+            rules_dict.update(rule_dict["expansion_rules"])
 
     # Load shared lists
     lists_dict: dict[str, Any] = lang_intents_dict["lists"]
     for list_path in LISTS_DIR.glob("*.yaml"):
         with open(list_path, "r", encoding="utf-8") as list_file:
-            lists_dict.update(yaml.safe_load(list_file))
+            list_dict = yaml.safe_load(list_file)
+            lists_dict.update(list_dict["lists"])
 
     # Load language-specific lists
     for list_path in (LISTS_DIR / language).glob("*.yaml"):
         with open(list_path, "r", encoding="utf-8") as list_file:
             list_dict = yaml.safe_load(list_file)
-            assert list_dict.pop("language") == language
-            lists_dict.update(list_dict)
+            lists_dict.update(list_dict["lists"])
 
-    # TODO: better errors
     responses: dict[str, dict[str, str]] = {}
     for intent_name, intent_info in intent_schemas.items():
         intent_dict = lang_intents_dict["intents"].get(intent_name, {"data": []})
@@ -99,35 +102,40 @@ def lang_resources_fixture(language: str, intent_schemas: dict[str, Any]):
                 continue
 
             with open(sentences_path, "r", encoding="utf-8") as sentences_file:
-                combo_dict = yaml.safe_load(sentences_file)
-                assert combo_dict.pop("language") == language, sentences_path
+                test_data_dict = yaml.safe_load(sentences_file)
 
-                combo_dict_slots = combo_dict.get("slots", {})
-                combo_dict_metadata = combo_dict.get("metadata", {})
-                combo_dict_requires_context = combo_dict.get("requires_context", {})
+                for test_sentences_dict in test_data_dict["data"]:
+                    test_slots = test_sentences_dict.get("slots", {})
+                    test_metadata = test_sentences_dict.get("metadata", {})
+                    test_requires_context = test_sentences_dict.get(
+                        "requires_context", {}
+                    )
 
-                if name_domains := combo_info.get("name_domains"):
-                    combo_dict_requires_context["domain"] = name_domains
-                elif inferred_domain := combo_info.get("inferred_domain"):
-                    combo_dict_slots["domain"] = inferred_domain
+                    if name_domains := test_sentences_dict.get("name_domains"):
+                        test_requires_context["domain"] = name_domains
+                    elif inferred_domain := test_sentences_dict.get("inferred_domain"):
+                        test_slots["domain"] = inferred_domain
 
-                # Add context area slot
-                if combo_info.get("context_area"):
-                    combo_dict_requires_context["area"] = {"slot": True}
+                    # Add context area slot
+                    if combo_info.get("context_area"):
+                        test_requires_context["area"] = {"slot": True}
 
-                # Attach metadata so we can check the slot combination later
-                combo_dict_metadata["slot_combination"] = combo_name
-                combo_dict_metadata["sentence_templates"] = combo_dict["sentences"]
+                    # Attach metadata so we can check the slot combination later
+                    test_metadata["slot_combination"] = combo_name
+                    test_metadata["sentence_templates"] = test_sentences_dict[
+                        "sentences"
+                    ]
 
-                if combo_dict_slots:
-                    combo_dict["slots"] = combo_dict_slots
-
-                combo_dict["metadata"] = combo_dict_metadata
-
-                if combo_dict_requires_context:
-                    combo_dict["requires_context"] = combo_dict_requires_context
-
-                intent_data.append(combo_dict)
+                    # Convert to hassil format
+                    intent_data.append(
+                        {
+                            "sentences": test_sentences_dict["sentences"],
+                            "slots": test_slots,
+                            "metadata": test_metadata,
+                            "requires_context": test_requires_context,
+                            "response": test_sentences_dict["response"],
+                        }
+                    )
 
         lang_intents_dict["intents"][intent_name] = intent_dict
 
@@ -154,14 +162,17 @@ def do_test_slot_combination(
         f"file={test_file_path.relative_to(BASE_DIR)}"
     )
 
-    if combo_info.get("importance") == "required":
+    if (lang_resources.language in LANGUAGES_TO_TEST) and (
+        (combo_info.get("importance") == "required")
+        or (
+            "required" in combo_info.get("name_domains", {})
+            or ("required" in combo_info.get("inferred_domains", {}))
+        )
+    ):
+        # Fail if slot combination is required
         assert test_file_path.exists(), f"Required test file is missing: {error_info}"
-    elif not test_file_path.exists():
-        # warnings.warn(
-        #     UserWarning(
-        #         f"Missing test for language '{lang_resources.language}': {test_file_path}"
-        #     )
-        # )
+
+    if not test_file_path.exists():
         return
 
     with open(test_file_path, "r", encoding="utf-8") as test_file:
@@ -201,9 +212,13 @@ def do_test_slot_combination(
     for test_entity in test_dict.get("entities", []):
         entity_domains_by_name[test_entity["name"]].add(test_entity["domain"])
 
-    possible_slot_names = set(combo_info["slots"])
-    name_domains = set(combo_info.get("name_domains", []))
-    inferred_domain = combo_info.get("inferred_domain")
+    possible_slot_names: set[str] = set(combo_info["slots"])
+    name_domains: set[str] = set(
+        itertools.chain.from_iterable(combo_info.get("name_domains", {}).values())
+    )
+    inferred_domains: set[str] = set(
+        itertools.chain.from_iterable(combo_info.get("inferred_domains", {}).values())
+    )
 
     # Retrieved from metadata
     untested_sentence_templates: Optional[set[str]] = None
@@ -215,8 +230,8 @@ def do_test_slot_combination(
     for test_group in test_dict["tests"]:
         expected_slots = test_group.get("slots", {})
 
-        if inferred_domain:
-            expected_slots["domain"] = inferred_domain
+        if inferred_domains:
+            expected_slots["domain"] = inferred_domains
 
         expected_slot_names = expected_slots.keys()
         assert expected_slot_names == possible_slot_names
@@ -277,9 +292,9 @@ def do_test_slot_combination(
                 assert entity_domains_by_name[actual_name].issubset(
                     name_domains
                 ), f"Entity does not have expected domain: name={actual_name}, {sentence_error_info}"
-            elif inferred_domain:
+            elif inferred_domains:
                 assert (
-                    actual_slots.get("domain") == inferred_domain
+                    actual_slots.get("domain") in inferred_domains
                 ), f"Wrong inferred domain: {sentence_error_info}"
 
             assert (
@@ -289,16 +304,27 @@ def do_test_slot_combination(
             for actual_slot_name in actual_slot_names:
                 actual_slot_value = actual_slots[actual_slot_name]
                 expected_slot_value = expected_slots[actual_slot_name]
-                if isinstance(actual_slot_value, list):
-                    # Multiple values are possible for some slots.
-                    # For example, "open the curtains" may match shades as well.
-                    assert (
-                        expected_slot_value in actual_slot_value
-                    ), f"Slot value is not in list of expected values: {sentence_error_info}"
+
+                # Multiple values are possible for some slots.
+                # For example, "open the curtains" may match shades as well.
+                if isinstance(actual_slot_value, (list, set)):
+                    if isinstance(expected_slot_value, (list, set)):
+                        assert set(actual_slot_value).issubset(
+                            expected_slot_value
+                        ), f"Slot value is not a subset of expected values: {sentence_error_info}"
+                    else:
+                        assert (
+                            expected_slot_value in actual_slot_value
+                        ), f"Slot value is not in list of expected values: {sentence_error_info}"
                 else:
-                    assert (
-                        expected_slot_value == actual_slot_value
-                    ), f"Slot value does not match expected value: {sentence_error_info}"
+                    if isinstance(expected_slot_value, (list, set)):
+                        assert (
+                            actual_slot_value in expected_slot_value
+                        ), f"Slot value does not match any of expected values: {sentence_error_info}"
+                    else:
+                        assert (
+                            expected_slot_value == actual_slot_value
+                        ), f"Slot value does not match expected value: {sentence_error_info}"
 
     assert not untested_sentence_templates, (
         f"{len(untested_sentence_templates)} untested sentence template(s): {error_info}, "
@@ -340,7 +366,7 @@ def _render_response(
         }
         if intent_name == "HassGetState":
             query_state = template_args["state"]
-            query = {"matched": [], "unmatched": []}
+            query: dict[str, Any] = {"matched": [], "unmatched": []}
             if match_state := result.entities.get("state"):
                 # Put entity in matched or unmatched list depending on its state
                 if name_state == match_state.value:
