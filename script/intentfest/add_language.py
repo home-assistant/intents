@@ -63,7 +63,7 @@ def run() -> int:
     # Create sentence files based off English
     english_sentences = SENTENCE_DIR / "en"
 
-    for english_filename in english_sentences.iterdir():
+    for english_filename in english_sentences.glob("*.yaml"):
         if english_filename.name == "_common.yaml":
             continue
 
