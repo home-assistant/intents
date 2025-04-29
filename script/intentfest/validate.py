@@ -847,7 +847,7 @@ def validate_language(
     # Environment used to render response templates
     jinja2_env = get_jinja2_environment()
 
-    for response_file in response_dir.iterdir():
+    for response_file in response_dir.glob("*.yaml"):
         path = str(response_file.relative_to(ROOT))
         intent = response_file.stem
 
