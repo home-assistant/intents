@@ -12,6 +12,7 @@ import yaml
 from hassil import (
     Intents,
     RecognizeResult,
+    SlotList,
     TextSlotList,
     normalize_whitespace,
     recognize_best,
@@ -179,7 +180,7 @@ def do_test_slot_combination(
         test_dict = yaml.safe_load(test_file)
 
     # Load test fixtures
-    slot_lists = {
+    slot_lists: dict[str, SlotList] = {
         "name": TextSlotList.from_tuples(
             [
                 # text in, value out, context, metadata
@@ -258,6 +259,8 @@ def do_test_slot_combination(
             assert (
                 result.intent_metadata.get("slot_combination") == combo_name
             ), f"Wrong slot combination was matched: {sentence_error_info}"
+            assert result.intent_sentence is not None
+            assert result.intent_sentence.text is not None
 
             if untested_sentence_templates is None:
                 untested_sentence_templates = set(
@@ -339,7 +342,7 @@ def _render_response(
     template_slots: Optional[dict[str, Any]] = None,
 ) -> str:
     intent_name = result.intent.name
-    response_key = result.response
+    response_key = result.response or "default"
 
     intent_responses = lang_resources.responses.get(intent_name)
     if not intent_responses:
