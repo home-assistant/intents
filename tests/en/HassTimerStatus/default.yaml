@@ -1,0 +1,37 @@
+---
+# HassTimerStatus - default
+# example: how much time is left on my timer
+
+language: "en"
+
+tests:
+  - sentences:
+      - "timer status"
+    timers: []
+    response: "No timers."
+
+  - sentences:
+      - "timer status"
+    timers:
+      - is_active: false
+        total_seconds_left: 1
+        rounded_seconds_left: 1
+    response: "Timer is paused. 1 second left."
+
+  - sentences:
+      - "timer status"
+    timers:
+      - is_active: true
+        total_seconds_left: 30
+        rounded_seconds_left: 30
+      - is_active: true
+        total_seconds_left: 10
+        rounded_seconds_left: 10
+    response: "2 running timers. 10 seconds left on timer."
+
+  - sentences:
+      - "timer status"
+    timers:
+      - is_active: false
+      - is_active: false
+    response: "2 paused timers."
