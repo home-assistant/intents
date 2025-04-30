@@ -31,7 +31,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Set up Node ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4.3.0
+        uses: actions/setup-node@v4.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
       - uses: actions/setup-python@v5
@@ -44,6 +44,9 @@ jobs:
         run: cd website && npm ci
       - name: Build site
         run: website/script/build
+      - name: Write language scores
+        run: |
+          python3 script/write_language_scores.py > website/dist/language_scores.json
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3.0.1
         with:
