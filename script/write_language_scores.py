@@ -37,12 +37,23 @@ def main() -> None:
             # Skip intents that are not supported in Home Assistant
             continue
 
-        importance = intent_info.get("importance")
-        if importance == "required":
+        # For the transition to slot combinations:
+        # If an intent has any required combination, it is considered required.
+        # Same with usable, then complete.
+        importance_levels = set()
+        for combo_info in intent_info["slot_combinations"].values():
+            if importance := combo_info.get("importance"):
+                importance_levels.add(importance)
+            elif name_domains := combo_info.get("name_domains"):
+                importance_levels.update(name_domains.keys())
+            elif inferred_domains := combo_info.get("inferred_domains"):
+                importance_levels.update(inferred_domains.keys())
+
+        if "required" in importance_levels:
             required_intents.add(intent_name)
-        elif importance == "usable":
+        elif "usable" in importance_levels:
             usable_intents.add(intent_name)
-        elif importance == "complete":
+        elif "complete" in importance_levels:
             complete_intents.add(intent_name)
 
     for lang_key, lang_info in languages.items():
