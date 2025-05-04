@@ -43,13 +43,13 @@ def get_base_arg_parser() -> argparse.ArgumentParser:
 
 def load_merged_sentences(language: str) -> dict:
     merged_sentences: dict = {}
-    for sentence_file in sorted((SENTENCE_DIR / language).iterdir()):
+    for sentence_file in sorted((SENTENCE_DIR / language).glob("*.yaml")):
         merge_dict(merged_sentences, yaml.safe_load(sentence_file.read_text()))
     return merged_sentences
 
 
 def load_merged_responses(language: str) -> dict:
     merged_responses: dict = {}
-    for response_file in (RESPONSE_DIR / language).iterdir():
+    for response_file in (RESPONSE_DIR / language).glob("*.yaml"):
         merge_dict(merged_responses, yaml.safe_load(response_file.read_text()))
     return merged_responses

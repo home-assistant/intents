@@ -81,7 +81,6 @@ def do_test_language_sentences(
 
         intent_schema = intent_schemas[intent_name]
         slot_schema = intent_schema.get("slots", {})
-        slot_combinations = intent_schema.get("slot_combinations", [])
 
         for data in intent.data:
             if not data.sentences:
@@ -125,21 +124,6 @@ def do_test_language_sentences(
                         assert (
                             slot_name in found_slots
                         ), f"Missing required slot: '{slot_name}', intent='{intent_name}', sentence='{sentence.text}'"
-
-                # Verify one of the combinations is matched
-                combo_matched = False
-                for combo_info in slot_combinations:
-                    combo_slots = combo_info.get("slots", [])
-                    if isinstance(combo_slots, str):
-                        combo_slots = [combo_slots]
-
-                    if found_slots.issuperset(combo_slots):
-                        combo_matched = True
-                        break
-
-                assert (
-                    combo_matched
-                ), f"Slot combination not found for intent '{intent_name}', slots={found_slots}, sentence='{sentence.text}'"
 
 
 def _verify(

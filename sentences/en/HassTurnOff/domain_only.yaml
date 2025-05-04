@@ -1,0 +1,22 @@
+---
+# HassTurnOff - domain_only
+# example: turn off the lights in here
+# context_area: true
+
+language: "en"
+
+data:
+  - sentences:
+      # Explicit <here> optional all
+      - "<turn> [(<all>|<the>)] <light> ((off|out);<here>)"
+      - "<turn> (off|out) [(<all>|<the>)] <light> <here>"
+      - "deactivate [(<all>|<the>)] <light> <here>"
+      - "[<all>] [<the>] <light> (off|out) <here>"
+
+      # Implicit <here> no all
+      - "<turn> [<the>] <light> ((off|out);[<here>])"
+      - "<turn> (off|out) [<the>] <light> [<here>]"
+      - "deactivate [<the>] <light> [<here>]"
+      - "<light> (off|out) [<here>]"
+    inferred_domain: "light"
+    response: "lights_area"

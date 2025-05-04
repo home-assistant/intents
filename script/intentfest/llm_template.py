@@ -49,7 +49,7 @@ def run() -> int:
     ]
 
     # Find sentences
-    for sentence_file in sorted((SENTENCE_DIR / "en").iterdir()):
+    for sentence_file in sorted((SENTENCE_DIR / "en").glob("*.yaml")):
         if sentence_file.name == "_common.yaml":
             continue
         content = yaml.safe_load(sentence_file.read_text())
