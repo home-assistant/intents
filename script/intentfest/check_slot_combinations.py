@@ -16,14 +16,17 @@ from pathlib import Path
 from typing import Any, Dict, List, Set, TextIO, Tuple, Union
 
 import yaml
-from hassil.expression import (
+from hassil import (
+    Alternative,
     Expression,
+    Group,
+    IntentData,
+    Intents,
     ListReference,
+    Permutation,
     RuleReference,
     Sequence,
-    SequenceType,
 )
-from hassil.intents import IntentData, Intents
 
 from .const import INTENTS_FILE, LANGUAGES, SENTENCE_DIR
 from .util import get_base_arg_parser
@@ -197,7 +200,7 @@ def _get_support(language: str, intents: Dict[str, Any], args: argparse.Namespac
             for sentence in data.sentences:
                 sentence_combos: Set[Tuple[str, ...]] = set()
                 for _, combo in _get_slots(
-                    sentence, data, lang_intents, rule_slot_cache
+                    sentence.expression, data, lang_intents, rule_slot_cache
                 ):
                     combo_tuple = tuple(
                         sorted(itertools.chain(auto_slots, _flatten(combo)))
@@ -250,11 +253,11 @@ def _get_slots(
     intents: Intents,
     rule_slot_cache: Dict[Tuple[str, bool], Any],
 ) -> Iterable[Tuple[bool, Any]]:
-    if isinstance(e, Sequence):
-        seq: Sequence = e
-        if seq.type == SequenceType.GROUP:
+    if isinstance(e, Group):
+        grp: Group = e
+        if isinstance(grp, (Sequence, Permutation)):
             seq_with_slots: List[List[Iterable[Union[str, None]]]] = [[]]
-            for item in seq.items:
+            for item in grp.items:
                 for item_has_slot, item_slots in _get_slots(
                     item, data, intents, rule_slot_cache
                 ):
@@ -271,8 +274,8 @@ def _get_slots(
 
             for slot_combo in itertools.product(*seq_with_slots):
                 yield (True, slot_combo)
-        elif seq.type == SequenceType.ALTERNATIVE:
-            for item in seq.items:
+        elif isinstance(grp, Alternative):
+            for item in grp.items:
                 for item_has_slot, item_slots in _get_slots(
                     item, data, intents, rule_slot_cache
                 ):
@@ -281,10 +284,10 @@ def _get_slots(
 
                     yield (True, item_slots)
 
-            if seq.is_optional:
+            if grp.is_optional:
                 yield (True, None)
         else:
-            raise ValueError(f"Unexpected sequence type: {seq.type}")
+            raise ValueError(f"Unexpected group type: {grp}")
     elif isinstance(e, ListReference):
         list_ref: ListReference = e
         yield (True, list_ref.slot_name)
@@ -303,7 +306,9 @@ def _get_slots(
         cache_key = (rule_ref.rule_name, from_data)
         cached_slots = rule_slot_cache.get(cache_key)
         if cached_slots is None:
-            cached_slots = list(_get_slots(rule_body, data, intents, rule_slot_cache))
+            cached_slots = list(
+                _get_slots(rule_body.expression, data, intents, rule_slot_cache)
+            )
             rule_slot_cache[cache_key] = cached_slots
 
         yield from cached_slots

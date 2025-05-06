@@ -2,6 +2,8 @@ language: sk
 responses:
   intents:
     HassGetState:
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
       one: "{{ slots.name }} je {{ state.state_with_unit }}"
 
       one_yesno: |
@@ -21,13 +23,24 @@ responses:
       all: |
         {% if not query.unmatched: %}
         Áno
-        {% else: %}
-          {% set match = query.matched | map(attribute="name") | sort | list %}
-          {% if match | length > 4 %}
-            Nie, {{ match[:3] | join(", ") }} a {{ (match | length - 3) }} ďalšie
-          {%- else -%}
-            Nie, {{ query.unmatched | map(attribute="name") | sort | join(", ") }}
-          {% endif %}
+        {% else %}
+        {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+        {% if no_match | length > 4 %}
+        Nie, {{ no_match[:3] | join(", ") }} a {{ (no_match | length - 3) }} ďalšie sú v stave {{ state.state_with_unit }}
+        {%- else -%}
+        Nie,
+        {% if state.state_with_unit == "home" %}
+        {% set state_with_unit = "doma" %}
+        {% elif state.state_with_unit == "not_home" %}
+        {% set state_with_unit = "mimo domu" %}
+        {% else %}
+        {% set state_with_unit = "v stave " ~ state.state_with_unit %}
+        {% endif %}
+        {% for name in no_match -%}
+        {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} a {% endif -%}
+        {{ name }}
+        {%- endfor %} {{ 'nie je' if no_match | length == 1 else 'nie sú'}} {{ state_with_unit }}
+        {% endif %}
         {% endif %}
 
       which: |
@@ -42,9 +55,109 @@ responses:
           {% endif %}
         {% endif %}
 
+      # disabled until a way to query entities from multiple domains is found
+      # which_windows: |
+      #   {% if slots.state.startswith('otvor') or slots.state.startswith('roztia') %}
+      #   {% set states = ["on", "open"] %}
+      #   {% elif 'otvár' in slots.state or 'rozťahu' in slots.state %}
+      #   {% set states = ["opening"] %}
+      #   {% elif 'zatvára' in slots.state or 'zaťahu' in slots.state %}
+      #   {% set states = ["closing"] %}
+      #   {% else %}
+      #   {% set states = ["off", "closed"] %}
+      #   {% endif %}
+      #
+      #   {% set matched_windows = query.unmatched
+      #     | selectattr('attributes.device_class', 'defined')
+      #     | selectattr('attributes.device_class', 'eq', 'window')
+      #     | selectattr('hass_state', 'in', states)
+      #     | list %}
+      #   {% if not matched_windows %}
+      #   Žiadne
+      #   {% else: %}
+      #     {% set match = matched_windows | map(attribute="name") | sort | list %}
+      #     {% if match | length > 4 %}
+      #       {{ match[:3] | join(", ") }} a {{ (match | length - 3) }} ďalšie
+      #     {%- else -%}
+      #       {{ matched_windows | map(attribute="name") | sort | join(", ") }}
+      #     {% endif %}
+      #   {% endif %}
+
       how_many: |
         {% if not query.matched: %}
         0
         {% else: %}
         {{ query.matched | length }}
+        {% endif %}
+
+      # disabled until a way to query entities from multiple domains is found
+      # how_many_windows: |
+      #   {% if slots.state.startswith('otvor') or slots.state.startswith('roztia') %}
+      #   {% set states = ["on", "open"] %}
+      #   {% elif 'otvár' in slots.state or 'rozťahu' in slots.state %}
+      #   {% set states = ["opening"] %}
+      #   {% elif 'zatvára' in slots.state or 'zaťahu' in slots.state %}
+      #   {% set states = ["closing"] %}
+      #   {% else %}
+      #   {% set states = ["off", "closed"] %}
+      #   {% endif %}
+      #
+      #   {{ query.unmatched
+      #     | selectattr('attributes.device_class', 'defined')
+      #     | selectattr('attributes.device_class', 'eq', 'window')
+      #     | selectattr('hass_state', 'in', states)
+      #     | list
+      #     | count }}
+      #
+      # how_many_doors: |
+      #   {% set matches = query.matched | selectattr('attributes.device_class', 'in', ('door', 'garage_door')) | list | count %}
+      #   {% if not matches %}
+      #   Žiadne
+      #   {% else: %}
+      #   {{ matches }}
+      #   {% endif %}
+
+      one_cover_nominative: |
+        {{ slots.name | capitalize }}
+        {# "sa .." ak dej prebieha (sa zatvára), "je v stave .." ak je dokonaný (je v stave zatvorené) #}
+        {% if state.state_with_unit and state.state_with_unit.split() | last != "sa" %}
+        je v stave {{ state.state_with_unit }}
+        {% else %}
+        {# meníme "zatvára sa" na "sa zatvára" #}
+        {{ state.state_with_unit.split() | reverse | join(' ') }}
+        {% endif %}
+
+      one_cover_accusative: |
+        Stav {{ slots.name | capitalize }} je {{ state.state_with_unit }}
+
+      bs_all: |
+        {% if not query.unmatched: %}
+          Áno
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            Nie, {{ no_match[:3] | join(", ") }} a {{ (no_match | length - 3) }} ďalšie nie sú
+          {%- else -%}
+            Nie,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} a {% endif -%}
+              {{ name }}
+            {%- endfor %} {{ 'nie je' if no_match | length == 1 else 'nie sú'}}
+          {% endif %}
+        {% endif %}
+
+      bs_yesno: |
+        {% if query.matched %}
+          Áno
+        {% else %}
+          Nie
+        {% endif %}
+
+      where: |
+        {% if state.state == "not_home" %}
+          {{ slots.name | capitalize }} je mimo domu
+        {% elif state.state == "home" %}
+          {{ slots.name | capitalize }} je doma
+        {% else %}
+          {{ slots.name | capitalize }} je v zóne {{ state.state }}
         {% endif %}

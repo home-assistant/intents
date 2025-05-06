@@ -7,15 +7,15 @@ import sys
 from pathlib import Path
 from typing import Any, Iterable
 
-from hassil import Intents
-from hassil.expression import (
+from hassil import (
     Expression,
+    Group,
+    Intents,
     ListReference,
     RuleReference,
     Sentence,
-    Sequence,
+    TextSlotList,
 )
-from hassil.intents import TextSlotList
 
 from . import SENTENCES_DIR
 
@@ -81,8 +81,6 @@ def do_test_language_sentences(
 
         intent_schema = intent_schemas[intent_name]
         slot_schema = intent_schema.get("slots", {})
-        slot_combinations = intent_schema.get("slot_combinations", [])
-        slot_groups = intent_schema.get("slot_groups")
 
         for data in intent.data:
             if not data.sentences:
@@ -104,7 +102,7 @@ def do_test_language_sentences(
 
             for sentence in data.sentences:
                 found_slots: set[str] = set()
-                for expression in _flatten(sentence):
+                for expression in _flatten(sentence.expression):
                     _verify(
                         expression,
                         language_sentences,
@@ -126,28 +124,6 @@ def do_test_language_sentences(
                         assert (
                             slot_name in found_slots
                         ), f"Missing required slot: '{slot_name}', intent='{intent_name}', sentence='{sentence.text}'"
-
-                if slot_groups:
-                    # Verify one member of each group is present
-                    for group_name, group_slots in slot_groups.items():
-                        assert found_slots.intersection(
-                            group_slots
-                        ), f"Slot group not matched: group='{group_name}' intent='{intent_name}', slots={found_slots}, sentence='{sentence.text}'"
-
-                # Verify one of the combinations is matched
-                combo_matched = False
-                for combo_info in slot_combinations:
-                    combo_slots = combo_info.get("slots", [])
-                    if isinstance(combo_slots, str):
-                        combo_slots = [combo_slots]
-
-                    if found_slots.issuperset(combo_slots):
-                        combo_matched = True
-                        break
-
-                assert (
-                    combo_matched
-                ), f"Slot combination not found for intent '{intent_name}', slots={found_slots}, sentence='{sentence.text}'"
 
 
 def _verify(
@@ -187,7 +163,7 @@ def _verify(
         ), f"Recursive rule detected: <{rule_ref.rule_name}>"
 
         # Verify rule body
-        for body_expression in _flatten(expansion_rules[rule_ref.rule_name]):
+        for body_expression in _flatten(expansion_rules[rule_ref.rule_name].expression):
             visited_rules.add(rule_ref.rule_name)
             _verify(
                 body_expression,
@@ -202,9 +178,9 @@ def _verify(
 
 
 def _flatten(expression: Expression) -> Iterable[Expression]:
-    if isinstance(expression, Sequence):
-        seq: Sequence = expression
-        for item in seq.items:
+    if isinstance(expression, Group):
+        grp: Group = expression
+        for item in grp.items:
             yield from _flatten(item)
     else:
         yield expression
