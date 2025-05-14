@@ -102,6 +102,13 @@ class Timer:
         }
 
 
+@dataclass
+class BrowseMedia:
+    """Minimal HA-like object for media search and play."""
+
+    title: str
+
+
 def get_matched_states(
     states: List[State],
     areas: List[AreaEntry],
@@ -276,6 +283,21 @@ def get_matched_timers(timers: List[Timer], result: RecognizeResult) -> List[Tim
     return timers
 
 
+def get_matched_media(
+    media: List[BrowseMedia], result: RecognizeResult
+) -> List[BrowseMedia]:
+    """Get media that matches a search."""
+    if result.intent.name not in ("HassMediaSearchAndPlay",):
+        return []
+
+    slots = {slot.name: slot.value for slot in result.entities.values()}
+    search_query = slots.get("search_query")
+    if not search_query:
+        return []
+
+    return [m for m in media if m.title == search_query]
+
+
 def _normalize_name(name: str) -> str:
     return name.strip().casefold()
 
@@ -292,6 +314,7 @@ def render_response(
     unmatched: Optional[List[State]] = None,
     env: Optional[Environment] = None,
     timers: Optional[List[Timer]] = None,
+    media: Optional[List[BrowseMedia]] = None,
 ) -> str:
     """Renders a response template using Jinja2."""
     assert response_template, "Empty response template"
@@ -324,6 +347,10 @@ def render_response(
     # For date/time intents
     slots["date"] = _TEST_DATETIME.date()
     slots["time"] = _TEST_DATETIME.time()
+
+    # Media search/play
+    if media:
+        slots["media"] = media[0]  # first result only
 
     return env.from_string(response_template).render(
         {
@@ -529,3 +556,13 @@ def get_timers(fixtures: dict[str, Any]) -> List[Timer]:
             )
         )
     return timers
+
+
+def get_media_items(fixtures: dict[str, Any]) -> List[BrowseMedia]:
+    """Load media items from test fixtures."""
+    media: List[BrowseMedia] = []
+
+    for media_dict in fixtures.get("media", []):
+        media.append(BrowseMedia(title=media_dict["title"]))
+
+    return media

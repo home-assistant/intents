@@ -363,6 +363,7 @@ TESTS_FIXTURES = vol.Schema(
                 vol.Optional("is_active"): bool,
             }
         ],
+        vol.Optional("media"): [{vol.Required("title"): str}],
     }
 )
 
@@ -888,6 +889,9 @@ def validate_language(
             # For date/time intents
             slots["date"] = datetime.now().date()
             slots["time"] = datetime.now().time()
+
+            # Media search/play
+            slots["media"] = {"title": ""}
 
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)
