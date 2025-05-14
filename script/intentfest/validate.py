@@ -463,6 +463,22 @@ def LANGUAGE_LISTS_SCHEMA(language: str) -> vol.Schema:
     )
 
 
+TIMER_SCHEMA_DICT = {
+    vol.Optional("start_hours"): int,
+    vol.Optional("start_minutes"): int,
+    vol.Optional("start_seconds"): int,
+    vol.Optional("total_seconds_left"): int,
+    vol.Optional("rounded_hours_left"): int,
+    vol.Optional("rounded_minutes_left"): int,
+    vol.Optional("rounded_seconds_left"): int,
+    vol.Optional("name"): str,
+    vol.Optional("area"): str,
+    vol.Optional("is_active"): bool,
+}
+
+MEDIA_SCHEMA_DICT = {vol.Required("title"): str}
+
+
 def SLOT_COMBO_TEST_SCHEMA(
     language: str,
     available_slot_names: set[str],
@@ -481,6 +497,8 @@ def SLOT_COMBO_TEST_SCHEMA(
             ],
             vol.Optional("areas"): [{vol.Required("name"): str}],
             vol.Optional("floors"): [{vol.Required("name"): str}],
+            vol.Optional("timers"): [TIMER_SCHEMA_DICT],
+            vol.Optional("media"): [MEDIA_SCHEMA_DICT],
             vol.Required("tests"): [
                 {
                     vol.Required("sentences"): [str],
@@ -489,20 +507,8 @@ def SLOT_COMBO_TEST_SCHEMA(
                         # slot name
                         vol.In(available_slot_names): vol.Any(str, int, [str])
                     },
-                    vol.Optional("timers"): [
-                        {
-                            vol.Optional("start_hours"): int,
-                            vol.Optional("start_minutes"): int,
-                            vol.Optional("start_seconds"): int,
-                            vol.Optional("total_seconds_left"): int,
-                            vol.Optional("rounded_hours_left"): int,
-                            vol.Optional("rounded_minutes_left"): int,
-                            vol.Optional("rounded_seconds_left"): int,
-                            vol.Optional("name"): str,
-                            vol.Optional("area"): str,
-                            vol.Optional("is_active"): bool,
-                        }
-                    ],
+                    vol.Optional("timers"): [TIMER_SCHEMA_DICT],
+                    vol.Optional("media"): [MEDIA_SCHEMA_DICT],
                 }
             ],
         }
