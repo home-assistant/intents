@@ -1219,6 +1219,62 @@ HassSetVolume:
       example: "set volume in kitchen to 50%"
 
 # -----------------------------------------------------------------------------
+
+HassMediaSearchAndPlay:
+  supported: false
+  domain: media_player
+  description: "Searched for a media item and plays it"
+  slots:
+    name:
+      description: "Name of a device or entity"
+      required: false
+    area:
+      description: "Name of an area"
+      required: false
+    search_query:
+      description: "Media to search for and play"
+      required: true
+  slot_combinations:
+    default:
+      description: "Search and play on the media player in the voice satellite's area"
+      importance: "optional"
+      slots: []
+      context_area: true
+      example: "play Pink Floyd"
+
+    # -------------------------------------------------------------------------
+
+    name_only:
+      description: "Search and play on a media player by name"
+      slots:
+        - "name"
+      name_domains:
+        optional:
+          - "media_player"
+      example: "play Pink Floyd on Sonos Speakers"
+
+    # -------------------------------------------------------------------------
+
+    area_only:
+      description: "Search and play on the media player in an area"
+      importance: "optional"
+      slots:
+        - "area"
+      example: "play Pink Floyd in the Living Room"
+
+    # -------------------------------------------------------------------------
+
+    name_area:
+      description: "Search and play on a media player by name in an area"
+      name_domains:
+        optional:
+          - "media_player"
+      slots:
+        - "name"
+        - "area"
+      example: "play Pink Floyd on the Sonos Speakers in the Living Room"
+
+# -----------------------------------------------------------------------------
 # timers
 # -----------------------------------------------------------------------------
 
