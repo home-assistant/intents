@@ -1,0 +1,15 @@
+language: "da"
+intents:
+  HassListCompleteItem:
+    data:
+      - sentences:
+          - "<fuldfør> <punkt> (på|fra|af) <min_liste>"
+          - "kryds <punkt> af på <min_liste>"
+          - "marker <punkt> som <fuldført> på <min_liste>"
+          - "marker <punkt> (på|fra) <min_liste> som <fuldført>"
+        response: item_completed
+        requires_context:
+          domain: todo
+        expansion_rules:
+          min_liste: "[min|vores] {name}[n]"
+          punkt: "{todo_list_item:item}"

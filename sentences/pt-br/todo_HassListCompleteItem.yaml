@@ -1,0 +1,12 @@
+language: "pt-br"
+intents:
+  HassListCompleteItem:
+    data:
+      - sentences:
+          - (<terminar>|<completar>|<deletar>|<remover>|<retirar>) <item> (da|na) <lista>
+        response: item_completed
+        requires_context:
+          domain: todo
+        expansion_rules:
+          lista: "[minha ]lista [de ]{name}"
+          item: "{todo_list_item:item}"

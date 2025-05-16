@@ -3,10 +3,14 @@ from datetime import datetime
 from functools import partial
 from typing import Any, Dict, Optional, List, Set, Tuple
 
-from hassil import parse_sentence
-from hassil.intents import SlotList, TextSlotList, is_template
-from hassil.recognize import RecognizeResult
-from hassil.sample import sample_expression
+from hassil import (
+    parse_sentence,
+    SlotList,
+    TextSlotList,
+    is_template,
+    RecognizeResult,
+    sample_expression,
+)
 from jinja2 import BaseLoader, Environment, StrictUndefined
 
 _TEST_DATETIME = datetime(year=2013, month=9, day=17, hour=1, minute=2)
@@ -96,6 +100,13 @@ class Timer:
             "area": self.area or "",
             "total_seconds_left": self.total_seconds_left,
         }
+
+
+@dataclass
+class BrowseMedia:
+    """Minimal HA-like object for media search and play."""
+
+    title: str
 
 
 def get_matched_states(
@@ -272,6 +283,21 @@ def get_matched_timers(timers: List[Timer], result: RecognizeResult) -> List[Tim
     return timers
 
 
+def get_matched_media(
+    media: List[BrowseMedia], result: RecognizeResult
+) -> List[BrowseMedia]:
+    """Get media that matches a search."""
+    if result.intent.name not in ("HassMediaSearchAndPlay",):
+        return []
+
+    slots = {slot.name: slot.value for slot in result.entities.values()}
+    search_query = slots.get("search_query")
+    if not search_query:
+        return []
+
+    return [m for m in media if m.title == search_query]
+
+
 def _normalize_name(name: str) -> str:
     return name.strip().casefold()
 
@@ -288,6 +314,7 @@ def render_response(
     unmatched: Optional[List[State]] = None,
     env: Optional[Environment] = None,
     timers: Optional[List[Timer]] = None,
+    media: Optional[List[BrowseMedia]] = None,
 ) -> str:
     """Renders a response template using Jinja2."""
     assert response_template, "Empty response template"
@@ -320,6 +347,10 @@ def render_response(
     # For date/time intents
     slots["date"] = _TEST_DATETIME.date()
     slots["time"] = _TEST_DATETIME.time()
+
+    # Media search/play
+    if media:
+        slots["media"] = media[0]  # first result only
 
     return env.from_string(response_template).render(
         {
@@ -355,7 +386,9 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
         if is_template(floor_name):
             floor_names.extend(
                 floor_name.strip()
-                for floor_name in sample_expression(parse_sentence(floor_name))
+                for floor_name in sample_expression(
+                    parse_sentence(floor_name).expression
+                )
             )
         else:
             floor_names.append(floor_name.strip())
@@ -366,7 +399,7 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
         if is_template(area_name):
             area_names.extend(
                 area_name.strip()
-                for area_name in sample_expression(parse_sentence(area_name))
+                for area_name in sample_expression(parse_sentence(area_name).expression)
             )
         else:
             area_names.append(area_name.strip())
@@ -381,7 +414,8 @@ def get_slot_lists(fixtures: dict[str, Any]) -> dict[str, SlotList]:
         entity_name = entity["name"]
         if is_template(entity_name):
             entity_names = list(
-                name.strip() for name in sample_expression(parse_sentence(entity_name))
+                name.strip()
+                for name in sample_expression(parse_sentence(entity_name).expression)
             )
         else:
             entity_names = [entity_name.strip()]
@@ -419,7 +453,9 @@ def get_states(fixtures: dict[str, Any]) -> List[State]:
         if is_template(entity_name):
             entity_names.extend(
                 entity_name.strip()
-                for entity_name in sample_expression(parse_sentence(entity_name))
+                for entity_name in sample_expression(
+                    parse_sentence(entity_name).expression
+                )
             )
         else:
             entity_names.append(entity_name.strip())
@@ -447,7 +483,7 @@ def get_areas(fixtures: dict[str, Any]) -> List[AreaEntry]:
         if is_template(area_name):
             area_names.extend(
                 area_name.strip()
-                for area_name in sample_expression(parse_sentence(area_name))
+                for area_name in sample_expression(parse_sentence(area_name).expression)
             )
         else:
             area_names.append(area_name.strip())
@@ -472,7 +508,9 @@ def get_floors(fixtures: dict[str, Any]) -> List[FloorEntry]:
         if is_template(floor_name):
             floor_names.extend(
                 floor_name.strip()
-                for floor_name in sample_expression(parse_sentence(floor_name))
+                for floor_name in sample_expression(
+                    parse_sentence(floor_name).expression
+                )
             )
         else:
             floor_names.append(floor_name.strip())
@@ -518,3 +556,13 @@ def get_timers(fixtures: dict[str, Any]) -> List[Timer]:
             )
         )
     return timers
+
+
+def get_media_items(fixtures: dict[str, Any]) -> List[BrowseMedia]:
+    """Load media items from test fixtures."""
+    media: List[BrowseMedia] = []
+
+    for media_dict in fixtures.get("media", []):
+        media.append(BrowseMedia(title=media_dict["title"]))
+
+    return media
