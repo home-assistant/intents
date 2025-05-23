@@ -9,6 +9,7 @@ from collections.abc import Callable, Collection
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from unittest.mock import MagicMock
 
 import jinja2
 import regex
@@ -205,6 +206,7 @@ SENTENCE_SCHEMA = vol.Schema(
                         vol.Optional("requires_context"): {str: match_anything},
                         vol.Optional("excludes_context"): {str: match_anything},
                         vol.Optional("response"): str,
+                        vol.Optional("metadata"): {str: match_anything},
                         vol.Optional("required_keywords"): [str],
                     }
                 ]
@@ -918,6 +920,7 @@ def validate_language(
                                 "slots": slots,
                                 "query": {"matched": [], "unmatched": []},
                                 "state_attr": lambda *args: None,
+                                "metadata": MagicMock(),
                             }
                         )
                     except jinja2.exceptions.TemplateError as err:

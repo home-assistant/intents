@@ -362,6 +362,7 @@ def render_response(
                 "total_results": len(matched) + len(unmatched),
             },
             "state_attr": partial(state_attr, matched),
+            "metadata": result.intent_metadata,
         }
     )
 
