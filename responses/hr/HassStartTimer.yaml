@@ -1,0 +1,79 @@
+---
+language: hr
+responses:
+  intents:
+    HassStartTimer:
+      default: >
+        {% macro format_time(value, singular, few, many) -%}
+          {% if value is not none %}
+            {% set number = 30 if value in ['pola', 'pol', '1/2'] else value | int(0) %}
+            {% if number % 10 == 1 and number % 100 != 11 %}
+              {{ number }} {{ singular }}
+            {% elif number % 10 in [2, 3, 4] and number % 100 not in [12, 13, 14] %}
+              {{ number }} {{ few }}
+            {% else %}
+              {{ number }} {{ many }}
+            {% endif %}
+          {% else %}
+            {{ '' }}
+          {% endif %}
+        {%- endmacro %}
+
+        {% set name = (' nazvan ' ~ slots.name | trim) if slots.name is defined else '' %}
+
+        {% set h = slots.get('hours') %}
+        {% set m = slots.get('minutes') %}
+        {% set s = slots.get('seconds') %}
+
+        {% set h_text = format_time(h, 'sat', 'sata', 'sati') %}
+        {% set m_text = format_time(m, 'minutu', 'minute', 'minuta') %}
+        {% set s_text = format_time(s, 'sekundu', 'sekunde', 'sekundi') %}
+
+        {% set text_list = (h_text if h_text.strip() else '') ~ ',' ~ (m_text if m_text.strip() else '') ~ ',' ~ (s_text if s_text.strip() else '') %}
+        {% set text_list = text_list.split(',') | select('string') | map('trim') | reject('equalto', '') | list %}
+
+        {% if text_list | length == 1 %}
+          {% set text = text_list[0] %}
+        {% elif text_list | length == 2 %}
+          {% set text = text_list | join(' i ') %}
+        {% else %}
+          {% set text = text_list[:-1] | join(', ') ~ ' i ' ~ text_list[-1] %}
+        {% endif %}
+
+        Timer postavljen na {{ text }}{{ name }}
+      command: >
+        {% macro format_time(value, singular, few, many) -%}
+          {% if value is not none %}
+            {% set number = 30 if value in ['pola', 'pol', '1/2'] else value | int(0) %}
+            {% if number % 10 == 1 and number % 100 != 11 %}
+              {{ number }} {{ singular }}
+            {% elif number % 10 in [2, 3, 4] and number % 100 not in [12, 13, 14] %}
+              {{ number }} {{ few }}
+            {% else %}
+              {{ number }} {{ many }}
+            {% endif %}
+          {% else %}
+            {{ '' }}
+          {% endif %}
+        {%- endmacro %}
+
+        {% set h = slots.get('hours') %}
+        {% set m = slots.get('minutes') %}
+        {% set s = slots.get('seconds') %}
+
+        {% set h_text = format_time(h, 'sat', 'sata', 'sati') %}
+        {% set m_text = format_time(m, 'minutu', 'minute', 'minuta') %}
+        {% set s_text = format_time(s, 'sekundu', 'sekunde', 'sekundi') %}
+
+        {% set text_list = (h_text if h_text.strip() else '') ~ ',' ~ (m_text if m_text.strip() else '') ~ ',' ~ (s_text if s_text.strip() else '') %}
+        {% set text_list = text_list.split(',') | select('string') | map('trim') | reject('equalto', '') | list %}
+
+        {% if text_list | length == 1 %}
+          {% set text = text_list[0] %}
+        {% elif text_list | length == 2 %}
+          {% set text = text_list | join(' i ') %}
+        {% else %}
+          {% set text = text_list[:-1] | join(', ') ~ ' i ' ~ text_list[-1] %}
+        {% endif %}
+
+        Naredba će se izvršiti za {{ text }}

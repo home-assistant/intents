@@ -1,0 +1,26 @@
+language: cs
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<otevrit> [ventil] {name} [<area>]"
+        requires_context:
+          domain: valve
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "<otevrit> (ventil[y];<area_floor>)"
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "<otevrit> (ventil[y];[<tady>])"
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: valve
+        response: valve

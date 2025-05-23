@@ -3,13 +3,34 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "(<turn_off>|<turn_off_light>) (svetlo|lampu) <area>"
+          - "<turn_off_light> {name}" # vypni modrú lampu (konkrétnu entitu)
+        requires_context:
+          domain: light
         slots:
           domain: light
-        response: "light"
+        response: light_named
+
       - sentences:
-          - "(<turn_off>|<turn_off_light>) [(všetky|všetko)] [(svetlá|osvetlenie|lampy)] [(v|vo|na|pred|pod|pri)] <area>"
+          - "(<turn_off>|<turn_off_light>) (svetlo|lampu) <area>" # zapni svetlo v spálni
+        slots:
+          domain: light
+        response: "light_unnamed"
+
+      - sentences:
+          - "(<turn_off>|<turn_off_light>) [(všetky|všetko)] [(svetlá|osvetlenie|lampy)] <area>" # vypni (všetky) svetlá v spálni
         slots:
           domain: light
           name: all
         response: "lights_area"
+
+      # satellite
+      - sentences:
+          - "([<here>];<turn_off_light>)" # vypni (tu) svetlo
+          - "(<turn_off>|<turn_off_light>) (svetlo|lampu)" # zapni svetlo/lampu
+          - "(<turn_off>|<turn_off_light>) [(všetky|všetko)] (svetlá|osvetlenie|lampy)" # zapni (všetky) lampy
+        slots:
+          domain: light
+        requires_context:
+          area:
+            slot: true
+        response: "lights_here"

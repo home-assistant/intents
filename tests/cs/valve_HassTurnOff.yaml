@@ -1,0 +1,66 @@
+language: cs
+tests:
+  - sentences:
+      - "zavřít sprinkler"
+      - "zavři ventil sprinkleru"
+      - "uzavři hlavní uzávěr vody"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: valve
+        name:
+          - Sprinkler
+          - Sprinkleru
+          - Hlavní uzávěr vody
+    response: "Zavřeno"
+
+  - sentences:
+      - "zavřít sprinkler zahrada"
+      - "zavři ventil sprinkleru na zahradě"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: valve
+        name:
+          - Sprinkler
+          - Sprinkleru
+        area:
+          - Zahrada
+          - Zahradě
+    response: "Zavřeno"
+
+  - sentences:
+      - "zavřít ventil zahrada"
+      - "zavři ventily na zahradě"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: valve
+        area:
+          - Zahrada
+          - Zahradě
+    response: "Zavřeno"
+
+  - sentences:
+      - "zavřít ventil spodní patro"
+      - "zavři ventil v přízemí"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: valve
+        floor:
+          - Spodní patro
+          - Přízemí
+    response: "Zavřeno"
+
+  - sentences:
+      - "zavřít ventil"
+      - "zavři tady ventily"
+    intent:
+      name: HassTurnOff
+      context:
+        area: Zahrada
+      slots:
+        domain: valve
+        area: Zahrada
+    response: "Zavřeno"

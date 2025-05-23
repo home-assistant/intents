@@ -1,0 +1,118 @@
+language: sk
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Nie sú spustené žiadne časovače.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Časovač je pozastavený.
+          {% else: %}
+            {# 2,3,4 pozastavené časovače #}
+            {# 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 pozastavených časovačov #}
+            {% if (num_paused_timers|string)[-1] in ["2", "3", "4"]: %}
+            {{ num_paused_timers }} pozastavené časovače.
+            {% else: %}
+            {{ num_paused_timers }} pozastavených časovačov.
+            {% endif %}
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {# 2,3,4 spustené časovače #}
+            {# 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 spustených časovačov #}
+            {% if (num_active_timers|string)[-1] in ["2", "3", "4"]: %}
+            {{ num_active_timers }} spustené časovače.
+            {% else: %}
+            {{ num_active_timers }} spustených časovačov.
+            {% endif %}
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 pozastavený časovač.
+          {% elif num_paused_timers > 0: %}
+            {# 2,3,4 pozastavené časovače #}
+            {# 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 pozastavených časovačov #}
+            {% if (num_paused_timers|string)[-1] in ["2", "3", "4"]: %}
+            {{ num_paused_timers }} pozastavené časovače.
+            {% else: %}
+            {{ num_paused_timers }} pozastavených časovačov.
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# At least one active timer #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            Zostáva jedna hodina a {{ next_timer.rounded_minutes_left }} {% if next_timer.rounded_minutes_left == 1: %}minúta{% elif (next_timer.rounded_minutes_left|string)[-1] in ["2", "3", "4"]: %}minúty{% else: %}minút{% endif %}
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            Zostáva jedna hodina
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {# 2,3,4 hodiny #}
+            {# 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 hodín #}
+            {# 1 minúta #}
+            {# 2,3,4 minúty #}
+            {# 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 minút #}
+            {# zostáva 1 #}
+            {# zostávajú 2, 3, 4 #}
+            {# zostáva 5, 6 ... #}
+            {% if next_timer.rounded_hours_left == 1: %}Zostáva{% elif (next_timer.rounded_hours_left|string)[-1] in ["2", "3", "4"]: %}Zostávajú{% else: %}Zostáva{% endif %} 
+            {{ next_timer.rounded_hours_left }} {% if (next_timer.rounded_hours_left|string)[-1] in ["2", "3", "4"]: %}hodiny{% else: %}hodín{% endif %} i 
+            {{ next_timer.rounded_minutes_left }} {% if next_timer.rounded_minutes_left == 1: %}minúta{% elif (next_timer.rounded_minutes_left|string)[-1] in ["2", "3", "4"]: %}minúty{% else: %}minút{% endif %}
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {% if next_timer.rounded_hours_left == 1: %}Zostáva{% elif (next_timer.rounded_hours_left|string)[-1] in ["2", "3", "4"]: %}Zostávajú{% else: %}Zostáva{% endif %} 
+            {{ next_timer.rounded_hours_left }} {% if (next_timer.rounded_hours_left|string)[-1] in ["2", "3", "4"]: %}hodiny{% else: %}hodín{% endif %}
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            Zostáva jedna minúta a {{ next_timer.rounded_seconds_left }} {% if next_timer.rounded_seconds_left == 1: %}sekunda{% elif (next_timer.rounded_seconds_left|string)[-1] in ["2", "3", "4"]: %}sekundy{% else: %}sekúnd{% endif %}
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            Zostáva jedna minúta
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {% if next_timer.rounded_minutes_left == 1: %}Zostáva{% elif (next_timer.rounded_minutes_left|string)[-1] in ["2", "3", "4"]: %}Zostávajú{% else: %}Zostáva{% endif %} {{ next_timer.rounded_minutes_left }} {% if (next_timer.rounded_minutes_left|string)[-1] in ["2", "3", "4"]: %}minúty{% else: %}minut{% endif %} a {{ next_timer.rounded_seconds_left }} {% if next_timer.rounded_seconds_left == 1: %}sekunda{% elif (next_timer.rounded_seconds_left|string)[-1] in ["2", "3", "4"]: %}sekundy{% else: %}sekúnd{% endif %}
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {% if next_timer.rounded_minutes_left == 1: %}Zostáva{% elif (next_timer.rounded_minutes_left|string)[-1] in ["2", "3", "4"]: %}Zostávajú{% else: %}Zostáva{% endif %} {{ next_timer.rounded_minutes_left }} {% if next_timer.rounded_minutes_left == 1: %}minúta{% elif (next_timer.rounded_minutes_left|string)[-1] in ["2", "3", "4"]: %}minúty{% else: %}minút{% endif %}
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            Zostáva jedna sekunda
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {% if next_timer.rounded_seconds_left == 1: %}Zostáva{% elif (next_timer.rounded_seconds_left|string)[-1] in ["2", "3", "4"]: %}Zostávajú{% else: %}Zostáva{% endif %} {{ next_timer.rounded_seconds_left }} {% if (next_timer.rounded_seconds_left|string)[-1] in ["2", "3", "4"]: %}sekundy{% else: %}sekúnd{% endif %}
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              na {{ next_timer.start_hours }} hodinovom a {{ next_timer.start_minutes }} minútovom časovači
+            {% elif (next_timer.start_hours > 0): %}
+              na {{ next_timer.start_hours }} hodinovom časovači
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              na {{ next_timer.start_minutes }} minútovom a {{ next_timer.start_seconds }} sekundovom časovači
+            {% elif (next_timer.start_minutes > 0): %}
+              na {{ next_timer.start_minutes }} minútovom časovači
+            {% elif (next_timer.start_seconds > 0): %}
+              na {{ next_timer.start_seconds }} sekundovom časovači
+            {% endif %}
+
+            {% if next_timer.name: %}
+              na časovači {{ next_timer.name }}.
+            {% elif next_timer.area: %}
+              v oblasti {{ next_timer.area }}.
+            {% endif %}
+          
+          {% else: %}
+            do vypršania.
+          {% endif %}
+        {% endif %}

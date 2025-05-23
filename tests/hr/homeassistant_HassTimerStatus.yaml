@@ -1,0 +1,56 @@
+language: hr
+tests:
+  - sentences:
+      - "status timera"
+      - "status mojih timera"
+      - "koji je status minutnika"
+      - "koliko je vremena preostalo na mojim timerima"
+      - "koliko vremena je ostalo na mojim timerima"
+      - "koliko je ostalo na mojim timerima"
+      - "koliko je vremena na mojim timerima"
+      - "koji su moji mjerači vremena"
+    intent:
+      name: HassTimerStatus
+    response: |
+      Broj aktivnih timera: 2. Broj pauziranih timera: 1. Preostalo je 5 minuta od 15 minuta na timeru u prostoriji kuhinja
+
+  - sentences:
+      - "status mjerača vremena od 1 sat"
+      - "status 1 satnog timera"
+      - "koliko je preostalo na timeru od 1 sat"
+      - "koliko je preostalo na 1 satnom timeru"
+      - "koliko vremena je ostalo na mom 1 satnom timeru"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 1
+    response: "Timer je pauziran. Preostalo je 1 minuta i 40 sekundi"
+
+  - sentences:
+      - "status pizza timera"
+      - "status timera pizza"
+      - "koliko je preostalo na pizza timeru"
+      - "koliko vremena je ostalo na pizza timeru"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name: "pizza"
+    response: "Preostalo je 25 minuta"
+
+  - sentences:
+      - "status kuhinjskog timera"
+      - "status timera u kuhinji"
+      - "status timera u prostoriji kuhinja"
+      - "koliko je vremena preostalo na kuhinjskom timeru"
+      - "koliko je vremena preostalo na timeru u kuhinji"
+      - "koliko je vremena ostalo na kuhinjskom timeru"
+      - "koliko je vremena ostalo na timeru u kuhinji"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area:
+          - "kuhinjskog"
+          - "kuhinji"
+          - "kuhinja"
+          - "kuhinjskom"
+    response: Nema timera. # ISSUE: https://github.com/home-assistant/intents/issues/2393

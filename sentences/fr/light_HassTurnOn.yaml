@@ -8,22 +8,24 @@ intents:
       # area
       - sentences:
           # Allume la lumiere du bureau
-          - "<allume> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{area}"
+          - "<allume> [<tous>] [<le>]<lumiere> [<dans>] [<le>]{area}"
           # Allume le bureau
           - "(<allume>|<eclaire>) [<le>]{area}"
           # Lumière dans le bureau
-          - "(<lumiere>|<lumieres>) [<dans>] [<le>]{area}"
+          - "<lumiere> [<dans>] [<le>]{area}"
         slots:
           domain: light
 
       # area + context awareness
       - sentences:
           # Allume toutes les lumieres ici
-          - "<allume> [<tous>] [<le>](<lumiere>|<lumieres>) <ici>"
+          - "<allume> [<tous>] [<le>]<lumiere> <ici>"
           # Allume les lumieres
-          - "<allume> [<le>](<lumiere>|<lumieres>)"
+          - "<allume> [<le>]<lumiere>"
           # Jacouille, allume les lumieres
           - (jour|jours)
+          # Éclaire cette pièce
+          - <eclaire> <ici>
         slots:
           domain: light
         requires_context:
@@ -35,8 +37,18 @@ intents:
 
       # all
       - sentences:
-          - <allume> [<le>](<lumiere>|<lumieres>) <partout>
-          - <allume> <tous> [<le>]<lumieres>
+          # Allume les lumieres de partout
+          - <allume> [<le>]<lumiere> <partout>
+          # Allume toutes lumieres
+          - <allume> <tous> [<le>]<lumiere>
+          # Allume toutes lumieres de la maison
+          - <allume> <tous> [<le>]<lumiere> <partout>
+          # Éclaire toutes la maison
+          - <eclaire> <partout>
+          # Allume complètement lumieres de la maison
+          - <allume> <completement> [<le>]<lumiere> <partout>
+          # Éclaire complètement la maison
+          - <eclaire> <completement> <partout>
         slots:
           domain: light
 
@@ -46,10 +58,14 @@ intents:
       # floor
       - sentences:
           # Allume la lumiere du premier étage
-          - "<allume> [<tous>] [<le>](<lumiere>|<lumieres>) [<dans>] [<le>]{floor}"
+          - "<allume> [<tous>] [<le>]<lumiere> [<dans>] [<le>]{floor}"
           # Allume le rez-de-chaussée
           - "(<allume>|<eclaire>) [<le>]{floor}"
           # Lumière au premier étage
-          - "(<lumiere>|<lumieres>) [<dans>] [<le>]{floor}"
+          - "<lumiere> [<dans>] [<le>]{floor}"
+          # Allume les lumieres dans toutes les pièces du premier étage
+          - "<allume> [<tous>] [<le>]<lumiere> [<dans>] [toutes] les pièces [<dans>] [<le>]{floor}"
+          # Éclaire toutes les pièces du premier étage
+          - "(<allume>|<eclaire>) [toutes] les pièces [<dans>] [<le>]{floor}"
         slots:
           domain: light

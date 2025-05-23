@@ -3,18 +3,30 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - <abre>  [(o|a)] [(porta|portão) da] garagem
-        response: cover
+          - "<abre> <artigos> [(porta|portão) da] garagem"
         slots:
           device_class: garage
           domain: cover
+        response: "cover"
 
       - sentences:
-          - <abre>  [as|os] [(cortinas | cortinados | estores | persianas)] <na_zona>
-        response: cover
+          - "<abre> <artigos> {cover_classes:device_class} <na_zona>"
         slots:
-          device_class:
-            - blind
-            - curtain
-            - shutter
           domain: cover
+        response: "cover"
+
+      - sentences:
+          - "<abre> <artigos> {cover_classes:device_class} <artigos> casa"
+        slots:
+          domain: cover
+        response: "cover"
+
+      # For satellite location
+      - sentences:
+          - "<abre> <artigos> {cover_classes:device_class} [aqui] [onde estou]"
+        slots:
+          domain: cover
+        requires_context:
+          area:
+            slot: true
+        response: "cover"

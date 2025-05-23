@@ -3,7 +3,7 @@ responses:
   intents:
     HassGetState:
       einzeln: |
-        {{ slots.name | capitalize }} ist {{ state.state_with_unit }}
+        {{ slots.name | capitalize }} ist {{ state.state_with_unit | replace(".", ",") if state.state|float(state.state) is number else state.state_with_unit }}
 
       einzeln_janein: |
         {% if query.matched %}
@@ -61,3 +61,27 @@ responses:
 
       wie_viele: |
         {{ query.matched | length }}
+
+      wo: |
+        {% if state.state == "home" %}
+          {{ slots.name | capitalize }} ist zu Hause
+        {% elif state.state == "not_home" %}
+          {{ slots.name | capitalize }} ist unterwegs
+        {% else %}
+          {{ slots.name | capitalize }} ist im Bereich {{ state.state }}
+        {% endif %}
+
+      wer: |
+        {% if not query.matched %}
+          Niemand
+        {% else: %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} und {{ (match | length - 3) }} weitere
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} und {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}

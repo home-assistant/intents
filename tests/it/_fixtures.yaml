@@ -1,17 +1,51 @@
 language: "it"
+floors:
+  - name: "Piano di sopra"
+    id: "piano_di_sopra_id"
+  - name: "Piano terra"
+    id: "piano_terra_id"
+  - name: "Primo piano"
+    id: "primo_piano_id"
+  - name: "Secondo piano"
+    id: "secondo_piano_id"
+  - name: "Seminterrato"
+    id: "seminterrato_id"
 areas:
   - name: "Cucina"
     id: cucina
+    floor: "primo_piano_id"
+
   - name: "Soggiorno"
     id: soggiorno
+    floor: "primo_piano_id"
+
   - name: "Camera da Letto"
     id: camera_da_letto
+    floor: "secondo_piano_id"
+
   - name: "Garage"
     id: garage
+    floor: "primo_piano_id"
+
   - name: "Bagno"
     id: bagno
+    floor: "secondo_piano_id"
   - name: "Esterno"
     id: esterno
+    floor: "piano_terra_id"
+
+  - name: "Entrata"
+    id: entrata
+    floor: "primo_piano_id"
+
+  - name: "Ufficio"
+    id: ufficio
+    floor: "seminterrato_id"
+
+  - name: "Stanza degli ospiti"
+    id: stanza_ospiti
+    floor: "piano_di_sopra_id"
+
 entities:
   - name: "Temperatura Esterna"
     id: sensor.temperatura_esterna
@@ -38,7 +72,9 @@ entities:
   - name: "Tenda Sinistra"
     id: cover.tenda_sinistra
     area: soggiorno
-    state: "aperta"
+    state:
+      in: "aperta"
+      out: "open"
     attributes:
       device_class: curtain
   - name: "Tenda Destra"
@@ -53,6 +89,13 @@ entities:
     state: "closed"
     attributes:
       device_class: curtain
+  - name: "Tapparella camera"
+    id: cover.camera
+    area: camera_da_letto
+    state: "closed"
+    attributes:
+      device_class: shutter
+      position: 10
   - name: "Garage"
     id: cover.porta_garage
     area: garage
@@ -77,6 +120,35 @@ entities:
     state: "idle"
     attributes:
       volume_level: "50"
+  - name: "Luca"
+    id: "person.luca"
+    state: "casa"
+  - name: "Cristina"
+    id: "person.cristina"
+    state: "Lavoro"
+  - name: "Fabio"
+    id: "person.fabio"
+    state: "not_home"
+  - name: "Trader Joe[']s"
+    id: "todo.trader_joes"
+    state: ""
+  - name: "Maggiordomo"
+    id: "vacuum.maggiordomo"
+    state: "idle"
+  - name: "Termostato"
+    id: "climate.termostato"
+    area: "soggiorno"
+    state: "heat"
+    attributes:
+      current_temperature: 68
+
+  - name: "Ufficio Termostato"
+    id: "climate.ufficio_termostato"
+    area: "ufficio"
+    state: "heat"
+    attributes:
+      current_temperature: 1
+
 timers:
   - is_active: false
     start_hours: 1

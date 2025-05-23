@@ -1,0 +1,18 @@
+language: da
+intents:
+  HassSetPosition:
+    data:
+      # name
+      - sentences:
+          - "(<sæt_numerisk_værdi>|<åbn>|<luk>) {name} [position] [til] <position_pct>"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      # device_class and area
+      - sentences:
+          - "(<sæt_numerisk_værdi>|<åbn>|<luk>) {cover_classes:device_class} ([til] <position_pct>;<i_på> {area})"
+          - "(<sæt_numerisk_værdi>|<åbn>|<luk>) {area} {cover_classes:device_class} [position] til <position_pct>"
+        slots:
+          domain: cover

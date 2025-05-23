@@ -47,37 +47,175 @@ lists:
         out: fan
       - in: (interrutor|interrutores)
         out: switch
+  cover_states:
+    values:
+      - in: "abert(o|a)[s]"
+        out: "open"
+      - in: "pechad(o|a)[s]"
+        out: "closed"
+      - in: "abréndose"
+        out: "opening"
+      - in: "pechándose"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: "toldo[s]"
+        out: awning
+      - in: persiana[s]
+        out: blind
+      - in: cortina[s]
+        out: curtain
+      - in: porta[s]
+        out: door
+      - in: (porta[s]|cancela[s]|portón|portons) de garaxe
+        out: garage
+      - in: verxa[s]|cancela[s]|portón|portons
+        out: gate
+      - in: estor[es]
+        out: shade
+      - in: (contraventá[s]|veneciana[s])
+        out: shutter
+      - in: ventá[s]
+        out: window
   shopping_list_item:
     wildcard: true
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   temperature:
     range:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_words_seconds:
     values:
-      - "celsius"
-      - in: "c"
-        out: "celsius"
-      - "fahrenheit"
-      - in: "f"
-        out: "fahrenheit"
+      - in: "un"
+        out: 1
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_words_minutes:
+    values:
+      - in: "un"
+        out: 1
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_words_hours:
+    values:
+      - in: "[d]unha"
+        out: 1
+  timer_half:
+    values:
+      - in: "medi(o|a)"
+        out: 30
+      - in: "1/2"
+        out: 30
+      - in: "[un |1 ]cuarto[ de]"
+        out: 15
+      - in: "(tres|3) cuartos[ de]"
+        out: 45
+      - in: "1/4"
+        out: 15
+      - in: "3/4"
+        out: 45
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
-  nome: "[o | a | os | as] {name}"
+  abre: "(abr(e|ir)|<sube>)"
+  acende: "(enciende[r]|acende[r]|prende[r]|activa[r])"
+  apaga: "(apag(a|ar)|desconect(a|ar)|desactiv(a|ar))"
   algun: "(algún|algunha|algúns|algunhas)"
-  area: "[en | no | na | de | do | da] {area}"
-  brightness: "{brightness}[%| porcento]"
-  cal: "(que|cal|cales)"
-  esta: "(está|están|existe|existen|hai)"
-  acende: "(acende | activa)"
+  area: "[en |no |na |de |do |da |o |a ]{area}"
+  baixa: "([a]baix(a|ar)|redu(ce|cir)|decrement(a|ar)|disminu(e|ir))"
+  porcento: "(%|por[ ]cen[to])"
+  brightness: "{brightness}[%| <porcento>]"
+  en: "en|no|na"
+  cal_e_a_medida_do_sensor: "([dime ]<cal> [é (a|o)] [(cantidade|medida)|nivel (de|da|do)] | cant(o|a)[s]) <class> (de|do|da|en|no|na|dende|<que_marca>) <nome> [<area>]"
+  cal_e: "([<dime> ]cal é [o |a ]|[<dime> ]cales son [os |as ]|[<dime> ]c(o|ó)mo (vai|está|marcha|se atopa)[n] [o |a |os |as ])"
+  cal: "(qu[e|é]|cal|cales)"
+  casa: "[d(e|o|a) | n(o|a) ](casa|apartamento|piso)"
+  cancela: "cancel(a[r])"
+  pecha: "((p|f)echa[r]|cerra[r]|<baixa>)"
+  crea: "(cre(a|ar))"
+  de_aqui: "[de ](aquí|acá|(n(o|a)) <habitación>)"
+  dime: "(d(í|i)[s|ga]me|sabes[ me][ d(e|i)cir])"
+  elimina: "(elimin(a|ar)|borr(a|ar))"
   engadir: "(engada | engade)"
-  por: "(por | pol(o|a)[s])"
+  esta: "(está|están|existe|existen|hai)"
+  establece: "(pon|establec(e|er)|axust(a|ar)|configur(a|ar)|cambi(a[r]))"
+  establece_abre_pecha: "(<establece>|<abre>|<pecha>)"
+  establece_sube_baixa: "(<establece>|<acende>|<sube>|<baixa>)"
+  inicia: "(inici(a|ar)|come[n](za|zar)|emp[i]e(za|zar))"
+  luces: "[(a|o)[s] ](luz|luces|lámpada[s]|bombilla[s]|foco[s]|interruptor[es][ da luz])"
+  meu: "(o meu|a miña|os meus|as miñas)"
+  nome: "[o |a |os |as |do |da ]{name}"
+  con: "(con|co|coa|cos|coas)"
+  continúa: "(contin(úa|uar)|(segue|segu(ir))|(reactiv(a|e|ar)))"
+  planta: "[n(o|a) |d(o|a) ][[a ]planta |[o ]piso ]{floor}[ planta| piso]"
+  para: "(para|pra)"
   poñer: "(poña | pon | meta | mete)"
-  temp: "[a] (temperatura)"
-  temperature: "{temperature} [graos] [{temperature_unit}]"
-  todos: "(todos|todas|tódolos|tódalas)"
+  por: "(por | pol(o|a)[s])"
   que_marca: "([que] (marca|indica|mide) | (indicad|medid|marcad)(a|o) <por> |[que] está (a (indicar | medir | marcar)|(indicando|medindo|marcando)))"
-  cal_e_a_medida_do_sensor: "(<cal> [é (a|o)] [(cantidade|medida)|nivel (de|da|do)] | cant(o|a)[s]) <class> (de|do|da|en|no|na|dende|<que_marca>) <nome> [<area>]"
+  temp: "[a] (temperatura)"
+  temperature: "{temperature} [graos]"
+  todos: "(todos[ os]|todas[ as]|tódolos|tódalas|cada un d(o|a)s)"
+  habitación: "(habitaci(ón|ons)|cuarto[s]|sala[s])"
+  posición: "{position}[ ][%|por[ ]cen[to]]"
+  todas_partes: "[en |de ][todas partes ][d(o|a) ]<casa>"
+  sube: "(sub(e|ir)|levant(a|ar)|aument(a|ar)|increment(a|ar))"
+  # Media player expansion rules
+  outra_vez: "(outra vez|de novo|unha vez máis)"
+  pista: "[a |o ](pista|canción|medio|vídeo|elemento|tema)"
+  anterior: "[a |o |ao ](anterior|últim(o|a)|de antes)"
+  seguinte: "[a |o |ao ](seguinte|próxim(o|a)|outr(o|a))"
+  pausa: "(pausa[r]|para[r]|detén|detén[er])"
+  salta: "(salta[r])"
+  volume: "{volume:volume_level} [<porcento>]"
+  volve: "((volve[r])|(regresa[r])|(retorna[r])|(retrocede[r]))"
+  reproduce: "(reprodu(ce|cir)|escoita[r]|oír|visualiza[r]|ver)"
+
+  # Temporizadores
+  temporizador: "[o |a ](temporizador|conta atrás)"
+  temporizadores: "[o |a |(o|a)s ](temporizador[es]|conta[s] atrás)"
+  timer_set: "(<establece>|<inicia>|<crea>)"
+  timer_cancel: "(<cancela>|<elimina>)"
+
+  nb_seconds: "({timer_seconds:seconds}|{timer_words_seconds:seconds})"
+  nb_minutes: "({timer_minutes:minutes}|{timer_words_minutes:minutes})"
+  nb_hours: "({timer_hours:hours}|{timer_words_hours:hours})"
+  nb_start_seconds: "({timer_seconds:start_seconds}|{timer_words_seconds:start_seconds})"
+  nb_start_minutes: "({timer_minutes:start_minutes}|{timer_words_minutes:start_minutes})"
+  nb_start_hours: "({timer_hours:start_hours}|{timer_words_hours:start_hours})"
+
+  timer_duration_seconds: "<nb_seconds> segundo[s]"
+  timer_duration_minutes: "((<nb_minutes> minuto[s][[,] [e ]<timer_duration_seconds>])|(<nb_minutes> minuto[s] e {timer_half:seconds})|({timer_half:seconds} minuto))"
+  timer_duration_hours: "(<nb_hours> hora[s][[,] [e ]<timer_duration_minutes>]|(<nb_hours> hora[s] e {timer_half:minutes}[[,] e (<timer_duration_seconds>|{timer_half:seconds} minuto)])|({timer_half:minutes} hora[[,] e (<timer_duration_seconds>|{timer_half:seconds} minuto)]))"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "[o |os ]<nb_start_seconds> segundo[s]"
+  timer_start_minutes: "[o |os ]<nb_start_minutes> minuto[s][[,] [e ]<nb_start_seconds> segundo[s]]"
+  timer_start_hours: "[o |os ]<nb_start_hours> hora[s][[,] [e ]<nb_start_minutes> minuto[s]][[,] [e ]<nb_start_seconds> segundo[s]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+
 skip_words:
   - "por favor"
   - "gracias"
@@ -86,5 +224,3 @@ skip_words:
   - "podes"
   - "podería"
   - "poderías"
-  - "dime"
-  - "dígame"

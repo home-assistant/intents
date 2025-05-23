@@ -2,9 +2,43 @@ language: da
 intents:
   HassTurnOn:
     data:
+      # Turn on a specific light
+      - sentences:
+          - "<tænd> [<lys>] <navn> [<i_på> <område>]"
+          - "<tænd> <område> <navn> [<lys>]"
+        requires_context:
+          domain: light
+
+      # Turn on all lights in an area
       - sentences:
           - "<tænd> [<al>] <lys> <i_på> <område>"
           - "<tænd> [<al>] <område> <lys>"
         slots:
           domain: light
-          name: all
+        response: light_area
+
+      # Turn on all lights on a floor
+      - sentences:
+          - "<tænd> [<al>] <lys> <i_på> <etage>"
+          - "<tænd> [<al>] <etage> <lys>"
+        slots:
+          domain: light
+        response: light_area
+
+      # Turn on all lights in the home
+      - sentences:
+          - "<tænd> <al> <lys> [overalt]"
+          - "<tænd> <lys> overalt"
+        slots:
+          domain: light
+        response: light_all
+
+      # Turn on lights in the same area as a satellite device
+      - sentences:
+          - "<tænd> [<al>] <lys> <her>"
+        slots:
+          domain: light
+        requires_context:
+          area:
+            slot: true
+        response: light_area

@@ -1,0 +1,45 @@
+language: pl
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Nie anulowano żadnego minutnika
+        {% else: %}
+          {% if slots.canceled | int | abs == 1 %}
+            {% set timers = 'minutnik' %}
+          {% elif slots.canceled | int | abs in [2, 3, 4] %}
+            {% set timers = 'minutniki' %}
+          {% elif slots.canceled | int | abs in [12, 13, 14] %}
+            {% set timers = 'minutników' %}
+          {% elif (slots.canceled | int | string)[-1] | int | abs in [2, 3, 4] %}
+            {% set timers = 'minutniki' %}
+          {% else %}
+            {% set timers = 'minutników' %}
+          {% endif %}
+        Anulowano {{ slots.canceled }} {{ timers }}
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Nie anulowano żadnego minutnika w {{ slots.area }}
+        {% else: %}
+          {% if slots.canceled | int | abs == 1 %}
+            {% set timers = 'minutnik' %}
+          {% elif slots.canceled | int | abs in [2, 3, 4] %}
+            {% set timers = 'minutniki' %}
+          {% elif slots.canceled | int | abs in [12, 13, 14] %}
+            {% set timers = 'minutników' %}
+          {% elif (slots.canceled | int | string)[-1] | int | abs in [2, 3, 4] %}
+            {% set timers = 'minutniki' %}
+          {% else %}
+            {% set timers = 'minutników' %}
+          {% endif %}
+        Anulowano {{ slots.canceled }} {{ timers }} w {{ slots.area }}
+        {% endif %}
+
+# Explanation and Examples:
+# 1 minutnik
+# 2, 3, 4 minutniki
+# 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 minutników
+# 22, 23, 24 minutniki
+# 25, 26, 27, 28, 29, 30 minutników

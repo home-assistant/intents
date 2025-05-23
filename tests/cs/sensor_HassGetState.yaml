@@ -1,37 +1,26 @@
 language: cs
 tests:
-  # Teplota
-  - sentences:
-      - "Jaká je teplota naměřená v obýváku"
-      - "Kolik stupňů je naměřeno v obýváku"
-    intent:
-      name: HassGetState
-      slots:
-        domain: sensor
-        device_class: temperature
-        name: "v obýváku"
-    response: "18 °C"
-
   # Apparent power
   - sentences:
-      - "Jaký je zdánlivý výkon na senzoru Hlavní přívod?"
+      - "Jaký je zdánlivý výkon na hlavním přívodu?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: apparent_power
-        name: "Hlavní přívod"
+        name: "hlavním přívodu"
     response: "2 VA"
 
   # AQI
   - sentences:
-      - "Jaká je kvalita vzduchu v kuchyni?"
+      - "Jaký je změřený index kvality vzduchu senzorem kvality vzduchu v kuchyni?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: aqi
-        name: "v kuchyni"
+        name: "kvality vzduchu"
+        area: "Kuchyni"
     response: "50"
 
   # Atmospheric pressure
@@ -49,6 +38,7 @@ tests:
   - sentences:
       - "jaká je úroveň nabití baterie mého telefonu?"
       - "jaký je stav baterie mého telefonu?"
+      - "jak je nabitá baterie mého telefonu?"
     intent:
       name: HassGetState
       slots:
@@ -59,35 +49,39 @@ tests:
 
   # CO2
   - sentences:
-      - "jaká je úroveň CO2 v obýváku"
+      - "jaká je úroveň CO2 na senzoru CO2 v obýváku"
+      - "jaká je změřená koncentrace CO2 senzorem CO2 v obýváku"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: carbon_dioxide
-        name: "v obýváku"
+        name: "CO2"
+        area: "obýváku"
     response: "50 ppm"
 
   # CO
   - sentences:
-      - "jaká je úroveň CO v obýváku"
+      - "jaká je úroveň CO na senzoru CO v obýváku"
+      - "jaká je změřená koncentrace CO senzorem CO v obýváku"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: carbon_monoxide
-        name: "v obýváku"
+        name: "CO"
+        area: "obýváku"
     response: "48 ppm"
 
   # Current
   - sentences:
-      - "jaký je elektrický proud nabíjení EV?"
+      - "jaký je elektrický proud nabíjení auta?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: current
-        name: "nabíjení EV"
+        name: "nabíjení auta"
     response: "15 A"
 
   # Data rate
@@ -103,17 +97,19 @@ tests:
 
   # Data size
   - sentences:
-      - "jaká je velikost souboru?"
+      - "jak je velký soubor log?"
+      - "jaká je velikost souboru log"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: data_size
-        name: "souboru"
+        name: "log"
     response: "106 kB"
 
   # Date
   - sentences:
+      - "jaké je datum svoz odpadu?"
       - "kdy bude svoz odpadu?"
     intent:
       name: HassGetState
@@ -124,16 +120,6 @@ tests:
     response: "Svoz odpadu je 2024-04-01"
 
   # Distance
-  - sentences:
-      - "jaká je vzdálenost do práce?"
-    intent:
-      name: HassGetState
-      slots:
-        domain: sensor
-        device_class: distance
-        name: "do práce"
-    response: "Do práce je 23 km"
-
   - sentences:
       - "jak dlouhý je dojezd elektromobilu?"
     intent:
@@ -157,25 +143,25 @@ tests:
 
   # Energy
   - sentences:
-      - "jaká je energie solární elektrárny?"
+      - "jaké je množství energie produkce solární elektrárny?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: energy
-        name: "solární elektrárny"
+        name: "produkce solární elektrárny"
     response: "3.2 kWh"
 
   # Energy storage
   - sentences:
-      - "Kolik je uložené energie v baterii?"
+      - "Kolik je uložené energie v akumulační baterii?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: energy_storage
-        name: "v baterii"
-    response: "V baterii je 6 kWh"
+        name: "akumulační baterii"
+    response: "6 kWh"
 
   # Frequency
   - sentences:
@@ -190,47 +176,60 @@ tests:
 
   # Gas
   - sentences:
-      - "jaký je objem plynu za měsíc?"
+      - "jaký je objem plynu spotřebovaný za měsíc?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: gas
-        name: "za měsíc"
+        name: "spotřebovaný za měsíc"
     response: "12 m³"
 
   # Humidity
   - sentences:
-      - "jaká je vlhkost vzduchu v obýváku?"
+      - "jaká je změřená vlhkost vzduchu na senzoru vlhkosti 1?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: humidity
-        name: "v obýváku"
-    response: "V obýváku je 48 %"
+        name: "vlhkosti 1"
+    response: "48 %"
+
+  - sentences:
+      - "jaká je relativní vlhkost vzduchu změřená senzorem vlhkosti 1 v obýváku?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: sensor
+        device_class: humidity
+        area: obýváku
+        name: "vlhkosti 1"
+    response: "48 %"
 
   # Illuminance
   - sentences:
-      - "jaká je intenzita světla v obýváku?"
+      - "jaká je změřená intenzita osvětlení senzorem intenzity světla v obýváku?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: illuminance
-        name: "v obýváku"
-    response: "V obýváku je 438 lux"
+        name: "intenzity světla"
+        area: "obýváku"
+    response: "438 lux"
 
   # Irradiance
   - sentences:
-      - "jaká je úroveň ozáření v obýváku?"
+      - "jaká je úroveň ozáření na senzoru radiace v obýváku?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: irradiance
-        name: "v obýváku"
-    response: "V obýváku je 155 W/m²"
+        name: "radiace"
+        area: "obýváku"
+    response: "155 W/m²"
 
   # Moisture
   - sentences:
@@ -245,7 +244,7 @@ tests:
 
   # Monetary
   - sentences:
-      - "kolik peněz je na účtě?"
+      - "kolik je peněz na účtě?"
     intent:
       name: HassGetState
       slots:
@@ -266,90 +265,94 @@ tests:
 
   # Nitrogen dioxide
   - sentences:
-      - "jaká je koncentrace NO2 v kotelně?"
+      - "jaká je změřená koncentrace oxidu dusičitého na senzoru NO2 na čerpadle?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: nitrogen_dioxide
-        name: "v kotelně"
+        name: "NO2 na čerpadle"
     response: "50 µg/m³"
 
   # Nitrogen monoxide
   - sentences:
-      - "jaká je koncentrace NO v kotelně?"
+      - "jaká je změřená koncentrace oxidu dusnatého na senzoru NO na čerpadle?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: nitrogen_monoxide
-        name: "v kotelně"
+        name: "NO na čerpadle"
     response: "50 µg/m³"
 
   # Nitrogen oxide
   - sentences:
-      - "jaká je koncentrace N2O v kotelně?"
+      - "jaká je změřená koncentrace oxidu dusného na senzoru N2O na čerpadle?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: nitrous_oxide
-        name: "v kotelně"
+        name: "N2O na čerpadle"
     response: "50 µg/m³"
 
   # Ozone
   - sentences:
-      - "jaká je koncentrace ozonu v obýváku?"
+      - "jaká je naměřená koncentrace ozonu senzorem ozonu v obýváku?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: ozone
-        name: "v obýváku"
+        name: "ozonu"
+        area: "obýváku"
     response: "50 µg/m³"
 
   # PM1
   - sentences:
-      - "jaká je koncentrace částic pm1 v obýváku?"
+      - "jaká je naměřená koncentrace částic pm1 na senzoru množství částic pm1 v obýváku?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: pm1
-        name: "v obýváku"
+        name: "množství částic pm1"
+        area: "obýváku"
     response: "50 µg/m³"
 
   # PM2.5
   - sentences:
-      - "jaká je koncentrace částic pm2.5 v obýváku?"
+      - "jaká je naměřená koncentrace částic pm2.5 na senzoru množství částic pm2.5 v obýváku?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: pm25
-        name: "v obýváku"
+        name: "množství částic pm2.5"
+        area: "obýváku"
     response: "50 µg/m³"
 
   # PM10
   - sentences:
-      - "jaká je koncentrace částic pm10 v obýváku?"
+      - "jaká je naměřená koncentrace částic pm10 na senzoru množství částic pm10 v obýváku?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: pm10
-        name: "v obýváku"
+        name: "množství částic pm10"
+        area: "obýváku"
     response: "50 µg/m³"
 
   # Power factor
   - sentences:
-      - "jaký je účiník spotřeby domu?"
+      - "jaký je účiník lednice?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: power_factor
-        name: "spotřeby domu"
+        name: "lednice"
     response: "2"
 
   # Power
@@ -431,46 +434,59 @@ tests:
 
   # Speed
   - sentences:
-      - "jaká je rychlost EV?"
+      - "jaká je rychlost auta?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: speed
-        name: "EV"
+        name: "auta"
     response: "67 km/h"
 
   # Sulphur dioxide
   - sentences:
-      - "jaká je koncentrace SO2 ve vzduchu?"
+      - "jaká je změřená koncentrace oxidu siřičitého na senzoru SO2 ve vzduchu?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: sulphur_dioxide
-        name: "ve vzduchu"
+        name: "SO2 ve vzduchu"
     response: "50 µg/m³"
+
+  # Teplota
+  - sentences:
+      - "Jaká je teplota naměřená teploměrem v obýváku"
+      - "Kolik stupňů je změřeno teploměrem v obýváku"
+    intent:
+      name: HassGetState
+      slots:
+        domain: sensor
+        device_class: temperature
+        name: "Teploměrem"
+        area: obýváku
+    response: "18 °C"
 
   # VOC
   - sentences:
-      - "jaké je množství volných organických látek ve vzduchu?"
+      - "jaké je změřené množství volných organických látek senzorem množství VOC ve vzduchu?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: volatile_organic_compounds
-        name: "ve vzduchu"
+        name: "množství VOC ve vzduchu"
     response: "35 µg/m³"
 
   # VOC in parts
   - sentences:
-      - "jaká je koncentrace volných organických látek ve vzduchu?"
+      - "jaká je změřená koncentrace volných organických látek senzorem koncentrace částic VOC ve vzduchu?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: volatile_organic_compounds_parts
-        name: "ve vzduchu"
+        name: "koncentrace částic VOC ve vzduchu"
     response: "35 ppm"
 
   # Voltage
@@ -508,24 +524,24 @@ tests:
 
   # Water
   - sentences:
-      - "jaký je objem vody naměřený senzorem voda?"
+      - "jaký je objem vody naměřený senzorem spotřebovaná voda?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: water
-        name: "voda"
+        name: "spotřebovaná voda"
     response: "5987 L"
 
   # Weight
   - sentences:
-      - "jaká je hmotnost na senzoru postel?"
+      - "jaká je naměřená váha na posteli?"
     intent:
       name: HassGetState
       slots:
         domain: sensor
         device_class: weight
-        name: "postel"
+        name: "posteli"
     response: "87 kg"
 
   # Wind speed

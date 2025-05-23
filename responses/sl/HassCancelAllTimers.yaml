@@ -1,0 +1,29 @@
+---
+language: sl
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1 %}
+        Noben časovnik ni bil preklican.
+        {% elif slots.canceled == 1 %}
+        Preklican je bil 1 časovnik.
+        {% elif slots.canceled == 2 %}
+        Preklicana sta bila 2 časovnika.
+        {% elif slots.canceled | int > 2 and slots.canceled | int < 5 %}
+        Preklicani so bili {{ slots.canceled }} časovniki.
+        {% else %}
+        Preklicanih je bilo {{ slots.canceled }} časovnikov.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1 %}
+        Noben časovnik ni bil preklican v območju {{ slots.area }}.
+        {% elif slots.canceled == 1 %}
+        Preklican je bil 1 časovnik v območju {{ slots.area }}.
+        {% elif slots.canceled == 2 %}
+        Preklicana sta bila 2 časovnika v območju {{ slots.area }}.
+        {% elif slots.canceled | int > 2 and slots.canceled | int < 5 %}
+        Preklicani so bili {{ slots.canceled }} časovniki v območju {{ slots.area }}.
+        {% else %}
+        Preklicanih je bilo {{ slots.canceled }} časovnikov v območju {{ slots.area }}.
+        {% endif %}

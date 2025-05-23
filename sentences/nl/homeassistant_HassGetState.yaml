@@ -2,31 +2,94 @@ language: nl
 intents:
   HassGetState:
     data:
-      - sentences:
-          - Wat is [<in> <area>] [[de] [huidige] <staat> [van]] [<area>][ ]<name>[ ][<type>][ ][<staat>] [<in> <area>]
-          - "[<in> <area>] [de] [huidige] <staat> [van] [<area>][ ]<name>[ ][<type>] [<in> <area>]"
-          - "[<in> <area>][ ]<name>[ ][<type>][ ]<staat> [<in> <area>]"
+      - sentences: &one_sentences
+          - Wat is [[de] [huidige] <state> [van]] [<area>[ ]]<name_type>[ ][<state>]
+          - Wat is ([<in>] <area>;[[de] [huidige] <state> [van]] <name_type>[ ][<state>])
+          - "[de] [huidige] <state> [van] [<area>][ ]<name_type>"
+          - "([<in>] <area>;[de] [huidige] <state> [van] <name_type>)"
+          - "[<area>[ ]]<name_type>[ ]<state>"
+          - "([<in>] <area>;<name_type>[ ]<state>)"
+        expansion_rules:
+          name_type: <name>
         response: one
 
-      - sentences:
-          - <is> [<in> <area>] [[de] [huidige] <staat> [van]] <name>[ ][<type>][ ][<staat>] [<in> <area>] [op] {on_off_states:state} [<in> <area>]
+      - sentences: &one_yesno_sentences
+          - <is> [[de] huidige] <name_type>[[ ]<state>] [op] {on_off_states:state} [[<in>] <area>]
+          - <is> [[de] huidige] <state> [van] <name_type> [op] {on_off_states:state} [[<in>] <area>]
+          - <is> ([<in>] <area>;[[de] huidige] <name_type>[[ ]<state>]) [op] {on_off_states:state}
+          - <is> ([<in>] <area>;[[de] huidige] <state> [van] <name_type>) [op] {on_off_states:state}
+        expansion_rules:
+          name_type: <name>
         response: one_yesno
         excludes_context:
           domain:
             - cover
 
+      - sentences: *one_sentences
+        expansion_rules:
+          name_type: <name>[ ]<light>
+        response: one
+        requires_context:
+          domain:
+            - light
+
+      - sentences: *one_yesno_sentences
+        expansion_rules:
+          name_type: <name>[ ]<light>
+        response: one_yesno
+        requires_context:
+          domain:
+            - light
+
+      - sentences: *one_sentences
+        expansion_rules:
+          name_type: <name>[ ]<switch>
+        response: one
+        requires_context:
+          domain:
+            - switch
+
+      - sentences: *one_yesno_sentences
+        expansion_rules:
+          name_type: <name>[ ]<switch>
+        response: one_yesno
+        requires_context:
+          domain:
+            - switch
+
+      - sentences: *one_sentences
+        expansion_rules:
+          name_type: <name>[ ]<fan>
+        response: one
+        requires_context:
+          domain:
+            - fan
+
+      - sentences: *one_yesno_sentences
+        expansion_rules:
+          name_type: <name>[ ]<fan>
+        response: one_yesno
+        requires_context:
+          domain:
+            - fan
+
       - sentences:
-          - <is> er [<in> <area>] {on_off_domains:domain} [<in> <area>] {on_off_states:state} [<in> <area>]
+          - <is> er {on_off_domains:domain} {on_off_states:state} [[<in>] <area>]
+          - <is> er ({on_off_domains:domain};[<in>] <area>) {on_off_states:state}
         response: any
 
       - sentences:
-          - <is> [<in> <area>] [<alle>] [de] {on_off_domains:domain} [<in> <area>] {on_off_states:state} [<in> <area>]
+          - <is> [<all>] [de] {on_off_domains:domain} {on_off_states:state}
+          - <is> [<all>] [de] {on_off_domains:domain} ([<in>] <area>;{on_off_states:state})
+          - <is> ([<in>] <area>;[<all>] [de] {on_off_domains:domain}) {on_off_states:state}
         response: all
 
       - sentences:
-          - Welk[e] {on_off_domains:domain} [<in> <area>] <is> [<in> <area>] {on_off_states:state} [<in> <area>]
+          - Welk[e] {on_off_domains:domain} <is> [[<in>] <area>] {on_off_states:state}
+          - Welk[e] {on_off_domains:domain} ([<in>] <area>;<is> {on_off_states:state})
         response: which
 
       - sentences:
-          - Hoe[ ]veel {on_off_domains:domain} <is> [er] [<in> <area>] {on_off_states:state} [<in> <area>]
+          - Hoe[ ]veel {on_off_domains:domain} <is> [er] {on_off_states:state}
+          - Hoe[ ]veel {on_off_domains:domain} <is> [er] ([<in>] <area>;{on_off_states:state})
         response: how_many

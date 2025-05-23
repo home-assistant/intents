@@ -64,19 +64,12 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - "celsius"
-      - in: "c"
-        out: "celsius"
-      - "fahrenheit"
-      - in: "f"
-        out: "fahrenheit"
+      fractions: "halves"
   brightness_level:
     values:
       - in: (max|maximum|highest)
         out: 100
-      - in: (minimum|lowest)
+      - in: (min|minimum|lowest)
         out: 1
   on_off_states:
     values:
@@ -96,11 +89,11 @@ lists:
     values:
       - in: "open"
         out: "open"
-      - in: "closed"
+      - in: "(closed|shut)"
         out: "closed"
       - in: "opening"
         out: "opening"
-      - in: "closing"
+      - in: "(closing|shutting)"
         out: "closing"
   cover_classes:
     values:
@@ -124,7 +117,7 @@ lists:
         out: window
   lock_states:
     values:
-      - in: "[securely ]locked"
+      - in: "[securely] locked"
         out: "locked"
       - in: "unlocked"
         out: "unlocked"
@@ -134,7 +127,7 @@ lists:
     values:
       - in: "low"
         out: "on"
-      - in: "normal"
+      - in: "(normal|charged)"
         out: "off"
 
   bs_battery_charging_states:
@@ -169,14 +162,14 @@ lists:
     values:
       - in: "open"
         out: "on"
-      - in: "closed"
+      - in: "(closed|shut)"
         out: "off"
 
   bs_garage_door_states:
     values:
       - in: "open"
         out: "on"
-      - in: "closed"
+      - in: "(closed|shut)"
         out: "off"
 
   bs_gas_states:
@@ -232,7 +225,7 @@ lists:
     values:
       - in: "open"
         out: "on"
-      - in: "closed"
+      - in: "(closed|shut)"
         out: "off"
 
   bs_plug_states:
@@ -244,7 +237,7 @@ lists:
 
   bs_power_states:
     values:
-      - in: "(powered[ on]|power detected)"
+      - in: "(powered [on]|power detected)"
         out: "on"
       - in: "(not powered|powered off)"
         out: "off"
@@ -253,7 +246,7 @@ lists:
     values:
       - in: "(home|present)"
         out: "on"
-      - in: "(away|not present)"
+      - in: "(away|not (home|present)|gone)"
         out: "off"
 
   bs_problem_states:
@@ -316,10 +309,13 @@ lists:
     values:
       - in: "open"
         out: "on"
-      - in: "clear"
-        out: "closed"
+      - in: "(closed|shut)"
+        out: "off"
 
   shopping_list_item:
+    wildcard: true
+
+  todo_list_item:
     wildcard: true
 
   zone:
@@ -360,42 +356,50 @@ lists:
   timer_command:
     wildcard: true
 
+  message:
+    wildcard: true
+
+  search_query:
+    wildcard: true
+
 expansion_rules:
-  name: "[the ]{name}"
-  area: "[the ]{area}"
-  floor: "[the ]{floor}[ floor]"
+  the: "(the|my|our)"
+  name: "[<the>] {name}"
+  area: "[<the>] {area}"
+  floor: "[<the>] {floor} [floor]"
   area_floor: "(<area>|<floor>)"
-  in_area_floor: "[<in> ]<area_floor>"
-  what_is: "(what's|whats|what is|tell me)[ the]"
-  lockable: "[(the|my) ](lock|door|window|gate|garage door|shutter)[s]"
+  in_area_floor: "[<in>] <area_floor>"
+  what_is: "(what's|whats|what is|tell me) [<the>]"
+  lockable: "[<the>] (lock|door|window|gate|garage door|shutter)[s]"
   where_is: "(where's|wheres|where is)"
-  which: "(which|what)[ of the]"
-  is: "(is|are)[ (there|the)]"
+  which: "(which|what) [of <the>]"
+  is: "(is|are) [(there|<the>)]"
   are: "<is>"
-  any: "(any|some)[ of the]"
-  are_any: "[<are> ]<any>"
-  how_many: "how many[ of the]"
-  brightness: "{brightness}[[ ]%| percent]"
-  light: "[the ](light|lights|lighting|lamp|lamps)"
-  turn: "(turn|switch|change)"
+  any: "(any|some) [of <the>]"
+  are_any: "[<are>] <any>"
+  how_many: "how many [of <the>]"
+  brightness: "{brightness}[([ ]%)| percent]"
+  light: "(light|lights|lighting|lamp|lamps)"
+  turn: "(turn|switch|change|bring)"
   temp: "(temp|temperature)"
-  temperature: "{temperature}[([ ]°[ ][{temperature_unit}])|( degrees[ {temperature_unit}])]"
-  open: "(open|raise|lift)[ up]"
-  close: "(close|shut|lower)[ (up|down)]"
+  temperature: "{temperature}[([ ]°)|( degree[s])]"
+  open: "(open|raise|lift) [up]"
+  close: "(close|shut|lower) [(up|down)]"
   set: "(set|make|change|turn)"
-  numeric_value_set: "(set|change|turn[ (up|down)]|increase|decrease|make)"
-  in: "(in|on|at|of)"
-  position: "{position}[[ ]%| percent]"
-  volume: "{volume:volume_level}[[ ]%| percent]"
+  numeric_value_set: "(set|change|turn [(up|down)]|increase|decrease|make)"
+  in: "(in|on|at|of|across|around|throughout)"
+  position: "{position}[([ ]%)| percent]"
+  volume: "{volume:volume_level}[([ ]%)| percent]"
   currently: "(currently|presently|right now|at the moment)"
-  state: "[(present|current) ](state|status)"
+  state: "[(present|current)] (state|status)"
+  clean: (vacuum|clean)
 
   # Context awareness expansion rules
-  all: "(all[[ of] the]|every[ single]|each[ and every])"
-  are_all: "[<are> ]<all>"
-  home: "(home|house|appartment|flat)"
-  everywhere: "(everywhere|in (all|each)[[ of] the] room[s]|in every room[s]|in the <home>)"
-  here: "(here|in here|in this room|in the room)"
+  all: "(all [[of] <the>]|every [single]|each [and every])"
+  are_all: "[<are>] <all>"
+  home: "(home|house|apartment|flat)"
+  everywhere: "(everywhere|all over|[<in>] <the> [(entire|whole)] <home>|[<in>] <all> (room|area|floor)[s])"
+  here: "([in] here|[in] (this|<the>) (room|area|space))"
 
   # Questions
   what_is_the_class_of_name: "(<what_is> the <class> (of|in|from|(indicated|measured) by) <name> [in <area>]|<what_is> <name>['s] <class> [in <area>]|<what_is> <area> <name>['s] <class>)"
@@ -404,16 +408,21 @@ expansion_rules:
   timer_set: "(start|set|create)"
   timer_cancel: "(cancel|stop)"
   timer_duration_seconds: "{timer_seconds:seconds} second[s]"
-  timer_duration_minutes: "({timer_minutes:minutes} minute[s][ [and ]{timer_seconds:seconds} second[s]])|({timer_minutes:minutes} and[ a] {timer_half:seconds} minute[s])|({timer_half:seconds} a minute[s])"
-  timer_duration_hours: "({timer_hours:hours} hour[s][ [and ]{timer_minutes:minutes} minute[s]][ [and ]{timer_seconds:seconds} second[s]])|({timer_hours:hours} and[ a] {timer_half:minutes} hour[s])|({timer_half:minutes} an hour[s])"
+  timer_duration_minutes: "({timer_minutes:minutes} minute[s] [[and] {timer_seconds:seconds} second[s]])|({timer_minutes:minutes} and [a] {timer_half:seconds} minute[s])|({timer_half:seconds} a minute[s])"
+  timer_duration_hours: "({timer_hours:hours} hour[s] [[and] {timer_minutes:minutes} minute[s]] [[and] {timer_seconds:seconds} second[s]])|({timer_hours:hours} and [a] {timer_half:minutes} hour[s])|({timer_half:minutes} an hour[s])"
   timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
 
   timer_start_seconds: "{timer_seconds:start_seconds} second[s]"
-  timer_start_minutes: "{timer_minutes:start_minutes} minute[s][ [and ]{timer_seconds:start_seconds} second[s]]"
-  timer_start_hours: "{timer_hours:start_hours} hour[s][ [and ]{timer_minutes:start_minutes} minute[s]][ [and ]{timer_seconds:start_seconds} second[s]]"
+  timer_start_minutes: "{timer_minutes:start_minutes} minute[s] [[and] {timer_seconds:start_seconds} second[s]]"
+  timer_start_hours: "{timer_hours:start_hours} hour[s] [[and] {timer_minutes:start_minutes} minute[s]] [[and] {timer_seconds:start_seconds} second[s]]"
   timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - "please"
   - "can you"
+  - "could you"
   - "would you"
+  - "for me"
+  - "i'd like"
+  - "i'd like to"
+  - "i want"

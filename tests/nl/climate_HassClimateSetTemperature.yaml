@@ -1,24 +1,84 @@
 language: nl
 tests:
+  # current area or floor
   - sentences:
       - "Zet de temperatuur op 19 graden"
+      - "Zet de verwarming op 19 graden"
       - "Mag de temperatuur op 19?"
+      - "Mag de verwarming op 19?"
       - "Verander de temperatuur naar 19"
       - "Verlaag de temperatuur naar 19"
       - "Temperatuur 19 graden"
+      - "Verwarming 19 graden"
+      - "Temperatuur op 19 zetten"
+      - "Verwarming op 19 zetten"
+      - "wil je de temperatuur naar 19 graden draaien"
+      - "wil je de verwarming naar 19 graden draaien"
+      - "zet naar 19 graden"
     intent:
       name: HassClimateSetTemperature
       slots:
         temperature: 19
+    response: "Temperatuur ingesteld op 19 graden"
 
+  # by area
   - sentences:
       - "Verander de temperatuur naar 19 graden in de woonkamer"
       - "Zet de woonkamer temperatuur op 19"
+      - "Zet de woonkamer verwarming op 19"
       - "Verhoog de woonkamertemperatuur naar 19 graden"
       - "Verlaag de temperatuur in de woonkamer naar 19 graden"
+      - "Verlaag de verwarming in de woonkamer naar 19 graden"
+      - "Zet de verwarming in de woonkamer op 19 graden"
       - "Woonkamer 19 graden"
+      - "wil je de woonkamertemperatuur naar 19 graden zetten"
+      - "wil je de woonkamerverwarming naar 19 graden zetten"
+      - "zet woonkamer op 19 graden"
+      - "woonkamer naar 19 graden draaien"
     intent:
       name: HassClimateSetTemperature
       slots:
         temperature: 19
         area: Woonkamer
+    response: "Temperatuur ingesteld op 19 graden"
+
+  # by floor
+  - sentences:
+      - "Verander de temperatuur naar 19 graden op de eerste verdieping"
+      - "Zet de eerste verdieping temperatuur op 19"
+      - "Verhoog de eerste verdiepingtemperatuur naar 19 graden"
+      - "Verlaag de temperatuur op de eerste verdieping naar 19 graden"
+      - "Eerste verdieping 19 graden"
+      - "wil je de eerste verdieping temperatuur naar 19 graden zetten"
+      - "zet eerste verdieping op 19 graden"
+      - "eerste verdieping naar 19 graden draaien"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        temperature: 19
+        floor: Eerste Verdieping
+    response: "Temperatuur ingesteld op 19 graden"
+
+  # By climate entity name
+  - sentences:
+      - "zet de temperatuur van de woonkamerthermostaat op 1"
+      - "zet de woonkamerthermostaattemperatuur op 1°"
+      - "kun je woonkamerthermostaattemperatuur op 1 graad zetten"
+      - "kun je de temperatuur van de woonkamerthermostaat naar 1 draaien"
+      - "zet woonkamerthermostaat naar 1 graad"
+      - "wil je woonkamerthermostaat naar 1 graad zetten"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        name: "Woonkamerthermostaat"
+        temperature: 1
+    response: "Temperatuur ingesteld op 1 graad"
+
+  # using fractions
+  - sentences:
+      - "Zet de temperatuur op 19.5 graden"
+    intent:
+      name: HassClimateSetTemperature
+      slots:
+        temperature: 19.5
+    response: "Temperatuur ingesteld op 19.5 graden"

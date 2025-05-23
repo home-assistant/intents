@@ -1,27 +1,55 @@
 language: ar
 tests:
+  # Turn on all lights in an area
   - sentences:
-      - "اطفئ جميع الاضواء في المطبخ"
-      - "اغلق الاضواء في المطبخ"
-      - "اطفئ ضوء داخل المطبخ"
-      - "اطفئ ضوء المطبخ"
+      - "طفي جميع الاضواء في المطبخ"
+      - "طفي ضوء داخل المطبخ"
+      - "طفي ضوء المطبخ"
     intent:
       name: HassTurnOff
       slots:
-        domain: light
         area: المطبخ
-        name: all
-    response: "تم اطفاء الاضواء"
+        domain: light
+    response: "تم إطفاء الأضواء"
 
+  # Turn on all lights in the home
   - sentences:
-      - "اطفئ جميع الاضواء"
-      - "اطفئ كل الاضواء"
-      - "طفي الاضواء"
-      - "اطفئ اضواء"
-      - "طفي ضوء"
+      - "طفي جميع الأضواء"
+      - "طفي كل الأضواء"
+      - "أطفئ جميع الأضواء"
+      - "طفي جميع الأضواء في كل المناطق"
+      - "طفي جميع الأضواء في كل الغرف"
+      - "طفي في كل مكان الاضواء"
     intent:
       name: HassTurnOff
       slots:
         domain: light
-        name: all
-    response: "تم اطفاء جميع الاضواء"
+    response: "تم إطفاء جميع الأضواء"
+
+  # Turn on lights in the same area as a satellite device
+  - sentences:
+      - "طفي جميع الاضواء هون"
+      - "طفي كل الاضواء هون"
+    intent:
+      name: HassTurnOff
+      context:
+        area: Living Room
+      slots:
+        domain: light
+        area: Living Room
+    response: "تم إطفاء الأضواء"
+
+  # Turn on all lights on a floor
+  - sentences:
+      - "طفي جميع الأضواء في الطابق الأول"
+      - "طفي جميع الأضواء الطابق الأول"
+      - "طفي جميع أضواء الطابق الأول"
+      - "طفي أضواء الطابق الأول"
+      - "أطفئ جميع أضواء الطابق الأول"
+      - "أطفئ جميع الأضواء في الطابق الأول"
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        floor: الطابق الأول
+    response: "تم إطفاء الأضواء"

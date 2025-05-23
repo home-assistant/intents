@@ -1,0 +1,16 @@
+---
+language: da
+responses:
+  intents:
+    HassDecreaseTimer:
+      default: >
+        {% set h = slots.hours if slots.hours is defined else none %}
+        {% set m = slots.minutes if slots.minutes is defined else none %}
+        {% set s = slots.seconds if slots.seconds is defined else none %}
+        {% set h_text = h ~ (' time'  if h in [ "1", 'one'] else ' timer') if h else '' %}
+        {% set m_text = m ~ (' minut' if m in [ "1", 'one'] else ' minutter') if m else '' %}
+        {% set s_text = s ~ (' sekund' if s in [ "1", 'one'] else ' sekunder') if s else '' %}
+        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
+        {% set text = text_list[:-1] | join(', ') ~ ' og ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' og ') %}
+        {% set name = (slots.name | trim) if slots.name is defined else '' %}
+        {{ text }} trukket fra {{ name }} nedtællingen

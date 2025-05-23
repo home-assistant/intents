@@ -1,0 +1,101 @@
+---
+language: hu
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Nincsenek időzítők.
+        {% elif num_active_timers == 0: %}
+          {# Nincsenek aktív időzítők #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Az időzítő szüneteltetve van.
+          {% else: %}
+            {{ num_paused_timers }} szüneteltetett időzítő.
+          {% endif %}
+        {% else: %}
+          {# Legalább egy aktív időzítő van #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# A legközelebb lejáró aktív időzítő kiválasztása #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} futó időzítő.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 szüneteltetett időzítő.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} szüneteltetett időzítő.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# Legalább egy aktív időzítő van #}
+          {% if (next_timer.rounded_hours_left > 0) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} óra {{ next_timer.rounded_minutes_left }} perc
+          {% elif (next_timer.rounded_hours_left > 0): %}
+            {{ next_timer.rounded_hours_left }} óra
+          {% elif (next_timer.rounded_minutes_left > 0) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} perc {{ next_timer.rounded_seconds_left }} másodperc
+          {% elif (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} perc
+          {% elif (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_seconds_left }} másodperc
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# További információk a pontosabb megkülönböztetéshez #}
+            van hátra
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {% if next_timer.start_hours in [1, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] or next_timer.start_minutes in [1, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] %}
+                az {{ next_timer.start_hours }} óra {{ next_timer.start_minutes }} perces
+              {% else %}
+                a {{ next_timer.start_hours }} óra {{ next_timer.start_minutes }} perces
+              {% endif %}
+            {% elif (next_timer.start_hours > 0): %}
+              {% if next_timer.start_hours in [1, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] %}
+                az {{ next_timer.start_hours }} órás
+              {% else %}
+                a {{ next_timer.start_hours }} órás
+              {% endif %}
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {% if next_timer.start_minutes in [1, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] or next_timer.start_seconds in [1, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] %}
+                az {{ next_timer.start_minutes }} perc {{ next_timer.start_seconds }} másodperces
+              {% else %}
+                a {{ next_timer.start_minutes }} perc {{ next_timer.start_seconds }} másodperces
+              {% endif %}
+            {% elif (next_timer.start_minutes > 0): %}
+              {% if next_timer.start_minutes in [1, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] %}
+                az {{ next_timer.start_minutes }} perces
+              {% else %}
+                a {{ next_timer.start_minutes }} perces
+              {% endif %}
+            {% elif (next_timer.start_seconds > 0): %}
+              {% if next_timer.start_seconds in [1, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59] %}
+                az {{ next_timer.start_seconds }} másodperces
+              {% else %}
+                a {{ next_timer.start_seconds }} másodperces
+              {% endif %}
+            {% endif %}
+
+            {% if next_timer.name: %}
+              {{ next_timer.name }} nevű
+            {% elif next_timer.area: %}
+              {{ next_timer.area }} helyen indított
+            {% endif %}
+
+            időzítőből.
+          {% else: %}
+            van hátra.
+          {% endif %}
+        {% endif %}

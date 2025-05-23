@@ -1,0 +1,90 @@
+language: he
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          אין טיימרים.
+        {% elif num_active_timers == 0: %}
+          {# אין טיימרים פעילים #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            טיימר מושהה.
+          {% else: %}
+            {{ num_paused_timers }} טיימרים מושהים.
+          {% endif %}
+        {% else: %}
+          {# לפחות טיימר פעיל אחד #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# קבלת הטיימר הפעיל שיסתיים בקרוב ביותר #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} טיימרים פעילים.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 טיימר מושהה.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} טיימרים מושהים.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# לפחות טיימר פעיל אחד #}
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            שעה אחת ו{{ next_timer.rounded_minutes_left }} דקות
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            שעה אחת
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} שעות ו{{ next_timer.rounded_minutes_left }} דקות
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} שעות
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            דקה אחת ו{{ next_timer.rounded_seconds_left }} שניות
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            דקה אחת
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} דקות ו{{ next_timer.rounded_seconds_left }} שניות
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} דקות
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            שנייה אחת
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} שניות
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# מידע נוסף להבחנה בין טיימרים #}
+            נשאר
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} שעה ו{{ next_timer.start_minutes }} דקה
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} שעה
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} דקה ו{{ next_timer.start_seconds }} שנייה
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} דקה
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} שנייה
+            {% endif %}
+
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              {{ next_timer.area }}
+            {% endif %}
+
+            טיימר.
+          {% else: %}
+            נשאר.
+          {% endif %}
+        {% endif %}

@@ -2,7 +2,39 @@ language: fr
 intents:
   HassClimateSetTemperature:
     data:
+      # Area
       - sentences:
-          - "<regle> [la] température à {temperature}<degres>[ ][{temperature_unit}]"
-          - "<regle> [la] température à {temperature}<degres>[ ][{temperature_unit}] <dans> [<le>]{area}"
-          - "<regle> [la] température <dans> [<le>]{area} à {temperature}<degres>[ ][{temperature_unit}]"
+          # Régler la température sur 19 degrés dans le jardin
+          - "<regle> [la] température [(à|sur)] {temperature}[<degres>] <dans> [<le>]{area}"
+
+          # Régler la température du bureau à 19 degrés
+          - "<regle> [la] température <dans> [<le>]{area} [(à|sur)] {temperature}[<degres>]"
+
+          # Règle le bureau à 19 degrés
+          - "<regle> [<le>]{area} [(à|sur)] {temperature}<degres>"
+
+      # Floor
+      - sentences:
+          # Régler la température sur 19 degrés au rez-de-chaussée
+          - "<regle> [la] température [(à|sur)] {temperature}[<degres>] <dans> [<le>]{floor}"
+
+          # Régler la température de l'étage à 19 degrés
+          - "<regle> [la] température <dans> [<le>]{floor} [(à|sur)] {temperature}[<degres>]"
+
+          # Règle le premier étage à 19 degrés
+          - "<regle> [<le>]{floor} [(à|sur)] {temperature}<degres>"
+
+      # Name
+      - sentences:
+          # Régler la température du sèche-serviette sur 19 degrés
+          - "<regle> [la] température [<de>] [<le>]{name} [(à|sur)] {temperature}[<degres>]"
+
+          # Règle le sèche-serviette à 19 degrés
+          - "<regle> [<le>]{name} [(à|sur)] {temperature}<degres>"
+        requires_context:
+          domain: "climate"
+
+      # Context awareness
+      - sentences:
+          # Régler la température à 19 degrés
+          - "<regle> [la] température [(à|sur)] {temperature}[<degres>]"

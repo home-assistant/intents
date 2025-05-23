@@ -7,6 +7,7 @@ responses:
     no_device_class_in_area: "Ez dago {{ device_class }} motako elementurik {{ area }} gunean"
     no_entity: "Ez da {{ entity }} izeneko gailu edo entitaterik existitzen"
     handle_error: "Espero ez zen errore bat gertatu da agindua prozesatzean"
+
 lists:
   color:
     values:
@@ -38,16 +39,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - "celsius"
-      - in: "c"
-        out: "celsius"
-      - in: "zentigrado"
-        out: "celsius"
-      - "fahrenheit"
-      - in: "f"
-        out: "fahrenheit"
   brightness_level:
     values:
       - in: (maximoa|altuena|gorena)
@@ -56,23 +47,30 @@ lists:
         out: 1
   on_off_states:
     values:
-      - in: "piztu"
+      - in: "piztuta"
         out: "on"
-      - in: "itzali"
+      - in: "itzalita"
         out: "off"
   on_off_domains:
     values:
-      - in: argi(a)[k]|lanpara[k]
+      - in: argi|lanpara
         out: light
-      - in: haizegailu(a)[k]
+      - in: haizegailu
         out: fan
-      - in: etengailu(a)[k]
+      - in: etengailu
         out: switch
+
 expansion_rules:
-  name: "{name}[n]"
-  area: "{area}[n]"
   piztu: "(piztu|aktibatu|gaitu)"
   itzali: "(itzali|desaktibatu|ezgaitu)"
+  piztuta: "(piztuta|aktibatuta|gaituta)"
+  itzalita: "(itzalita|desaktibatuta|ezgaituta)"
+  ahal: "(ahal|al)"
+  zenbakia_ezarri: "(ezarri|jarri|ipini|aldatu)"
+  distira: "(%{brightness}|ehuneko {brightness})"
+
 skip_words:
   - "mesedez"
   - "eskerrik asko"
+  - "niretzat"
+  - "nahi dut"

@@ -3,8 +3,95 @@ intents:
   HassGetWeather:
     data:
       - sentences:
-          - "(<what_is>|jaką mamy) [dzisiaj|teraz] pogod(a|ę)"
+          - "Jaką [dzisiaj|teraz] mamy pogodę"
+          - "Jaka jest [dzisiaj|teraz] pogoda"
+          - "Jaką mamy [dzisiaj|teraz] pogodę"
+          - "Jakie są [dzisiaj |teraz ]warunki pogodowe"
       - sentences:
-          - "(<what_is>|jaką mamy) pogod(a|ę) (w|dla|we) <name>"
+          - "Jaka jest pogoda (w|dla|we) <name>"
+          - "Jaką mamy pogodę (w|dla|we) <name>"
         requires_context:
           domain: weather
+
+      - sentences:
+          - "Podaj mi (szczegółową pogodę|pogodę w szczegółach|pogodę w detalach)"
+          - "Opisz mi (w szczegółach|w detalach) (warunki pogodowe|dzisiejszą pogodę|aktualną pogodę)"
+          - "Jaką [dzisiaj|teraz] mamy pogodę (w szczegółach|w detalach)"
+          - "Jaka jest [dzisiaj|teraz] pogoda (w szczegółach|w detalach)"
+          - "Jaką mamy [dzisiaj|teraz] pogodę (w szczegółach|w detalach)"
+          - "Jakie są [dzisiaj |teraz ]warunki pogodowe (w szczegółach|w detalach)"
+        response: detailed_weather
+
+      - sentences:
+          - "Jaka jest [obecny |aktualny |obecnie |aktualnie |teraz ]temperatura powietrza[ na zewnątrz| na dworze| na polu| na placu]"
+          - "Jaka jest [obecny |aktualny |obecnie |aktualnie |teraz ]temperatura [powietrza ](na zewnątrz|na dworze|na polu|na placu)"
+          - "Jaką mamy [obecny |aktualny |obecnie |aktualnie |teraz ]temperaturę powietrza[ na zewnątrz| na dworze| na polu| na placu]"
+          - "Jaką mamy [obecny |aktualny |obecnie |aktualnie |teraz ]temperaturę [powietrza ](na zewnątrz|na dworze|na polu|na placu)"
+          - "[aktualną |obecną ]temperaturę powietrza[ na zewnątrz| na dworze| na polu| na placu]"
+          - "[aktualną |obecną ]temperaturę [powietrza ](na zewnątrz|na dworze|na polu|na placu)"
+          - "Ile stopni jest (na zewnątrz|na dworze|na polu|na placu)"
+          - "Ile jest stopni [na zewnątrz|na dworze|na polu|na placu]"
+          - "Temperatur(a|ę) (powietrza|na zewnątrz|na dworze|na polu|na placu)"
+        response: temperature
+
+      - sentences:
+          - "(Jaka jest|Jaką mamy) [obecnie |teraz |aktualnie ]wilgotność [powietrza ][na zewnątrz|na dworze|na polu|na placu]"
+          - "Jak (duża|mała|wysoka|niska) jest wilgotność powietrza"
+          - "Ile [teraz ]wynosi [aktualna | obecna ]wilgotność powietrza"
+          - "Jaki jest [aktualny | obecny ]poziom wilgotności[ powietrza]"
+          - "Jaka jest [aktualna | obecna ]wilgotność[ powietrza]"
+          - "[Podaj mi ][aktualną | obecną ]wilgotność powietrza[ na zewnątrz| na dworze| na polu| na placu]"
+        response: humidity
+
+      - sentences:
+          - "Jaki jest [obecny |aktualny |obecnie |aktualnie |teraz ]poziom punktu rosy"
+          - "Jaki jest [obecny |aktualny |obecnie |aktualnie |teraz ]punkt rosy"
+          - "Sprawdzić [obecny |aktualny |obecnie |aktualnie |teraz ]punkt rosy[ na zewnątrz| na dworze| na polu| na placu]"
+          - "Jaka jest [obecna |aktualna |obecnie |aktualnie |teraz ]wartość punktu rosy"
+          - "Podać mi [obecną |aktualną |teraz ]temperaturę punktu rosy"
+          - "Czy [obecny |aktualny |obecnie |aktualnie |teraz ]punkt rosy jest[ dzisiaj] [wysoki|niski|wysoki czy niski|niski czy wysoki]"
+        response: dew_point
+
+      - sentences:
+          - "[Jakie jest ][teraz |obecnie |obecne |aktualne ](ciśnienie atmosferyczne|ciśnienie powietrza)"
+          - "Jaka jest (wartość|wysokość) ciśnienia (atmosferycznego|powietrza)"
+          - "Podaj mi ciśnienie (atmosferyczne|powietrza)"
+          - "Czy ciśnienie (atmosferyczne|powietrza) jest dzisiaj (wysokie|niskie|wysokie czy niskie|niskie czy wysokie)"
+        response: pressure
+
+      - sentences:
+          - "Jaka jest [teraz |obecna |aktualna ]prędkość wiatru"
+          - "Z jaką (prędkością|szybkością) wieje wiatr[ na zewnątrz| na dworze| na polu| na placu]"
+          - "Czy prędkość wiatru jest [teraz |obecnie |aktualne ][wysoka|niska|wysoka czy niska|niska czy wysoka]"
+          - "Aktualn(ą|a) prędkość wiatru"
+          - "Podaj mi prędkość wiatru"
+        response: wind_speed
+
+      - sentences:
+          - "[Jaki jest ][teraz |obecny |aktualny ]poziom ozonu[ w powietrzu]"
+          - "((Aktualne|Obecne) stężenie|Aktualny poziom) ozonu"
+          - "Podaj mi (aktualne|obecne) stężenie ozonu[ w atmosferze| w powietrzu]"
+          - "Jakie jest [dzisiaj ][aktualne |obecne ]stężenie ozonu[ dzisiaj]"
+          - "Ile wynosi poziom ozonu[ w ciągu dnia| w powietrzu| w atmosferze]"
+        response: ozone
+
+      - sentences:
+          - "Jakie jest teraz zachmurzenie"
+          - "Jakie jest [dzisiaj ][aktualne |obecne ] zachmurzenie"
+          - "Czy [dzisiaj |aktualne |obecne ]jest [duże|małe|średnie] zachmurzenie[ na zewnątrz| na dworze| na polu| na placu]"
+          - "Jaki jest [obecny ](procent|poziom) zachmurzenia[ w tej chwili]"
+          - "Czy niebo jest [dzisiaj |teraz |obecnie |aktualnie ]pochmurne"
+          - "(procent|poziom) zachmurzenia[ na zewnątrz| na dworze| na polu| na placu]"
+        response: cloud_coverage
+
+      - sentences:
+          - "Jaka jest [w tej chwili| teraz |dzisiaj ][aktualne |obecnie ]widoczność[ w tej chwili| dzisiaj]"
+          - "Czy widoczność jest (dobra|zła)"
+          - "Czy jest (dobra|zła) widoczność"
+        response: visibility
+
+      - sentences:
+          - "Jaki jest [w tej chwili |dzisiaj ][aktualne |obecny ](indeks UV|poziom indeksu UV)[ w tej chwili]"
+          - "Ile wynosi [w tej chwili| dzisiaj ][aktualne |obecny ]indeks UV[ w tej chwili]"
+          - "Czy indeks UV jest (wysoki|niski|średni)"
+        response: uv_index

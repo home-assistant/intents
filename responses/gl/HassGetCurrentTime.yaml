@@ -1,0 +1,49 @@
+language: gl
+responses:
+  intents:
+    HassGetCurrentTime:
+      default: >
+        {% set next_hour = 0 %}
+        {% set minute_str = "" %}
+        {% if slots.time.minute > 0: %}
+            {% if slots.time.minute == 15: %}
+                {% set minute_str = "e cuarto" %}
+            {% elif slots.time.minute == 30: %}
+                {% set minute_str = "e media" %}
+            {% elif slots.time.minute < 30: %}
+                {% set minute_str = 'e {0:01d}'.format(slots.time.minute) %}
+            {% else: %}
+                {% set next_hour = 1 %}
+                {% if slots.time.minute == 45: %}
+                   {% set minute_str = "menos cuarto" %}
+                {% else: %}
+                    {% set minute_str = 'menos {0:01d}'.format(60 - slots.time.minute) %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% if slots.time.hour + next_hour > 12: %}
+            {% set hour12 = slots.time.hour + next_hour - 12 %}
+        {% elif slots.time.hour + next_hour == 0: %}
+            {% set hour12 = 12 %}
+        {% else: %}
+            {% set hour12 = slots.time.hour + next_hour %}
+        {% endif %}
+        {% if hour12 == 1 : %}
+           É a
+        {% else: %}
+           Son as
+        {% endif %}
+        {{hour12}} {{minute_str}}
+        {% if slots.time.hour == 0: %}
+            da medianoite
+        {% elif slots.time.hour < 4: %}
+            da madrugada
+        {% elif slots.time.hour < 12: %}
+            da mañá
+        {% elif slots.time.hour == 12: %}
+            di mediodía
+        {% elif slots.time.hour < 21: %}
+            da tarde
+        {% else: %}
+            da noite
+        {% endif %}

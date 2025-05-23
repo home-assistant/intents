@@ -1,37 +1,48 @@
 language: es
+floors:
+  - name: "Planta alta"
+    id: upstairs_id
+  - name: "Planta baja"
+    id: ground_floor_id
+  - name: "Primera planta"
+    id: first_floor_id
+  - name: "Sótano"
+    id: basement_id
+  - name: "Planta suelo"
+    id: outside_id
 areas:
   - name: "Habitación de invitados"
     id: id_habitacion_invitados
-    floor: "Planta alta"
+    floor: upstairs_id
 
   - name: Fuera
     # área preposicional
     id: id_fuera
-    floor: "Planta suelo"
+    floor: outside_id
 
   - name: Cocina
     id: id_cocina
-    floor: "Planta baja"
+    floor: ground_floor_id
 
   - name: Salón
     id: id_salon
-    floor: "Planta baja"
+    floor: ground_floor_id
 
   - name: Dormitorio
     id: id_dormitorio
-    floor: "Primera planta"
+    floor: first_floor_id
 
   - name: Garaje
     id: id_garaje
-    floor: "Planta baja"
+    floor: ground_floor_id
 
   - name: Entrada
     id: id_entrada
-    floor: "Planta baja"
+    floor: ground_floor_id
 
   - name: Oficina
     id: id_oficina
-    floor: "Sótano"
+    floor: basement_id
 
 entities:
   - name: Lámpara de la mesilla
@@ -95,6 +106,15 @@ entities:
       out: "closed"
     attributes:
       device_class: curtain
+
+  - name: Persiana salón
+    id: cover.persiana_salon
+    area: id_salon
+    state:
+      in: "abierta"
+      out: "open"
+    attributes:
+      device_class: blind
 
   - name: Lámpara techo salón
     id: light.lampara_techo_salon
@@ -204,8 +224,8 @@ entities:
     attributes:
       device_class: battery_charging
 
-  - name: "Sensor CO2"
-    id: "binary_sensor.co2"
+  - name: "Sensor CO"
+    id: "binary_sensor.co"
     area: "id_cocina"
     state:
       in: "despejado"

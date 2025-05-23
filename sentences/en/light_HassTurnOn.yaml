@@ -1,72 +1,91 @@
+---
 language: "en"
 intents:
   HassTurnOn:
     data:
+      # Turn on a specific light
       - sentences:
-          - "<turn> on (<area> <name> <light_devices>|<name> <light_devices> [in <area>])"
-          - "[<turn>] (<area> <name> <light_devices>|<name> <light_devices> [in <area>]) [to] on"
-          - "activate (<area> <name> <light_devices>|<name> <light_devices> [in <area>])"
-        expansion_rules:
-          light_devices: "(light[s]|[light] switch[es])"
+          - "<turn> on <area_floor> <name> <light>"
+          - "<turn> on <name> <light> [<in_area_floor>]"
+          - "[<turn>] <area_floor> <name> <light> [to] on"
+          - "[<turn>] <name> <light> [<in_area_floor>] [to] on"
+          - "activate <area_floor> <name> <light>"
+          - "activate <name> <light> [<in_area_floor>]"
+          - "light up <area_floor> <name> <light>"
+          - "light up <name> <light> [<in_area_floor>]"
         requires_context:
           domain: "light"
+
+      # Turn on all lights in an area
       - sentences:
-          - "<turn> on [all] <light> in <area>"
-          - "<turn> on [all] <area> <light>"
-          - "[<turn>] [all] <area> <light> on"
-          - "[<turn>] [all] <light> [in] <area> on"
-          - "activate [all] <light> [in] <area>"
-          - "activate [all] <area> <light>"
-          - "<light> on in <area>"
+          - "(light up|illuminate) <area>"
+          - "<area> <light> on"
+          - "<light> on [in] <area>"
+          - "<turn> on [<all>] <area> <light>"
+          - "<turn> on [(<all>|<the>)] <light> <in> <area>"
+          - "[<turn>] [<all>] <area> <light> on"
+          - "[<turn>] [(<all>|<the>)] <light> <in> <area> on"
+          - "[<turn>] [(<all>|<the>)] <light> on <in> <area>"
+          - "activate [<all>] <area> <light>"
+          - "activate [(<all>|<the>)] <light> <in> <area>"
         slots:
           domain: "light"
         response: "lights_area"
 
+      # Turn on all lights on a floor
+      - sentences:
+          - "(light up|illuminate) <floor>"
+          - "<floor> <light> on"
+          - "<light> on [<in>] <floor>"
+          - "<turn> on [<all>] <floor> <light>"
+          - "<turn> on [(<all>|<the>)] <light> [<in>] <floor>"
+          - "[<turn>] [<all>] <floor> <light> on"
+          - "[<turn>] [(<all>|<the>)] <light> [<in>] <floor> on"
+          - "[<turn>] [(<all>|<the>)] <light> on [<in>] <floor>"
+          - "activate [<all>] <floor> <light>"
+          - "activate [(<all>|<the>)] <light> [<in>] <floor>"
+        response: "lights_floor"
+        slots:
+          domain: "light"
+
       # Turn on all lights in the home
       - sentences:
-          - "<turn> <all> <light> on <everywhere>"
-          - "<turn> on <all> <light> <everywhere>"
-          - "activate <all> <light> <everywhere>"
-          - "<turn> <light> on <everywhere>"
-          - "<turn> on <light> <everywhere>"
-          - "activate <light> <everywhere>"
-          - "<turn> <all> <light> on"
-          - "<turn> on <all> <light>"
-          - "activate <all> <light>"
+          - "(light up|activate|illuminate) <all> <light> <everywhere>"
+          - "(light up|illuminate) <everywhere> [<everywhere>]"
+          - "<turn> <all> <light> on [<everywhere>]"
+          - "<turn> [<the>] <light> on <everywhere>"
+          - "<turn> on <all> <light> [<everywhere>]"
+          - "<turn> on [<the>] <light> <everywhere>"
+          - "<turn> on [(<all>|<the>)] <home> <light> <everywhere>"
+          - "activate <all> <light> [<everywhere>]"
+          - "activate [<the>] <light> <everywhere>"
+          - "get <all> <light> on [<everywhere>]"
+          - "illuminate <all> areas [<everywhere>]"
+          - make sure <all> <light> <is> on
         response: "light_all"
         slots:
           domain: "light"
 
       # Turn on lights in the same area as a satellite device
       - sentences:
-          - "<turn> <all> <light> on <here>"
-          - "<turn> <light> on <here>"
-          - "<turn> <all> <light> <here> on"
-          - "<turn> <light> <here> on"
-          - "<turn> on <all> <light> <here>"
-          - "<turn> on <light> <here>"
-          - "activate <all> <light> <here>"
-          - "activate <light> <here>"
-          - "<turn> <light> on"
-          - "<turn> on <light>"
-          - "activate <light>"
-          - "<light> on"
+          # Explicit <here> optional all
+          - "<turn> [(<all>|<the>)] <light> on <here>"
+          - "<turn> [(<all>|<the>)] <light> <here> on"
+          - "<turn> on [(<all>|<the>)] <light> <here>"
+          - "activate [(<all>|<the>)] <light> <here>"
+          - "[(<all>|<the>)] <light> on <here>"
+
+          # Implicit <here> no all
+          - "<turn> [<the>] <light> on [<here>]"
+          - "<turn> [<the>] <light> [<here>] on"
+          - "<turn> on [<the>] <light> [<here>]"
+          - "activate [<the>] <light> [<here>]"
+          - "<light> on [<here>]"
+          - "light (it|<here>) up"
+          - "light up [<here>]"
         response: "lights_area"
         slots:
           domain: "light"
         requires_context:
           area:
             slot: true
-
-      # Turn on all lights on a floor
-      - sentences:
-          - "<turn> on <all> <light> (on|in) <floor>"
-          - "<turn> on <all> <light> <floor>"
-          - "<turn> on <all> <floor> <light>"
-          - "<turn> <floor> <light> on"
-          - "<floor> <light> on"
-          - "activate <all> <floor> <light>"
-          - "activate <all> <light> (on|in) <floor>"
-        response: "lights_floor"
-        slots:
-          domain: "light"

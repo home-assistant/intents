@@ -1,0 +1,93 @@
+language: de-CH
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+
+        {% if num_timers == 0: %}
+          Ke Timer.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Dr Timer isch pousiert.
+          {% else: %}
+            {{ num_paused_timers }} Timer sy pousiert.
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ num_active_timers }} loufendi Timer.
+          {% endif %}
+
+          {% if num_paused_timers == 1: %}
+            1 pousierte Timer.
+          {% elif num_paused_timers > 0: %}
+            {{ num_paused_timers }} pousierti Timer.
+          {% endif %}
+        {% endif %}
+
+        {% if next_timer: %}
+          {# At least one active timer #}
+          Es sy no
+          {% if (next_timer.rounded_hours_left == 1) and (next_timer.rounded_minutes_left > 0): %}
+            1 Schtung und {{ next_timer.rounded_minutes_left }} Minute
+          {% elif (next_timer.rounded_hours_left == 1): %}
+            1 Schtung
+          {% elif (next_timer.rounded_hours_left > 1) and (next_timer.rounded_minutes_left > 0): %}
+            {{ next_timer.rounded_hours_left }} Schtung und {{ next_timer.rounded_minutes_left }} Minute
+          {% elif (next_timer.rounded_hours_left > 1): %}
+            {{ next_timer.rounded_hours_left }} Schtung
+          {% elif (next_timer.rounded_minutes_left == 1) and (next_timer.rounded_seconds_left > 0): %}
+            1 Minute und {{ next_timer.rounded_seconds_left }} Sekunde
+          {% elif (next_timer.rounded_minutes_left == 1): %}
+            1 Minute
+          {% elif (next_timer.rounded_minutes_left > 1) and (next_timer.rounded_seconds_left > 0): %}
+            {{ next_timer.rounded_minutes_left }} Minute und {{ next_timer.rounded_seconds_left }} Sekunde
+          {% elif (next_timer.rounded_minutes_left > 1): %}
+            {{ next_timer.rounded_minutes_left }} Minute
+          {% elif (next_timer.rounded_seconds_left == 1): %}
+            1 Sekunde
+          {% elif (next_timer.rounded_seconds_left > 1): %}
+            {{ next_timer.rounded_seconds_left }} Sekunde
+          {% endif %}
+
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            vo ursprünglech
+            {% if (next_timer.start_hours > 0) and (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_hours }} Schtung und {{ next_timer.start_minutes }} Minute
+            {% elif (next_timer.start_hours > 0): %}
+              {{ next_timer.start_hours }} Schtung
+            {% elif (next_timer.start_minutes > 0) and (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_minutes }} Minute und {{ next_timer.start_seconds }} Sekunde
+            {% elif (next_timer.start_minutes > 0): %}
+              {{ next_timer.start_minutes }} Minute
+            {% elif (next_timer.start_seconds > 0): %}
+              {{ next_timer.start_seconds }} Sekunde
+            {% endif %}
+
+            vom Timer
+
+            {% if next_timer.name: %}
+              {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              {{ next_timer.area }}
+            {% endif %}
+
+            übrig.
+          {% else: %}
+            übrig.
+          {% endif %}
+        {% endif %}

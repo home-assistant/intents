@@ -23,17 +23,33 @@ tests:
           - obývačky
         name: all
         domain: light
-      # disabled, sine tests for domain: light doeans support one entity
-      # - sentences:
-      #     - "zapni nočnú lampu"
-      #     - "zažni nočnú lampu"
-      #     - "zasvieť nočnú lampu"
-      #     - "rozžni nočnú lampu"
-      #   intent:
-      #     name: "HassTurnOn"
-      #     slots:
-      #       name: "light.bedroom_lamp"
-      #       domain: "light"
+    response: Svetlá boli rozsvietené
+
+  - sentences:
+      - zapni svetlo v obývačke
+      - rozsvieť svetlo v obývačke
+    intent:
+      name: HassTurnOn
+      slots:
+        area:
+          - obývačka
+          - obývačke
+          - obývačku
+          - obývačky
+        domain: light
+    response: Svetlo bolo rozsvietené
+
+  - sentences:
+      - zažni nočnú lampu
+      - zasvieť nočnú lampu
+      - rozžni nočnú lampu
+    intent:
+      name: HassTurnOn
+      slots:
+        name: nočnú lampu
+        domain: light
+    response: Zapínam nočnú lampu
+
   - sentences:
       - zasvieť svetlá pred vchodom
       - rozsvieť pred vchodom
@@ -42,12 +58,12 @@ tests:
       name: HassTurnOn
       slots:
         area:
+          - pred vchodom
           - vchode
-          - vchodom
-          - vchodu
-          - vchod
         name: all
         domain: light
+    response: Svetlá boli rozsvietené
+
   - sentences:
       - zasvieť na chodbe
       - zasvieť chodbu
@@ -62,3 +78,20 @@ tests:
           - chodby
         name: all
         domain: light
+    response: Svetlá boli rozsvietené
+
+  # satellite
+  - sentences:
+      - "zapni všetky svetlá"
+      - "zapni osvetlenie"
+      - "zapni svetlo"
+      - "zasvieť lampy"
+      - "rozsvieť"
+    intent:
+      name: HassTurnOn
+      context:
+        area: "Obývačka"
+      slots:
+        domain: light
+        area: "Obývačka"
+    response: Svetlá tu boli rozsvietené

@@ -28,6 +28,10 @@ lists:
         out: "purple"
       - in: "кафяв[о|а|ото|ата|и|ия|ият|ите]"
         out: "brown"
+      - in: "розов[о|а|ото|ата|и|ия|ият|ите]"
+        out: "pink"
+      - in: "тюркоазен[о|а|ото|ата|и|ия|ият|ите]"
+        out: "turquoise"
   brightness:
     range:
       type: "percentage"
@@ -38,12 +42,6 @@ lists:
       type: "temperature"
       from: 0
       to: 100
-  temperature_unit:
-    values:
-      - in: "c|[по|в] целзий"
-        out: "celsius"
-      - in: "f|[по|във] фаренхайт"
-        out: "fahrenheit"
   on_off_states:
     values:
       - in: "включен[а|о|и|ият|ите|ото|ата]"
@@ -161,7 +159,7 @@ lists:
 
   bs_light_states:
     values:
-      - in: "(засечен[а|о|и|ия|ият|ата|ите]|задействан[а|о|и|ия|ият|ата|ите]|светъл|светл(а|о|и|ия|ият|ата|ото|ите)|отчита[т][ се]|отчетен[а|о|и|ия|ият|ата|ото|ите])"
+      - in: "(засечен[а|о|и|ия|ият|ата|ите]|задействан[а|о|и|ия|ият|ата|ите]|светъл|светл(а|о|и|ия|ият|ата|ото|ите)|отчита[т][ се]|отчетен[а|о|и|ия|ият|ата|ото|ите]|свет(я|ят|и|я|нат|нати|натите|нато|ната|натата|натото|натият))"
         out: "on"
       - in: "((няма|без) светлина|неосветен[а|о|и|ия|ият|ата|ите]|тъм(ен|на|но|ни|ния|ният|ната|ното|ните)|мрач(ен|на|но|ни|ния|ният|ната|ното|ните)|чист[а|о|и|ия|ият|ата|ите]|незадействан[а|о|и|ия|ият|ата|ите]|не [се ]отчита[т])"
         out: "off"
@@ -333,6 +331,21 @@ lists:
   timer_command:
     wildcard: true
 
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  message:
+    wildcard: true
+
 expansion_rules:
   name: "{name}"
   area: "[в|на|във] {area}"
@@ -346,7 +359,7 @@ expansion_rules:
   max: "max|максимална[та]|макс|край|най[-]висока[та]"
   min: "минимална|минимум|най[-]ниска"
   temp: "температур(а|ата|ите)|градус[а|и|те|ът]|термостат[а|ът|ите]"
-  temperature: "{temperature}[°| градуса] [{temperature_unit}]"
+  temperature: "{temperature}[°| градуса]"
   turn_on: "пусни|включи|светни|запали"
   turn_off: "спри|изключи|изгаси|угаси|загаси"
   set: "направи|сложи|постави|смени|промени|настрой|задай|нагласи|тури|навий"
@@ -363,6 +376,8 @@ expansion_rules:
   timer_start_minutes: "{timer_minutes:start_minutes} минут(а|и)[ [и ]{timer_seconds:start_seconds} секунд(а|и)]"
   timer_start_hours: "{timer_hours:start_hours} час[а][ [и ]{timer_minutes:start_minutes} минут(а|и)][ [и ]{timer_seconds:start_seconds} секунд(а|и)]"
   timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+  volume: "{volume:volume_level}[([ ]%)| процент[а]]"
+  position: "{position}[%| процент[а]]"
 
 skip_words:
   - "извинявай"

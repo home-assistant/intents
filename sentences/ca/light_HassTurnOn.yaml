@@ -3,13 +3,26 @@ intents:
   HassTurnOn:
     data:
       - sentences:
-          - "(<engega>|<obre>) tots els llums [<area>]"
-          - "(<engega>|<obre>) totes les llums [<area>]"
-          - "(<engega>|<obre>) [els|les] llums [<area>]"
+          - "[<can_you>] (<engega>|<obre>) tots els llums [<everywhere>]"
+          - "[<can_you>] (<engega>|<obre>) totes les llums [<everywhere>]"
+        expansion_rules:
+          everywhere: "(de|a) [la] casa"
         slots:
           domain: light
-          name: all
+
       - sentences:
-          - "(<engega>|<obre>) [el|la] llum <area>"
+          - "[<torna_a>|<can_you>] (<engega>|<obre>) <pronom_singular> llum"
+          - "[<torna_a>|<can_you>] (<engega>|<obre>) <pronom_plural> llums"
+          - "(<engega>|<obre>) <llums_typo>"
+        slots:
+          domain: light
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "[<torna_a>|<can_you>] (<engega>|<obre>) <pronom_singular> llum <area>"
+          - "[<can_you>] (<engega>|<obre>) [tot[e]s] <pronom_plural> llums <area>"
+          - "(<engega>|<obre>) <llums_typo> <area>"
         slots:
           domain: light

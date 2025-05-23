@@ -1,0 +1,20 @@
+language: ro
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: |
+        {% if slots.canceled < 1: %}
+        Niciun temporizator nu a fost oprit
+        {% elif slots.canceled == 1: %}
+        Am oprit un temporizator
+        {% else: %}
+        Am oprit {{ slots.canceled }} temporizatoare
+        {% endif %}
+      area: |
+        {% if slots.canceled < 1: %}
+        Niciun temporizator nu a fost oprit în {{ slots.area }}
+        {% elif slots.canceled == 1: %}
+        Am oprit un temporizator în {{ slots.area }}
+        {% else: %}
+        Am oprit {{ slots.canceled }} temporizatoare în {{ slots.area }}
+        {% endif %}

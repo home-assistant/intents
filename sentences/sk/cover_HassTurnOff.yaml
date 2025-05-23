@@ -3,18 +3,89 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - <close> garáž
-          - <close> garážovú bránu
-        response: cover_device_class
+          - "<close_door> (garáž|bránu od garáže|garážovú bránu)" # zatvor garáž/garážovú bránu
         slots:
-          device_class: garage
           domain: cover
+          device_class: garage
+        response: garage
+
       - sentences:
-          - <close> (rolety|žalúzie|záves[y]|záclon(u|y)) [v|na] {area}
-        response: cover_area
+          - "<close_door> {name} [<area>]" # zatvor malú garážovú bránu (konkrétnu entitu)
+        requires_context:
+          domain: cover
+          device_class: garage
         slots:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "<close_curtain> {name} [<area>]" # zatiahni spálňovú roletu (konkrétnu entitu)
+        requires_context:
+          domain: cover
           device_class:
+            - awning
             - blind
             - curtain
+            - shade
+            - shutter
+        slots:
+          domain: cover
+          device_class: blind
+        response: curtain
+
+      - sentences:
+          - "<close_door> ({cover_classes:device_class};<area_floor>)" # zatvor okno/okná v spálni
+        slots:
+          domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+        response: cover
+
+      - sentences:
+          - "<close_curtain> ({cover_classes:device_class};<area_floor>)" # zatiahni rolety v obývačke
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
             - shutter
           domain: cover
+        response: curtain
+
+      - sentences:
+          - "<close_door> ({cover_classes:device_class};[<here>])" # zatvor tu dvere/bránu
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - gate
+            - shade
+            - shutter
+            - window
+        response: cover
+
+      - sentences:
+          - "<close_curtain> ({cover_classes:device_class};[<here>])" # zatiahni tu
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+        response: curtain

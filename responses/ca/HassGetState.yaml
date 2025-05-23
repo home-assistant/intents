@@ -18,7 +18,7 @@ responses:
         {% if query.matched %}
           {% set match = query.matched | map(attribute="name") | sort | list %}
           {% if match | length > 4 %}
-            Si, {{ match[:3] | join(", ") }} i uns altres {{ (match | length - 3) }} dispositius més
+            Si, {{ match[:3] | join(", ") }} i uns altres {{ (match | length - 3) }} més
           {%- else -%}
             Si,
             {% for name in match -%}
@@ -36,7 +36,7 @@ responses:
         {% else %}
           {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
           {% if no_match | length > 4 %}
-            No, ni {{ no_match[:3] | join(", ") }} ni els altres {{ (no_match | length - 3) }} dispositius ho són
+            No, ni {{ no_match[:3] | join(", ") }} ni els altres {{ (no_match | length - 3) }} ho són
           {% elif no_match | length == 1 %}
             No, el dispositiu {{ no_match|first }} no
           {%- else -%}
@@ -65,3 +65,10 @@ responses:
 
       how_many: |
         {{ query.matched | length }}
+
+      where: |
+        {% if state == "not_home" %}
+          {{ slots.name | capitalize }} és a fora
+        {% else %}
+          {{ slots.name | capitalize }} es troba a {{ state.state }}
+        {% endif %}

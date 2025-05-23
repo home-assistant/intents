@@ -9,6 +9,14 @@ tests:
     response: "Температура на улице 15 °C"
 
   - sentences:
+      - Что с кухонный стол?
+    intent:
+      name: HassGetState
+      slots:
+        name: "Кухонный стол"
+    response: "Включено"
+
+  - sentences:
       - Что с лампа в гостиной?
     intent:
       name: HassGetState
@@ -17,12 +25,12 @@ tests:
     response: "Лампа в гостиной включена"
 
   - sentences:
-      - "Лампа в спальне включена?"
-      - "Включена ли лампа в спальне?"
+      - "Ночная лампа включена?"
+      - "Включена ли ночная лампа?"
     intent:
       name: HassGetState
       slots:
-        name: "Лампа в спальне"
+        name: "Ночная лампа"
         state: "on"
     response: "Нет, выключена"
 
@@ -78,3 +86,14 @@ tests:
         domain: "light"
         state: "on"
     response: "6"
+
+  - sentences:
+      - "Сколько в кухне включенных ламп?"
+    intent:
+      name: HassGetState
+      slots:
+        area:
+          - "Кухне"
+        domain: "light"
+        state: "on"
+    response: "3"

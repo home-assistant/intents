@@ -3,8 +3,49 @@ intents:
   HassGetWeather:
     data:
       - sentences:
-          - "Milyen [az] idő[járás] [van] [ma|most]"
+          - "Milyen idő van [ma|most|kint]"
+          - "Milyen az idő [ma|most|kint]"
+        response: "default"
       - sentences:
-          - "(Milyen [az] idő[járás] [van] [ma|most];<name>(<ragok>| <időjáráshelyek>))"
+          - "(Milyen idő van [ma|most];<name>(<idojarasragok>| <idojarashelyek>))"
+          - "(Milyen az idő [ma|most];<name>(<idojarasragok>| <idojarashelyek>))"
         requires_context:
           domain: weather
+        response: "default"
+
+      - sentences:
+          - "Milyen az időjárás [ma|most|kint]"
+          - "Mondj [részletes] időjárás[t|jelentést]"
+          - "Mondd meg a mai [részletes] időjárást"
+        response: "detailed_weather"
+      - sentences:
+          - "(Milyen [az] időjárás [van] [ma|most];<name>(<idojarasragok>| <idojarashelyek>))"
+          - "(Mondj [részletes] időjárás[t|jelentést];<name>(<idojarasragok>| <idojarashelyek>))"
+          - "Mondd meg a mai [részletes] időjárást <name>(<idojarasragok>| <idojarashelyek>)"
+        requires_context:
+          domain: weather
+        response: "detailed_weather"
+
+      - sentences:
+          - "(milyen|mekkora) az UV [index|sugárzás] [ma|most|kint]"
+          - "(magas|alacsony) [ma|most] az UV [index|sugárzás]"
+        response: "uv"
+      - sentences:
+          - "((milyen|mekkora) az UV [index|sugárzás] [ma|most];<name>(<idojarasragok>| <idojarashelyek>))"
+          - "((magas|alacsony) [ma|most] az UV [index|sugárzás];<name>(<idojarasragok>| <idojarashelyek>))"
+        requires_context:
+          domain: weather
+        response: "uv"
+
+      - sentences:
+          - "(milyen|mekkora) a szél[sebesség[e]] [ma|most|kint]"
+          - "(milyen|mekkora) sebességgel fúj a szél [ma|most|kint]"
+          - "mennyi a szél sebessége [ma|most|jelenleg|kint]"
+        response: "wind"
+      - sentences:
+          - "((milyen|mekkora) a szél[sebesség[e]] [ma|most];<name>(<idojarasragok>| <idojarashelyek>))"
+          - "((milyen|mekkora) sebességgel fúj a szél [ma|most];<name>(<idojarasragok>| <idojarashelyek>))"
+          - "(mennyi a szél sebessége [ma|most|jelenleg];<name>(<idojarasragok>| <idojarashelyek>))"
+        requires_context:
+          domain: weather
+        response: "wind"

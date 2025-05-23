@@ -1,0 +1,38 @@
+language: pl
+tests:
+  - sentences:
+      - "wyłącz wszystkie minutniki"
+      - "wyłącz wszystkie zegary"
+      - "anuluj wszystkie moje tajmery"
+      - "anuluj wszystkie moje timery"
+      - "przerwij wszystkie liczniki"
+      - "zakończ wszystkie czasomierze"
+      - "anuluj wszystkie stopery"
+    intent:
+      name: HassCancelAllTimers
+    response: Anulowano 3 minutniki
+
+  - sentences:
+      - "wyłącz wszystkie minutniki w kuchni"
+      - "w kuchni anuluj wszystkie minutniki"
+      - "przerwij w kuchni wszystkie moje minutniki"
+      - "przerwij w kuchni wszystkie moje timery"
+    intent:
+      name: HassCancelAllTimers
+      slots:
+        area:
+          - Kuchni
+          - Kuchnia
+    response: Nie anulowano żadnego minutnika w kuchni
+
+  - sentences:
+      - "wyłącz tutaj wszystkie minutniki"
+      - "anuluj wszystkie moje minutniki w tym pokoju"
+      - "przerwij w tym pomieszczeniu wszystkie moje minutniki"
+    intent:
+      name: HassCancelAllTimers
+      context:
+        area: Kuchni
+      slots:
+        area: Kuchni
+    response: Nie anulowano żadnego minutnika

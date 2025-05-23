@@ -1,22 +1,43 @@
 language: sk
 intents:
   HassTurnOff:
-    data: # predpriprava na buduce rozsirenie rozdielu jedneho konktretneho vetraka, rekuperacie a vsetkych vetrakov,
+    data:
+      # predpriprava na buduce rozsirenie rozdielu jedneho konktretneho vetraka, rekuperacie a vsetkych vetrakov,
       # chyba doplnit nastavenie rychlosti vetraku
       - sentences:
-          - "<turn_off> (ventilátor|vetrák) [(v|vo)] <area>"
+          - "<turn_off> [[stropný] (ventilátor|vetrák)] <name>" # vypni biely ventilátor (konkrétnu entitu)
+        requires_context:
+          domain: fan
         slots:
           domain: "fan"
         response: "fan"
+
       - sentences:
-          - "<turn_off> ( ventiláciu|vetranie) [(v|vo)] <area>"
+          - "<turn_off> (ventilátor|vetrák) <area>" # vypni ventilátor v spálni (lokál)
+        slots:
+          domain: "fan"
+        response: "fan_unnamed"
+
+      - sentences:
+          - "<turn_off> (ventiláciu|vetranie) <area>" # vypni ventiláciu spálne (akuzatív)
         slots:
           domain: "fan"
           name: "all"
         response: "fans_ventilation"
+
       - sentences:
-          - "<turn_off> [(všetky|všetko)] (ventilátory|vetráky|ventiláciu|vetranie) [(v|vo)] <area>"
+          - "<turn_off> [všetky] [stropné] (ventilátory|vetráky) <area>" # vypni všetky (stropné) ventilátory v spálni
         slots:
           domain: "fan"
           name: "all"
         response: "fans_area"
+
+      - sentences:
+          - "<turn_off> ([<here>];[všetky] [stropn(ý|é|ú)] (ventilátor[y]|vetrák[y]|ventiláciu))" # vypni tu všetky ventilátory
+          - "[všetky] [stropn(ý|é|ú)] (ventilátor[y]|vetrák[y]|ventiláciu) <turn_off>" # vypni všetky ventilátory
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: fan
+        response: "fans_here"

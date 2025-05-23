@@ -3,71 +3,21 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          # Singular fan, with unprefixed and unconjugated area.
-          # Grammatically incorrect, but people might be used to this limitation.
-          - "<kytke> <päältä> <tuuletin> <huone>"
-          - "<kytke> <päältä> <huone> <tuuletin>"
-          - "<kytke> <tuuletin> <päältä> <huone>"
-          - "<kytke> <tuuletin> <huone> <päältä>"
-          - "<kytke> <huone> <päältä> <tuuletin>"
-          - "<kytke> <huone> <tuuletin> <päältä>"
-          - "<pysäytä> <tuuletin> <huone>"
-          - "<pysäytä> <huone> <tuuletin>"
-          # Singular fan, with prefixed and unconjugated area.
-          # Grammatically correct, but cumbersome to say or know about the prefix.
-          - "<kytke> <päältä> <tuuletin> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
-          - "<kytke> <päältä> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <tuuletin>"
-          - "<kytke> <tuuletin> <päältä> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
-          - "<kytke> <tuuletin> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä>"
-          - "<kytke> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä> <tuuletin>"
-          - "<kytke> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <tuuletin> <päältä>"
-          - "<pysäytä> <tuuletin> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
-          - "<pysäytä> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <tuuletin>"
-        slots:
-          domain: "fan"
-          name: "all"
-        response: fans_area_singular
-      - sentences:
-          # Plural fan, with unprefixed and unconjugated area.
-          # Grammatically incorrect, but people might be used to this limitation.
-          - "<kytke> <päältä> [kaikki] <tuulettimet> <huone>"
-          - "<kytke> <päältä> <huone> [kaikki] <tuulettimet>"
-          - "<kytke> [kaikki] <tuulettimet> <päältä> <huone>"
-          - "<kytke> [kaikki] <tuulettimet> <huone> <päältä>"
-          - "<kytke> <huone> <päältä> [kaikki] <tuulettimet>"
-          - "<kytke> <huone> [kaikki] <tuulettimet> <päältä>"
-          - "<pysäytä> [kaikki] <tuulettimet> <huone>"
-          - "<pysäytä> <huone> [kaikki] <tuulettimet>"
-          # Same as above, but singular fan turned plural with extra word
-          - "<kytke> <päältä> jokainen <tuuletin> <huone>"
-          - "<kytke> <päältä> <huone> jokainen <tuuletin>"
-          - "<kytke> jokainen <tuuletin> <päältä> <huone>"
-          - "<kytke> jokainen <tuuletin> <huone> <päältä>"
-          - "<kytke> <huone> <päältä> jokainen <tuuletin>"
-          - "<kytke> <huone> jokainen <tuuletin> <päältä>"
-          - "<pysäytä> jokainen <tuuletin> <huone>"
-          - "<pysäytä> <huone> jokainen <tuuletin>"
+          # Yksittäinen tuuletin
+          - "<pysäytä> (<tuuletin>;(<huone>|<alue_taivutus> <huone>|<alue_pääte>))"
+          - "[<kytke>] (<tuuletin>;<päältä>;(<huone>|<alue_taivutus> <huone>|<alue_pääte>))"
 
-          # Plural fan, with prefixed and unconjugated area.
-          # Grammatically correct, but cumbersome to say or know about the prefix.
-          - "<kytke> <päältä> [kaikki] <tuulettimet> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
-          - "<kytke> <päältä> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> [kaikki] <tuulettimet>"
-          - "<kytke> [kaikki] <tuulettimet> <päältä> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
-          - "<kytke> [kaikki] <tuulettimet> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä>"
-          - "<kytke> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä> [kaikki] <tuulettimet>"
-          - "<kytke> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> [kaikki] <tuulettimet> <päältä>"
-          - "<pysäytä> [kaikki] <tuulettimet> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
-          - "<pysäytä> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> [kaikki] <tuulettimet>"
-          # Same as above, but singular fan turned plural with extra word
-          - "<kytke> <päältä> jokainen <tuuletin> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
-          - "<kytke> <päältä> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> jokainen <tuuletin>"
-          - "<kytke> jokainen <tuuletin> <päältä> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
-          - "<kytke> jokainen <tuuletin> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä>"
-          - "<kytke> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> <päältä> jokainen <tuuletin>"
-          - "<kytke> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> jokainen <tuuletin> <päältä>"
-          - "<pysäytä> jokainen <tuuletin> (<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone>"
-          - "<pysäytä> (<alueen>|<alueessa>|<alueesta>|<alueeseen>|<alueella>|<alueelta>|<alueelle>) <huone> jokainen <tuuletin>"
         slots:
           domain: "fan"
-          name: "all"
+        response: fans_area_singular
+
+      - sentences:
+          # Kaikki tuulettimet
+          - "[<kytke>] (<päältä>;[kaikki];<tuulettimet>;(<huone>|<alue_taivutus> <huone>|<alue_pääte>))"
+          - "<pysäytä> ((<huone>|<alue_taivutus> <huone>|<alue_pääte>);[kaikki];<tuulettimet>)"
+          # Jokainen tuuletin
+          - "[<kytke>] (<päältä>;jokainen;<tuuletin>;(<huone>|<alue_taivutus> <huone>|<alue_pääte>))"
+          - "<pysäytä> (jokainen;<tuuletin>;(<huone>|<alue_taivutus> <huone>|<alue_pääte>))"
+        slots:
+          domain: "fan"
         response: fans_area_plural

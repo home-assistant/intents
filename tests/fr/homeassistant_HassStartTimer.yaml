@@ -6,6 +6,7 @@ tests:
       - "Minuteur 5 min"
       - "Minuteur pour 5 minutes"
       - "Minuteur de 5 min"
+      - "Minuterie de 5 minutes"
     intent:
       name: HassStartTimer
       context:
@@ -20,7 +21,7 @@ tests:
       context:
         area: Cuisine
       slots:
-        hours: "1"
+        hours: 1
     response: Minuteur lancé
   - sentences:
       - "Minuteur 02h16" # Real and problematic STT output for HA Cloud (To be kept in the test suit)
@@ -67,7 +68,7 @@ tests:
       context:
         area: Cuisine
       slots:
-        hours: "1"
+        hours: 1
     response: Minuteur lancé
 
   # Name / No Verb
@@ -98,7 +99,7 @@ tests:
       context:
         area: Cuisine
       slots:
-        hours: "1"
+        hours: 1
         name:
           - "chocolatine "
           - "chocolatine"
@@ -140,10 +141,20 @@ tests:
       context:
         area: Cuisine
       slots:
-        hours: "1"
+        hours: 1
         name:
           - "chocolatine "
           - "chocolatine"
+    response: Minuteur lancé
+  - sentences:
+      - "Mets un minuteur de 10 minutes pour fermer la fenêtre"
+      - "Crée un minuteur pour fermer la fenêtre dans 10 minutes"
+      - "Lance un minuteur pour fermer la fenêtre dans 10 minutes"
+    intent:
+      name: HassStartTimer
+      slots:
+        name: fermer la fenêtre
+        minutes: 10
     response: Minuteur lancé
 
   - sentences:
@@ -154,6 +165,6 @@ tests:
       slots:
         minutes: 5
         conversation_command:
+          - "Ouvre les volets du salon"
           - "ouvre les volets du salon"
-          - "ouvre les volets du salon "
     response: Commande reçue
