@@ -207,6 +207,7 @@ def do_test_slot_combination(
     }
 
     timers: list[dict[str, Any]] = test_dict.get("timers", [])
+    media: list[dict[str, Any]] = test_dict.get("media", [])
 
     # For quick look-up during individual tests
     entity_domains_by_name: dict[str, set[str]] = defaultdict(set)
@@ -239,6 +240,7 @@ def do_test_slot_combination(
 
         expected_response = test_group["response"]
         group_timers = test_group.get("timers", timers)
+        group_media = test_group.get("media", media)
 
         for test_sentence in test_group["sentences"]:
             sentence_error_info = f"sentence='{test_sentence}', {error_info}"
@@ -271,7 +273,12 @@ def do_test_slot_combination(
             matching_sentence_templates[test_sentence] = result.intent_sentence.text
 
             actual_response = _render_response(
-                lang_resources, result, template_slots={"timers": group_timers}
+                lang_resources,
+                result,
+                template_slots={
+                    "timers": group_timers,
+                    "media": group_media[0] if group_media else None,
+                },
             )
             assert (
                 actual_response == expected_response
