@@ -1,0 +1,15 @@
+language: "ca"
+intents:
+  HassListCompleteItem:
+    data:
+      - sentences:
+          - <completa> <item> de la [meva] llista (de|del|de la|amb nom|anomenada) {name}
+          - <completa> <item> de <my_list>
+          - <completa> de <my_list> [un[a|es]|que] <item>
+        response: item_completed
+        requires_context:
+          domain: todo
+        expansion_rules:
+          my_list: "[la] [meva] llista [de|del|de la] {name}"
+          item: "{todo_list_item:item}"
+          completa: "(acaba|completa|desmarca|elimina|cancel[·l]a)[r]"

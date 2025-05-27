@@ -9,6 +9,7 @@ from collections.abc import Callable, Collection
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from unittest.mock import MagicMock
 
 import jinja2
 import regex
@@ -205,6 +206,7 @@ SENTENCE_SCHEMA = vol.Schema(
                         vol.Optional("requires_context"): {str: match_anything},
                         vol.Optional("excludes_context"): {str: match_anything},
                         vol.Optional("response"): str,
+                        vol.Optional("metadata"): {str: match_anything},
                         vol.Optional("required_keywords"): [str],
                     }
                 ]
@@ -363,6 +365,7 @@ TESTS_FIXTURES = vol.Schema(
                 vol.Optional("is_active"): bool,
             }
         ],
+        vol.Optional("media"): [{vol.Required("title"): str}],
     }
 )
 
@@ -462,6 +465,22 @@ def LANGUAGE_LISTS_SCHEMA(language: str) -> vol.Schema:
     )
 
 
+TIMER_SCHEMA_DICT = {
+    vol.Optional("start_hours"): int,
+    vol.Optional("start_minutes"): int,
+    vol.Optional("start_seconds"): int,
+    vol.Optional("total_seconds_left"): int,
+    vol.Optional("rounded_hours_left"): int,
+    vol.Optional("rounded_minutes_left"): int,
+    vol.Optional("rounded_seconds_left"): int,
+    vol.Optional("name"): str,
+    vol.Optional("area"): str,
+    vol.Optional("is_active"): bool,
+}
+
+MEDIA_SCHEMA_DICT = {vol.Required("title"): str}
+
+
 def SLOT_COMBO_TEST_SCHEMA(
     language: str,
     available_slot_names: set[str],
@@ -480,6 +499,8 @@ def SLOT_COMBO_TEST_SCHEMA(
             ],
             vol.Optional("areas"): [{vol.Required("name"): str}],
             vol.Optional("floors"): [{vol.Required("name"): str}],
+            vol.Optional("timers"): [TIMER_SCHEMA_DICT],
+            vol.Optional("media"): [MEDIA_SCHEMA_DICT],
             vol.Required("tests"): [
                 {
                     vol.Required("sentences"): [str],
@@ -488,20 +509,8 @@ def SLOT_COMBO_TEST_SCHEMA(
                         # slot name
                         vol.In(available_slot_names): vol.Any(str, int, [str])
                     },
-                    vol.Optional("timers"): [
-                        {
-                            vol.Optional("start_hours"): int,
-                            vol.Optional("start_minutes"): int,
-                            vol.Optional("start_seconds"): int,
-                            vol.Optional("total_seconds_left"): int,
-                            vol.Optional("rounded_hours_left"): int,
-                            vol.Optional("rounded_minutes_left"): int,
-                            vol.Optional("rounded_seconds_left"): int,
-                            vol.Optional("name"): str,
-                            vol.Optional("area"): str,
-                            vol.Optional("is_active"): bool,
-                        }
-                    ],
+                    vol.Optional("timers"): [TIMER_SCHEMA_DICT],
+                    vol.Optional("media"): [MEDIA_SCHEMA_DICT],
                 }
             ],
         }
@@ -889,6 +898,9 @@ def validate_language(
             slots["date"] = datetime.now().date()
             slots["time"] = datetime.now().time()
 
+            # Media search/play
+            slots["media"] = {"title": ""}
+
             for response_key, response_template in intent_responses.items():
                 possible_response_keys.add(response_key)
                 if response_key not in used_intent_response_keys:
@@ -908,6 +920,7 @@ def validate_language(
                                 "slots": slots,
                                 "query": {"matched": [], "unmatched": []},
                                 "state_attr": lambda *args: None,
+                                "metadata": MagicMock(),
                             }
                         )
                     except jinja2.exceptions.TemplateError as err:
