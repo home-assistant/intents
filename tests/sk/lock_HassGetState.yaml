@@ -1,0 +1,66 @@
+language: sk
+tests:
+  - sentences:
+      - "sú vstupné dvere odomknuté?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: vstupné dvere
+        state: unlocked
+    response: "Nie"
+
+  - sentences:
+      - "aký stav majú vstupné dvere?"
+      - "aký majú stav vstupné dvere?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        name: vstupné dvere
+    response: "Vstupné dvere je v stave zamknuté"
+
+  - sentences:
+      - "sú niektoré zámky zamknuté?"
+      - "sú nejaké dvere zamknuté?"
+      - "sú zamknuté niektoré dvere?"
+      - "sú zamknuté nejaké zámky?"
+      - "je nejaký zámok zamknutý?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response: "Áno, vstupné dvere"
+
+  - sentences:
+      - "sú niektoré dvere vo vchode zamknuté?"
+      - "sú nejaké zámky vo vchode zamknuté?"
+      - "sú zamknuté niektoré dvere vo vchode?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        area: vchode
+        state: locked
+    response: "Áno, vstupné dvere"
+
+  - sentences:
+      - "sú všetky dvere zamknuté?"
+      - "sú zamknuté všetky dvere?"
+      - "je všade zamknuté?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response: "Áno"
+
+  - sentences:
+      - "ktoré dvere sú zamknuté?"
+    intent:
+      name: HassGetState
+      slots:
+        domain: lock
+        state: locked
+    response: "vstupné dvere"

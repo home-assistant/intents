@@ -1,0 +1,67 @@
+---
+language: cs
+responses:
+  intents:
+    HassTimerStatus:
+      default: |
+        {% macro pluralize_flexed(number, flexes) %}
+          {% if (number|string)[-1] in ["1"]: %}
+            {{ number }} {{ flexes[0] }}
+          {% elif (number|string)[-1] in ["2", "3", "4"]: %}
+            {{ number }} {{ flexes[1] }}
+          {% elif (number|string)[-1] in ["5", "6", "7", "8", "9"]: %}
+            {{ number }} {{ flexes[2] }}
+          {% else %}
+          {% endif %}
+        {% endmacro %}
+        {% set hours_flexed = ['hodina', 'hodiny', 'hodin'] %}
+        {% set minutes_flexed = ['minuta', 'minuty', 'minut'] %}
+        {% set seconds_flexed = ['sekunda', 'sekundy', 'sekund'] %}
+        {% set hours_start_flexed = ['hodinu', 'hodiny', 'hodin'] %}
+        {% set minutes_start_flexed = ['minutu', 'minuty', 'minut'] %}
+        {% set seconds_start_flexed = ['sekundu', 'sekundy', 'sekund'] %}
+        {% set timers_paused_flexed = ['časovač pozastaven.', 'časovače pozastaveny.', 'časovačů pozastaveno.'] %}
+        {% set timers_running_flexed = ['', 'časovače spuštěny.', 'časovačů spuštěno.'] %}
+        {% set num_timers = slots.timers | length %}
+        {% set active_timers = slots.timers | selectattr('is_active') | list %}
+        {% set num_active_timers = active_timers | length %}
+        {% set paused_timers = slots.timers | rejectattr('is_active') | list %}
+        {% set num_paused_timers = paused_timers | length %}
+        {% set next_timer = None %}
+        {% if num_timers == 0: %}
+          Žádné časovače.
+        {% elif num_active_timers == 0: %}
+          {# No active timers #}
+          {% if num_paused_timers == 1: %}
+            {% set next_timer = paused_timers[0] %}
+            Časovač je pozastaven.
+          {% else: %}
+            {{ pluralize_flexed(num_paused_timers, timers_paused_flexed) }}
+          {% endif %}
+        {% else: %}
+          {# At least one active timer #}
+          {% if num_active_timers == 1: %}
+            {% set next_timer = active_timers[0] %}
+          {% else: %}
+            {# Get active timer that will finish soonest #}
+            {% set sorted_timers = active_timers | sort(attribute='total_seconds_left') %}
+            {% set next_timer = sorted_timers[0] %}
+            {{ pluralize_flexed(num_active_timers, timers_running_flexed) }}
+          {% endif %}
+          {{ pluralize_flexed(num_paused_timers, timers_paused_flexed) }}
+        {% endif %}
+        {% if next_timer: %}
+          {# At least one active timer #}
+          Zbývající čas
+          {{ ' '.join([pluralize_flexed(next_timer.rounded_hours_left, hours_flexed), pluralize_flexed(next_timer.rounded_minutes_left, minutes_flexed), pluralize_flexed(next_timer.rounded_seconds_left, seconds_flexed)]) }}
+          {% if num_timers > 1: %}
+            {# Give some extra information to disambiguate #}
+            na časovači spuštěném na
+            {{ ' '.join([pluralize_flexed(next_timer.start_hours, hours_start_flexed), pluralize_flexed(next_timer.start_minutes, minutes_start_flexed), pluralize_flexed(next_timer.start_seconds, seconds_start_flexed)]) }}
+            {% if next_timer.name: %}
+              pojmenovaném {{ next_timer.name }}
+            {% elif next_timer.area: %}
+              v {{ next_timer.area }}
+            {% endif %}
+          {% endif %}
+        {% endif %}

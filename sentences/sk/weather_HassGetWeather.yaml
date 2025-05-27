@@ -2,10 +2,97 @@ language: sk
 intents:
   HassGetWeather:
     data:
+      # aktuálne počasie na mieste
       - sentences:
-          - "<what_is> počasie"
+          - "aké je [aktuálne|dnes|dnešné|teraz] počasie"
+          - "aké ([aktuálne|dnes|teraz];máme) počasie"
+          - "aké sú [(aktuálne|dnes|dnešné|teraz)] poveternostné podmienky"
+      # počasie pre konkrétnu entitu (miesto)
       - sentences:
-          - "<what_is> počasie[ <is>] <in> <name>"
-          - "<what_is>[ <in>] <name> počasie"
+          # aké je (dnes/teraz) v .. počasie
+          # aké je (dnes/teraz) počasie v ..
+          - "aké je [aktuálne|dnes|dnešné|teraz] (počasie;[<in>] <name>)"
+          # aké počasie je (dnes/teraz) v ..
+          - "aké počasie je [dnes|teraz] [<in>] <name>"
+          # aké poveternostné podmienky sú (dnes/teraz) v ..
+          - "aké poveternostné podmienky sú [aktuálne|dnes|teraz] [<in>] <name>"
+          # aké sú (dnes/teraz) v .. poveternostné podmienky
+          # aké sú (dnes/teraz) poveternostné podmienky v ..
+          - "aké sú [aktuálne|dnes|dnešné|teraz] (poveternostné podmienky;[<in>] <name>)"
+          # ako je (dnes/teraz) v ..
+          - "ako je [aktuálne|dnes|teraz] <in> <name>"
         requires_context:
           domain: weather
+
+      # podrobné počasie na mieste
+      - sentences:
+          - "(daj mi|[p]opíš [mi]) (podrobnú|detailnú) [dnešn(ú|é)] (predpoveď [počasia]|počasie) [na dnes]"
+          - "(daj mi|[p]opíš [mi]) ((podrobne|detailne);([dnešnú] predpoveď|dnešné poveternostné podmienky|aktuálne počasie))"
+          - "aká je [aktuálna|dnes|dnešná] (detailná|podrobná) predpoveď [počasia]"
+          - "akú máme dnes (detailnú|podrobnú) predpoveď [počasia]"
+        response: detailed_weather
+
+      # teplota vzduchu
+      - sentences:
+          - "aká je [aktuálna|dnes|dnešná|teraz] teplota vzduchu [vonku]"
+          - "akú máme [aktuálnu|dnes|dnešnú|teraz] teplotu vzduchu [vonku]"
+          - "koľko (stupňov;je [dnes|teraz]) [vonku]"
+          - "daj mi [aktuálnu|dnešnú] teplotu vzduchu [vonku]"
+        response: temperature
+
+      # vlhkosť
+      - sentences:
+          - "aká je [aktuálna|dnes|dnešná|teraz] vlhkosť vzduchu [vonku]"
+          - "akú máme [aktuálnu|dnes|dnešnú|teraz] vlhkosť vzduchu [vonku]"
+          - "daj mi [aktuálnu|dnešnú] vlhkosť vzduchu [vonku]"
+        response: humidity
+
+      # rosný bod
+      - sentences:
+          - "aká je [aktuálna|dnes|teraz] (teplota|hodnota) rosného bodu"
+          - "aký máme [dnes|teraz] rosný bod"
+          - "aký je [dnes] rosný bod"
+        response: dew_point
+
+      # tlak vzduchu
+      - sentences:
+          - "aký je [aktuálny|dnes|dnešný|teraz] tlak vzduchu [vonku]"
+          - "aký máme [aktuálny|dnes|dnešný|teraz] tlak vzduchu [vonku]"
+          - "daj mi [aktuálny|dnešný] tlak vzduchu [vonku]"
+        response: pressure
+
+      # rýchlosť vzduchu
+      - sentences:
+          - "aká je [aktuálna|dnes|dnešná|teraz] rýchlosť vetra [vonku]"
+          - "akú máme [aktuálnu|dnes|teraz] rýchlosť vetra [vonku]"
+          - "daj mi [aktuálnu|momentálnu] rýchlosť vetra [vonku]"
+        response: wind_speed
+
+      # ozón
+      - sentences:
+          - "aká je [aktuálna|dnes|dnešná|teraz] (hodnota|úroveň) ozónu [vonku]"
+          - "akú máme [aktuálnu|dnes|dnešnú|teraz] (hodnotu|úroveň) ozónu [vonku]"
+          - "daj mi [aktuálnu|momentálnu] hodnotu ozónu [vonku]"
+        response: ozone
+
+      # oblačnosť
+      - sentences:
+          - "aká je [aktuálna|dnes|dnešná|teraz] oblačnosť"
+          - "akú máme [aktuálnu|dnes|dnešnú|teraz] oblačnosť"
+          - "daj mi [aktuálnu|momentálnu] hodnotu [aktuálnej|dnešnej] oblačnosti"
+        response: cloud_coverage
+
+      # viditeľnosť
+      - sentences:
+          - "aká je [aktuálna|dnes|dnešná|teraz] viditeľnosť"
+          - "akú máme [aktuálnu|dnes|dnešnú|teraz] viditeľnosť"
+          - "daj mi hodnotu [aktuálnej|dnešnej] viditeľnosti"
+        response: visibility
+
+      # UV žiarenie
+      - sentences:
+          - "aký je [aktuálny|dnes|dnešný|teraz] index UV žiarenia"
+          - "aký máme [aktuálny|dnes|dnešný|teraz] index UV žiarenia"
+          - "aké máme [aktuálne|dnes|dnešné|teraz] UV žiarenie"
+          - "daj mi [aktuálnu] hodnotu [aktuálneho|dnešného] indexu UV žiarenia"
+        response: uv_index

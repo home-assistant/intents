@@ -1,39 +1,70 @@
 language: sk
 tests:
+  # garáž/garážová brána
   - sentences:
       - otvor garážovú bránu
+      - otvor garáž
+      - otvor bránu od garáže
+      - otvor bránu do garáže
+      - otvoriť garáž
     intent:
       name: HassTurnOn
       slots:
-        device_class: garage
         domain: cover
-        name: garážovú bránu
-    response: Otváram garážovú bránu
+    response: Otváram garáž
+
+  # otvor bránu/garáž - konkrétnu entitu
+  - sentences:
+      - otvor malú garážovú bránu
+      - otvoriť malú garážovú bránu
+      - prosím otvor malú garážovú bránu
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: cover
+        name: malú garážovú bránu
+    response: Otváram malú garážovú bránu
+
+  # otvor roletu/žalúzie/.. - konkrétna entita
+  - sentences:
+      - vytiahni prednú roletu
+      - vytiahnuť prednú roletu
+      - daj hore prednú roletu
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: cover
+        name: prednú roletu
+    response:
+      - Vyťahujem prednú roletu
+
+  # otvor roletu/žalúzie/.. - oblasť
   - sentences:
       - otvor rolety v kuchyni
+      - otvor v kuchyni roletu
+      - vytiahni žalúzie v kuchyni
+      - otvor v kuchyni markízu
     intent:
       name: HassTurnOn
       slots:
         area:
           - kuchyni
         device_class:
+          - awning
           - blind
           - curtain
           - shutter
         domain: cover
-        name: rolety
-    response: Otváram rolety v kuchyni
-  - sentences:
-      - Otvor garáž
-    intent:
-      name: HassTurnOn
-      slots:
-        domain: cover
-        device_class: garage
-        name: garáž
-    response: Otváram garáž
+    response:
+      - Otváram markízu
+      - Otváram rolety
+      - Otváram roletu
+      - Otváram žalúzie
+
+  # odostri roletu/žalúzie/.. - oblasť
   - sentences:
       - odostri závesy v obývačke
+      - odostri v obývačke roletu
     intent:
       name: HassTurnOn
       slots:
@@ -44,10 +75,14 @@ tests:
           - blind
           - curtain
           - shutter
-        name: závesy
-    response: Otváram závesy v obývačke
+    response:
+      - Vyťahujem závesy
+      - Vyťahujem roletu
+
+  # vytiahni roletu/žalúzie/.. - oblasť
   - sentences:
-      - vytiahni rolety v obývačke
+      - vytiahni závesy v obývačke
+      - vytiahni v obývačke žalúzie
     intent:
       name: HassTurnOn
       slots:
@@ -58,5 +93,71 @@ tests:
           - blind
           - curtain
           - shutter
-        name: rolety
-    response: Otváram rolety v obývačke
+    response:
+      - Otváram závesy
+      - Otváram žalúzie
+
+  # otvor/vytiahni roletu - satelit
+  - sentences:
+      - otvor tu roletu
+      - otvoriť roletu
+      - otvor tu žalúzie
+      - vytiahni v tejto izbe žalúzie
+      - vytiahni žalúzie v tejto miestnosti
+      - otvor tu okenice
+      - otvor tu okno
+    intent:
+      name: HassTurnOn
+      context:
+        area: kuchyňa
+      slots:
+        device_class:
+          - blind
+          - shutter
+          - window
+        domain: cover
+        area: kuchyňa
+    response:
+      - Otváram okenice
+      - Otváram okno
+      - Otváram roletu
+      - Otváram žalúzie
+
+  - sentences:
+      - otvor tu bránu
+      - otvor bránu
+      - vytiahni bránu
+    intent:
+      name: HassTurnOn
+      context:
+        area: garáž
+      slots:
+        domain: cover
+        area: garáž
+        device_class:
+          - gate
+    response: Otváram bránu
+
+  # odostri roletu/žalúzie - satelit
+  - sentences:
+      - odostri žalúzie v tejto miestnosti
+      - odostri tu rolety
+      - daj hore roletu
+    intent:
+      name: HassTurnOn
+      context:
+        area: kuchyni
+      slots:
+        domain: cover
+        area:
+          - kuchyni
+        device_class:
+          - awning
+          - blind
+          - curtain
+          - shade
+          - shutter
+    response:
+      - Vyťahujem žalúzie
+      - Vyťahujem rolety
+      - Vyťahujem roletu

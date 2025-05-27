@@ -2,6 +2,7 @@ language: ru
 tests:
   - sentences:
       - "Прикрой штора в спальне на 50%"
+      - "Установи положение штора в спальне на 50%"
     intent:
       name: HassSetPosition
       slots:
@@ -13,8 +14,25 @@ tests:
   - sentences:
       - "Установи  шторы в спальня на 50%"
       - "Установи в спальня положение штор на 50%"
+      - "Открой  шторы в спальня на 50%"
+      - "Закрой в спальня шторы на 50%"
     intent:
       name: HassSetPosition
+      slots:
+        domain: cover
+        device_class: "curtain"
+        area: "Спальня"
+        position: 50
+    response: "Положение задано"
+
+  - sentences:
+      - "Установи положение шторы на 50%"
+      - "Открой здесь шторы на 50%"
+      - "Закрой шторы в комнате на 50%"
+    intent:
+      name: HassSetPosition
+      context:
+        area: "Спальня"
       slots:
         domain: cover
         device_class: "curtain"

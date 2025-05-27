@@ -1,4 +1,12 @@
 language: "sk"
+floors:
+  - name: "(prízem(ie|í)|spodn(é|om) poschod(í|ie)|doln(é|om) poschod(í|ie))"
+    id: ground_floor_id
+  - name: "[prv(é|om)|horn(é|om)|vrchn(é|om)] poschod(í|ie)"
+    id: first_floor_id
+  - name: "poval(a|e)|podkrovie"
+    id: attic_floor_id
+
 areas:
   - name: "kuchy(ňa|ni|ne|ňu|nsk(ý|é)) "
     id: kitchen
@@ -6,6 +14,7 @@ areas:
     id: living_room
   - name: "spál(ňa|ni|ne|ňu)"
     id: bedroom
+    floor: first_floor_id
   - name: "garáž[i|e]"
     id: garage
   - name: "chodb(a|e|u|y)"
@@ -14,6 +23,13 @@ areas:
     id: entrance
   - name: "pred vchodom"
     id: outside_entrance
+  - name: "záhrad(a|e|u)"
+    id: garden
+    floor: ground_floor_id
+  - name: "izb(a|e) pre hostí"
+    id: guest_room
+    floor: attic_floor_id
+
 entities:
   - name: "nočn(á|ú|ej) lamp(a|u|y|e)"
     id: light.bedroom_lamp
@@ -28,19 +44,23 @@ entities:
   - name: "kuchynský vypínač"
     id: switch.kitchen
     area: kitchen
-    state: "on"
+    state:
+      in: "zapnutý"
+      out: "on"
 
-  - name: "rohová lampa"
+  - name: "rohov(á|ú) lamp(a|u)"
     id: light.living_room_lamp
     area: living_room
     state: "on"
+    attributes:
+      device_class: light
 
   - name: "garážové svetlo"
     id: light.garage
     area: "garage"
     state: "on"
 
-  - name: "stropný ventilátor"
+  - name: "biely ventilátor"
     id: fan.ceiling
     area: living_room
 
@@ -56,6 +76,95 @@ entities:
     id: light.entrance
     area: entrance
 
+  - name: "firewall"
+    id: "binary_sensor.firewall"
+    state:
+      in: "problém"
+      out: "on"
+    attributes:
+      device_class: problem
+
+  - name: "predlžovačka"
+    id: "binary_sensor.power_strip"
+    state:
+      in: "zapojeno"
+      out: "on"
+    attributes:
+      device_class: plug
+
+  - name: "odvetrávanie"
+    id: "binary_sensor.venting"
+    state:
+      in: "beží"
+      out: "on"
+    attributes:
+      device_class: running
+
+  - name: "sejf[u]"
+    id: "binary_sensor.locker"
+    state:
+      in: "zaistený"
+      out: "off"
+    attributes:
+      device_class: safety
+
+  - name: "detektor dymu"
+    id: "binary_sensor.smoke_detector"
+    state:
+      in: "zistený dym"
+      out: "on"
+    attributes:
+      device_class: smoke
+
+  - name: "detská pestúnka"
+    id: "binary_sensor.baby_monitor"
+    area: living_room
+    state:
+      in: "hluk"
+      out: "on"
+    attributes:
+      device_class: sound
+
+  - name: "vniknuti(e|a) do skrýše"
+    id: "binary_sensor.stash_tamper"
+    state:
+      in: "detegované"
+      out: "on"
+    attributes:
+      device_class: tamper
+
+  - name: "vchodové dvere"
+    id: "binary_sensor.main_door_opening"
+    state:
+      in: "zatvorené"
+      out: "off"
+    attributes:
+      device_class: opening
+
+  - name: "home assistant"
+    id: "binary_sensor.ha_update"
+    state:
+      in: "k dispozícii"
+      out: "on"
+    attributes:
+      device_class: update
+
+  - name: "práčka"
+    id: "binary_sensor.washing_machine_vibration"
+    state:
+      in: "vibruje"
+      out: "on"
+    attributes:
+      device_class: vibration
+
+  - name: "okno v pracovni"
+    id: "binary_sensor.shed_window"
+    state:
+      in: "open"
+      out: "on"
+    attributes:
+      device_class: window
+
   - name: "chodba 1"
     id: light.hallway_1
     area: hallway
@@ -67,18 +176,39 @@ entities:
   - name: "garáž[(ová|ovú) brán(a|u)]"
     id: cover.garage_doors
     area: garage
+    state: "closed"
 
-  - name: "závesy"
+  - name: "mal(á|ú) garáž[(ová|ovú) brán(a|u)]"
+    id: cover.garage_doors
+    area: garage
+    state: "closed"
+    attributes:
+      device_class: garage
+
+  - name: "strakat(ý|é|ých) záves[y|ov]"
     id: cover.living_room_curtain
     area: living_room
+    state:
+      in: "odtiahnuté"
+      out: "open"
+    attributes:
+      device_class: curtain
+      position: "30"
 
-  - name: "rolet(y|u)"
-    id: cover.living_room_shutter
+  - name: "hned(á|é|ú) rolet(a|y|u)"
+    id: cover.living_room_blind
     area: living_room
+    state:
+      in: "otvorené"
+      out: "open"
+    attributes:
+      device_class: blind
+      position: "80"
 
   - name: "brán(a|u)"
     id: cover.gate
     area: entrance
+    state: "closed"
 
   - name: "vonkajšia teplota"
     id: sensor.outside_temperature
@@ -91,44 +221,22 @@ entities:
     id: "todo.domaci_zoznam"
     state: ""
 
-  - name: "Bratislav(a|e)"
-    id: "weather.bratislava"
-    state: "rainy"
-    attributes:
-      temperature: "27"
-      temperature_unit: "°C"
-
-  - name: "Doma"
-    id: "weather.home"
-    state: "clear"
-    attributes:
-      temperature: "24"
-      temperature_unit: "°C"
-
-  - name: "Obývačk(a|e)"
-    id: "climate.thermostat"
-    area: "living_room"
-    state: "heat"
-    attributes:
-      current_temperature: 22
-
-  - name: "Spálň(a|i)"
-    id: "climate.thermostat"
-    area: "bedroom"
-    state: "heat"
-    attributes:
-      current_temperature: 20
+  - name: "Úloh[y]"
+    id: "todo.chores"
+    state: ""
 
   - name: "Vysávač"
     id: "vacuum.rover"
     state: "idle"
 
-  - name: "Spálňov(á|ú|é) rolet(a|u|y)"
-    id: "cover.bedroom"
+  - name: "spálňov(á|ú|é|ej) rolet(a|u|y)"
+    id: "cover.bedroom_blind"
     area: "bedroom"
-    state: "closed"
+    state:
+      in: "zatvorené"
+      out: "closed"
     attributes:
-      device_class: curtain
+      device_class: blind
       position: "0"
 
   - name: "Hlavný ventil"
@@ -137,7 +245,7 @@ entities:
     attributes:
       position: "100"
 
-  - name: "Televízi(a|e|u|i)"
+  - name: "Televízi(a|e|u|i)|Telk(a|e|u|y)|TV"
     id: "media_player.tv"
     state: "idle"
     attributes:
@@ -147,17 +255,26 @@ entities:
     id: "binary_sensor.door_garden"
     area: "kitchen"
     state:
-      in: "closed"
+      in: "zatvorené"
       out: "off"
     attributes:
       device_class: door
 
-  - name: "Velké okno"
+  - name: "Veľké okno"
     id: "binary_sensor.window_living"
     area: "living_room"
     state:
-      in: "open"
+      in: "otvorené"
       out: "on"
+    attributes:
+      device_class: window
+
+  - name: "Ovládateľné okno"
+    id: "cover.window_living"
+    area: "living_room"
+    state:
+      in: "otvorené"
+      out: "open"
     attributes:
       device_class: window
 
@@ -165,7 +282,7 @@ entities:
     id: "binary_sensor.window_living"
     area: "living_room"
     state:
-      in: "closed"
+      in: "zatvorené"
       out: "off"
     attributes:
       device_class: window
@@ -173,7 +290,7 @@ entities:
   - name: "Garážové dvere"
     id: "binary_sensor.door_garage_main"
     state:
-      in: "open"
+      in: "otvorené"
       out: "on"
     attributes:
       device_class: garage_door
@@ -182,10 +299,629 @@ entities:
     id: "binary_sensor.door_garage_to_house"
     area: "garage"
     state:
-      in: "closed"
+      in: "zatvorené"
       out: "off"
     attributes:
       device_class: door
+
+  - name: predn(á|ú|é) rolet(a|u|y)
+    id: cover.blind_front
+    area: bedroom
+    state:
+      in: "otvorená"
+      out: "open"
+    attributes:
+      device_class: blind
+
+  - name: zadn(á|ú|é) rolet(a|u|y)
+    id: cover.blind_back
+    area: bedroom
+    state:
+      in: "zatvorená"
+      out: "closed"
+    attributes:
+      device_class: blind
+
+  - name: "spálňov(á|ú|é|ej|ého|ých) žalúzi(a|u|e|í)"
+    id: cover.blind_bedroom
+    area: bedroom
+    state:
+      in: zatvorené
+      out: "closed"
+    attributes:
+      device_class: blind
+
+  - name: "neznačkov(á|ú|é|ej|ého|ých) žalúzi(a|u|e|í)"
+    id: cover.blind_bedroom
+    area: bedroom
+    state:
+      in: zatvára sa
+      out: "closing"
+    attributes:
+      device_class: blind
+
+  - name: "modr(ý|ého) záves[u]"
+    id: cover.blue_curtain
+    area: guest_room
+    state:
+      in: zatiahnuté
+      out: "closed"
+    attributes:
+      device_class: curtain
+
+  - name: "vstupn(é|ých) dver(e|í)"
+    id: "lock.main_door"
+    area: "entrance"
+    state:
+      in: zamknuté
+      out: locked
+
+  - name: "hlavný uzáver vody"
+    id: "valve.main_valve"
+    state: "open"
+    attributes:
+      position: "100"
+
+  - name: "rozstrekovač[a]"
+    id: "valve.sprinkler"
+    area: "garden"
+    state: "open"
+    attributes:
+      position: "50"
+
+  - name: "párty"
+    id: "scene.party"
+
+  - name: "prišla návšteva"
+    id: "script.guests_came"
+
+  - name: "batéria notebooku"
+    id: binary_sensor.notebook_battery
+    area: living_room
+    state:
+      in: "nabitá"
+      out: "off"
+    attributes:
+      device_class: battery
+
+  - name: "batéria zvončeka"
+    id: "binary_sensor.doorbell_battery"
+    area: entrance
+    state:
+      in: "vybitá"
+      out: "on"
+    attributes:
+      device_class: battery
+
+  - name: "batéri(a|e) vysávača"
+    id: "binary_sensor.vacuum_battery_charging"
+    area: living_room
+    state:
+      in: "nabíja sa"
+      out: "on"
+    attributes:
+      device_class: battery_charging
+
+  - name: "hlásič CO"
+    id: "binary_sensor.co"
+    area: "bedroom"
+    state:
+      in: "čisto"
+      out: "off"
+    attributes:
+      device_class: carbon_monoxide
+
+  - name: "terárium"
+    id: "binary_sensor.terrarium_cold"
+    area: living_room
+    state:
+      in: "normálne"
+      out: "off"
+    attributes:
+      device_class: cold
+
+  - name: "sieťový disk"
+    id: "binary_sensor.nas_connectivity"
+    state:
+      in: "pripojené"
+      out: "on"
+    attributes:
+      device_class: connectivity
+
+  - name: "hlavný prívod"
+    id: "binary_sensor.mains"
+    state:
+      in: "zapnutý"
+      out: "on"
+    attributes:
+      device_class: power
+
+  - name: "únik plynu"
+    id: "binary_sensor.gas_leak"
+    area: "kitchen"
+    state:
+      in: "v poriadku"
+      out: "off"
+    attributes:
+      device_class: gas
+
+  - name: "server"
+    id: "binary_sensor.server_heat"
+    state:
+      in: "prehriaty"
+      out: "on"
+    attributes:
+      device_class: heat
+
+  - name: "senzor denného svetla"
+    id: "binary_sensor.light"
+    state:
+      in: "tma"
+      out: "off"
+    attributes:
+      device_class: light
+
+  - name: "detský zámok"
+    id: "binary_sensor.child_lock"
+    state:
+      in: "odomknuté"
+      out: "off"
+    attributes:
+      device_class: lock
+
+  - name: "telefón Oľgy"
+    id: "binary_sensor.phone_olga"
+    state:
+      in: "doma"
+      out: "on"
+    attributes:
+      device_class: presence
+
+  - name: "Kuchy(ňa|ne)"
+    id: "binary_sensor.kitchen_occupancy"
+    area: "kitchen"
+    state:
+      in: "detected"
+      out: "on"
+    attributes:
+      device_class: occupancy
+
+  - name: "Oľga"
+    id: "person.olga"
+    state: "home"
+
+  - name: "Jozef"
+    id: "person.jozef"
+    state: "práca"
+
+  - name: "Xavier"
+    id: "person.xavier"
+    state: "not_home"
+
+  - name: "hlavn(ý|om) prívod[e]"
+    id: "sensor.aparent_power_mains"
+    state: "2"
+    attributes:
+      device_class: apparent_power
+      unit_of_measurement: "VA"
+
+  - name: "kvalit(a|y) vzduchu"
+    id: "sensor.air_quality"
+    area: kitchen
+    state: "50"
+    attributes:
+      device_class: aqi
+
+  - name: "tlak v pneumatikách"
+    id: "sensor.air_pressure"
+    state: "2.1"
+    attributes:
+      device_class: atmospheric_pressure
+      unit_of_measurement: "bar"
+
+  - name: "[batéria] môjho telefónu"
+    id: "sensor.phone_battery"
+    state: "98"
+    attributes:
+      device_class: battery
+      unit_of_measurement: "%"
+
+  - name: "CO2"
+    id: "sensor.living_room_co2"
+    area: living_room
+    state: "50"
+    attributes:
+      device_class: carbon_dioxide
+      unit_of_measurement: "ppm"
+
+  - name: "CO"
+    id: "sensor.living_room_co"
+    area: living_room
+    state: "48"
+    attributes:
+      device_class: carbon_monoxide
+      unit_of_measurement: "ppm"
+
+  - name: "[prúd] nabíjani(a|e) auta"
+    id: "sensor.EV_current"
+    state: "15"
+    attributes:
+      device_class: current
+      unit_of_measurement: "A"
+
+  - name: "[download|sťahovanie|preberanie] z internetu"
+    id: "sensor.download_speed"
+    state: "150"
+    attributes:
+      device_class: data_rate
+      unit_of_measurement: "Mbps"
+
+  - name: "[veľkosť] log[u]"
+    id: "sensor.log_file_size"
+    state: "106"
+    attributes:
+      device_class: data_size
+      unit_of_measurement: "kB"
+
+  - name: "[(dátum|termín)] odvoz[u] odpadu"
+    id: "sensor.general_waste"
+    state: "2024-04-01"
+    attributes:
+      device_class: date
+
+  - name: "dojazd elektromobilu"
+    id: "sensor.ev_dojezd"
+    state: "75"
+    attributes:
+      device_class: distance
+      unit_of_measurement: "km"
+
+  - name: "program umývačky [riadu]"
+    id: "sensor.dishwasher_program_duration"
+    state: "64"
+    attributes:
+      device_class: duration
+      unit_of_measurement: "min"
+
+  - name: "produkci(a|e) solárnej elektrárne"
+    id: "sensor.solar_production"
+    state: "3.2"
+    attributes:
+      device_class: energy
+      unit_of_measurement: "kWh"
+
+  - name: "akumulačn(á|ej) batéri(a|í)"
+    id: "sensor.powerwall_stored_energy"
+    state: "6"
+    attributes:
+      device_class: energy_storage
+      unit_of_measurement: "kWh"
+
+  - name: "[frekvencia] siete"
+    id: "sensor.grid_frequency"
+    state: "51"
+    attributes:
+      device_class: frequency
+      unit_of_measurement: "Hz"
+
+  - name: "spotreb(a|ovaný) za mesiac"
+    id: "sensor.monthly_gas_consumption"
+    state: "12"
+    attributes:
+      device_class: gas
+      unit_of_measurement: "m³"
+
+  - name: "vlhkos(ť|ti)"
+    id: "sensor.living_room_humidity"
+    area: living_room
+    state: "48"
+    attributes:
+      device_class: humidity
+      unit_of_measurement: "%"
+
+  - name: "intenzit(a|y) svetla"
+    id: "sensor.living_room_illuminance"
+    area: living_room
+    state: "438"
+    attributes:
+      device_class: illuminance
+      unit_of_measurement: "lux"
+
+  - name: "radiáci(a|e)"
+    id: "sensor.living_room_heater_irradiance"
+    area: living_room
+    state: "155"
+    attributes:
+      device_class: irradiance
+      unit_of_measurement: "W/m²"
+
+  - name: "[vlhkosť] pôdy"
+    id: "sensor.soil_moisture"
+    state: "83"
+    attributes:
+      device_class: moisture
+      unit_of_measurement: "%"
+
+  - name: "[peňazí] na účte"
+    id: "sensor.money_on_account"
+    state: "500"
+    attributes:
+      device_class: monetary
+      unit_of_measurement: "EUR"
+
+  - name: "[cena za] kW energie"
+    id: "sensor.price_per_kW"
+    state: "1"
+    attributes:
+      device_class: monetary
+      unit_of_measurement: "EUR"
+
+  - name: "NO2 na čerpadle"
+    id: "sensor.heat_pump_no2"
+    state: "50"
+    attributes:
+      device_class: nitrogen_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "NO na čerpadle"
+    id: "sensor.heat_pump_no"
+    state: "50"
+    attributes:
+      device_class: nitrogen_monoxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "N2O na čerpadle"
+    id: "sensor.heat_pump_n2o"
+    state: "50"
+    attributes:
+      device_class: nitrous_oxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "ozón[u]"
+    id: "sensor.living_room_ozone"
+    area: living_room
+    state: "50"
+    attributes:
+      device_class: ozone
+      unit_of_measurement: "µg/m³"
+
+  - name: "množstv(o|a) častíc pm1"
+    id: "sensor.living_room_pm1"
+    area: living_room
+    state: "50"
+    attributes:
+      device_class: pm1
+      unit_of_measurement: "µg/m³"
+
+  - name: "množstv(o|a) častíc pm2.5"
+    id: "sensor.living_room_pm25"
+    area: living_room
+    state: "50"
+    attributes:
+      device_class: pm25
+      unit_of_measurement: "µg/m³"
+
+  - name: "množstv(o|a) častíc pm10"
+    id: "sensor.living_room_pm10"
+    area: living_room
+    state: "50"
+    attributes:
+      device_class: pm10
+      unit_of_measurement: "µg/m³"
+
+  - name: "[účinník] chladničky"
+    id: "sensor.refrigerator_power_factor"
+    state: "2"
+    attributes:
+      device_class: power_factor
+
+  - name: "[výkon] solárnej elektrárne"
+    id: "sensor.aircon_power"
+    state: "380"
+    attributes:
+      device_class: power
+      unit_of_measurement: "W"
+
+  - name: "dažďov(é|ých) zráž(ok|ky) za 24 hodín"
+    id: "sensor.rain_sensor_total"
+    state: "29"
+    attributes:
+      device_class: precipitation
+      unit_of_measurement: "mm"
+
+  - name: "na streche"
+    id: "sensor.rain_sensor_intensity"
+    state: "144"
+    attributes:
+      device_class: precipitation_intensity
+      unit_of_measurement: "mm/h"
+
+  - name: "[tlak] v pneumatike"
+    id: "sensor.tyre_pressure"
+    state: "2.1"
+    attributes:
+      device_class: pressure
+      unit_of_measurement: "bar"
+
+  - name: "[jalový výkon] bazénového čerpadla"
+    id: "sensor.water_pump_reactive_power"
+    state: "22"
+    attributes:
+      device_class: reactive_power
+      unit_of_measurement: "VAR"
+
+  - name: "[sila signálu] mobilného telefónu"
+    id: "sensor.my_phone_gsm_signal"
+    state: "-43"
+    attributes:
+      device_class: signal_strength
+      unit_of_measurement: "dBm"
+
+  - name: "[akustický tlak] reproduktor[a|u]"
+    id: "sensor.sound_bar_sound_pressure"
+    state: "62"
+    attributes:
+      device_class: sound_pressure
+      unit_of_measurement: "dB"
+
+  - name: "[rýchlosť] auta"
+    id: "sensor.traveling speed"
+    state: "67"
+    attributes:
+      device_class: speed
+      unit_of_measurement: "km/h"
+
+  - name: "SO2 vo vzduchu"
+    id: "sensor.air_so2"
+    state: "50"
+    attributes:
+      device_class: sulphur_dioxide
+      unit_of_measurement: "µg/m³"
+
+  - name: "Teplomer[om]"
+    id: "sensor.teplota_obyvacka"
+    area: living_room
+    state: "18"
+    attributes:
+      device_class: temperature
+      unit_of_measurement: "°C"
+
+  - name: "množstv(o|a) VOC vo vzduchu"
+    id: "sensor.voc_sensor"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds
+      unit_of_measurement: "µg/m³"
+
+  - name: "koncentráci(a|e) častíc VOC vo vzduchu"
+    id: "sensor.voc_sensor_parts"
+    state: "35"
+    attributes:
+      device_class: volatile_organic_compounds_parts
+      unit_of_measurement: "ppm"
+
+  - name: "autobatéri(a|e)"
+    id: "sensor.input_voltage"
+    state: "12"
+    attributes:
+      device_class: voltage
+      unit_of_measurement: "V"
+
+  - name: "spotrebovan(á|ej) vod(a|y)"
+    id: "sensor.water_pump_usage_today"
+    state: "1356"
+    attributes:
+      device_class: volume
+      unit_of_measurement: "L"
+
+  - name: "pohyb v garáži"
+    id: "binary_sensor.garage_motion"
+    area: "garage"
+    state:
+      in: "detected"
+      out: "on"
+    attributes:
+      device_class: motion
+
+  - name: "[celkový objem] uloženej vody"
+    id: "sensor.water_pump_buffer"
+    state: "28"
+    attributes:
+      device_class: volume_storage
+      unit_of_measurement: "L"
+
+  - name: "spotrebovaná voda"
+    id: "sensor.water_pump_usage"
+    state: "5987"
+    attributes:
+      device_class: water
+      unit_of_measurement: "L"
+
+  - name: "poste[ľ|li]"
+    id: "sensor.bed_sensor_weight"
+    state: "87"
+    attributes:
+      device_class: weight
+      unit_of_measurement: "kg"
+
+  - name: "Mistral"
+    id: "sensor.mistral_speed"
+    state: "33"
+    attributes:
+      device_class: wind_speed
+      unit_of_measurement: "km/h"
+
+  - name: "voda v kuchyni"
+    id: "binary_sensor.water_sensor"
+    area: kitchen
+    state:
+      in: "dry"
+      out: "off"
+    attributes:
+      device_class: moisture
+
+  - name: "termostat[e] [v] obývačk(a|e)"
+    id: "climate.thermostat"
+    area: "living_room"
+    state: "heat"
+    attributes:
+      current_temperature: 22
+
+  - name: "termostat[e] [v] spál(ňa|ni)"
+    id: "climate.thermostat"
+    area: "bedroom"
+    state: "heat"
+    attributes:
+      current_temperature: 20
+
+  - name: "Bratislav(a|e)"
+    id: "weather.bratislava"
+    state: "rainy"
+    attributes:
+      temperature: "27.2"
+      temperature_unit: "°C"
+      humidity: 85
+      dew_point: 6
+      pressure: 1018
+      pressure_unit: hPa
+      wind_gust_speed: 24.3
+      wind_speed: 14.1
+      wind_speed_unit: km/h
+      wind_bearing: 113
+      ozone: 62.8
+      cloud_coverage: 95.3
+      visibility: 24.1
+      visibility_unit: km
+      uv_index: 0.3
+
+  - name: "Doma"
+    id: "weather.home"
+    state: "clear"
+    attributes:
+      temperature: "24"
+      temperature_unit: "°C"
+
+  - name: "Trenčín[e]"
+    id: "weather.trencin"
+    state: "rainy"
+    attributes:
+      temperature: "8"
+      temperature_unit: "°C"
+
+  - name: "Košic(e|iach)"
+    id: "weather.kosice"
+    state: "clear"
+    attributes:
+      temperature: "24"
+      temperature_unit: "°C"
+
+  - name: "Poprad[e]"
+    id: "weather.poprad"
+    state: "snowy"
+    attributes:
+      temperature: "-2.4"
+      temperature_unit: "°C"
+
 timers:
   - name: "pizza"
     start_minutes: 15
@@ -193,9 +929,15 @@ timers:
     rounded_hours_left: 0
     rounded_minutes_left: 10
     rounded_seconds_left: 0
-  - area: "kitchen"
+  - area: "kuchyňa"
     start_minutes: 5
     total_seconds_left: 190
     rounded_hours_left: 0
     rounded_minutes_left: 3
+    rounded_seconds_left: 0
+  - name: "volať šéfovi"
+    start_hours: 1
+    total_seconds_left: 0
+    rounded_hours_left: 0
+    rounded_minutes_left: 30
     rounded_seconds_left: 0

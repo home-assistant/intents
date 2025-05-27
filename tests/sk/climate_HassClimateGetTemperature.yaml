@@ -1,12 +1,6 @@
 language: sk
 tests:
   - sentences:
-      - aká je teplota?
-      - koľko je stupňov?
-    intent:
-      name: HassClimateGetTemperature
-    response: "22 stupňov"
-  - sentences:
       - aká je teplota v obývačke?
       - aká teplota je v obývačke?
       - koľko stupňov je v obývačke?
@@ -20,3 +14,44 @@ tests:
           - obývačku
           - obývačky
     response: "22 stupňov"
+
+  - sentences:
+      - aká je teplota na termostate v obývačke
+      - aká je nastavená teplota na termostate obývačka
+      - ako je nastavená teplota na termostate obývačka
+      - koľko stupňov má termostat obývačka
+      - koľko stupňov je na termostate v obývačke
+    intent:
+      name: HassClimateGetTemperature
+      slots:
+        name:
+          - termostate v obývačke
+          - termostate obývačka
+          - termostat obývačka
+    response: "22 stupňov"
+
+  - sentences:
+      - aká je tu teplota
+      - aká tu je teplota
+      - aká je v tejto miestnosti teplota
+      - koľko je tu stupňov
+      - ako je tu teplo
+      - ako je tu chladno
+    intent:
+      name: HassClimateGetTemperature
+      context:
+        area: spálňa
+      slots:
+        area: spálňa
+    response: "20 stupňov"
+
+  - sentences:
+      - aká je teplota
+      - koľko je stupňov
+    intent:
+      name: HassClimateGetTemperature
+      context:
+        area: spálňa
+      slots:
+        area: spálňa
+    response: "20 stupňov"

@@ -6,11 +6,13 @@ from typing import Any, Dict
 import yaml
 
 _DIR = Path(__file__).parent
-_BASE_DIR = _DIR.parent
-INTENTS_FILE = _BASE_DIR / "intents.yaml"
-SENTENCES_DIR = _BASE_DIR / "sentences"
-TESTS_DIR = _BASE_DIR / "tests"
-RESPONSES_DIR = _BASE_DIR / "responses"
+BASE_DIR = _DIR.parent
+INTENTS_FILE = BASE_DIR / "intents.yaml"
+SENTENCES_DIR = BASE_DIR / "sentences"
+LISTS_DIR = BASE_DIR / "lists"
+RULES_DIR = BASE_DIR / "rules"
+TESTS_DIR = BASE_DIR / "tests"
+RESPONSES_DIR = BASE_DIR / "responses"
 
 LANGUAGES = sorted(p.name for p in SENTENCES_DIR.iterdir() if p.is_dir())
 

@@ -5,7 +5,17 @@ responses:
       # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
       # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
       one: |
-        {{ slots.name | capitalize }} {{ state.state_with_unit }}
+        {% if state.state_with_unit == 'open': %}
+           Открыто
+        {% elif state.state_with_unit == 'closed': %}
+           Закрыто
+        {% elif state.state_with_unit == 'on': %}
+           Включено
+        {% elif state.state_with_unit == 'off': %}
+           Выключено
+        {% else %}
+           {{ slots.name | capitalize }} {{ state.state_with_unit }}
+        {% endif %}
 
       one_yesno: |
         {% if query.matched %}
@@ -64,7 +74,7 @@ responses:
         {{ query.matched | length }}
 
       sensor_value: |
-        Текущее значение: {{ state.state_with_unit }}
+        Текущее значение: {{ state.state_with_unit | replace('.', ',') }}
 
       sensor_value_temperature: |
-        Температура {{ state.state_with_unit }}
+        Температура {{ state.state_with_unit | replace('.', ',') }}

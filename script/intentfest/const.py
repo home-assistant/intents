@@ -4,6 +4,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent.parent
 SENTENCE_DIR = ROOT / "sentences"
+LIST_DIR = ROOT / "lists"
+RULE_DIR = ROOT / "rules"
 RESPONSE_DIR = ROOT / "responses"
 TESTS_DIR = ROOT / "tests"
 LANGUAGES_FILE = ROOT / "languages.yaml"

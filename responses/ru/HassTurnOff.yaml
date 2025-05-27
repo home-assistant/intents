@@ -8,14 +8,20 @@ responses:
         {% set male_ending = "" %}
         {% set plural_ending = "ы" %}
         {% if slots.name[-1].lower() in "ь" %}
-          {% if (slots.name.lower() in "выключатель, пользователь, день, дождь, двигатель, путь") or
-                (slots.name[-2].lower() in "рь") %}
+          {% if ((slots.name.lower().split() + ["выключатель","пользователь","день","дождь"])
+                | count != dict.fromkeys(slots.name.lower().split() + ["выключатель","пользователь","день","дождь"]) | count)  or
+                (slots.name[-2].lower() in "рь" and slots.name.lower() != "дверь") %}
             {% set ending = male_ending %}
           {% else %}
             {% set ending = female_ending %}
           {% endif %}
-        {% elif slots.name[-1].lower() in "а, у, я" %}
+        {% elif slots.name[-1].lower() in "а, у, ю, я" %}
           {% set ending = female_ending %}
+          {% if slots.name[-1].lower() == "у" %}
+            {% set name_new = slots.name[:-1]~"a" %}
+          {% elif slots.name[-1].lower() == "ю" %}
+            {% set name_new = slots.name[:-1]~"я" %}
+          {% endif %}
         {% elif slots.name[-1].lower() in "о, е" %}
           {% set ending = neuter_ending %}
         {% elif slots.name[-1].lower() in "ы, и"%}
@@ -23,34 +29,17 @@ responses:
         {% else %}
           {% set ending = male_ending %}
         {% endif %}
-        {{ slots.name ~ " выключен" ~ ending }}
+        {{ (name_new.split()[-1].title() if slots.name[-1].lower() in "у, ю" else slots.name.split()[-1].title()) ~ " выключен" ~ ending }}
       lights_area: "Свет в {{ slots.area }} выключен"
       light_all: "Весь свет выключен"
       fans_area: "Вентиляторы выключены в {{ slots.area }}"
       cover: |
-        {% set female_ending = "а" %}
-        {% set neuter_ending = "о" %}
-        {% set male_ending = "" %}
-        {% set plural_ending = "ы" %}
-        {% if slots.name.lower() == "ворота" %}
-          {% set ender = plural_ending %}
-        {% elif slots.name[-1].lower() in "ь" %}
-          {% if (slots.name.lower() in "выключатель, пользователь, день, дождь, двигатель, путь") or
-                (slots.name[-2].lower() in "рь") %}
-            {% set ending = male_ending %}
-          {% else %}
-            {% set ending = female_ending %}
-          {% endif %}
-        {% elif slots.name[-1].lower() in "а, у, я" %}
-          {% set ending = female_ending %}
-        {% elif slots.name[-1].lower() in "о, е" %}
-          {% set ending = neuter_ending %}
-        {% elif slots.name[-1].lower() in "ы, и"%}
-          {% set ending = plural_ending %}
-        {% else %}
-          {% set ending = male_ending %}
+        {% if slots.name[-1].lower() == "у" %}
+          {% set name_new = slots.name[:-1]~"a" %}
+        {% elif slots.name[-1].lower() == "ю" %}
+          {% set name_new = slots.name[:-1]~"я" %}
         {% endif %}
-        {{ slots.name ~ " закрыт" ~ ending }}
+        {{ (name_new.split()[-1].title() if slots.name[-1].lower() in "у, ю" else slots.name.split()[-1].title()) ~ (" закрываются" if slots.name[-1].lower() in "ы, и" or slots.name.lower() in "ворота, окна" else " закрывается") }}
       cover_area: "Закрытие в {{ slots.area }} запущено"
       cover_device_class: |
         {% set cover_class = slots.device_class %}
