@@ -7,8 +7,7 @@ from typing import Any
 
 import pytest
 import yaml
-from hassil import Intents
-from hassil.util import merge_dict
+from hassil import Intents, merge_dict
 
 from . import INTENTS_FILE, LANGUAGES, RESPONSES_DIR, load_sentences
 
@@ -72,6 +71,6 @@ def language_sentences(
 def language_responses(language: str) -> dict[str, Any]:
     """Load intent responses for a language."""
     merged_responses: dict = {}
-    for response_file in (RESPONSES_DIR / language).iterdir():
+    for response_file in (RESPONSES_DIR / language).glob("*.yaml"):
         merge_dict(merged_responses, yaml.safe_load(response_file.read_text()))
     return merged_responses.get("responses", {}).get("intents", {})

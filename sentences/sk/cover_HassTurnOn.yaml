@@ -2,20 +2,97 @@ language: sk
 intents:
   HassTurnOn:
     data:
+      # otvor/vytiahni garáž(ovú bránu)
       - sentences:
-          - <open> <name>
-        response: cover_device_class
+          - "<open_door> (garáž|bránu [od|do] garáže|garážovú bránu)" # otvor garáž
         slots:
-          device_class: garage
           domain: cover
-          name: <name>
+        response: garage
+
+      # otvor/vytiahni .. - konkrétna entita
       - sentences:
-          - <open> <name> <area>
-        response: cover_area
-        slots:
+          - "<open_door> {name} [<area>]" # otvor malú garážovú bránu
+        requires_context:
+          domain: cover
           device_class:
+            - garage
+            - garage_door
+        slots:
+          domain: cover
+        response: cover
+
+      # odostri .. - konkrétna entita
+      - sentences:
+          - "<open_curtain> {name} [<area>]" # odostri spálňovú roletu
+        requires_context:
+          domain: cover
+          device_class:
+            - awning
             - blind
             - curtain
+            - shade
+            - shutter
+        slots:
+          domain: cover
+        response: curtain
+
+      # otvor/vytiahni .. - oblasť
+      - sentences:
+          - "<open_door> ({cover_classes:device_class};<area_floor>)" # otvor/vytiahni žalúzie v kuchyni
+        slots:
+          domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+        response: covers_area
+
+      # odostri .. - oblasť
+      - sentences:
+          - "<open_curtain> ({cover_classes:device_class};<area_floor>)" # odostri rolety v kuchyni
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
             - shutter
           domain: cover
-          name: <name>
+        response: curtains_area
+
+      # otvor/vytiahni .. - satelit
+      - sentences:
+          - "<open_door> ({cover_classes:device_class};[<here>])" # otvor/vytiahni (tu) bránu/roletu/dvere/okno
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - door
+            - gate
+            - shade
+            - shutter
+            - window
+        response: covers_area
+
+      # odostri .. - satelit
+      - sentences:
+          - "<open_curtain> ({cover_classes:device_class};[<here>])" # odostri (tu) žalúzie
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: cover
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+        response: curtains_area

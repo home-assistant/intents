@@ -9,9 +9,14 @@ from collections.abc import Iterable
 from typing import Any, Dict, Optional
 
 import yaml
-from hassil.intents import Intents
-from hassil.recognize import RecognizeResult, recognize_all, recognize_best
-from hassil.util import merge_dict, normalize_whitespace
+from hassil import (
+    Intents,
+    RecognizeResult,
+    merge_dict,
+    normalize_whitespace,
+    recognize_all,
+    recognize_best,
+)
 
 from shared import (
     get_areas,
