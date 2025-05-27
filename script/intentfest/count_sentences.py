@@ -3,21 +3,28 @@
 from __future__ import annotations
 
 import argparse
+import math
 from functools import reduce
 from typing import Any, Dict, Optional
 
 import yaml
-from hassil.expression import (
+from hassil import (
+    Alternative,
     Expression,
+    Group,
+    IntentData,
+    Intents,
     ListReference,
+    Permutation,
+    RangeSlotList,
     RuleReference,
     Sentence,
     Sequence,
-    SequenceType,
+    SlotList,
+    TextSlotList,
+    merge_dict,
+    parse_sentence,
 )
-from hassil.intents import IntentData, Intents, RangeSlotList, SlotList, TextSlotList
-from hassil.parse_expression import parse_sentence
-from hassil.util import merge_dict
 
 from .const import LANGUAGES, SENTENCE_DIR
 from .util import get_base_arg_parser
@@ -48,17 +55,29 @@ def get_arguments() -> argparse.Namespace:
 def get_count(
     e: Expression, intents: Intents, intent_data: IntentData, args: argparse.Namespace
 ) -> int:
-    if isinstance(e, Sequence):
-        seq: Sequence = e
+    if isinstance(e, Group):
+        grp: Group = e
         item_counts = [
-            get_count(item, intents, intent_data, args) for item in seq.items
+            get_count(item, intents, intent_data, args) for item in grp.items
         ]
 
-        if seq.type == SequenceType.ALTERNATIVE:
-            return sum(item_counts)
+        if isinstance(grp, Alternative):
+            summed_counts = max(1, sum(item_counts))
+            if grp.is_optional:
+                summed_counts += 1
 
-        if seq.type == SequenceType.GROUP:
-            return reduce(lambda x, y: x * y, item_counts, 1)
+            return summed_counts
+
+        if isinstance(grp, (Sequence, Permutation)):
+            multiplied_counts = reduce(
+                lambda x, y: max(1, x) * max(1, y), item_counts, 1
+            )
+            if isinstance(grp, Permutation):
+                multiplied_counts *= math.factorial(len(item_counts))
+
+            return multiplied_counts
+
+        raise ValueError(f"Unexpected group type: {grp}")
 
     if args.lists_and_ranges:
         if isinstance(e, ListReference):
@@ -71,9 +90,12 @@ def get_count(
 
             if isinstance(slot_list, TextSlotList):
                 text_list: TextSlotList = slot_list
-                return sum(
-                    get_count(v.text_in, intents, intent_data, args)
-                    for v in text_list.values
+                return max(
+                    1,
+                    sum(
+                        get_count(v.text_in, intents, intent_data, args)
+                        for v in text_list.values
+                    ),
                 )
 
             if isinstance(slot_list, RangeSlotList):
@@ -94,9 +116,9 @@ def get_count(
             rule_body = intents.expansion_rules.get(rule_ref.rule_name)
 
         if rule_body:
-            return get_count(rule_body, intents, intent_data, args)
+            return get_count(rule_body.expression, intents, intent_data, args)
 
-    return 1
+    return 0
 
 
 def run() -> int:
@@ -140,7 +162,7 @@ def run() -> int:
                             intent.name,
                             data_idx,
                             sentence.text,
-                            get_count(sentence, intents, data, args),
+                            get_count(sentence.expression, intents, data, args),
                         )
                     )
 

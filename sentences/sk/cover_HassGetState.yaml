@@ -1,4 +1,66 @@
 language: sk
 intents:
   HassGetState:
-    data: []
+    data:
+      # je .. zatvorená/otvorená?
+      # otvára/zatvára sa ..?
+      - sentences:
+          - "je ({name} [<area_floor>];{cover_states:state}) [<area_floor>]" # je moja roleta zatvorená? (konkrétna entita)
+          - "{cover_states:state} {name} [<area_floor>]" # otvára/zatvára sa roleta moja roleta? (konkrétna entita)
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+        response: one_yesno
+
+      # aký stav má .. (konkrétna entita - nominatív)
+      # v akom stave je .. (konkrétna entita - nominatív)
+      - sentences:
+          - "aký (stav;(má|majú)) {name} [<area_floor>]" # aký stav má moja roleta?
+          - "v akom stave je {name} [<area_floor>]" # v akom stave je moja roleta?
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+        response: one_cover_nominative
+
+      # aký je stav .. (konkrétnej entity - akuzatív)
+      - sentences:
+          - "aký je stav {name} [<area_floor>]" # aký je stav mojej rolety?
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+        response: one_cover_accusative
+
+      - sentences:
+          - "<is> <any> {cover_classes:device_class} [<area_floor>] {cover_states:state}" # sú nejaké závesy zatiahnuté?
+          - "<is> ({cover_states:state} <any> {cover_classes:device_class};[<area_floor>])" # je otvorená nejaká žalúzia?
+          - "{cover_states:state} <any> {cover_classes:device_class}" # otvára sa nejaké okno?
+        slots:
+          domain: cover
+        response: any
+
+      - sentences:
+          - "sú všetky {cover_classes:device_class} [<area_floor>] {cover_states:state}" # sú všetky závesy (na poschodí) roztiahnuté?
+          - "sú ({cover_states:state} všetky {cover_classes:device_class};[<area_floor>])" # sú roztiahnuté všetky závesy (na poschodí)?
+          - "{cover_states:state} všetky {cover_classes:device_class}" # rozťahujú sa všetky závesy?
+        slots:
+          domain: cover
+        response: all
+
+      # okná a dvere chceme riešiť nezávisle, pretože môžu byť definované aj pod doménou binary_sensor
+      # (v prípadoch, kedy sa jedná iba o senzor a nie o cover)
+      - sentences:
+          - "<which> {pure_cover_classes:device_class} [<area_floor>] (<is>|sa) {cover_states:state}" # ktoré rolety (na poschodí) sa zatvárajú?
+        slots:
+          domain: cover
+
+        response: which
+
+      - sentences:
+          - "koľko {cover_classes:device_class} ((je|sa) {cover_states:state};[<area_floor>])" # koľko žalúzií (na poschodí) sa zatvára?
+          - "koľko (je|sa) ({cover_states:state} {cover_classes:device_class};[<area_floor>])" # koľko roliet je (na prízemí) zatvorených?
+        slots:
+          domain: cover
+        response: how_many

@@ -3,8 +3,17 @@ intents:
   HassTurnOff:
     data:
       - sentences:
-          - "<sluk> [<al>] <blæser> <i_på> <område>"
-          - "<sluk> [<al>] <område> <blæser>"
+          - "<stop> [<al>] <blæser> <i_på> <område>"
+          - "<stop> [<al>] <område> <blæser>"
         slots:
           domain: fan
-          name: all
+        response: fans_area
+
+      - sentences:
+          - "<stop> [<al>] <blæser> [<her>]"
+        slots:
+          domain: fan
+        requires_context:
+          area:
+            slot: true
+        response: fans_area

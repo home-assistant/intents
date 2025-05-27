@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 import yaml
-from hassil.util import merge_dict
+from hassil import merge_dict
 
 from .const import INTENTS_FILE, LANGUAGES, RESPONSE_DIR, SENTENCE_DIR
 from .util import get_base_arg_parser
@@ -34,11 +34,11 @@ def run() -> int:
 
     for language in LANGUAGES:
         merged_sentences: dict = {}
-        for sentence_file in (SENTENCE_DIR / language).iterdir():
+        for sentence_file in (SENTENCE_DIR / language).glob("*.yaml"):
             merge_dict(merged_sentences, yaml.safe_load(sentence_file.read_text()))
 
         merged_responses: dict = {}
-        for response_file in (RESPONSE_DIR / language).iterdir():
+        for response_file in (RESPONSE_DIR / language).glob("*.yaml"):
             merge_dict(merged_responses, yaml.safe_load(response_file.read_text()))
 
         for domain, supported_intents in intent_by_domain.items():

@@ -4,12 +4,31 @@ responses:
     HassTurnOn:
       # musi sa vyriesit sklonovanie, navrhujem pouzivat "Zapol som | Zapinam ....."
       default: "Zapínam {{ slots.name }}"
-      light: "Svetlo {{ slots.name }} bolo rozsvietené"
-      lights_area: "Svetlá v {{ slots.area }} boli rozsvietené"
-      fan: "Ventilátor {{ slots.name }} bol zapnutý"
-      fans_ventilation: "Vetranie {{ slots.area }} bolo spustené"
-      fans_area: "Ventilátory v {{ slots.area }} boli zapnuté"
+      # covers: pre veci, ktoré sa dajú iba otvoriť (dvere)
       cover: "Otváram {{ slots.name }}"
-      cover_area: "Otváram {{ slots.name }} v {{ slots.area }}"
-      garage: "Otváram {{ slots.name }}"
-      cover_device_class: "Otváram {{ slots.name }}"
+      covers_area: "Otváram {{ slots.device_class }}"
+      # curtains: pre veci, ktoré sa dajú aj otvoriť aj roztiahnuť (dvere, žalúzie, závesy)
+      curtain: "Vyťahujem {{ slots.name }}"
+      curtains_area: "Vyťahujem {{ slots.device_class }}"
+      fan: "Ventilátor {{ slots.name }} bol zapnutý" # ventilátor názov (nominatív)
+      fan_unnamed: "Ventilátor bol zapnutý"
+      fans_area: "Ventilátory v {{ slots.area }} boli zapnuté" # vetranie v oblasti (lokál)
+      fans_ventilation: "Vetranie {{ slots.area }} bolo zapnuté" # vetranie oblasti (akuzatív)
+      fans_here: "Vetranie tu bolo zapnuté" # vetranie na tomto mieste
+      garage: "Otváram garáž"
+      light_named: "Zapínam {{ slots.name }}"
+      light_unnamed: "Svetlo bolo rozsvietené"
+      lights_area: "Svetlá boli rozsvietené"
+      lights_here: "Svetlá tu boli rozsvietené"
+      lock: >
+        Uzamykám
+        {% if slots.name == 'all' %}
+        všetky zámky
+        {% else %}
+        {{ slots.name }}
+        {% endif %}
+      scene: "Aktivujem scénu"
+      script: "Spúšťam skript"
+      valve: "Otváram {{ slots.name }}"
+      valve_unnamed: "Otváram ventil"
+      valves_area: "Ventily boli otvorené"
