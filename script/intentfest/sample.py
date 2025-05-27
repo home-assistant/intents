@@ -8,9 +8,7 @@ import sys
 from typing import Any, Dict
 
 import yaml
-from hassil.intents import Intents
-from hassil.sample import sample_intents
-from hassil.util import merge_dict
+from hassil import Intents, merge_dict, sample_intents
 
 from shared import get_slot_lists
 

@@ -2,15 +2,31 @@ language: ru
 intents:
   HassSetPosition:
     data:
+      # name
       - sentences:
-          - "(установи[ть]|<open>|<close>)[ положение] <name> на <position>"
+          - "установи[ть][ положение] <name> на <position>"
+          - "(<open>|<close>) <name> на <position>"
         requires_context:
           domain: cover
         slots:
           domain: cover
 
+      # device_class and area
       - sentences:
-          - "(установи[ть]|<open>|<close>)[ положение] {cover_classes:device_class} <area> на <position>"
-          - "(установи[ть]|<open>|<close>) <area>[ положение] {cover_classes:device_class} на <position>"
+          - "установи[ть][ положение] {cover_classes:device_class} <area> на <position>"
+          - "установи[ть] <area>[ положение] {cover_classes:device_class} на <position>"
+          - "(<open>|<close>) {cover_classes:device_class} <area> на <position>"
+          - "(<open>|<close>) <area> {cover_classes:device_class} на <position>"
+        slots:
+          domain: cover
+
+      # Context area awareness
+      - sentences:
+          - "установи[ть][ положение] {cover_classes:device_class} на <position>"
+          - "(<open>|<close>)[ здесь| в комнате] {cover_classes:device_class} на <position>"
+          - "(<open>|<close>) {cover_classes:device_class}[ в комнате] на <position>"
+        requires_context:
+          area:
+            slot: true
         slots:
           domain: cover

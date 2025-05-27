@@ -1,0 +1,32 @@
+language: sk
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "<open_valve> [ventil] {name} [<area>]" # otvor (ventil) hlavný uzáver vody (konkrétnu entitu)
+        requires_context:
+          domain: valve
+        slots:
+          domain: valve
+        response: valve
+
+      - sentences:
+          - "<open_valve> (ventil;<area_floor>)" # otvor ventil v obývačke
+        slots:
+          domain: valve
+        response: valve_unnamed
+
+      - sentences:
+          - "<open_valve> (ventily;<area_floor>)" # otvor ventily v obývačke
+        slots:
+          domain: valve
+        response: valves_area
+
+      - sentences:
+          - "<open_valve> (ventil[y];[<here>])" # otvor tu ventil/ventily
+        requires_context:
+          area:
+            slot: true
+        slots:
+          domain: valve
+        response: valve

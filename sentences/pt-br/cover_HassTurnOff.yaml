@@ -4,43 +4,29 @@ intents:
     data:
       - sentences:
           - <fecha> <artigos> [(porta | portão) da] garagem
-        response: cover
         slots:
           device_class: garage
           domain: cover
-      - sentences:
-          - <fecha> <artigos> <cortina> <na_zona>
-        response: cover
-        slots:
-          device_class:
-            - blind
-            - curtain
-            - shade
-            - shutter
-          domain: cover
+        response: "cover"
 
       - sentences:
-          - <fecha> <artigos> <cortina> <artigos> casa
-        response: cover
+          - <fecha> <artigos> {cover_classes:device_class} <na_zona>
         slots:
-          device_class:
-            - blind
-            - curtain
-            - shade
-            - shutter
           domain: cover
+        response: "cover"
+
+      - sentences:
+          - <fecha> <artigos> {cover_classes:device_class} <artigos> casa
+        slots:
+          domain: cover
+        response: "cover"
 
       # For satellite location
       - sentences:
-          - <fecha> <artigos> <cortina> [aqui] [onde estou]
-        response: cover
+          - <fecha> <artigos> {cover_classes:device_class} [aqui] [onde estou]
         slots:
-          device_class:
-            - blind
-            - curtain
-            - shade
-            - shutter
           domain: cover
         requires_context:
           area:
             slot: true
+        response: "cover"

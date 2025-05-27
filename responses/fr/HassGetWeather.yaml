@@ -3,9 +3,24 @@ responses:
   intents:
     HassGetWeather:
       default: >
-        {# Reuse weather condition already formatted and translated #}
-        {# just invert telling the condition then temperature #}
-        {{ state.state }}
+        {% set weather_condition = {
+          'clear-night': 'Nuit dégagée',
+          'cloudy': 'Nuageux',
+          'exceptional': 'Conditions exceptionnelles',
+          'fog': 'Brouillard',
+          'hail': 'Grêle',
+          'lightning': 'Orageux',
+          'lightning-rainy': 'Orageux avec de la pluie',
+          'partlycloudy': 'Éclaircies',
+          'pouring': 'Averses',
+          'rainy': 'Pluvieux',
+          'snowy': 'Neigeux',
+          'snowy-rainy': 'Neigeux avec pluie mêlée',
+          'sunny': 'Ensoleillé',
+          'windy': 'Venteux',
+          'windy-variant': 'Venteux et nuageux',
+        } %}
+        {{ weather_condition.get(state.state | string, "") }}
 
         {% set temperature = state.attributes.get('temperature') %}
         {% if temperature is number %}
@@ -87,11 +102,11 @@ responses:
           'kn': 'nœuds',
         }.get(wind_speed_unit, wind_speed_unit) %}
 
-        {% if beaufort_scale and wind_bearing_text and wind_gust_speed is number %}
+        {% if beaufort_scale and wind_bearing_text and wind_gust_speed %}
           {{ beaufort_scale }} de {{ wind_speed | int }} {{ wind_speed_unit }} {{ wind_bearing_text }}, avec des rafales à {{ wind_gust_speed | int }} {{ wind_speed_unit }}.
         {% elif beaufort_scale and wind_bearing_text %}
           {{ beaufort_scale }} de {{ wind_speed | int }} {{ wind_speed_unit }} {{ wind_bearing_text }}.
-        {% elif beaufort_scale and wind_gust_speed is number %}
+        {% elif beaufort_scale and wind_gust_speed %}
           {{ beaufort_scale }} de {{ wind_speed | int }} {{ wind_speed_unit }}, avec des rafales à {{ wind_gust_speed | int }} {{ wind_speed_unit }}.
         {% elif beaufort_scale %}
           {{ beaufort_scale }} de {{ wind_speed | int }} {{ wind_speed_unit }}.
@@ -131,8 +146,24 @@ responses:
         {% endif %}
 
       detailed_weather: >
-        {# Reuse weather condition already formatted and translated #}
-        {{ state.state }}
+        {% set weather_condition = {
+          'clear-night': 'Nuit dégagée',
+          'cloudy': 'Nuageux',
+          'exceptional': 'Conditions exceptionnelles',
+          'fog': 'Brouillard',
+          'hail': 'Grêle',
+          'lightning': 'Orageux',
+          'lightning-rainy': 'Orageux avec de la pluie',
+          'partlycloudy': 'Éclaircies',
+          'pouring': 'Averses',
+          'rainy': 'Pluvieux',
+          'snowy': 'Neigeux',
+          'snowy-rainy': 'Neigeux avec pluie mêlée',
+          'sunny': 'Ensoleillé',
+          'windy': 'Venteux',
+          'windy-variant': 'Venteux et nuageux'
+        } %}
+        {{ weather_condition.get(state.state | string, "") }}
 
         {% set temperature = state.attributes.get('temperature') %}
         {% if temperature is number %}
@@ -178,14 +209,14 @@ responses:
           'kn': 'nœuds',
         }.get(wind_speed_unit, wind_speed_unit) %}
 
-        {% if beaufort_force and wind_gust_speed is number %}
+        {% if beaufort_force and wind_gust_speed %}
           Vent de force : {{ beaufort_force }}, avec des rafales.
         {% elif beaufort_force %}
           Vent de force : {{ beaufort_force }}.
-        {% elif wind_speed is number and wind_gust_speed is number %}
+        {% elif wind_speed and wind_gust_speed %}
           Vent de {{ wind_speed | int }} {{ wind_speed_unit }}, avec des rafales.
-        {% elif wind_speed is number %}
+        {% elif wind_speed %}
           Vent de {{ wind_speed | int }} {{ wind_speed_unit }}.
-        {% elif wind_gust_speed is number %}
+        {% elif wind_gust_speed %}
           Rafales de {{ wind_gust_speed | int }} {{ wind_speed_unit }}.
         {% endif %}

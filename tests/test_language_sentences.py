@@ -7,23 +7,30 @@ from contextlib import AbstractContextManager, nullcontext
 from typing import Any, List
 
 import pytest
-from hassil import Intents, recognize_best
-from hassil.expression import TextChunk
-from hassil.intents import SlotList, TextSlotList
-from hassil.trie import Trie
-from hassil.util import normalize_whitespace
+from hassil import (
+    Intents,
+    SlotList,
+    TextChunk,
+    TextSlotList,
+    Trie,
+    normalize_whitespace,
+    recognize_best,
+)
 from jinja2 import BaseLoader, Environment
 from yaml import safe_load
 
 from shared import (
     AreaEntry,
+    BrowseMedia,
     FloorEntry,
     State,
     Timer,
     get_areas,
     get_floors,
+    get_matched_media,
     get_matched_states,
     get_matched_timers,
+    get_media_items,
     get_slot_lists,
     get_states,
     get_timers,
@@ -33,11 +40,17 @@ from shared import (
 from . import TESTS_DIR, get_test_path, load_test
 
 
+@pytest.fixture(name="lang_fixtures", scope="session")
+def lang_fixtures_fixture(language: str) -> dict[str, Any]:
+    return load_test(language, "_fixtures")
+
+
 @pytest.fixture(name="slot_lists", scope="session")
-def slot_lists_fixture(language: str) -> dict[str, SlotList]:
+def slot_lists_fixture(
+    language: str, lang_fixtures: dict[str, Any]
+) -> dict[str, SlotList]:
     """Loads the slot lists for the language."""
-    fixtures = load_test(language, "_fixtures")
-    return get_slot_lists(fixtures)
+    return get_slot_lists(lang_fixtures)
 
 
 @pytest.fixture(name="name_trie", scope="session")
@@ -56,31 +69,33 @@ def name_trie_fixture(language: str, slot_lists: dict[str, SlotList]) -> Trie:
 
 
 @pytest.fixture(name="states", scope="session")
-def states_fixture(language: str) -> List[State]:
+def states_fixture(language: str, lang_fixtures: dict[str, Any]) -> List[State]:
     """Loads test entity states for the language."""
-    fixtures = load_test(language, "_fixtures")
-    return get_states(fixtures)
+    return get_states(lang_fixtures)
 
 
 @pytest.fixture(name="areas", scope="session")
-def areas_fixture(language: str) -> List[AreaEntry]:
+def areas_fixture(language: str, lang_fixtures: dict[str, Any]) -> List[AreaEntry]:
     """Loads test areas for the language."""
-    fixtures = load_test(language, "_fixtures")
-    return get_areas(fixtures)
+    return get_areas(lang_fixtures)
 
 
 @pytest.fixture(name="floors", scope="session")
-def floors_fixture(language: str) -> List[FloorEntry]:
+def floors_fixture(language: str, lang_fixtures: dict[str, Any]) -> List[FloorEntry]:
     """Loads test floors for the language."""
-    fixtures = load_test(language, "_fixtures")
-    return get_floors(fixtures)
+    return get_floors(lang_fixtures)
 
 
 @pytest.fixture(name="timers", scope="session")
-def timers_fixture(language: str) -> List[Timer]:
+def timers_fixture(language: str, lang_fixtures: dict[str, Any]) -> List[Timer]:
     """Loads test timers for the language."""
-    fixtures = load_test(language, "_fixtures")
-    return get_timers(fixtures)
+    return get_timers(lang_fixtures)
+
+
+@pytest.fixture(name="media", scope="session")
+def media_fixture(language: str, lang_fixtures: dict[str, Any]) -> List[BrowseMedia]:
+    """Loads test media for the language."""
+    return get_media_items(lang_fixtures)
 
 
 def do_test_language_sentences_file(
@@ -93,6 +108,7 @@ def do_test_language_sentences_file(
     areas: List[AreaEntry],
     floors: List[FloorEntry],
     timers: List[Timer],
+    media: List[BrowseMedia],
     language_sentences: Intents,
     language_responses: dict[str, Any],
     name_trie: Trie,
@@ -178,6 +194,7 @@ def do_test_language_sentences_file(
                     best_slot_name="name",
                 )
                 assert result is not None, f"Recognition failed for '{sentence}'"
+                assert result.intent_sentence is not None
                 assert (
                     result.intent.name == intent["name"]
                 ), f"For '{sentence}' expected intent {intent['name']}, got {result.intent.name}"
@@ -222,7 +239,7 @@ def do_test_language_sentences_file(
                 for actual_name in actual_slots:
                     assert (
                         actual_name in matched_slots
-                    ), f"Slot {actual_name} was not expected for: {sentence}"
+                    ), f"Slot {actual_name} was not expected for: {sentence} (matched template='{result.intent_sentence.text}')"
 
                 # Verify context if it's used in the test.
                 #
@@ -266,6 +283,7 @@ def do_test_language_sentences_file(
                         unmatched,
                         env=template_env,
                         timers=get_matched_timers(timers, result),
+                        media=get_matched_media(media, result),
                     )
                     actual_response_text = normalize_whitespace(
                         actual_response_text
@@ -288,6 +306,7 @@ def gen_test(test_file_stem: str) -> None:
         areas: List[AreaEntry],
         floors: List[FloorEntry],
         timers: List[Timer],
+        media: List[BrowseMedia],
         language_sentences: Intents,
         language_responses: dict[str, Any],
         name_trie: Trie,
@@ -301,6 +320,7 @@ def gen_test(test_file_stem: str) -> None:
             areas=areas,
             floors=floors,
             timers=timers,
+            media=media,
             language_sentences=language_sentences,
             language_responses=language_responses,
             name_trie=name_trie,

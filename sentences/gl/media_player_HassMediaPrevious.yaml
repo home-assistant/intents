@@ -1,0 +1,23 @@
+language: gl
+intents:
+  HassMediaPrevious:
+    data:
+      - sentences:
+          - "([<reproduce>] [<outra_vez> ]([<pista> ]<anterior>|<anterior> <pista>)[ <outra_vez>]|<reproduce> <outra_vez>) [<en> ]<nome>"
+          - "(<salta>|<volve>) á [<reproduce> ][<outra_vez> ](<anterior> [<pista>]|<pista> <anterior>)[ <outra_vez>] [<en> ]<nome>"
+        requires_context:
+          domain: media_player
+      - sentences:
+          - "([<reproduce>] [<outra_vez> ](<pista> <anterior>|<anterior> <pista>)[ <outra_vez>]|<reproduce> <outra_vez>)"
+          - "(<salta>|<volve>) á [<reproduce> ][<outra_vez> ](<anterior> [<pista>]|<pista> <anterior>)[ <outra_vez>]"
+        requires_context:
+          area:
+            slot: true
+      - sentences:
+          - "([<reproduce>] [<outra_vez> ]([<pista> ]<anterior>|<anterior> <pista>)[ <outra_vez>]|<reproduce> <outra_vez>) <area>"
+          - "<area> ([<reproduce>] [<outra_vez> ]([<pista> ]<anterior>|<anterior> <pista>)[ <outra_vez>]|<reproduce> <outra_vez>)"
+          - "(<reproduce> <area> [<outra_vez> ]([<pista> ]<anterior>|<anterior> <pista>)[ <outra_vez>]|<reproduce> <area> <outra_vez>)"
+          - "<reproduce> <outra_vez> <area> ([<pista> ]<anterior>|<anterior> <pista>)[ <outra_vez>]"
+          - "(<salta>|<volve>) [á |a ] [<reproduce> ][<outra_vez> ][a ](<anterior> [<pista>]|<pista> <anterior>)[ <outra_vez>] <area>"
+          - "<area> (<salta>|<volve>) á [a <reproduce> ][<outra_vez> ](<anterior> [<pista>]|<pista> <anterior>)[ <outra_vez>]"
+          - "(<salta>|<volve>) [á |a ] [<reproduce> ]<area> [<outra_vez> ](<anterior> [<pista>]|<pista> <anterior>)[ <outra_vez>]"
