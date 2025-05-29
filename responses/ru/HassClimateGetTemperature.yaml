@@ -4,8 +4,10 @@ responses:
     HassClimateGetTemperature:
       # Extract the last integer digit from number and use it to select the right word ending
       default: >-
-        {{ state_attr(state.entity_id, 'current_temperature') }}
-        {% set temp = state_attr(state.entity_id, 'current_temperature') | float %}
+        {% set current_temperature = state_attr(state.entity_id, 'current_temperature') %}
+        {% set temperature = state.state if current_temperature is none else current_temperature %}
+        {{ temperature }}
+        {% set temp = temperature | float %}
         {% set last_digit = temp|abs|int % 10 %}
         {% set last_two_digits = temp|abs|int % 100 %}
         {% if last_digit == 1 and last_two_digits != 11 %}
