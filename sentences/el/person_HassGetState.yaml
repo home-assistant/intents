@@ -1,0 +1,57 @@
+language: el
+intents:
+  HassGetState:
+    data:
+      # https://www.home-assistant.io/integrations/person/
+      - sentences:
+          - "που είναι <articles> <name>"
+          - "που βρίσκεται <articles> <name>"
+          - "<where_is> <name>"
+        response: where
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "είναι <articles> <name> [στο|στη|στον|στην] {zone:state}"
+          - "βρίσκεται <articles> <name> [στο|στη|στον|στην] {zone:state}"
+        response: one_yesno
+        requires_context:
+          domain: person
+        slots:
+          domain: person
+
+      - sentences:
+          - "είναι κανείς [στο|στη|στον|στην] {zone:state}"
+          - "υπάρχει κανείς [στο|στη|στον|στην] {zone:state}"
+          - "βρίσκεται κανείς [στο|στη|στον|στην] {zone:state}"
+        response: any
+        slots:
+          domain: person
+
+      - sentences:
+          - "είναι όλοι [στο|στη|στον|στην] {zone:state}"
+          - "βρίσκονται όλοι [στο|στη|στον|στην] {zone:state}"
+          - "είναι όλοι στο σπίτι"
+        response: all
+        slots:
+          domain: person
+
+      - sentences:
+          - "ποιος είναι [στο|στη|στον|στην] {zone:state}"
+          - "ποιος βρίσκεται [στο|στη|στον|στην] {zone:state}"
+          - "ποιος είναι στο σπίτι"
+        response: which
+        slots:
+          domain: person
+
+      - sentences:
+          - "πόσα άτομα είναι [στο|στη|στον|στην] {zone:state}"
+          - "πόσοι άνθρωποι είναι [στο|στη|στον|στην] {zone:state}"
+          - "πόσοι είναι [στο|στη|στον|στην] {zone:state}"
+          - "πόσοι είναι στο σπίτι"
+          - "πόσα άτομα είναι στο σπίτι"
+        response: how_many
+        slots:
+          domain: person
