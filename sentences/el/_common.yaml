@@ -7,6 +7,11 @@ responses:
     no_device_class_in_area: "Η περιοχή {{ area }} δεν περιέχει {{ device_class }}"
     no_entity: "Δεν υπάρχει συσκευή ή οντότητα με όνομα {{ entity }}"
     handle_error: "Προέκυψε ένα απροσδόκητο σφάλμα κατά το χειρισμό της πρόθεσης"
+
+    # Timer errors
+    timer_not_found: "Συγγνώμη, δεν μπόρεσα να βρω αυτό το χρονόμετρο"
+    multiple_timers_matched: "Συγγνώμη, δεν μπορώ να στοχεύσω πολλαπλά χρονόμετρα"
+    no_timer_support: "Συγγνώμη, τα χρονόμετρα δεν υποστηρίζονται σε αυτή τη συσκευή"
 lists:
   color:
     values:
@@ -36,6 +41,16 @@ lists:
   temperature:
     range:
       type: "temperature"
+      from: 0
+      to: 100
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  volume_level:
+    range:
+      type: "percentage"
       from: 0
       to: 100
   brightness_level:
@@ -291,6 +306,30 @@ lists:
   zone:
     wildcard: true
 
+  # Timer lists
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "μισ(ό|ή)"
+        out: 30
+      - in: "μισό"
+        out: 30
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   name: "[(ο | οι | τον | η | την | το | τα | τις | τους | στον | στη | στην | στο | στους | στις | στα)] {name}"
   area: "[(ο | οι | τον | η | την | το | τα | τις | τους | στον | στη | στην | στο | στους | στις | στα)] {area}"
@@ -306,12 +345,27 @@ expansion_rules:
   lights: "(φως | φώτα | λάμπ(α[ς]|ες) | φωτιστικ(ό|ά))"
   brightness: "{brightness}[%| τοις εκατό]"
   temperature: "{temperature} [βαθμ(οί|ούς)]"
+  volume: "{volume:volume_level}[%| τοις εκατό]"
+  volume_level: "{volume_level}[%| τοις εκατό]"
   exist: "(υπάρχει | υπάρχουν | είναι) [κάποι(ος|α|ο|οι|ες|α)]"
   numeric_value_set: "(όρισε|άλλαξε|αύξησε|μείωσε)"
   # Questions
   what_is: "(ποια είναι | ποιο είναι | τι | πώς)"
   where_is: "(πού είναι | πού βρίσκεται)"
   what_is_the_class_of_name: "(<what_is> η <class> (του|στο|από) <name> [στην τοποθεσία <area>]|<what_is> <name> <class> [στην περιοχή <area>]|<what_is> <area> <name> <class>)"
+
+  # Timer expansion rules
+  timer_set: "(ξεκίνα|βάλε|δημιούργησε|όρισε)"
+  timer_cancel: "(ακύρωσε|σταμάτα|διακοπή|σβήσε)"
+  timer_duration_seconds: "{timer_seconds:seconds} δευτερόλεπτ[ο|α]"
+  timer_duration_minutes: "({timer_minutes:minutes} λεπτ[ό|ά] [[και] {timer_seconds:seconds} δευτερόλεπτ[ο|α]])|({timer_minutes:minutes} και [ένα] {timer_half:seconds} λεπτ[ό|ά])|({timer_half:seconds} λεπτ[ό|ά])"
+  timer_duration_hours: "({timer_hours:hours} ώρ[α|ες] [[και] {timer_minutes:minutes} λεπτ[ό|ά]] [[και] {timer_seconds:seconds} δευτερόλεπτ[ο|α]])|({timer_hours:hours} και [μια] {timer_half:minutes} ώρ[α|ες])|({timer_half:minutes} ώρ[α|ες])"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+
+  timer_start_seconds: "{timer_seconds:start_seconds} δευτερόλεπτ[ο|α]"
+  timer_start_minutes: "{timer_minutes:start_minutes} λεπτ[ό|ά] [[και] {timer_seconds:start_seconds} δευτερόλεπτ[ο|α]]"
+  timer_start_hours: "{timer_hours:start_hours} ώρ[α|ες] [[και] {timer_minutes:start_minutes} λεπτ[ό|ά]] [[και] {timer_seconds:start_seconds} δευτερόλεπτ[ο|α]]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - παρακαλώ
