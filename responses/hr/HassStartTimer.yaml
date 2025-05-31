@@ -4,23 +4,76 @@ responses:
   intents:
     HassStartTimer:
       default: >
-        {% set h = slots.hours if slots.hours is defined else none %}
-        {% set m = slots.minutes if slots.minutes is defined else none %}
-        {% set s = slots.seconds if slots.seconds is defined else none %}
-        {% set h_text = h ~ (' sat'  if h in [ "1", 'jedan'] else ' sata') if h else '' %}
-        {% set m_text = (30 if m in ['pola', 'pol', '1/2'] else m) ~ (' minuta' if m in [ "1", 'jedna'] else ' minuta') if m else '' %}
-        {% set s_text = (30 if s in ['pola', 'pol', '1/2'] else s) ~ (' sekunda' if s in [ "1", 'jedna'] else ' sekundi') if s else '' %}
-        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
-        {% set text = text_list[:-1] | join(', ') ~ ' i ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' i ') %}
+        {% macro format_time(value, singular, few, many) -%}
+          {% if value is not none %}
+            {% set number = 30 if value in ['pola', 'pol', '1/2'] else value | int(0) %}
+            {% if number % 10 == 1 and number % 100 != 11 %}
+              {{ number }} {{ singular }}
+            {% elif number % 10 in [2, 3, 4] and number % 100 not in [12, 13, 14] %}
+              {{ number }} {{ few }}
+            {% else %}
+              {{ number }} {{ many }}
+            {% endif %}
+          {% else %}
+            {{ '' }}
+          {% endif %}
+        {%- endmacro %}
+
         {% set name = (' nazvan ' ~ slots.name | trim) if slots.name is defined else '' %}
+
+        {% set h = slots.get('hours') %}
+        {% set m = slots.get('minutes') %}
+        {% set s = slots.get('seconds') %}
+
+        {% set h_text = format_time(h, 'sat', 'sata', 'sati') %}
+        {% set m_text = format_time(m, 'minutu', 'minute', 'minuta') %}
+        {% set s_text = format_time(s, 'sekundu', 'sekunde', 'sekundi') %}
+
+        {% set text_list = (h_text if h_text.strip() else '') ~ ',' ~ (m_text if m_text.strip() else '') ~ ',' ~ (s_text if s_text.strip() else '') %}
+        {% set text_list = text_list.split(',') | select('string') | map('trim') | reject('equalto', '') | list %}
+
+        {% if text_list | length == 1 %}
+          {% set text = text_list[0] %}
+        {% elif text_list | length == 2 %}
+          {% set text = text_list | join(' i ') %}
+        {% else %}
+          {% set text = text_list[:-1] | join(', ') ~ ' i ' ~ text_list[-1] %}
+        {% endif %}
+
         Timer postavljen na {{ text }}{{ name }}
       command: >
-        {% set h = slots.hours if slots.hours is defined else none %}
-        {% set m = slots.minutes if slots.minutes is defined else none %}
-        {% set s = slots.seconds if slots.seconds is defined else none %}
-        {% set h_text = h ~ (' sat'  if h in [ "1", 'jedan'] else ' sata') if h else '' %}
-        {% set m_text = (30 if m in ['pola', '1/2'] else m) ~ (' minuta' if m in [ "1", 'jedna'] else ' minuta') if m else '' %}
-        {% set s_text = (30 if s in ['pola', '1/2'] else s) ~ (' sekunda' if s in [ "1", 'jedna'] else ' sekundi') if s else '' %}
-        {% set text_list = [ h_text, m_text, s_text] | select() | list %}
-        {% set text = text_list[:-1] | join(', ') ~ ' i ' ~ text_list[-1] if text_list | count > 2 else text_list | join(' i ') %}
+        {% macro format_time(value, singular, few, many) -%}
+          {% if value is not none %}
+            {% set number = 30 if value in ['pola', 'pol', '1/2'] else value | int(0) %}
+            {% if number % 10 == 1 and number % 100 != 11 %}
+              {{ number }} {{ singular }}
+            {% elif number % 10 in [2, 3, 4] and number % 100 not in [12, 13, 14] %}
+              {{ number }} {{ few }}
+            {% else %}
+              {{ number }} {{ many }}
+            {% endif %}
+          {% else %}
+            {{ '' }}
+          {% endif %}
+        {%- endmacro %}
+
+        {% set h = slots.get('hours') %}
+        {% set m = slots.get('minutes') %}
+        {% set s = slots.get('seconds') %}
+
+        {% set h_text = format_time(h, 'sat', 'sata', 'sati') %}
+        {% set m_text = format_time(m, 'minutu', 'minute', 'minuta') %}
+        {% set s_text = format_time(s, 'sekundu', 'sekunde', 'sekundi') %}
+
+        {% set text_list = (h_text if h_text.strip() else '') ~ ',' ~ (m_text if m_text.strip() else '') ~ ',' ~ (s_text if s_text.strip() else '') %}
+        {% set text_list = text_list.split(',') | select('string') | map('trim') | reject('equalto', '') | list %}
+
+        {% if text_list | length == 1 %}
+          {% set text = text_list[0] %}
+        {% elif text_list | length == 2 %}
+          {% set text = text_list | join(' i ') %}
+        {% else %}
+          {% set text = text_list[:-1] | join(', ') ~ ' i ' ~ text_list[-1] %}
+        {% endif %}
+
         Naredba će se izvršiti za {{ text }}

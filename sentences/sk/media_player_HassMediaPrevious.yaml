@@ -1,0 +1,26 @@
+language: sk
+intents:
+  HassMediaPrevious:
+    data:
+      - sentences:
+          - "<previous_nom> [stopa|skladba|pesnička|položka|program|kanál] [<in>] {name}"
+          - "((prepn(i|úť) na <previous_acc> (stopu|skladbu|pesničku|program|kanál));[<in>] {name})"
+          - "(vr(áť|átiť) [túto|tento] (stopu|skladbu|pesničku|položku|program|kanál);[<in>] {name})"
+          - "([pre]hr(aj|ať) [znov(a|u)] <previous_acc> (stopu|skladbu|pesničku|položku|program|kanál);[<in>] {name})"
+        requires_context:
+          domain: media_player
+
+      - sentences:
+          - "<previous_nom> [stopa|skladba|pesnička|položka|program|kanál]"
+          - "prepn(i|úť) na <previous_acc> (stopu|skladbu|pesničku|položku|program|kanál)"
+          - "vrá(ť|tiť) [túto|tento] (stopu|skladbu|pesničku|položku|program|kanál)"
+          - "[pre]hr(aj|ať) [znov(a|u)] <previous_acc> (stopu|skladbu|pesničku|položku|program|kanál)"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "<previous_nom> [stopa|skladba|pesnička|položka|program|kanál] <area>"
+          - "prepn(i|úť) na <previous_acc> (stopu|skladbu|pesničku|program|kanál) <area>"
+          - "vrá(ť|tiť) [túto|tento] (stopu|skladbu|pesničku|program|kanál) <area>"
+          - "[pre]hr(aj|ať) [znov(a|u)] <previous_acc> (stopu|skladbu|pesničku|program|kanál) <area>"

@@ -1,0 +1,45 @@
+language: sk
+tests:
+  - sentences:
+      - "stav časovača"
+      - "aký je stav odpočítavania"
+      - "aký je stav minútiek"
+      - "stav mojich minútiek"
+      - "koľko času zostáva na časovačoch"
+    intent:
+      name: HassTimerStatus
+    response: |
+      3 spustené časovače. Zostáva 30 minút na 1 hodinovom časovači na časovači volať šéfovi.
+
+  - sentences:
+      - "stav 1 hodinového časovača"
+      - "stav môjho 1 hodinového časovača"
+    intent:
+      name: HassTimerStatus
+      slots:
+        start_hours: 1
+    response: |
+      Zostáva 30 minút do vypršania.
+
+  - sentences:
+      - "stav časovača pizza"
+      - "koľko času zostáva na časovači pizza"
+      - "aký je stav časovača pizza"
+    intent:
+      name: HassTimerStatus
+      slots:
+        name: "pizza"
+    response: |
+      Zostáva 10 minút do vypršania.
+
+  # TODO: Bug in pytest, timer can not recognise area correctly.
+  # ISSUE: https://github.com/home-assistant/intents/issues/2393
+  - sentences:
+      - "stav časovača v kuchyni"
+      - "aký je stav časovača v kuchyni"
+    intent:
+      name: HassTimerStatus
+      slots:
+        area: "kuchyni"
+    response: |
+      Nie sú spustené žiadne časovače.

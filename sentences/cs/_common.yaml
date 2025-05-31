@@ -338,11 +338,35 @@ lists:
       type: "percentage"
       from: 0
       to: 100
+  numbers_fonetic:
+    values:
+      - in: "jedn(a|u)"
+        out: 1
+      - in: "dv(a|ě)"
+        out: 2
+  timer_range_seconds:
+    range:
+      from: 1
+      to: 120
+  timer_range_minutes:
+    range:
+      from: 1
+      to: 120
+  timer_range_hours:
+    range:
+      from: 1
+      to: 24
   shopping_list_item:
     wildcard: true
   zone:
     wildcard: true
   message:
+    wildcard: true
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+  search_query:
     wildcard: true
 
 expansion_rules:
@@ -380,6 +404,22 @@ expansion_rules:
   dalsi: "(další|následující)"
   oznam: (oznam|řekni)
   vsude: (všude|všem|v celém domě)
+  sekunda: "(sekund[(a|u|y)]|vteřin[(a|u|y)])"
+  minuta: "minut[(a|u|y)]"
+  hodina: "hodin[(a|u|y)]"
+  casovac: "(časovač[e|i|ů]|odpoč(et|ítávání|ej|tu|ty)|minut(ku|ce|ky))"
+  timer_cancel: "(zastav[it]|zruš[it]|vypn(i|out))"
+  timer_pause: "pozastav[it]|přeruš[it]|pauza na"
+  timer_unpause: "znovu spus(ť|tit)|obnov[it]"
+  timer_duration_seconds: "({timer_range_seconds:seconds}|{numbers_fonetic:seconds}) <sekunda>"
+  timer_duration_minutes: "({timer_range_minutes:minutes}|{numbers_fonetic:minutes}) <minuta> [[a] <timer_duration_seconds>]"
+  timer_duration_hours: "({timer_range_hours:hours}|{numbers_fonetic:hours}) <hodina> [[a] (<timer_duration_minutes>|<timer_duration_seconds>)]"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+  timer_start_seconds: "({timer_range_seconds:start_seconds}|{numbers_fonetic:start_seconds}) <sekunda>"
+  timer_start_minutes: "({timer_range_minutes:start_minutes}|{numbers_fonetic:start_minutes}) <minuta> [[a] <timer_start_seconds>]"
+  timer_start_hours: "({timer_range_hours:start_hours}|{numbers_fonetic:start_hours}) <hodina> [[a] (<timer_start_minutes>|<timer_start_seconds>)]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
+  pojmenovany: "(pojmenovan(ý|ého|ém|é)|nazvan(ý|ého|ém)|se jménem)"
 
   y_e: "(ý|ej|á|é|ých|ejch|o)"
   ktere: "(kter<y_e>|jak[<y_e>])"

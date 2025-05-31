@@ -5,10 +5,14 @@ from __future__ import annotations
 import argparse
 from typing import Dict
 
-from hassil import parse_sentence
-from hassil.expression import Sentence
-from hassil.intents import RangeSlotList, SlotList, TextSlotList
-from hassil.sample import sample_expression
+from hassil import (
+    RangeSlotList,
+    Sentence,
+    SlotList,
+    TextSlotList,
+    parse_sentence,
+    sample_expression,
+)
 
 from .const import LANGUAGES
 from .util import get_base_arg_parser
@@ -78,7 +82,7 @@ def run() -> int:
 
     template = parse_sentence(args.template)
     for sentence in sample_expression(
-        template,
+        template.expression,
         slot_lists=slot_lists,
         expansion_rules=expansion_rules,
         language=args.language,

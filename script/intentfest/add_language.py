@@ -63,7 +63,7 @@ def run() -> int:
     # Create sentence files based off English
     english_sentences = SENTENCE_DIR / "en"
 
-    for english_filename in english_sentences.iterdir():
+    for english_filename in english_sentences.glob("*.yaml"):
         if english_filename.name == "_common.yaml":
             continue
 
@@ -128,7 +128,7 @@ def run() -> int:
     # Create tests files based off English
     english_tests = TESTS_DIR / "en"
 
-    for english_filename in english_tests.iterdir():
+    for english_filename in english_tests.glob("*.yaml"):
         if english_filename.name == "_fixtures.yaml":
             continue
 
@@ -190,7 +190,7 @@ def run() -> int:
     # Create response files based off English
     english_responses = RESPONSE_DIR / "en"
 
-    for english_filename in english_responses.iterdir():
+    for english_filename in english_responses.glob("*.yaml"):
         intent = english_filename.stem
         with open(english_filename, "r", encoding="utf-8") as english_file:
             responses = yaml.safe_load(english_file)["responses"]
