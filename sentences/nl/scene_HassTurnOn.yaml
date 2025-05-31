@@ -2,10 +2,46 @@ language: nl
 intents:
   HassTurnOn:
     data:
+      # scene named after a modus/state (e.g. party mode); without area
       - sentences:
-          - "(activeer|start|schakel) [scene|scène] <name>[ ][scene|scène] [<to>] [in]"
-          - "[<change>] [scene|scène] <name>[ ][scene|scène] [<to>] (aan|in)"
-          - "[<would>] (<name>[ ][scene|scène]|[scene|scène] <name>) [<to>] (aan[ ](zetten|doen)|inschakelen|starten|activeren)"
+          # commands
+          - "[<change>] [scene|scène] <name>[ ][scene|scène] [<to>] [<aan>]"
+          - "[scene|scène] <name>[ ][scene|scène] <start>"
+          # requests
+          - "[<would>] (<name>[ ][scene|scène]|[scene|scène] <name>) [<to>] <start>"
+        requires_context:
+          domain: scene
+        slots:
+          domain: scene
+        response: scene
+
+      # scene named after a modus/state (e.g. party mode); with area
+      - sentences:
+          # commands
+          - "[<change>] ([scene|scène] <name>[ ][scene|scène] [<to>] [<aan>];[<in>] (<area>|<floor>))"
+          - "[scene|scène] <name>[ ][scene|scène] <start> [<in>] (<area>|<floor>)"
+          - "[scene|scène] <name>[ ][scene|scène] [<in>] (<area>|<floor>) <start>"
+          - "[<in>] (<area>|<floor>) [scene|scène] <name>[ ][scene|scène] <start>"
+          # requests
+          - "[<would>] ((<name>[ ][scene|scène]|[scene|scène] <name>) [<to>] <start>;[<in>] (<area>|<floor>))"
+        requires_context:
+          domain: scene
+        slots:
+          domain: scene
+        response: scene
+
+      # scene named after an activity (e.g. watch television); without area
+      - sentences:
+          - "[ik ga|ik wil|we gaan|wij gaan|we willen|wij willen] <name>"
+        requires_context:
+          domain: scene
+        slots:
+          domain: scene
+        response: scene
+
+      # scene named after an activity (e.g. watch television); with area
+      - sentences:
+          - "[ik ga|ik wil|we gaan|wij gaan|we willen|wij willen] (<name>;[<in>] (<area>|<floor>))"
         requires_context:
           domain: scene
         slots:
