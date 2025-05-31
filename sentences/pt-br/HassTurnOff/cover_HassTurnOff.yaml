@@ -1,0 +1,50 @@
+language: "pt-br"
+intents:
+  HassTurnOff:
+    data:
+      - sentences:
+          - <fecha> <artigos> [(porta | portão) da] garagem
+        slots:
+          device_class: garage
+          domain: cover
+        response: "cover"
+
+      - sentences:
+          - <fecha> <artigos> <cortina> <na_zona>
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+          domain: cover
+        response: "cover"
+
+      - sentences:
+          - <fecha> <artigos> <cortina> <artigos> casa
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+          domain: cover
+        response: "cover"
+
+      # For satellite location
+      - sentences:
+          - <fecha> <artigos> <cortina> [aqui] [onde estou]
+        slots:
+          device_class:
+            - awning
+            - blind
+            - curtain
+            - shade
+            - shutter
+          domain: cover
+        requires_context:
+          area:
+            slot: true
+        response: "cover"
