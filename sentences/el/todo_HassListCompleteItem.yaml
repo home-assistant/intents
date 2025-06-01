@@ -1,0 +1,14 @@
+language: "el"
+intents:
+  HassListCompleteItem:
+    data:
+      - sentences:
+          - (τσέκαρε|ολοκλήρωσε|διαγραψε|αφαίρεσε) <item> από <my_list>
+          - (τσέκαρε|ολοκλήρωσε|διαγραψε|αφαίρεσε) <item> στη[ν] <my_list>
+          - (σημείωσε|μάρκαρε) <item> στη[ν] <my_list> ως (ολοκληρωμέν[ο|η|α]|έτοιμ[ο|η|α]|τελειωμέν[ο|η|α])
+        response: item_completed
+        requires_context:
+          domain: todo
+        expansion_rules:
+          my_list: "[τη[ν]] [(λίστα [μου] )] {name} [[ λίστα] [μου]]"
+          item: "{todo_list_item:item}"
