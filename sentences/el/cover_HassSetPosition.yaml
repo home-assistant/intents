@@ -1,0 +1,28 @@
+language: el
+intents:
+  HassSetPosition:
+    data:
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>) <n> [θέση] σε <position>"
+        requires_context:
+          domain: cover
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<numeric_value_set>|<open>|<close>) [<articles>] {cover_classes:device_class} [θέση] σε <position>"
+          - "(<numeric_value_set>|<open>|<close>) [<articles>] {cover_classes:device_class} στ(ο|η|ην) <area> σε <position>"
+          - "(<numeric_value_set>|<open>|<close>) [<articles>] {cover_classes:device_class} σε <position> στ(ο|η|ην) <area>"
+          - "(<numeric_value_set>|<open>|<close>) {cover_classes:device_class} στ(ο|η|ην) <area> σε <position>"
+        slots:
+          domain: cover
+
+      - sentences:
+          - "(<numeric_value_set>) [<articles>] {cover_classes:device_class} [θέση] [εδώ] σε <position>"
+          - "(<open>|<close>) [<articles>] {cover_classes:device_class} [εδώ] σε <position>"
+        slots:
+          domain: cover
+        response: cover_device_class
+        requires_context:
+          area:
+            slot: true
