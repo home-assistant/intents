@@ -1,0 +1,31 @@
+language: ne
+intents:
+  HassTurnOn:
+    data:
+      - sentences:
+          - "[<area_floor_in>] <name> (<खोल्नु>)"
+        requires_context:
+          domain: cover
+        response: cover
+
+      - sentences:
+          - "(ग्यारेज|गराज)को ढोका <खोल्नु>"
+        slots:
+          domain: cover
+          device_class: garage
+        response: cover_device_class
+
+      - sentences:
+          - "<area_floor_in> [<सबै>] {cover_classes:device_class} <खोल्नु>"
+        slots:
+          domain: cover
+        response: cover_device_class
+
+      - sentences:
+          - "[<यहाँ_को>] [[<सबै>]] {cover_classes:device_class} <खोल्नु>"
+        slots:
+          domain: cover
+        response: cover_device_class
+        requires_context:
+          area:
+            slot: true
