@@ -1,0 +1,76 @@
+language: ne
+responses:
+  intents:
+    HassGetState:
+      default: "{{ state.state_with_unit }}" # used mostly for custom sentences
+
+      # the number of names returned is limited to 4, in case there are more, the first 3 names and the remaining count is returned
+      # with 4 names or less, the names are joined with a comma ", " and the last name is joined with " and "
+      one: |
+        {{ slots.name | capitalize }} {{ state.state_with_unit }} छ
+
+      one_yesno: |
+        {% if query.matched %}
+          छ
+        {% else %}
+          छैन
+        {% endif %}
+
+      any: |
+        {% if query.matched %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            छ, {{ match[:3] | join(", ") }} र अरु {{ (match | length - 3) }} ओटा
+          {%- else -%}
+            छ,
+            {% for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} र {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% else %}
+          छैन
+        {% endif %}
+
+      all: |
+        {% if not query.unmatched %}
+          छ
+        {% else %}
+          {% set no_match = query.unmatched | map(attribute="name") | sort | list %}
+          {% if no_match | length > 4 %}
+            छैन, {{ no_match[:3] | join(", ") }} र अरु {{ (no_match | length - 3) }} ओटा
+          {%- else -%}
+            छैन,
+            {% for name in no_match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} र {% endif -%}
+              {{ name }}
+            {%- endfor %}
+          {% endif %}
+        {% endif %}
+
+      which: |
+        {% if not query.matched %}
+          कुनै पनि छैन
+        {% else %}
+          {% set match = query.matched | map(attribute="name") | sort | list %}
+          {% if match | length > 4 %}
+            {{ match[:3] | join(", ") }} र अरु {{ (match | length - 3) }} ओटा
+          {% else %}
+            {%- for name in match -%}
+              {% if not loop.first and not loop.last %}, {% elif loop.last and not loop.first %} र {% endif -%}
+              {{ name }}
+            {%- endfor -%}
+          {% endif %}
+        {% endif %}
+
+      how_many: |
+        {{ query.matched | length }} ओटा
+
+      where: |
+        {% if state.state == "home" %}
+          {{ slots.name | capitalize }} घरमा छ
+        {% elif state == "not_home" %}
+          {{ slots.name | capitalize }} बाहिर छ
+        {% else %}
+          {{ slots.name | capitalize }} {{ state.state }}मा छ
+        {% endif %}
