@@ -1,0 +1,43 @@
+language: ga
+responses:
+  intents:
+    HassGetState:
+      default: "TODO: {{ state.state_with_unit }}"
+      one: "TODO: {{ slots.name | capitalize }} is {{ state.state_with_unit }}
+
+        "
+      one_yesno:
+        "TODO: {% if query.matched %}\n  Yes\n{% else %}\n  No, {{ state.state_with_unit\
+        \ }}\n{% endif %}\n"
+      any:
+        "TODO: {% if query.matched %}\n  {% set match = query.matched | map(attribute=\"\
+        name\") | sort | list %}\n  {% if match | length > 4 %}\n    Yes, {{ match[:3]\
+        \ | join(\", \") }} and {{ (match | length - 3) }} more\n  {%- else -%}\n\
+        \    Yes,\n    {% for name in match -%}\n      {% if not loop.first and not\
+        \ loop.last %}, {% elif loop.last and not loop.first %} and {% endif -%}\n\
+        \      {{ name }}\n    {%- endfor -%}\n  {% endif %}\n{% else %}\n  No\n{%\
+        \ endif %}\n"
+      all:
+        "TODO: {% if not query.unmatched: %}\n  Yes\n{% else %}\n  {% set no_match\
+        \ = query.unmatched | map(attribute=\"name\") | sort | list %}\n  {% if no_match\
+        \ | length > 4 %}\n    No, {{ no_match[:3] | join(\", \") }} and {{ (no_match\
+        \ | length - 3) }} more are not {{ slots.state }}\n  {%- else -%}\n    No,\n\
+        \    {% for name in no_match -%}\n      {% if not loop.first and not loop.last\
+        \ %}, {% elif loop.last and not loop.first %} and {% endif -%}\n      {{ name\
+        \ }}\n    {%- endfor %} {% if no_match | length > 1 %}are{% else %}is{% endif\
+        \ %} not {{ slots.state }}\n  {% endif %}\n{% endif %}\n"
+      which:
+        "TODO: {% if not query.matched %}\n  Not any\n{% else: %}\n  {% set match\
+        \ = query.matched | map(attribute=\"name\") | sort | list %}\n  {% if match\
+        \ | length > 4 %}\n    {{ match[:3] | join(\", \") }} and {{ (match | length\
+        \ - 3) }} more\n  {% else %}\n    {%- for name in match -%}\n      {% if not\
+        \ loop.first and not loop.last %}, {% elif loop.last and not loop.first %}\
+        \ and {% endif -%}\n      {{ name }}\n    {%- endfor -%}\n  {% endif %}\n\
+        {% endif %}\n"
+      how_many: "TODO: {{ query.matched | length }}
+
+        "
+      where:
+        "TODO: {% if state == \"not_home\" %}\n  {{ slots.name | capitalize }}\
+        \ is away\n{% else %}\n  {{ slots.name | capitalize }} is at {{ state.state\
+        \ }}\n{% endif %}\n"
