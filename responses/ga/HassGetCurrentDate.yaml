@@ -2,16 +2,52 @@ language: ga
 responses:
   intents:
     HassGetCurrentDate:
-      default:
-        "TODO: {% set months = {\n   1: 'January',\n   2: 'February',\n   3:\
-        \ 'March',\n   4: 'April',\n   5: 'May',\n   6: 'June',\n   7: 'July',\n \
-        \  8: 'August',\n   9: 'September',\n   10: 'October',\n   11: 'November',\n\
-        \   12: 'December',\n} %} {% set ordinal = {\n   1: '1st',\n   2: '2nd',\n\
-        \   3: '3rd',\n   4: '4th',\n   5: '5th',\n   6: '6th',\n   7: '7th',\n  \
-        \ 8: '8th',\n   9: '9th',\n   10: '10th',\n   11: '11th',\n   12: '12th',\n\
-        \   13: '13th',\n   14: '14th',\n   15: '15th',\n   16: '16th',\n   17: '17th',\n\
-        \   18: '18th',\n   19: '19th',\n   20: '20th',\n   21: '21st',\n   22: '22nd',\n\
-        \   23: '23rd',\n   24: '24th',\n   25: '25th',\n   26: '26th',\n   27: '27th',\n\
-        \   28: '28th',\n   29: '29th',\n   30: '30th',\n   31: '31st',\n } %}\n{{\
-        \ months[slots.date.month] }} {{ ordinal[slots.date.day] }}, {{ slots.date.year\
-        \ }}\n"
+      default: >
+        {% set months = {
+           1: 'Eanáir',
+           2: 'Feabhra',
+           3: 'Márta',
+           4: 'Aibreáin',
+           5: 'Bealtaine',
+           6: 'Meitheamh',
+           7: 'Iúil',
+           8: 'Lúnasa',
+           9: 'Meán Fómhair',
+           10: 'Deireadh Fómhair',
+           11: 'Samhain',
+           12: 'Nollaig'
+        } %}
+        {% set ordinals = {
+           1: 'an chéad lá',
+           2: 'an dara lá',
+           3: 'an tríú lá',
+           4: 'an ceathrú lá',
+           5: 'an cúigiú lá',
+           6: 'an séú lá',
+           7: 'an seachtú lá',
+           8: 'an t-ochtú lá',
+           9: 'an naoú lá',
+           10: 'an deichiú lá',
+           11: 'an t-aonú lá déag',
+           12: 'an dara lá déag',
+           13: 'an tríú lá déag',
+           14: 'an ceathrú lá déag',
+           15: 'an cúigiú lá déag',
+           16: 'an séú lá déag',
+           17: 'an seachtú lá déag',
+           18: 'an t-ochtú lá déag',
+           19: 'an naoú lá déag',
+           20: 'an fichiú lá',
+           21: 'an t-aonú lá is fiche',
+           22: 'an dara lá is fiche',
+           23: 'an tríú lá is fiche',
+           24: 'an ceathrú lá is fiche',
+           25: 'an cúigiú lá is fiche',
+           26: 'an séú lá is fiche',
+           27: 'an seachtú lá is fiche',
+           28: 'an t-ochtú lá is fiche',
+           29: 'an naoú lá is fiche',
+           30: 'an tríochadú lá',
+           31: 'an t-aonú lá is tríocha'
+        } %}
+        Is é {{ ordinals[slots.date.day] }} de Mhí{% if slots.date.month >= 7 %} na{% endif %} {{ months[slots.date.month] }} sa bhliain {{ slots.date.year }}
