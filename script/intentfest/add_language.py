@@ -99,23 +99,41 @@ def run() -> int:
                 "language": language,
                 "responses": {
                     "errors": {
+                        # General errors
                         "no_intent": "TODO Sorry, I couldn't understand that",
                         "handle_error": "TODO An unexpected error occurred",
+                        # Errors for when user is not logged in
                         "no_area": "TODO Sorry, I am not aware of any area called {{ area }}",
+                        "no_floor": "TODO: Sorry, I am not aware of any floor called {{ floor }}",
                         "no_domain": "TODO Sorry, I am not aware of any {{ domain }}",
                         "no_domain_in_area": "TODO Sorry, I am not aware of any {{ domain }} in the {{ area }} area",
+                        "no_domain_in_floor": "TODO: Sorry, I am not aware of any {{ domain }} on the {{ floor }} floor",
                         "no_device_class": "TODO Sorry, I am not aware of any {{ device_class }}",
                         "no_device_class_in_area": "TODO Sorry, I am not aware of any {{ device_class }} in the {{ area }} area",
+                        "no_device_class_in_floor": "TODO: Sorry, I am not aware of any {{ device_class }} in the {{ floor }} floor",
                         "no_entity": "TODO Sorry, I am not aware of any device called {{ entity }}",
                         "no_entity_in_area": "TODO Sorry, I am not aware of any device called {{ entity }} in the {{ area }} area",
+                        "no_entity_in_floor": "TODO: Sorry, I am not aware of any device called {{ entity }} in the {{ floor }} floor",
+                        "entity_wrong_state": "TODO: Sorry, no device is {{ state | lower }}",
+                        "feature_not_supported": "TODO: Sorry, no device supports the required features",
+                        # Errors for when user is logged in and we can give more information
                         "no_entity_exposed": "TODO Sorry, {{ entity }} is not exposed",
                         "no_entity_in_area_exposed": "TODO Sorry, {{ entity }} in the {{ area }} area is not exposed",
+                        "no_entity_in_floor_exposed": "TODO: Sorry, {{ entity }} in the {{ floor }} floor is not exposed",
                         "no_domain_exposed": "TODO Sorry, no {{ domain }} is exposed",
                         "no_domain_in_area_exposed": "TODO Sorry, no {{ domain }} in the {{ area }} area is exposed",
+                        "no_domain_in_floor_exposed": "TODO: Sorry, no {{ domain }} in the {{ floor }} floor is exposed",
                         "no_device_class_exposed": "TODO Sorry, no {{ device_class }} is exposed",
                         "no_device_class_in_area_exposed": "TODO Sorry, no {{ device_class }} in the {{ area }} area is exposed",
+                        "no_device_class_in_floor_exposed": "TODO: Sorry, no {{ device_class }} in the {{ floor }} floor is exposed",
+                        # Used when multiple (exposed) devices have the same name
                         "duplicate_entities": "TODO Sorry, there are multiple devices called {{ entity }}",
                         "duplicate_entities_in_area": "TODO Sorry, there are multiple devices called {{ entity }} in the {{ area }} area",
+                        "duplicate_entities_in_floor": "TODO: Sorry, there are multiple devices called {{ entity }} in the {{ floor }} floor",
+                        # Errors for timers
+                        "timer_not_found": "TODO: Sorry, I couldn't find that timer",
+                        "multiple_timers_matched": "TODO: Sorry, I am unable to target multiple timers",
+                        "no_timer_support": "TODO: Sorry, timers are not supported on this device",
                     },
                 },
                 "lists": {},
