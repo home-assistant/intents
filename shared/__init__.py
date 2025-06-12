@@ -341,7 +341,7 @@ def render_response(
     env: Optional[Environment] = None,
     timers: Optional[List[Timer]] = None,
     media: Optional[List[BrowseMedia]] = None,
-    shopping_list_items: Optional[List[str]] = None,
+    shopping_list_items: Optional[List[ShoppingListItem]] = None,
 ) -> str:
     """Renders a response template using Jinja2."""
     assert response_template, "Empty response template"
@@ -381,7 +381,7 @@ def render_response(
 
     # Shopping list items
     if shopping_list_items:
-        slots["completed_items"] = shopping_list_items  # alle Treffer als Liste
+        slots["completed_items"] = shopping_list_items
 
     return env.from_string(response_template).render(
         {
