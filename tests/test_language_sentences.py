@@ -23,14 +23,17 @@ from shared import (
     AreaEntry,
     BrowseMedia,
     FloorEntry,
+    ShoppingListItem,
     State,
     Timer,
     get_areas,
     get_floors,
     get_matched_media,
+    get_matched_shopping_list_items,
     get_matched_states,
     get_matched_timers,
     get_media_items,
+    get_shopping_list_items,
     get_slot_lists,
     get_states,
     get_timers,
@@ -98,6 +101,14 @@ def media_fixture(language: str, lang_fixtures: dict[str, Any]) -> List[BrowseMe
     return get_media_items(lang_fixtures)
 
 
+@pytest.fixture(name="shopping_list_items", scope="session")
+def shopping_list_items_fixture(
+    language: str, lang_fixtures: dict[str, Any]
+) -> List[ShoppingListItem]:
+    """Loads test shopping list items for the language."""
+    return get_shopping_list_items(lang_fixtures)
+
+
 def do_test_language_sentences_file(
     language: str,
     test_file: str,
@@ -109,6 +120,7 @@ def do_test_language_sentences_file(
     floors: List[FloorEntry],
     timers: List[Timer],
     media: List[BrowseMedia],
+    shopping_list_items: List[str],
     language_sentences: Intents,
     language_responses: dict[str, Any],
     name_trie: Trie,
@@ -284,6 +296,9 @@ def do_test_language_sentences_file(
                         env=template_env,
                         timers=get_matched_timers(timers, result),
                         media=get_matched_media(media, result),
+                        shopping_list_items=get_matched_shopping_list_items(
+                            shopping_list_items, result
+                        ),
                     )
                     actual_response_text = normalize_whitespace(
                         actual_response_text
@@ -307,6 +322,7 @@ def gen_test(test_file_stem: str) -> None:
         floors: List[FloorEntry],
         timers: List[Timer],
         media: List[BrowseMedia],
+        shopping_list_items: List[str],
         language_sentences: Intents,
         language_responses: dict[str, Any],
         name_trie: Trie,
@@ -321,6 +337,7 @@ def gen_test(test_file_stem: str) -> None:
             floors=floors,
             timers=timers,
             media=media,
+            shopping_list_items=shopping_list_items,
             language_sentences=language_sentences,
             language_responses=language_responses,
             name_trie=name_trie,
