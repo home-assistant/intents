@@ -310,6 +310,7 @@ def get_matched_media(
 def get_matched_shopping_list_items(items, result):
     if result.intent.name not in ("HassShoppingListCompleteItem",):
         return []
+
     slots = {slot.name: slot.value for slot in result.entities.values()}
     item = slots.get("item")
     if not item:
