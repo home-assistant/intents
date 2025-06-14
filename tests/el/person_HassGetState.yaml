@@ -1,0 +1,219 @@
+language: el
+tests:
+  # Where queries (where response) - expanded coverage
+  #test also check for use with wrong articles
+  - sentences:
+      - "που είναι ο Γιάννης"
+      - "πού είναι ο Γιάννης"
+      - "που βρίσκεται ο Γιάννης"
+      - "σε ποια τοποθεσία είναι ο Γιάννης"
+      - "που είναι η Γιάννης"
+      - "που είναι το Γιάννης"
+      - "που είναι τον Γιάννης"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Γιάννης
+    response: "Γιάννης είναι στο σπίτι"
+
+  - sentences:
+      - "που είναι η Μαρία"
+      - "πού βρίσκεται η Μαρία"
+      - "σε ποιο μέρος είναι η Μαρία"
+      - "που είναι ο Μαρία"
+      - "που είναι την Μαρία"
+      - "που είναι τη Μαρία"
+      - "πού είναι τη Μαρία"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Μαρία
+    response: "Μαρία είναι στο Δουλειά"
+
+  # One yesno queries - expanded coverage
+  - sentences:
+      - "είναι η Μαρία στο σπίτι"
+      - "βρίσκεται η Μαρία στο σπίτι"
+      - "είναι η Μαρία στο σπίτι τώρα"
+      - "βρίσκεται η Μαρία στο σπίτι αυτή τη στιγμή"
+      - "είναι ο Μαρία στο σπίτι"
+      - "είναι την Μαρία στο σπίτι"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Μαρία
+        state: σπίτι
+    response: "Όχι, Δουλειά"
+
+  - sentences:
+      - "είναι ο Γιάννης στην κουζίνα"
+      - "βρίσκεται ο Γιάννης στην κουζίνα"
+      - "είναι η Γιάννης στην κουζίνα"
+      - "είναι τον Γιάννης στην κουζίνα"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Γιάννης
+        state: κουζίνα
+    response: "Όχι, σπίτι"
+
+  # Any queries - expanded coverage
+  - sentences:
+      - "είναι κανείς στο σπίτι"
+      - "υπάρχει κανείς στο σπίτι"
+      - "βρίσκεται κανείς στο σπίτι"
+      - "υπάρχει κάποιος στο σπίτι"
+      - "είναι κάποιος στο σπίτι"
+      - "έχει κανέναν στο σπίτι"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: σπίτι
+    response: "Ναι, Γιάννης"
+
+  - sentences:
+      - "είναι κανείς στην κουζίνα"
+      - "υπάρχει κάποιος στην κουζίνα"
+      - "βρίσκεται κανείς στην κουζίνα"
+      - "έχει κανέναν στην κουζίνα"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: κουζίνα
+    response: "Όχι"
+
+  # All queries - expanded coverage
+  - sentences:
+      - "είναι όλοι στο σπίτι"
+      - "βρίσκονται όλοι στο σπίτι"
+      - "είναι όλος ο κόσμος στο σπίτι"
+      - "είναι όλοι μαζί στο σπίτι"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: σπίτι
+    response: "Όχι, δεν ισχύει για Μαρία και Νίκος"
+
+  - sentences:
+      - "είναι όλοι εδώ"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+    response: "Ναι"
+
+  - sentences:
+      - "είναι όλοι στο σαλόνι"
+      - "βρίσκονται όλοι στο σαλόνι"
+      - "είναι όλος ο κόσμος στο σαλόνι"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: σαλόνι
+    response: "Όχι, δεν ισχύει για Γιάννης, Μαρία και Νίκος"
+
+  # Which queries - expanded coverage
+  - sentences:
+      - "ποιος είναι στο σπίτι"
+      - "ποιος βρίσκεται στο σπίτι"
+      - "ποιοι είναι στο σπίτι"
+      - "ποιοι βρίσκονται στο σπίτι"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: σπίτι
+    response: "Γιάννης"
+
+  - sentences:
+      - "ποιος είναι εκεί"
+      - "ποιοι είναι εκεί"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+    response: "Γιάννης, Μαρία και Νίκος"
+
+  - sentences:
+      - "ποιος είναι στο σαλόνι"
+      - "ποιοι βρίσκονται στο σαλόνι"
+      - "ποιος βρίσκεται στο σαλόνι"
+      - "ποιοι είναι στο σαλόνι"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: σαλόνι
+    response: "Κανένα αποτέλεσμα"
+
+  # How many queries - expanded coverage
+  - sentences:
+      - "πόσοι είναι στο σπίτι"
+      - "πόσα άτομα είναι στο σπίτι"
+      - "πόσοι άνθρωποι είναι στο σπίτι"
+      - "πόσοι βρίσκονται στο σπίτι"
+      - "πόσα άτομα βρίσκονται στο σπίτι"
+      - "πόσος κόσμος είναι στο σπίτι"
+      - "πόσοι άνθρωποι βρίσκονται στο σπίτι"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: σπίτι
+    response: "1"
+
+  - sentences:
+      - "πόσοι είναι στο υπνοδωμάτιο"
+      - "πόσα άτομα βρίσκονται στο υπνοδωμάτιο"
+      - "πόσοι άνθρωποι είναι στο υπνοδωμάτιο"
+      - "πόσος κόσμος είναι στο υπνοδωμάτιο"
+      - "πόσοι βρίσκονται στο υπνοδωμάτιο"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: υπνοδωμάτιο
+    response: "0"
+
+  # Additional edge cases with different areas
+  - sentences:
+      - "πόσοι είναι στο γκαράζ"
+      - "πόσα άτομα είναι στο γκαράζ"
+      - "πόσος κόσμος βρίσκεται στο γκαράζ"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: γκαράζ
+    response: "0"
+
+  - sentences:
+      - "είναι κανείς στον κήπο"
+      - "υπάρχει κάποιος στον κήπο"
+      - "βρίσκεται κανείς στον κήπο"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        state: κήπο
+    response: "Όχι"
+
+  # Test with different person names and article combinations
+  - sentences:
+      - "που είναι τον Νίκος"
+      - "που είναι ο Νίκος"
+      - "πού βρίσκεται ο Νίκος"
+    intent:
+      name: HassGetState
+      slots:
+        domain: person
+        name: Νίκος
+    response: "Νίκος είναι στο not_home"
