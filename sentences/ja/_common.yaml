@@ -1,0 +1,69 @@
+language: ja
+responses:
+  errors:
+    # General errors
+    no_intent: "すみません、理解できませんでした"
+    handle_error: "処理中に予期せぬエラーが発生しました"
+
+    # Errors for when user is not logged in
+    no_area: "すみません、{{ area }}というエリアが見つかりません"
+    no_floor: "すみません、{{ floor }}というフロアが見つかりません"
+    no_domain: |
+      {% set translations = {
+        "button": "ボタン",
+        "camera": "カメラ",
+        "input_button": "入力ボタン",
+        "alarm_control_panel": "アラーム",
+        "automation": "オートメーション",
+        "fan": "ファン",
+        "climate": "エアコン",
+        "humidifier": "加湿器",
+        "input_boolean": "スイッチ",
+        "siren": "サイレン",
+        "water_heater": "給湯器",
+        "light": "照明",
+        "switch": "スイッチ",
+        "script": "スクリプト",
+        "remote": "リモコン",
+        "lock": "鍵",
+        "vacuum": "掃除機",
+        "scene": "シーン",
+        "media_player": "メディアプレーヤー",
+        "lawn_mower": "芝刈り機",
+        "valve": "バルブ"
+        } %}
+      {% if domain in translations -%}
+        すみません、{{ translations[domain] }}が見つかりません
+      {%- else -%}
+        すみません、見つかりません。
+      {%- endif %}
+    no_entity: "すみません、{{ entity }}という名前のデバイスはありません"
+    feature_not_supported: "すみません、リクエストされた機能をサポートしていません。"
+lists:
+  color:
+    values:
+      - in: "白"
+        out: "white"
+      - in: "黒"
+        out: "black"
+      - in: "赤"
+        out: "red"
+      - in: "(オレンジ|橙)"
+        out: "orange"
+      - in: "黄色"
+        out: "yellow"
+      - in: "緑"
+        out: "green"
+      - in: "青"
+        out: "blue"
+      - in: "(紫|パープル)"
+        out: "purple"
+      - in: "茶色"
+        out: "brown"
+      - in: "ピンク"
+        out: "pink"
+
+expansion_rules:
+  name: "{name}"
+  turn_off: "(消し(て|なさい|てください)|オフにし(て|なさい|てください)|停止し(て|なさい|てください))"
+  turn_on: "(点け(て|る|ろ|なさい|てください)|オンにし(て|なさい|てください)|起動し(て|なさい|てください))"
