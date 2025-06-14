@@ -1,37 +1,389 @@
 language: mr
 responses:
   errors:
-    no_intent: "माफ करा, मला समजले नाही"
-    handle_error: "काहीतरी अनपेक्षित चूक झाली"
+    # General Errors
+    no_intent: "माफ करा, मला ते समजले नाही"
+    handle_error: "अपेक्षित नसलेला अडथळा"
+
+    # Errors for when user is not logged in
     no_area: "माफ करा, मला {{ area }} नावाच्या कोणत्याही क्षेत्राची माहिती नाही"
-    no_domain: TODO Sorry, I am not aware of any {{ domain }}
-    no_domain_in_area:
-      TODO Sorry, I am not aware of any {{ domain }} in the {{ area
-      }} area
-    no_device_class: TODO Sorry, I am not aware of any {{ device_class }}
-    no_device_class_in_area:
-      TODO Sorry, I am not aware of any {{ device_class }}
-      in the {{ area }} area
-    no_entity: TODO Sorry, I am not aware of any device called {{ entity }}
-    no_entity_in_area:
-      TODO Sorry, I am not aware of any device called {{ entity }}
-      in the {{ area }} area
-    no_entity_exposed: TODO Sorry, {{ entity }} is not exposed
-    no_entity_in_area_exposed:
-      TODO Sorry, {{ entity }} in the {{ area }} area is
-      not exposed
-    no_domain_exposed: TODO Sorry, no {{ domain }} is exposed
-    no_domain_in_area_exposed:
-      TODO Sorry, no {{ domain }} in the {{ area }} area
-      is exposed
-    no_device_class_exposed: TODO Sorry, no {{ device_class }} is exposed
-    no_device_class_in_area_exposed:
-      TODO Sorry, no {{ device_class }} in the {{ area
-      }} area is exposed
-    duplicate_entities: TODO Sorry, there are multiple devices called {{ entity }}
-    duplicate_entities_in_area:
-      TODO Sorry, there are multiple devices called {{ entity
-      }} in the {{ area }} area
-lists: {}
+    no_floor: "माफ करा, मला {{ floor }} नावाचा कोणताही मजला माहित नाही"
+    no_domain: "माफ करा, मला कोणत्याही {{ domain }} बद्दल माहिती नाही"
+    no_domain_in_area: "माफ करा, मला {{ area }} क्षेत्रातील कोणत्याही {{ domain }} बद्दल माहिती नाही"
+    no_domain_in_floor: "माफ करा, मला {{ floor }} मजल्यावरील कोणत्याही {{ domain }} बद्दल माहिती नाही"
+    no_device_class: "माफ करा, मला कोणत्याही {{ device_class }} बद्दल माहिती नाही"
+    no_device_class_in_area: "माफ करा, मला {{ area }} क्षेत्रातील कोणत्याही {{ device_class }} बद्दल माहिती नाही"
+    no_device_class_in_floor: "माफ करा, मला {{ floor }} मजल्यावरील कोणत्याही {{ device_class }} बद्दल माहिती नाही"
+    no_entity: "माफ करा, मला {{ entity }} नावाच्या कोणत्याही उपकरणाची माहिती नाही"
+    no_entity_in_area: "माफ करा, मला {{ area }} क्षेत्रातील {{ entity }} नावाच्या कोणत्याही उपकरणाची माहिती नाही"
+    no_entity_in_floor: "माफ करा, मला {{ floor }} मजल्यामध्ये {{ entity }} नावाचे कोणतेही उपकरण माहित नाही"
+    entity_wrong_state: "माफ करा, कोणतेही उपकरण {{ state | lower }} नाही"
+    feature_not_supported: "माफ करा, कोणतेही उपकरण आवश्यक वैशिष्ट्यांना समर्थन देत नाही"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "माफ करा, {{ entity }} उघड झाले नाही"
+    no_entity_in_area_exposed: "माफ करा, {{ area }} क्षेत्रातील {{ entity }} उघड झालेले नाही"
+    no_entity_in_floor_exposed: "माफ करा, {{ floor }} मजल्यावरील {{ entity }} उघड झालेले नाही"
+    no_domain_exposed: "माफ करा, कोणतेही {{ domain }} उघड झालेले नाही"
+    no_domain_in_area_exposed: "माफ करा, {{ area }} क्षेत्रातील कोणतेही {{ domain }} उघड झालेले नाही"
+    no_domain_in_floor_exposed: "माफ करा, {{ floor }} मजल्यावरील कोणताही {{ domain }} उघड झालेले नाही"
+    no_device_class_exposed: "माफ करा, कोणताही {{ device_class }} उघड झालेला नाही"
+    no_device_class_in_area_exposed: "माफ करा, {{ area }} क्षेत्रातील कोणताही {{ device_class }} उघड झालेले नाही"
+    no_device_class_in_floor_exposed: "माफ करा, {{ floor }} फ्लोअरमधील कोणताही {{ device_class }} उघड झालेले नाही"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "माफ करा, {{ entity }} नावाचे अनेक उपकरणे आहेत"
+    duplicate_entities_in_area: "माफ करा, {{ area }} क्षेत्रात {{ entity }} नावाचे अनेक उपकरणे आहेत"
+    duplicate_entities_in_floor: "माफ करा, {{ floor }} मजल्यावर {{ entity }} नावाचे अनेक उपकरणे आहेत"
+
+    # Errors for timers
+    timer_not_found: "माफ करा, मला तो टायमर सापडला नाही."
+    multiple_timers_matched: "माफ करा, मी अनेक टायमरना लक्ष्य करू शकत नाही"
+    no_timer_support: "माफ करा, या उपकरणवर टायमर समर्थित नाहीत"
+lists:
+  color:
+    values:
+      - in: "(पांढरा | सफेत)"
+        out: "white"
+      - in: "काळा"
+        out: "black"
+      - in: "लाल"
+        out: "red"
+      - in: "नारिंगी"
+        out: "orange"
+      - in: "पिवळा"
+        out: "yellow"
+      - in: "हिरवा"
+        out: "green"
+      - in: "निळा"
+        out: "blue"
+      - in: "जांभळा"
+        out: "purple"
+      - in: "(तपकिरी | बदामी)"
+        out: "brown"
+      - in: "गुलाबी"
+        out: "pink"
+      - in: "(पिरोजा | आकाशी)"
+        out: "turquoise"
+
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  brightness_level:
+    values:
+      - in: "(जास्त|सर्वोच्च|सर्वात जास्त|शंभर|पूर्ण)"
+        out: 100
+      - in: "(कमी|सर्वात कमी)"
+        out: 1
+
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+      fractions: "halves"
+
+  on_off_states:
+    values:
+      - in: "चालू"
+        out: "on"
+      - in: "बंद"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: light[s]
+        out: light
+      - in: fan[s]
+        out: fan
+      - in: switch[es]
+        out: switch
+
+  cover_states:
+    values:
+      - in: "(उघडे|उघडा|उघड)"
+        out: "open"
+      - in: "बंद"
+        out: "closed"
+      - in: "उघडणे"
+        out: "opening"
+      - in: "बंद करणे"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: awning[s]
+        out: awning
+      - in: blind[s]
+        out: blind
+      - in: curtain[s]
+        out: curtain
+      - in: door[s]
+        out: door
+      - in: garage door[s]
+        out: garage
+      - in: gate[s]
+        out: gate
+      - in: shade[s]
+        out: shade
+      - in: shutter[s]
+        out: shutter
+      - in: window[s]
+        out: window
+
+  lock_states:
+    values:
+      - in: "(कुलूप | लॉक)"
+        out: "locked"
+      - in: "अनलॉक"
+        out: "unlocked"
+
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "कमी"
+        out: "on"
+      - in: "चार्ज"
+        out: "off"
+
+  bs_battery_charging_states:
+    values:
+      - in: "चार्जिंग"
+        out: "on"
+      - in: "चार्ज होत नाही"
+        out: "off"
+
+  bs_carbon_monoxide_states:
+    values:
+      - in: "आहे"
+        out: "on"
+      - in: "नाही"
+        out: "off"
+
+  bs_cold_states:
+    values:
+      - in: "थंड"
+        out: "on"
+      - in: "सामान्य"
+        out: "off"
+
+  bs_connectivity_states:
+    values:
+      - in: "कनेक्ट केलेले"
+        out: "on"
+      - in: "डिस्कनेक्ट"
+        out: "off"
+
+  bs_door_states:
+    values:
+      - in: "उघडे"
+        out: "on"
+      - in: "बंद"
+        out: "off"
+
+  bs_garage_door_states:
+    values:
+      - in: "उघडे"
+        out: "on"
+      - in: "बंद"
+        out: "off"
+
+  bs_gas_states:
+    values:
+      - in: "आहे"
+        out: "on"
+      - in: "नाही"
+        out: "off"
+
+  bs_heat_states:
+    values:
+      - in: "गरम"
+        out: "on"
+      - in: "सामान्य"
+        out: "off"
+
+  bs_light_states:
+    values:
+      - in: "प्रकाश"
+        out: "on"
+      - in: "प्रकाश नाही"
+        out: "off"
+
+  bs_lock_states:
+    values:
+      - in: "अनलॉक"
+        out: "on"
+      - in: "(कुलूप | लॉक)"
+        out: "off"
+
+  bs_moisture_states:
+    values:
+      - in: "ओलावा"
+        out: "on"
+      - in: "कोरडे"
+        out: "off"
+
+  bs_motion_states:
+    values:
+      - in: "आहे"
+        out: "on"
+      - in: "नाही"
+        out: "off"
+
+  bs_occupancy_states:
+    values:
+      - in: "आहे"
+        out: "on"
+      - in: "नाही"
+        out: "off"
+
+  bs_opening_states:
+    values:
+      - in: "उघडे"
+        out: "on"
+      - in: "बंद"
+        out: "off"
+
+  bs_plug_states:
+    values:
+      - in: "प्लग इन"
+        out: "on"
+      - in: "(प्लग आउट| अनप्लग)"
+        out: "off"
+
+  bs_power_states:
+    values:
+      - in: "(पॉवर चालू | पॉवर आहे)"
+        out: "on"
+      - in: "(पॉवर बंद | पॉवर नाही)"
+        out: "off"
+
+  bs_presence_states:
+    values:
+      - in: "(घर | उपस्थित)"
+        out: "on"
+      - in: "(दूर | नाही (घर | उपस्थित)|गेले)"
+        out: "off"
+
+  bs_problem_states:
+    values:
+      - in: "आढळले"
+        out: "on"
+      - in: "ठीक"
+        out: "off"
+
+  bs_running_states:
+    values:
+      - in: "धावणे"
+        out: "on"
+      - in: "धावत नाही"
+        out: "off"
+
+  bs_safety_states:
+    values:
+      - in: "असुरक्षित"
+        out: "on"
+      - in: "सुरक्षित"
+        out: "off"
+
+  bs_smoke_states:
+    values:
+      - in: "आहे"
+        out: "on"
+      - in: "नाही"
+        out: "off"
+  bs_sound_states:
+    values:
+      - in: "आहे"
+        out: "on"
+      - in: "नाही"
+        out: "off"
+
+  bs_tamper_states:
+    values:
+      - in: "(आहे |छेडछाड केली)"
+        out: "on"
+      - in: "नाही"
+        out: "off"
+
+  bs_update_states:
+    values:
+      - in: "(अपडेट उपलब्ध | अद्यतन उपलब्ध)"
+        out: "on"
+      - in: "अद्ययावत"
+        out: "off"
+
+  bs_vibration_states:
+    values:
+      - in: "(आहे | कंपन)"
+        out: "on"
+      - in: "(नाही | कंपन होत नाही)"
+        out: "off"
+
+  bs_window_states:
+    values:
+      - in: "उघडे"
+        out: "on"
+      - in: "बंद"
+        out: "off"
+
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  #Time
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_quarter:
+    values:
+      - in: "सावा"
+        out: 15
+      - in: "1/4"
+        out: 15
+  timer_half:
+    values:
+      - in: "अर्धा"
+        out: 30
+      - in: "1/2"
+        out: 30
+  timer_three_quarters:
+    values:
+      - in: "पाउन"
+        out: 45
+      - in: "3/4"
+        out: 45
+
+  #Wildcard
+  shopping_list_item:
+    wildcard: true
+  todo_list_item:
+    wildcard: true
+  zone:
+    wildcard: true
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+  message:
+    wildcard: true
+
 expansion_rules: {}
 skip_words: []
