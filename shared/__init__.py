@@ -114,8 +114,6 @@ class ShoppingListItem:
     """Minimal HA-like object for shopping list items."""
 
     name: str
-    id: str
-    complete: bool
 
 
 def get_matched_states(
@@ -605,11 +603,6 @@ def get_shopping_list_items(fixtures: dict[str, Any]) -> List[ShoppingListItem]:
     items: List[ShoppingListItem] = []
 
     for item_dict in fixtures.get("shopping_list", []):
-        name = item_dict.get("name")
-        item_id = item_dict.get("id")
-        complete = item_dict.get("complete", False)
-
-        if name and item_id is not None:
-            items.append(ShoppingListItem(name=name, id=item_id, complete=complete))
+        items.append(ShoppingListItem(name=item_dict["name"]))
 
     return items

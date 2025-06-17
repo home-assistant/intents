@@ -366,13 +366,7 @@ TESTS_FIXTURES = vol.Schema(
             }
         ],
         vol.Optional("media"): [{vol.Required("title"): str}],
-        vol.Optional("shopping_list"): [
-            {
-                vol.Required("id"): str,
-                vol.Required("name"): str,
-                vol.Required("complete"): bool,
-            }
-        ],
+        vol.Optional("shopping_list"): [{vol.Required("name"): str}],
     }
 )
 
@@ -487,11 +481,7 @@ TIMER_SCHEMA_DICT = {
 
 MEDIA_SCHEMA_DICT = {vol.Required("title"): str}
 
-SHOPPING_LIST_SCHEMA_DICT = {
-    vol.Required("id"): str,
-    vol.Required("name"): str,
-    vol.Required("complete"): bool,
-}
+SHOPPING_LIST_SCHEMA_DICT = {vol.Required("name"): str}
 
 
 def SLOT_COMBO_TEST_SCHEMA(
