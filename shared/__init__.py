@@ -314,12 +314,7 @@ def get_matched_shopping_list_items(items, result):
     if not item:
         return []
 
-    matched = []
-    for i in items:
-        if hasattr(i, "name"):
-            if i.name == item:
-                matched.append(i.name)
-    return matched
+    return [m for m in items if m.name == item]
 
 
 def _normalize_name(name: str) -> str:
