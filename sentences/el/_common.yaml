@@ -42,6 +42,16 @@ lists:
       type: "temperature"
       from: 0
       to: 100
+  volume:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  volume_level:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
   brightness_level:
     values:
       - in: (μέγιστο|ανώτερο|υψηλότερο)
@@ -94,9 +104,9 @@ lists:
         out: window
   lock_states:
     values:
-      - in: "κλειδωμέν[o|η|ος]"
+      - in: "κλειδωμέν[o|η|ος|οι|ες|α]"
         out: "locked"
-      - in: "ξεκλειδωμέν[o|η|ος]|ξεκλείδωτ(ο|η|ος)"
+      - in: "ξεκλειδωμέν[o|η|ος|οι|ες|α]|ξεκλείδωτ(ο|η|ος|οι|ες|α)"
         out: "unlocked"
 
   # binary_sensor
@@ -292,15 +302,26 @@ lists:
   shopping_list_item:
     wildcard: true
 
+  todo_list_item:
+    wildcard: true
+
   zone:
     wildcard: true
 
   search_query:
     wildcard: true
+  message:
+    wildcard: true
+  position:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
 
 expansion_rules:
   name: "[(ο | οι | τον | η | την | το | τα | τις | τους | στον | στη | στην | στο | στους | στις | στα)] {name}"
   area: "[(ο | οι | τον | η | την | το | τα | τις | τους | στον | στη | στην | στο | στους | στις | στα)] {area}"
+  floor: "[(ο | οι | τον | η | την | το | τα | τις | τους | στον | στη | στην | στο | στους | στις | στα)] {floor} [όροφος]"
   articles: "(ο | οι | τον | η | την | τη | το | τα | τις | τους | του | της | στον | στη | στην | στο | στους | στις | στα)"
   all: "(όλους | όλες | όλα)"
   set: "(όρισε | ρύθμισε | άλλαξε)"
@@ -313,12 +334,26 @@ expansion_rules:
   lights: "(φως | φώτα | λάμπ(α[ς]|ες) | φωτιστικ(ό|ά))"
   brightness: "{brightness}[%| τοις εκατό]"
   temperature: "{temperature} [βαθμ(οί|ούς)]"
+  volume: "{volume:volume_level}[%| τοις εκατό]"
+  volume_level: "{volume_level}[%| τοις εκατό]"
+  position: "{position}[%| τοις εκατό]"
   exist: "(υπάρχει | υπάρχουν | είναι) [κάποι(ος|α|ο|οι|ες|α)]"
   numeric_value_set: "(όρισε|άλλαξε|αύξησε|μείωσε)"
+  # Broadcast
+  broadcast: "(ανάκοινωσε | μετάδωσε | διάδωσε | κάνε ανακοίνωση | κάνε μετάδοση)"
+  everywhere: "(παντού | σε όλο το σπίτι | σε όλες τις συσκευές | σε όλους | σε όλα | παντού στο σπίτι)"
+  open: "(άνοιξε|σήκωσε|ανέβασε) [πάνω]"
+  close: "(κλείσε|κατέβασε) [(πάνω|κάτω)]"
+  clean: "(καθάρισε|σκούπισε|ηλεκτρική σκούπα)"
   # Questions
   what_is: "(ποια είναι | ποιο είναι | τι | πώς)"
   where_is: "(πού είναι | πού βρίσκεται)"
   what_is_the_class_of_name: "(<what_is> η <class> (του|στο|από) <name> [στην τοποθεσία <area>]|<what_is> <name> <class> [στην περιοχή <area>]|<what_is> <area> <name> <class>)"
+  lockable: "(κλειδαριά | κλειδαριές | πόρτα | πόρτες | παράθυρο | παράθυρα | πύλη | πύλες | γκαραζόπορτα | γκαραζόπορτες)"
+
+  # Lock specific verbs to avoid conflicts with covers
+  lock_turn_on: "(κλείδωσε | ασφάλισε | βάλε κλειδί)"
+  lock_turn_off: "(ξεκλείδωσε | βγάλε το κλειδί)"
 
 skip_words:
   - παρακαλώ
