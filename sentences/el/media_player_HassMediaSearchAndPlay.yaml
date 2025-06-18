@@ -4,23 +4,101 @@ intents:
     data:
       - sentences:
           - "παίξε {search_query}"
-          - "άνοιξε {search_query}"
           - "βάλε {search_query}"
         requires_context:
           area:
             slot: true
 
       - sentences:
-          - "παίξε {search_query} στ(ο|η|ην) <area>"
-          - "άνοιξε {search_query} στ(ο|η|ην) <area>"
+          - "παίξε [το] {search_query} στ(ο|η|ην) <area>"
           - "βάλε {search_query} στ(ο|η|ην) <area>"
 
       - sentences:
           - "παίξε {search_query} στ(ο|η|ην) <name>"
-          - "άνοιξε {search_query} στ(ο|η|ην) <name>"
           - "βάλε {search_query} στ(ο|η|ην) <name>"
           - "παίξε {search_query} στ(ο|η|ην) <name> στ(ο|η|ην) <area>"
-          - "άνοιξε {search_query} στ(ο|η|ην) <name> στ(ο|η|ην) <area>"
           - "βάλε {search_query} στ(ο|η|ην) <name> στ(ο|η|ην) <area>"
         requires_context:
           domain: "media_player"
+
+      - sentences:
+          - "παίξε [το] κομμάτι {search_query}"
+          - "παίξε [το] {search_query} κομμάτι"
+          - "βάλε [το] κομμάτι {search_query}"
+          - "βάλε [το] {search_query} κομμάτι"
+        slots:
+          media_class: "track"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "παίξε [το] άλμπουμ {search_query}"
+          - "παίξε [το] {search_query} άλμπουμ"
+          - "βάλε [το] άλμπουμ {search_query}"
+          - "βάλε [το] {search_query} άλμπουμ"
+        slots:
+          media_class: "album"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "παίξε <articles> καλλιτέχνη {search_query}"
+          - "παίξε καλλιτέχνη {search_query}"
+          - "παίξε <articles> {search_query}" ##example: παίξε τους scorpions
+          - "παίξε κάτι από [<articles>] {search_query}" ##example: παίξε κάτι από [τους] scorpions // anything from this artist
+          - "βάλε κάτι από [<articles>] {search_query}"
+          - "βάλε [<articles>] {search_query}"
+          - "βάλε καλλιτέχνη {search_query}"
+        slots:
+          media_class: "artist"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "παίξε <articles> λίστα αναπαραγωγής {search_query}"
+          - "παίξε <articles> {search_query} λίστα αναπαραγωγής"
+          - "βάλε <articles> λίστα αναπαραγωγής {search_query}"
+          - "βάλε <articles> {search_query} λίστα αναπαραγωγής"
+        slots:
+          media_class: "playlist"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "παίξε [το] podcast {search_query}"
+          - "παίξε [το] {search_query} podcast"
+          - "βάλε [το] podcast {search_query}"
+          - "βάλε [το] {search_query} podcast"
+        slots:
+          media_class: "podcast"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "παίξε <articles> ταινία {search_query}"
+          - "παίξε <articles> {search_query} ταινία"
+          - "βάλε <articles> ταινία {search_query}"
+          - "βάλε <articles> {search_query} ταινία"
+        slots:
+          media_class: "movie"
+        requires_context:
+          area:
+            slot: true
+
+      - sentences:
+          - "παίξε <articles> σειρά {search_query}"
+          - "παίξε <articles> τηλεοπτική σειρά {search_query}"
+          - "παίξε <articles> {search_query} σειρά"
+          - "βάλε <articles> σειρά {search_query}"
+          - "βάλε <articles> τηλεοπτική σειρά {search_query}"
+          - "βάλε <articles> {search_query} σειρά"
+        slots:
+          media_class: "tv_show"
+        requires_context:
+          area:
+            slot: true
