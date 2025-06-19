@@ -1,0 +1,52 @@
+language: el
+intents:
+  HassGetState:
+    data:
+      - sentences:
+          - "είναι <name> {lock_states:state} [στ(ο|η|ην) <area>]"
+          - "<name> είναι {lock_states:state} [στ(ο|η|ην) <area>]"
+        response: one_yesno
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
+
+      - sentences:
+          - "<exist> <lockable> {lock_states:state} [στ(ο|η|ην) <area>]"
+          - "<exist> {lock_states:state} <lockable> [στ(ο|η|ην) <area>]"
+          - "υπάρχουν {lock_states:state} <lockable> [στ(ο|η|ην) <area>]"
+        response: any
+        slots:
+          domain: lock
+
+      - sentences:
+          - "είναι όλα τα <lockable> {lock_states:state} [στ(ο|η|ην) <area>]"
+          - "όλα τα <lockable> είναι {lock_states:state} [στ(ο|η|ην) <area>]"
+        response: all
+        slots:
+          domain: lock
+
+      - sentences:
+          - "(ποια|ποιο|ποιος|ποιες|ποιους) <lockable> είναι {lock_states:state} [στ(ο|η|ην) <area>]"
+          - "(ποια|ποιο|ποιος|ποιες|ποιους) από τα <lockable> είναι {lock_states:state} [στ(ο|η|ην) <area>]"
+        response: which
+        slots:
+          domain: lock
+
+      - sentences:
+          - "πόσα <lockable> είναι {lock_states:state} [στ(ο|η|ην) <area>]"
+          - "πόσες <lockable> είναι {lock_states:state} [στ(ο|η|ην) <area>]"
+          - "πόσους <lockable> είναι {lock_states:state} [στ(ο|η|ην) <area>]"
+        response: how_many
+        slots:
+          domain: lock
+
+      - sentences:
+          - "πες μου την κατάσταση (του|της) <name> [στ(ο|η|ην) <area>]"
+          - "δείξε μου την κατάσταση (του|της) <name> [στ(ο|η|ην) <area>]"
+          - "<what_is> η κατάσταση (του|της) <name> [στ(ο|η|ην) <area>]"
+        response: one
+        requires_context:
+          domain: lock
+        slots:
+          domain: lock
