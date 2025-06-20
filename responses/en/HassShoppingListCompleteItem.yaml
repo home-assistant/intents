@@ -2,4 +2,9 @@ language: "en"
 responses:
   intents:
     HassShoppingListCompleteItem:
-      item_completed: "Checked off {{ slots.item }}"
+      item_completed: |
+        {% if slots.completed_items %}
+        Checked off {{ slots.completed_items[0].name }}
+        {% else %}
+        No matching item found on your shopping list.
+        {% endif %}
