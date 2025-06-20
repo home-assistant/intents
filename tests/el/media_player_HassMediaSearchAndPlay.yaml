@@ -1,0 +1,333 @@
+language: el
+tests:
+  # Default patterns (3 variations) - requires area context
+  - sentences:
+      - "παίξε το Γίνεται στο Σαλόνι"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Γίνεται"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "βάλε ελληνική μουσική"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "ελληνική μουσική"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  # Area patterns (3 variations) - with explicit area
+  - sentences:
+      - "παίξε Pink Floyd στην κουζίνα"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Pink Floyd"
+        area: "Κουζίνα"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "βάλε ελληνική μουσική στο γκαράζ"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "ελληνική μουσική"
+        area: "Γκαράζ"
+    response: "Παίζει πολυμέσα"
+
+  # Media player only patterns (3 variations) - with device name
+  - sentences:
+      - "παίξε το Γίνεται στην τηλεόραση"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "το Γίνεται"
+        name: "Τηλεόραση"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "βάλε ελληνική μουσική στην τηλεόραση"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "ελληνική μουσική"
+        name: "Τηλεόραση"
+    response: "Παίζει πολυμέσα"
+
+  # Media player + area patterns (3 variations) - with device name and area
+  - sentences:
+      - "παίξε το Γίνεται στην τηλεόραση στο σαλόνι"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "το Γίνεται"
+        name: "Τηλεόραση"
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "βάλε ελληνική μουσική στην τηλεόραση στο γκαράζ"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "ελληνική μουσική"
+        name: "Τηλεόραση"
+        area: "Γκαράζ"
+    response: "Παίζει πολυμέσα"
+
+  # Test for media not found
+  - sentences:
+      - "παίξε κάτι που δεν υπάρχει"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "κάτι που δεν υπάρχει"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Δεν βρέθηκαν πολυμέσα με το όνομα κάτι που δεν υπάρχει."
+
+  # Tests for tracks
+  - sentences:
+      - "παίξε το κομμάτι Bohemian Rhapsody"
+      - "παίξε κομμάτι Bohemian Rhapsody"
+      - "παίξε το Bohemian Rhapsody κομμάτι"
+      - "βάλε το κομμάτι Bohemian Rhapsody"
+      - "βάλε το Bohemian Rhapsody κομμάτι"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Bohemian Rhapsody"
+        media_class: "track"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  # Tests for albums
+  - sentences:
+      - "παίξε το άλμπουμ A Night at the Opera"
+      - "παίξε άλμπουμ A Night at the Opera"
+      - "παίξε το A Night at the Opera άλμπουμ"
+      - "βάλε το άλμπουμ A Night at the Opera"
+      - "βάλε το A Night at the Opera άλμπουμ"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "A Night at the Opera"
+        media_class: "album"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  # Tests for artists
+  - sentences:
+      - "παίξε τους Scorpions"
+      - "παίξε κάτι από τους Scorpions"
+      - "βάλε τους Scorpions"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Scorpions"
+        media_class: "artist"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "παίξε καλλιτέχνη Scorpions"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Scorpions"
+        media_class: "artist"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "βάλε καλλιτέχνη Scorpions"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Scorpions"
+        media_class: "artist"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "παίξε τον Ρουβάς"
+      - "παίξε κάτι από τον Ρουβάς"
+      - "βάλε κάτι από τον Ρουβάς"
+      - "βάλε τον Ρουβάς"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Ρουβάς"
+        media_class: "artist"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "παίξε καλλιτέχνη Ρουβάς"
+      - "βάλε καλλιτέχνη Ρουβάς"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Ρουβάς"
+        media_class: "artist"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "παίξε την Παπαρίζου"
+      - "παίξε κάτι από την Παπαρίζου"
+      - "βάλε κάτι από την Παπαρίζου"
+      - "βάλε την Παπαρίζου"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Παπαρίζου"
+        media_class: "artist"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "παίξε καλλιτέχνη Παπαρίζου"
+      - "βάλε καλλιτέχνη Παπαρίζου"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Παπαρίζου"
+        media_class: "artist"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  # Tests for playlists
+  - sentences:
+      - "παίξε τη λίστα αναπαραγωγής ελληνικές επιτυχίες"
+      - "βάλε την ελληνικές επιτυχίες λίστα αναπαραγωγής"
+      - "παίξε την ελληνικές επιτυχίες λίστα αναπαραγωγής"
+      - "βάλε τη λίστα αναπαραγωγής ελληνικές επιτυχίες"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "ελληνικές επιτυχίες"
+        media_class: "playlist"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "παίξε τη λίστα αναπαραγωγής rock classics"
+      - "βάλε την rock classics λίστα αναπαραγωγής"
+      - "παίξε την rock classics λίστα αναπαραγωγής"
+      - "βάλε τη λίστα αναπαραγωγής rock classics"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "rock classics"
+        media_class: "playlist"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  # Tests for podcasts
+  - sentences:
+      - "παίξε το podcast Greek Stories"
+      - "παίξε το Greek Stories podcast"
+      - "βάλε το podcast Greek Stories"
+      - "βάλε το Greek Stories podcast"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Greek Stories"
+        media_class: "podcast"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  # Tests for movies
+  - sentences:
+      - "παίξε την ταινία Matrix"
+      - "παίξε τη Matrix ταινία"
+      - "βάλε την ταινία Matrix"
+      - "βάλε τη Matrix ταινία"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Matrix"
+        media_class: "movie"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "παίξε την ταινία Πολίτης Κέιν"
+      - "παίξε τον Πολίτης Κέιν ταινία"
+      - "βάλε την ταινία Πολίτης Κέιν"
+      - "βάλε τον Πολίτης Κέιν ταινία"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Πολίτης Κέιν"
+        media_class: "movie"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  # Tests for TV shows
+  - sentences:
+      - "παίξε τη σειρά Game of Thrones"
+      - "βάλε την τηλεοπτική σειρά Game of Thrones"
+      - "παίξε τη Game of Thrones σειρά"
+      - "βάλε τη Game of Thrones σειρά"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Game of Thrones"
+        media_class: "tv_show"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
+
+  - sentences:
+      - "παίξε τη σειρά Στο Παρά Πέντε"
+      - "βάλε την τηλεοπτική σειρά Στο Παρά Πέντε"
+      - "παίξε το Στο Παρά Πέντε σειρά"
+      - "βάλε το Στο Παρά Πέντε σειρά"
+    intent:
+      name: "HassMediaSearchAndPlay"
+      slots:
+        search_query: "Στο Παρά Πέντε"
+        media_class: "tv_show"
+        area: "Σαλόνι"
+      context:
+        area: "Σαλόνι"
+    response: "Παίζει πολυμέσα"
