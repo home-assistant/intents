@@ -2,11 +2,91 @@ language: ga
 responses:
   intents:
     HassGetCurrentTime:
-      default: "TODO: {% set minute_str = '{0:02d}'.format(slots.time.minute) %}
+      default: >
+        {% if slots.time is defined %}
+          {% set hour = slots.time.hour %}
+          {% set minute = slots.time.minute %}
+        {% elif context['time.hour'] is defined %}
+          {% set hour = context['time.hour'] | int %}
+          {% set minute = context['time.minute'] | int %}
+        {% else %}
+          {% set hour = 1 %}
+          {% set minute = 2 %}
+        {% endif %}
+        {% set next_hour = (hour + 1) % 24 %}
 
-        {% if slots.time.hour == 0: %} 12:{{ minute_str }} AM {% elif slots.time.hour
-        < 12: %} {{ slots.time.hour }}:{{ minute_str }} AM {% elif slots.time.hour
-        == 12: %} 12:{{ minute_str }} PM {% else: %} {{ slots.time.hour - 12 }}:{{
-        minute_str }} PM {% endif %}
+        {% set hours_map = {
+          0: "a dó dhéag",
+          1: "a haon",
+          2: "a dó",
+          3: "a trí",
+          4: "a ceathair",
+          5: "a cúig",
+          6: "a sé",
+          7: "a seacht",
+          8: "a hocht",
+          9: "a naoi",
+          10: "a deich",
+          11: "a haon déag",
+          12: "a dó dhéag",
+          13: "a haon",
+          14: "a dó",
+          15: "a trí",
+          16: "a ceathair",
+          17: "a cúig",
+          18: "a sé",
+          19: "a seacht",
+          20: "a hocht",
+          21: "a naoi",
+          22: "a deich",
+          23: "a haon déag"
+        } %}
 
-        "
+        {% set minutes_map = {
+          1: "nóiméad amháin",
+          2: "dhá nóiméad",
+          3: "trí nóiméad",
+          4: "ceithre nóiméad",
+          5: "cúig nóiméad",
+          6: "sé nóiméad",
+          7: "seacht nóiméad",
+          8: "ocht nóiméad",
+          9: "naoi nóiméad",
+          10: "deich nóiméad",
+          11: "aon nóiméad déag",
+          12: "dhá nóiméad déag",
+          13: "trí nóiméad déag",
+          14: "ceithre nóiméad déag",
+          15: "cúig nóiméad déag",
+          16: "sé nóiméad déag",
+          17: "seacht nóiméad déag",
+          18: "ocht nóiméad déag",
+          19: "naoi nóiméad déag",
+          20: "fiche nóiméad",
+          21: "fiche nóiméad agus nóiméad amháin",
+          22: "fiche dhá nóiméad",
+          23: "fiche trí nóiméad",
+          24: "fiche ceithre nóiméad",
+          25: "fiche cúig nóiméad",
+          26: "fiche sé nóiméad",
+          27: "fiche seacht nóiméad",
+          28: "fiche ocht nóiméad",
+          29: "fiche naoi nóiméad"
+        } %}
+
+        {% if hour == 0 and minute == 0 %}
+          Tá sé meán oíche.
+        {% elif hour == 12 and minute == 0 %}
+          Tá sé meán lae.
+        {% elif minute == 15 %}
+          Tá sé ceathrú tar éis {{ hours_map[hour] }}.
+        {% elif minute == 30 %}
+          Tá sé leathuair tar éis {{ hours_map[hour] }}.
+        {% elif minute == 45 %}
+          Tá sé ceathrú chun {{ hours_map[next_hour] }}.
+        {% elif minute < 30 %}
+          Tá sé {{ minutes_map.get(minute, minute ~ ' nóiméad') }} tar éis {{ hours_map[hour] }}.
+        {% else %}
+          {% set remaining = 60 - minute %}
+          Tá sé {{ minutes_map.get(remaining, remaining ~ ' nóiméad') }} chun {{ hours_map[next_hour] }}.
+        {% endif %}
