@@ -1,0 +1,54 @@
+---
+language: "ne"
+intents:
+  HassTurnOn:
+    data:
+      # Turn on a specific light
+      - sentences:
+          - "[<area_floor_in>] <name> [<बत्ती>] (<बाल्नु>|<खोल्नु>)"
+          - "[<area_floor_in>] <name> [<बत्ती>] (अन|चालु|सुरु) [<गर्नु>|<हान्नु>]"
+        requires_context:
+          domain: "light"
+        response: "light"
+      # Turn on all lights in an area
+      - sentences:
+          - "<area_in> <उज्यालो> (<बनाउनु>|<पार्नु>)"
+          - "<area_in> [<सबै>] <बत्ती> (<बाल्नु>|<खोल्नु>)"
+          - "<area_in> [<सबै>] <बत्ती> (अन|चालु|सुरु) [<गर्नु>|<हान्नु>]"
+        slots:
+          domain: "light"
+        response: "lights_area"
+
+      # Turn on all lights on a floor
+      - sentences:
+          - "<floor_in> <उज्यालो> (<बनाउनु>|<पार्नु>)"
+          - "<floor_in> [<सबै>] <बत्ती> (<बाल्नु>|<खोल्नु>)"
+          - "<floor_in> [<सबै>] <बत्ती> (अन|चालु|सुरु) [<गर्नु>|<हान्नु>]"
+        response: "lights_floor"
+        slots:
+          domain: "light"
+
+      # Turn on all lights in the home
+      - sentences:
+          - "<सबैतिर> <उज्यालो> (<बनाउनु>|<पार्नु>)"
+          - "<घर> <उज्यालो> (<बनाउनु>|<पार्नु>)"
+          - "<सबैतिरको> <बत्ती> (<बाल्नु>|<खोल्नु>)"
+          - "<सबैतिरको> <बत्ती> (अन|चालु|सुरु) [<गर्नु>|<हान्नु>]"
+          - "<घर> [<सबै>] <बत्ती> (<बाल्नु>|<खोल्नु>)"
+          - "<घर> [<सबै>] <बत्ती> (अन|चालु|सुरु) [<गर्नु>|<हान्नु>]"
+        response: "light_all"
+        slots:
+          domain: "light"
+
+      # Turn on lights in the same area as a satellite device
+      - sentences:
+          - "[<यहाँ_को>] <उज्यालो> (<बनाउनु>|<पार्नु>)"
+          - "[<यहाँ_को>] [<सबै>] <बत्ती> (<बाल्नु>|<खोल्नु>)"
+          - "[<यहाँ_को>] [<सबै>] <बत्ती> (अन|चालु|सुरु) [<गर्नु>|<हान्नु>]"
+
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
