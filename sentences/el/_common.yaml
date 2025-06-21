@@ -312,6 +312,29 @@ lists:
       from: 0
       to: 100
 
+  timer_seconds:
+    range:
+      from: 1
+      to: 100
+  timer_minutes:
+    range:
+      from: 1
+      to: 100
+  timer_hours:
+    range:
+      from: 1
+      to: 100
+  timer_half:
+    values:
+      - in: "μισή"
+        out: 30
+      - in: "μισό"
+        out: 30
+  timer_name:
+    wildcard: true
+  timer_command:
+    wildcard: true
+
 expansion_rules:
   name: "[(ο | οι | τον | η | την | το | τα | τις | τους | στον | στη | στην | στο | στους | στις | στα)] {name}"
   area: "[(ο | οι | τον | η | την | το | τα | τις | τους | στον | στη | στην | στο | στους | στις | στα)] {area}"
@@ -348,6 +371,24 @@ expansion_rules:
   # Lock specific verbs to avoid conflicts with covers
   lock_turn_on: "(κλείδωσε | ασφάλισε | βάλε κλειδί)"
   lock_turn_off: "(ξεκλείδωσε | βγάλε το κλειδί)"
+
+  # Timer expansion rules
+  timer_seconds: "[{seconds:seconds}]"
+  timer_minutes: "[{minutes:minutes}]"
+  timer_hours: "[{hours:hours}]"
+  timer_half: "[(μισή|μισό)]"
+  timer_name: "[{name:name}]"
+  timer_command: "[{conversation_command:conversation_command}]"
+  timer_set: "(ξεκίνα | βάλε | όρισε | δημιούργησε | κάνε)"
+  timer_cancel: "(ακύρωσε | σταμάτα | σταμάτησε | διέκοψε)"
+  timer_duration_seconds: "{timer_seconds:seconds} δευτερόλεπτ(ο|α|ων)"
+  timer_duration_minutes: "({timer_minutes:minutes} λεπτ(ό|ά|ών) [[και] {timer_seconds:seconds} δευτερόλεπτ(ο|α|ων)])|({timer_minutes:minutes} και [ένα] {timer_half:seconds} λεπτ(ό|ά|ών))|({timer_half:seconds} ένα λεπτ(ό|ά|ών))"
+  timer_duration_hours: "({timer_hours:hours} ώρ(α|ες|ας|ών) [[και] {timer_minutes:minutes} λεπτ(ό|ά|ών)] [[και] {timer_seconds:seconds} δευτερόλεπτ(ο|α|ων)])|({timer_hours:hours} και [μία] {timer_half:minutes} ώρ(α|ες|ας|ών))|({timer_half:minutes} μία ώρ(α|ες|ας|ών))"
+  timer_duration: "<timer_duration_seconds>|<timer_duration_minutes>|<timer_duration_hours>"
+  timer_start_seconds: "{timer_seconds:start_seconds} δευτερόλεπτ(ο|α|ων)"
+  timer_start_minutes: "{timer_minutes:start_minutes} λεπτ(ό|ά|ών) [[και] {timer_seconds:start_seconds} δευτερόλεπτ(ο|α|ων)]"
+  timer_start_hours: "{timer_hours:start_hours} ώρ(α|ες|ας|ών) [[και] {timer_minutes:start_minutes} λεπτ(ό|ά|ών)] [[και] {timer_seconds:start_seconds} δευτερόλεπτ(ο|α|ων)]"
+  timer_start: "<timer_start_seconds>|<timer_start_minutes>|<timer_start_hours>"
 
 skip_words:
   - παρακαλώ

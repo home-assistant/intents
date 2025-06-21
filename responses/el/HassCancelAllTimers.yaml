@@ -1,0 +1,21 @@
+---
+language: el
+responses:
+  intents:
+    HassCancelAllTimers:
+      default: >
+        {% if slots.canceled < 1: %}
+        Δεν ακυρώθηκε κανένα χρονόμετρο.
+        {% elif slots.canceled == 1: %}
+        Ακυρώθηκε 1 χρονόμετρο.
+        {% else: %}
+        Ακυρώθηκαν {{ slots.canceled }} χρονόμετρα.
+        {% endif %}
+      area: >
+        {% if slots.canceled < 1: %}
+        Δεν ακυρώθηκε κανένα χρονόμετρο στο {{ slots.area }}.
+        {% elif slots.canceled == 1: %}
+        Ακυρώθηκε 1 χρονόμετρο στο {{ slots.area }}.
+        {% else: %}
+        Ακυρώθηκαν {{ slots.canceled }} χρονόμετρα στο {{ slots.area }}.
+        {% endif %}
