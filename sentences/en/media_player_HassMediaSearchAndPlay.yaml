@@ -2,80 +2,28 @@ language: "en"
 intents:
   HassMediaSearchAndPlay:
     data:
+      # current area
       - sentences:
+          - "play [the] {media_class} {search_query}"
+          - "play [the] {search_query} {media_class}"
           - "play {search_query}"
         requires_context:
           area:
             slot: true
 
+      # explicit area
       - sentences:
           - "play {search_query} in <area>"
+          - "play [the] {media_class} {search_query} in <area>"
+          - "play [the] {search_query} {media_class} in <area>"
 
+      # explicit media player name and area
       - sentences:
           - "play {search_query} on <name>"
+          - "play [the] {media_class} {search_query} on <name>"
+          - "play [the] {search_query} {media_class} on <name>"
           - "play {search_query} on <name> in <area>"
+          - "play [the] {media_class} {search_query} on <name> in <area>"
+          - "play [the] {search_query} {media_class} on <name> in <area>"
         requires_context:
           domain: "media_player"
-
-      - sentences:
-          - "play [the] {search_query} track"
-          - "play [the] track {search_query}"
-        slots:
-          media_class: "track"
-        requires_context:
-          area:
-            slot: true
-
-      - sentences:
-          - "play [the] {search_query} album"
-          - "play [the] album {search_query}"
-        slots:
-          media_class: "album"
-        requires_context:
-          area:
-            slot: true
-
-      - sentences:
-          - "play [the] {search_query} artist"
-          - "play artist {search_query}"
-        slots:
-          media_class: "artist"
-        requires_context:
-          area:
-            slot: true
-
-      - sentences:
-          - "play [the] {search_query} playlist"
-          - "play [the] playlist {search_query}"
-        slots:
-          media_class: "playlist"
-        requires_context:
-          area:
-            slot: true
-
-      - sentences:
-          - "play [the] {search_query} podcast"
-          - "play [the] podcast {search_query}"
-        slots:
-          media_class: "podcast"
-        requires_context:
-          area:
-            slot: true
-
-      - sentences:
-          - "play [the] {search_query} movie"
-          - "play [the] movie {search_query}"
-        slots:
-          media_class: "movie"
-        requires_context:
-          area:
-            slot: true
-
-      - sentences:
-          - "play [the] {search_query} tv show"
-          - "play [the] tv show {search_query}"
-        slots:
-          media_class: "tv_show"
-        requires_context:
-          area:
-            slot: true
