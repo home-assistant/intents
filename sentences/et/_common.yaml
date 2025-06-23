@@ -1,13 +1,212 @@
 language: et
 responses:
   errors:
+    # General errors
     no_intent: "Vabandust, ma ei saanud aru"
-    no_area: "Puudub ala nimega {{ area }}"
-    no_domain_in_area: "{{ area }} ei sisalda {{ domain }}"
-    no_device_class_in_area: "{{ area }} ei sisalda {{ device_class }}"
-    no_entity: "Puudub seade või üksus nimega {{ entity }}"
-    handle_error: "Soovi töötlemisel tekkis tundmatu viga"
-lists: {}
-expansion_rules: {}
+    handle_error: "Vabandust, soovi töötlemisel tekkis tundmatu viga"
+
+    # Errors for when user is not logged in
+    no_area: "Vabandust, puudub ala nimega {{ area }}"
+    no_floor: "Vabandust, ma ei ole teadlik ühestki korrusest nimega {{ floor }}"
+    no_domain: "Vabandust, ma ei ole teadlik ühestki {{ domain }}"
+    no_domain_in_area: "Vabandust, {{ area }} ei sisalda {{ domain }}"
+    no_domain_in_floor: "Vabandust, ma ei ole teadlik ühestki {{ domain }} korrusel {{ korrus }}"
+    no_device_class: "Vabandust, ma ei ole teadlik ühestki {{ device_class }}"
+    no_device_class_in_area: "Vabandust, {{ area }} ei sisalda {{ device_class }}"
+    no_device_class_in_floor: "Vabandust, ma ei ole teadlik ühestki {{ device_class }} korrusel {{ floor }}"
+    no_entity: "Vabandust, puudub seade või üksus nimega {{ entity }}"
+    no_entity_in_area: "Vabandust, ma ei ole teadlik ühestki seadmest nimega {{ entity }} alal {{ area }}"
+    no_entity_in_floor: "Vabandust, ma ei ole teadlik ühestki seadmest nimega {{ entity }} korrusel {{ floor }}"
+    entity_wrong_state: "Vabandust, ükski seade ei ole {{ state | lower }}"
+    feature_not_supported: "Vabandust, ükski seade ei toeta nõutavaid funktsioone"
+
+    # Errors for when user is logged in and we can give more information
+    no_entity_exposed: "Vabandust, {{ entity }} ei ole avalikustatud"
+    no_entity_in_area_exposed: "Vabandust, {{ entity }} alal {{ area }} ei ole avalikustatud"
+    no_entity_in_floor_exposed: "Vabandust, {{ entity }} korrusel {{ floor }} ei ole avalikustatud"
+    no_domain_exposed: "Vabandust, {{ domain }} ei ole avalikustatud"
+    no_domain_in_area_exposed: "Vabandust, alal {{ area }} ei ole avalikustatud {{ domain }}"
+    no_domain_in_floor_exposed: "Vabandust, korrusel {{ floor }} ei ole avalikustatud {{ domain }}"
+    no_device_class_exposed: "Vabandust, {{ device_class }} ei ole avalikustatud"
+    no_device_class_in_area_exposed: "Vabandust, alal {{ area }} ei ole avalikustatud {{ device_class }}"
+    no_device_class_in_floor_exposed: "Vabandust, korrusel {{ floor }} ei ole avalikustatud {{ device_class }}"
+
+    # Used when multiple (exposed) devices have the same name
+    duplicate_entities: "Vabandust, on mitu seadet nimega {{ entity }}"
+    duplicate_entities_in_area: "Vabandust, alal {{ area }} on mitu seadet nimega {{ entity }}"
+    duplicate_entities_in_floor: "Vabandust, korrusel {{ floor }} on mitu seadet nimega {{ entity }}"
+
+    # Errors for timers
+    timer_not_found: "Vabandust, ma ei leidnud seda taimerit"
+    multiple_timers_matched: "Vabandust, ma ei saa valida mitut taimerit"
+    no_timer_support: "Vabandust, see seade ei toeta taimereid"
+lists:
+  color:
+    values:
+      - in: "valge"
+        out: "white"
+      - in: "must"
+        out: "black"
+      - in: "punane"
+        out: "red"
+      - in: "oranž"
+        out: "orange"
+      - in: "kollane"
+        out: "yellow"
+      - in: "roheline"
+        out: "green"
+      - in: "sinine"
+        out: "blue"
+      - in: "lilla"
+        out: "purple"
+      - in: "pruun"
+        out: "brown"
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+  temperature:
+    range:
+      type: "temperature"
+      from: 0
+      to: 100
+  brightness_level:
+    values:
+      - in: (maksimum|maksimaalne|kõrgeim|suurim)
+        out: 100
+      - in: (miinimum|minimum|minimaalne|madalaim|väikseim)
+        out: 1
+  on_off_states:
+    values:
+      - in: "on"
+        out: "on"
+      - in: "off"
+        out: "off"
+  on_off_domains:
+    values:
+      - in: "(tuli|tuled|valgus[tus|ti]|lamp|lambid)"
+        out: "light"
+      - in: "(ventilaator[id]|tuuluti[d])"
+        out: "fan"
+      - in: "lüliti[d]"
+        out: "switch"
+  cover_states:
+    values:
+      - in: "(avatud|lahti)"
+        out: "open"
+      - in: "suletud"
+        out: "closed"
+      - in: "avaneb"
+        out: "opening"
+      - in: "sulgeb"
+        out: "closing"
+  cover_classes:
+    values:
+      - in: markiis[id]
+        out: awning
+      - in: ruloo[d]
+        out: blind
+      - in: kardin[ad]
+        out: curtain
+      - in: uks[ed]
+        out: door
+      - in: garaažiuks[ed]
+        out: garage
+      - in: värav[ad]
+        out: gate
+      - in: "(aknaluuk|aknaluugid)"
+        out: shutter
+      - in: "(aken|aknad)"
+        out: window
+  lock_states:
+    values:
+      - in: "(lukus|lukustatud)"
+        out: "locked"
+      - in: "lukustamata"
+        out: "unlocked"
+  # binary_sensor
+  bs_battery_states:
+    values:
+      - in: "(madal|tühi)"
+        out: "on"
+      - in: "(laetud|täis)"
+        out: "off"
+  bs_battery_charging_states:
+    values:
+      - in: "(laeb|laadimine|laetakse)"
+        out: "on"
+      - in: "(ei lae[ta]|ei laadita)"
+        out: "off"
+  bs_connectivity_states:
+    values:
+      - in: "(ühendatud|seotud)"
+        out: "on"
+      - in: "katkestatud"
+        out: "off"
+  bs_door_states:
+    values:
+      - in: "(avatud|lahti)"
+        out: "on"
+      - in: "(suletud|kinni)"
+        out: "off"
+  bs_garage_door_states:
+    values:
+      - in: "(avatud|lahti)"
+        out: "on"
+      - in: "(suletud|kinni)"
+        out: "off"
+  bs_lock_states:
+    values:
+      - in: "lukustamata"
+        out: "on"
+      - in: "(lukus|lukustatud)"
+        out: "off"
+  bs_moisture_states:
+    values:
+      - in: "märg"
+        out: "on"
+      - in: "kuiv"
+        out: "off"
+  bs_motion_states:
+    values:
+      - in: "(tuvastatud|avastatud|käivitatud)"
+        out: "on"
+      - in: "(selge|puhas)"
+        out: "off"
+  bs_occupancy_states:
+    values:
+      - in: "(tuvastatud|avastatud|käivitatud)"
+        out: "on"
+      - in: "(selge|puhas)"
+        out: "off"
+  bs_opening_states:
+    values:
+      - in: "(avatud|lahti)"
+        out: "on"
+      - in: "(suletud|kinni)"
+        out: "off"
+  bs_presence_states:
+    values:
+      - in: "(kodus|kohal)"
+        out: "on"
+      - in: "(ära|eemal)"
+        out: "off"
+  bs_window_states:
+    values:
+      - in: "(avatud|lahti)"
+        out: "on"
+      - in: "(suletud|kinni)"
+        out: "off"
+expansion_rules:
+  activate: "(aktiveeri|aktiveerige|käivita|käivitage)"
+  deactivate: "(deaktiveeri|deaktiveerige)"
+  turnOn: "([lülita|lülitage] sisse|põlema)"
+  turnOff: "([lülita|lülitage] välja|kustuta|kustutage)"
 skip_words:
   - "palun" # Please
+  - "aitäh"
+  - "tänan"
+  - "tänud"
+  - "kas te"
+  - "kas sa"
