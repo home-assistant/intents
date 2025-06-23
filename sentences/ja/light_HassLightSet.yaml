@@ -1,0 +1,63 @@
+language: ja
+intents:
+  HassLightSet:
+    data:
+      # brightness
+      - sentences:
+          - "<name>[の明るさ][を]<brightness>[に]<set>"
+          - "<name>[を]<brightness>[の明るさ][に]<set>"
+        response: brightness
+
+      - sentences:
+          - "<area>[の明るさ|の<lights>][を]<brightness>[に]<set>"
+          - "<area>[<lights>][を]<brightness>[の明るさ][に]<set>"
+        slots:
+          name: all
+        response: brightness
+
+      - sentences:
+          - "[明るさを]<brightness>[に]<set>"
+          - "<brightness>[に明るさを|の明るさに]<set>"
+        response: brightness
+        requires_context:
+          area:
+            slot: true
+
+      # color
+      - sentences:
+          - "<name>[の色|の<lights>][を]{color}[に]<set>"
+        response: color
+
+      - sentences:
+          - "<area>[の色|の<lights>][を]{color}[に]<set>"
+        slots:
+          name: all
+        response: color
+
+      - sentences:
+          - "[色を]{color}[に]<set>"
+        response: color
+        requires_context:
+          area:
+            slot: true
+
+      # brightness level
+      - sentences:
+          - "<name>[の明るさ][を]{brightness_level:brightness}[に]<set>"
+          - "<name>[を]{brightness_level:brightness}[の明るさ][に]<set>"
+        response: brightness
+
+      - sentences:
+          - "<area>[の明るさ|の<lights>][を]{brightness_level:brightness}[に]<set>"
+          - "<area>[<lights>][を]{brightness_level:brightness}[の明るさ][に]<set>"
+        slots:
+          name: all
+        response: brightness
+
+      - sentences:
+          - "[明るさを]{brightness_level:brightness}[に]<set>"
+          - "{brightness_level:brightness}[に明るさを|の明るさに]<set>"
+        response: brightness
+        requires_context:
+          area:
+            slot: true
