@@ -3,4 +3,13 @@ responses:
   intents:
     HassSetPosition:
       default: "Θέση ορίστηκε"
-      cover_device_class: "{{ slots.device_class }} θέση ορίστηκε"
+      cover_device_class: |
+        {% if slots.device_class == "blind" or slots.device_class == "ρολά" or slots.device_class == "ρολό" %}
+        Θέση ρολά ορίστηκε
+        {% elif slots.device_class == "curtain" or slots.device_class in ["κουρτίνα", "κουρτίνες"] %}
+        Θέση κουρτίνας ορίστηκε
+        {% elif slots.device_class == "shade" or slots.device_class in ["σκίαστρο", "σκίαστρα"] %}
+        Θέση σκιάς ορίστηκε
+        {% else %}
+        Θέση ορίστηκε
+        {% endif %}
