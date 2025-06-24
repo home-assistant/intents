@@ -1,0 +1,37 @@
+language: ja
+intents:
+  HassTurnOff:
+    data:
+      # Turn off a specific device by name
+      - sentences:
+          - "<name>[を]<turn_off>"
+          - "<name>の<lights>[を]<turn_off>"
+        slots:
+          domain: light
+
+      # Turn off all lights in an area
+      - sentences:
+          - "<area>[の]<lights>[を][<all>]<turn_off>"
+        slots:
+          domain: light
+          name: all
+        response: "lights_area"
+
+      # Turn off all lights in the home
+      - sentences:
+          - "家中の<lights>[を]<turn_off>"
+          - "<all><lights>[を]<turn_off>"
+        slots:
+          domain: light
+          name: all
+        response: "light_all"
+
+      # Turn off lights without specifying device/area (requires context)
+      - sentences:
+          - "[ここの]<lights>[を]<turn_off>"
+        response: "lights_area"
+        slots:
+          domain: light
+        requires_context:
+          area:
+            slot: true

@@ -4,8 +4,6 @@ responses:
     # General errors
     no_intent: "すみません、理解できませんでした"
     handle_error: "処理中に予期せぬエラーが発生しました"
-
-    # Errors for when user is not logged in
     no_area: "すみません、{{ area }}というエリアが見つかりません"
     no_floor: "すみません、{{ floor }}というフロアが見つかりません"
     no_domain: |
@@ -39,7 +37,9 @@ responses:
       {%- endif %}
     no_entity: "すみません、{{ entity }}という名前のデバイスはありません"
     feature_not_supported: "すみません、リクエストされた機能をサポートしていません。"
+
 lists:
+  # Available colors for light control
   color:
     values:
       - in: "白"
@@ -63,7 +63,43 @@ lists:
       - in: "ピンク"
         out: "pink"
 
+  # Brightness percentage (0-100%)
+  brightness:
+    range:
+      type: "percentage"
+      from: 0
+      to: 100
+
+  # Brightness level keywords (max/min)
+  brightness_level:
+    values:
+      - in: (最大|最高)
+        out: 100
+      - in: (最小|最低)
+        out: 1
+
+  # Device names (wildcard)
+  name:
+    wildcard: true
+
+  # Area names (wildcard)
+  area:
+    wildcard: true
+
 expansion_rules:
   name: "{name}"
-  turn_off: "(消し(て|なさい|てください)|オフにし(て|なさい|てください)|停止し(て|なさい|てください))"
-  turn_on: "(点け(て|る|ろ|なさい|てください)|オンにし(て|なさい|てください)|起動し(て|なさい|てください))"
+  area: "{area}"
+  # Light-related words
+  lights: "(ライト|照明|電気)"
+  # Percentage indicators
+  percent: "(%|パーセント)"
+  # Brightness with optional percentage
+  brightness: "{brightness}[<percent>]"
+  # Setting/changing commands
+  set: "(設定し|変更し|調整し)(て|なさい|てください)"
+  # Turn off commands
+  turn_off: "(消し(て|なさい|てください)|消灯し(て|なさい|てください)|オフにし(て|なさい|てください)|停止し(て|なさい|てください))"
+  # Turn on commands
+  turn_on: "(点け(て|る|ろ|なさい|てください)|点灯し(て|なさい|てください)|オンにし(て|なさい|てください)|起動し(て|なさい|てください))"
+  # All/every quantifiers
+  all: "(全ての|すべての|全部の)"
