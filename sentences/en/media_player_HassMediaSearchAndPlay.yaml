@@ -2,17 +2,28 @@ language: "en"
 intents:
   HassMediaSearchAndPlay:
     data:
+      # current area
       - sentences:
+          - "play [the] {media_class} {search_query}"
+          - "play [the] {search_query} {media_class}"
           - "play {search_query}"
         requires_context:
           area:
             slot: true
 
+      # explicit area
       - sentences:
           - "play {search_query} in <area>"
+          - "play [the] {media_class} {search_query} in <area>"
+          - "play [the] {search_query} {media_class} in <area>"
 
+      # explicit media player name and area
       - sentences:
           - "play {search_query} on <name>"
+          - "play [the] {media_class} {search_query} on <name>"
+          - "play [the] {search_query} {media_class} on <name>"
           - "play {search_query} on <name> in <area>"
+          - "play [the] {media_class} {search_query} on <name> in <area>"
+          - "play [the] {search_query} {media_class} on <name> in <area>"
         requires_context:
           domain: "media_player"
