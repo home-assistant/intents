@@ -1234,6 +1234,9 @@ HassMediaSearchAndPlay:
     search_query:
       description: "Media to search for and play"
       required: true
+    media_class:
+      description: "Type of media to search for (album, app, artist, channel, composer, contributing_artist, directory, episode, game, genre, image, movie, music, playlist, podcast, season, track, tv_show, url, video)"
+      required: false
   slot_combinations:
     default:
       description: "Search and play on the media player in the voice satellite's area"
@@ -1277,6 +1280,55 @@ HassMediaSearchAndPlay:
         - "area"
         - "search_query"
       example: "play Pink Floyd on the Sonos Speakers in the Living Room"
+
+    # -------------------------------------------------------------------------
+
+    media_class_only:
+      description: "Search and play a specific type of media on the media player in the voice satellite's area"
+      importance: "optional"
+      slots:
+        - "search_query"
+        - "media_class"
+      context_area: true
+      example: "play Pink Floyd playlist"
+
+    # -------------------------------------------------------------------------
+
+    name_media_class:
+      description: "Search and play a specific type of media on a media player by name"
+      slots:
+        - "name"
+        - "search_query"
+        - "media_class"
+      name_domains:
+        optional:
+          - "media_player"
+      example: "play Pink Floyd album on Sonos Speakers"
+
+    # -------------------------------------------------------------------------
+
+    area_media_class:
+      description: "Search and play a specific type of media on the media player in an area"
+      importance: "optional"
+      slots:
+        - "area"
+        - "search_query"
+        - "media_class"
+      example: "play Pink Floyd movie in the Living Room"
+
+    # -------------------------------------------------------------------------
+
+    name_area_media_class:
+      description: "Search and play a specific type of media on a media player by name in an area"
+      name_domains:
+        optional:
+          - "media_player"
+      slots:
+        - "name"
+        - "area"
+        - "search_query"
+        - "media_class"
+      example: "play Pink Floyd podcast on the Sonos Speakers in the Living Room"
 
   response_variables:
     media:
