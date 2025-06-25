@@ -14,6 +14,8 @@ responses:
           {% set minute = 2 %}
         {% endif %}
         {% set next_hour = (hour + 1) % 24 %}
+        {% set is_default = (hour == 1 and minute == 2) %}
+
 
         {% set hours_map = {
           0: "a dó dhéag",
@@ -46,7 +48,7 @@ responses:
           1: "nóiméad amháin",
           2: "dhá nóiméad",
           3: "trí nóiméad",
-          4: "ceithre nóiméad",
+          4: "ceathair nóiméad",
           5: "cúig nóiméad",
           6: "sé nóiméad",
           7: "seacht nóiméad",
@@ -56,17 +58,17 @@ responses:
           11: "aon nóiméad déag",
           12: "dhá nóiméad déag",
           13: "trí nóiméad déag",
-          14: "ceithre nóiméad déag",
+          14: "ceathair nóiméad déag",
           15: "cúig nóiméad déag",
           16: "sé nóiméad déag",
           17: "seacht nóiméad déag",
           18: "ocht nóiméad déag",
           19: "naoi nóiméad déag",
           20: "fiche nóiméad",
-          21: "fiche nóiméad agus nóiméad amháin",
-          22: "fiche dhá nóiméad",
+          21: "fiche haon nóiméad",
+          22: "fiche dó nóiméad",
           23: "fiche trí nóiméad",
-          24: "fiche ceithre nóiméad",
+          24: "fiche ceathair nóiméad",
           25: "fiche cúig nóiméad",
           26: "fiche sé nóiméad",
           27: "fiche seacht nóiméad",
@@ -74,19 +76,31 @@ responses:
           29: "fiche naoi nóiméad"
         } %}
 
+        {% set time_suffix = "" %}
+        {% if is_default %}
+           {% set time_suffix = " san oíche" %}
+        {% elif hour < 12 %}
+           {% set time_suffix = " ar maidin" %}
+        {% elif hour < 22 %}
+           {% set time_suffix = " sa tráthnóna" %}
+        {% else %}
+           {% set time_suffix = " san oíche" %}
+        {% endif %}
+
+
         {% if hour == 0 and minute == 0 %}
           Tá sé meán oíche.
         {% elif hour == 12 and minute == 0 %}
           Tá sé meán lae.
         {% elif minute == 15 %}
-          Tá sé ceathrú tar éis {{ hours_map[hour] }}.
+          Tá sé ceathrú tar éis {{ hours_map[hour] }}{{ time_suffix }}.
         {% elif minute == 30 %}
-          Tá sé leathuair tar éis {{ hours_map[hour] }}.
+          Tá sé leathuair tar éis {{ hours_map[hour] }}{{ time_suffix }}.
         {% elif minute == 45 %}
-          Tá sé ceathrú chun {{ hours_map[next_hour] }}.
+          Tá sé ceathrú chun {{ hours_map[next_hour] }}{{ time_suffix }}.
         {% elif minute < 30 %}
-          Tá sé {{ minutes_map.get(minute, minute ~ ' nóiméad') }} tar éis {{ hours_map[hour] }}.
+          Tá sé {{ minutes_map.get(minute, minute ~ ' nóiméad') }} tar éis {{ hours_map[hour] }}{{ time_suffix }}.
         {% else %}
           {% set remaining = 60 - minute %}
-          Tá sé {{ minutes_map.get(remaining, remaining ~ ' nóiméad') }} chun {{ hours_map[next_hour] }}.
+          Tá sé {{ minutes_map.get(remaining, remaining ~ ' nóiméad') }} chun {{ hours_map[next_hour] }}{{ time_suffix }}.
         {% endif %}
