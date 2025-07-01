@@ -1,0 +1,19 @@
+language: "el"
+intents:
+  HassShoppingListCompleteItem:
+    data:
+      - sentences:
+          - (σημείωσε | τσέκαρε | διέγραψε | αφαίρεσε | βγάλε | μάρκαρε) <item> (από | στη | στην) <my_list>
+          - (σημείωσε | τσέκαρε | διέγραψε | αφαίρεσε | βγάλε | μάρκαρε) <item> [ως] (έτοιμο | ολοκληρωμένο | αγορασμένο)
+          - <item> ( έγινε | ολοκληρώθηκε )
+        response: item_completed
+        expansion_rules:
+          my_list: "[η | την] [λίστα] [αγορών | ψωνίων | shopping]"
+          item: "{shopping_list_item:item}"
+      - sentences:
+          - (αγόρασα | πήρα | έχω) <item>
+          - <item> (αγοράστηκε)
+        response: item_completed_buyed
+        expansion_rules:
+          my_list: "[η | την] [λίστα] [αγορών | ψωνίων | shopping]"
+          item: "{shopping_list_item:item}"
