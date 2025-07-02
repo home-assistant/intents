@@ -1,0 +1,64 @@
+language: ja
+tests:
+  # Turn on a specific device
+  - sentences:
+      - 寝室照明を点けて
+      - 寝室照明のライトをオンにして
+    intent:
+      name: HassTurnOn
+      slots:
+        name: 寝室照明
+        domain: light
+    response: ライトがオンになりました
+
+  # Turn on all lights in an area
+  - sentences:
+      - リビングのライトを点けて
+      - リビングの照明をオンにして
+      - リビングの電気を点灯してください
+      - リビングライト点けて
+    intent:
+      name: HassTurnOn
+      slots:
+        area: リビング
+        domain: light
+        name: all
+    response: ライトがオンになりました
+
+  - sentences:
+      - 台所のライトを点けて
+      - 台所の照明をオンにして
+      - 台所の電気を点灯してください
+    intent:
+      name: HassTurnOn
+      slots:
+        area: 台所
+        domain: light
+        name: all
+    response: ライトがオンになりました
+
+  # Turn on all lights in the home
+  - sentences:
+      - 全てのライトを点けて
+      - すべての照明をオンにして
+      - 家中のライトを点灯して
+    intent:
+      name: HassTurnOn
+      slots:
+        domain: light
+        name: all
+    response: 全てのライトがオンになりました
+
+  # Context dependent
+  - sentences:
+      - ここのライトを点けて
+      - ライトを点けて
+      - 照明をオンにして
+    intent:
+      name: HassTurnOn
+      context:
+        area: リビング
+      slots:
+        domain: light
+        area: リビング
+    response: ライトがオンになりました

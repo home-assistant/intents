@@ -1,0 +1,64 @@
+language: ja
+tests:
+  # Turn off a specific device
+  - sentences:
+      - 寝室照明を消して
+      - 寝室照明のライトをオフにして
+    intent:
+      name: HassTurnOff
+      slots:
+        name: 寝室照明
+        domain: light
+    response: ライトがオフになりました
+
+  # Turn off all lights in an area
+  - sentences:
+      - リビングのライトを消して
+      - リビングの照明をオフにして
+      - リビングの電気を消灯してください
+      - リビングライト消して
+    intent:
+      name: HassTurnOff
+      slots:
+        area: リビング
+        domain: light
+        name: all
+    response: ライトがオフになりました
+
+  - sentences:
+      - 台所のライトを消して
+      - 台所の照明をオフにして
+      - 台所の電気を消灯してください
+    intent:
+      name: HassTurnOff
+      slots:
+        area: 台所
+        domain: light
+        name: all
+    response: ライトがオフになりました
+
+  # Turn off all lights in the home
+  - sentences:
+      - 全てのライトを消して
+      - すべての照明をオフにして
+      - 家中のライトを消灯して
+    intent:
+      name: HassTurnOff
+      slots:
+        domain: light
+        name: all
+    response: 全てのライトがオフになりました
+
+  # Context dependent
+  - sentences:
+      - ここのライトを消して
+      - ライトを消して
+      - 照明をオフにして
+    intent:
+      name: HassTurnOff
+      context:
+        area: 台所
+      slots:
+        domain: light
+        area: 台所
+    response: ライトがオフになりました
